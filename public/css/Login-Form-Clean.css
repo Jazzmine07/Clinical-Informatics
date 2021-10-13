@@ -5,7 +5,7 @@
 .icon {
     padding: 10px;
     border-radius: 4px 0px 0px 4px;
-    background: #c64327;
+    background: #003A6C;
     color: white;
     min-width: 40px;
     height: 42px;
@@ -52,7 +52,7 @@
 }
 
 .login-clean form .btn-primary {
-    background: #f47639;
+    background: #003A6C;
     border: none;
     border-radius: 4px;
     padding: 8px;
@@ -71,9 +71,9 @@
 }
 
 .login-clean form input[type=text] {
-    border-bottom: 2px solid #c64327;
+    border-bottom: 2px solid #003A6C;
 }
 
 .login-clean form input[type=password] {
-    border-bottom: 2px solid #c64327;
+    border-bottom: 2px solid #003A6C;
 }

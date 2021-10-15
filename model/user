@@ -1,4 +1,25 @@
-const mysql = require('./connection');
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3307,
+    database: 'clinical_informatics',
+    user: 'root',
+    password: 'p@ssword', 
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    var sql = "INSERT INTO user (id, first_name, las_name,role,email,password) VALUES ('Company Inc', 'Highway 37')";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+});
+
+
+
+// const mysql = require('./connection');
 
 
 const userSchema = new mysql.Schema({
@@ -7,9 +28,7 @@ const userSchema = new mysql.Schema({
     lastName: {type: String, required: true, min: 1, max: 100},
     role: {type: String, required: true, min: 1, max: 100 },
     email:{type: String, required: true, min: 1, max: 100 },
-    password:{type: String, required: true, min: 1, max: 100 },
-    isRegistrar:{},
-    isClinician:{},
+    password:{type: String, required: true, min: 1, max: 100 }
     // add user info
 });
 

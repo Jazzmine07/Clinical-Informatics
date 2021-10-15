@@ -3,7 +3,6 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const connection = require('./database');
-
 //Routes imports
 const indexRouter = require('./routes/index');
 
@@ -16,24 +15,24 @@ const hostname = 'localhost';
 // Sessions
 // app.use(session({
 //   secret: 'secret',
-//   store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//   //store: new MongoStore({ mongooseConnection: mongoose.connection }),
 //   resave: false,
 //   saveUninitialized: true,
-//   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }
+//   //cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }
 // }));
 
 app.listen(port, function() { 
   console.log(`Server running at http://${hostname}:${port}/`); 
   connection.connect(function(err){
     if (err) throw err;
-    console.log("Database connected!");
+    //console.log("Database connected!");
     
   })
 
   var query = "SELECT * FROM student_personal_info";
   connection.query(query, function(err,results){
       if (err) throw err;
-      console.log(results);
+      //console.log(results);
     });
 });
 

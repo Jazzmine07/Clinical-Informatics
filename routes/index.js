@@ -1,4 +1,6 @@
 const router = require('express').Router();
+//const connection = require('./database');
+const userController = require('../Controller/userController');
 
 router.get('/', (req, res) => {
     res.redirect('/login');
@@ -12,5 +14,18 @@ router.get('/', (req, res) => {
       res.render('login');
     //}
   });
+
+router.get('/registrar_home',(req, res) => {
+  //if (req.session.user) res.redirect('/POS');
+  //else {
+    console.log("Entered Registrar Home");
+    res.render('login');
+  //}
+});
+
+router.post('/login', userController.login);
+
+
+
 
 module.exports = router;

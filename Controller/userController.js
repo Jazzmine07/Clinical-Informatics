@@ -17,21 +17,33 @@ exports.login = function (req,res){
   var sql = "SELECT * FROM users WHERE email = ? AND password = ?";
   
   connection.query(sql, [email, pass], function(err, results) {
-    if(err) throw err
-               
+    if(err) throw err     
       // if user not found
       if (results.length <= 0) {
         //req.flash('error', 'Please correct enter email and Password!')
-        console.log("User Not Found")
-        res.redirect('/login')
+        connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, results) {
+          if (results.length <= 0) {
+            console.log("Wrong Password")
+            res.redirect('/login')
+          }
+          else{
+            console.log("Email Not Found")
+            res.redirect('/login')
+          }
+        });
+
+        
+          console.log("User Not Found")
+          res.redirect('/login')
       }
       else { // if user found
         // render to views/user/edit.ejs template file
         // req.session.loggedin = true;
-        // req.session.name = name;  
+        // req.session.name = name; 
         console.log("Successfully Login")    
         
         if(results[0].role.toString() =="Registrar"){
+          console.log(results);
           console.log("Is a Registrar");
           res.redirect('/login');
         }
@@ -41,28 +53,7 @@ exports.login = function (req,res){
         }
       }            
   })
-  // connection.query(sql, function(err,results){
-  //   if(results){
-  //     req.session.userId = results[0].id;
-  //     req.session.username = results[0].first_name;
-  //     console.log(results[0].email)
-  //     if(results[0].role =="Registrar"){
-  //       console.log("Is a Registrar");
-  //       res.redirect('/login');
-  //     }
-  //     else if (results[0].role == "Clinician"){
-  //       console.log("Is a Clinician");
-  //       res.redirect('/login');
-  //     }
-  //   }
-  //   else{
-  //     message = 'Wrong Credentials';
-  //     // req.flash('error_msg', message);
-  //     console.log(message);
-
-  //     res.redirect('/login');
-  //   }
-  // })
+  
 
 }; 
 

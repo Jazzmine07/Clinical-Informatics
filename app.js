@@ -23,17 +23,6 @@ const hostname = 'localhost';
 
 app.listen(port, function() { 
   console.log(`Server running at http://${hostname}:${port}/`); 
-  connection.connect(function(err){
-    if (err) throw err;
-    //console.log("Database connected!");
-    
-  })
-
-  var query = "SELECT * FROM student_personal_info";
-  connection.query(query, function(err,results){
-      if (err) throw err;
-      //console.log(results);
-    });
 });
 
 app.engine('hbs', exphbs.create({

@@ -12,7 +12,7 @@ connection.connect(function(err) {
     console.log("Connected!");
     var create_student_info = "CREATE TABLE IF NOT EXISTS student_personal_info (id_num INT PRIMARY KEY, student_first_name VARCHAR(45), student_last_name VARCHAR(45), student_middle_name VARCHAR(45), student_type VARCHAR(45), student_grade VARCHAR(45), student_section VARCHAR(45))";
     var create_users = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY, first_name VARCHAR(45), last_name VARCHAR(45), email VARCHAR(45), password VARCHAR(45), role VARCHAR(45))";
-    var insert = "INSERT INTO users (id, first_name, last_name, email, password, role) VALUES ?";
+    var insert = "INSERT IGNORE INTO users (id, first_name, last_name, email, password, role) VALUES ?";
     var users = [
         ['1', 'Jazz', 'Ilagan', 'jazz@gmail.com', '12345', 'Registrar'],
         ['2', 'Jhose', 'De Asis', 'jhose@gmail.com', '12345', 'Clinician']

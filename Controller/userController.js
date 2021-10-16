@@ -25,7 +25,7 @@ exports.login = function (req,res){
           if (results.length <= 0) {
             console.log("User Not Found")
           }
-          else{
+          else {
             console.log("Wrong Password")
             res.redirect('/login')
           }

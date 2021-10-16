@@ -23,18 +23,13 @@ exports.login = function (req,res){
         //req.flash('error', 'Please correct enter email and Password!')
         connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, results) {
           if (results.length <= 0) {
+            console.log("User Not Found")
+          }
+          else{
             console.log("Wrong Password")
             res.redirect('/login')
           }
-          else{
-            console.log("Email Not Found")
-            res.redirect('/login')
-          }
         });
-
-        
-          console.log("User Not Found")
-          res.redirect('/login')
       }
       else { // if user found
         // render to views/user/edit.ejs template file

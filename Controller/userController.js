@@ -18,13 +18,17 @@ exports.login = function (req,res){
   
   connection.query(sql, [email, pass], function(err, results) {
     if(err) throw err     
-      // if user not found
+      // if the email and password are not found
       if (results.length <= 0) {
         //req.flash('error', 'Please correct enter email and Password!')
+
+        //to check if the email is found
         connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, results) {
+          //the email does not match anything
           if (results.length <= 0) {
             console.log("User Not Found")
           }
+          //the email is right but the password wrong
           else {
             console.log("Wrong Password")
             res.redirect('/login')

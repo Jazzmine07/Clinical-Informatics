@@ -37,4 +37,13 @@ connection.connect(function(err) {
         });
     });
 
+    var add = "INSERT IGNORE INTO student_personal_info (id_num, first_name, last_name, middle_name, student_type, grade, section)" + 
+    "VALUES ('119', 'Tom', 'Erichsen', 'Tan', 'new', '3', 'respect');";
+
+    connection.query(add, function(err, results) {
+        if (err) throw err;
+        console.log("Record added!");
+        console.log(results);
+    });
+
 module.exports = connection;

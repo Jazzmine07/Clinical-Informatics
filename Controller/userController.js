@@ -8,7 +8,7 @@ const urlencoder = bodyParser.urlencoded({
 // var fs = require('fs');
 console.log("Before Login");
 
-exports.login = function (req,res){
+exports.login = function (req, res){
   var session = req.session;
   var email= req.body.email;
   var pass= req.body.password;
@@ -26,12 +26,12 @@ exports.login = function (req,res){
         connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, results) {
           //the email does not match anything
           if (results.length <= 0) {
-            console.log("User Not Found")
+            console.log("User Not Found");
           }
           //the email is right but the password wrong
           else {
-            console.log("Wrong Password")
-            res.redirect('/login')
+            console.log("Wrong Password");
+            res.redirect('/login');
           }
         });
       }
@@ -52,8 +52,6 @@ exports.login = function (req,res){
         }
       }            
   })
-  
-
 }; 
 
 //Add 

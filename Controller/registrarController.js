@@ -10,6 +10,15 @@ exports.addStudent = function (req, res){
         console.log(results);
         
     });
+
+    var historyRec;
+    connection.query(add, function(err, results) {
+        if (err) throw err;
+        console.log("Record added!");
+        console.log(results);
+        
+    });
+
 };
 
 exports.getStudent = function (req, res){ 

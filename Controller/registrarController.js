@@ -1,4 +1,4 @@
-const connection = require('../database');
+//const connection = require('../database');
 
 exports.addStudent = function (req, res){ 
     var add = "INSERT IGNORE INTO student_personal_info (id_num, first_name, last_name, middle_name, student_type, grade, section)" + 

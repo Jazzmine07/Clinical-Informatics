@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const connection = require('./database');
+//const connection = require('./database');
+
 //Routes imports
 const indexRouter = require('./routes/index');
 const db = require('./firebase')

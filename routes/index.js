@@ -4,7 +4,7 @@ const userController = require('../Controller/userController');
 const registrarController = require('../Controller/registrarController');
 
 router.get('/', (req, res) => {
-    res.redirect('/test');
+    res.redirect('/login');
   });
   
   // Get login page
@@ -30,9 +30,8 @@ router.get('/test', (req, res) => {
 });
 
 
-
-router.post('/login', userController.login);
-router.post('/getStudent', registrarController.getStudent);
+//router.post('/login', userController.login);
+//router.post('/getStudent', registrarController.getStudent);
 
 
 

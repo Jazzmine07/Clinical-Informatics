@@ -1,4 +1,4 @@
-const connection = require('../database');
+//const connection = require('../database');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser')
 const urlencoder = bodyParser.urlencoded({

@@ -2,11 +2,10 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-//const connection = require('./database');
+const db = require('./firebase');
 
 //Routes imports
 const indexRouter = require('./routes/index');
-const db = require('./firebase')
 
 const app = express();
 const port = 3000;

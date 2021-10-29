@@ -1,5 +1,4 @@
 const router = require('express').Router();
-//const connection = require('./database');
 const userController = require('../Controller/userController');
 const registrarController = require('../Controller/registrarController');
 
@@ -30,9 +29,7 @@ router.get('/test', (req, res) => {
 });
 
 
-//router.post('/login', userController.login);
+router.post('/login', userController.login);
 //router.post('/getStudent', registrarController.getStudent);
-
-
 
 module.exports = router;

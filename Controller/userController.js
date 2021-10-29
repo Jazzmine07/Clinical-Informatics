@@ -1,66 +1,47 @@
 //const connection = require('../database');
-const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser')
+const database = require('../firebase');
+const { get, onValue, ref, set } = require("firebase/database");
+const bodyParser = require('body-parser');
 const urlencoder = bodyParser.urlencoded({
   extended: false
 })
-// var formidable = require('formidable');
-// var fs = require('fs');
-console.log("Before Login");
 
-exports.login = function (req, res){
-  var session = req.session;
-  var email= req.body.email;
-  var pass= req.body.password;
-  console.log("Entered Login");
+exports.login = function(req, res){
+  var email = req.body.email;
+  var pass = req.body.password;
 
-  var sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-  
-  connection.query(sql, [email, pass], function(err, results) {
-    if(err) throw err     
-      // if the email and password are not found
-      if (results.length <= 0) {
-        //req.flash('error', 'Please correct enter email and Password!')
+  console.log("email: " + email);
+  console.log("password: " + pass);
+  console.log("database: " + database);
 
-        //to check if the email is found
-        connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, results) {
-          //the email does not match anything
-          if (results.length <= 0) {
-            console.log("User Not Found");
-          }
-          //the email is right but the password wrong
-          else {
-            console.log("Wrong Password");
-            res.redirect('/login');
-          }
-        });
-      }
-      else { // if user found
-        // render to views/user/edit.ejs template file
-        // req.session.loggedin = true;
-        // req.session.name = name; 
-        console.log("Successfully Login")    
-        
-        if(results[0].role.toString() =="Registrar"){
-          console.log(results);
-          console.log("Is a Registrar");
-          res.redirect('/login');
-        }
-        else if (results[0].role.toString() == "Clinician"){
-          console.log("Is a Clinician");
-          res.redirect('/login');
-        }
-      }            
+  var userRef = ref(database, 'user/');
+  console.log("ref: " + userRef);
+
+  // Adding data
+  set(userRef, {
+    email: email,
+    firstName: "Sofie",
+    lastName: "Cuevas",
+    pass: pass,
   })
-}; 
+  .then(() => {
+    console.log("did it work??");
+  })
+  .catch((error) =>{
+    console.log("error");
+    console.log(error);
+  })
 
-//Add 
-// con.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-//     var sql = "INSERT INTO user (id, first_name, las_name,role,email,password) VALUES ('Company Inc', 'Highway 37')";
-//     con.query(sql, function (err, result) {
-//       if (err) throw err;
-//       console.log("1 record inserted");
-//     });
-// });
+  // Retrieving data
+  get(userRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log("Data:");
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.log("Error");
+    console.error(error);
+  });
+};

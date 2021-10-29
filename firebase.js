@@ -3,7 +3,7 @@
 // const { initializeApp } = require('firebase-admin/app');
 
 const { initializeApp } = require("firebase/app");
-const { getDatabase } = require("firebase/database");   // realtime database
+const { getDatabase } = require("firebase/database");   // realtime databse
 
 const firebaseConfig = {
     apiKey: "AIzaSyDI-FxXAgROiDQ5nh3IgjlUgH2GHGRZp2g",

@@ -1,9 +1,4 @@
-// const firebase = require('firebase-admin');
-// const { database } = require('firebase-admin');
-// const { initializeApp } = require('firebase-admin/app');
-
-const { initializeApp } = require("firebase/app");
-const { getDatabase } = require("firebase/database");   // realtime databse
+const firebase = require('firebase');                   
 
 const firebaseConfig = {
     apiKey: "AIzaSyDI-FxXAgROiDQ5nh3IgjlUgH2GHGRZp2g",
@@ -17,9 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialize firebase
-const app = initializeApp(firebaseConfig);
-//const app = firebase.initializeApp(firebaseConfig);
-//console.log(app);
-const db = getDatabase(app);
-console.log("database in firebase.js " + db);
+const app = firebase.initializeApp(firebaseConfig); 
+const db = firebase.database();
+
 module.exports = db;

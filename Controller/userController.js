@@ -70,9 +70,34 @@ exports.login = function(req, res){
     var errorMessage = error.message;
 
     if (errorCode === 'auth/wrong-password') {
-      alert('Wrong password.');
-    } else {
-      alert(errorMessage);
+      res.render('login',{
+        error: true,
+        error_msg: "Wrong password!"
+      });
+    } 
+    else if (errorCode === 'auth/invalid-email') {
+      res.render('login',{
+        error: true,
+        error_msg: "Please enter a valid email!"
+      });
+    } 
+    else if (errorCode === 'auth/user-not-found') {
+      res.render('login',{
+        error: true,
+        error_msg: "No user with such email!"
+      });
+    } 
+    else if (errorCode === 'auth/user-disabled') {
+      res.render('login',{
+        error: true,
+        error_msg: "Account disabled by Admin!"
+      });
+    }
+    else {  // in the case of multiple login failed attempts
+      res.render('login',{
+        error: true,
+        error_msg: errorMessage 
+      });
     }
   });
 

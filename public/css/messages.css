@@ -1,0 +1,13 @@
+#error {
+    color: #c64327; 
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+#success {
+    color: #80C376;
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 5px;
+}

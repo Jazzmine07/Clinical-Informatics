@@ -4,6 +4,9 @@
         <form method="post" action="/login">
             <h2 class="sr-only">Login Form</h2>
             <div class="logo-img"><img src="../public/img/manresaslogo.png" width="265"></div>
+            {{#if error}}
+            <div id="error"><strong>{{error_msg}}</strong></div>
+            {{/if}}
             <div class="form-group input-container mt-3">
                 <i class="fa fa-user fa-lg icon"></i> 
                 <input class="form-control input-field" type="text" name="email" id="email" placeholder="Email">

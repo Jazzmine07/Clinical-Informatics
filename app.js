@@ -11,17 +11,6 @@ const app = express();
 const port = 3000;
 const hostname = 'localhost';
 
-//const session = require('express-session');
-
-// Sessions
-// app.use(session({
-//   secret: 'secret',
-//   //store: new MongoStore({ mongooseConnection: mongoose.connection }),
-//   resave: false,
-//   saveUninitialized: true,
-//   //cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }
-// }));
-
 app.listen(port, function() { 
   console.log(`Server running at http://${hostname}:${port}/`); 
 });

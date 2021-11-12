@@ -370,25 +370,24 @@
                         <div class="d-flex flex-row-reverse">
                             <a href="/clinic-visit-view" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
                                 class="mr-1 fas fa-times text-white-50"></i> Cancel</a>
-                            <a href="/clinic-visit-view" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                            <a href="/addClinicVisit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
                                 class="mr-1 fas fa-check text-white-50"></i> Save</a>
                         </div>
-                        
                     </div>
 
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <form class="user">
+                                {{error_msg}}
                                 <div>
                                     <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <input type="text" name="studentName" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
                                 </div>
-                                
                             </form>
                         </div>
                     </div>

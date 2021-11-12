@@ -44,6 +44,6 @@ router.get('/profile', (req, res) => {
 });
 
 router.post('/login', userController.login);
-//router.post('/getStudentRecord', studentController.getStudent);
+router.post('/getStudentRecord', studentController.getStudent);
 
 module.exports = router;

@@ -29,5 +29,7 @@ exports.getStudent = function(req, res){
             }
             
         }
-    })    
+    })
+    res.send(studentInfo);
+        
 }

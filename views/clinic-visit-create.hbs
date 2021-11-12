@@ -383,9 +383,9 @@
                                     <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
+                                    <input type="text" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
-                                        <a class="btn btn-primary shadow-sm" style="color: white; !important"onclick="searchProfile()">View Record</a>                                    
+                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
                                 </div>
                                 
@@ -398,7 +398,7 @@
                         <!-- Card Header - Accordion -->
                     <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
                         role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                        <h6 class="m-0 font-weight-bold text-primary">Jhose De Asis</h6>
+                        <h6 class="m-0 font-weight-bold text-primary nameHeaderVisit"></h6>
                     </a>
                     <!-- Card Content - Collapse -->
                     <div class="collapse" id="collapseCV">
@@ -414,8 +414,8 @@
                                 <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
                                 <!-- <img class="rounded-circle mb-3 mt-4" src="assets/img/dogs/image2.jpeg" width="160" height="160"> -->
                                 <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
-                                    <h4 class="font-weight-bold ml-4">Jhose Mhiguel D. De Asis</h4>
-                                    <h5 class="font-weight-normal ml-4">Grade 2 - Charity</h5>
+                                    <h4 class="font-weight-bold ml-4 nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
+                                    {{!-- <h5 class="font-weight-normal ml-4">Grade 2 - Charity</h5> --}}
                                     <h5 class="font-weight-normal ml-4">11824110</h5>
                                     <h5 class="font-weight-normal ml-4">Old Student</h5>
                                     <!-- <div>Grade 2 - Charity</div>
@@ -481,7 +481,7 @@
                                     <div class="form-row mb-2">
                                         <div class="col-3">
                                             <div class="font-weight-bold">Last Name</span></div>
-                                            <div class="font-weight-normal">De Asis</span></div>                                        
+                                            <div class="font-weight-normal" id="visitLastName">De Asis</span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">First Name</span></div>
@@ -1410,16 +1410,7 @@
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                        <label for="studentLvl" class="col-form-label">Level</label>
-                                        <select class="custom-select" id="studentLvl">
-                                            <option selected>Choose...</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <label for="studentGrd" class="col-form-label">Grade</label>
                                         <select class="custom-select" id="studentGrd">
                                             <option selected>Choose...</option>
@@ -1428,7 +1419,7 @@
                                             <option value="3">Three</option>
                                         </select>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <label for="studentSec" class="col-form-label">Section</label>
                                         <input type="text" class="form-control mb-2" id="studentID">
                                     </div>
@@ -1609,7 +1600,19 @@
         }
 
         function searchProfile() {
+
             document.getElementById('studentDiv').style.display = "block";
+            var typedID = document.getElementById("studentVisit").value;
+
+            $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
+                
+                $('.nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                $('#visitLastName').html(data.lastName);
+
+
+
+            });
+
         }
     </script>
     <script type='text/javascript'>
@@ -1639,9 +1642,6 @@
     
     });
     </script>
-    <script src="/js/pdfobject.js"></script>
-    <script>PDFObject.embed("/sample.pdf", "#example1");</script>
-
 </body>
 
 </html>

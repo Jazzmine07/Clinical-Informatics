@@ -12,13 +12,33 @@
     <title>Title of App</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        .div[class*="divmenu"]:first-of-type {
+            display: block;
+        }
+
+        .divmenu {
+            display: none;
+            border-top: none;
+        }
+
+        .pdfobject-container { 
+            height: 30rem; 
+            border: 1rem solid rgba(0,0,0,.1); 
+        }
+
+        #studentDiv{
+            display: none;
+        }
+    </style>
 
 </head>
 
@@ -31,7 +51,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +63,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -64,7 +84,7 @@
 
             <!-- Nav Item - Clinic Visit -->
             <li class="nav-item active">
-                <a class="nav-link" href="clinic-visit.html">
+                <a class="nav-link" href="/clinic-visit">
                     <i class="fas fa-fw fa-medkit"></i>
                     <span>Clinic Visit</span></a>
             </li>
@@ -96,13 +116,6 @@
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
             </div>
 
         </ul>
@@ -230,7 +243,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
                                             alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -242,7 +255,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
                                             alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -254,7 +267,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
                                             alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -288,7 +301,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="public/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -319,7 +332,7 @@
                 <!-- End of Topbar -->                   
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                {{!-- <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -338,7 +351,7 @@
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
-                                        <a href="/clinic-visit-view.html" class="btn btn-primary shadow-sm">View Record</a>                                    
+                                        <a href="/clinic-visit-view" class="btn btn-primary shadow-sm">View Record</a>                                    
                                     </div>
                                 </div>
                                 
@@ -346,8 +359,1181 @@
                         </div>
                     </div>
 
-                </div>
+                </div> --}}
                 <!-- /.container-fluid -->
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1>
+                        <div class="d-flex flex-row-reverse">
+                            <a href="/clinic-visit-view" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
+                                class="mr-1 fas fa-times text-white-50"></i> Cancel</a>
+                            <a href="/clinic-visit-view" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                class="mr-1 fas fa-check text-white-50"></i> Save</a>
+                        </div>
+                        
+                    </div>
+
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user">
+                                <div>
+                                    <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <a class="btn btn-primary shadow-sm" style="color: white; !important"onclick="searchProfile()">View Record</a>                                    
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+
+                <div class="card shadow mb-2" id="studentDiv">
+                <div class="card-body">
+                        <!-- Card Header - Accordion -->
+                    <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
+                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Jhose De Asis</h6>
+                    </a>
+                    <!-- Card Content - Collapse -->
+                    <div class="collapse" id="collapseCV">
+                        <div class="card-body">
+                            <div class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="card mb-3">
+                            <div class="card-header py-3">
+                                <h6 class="text-primary font-weight-bold m-0">Student Information</h6>
+                            </div>
+                            <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
+                                <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                <!-- <img class="rounded-circle mb-3 mt-4" src="assets/img/dogs/image2.jpeg" width="160" height="160"> -->
+                                <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
+                                    <h4 class="font-weight-bold ml-4">Jhose Mhiguel D. De Asis</h4>
+                                    <h5 class="font-weight-normal ml-4">Grade 2 - Charity</h5>
+                                    <h5 class="font-weight-normal ml-4">11824110</h5>
+                                    <h5 class="font-weight-normal ml-4">Old Student</h5>
+                                    <!-- <div>Grade 2 - Charity</div>
+                                    <div></div> -->
+                                    <!-- <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Change Photo</button></div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                              <input class="categorybtn active" type="radio" name="options" id="option1" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                            </label>
+                            <label class="btn btn-primary">
+                              <input class="categorybtn" type="radio" name="options" id="option2" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
+                            </label>
+                            <label class="btn btn-primary">
+                              <input class="categorybtn" type="radio" name="options" id="option3" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
+                            </label>
+                            <label class="btn btn-primary">
+                                <input class="categorybtn" type="radio" name="options" id="option4" autocomplete="off"> Management 
+                            </label>
+                            <label class="btn btn-primary">
+                              <input class="categorybtn" type="radio" name="options" id="option5" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
+                            </label>
+                            <label class="btn btn-primary">
+                                <input class="categorybtn" type="radio" name="options" id="option6" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                              </label>
+                              <label class="btn btn-primary">
+                                <input class="categorybtn" type="radio" name="options" id="option7" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
+                              </label>
+                              <label class="btn btn-primary">
+                                <input class="categorybtn" type="radio" name="options" id="option8" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
+                              </label>
+                              <label class="btn btn-primary">
+                                <input class="categorybtn" type="radio" name="options" id="option9" autocomplete="off" onclick="openDiv(event, 'contacts')"> Contacts
+                              </label>
+                        </div>
+
+                        <!-- Dropdown Card Example -->
+                        <div class="divmenu" id="personalInfo" style="display: block;">
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Personal Information</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="form-row mb-2">
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">Last Name</span></div>
+                                            <div class="font-weight-normal">De Asis</span></div>                                        
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">First Name</span></div>
+                                            <div class="font-weight-normal">Jhose Mhiguel</span></div>                                        
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">Middle Name</span></div>
+                                            <div class="font-weight-normal">Dizon</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">Birthdate</span></div>
+                                            <div class="font-weight-normal">10/10/2013</span></div>                                        
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">Nationality</span></div>
+                                            <div class="font-weight-normal">Filipino</span></div>                                        
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="font-weight-bold">Religion</span></div>
+                                            <div class="font-weight-normal">Catholic</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Age</span></div>
+                                            <div class="font-weight-normal">8 years old</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Sex</span></div>
+                                            <div class="font-weight-normal">Male</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Weight</span></div>
+                                            <div class="font-weight-normal">40kg</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Height</span></div>
+                                            <div class="font-weight-normal">1.59m</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Address</span></div>
+                                            <div class="font-weight-normal">7-D 19th Ave., Paranque City, Metro Manila</span></div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Medical Certificate</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <a href="#collapseMC" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">3/18/2020</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseMC">
+                                        <div class="card-body">
+                                            <div>BLOB</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Laboratory Results</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <a href="#collapseLR" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">3/18/2020</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseLR">
+                                        <div class="card-body">
+                                            <div>BLOB</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        
+                        <!-- Area Chart -->
+                        <div class="divmenu" id="growthMonitoring">
+                            <div class="card shadow mb-2">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Growth Chart</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">BMI</a>
+                                            <a class="dropdown-item" href="#">Weight</a>
+                                            <a class="dropdown-item" href="#">Height</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Edit Values</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-2">
+                                <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Health Assessment</h6></div>
+                                <div class="card-body">
+                                        <!-- Card Header - Accordion -->
+                                    <a href="#collapseDE" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Physical Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2021</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseDE">
+                                        <div class="card-body">
+                                            <div id="example1"></div>
+                                        </div>
+                                    </div>
+
+                                    <a href="#collapseAS" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Dental Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2020</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseAS">
+                                        <div class="card-body">
+                                            <div class="form-row mb-2">
+                                                <div class="col-6">
+                                                    <div class="font-weight-bold">Disease</span></div>
+                                                    <div class="font-weight-normal">Asthma</span></div>                                        
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="font-weight-bold">Start Date</span></div>
+                                                    <div class="font-weight-normal">7/15/2020</span></div>                                        
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="font-weight-bold">End Date</span></div>
+                                                    <div class="font-weight-normal">-</span></div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="col-6">
+                                                    <div class="font-weight-bold">Cause of disease</span></div>
+                                                    <div class="font-weight-normal">Allergies</span></div>                                        
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="font-weight-bold">Treatment to disease</span></div>
+                                                    <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="col-12">
+                                                    <div class="font-weight-bold">Management Plan</span></div>
+                                                    <div class="font-weight-normal">Step 1: Sit the person upright.<br>
+                                                        Step 2: Give 4 separate puffs of blue/grey reliever puffer.<br>
+                                                        Step 3: Wait 4 minutes.<br>
+                                                        Step 4: If there is still no improvement callfor an ambulance.</span></div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="col-12">
+                                                    <div class="font-weight-bold">Other important notes</span></div>
+                                                    <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Card Example -->
+                        <div class="card shadow mb-2 divmenu" id="clinicVisit">
+                            <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
+                            <div class="card-body">
+                                    <!-- Card Header - Accordion -->
+                                <a href="#collapseVD" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Fever<span class="float-right">10/18/2021</span></h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseVD">
+                                    <div class="card-body">
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Visit Date</span></div>
+                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Time In</span></div>
+                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Time Out</span></div>
+                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Attending Clinician</span></div>
+                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                                <div class="font-weight-normal">Fever</span></div>                                        
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Treatment</span></div>
+                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <hr class="w-10"></hr>                                
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Medication</span></div>
+                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Purpose</span></div>
+                                                <div class="font-weight-normal">For fever</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Amount</span></div>
+                                                <div class="font-weight-normal">500g</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Interval</span></div>
+                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Status</span></div>
+                                                <!-- <h3 class="small font-weight-normal"> -->
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sent Home
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <button class="dropdown-item" type="button">Discharged</button>
+                                                        <button class="dropdown-item" type="button">Under Observation</button>
+                                                        <button class="dropdown-item" type="button">Hospitalized</button>
+                                                        <button class="dropdown-item" type="button">Sent Home</button>
+                                                    </div>
+                                                    </div>
+                                                <!-- </h3>                                         -->
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                                <div class="font-weight-normal">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="#collapseMD" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Abdominal Pain<span class="float-right">10/15/2021</span></h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseMD">
+                                    <div class="card-body">
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Visit Date</span></div>
+                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Time In</span></div>
+                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Time Out</span></div>
+                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Attending Clinician</span></div>
+                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                                <div class="font-weight-normal">Fever</span></div>                                        
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Treatment</span></div>
+                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <hr class="w-10"></hr>                                
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Medication</span></div>
+                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Purpose</span></div>
+                                                <div class="font-weight-normal">For fever</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Amount</span></div>
+                                                <div class="font-weight-normal">500g</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Interval</span></div>
+                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Status</span></div>
+                                                <!-- <h3 class="small font-weight-normal"> -->
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sent Home
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <button class="dropdown-item" type="button">Discharged</button>
+                                                        <button class="dropdown-item" type="button">Under Observation</button>
+                                                        <button class="dropdown-item" type="button">Hospitalized</button>
+                                                        <button class="dropdown-item" type="button">Sent Home</button>
+                                                    </div>
+                                                    </div>
+                                                <!-- </h3>                                         -->
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                                <div class="font-weight-normal">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-2 divmenu" id="immunization">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Immunization Record</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Vaccine</th>
+                                            <th>No. of Doses</th>
+                                            <th>Date Administered</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Hepatitis A </td>
+                                            <td>2</td>
+                                            <td>12/10/2014</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hepatitis B</td>
+                                            <td>3</td>
+                                            <td>1/10/2014</td>   
+                                        </tr>
+                                        <tr>
+                                            <td>Measles, Mumps, Rubella (MMR)</td>
+                                            <td>2</td>
+                                            <td>2/10/2014</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Influenza</td>
+                                            <td>2</td>
+                                            <td>3/10/2014</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.container-fluid -->
+
+                        <!-- Basic Card Example -->
+                        <div class="card shadow mb-2 divmenu" id="medHistory">
+                            <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Past Medical History</h6></div>
+                            <div class="card-body">
+                                    <!-- Card Header - Accordion -->
+                                <a href="#collapseDG" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Dengue<span class="float-right">3/18/2021</span></h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseDG">
+                                    <div class="card-body">
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Disease</span></div>
+                                                <div class="font-weight-normal">Dengue</span></div>                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="font-weight-bold">Start Date</span></div>
+                                                <div class="font-weight-normal">3/18/2021</span></div>                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="font-weight-bold">End Date</span></div>
+                                                <div class="font-weight-normal">4/2/2021</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Cause of disease</span></div>
+                                                <div class="font-weight-normal">Mosquito Bite</span></div>                                        
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Treatment to disease</span></div>
+                                                <div class="font-weight-normal">Medication taken and admitted in the hospital</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Management Plan</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-12">
+                                                <div class="font-weight-bold">Other important notes</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="#collapseAS" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                    <h6 class="m-0 font-weight-bold text-primary">Asthma<span class="float-right">7/15/2020</span></h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse" id="collapseAS">
+                                    <div class="card-body">
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Disease</span></div>
+                                                <div class="font-weight-normal">Asthma</span></div>                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="font-weight-bold">Start Date</span></div>
+                                                <div class="font-weight-normal">7/15/2020</span></div>                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="font-weight-bold">End Date</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Cause of disease</span></div>
+                                                <div class="font-weight-normal">Allergies</span></div>                                        
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="font-weight-bold">Treatment to disease</span></div>
+                                                <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="col-12">
+                                                <div class="font-weight-bold">Management Plan</span></div>
+                                                <div class="font-weight-normal">Step 1: Sit the person upright.<br>
+                                                    Step 2: Give 4 separate puffs of blue/grey reliever puffer.<br>
+                                                    Step 3: Wait 4 minutes.<br>
+                                                    Step 4: If there is still no improvement callfor an ambulance.</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                             <div class="col-12">
+                                                <div class="font-weight-bold">Other important notes</span></div>
+                                                <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-2 divmenu" id="allergies">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Allergies</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Allergy</th>
+                                            <th>Type</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Pollen, dust mites, animal fur</td>
+                                            <td>Respiratory</td>
+                                            <td>5/19/2019</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shellfish</td>
+                                            <td>Food</td>
+                                            <td>2/10/2020</td>
+                                            <td>-</td>   
+                                        </tr>
+                                        <tr>
+                                            <td>Ibuprofen</td>
+                                            <td>Drug</td>
+                                            <td>2/10/2020</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.container-fluid -->
+
+                        <!-- Dropdown Card Example -->
+                        <div class="divmenu" id="medication">
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Allowed Medication</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="form-row mb-2">
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Paracetamol (tablet and suspension)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Ibuprofen</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Mefenamic acid</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Cold medicines (Neozep, Decolgen no-drowse/regular)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Anti-allergy medication (Loratidine, Cetirizine, Antacid/Kremil-S)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Epinephrine</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Salbutamol nebules</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Clonidine (Catapres)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Oral rehydration solution (Hydrite)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Mupirocin ointment</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Mouthwash (Betadine, Bactidol)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">liniments (Efficascent oil, White flower) </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Povidone Iodine (Betadine)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Hydrogen peroxide</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Analgesic gel (Salonpas gel)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">Eye drops (Visine, Visine Refresh)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Pyralvex solution</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
+                                                <label class="form-check-label" for="flexCheckChecked">Calamine lotion (Caladryl)</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 font-weight-normal">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
+                                                <label class="form-check-label" for="flexCheckChecked">70% alcohol</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Dropdown Card Example -->
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Medication History</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Medicine</th>
+                                                <th>Purpose</th>
+                                                <th>Dosage</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Amoxicillin</td>
+                                                <td>For ear infection</td>
+                                                <td>250mg every 8 hours for 7 days</td>
+                                                <td>Completed</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>   
+                        </div>
+
+                        <!-- Dropdown Card Example -->
+                        <div class="divmenu" id="contacts">
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Parent/Guardian Information</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Father</span></div>
+                                            <div class="font-weight-normal">Christopher G. De Asis</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">papa.deasis@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Mother</span></div>
+                                            <div class="font-weight-normal">Ma. Rose D. De Asis</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">mama.deasis@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            
+                            <!-- Dropdown Card Example -->
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Healthcare Provider Information</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Physician</span></div>
+                                            <div class="font-weight-normal">Dr. Maria Jose D. Chu</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">dr.chu@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09912876549</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Dentist</span></div>
+                                            <div class="font-weight-normal">Dra. Joy B. Zamora</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">dra.zamora@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-4">
+                                            <div class="font-weight-bold">Preferred Hospital</span></div>
+                                            <div class="font-weight-normal">Manila Doctors Hospital</span></div>                                        
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="font-weight-bold">Address</span></div>
+                                            <div class="font-weight-normal">667 United Nations Ave, Ermita, Manila</span></div>                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                    </div>
+                                </div>
+                             </div>
+                    </div>
+
+                
+
+                    {{!-- END OF STUDENT PROFILE --}}
+
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user">
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
+                                      <label class="col-form-label" for="studentID">Student ID Number</label>
+                                      <input type="text" class="form-control mb-2" id="studentID" placeholder="118">
+                                    </div>
+                                    <div class="col-8">
+                                        <label class="col-form-label" for="studentName">Student Name</label>
+                                        <input type="text" class="form-control mb-2" id="student" placeholder="118">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
+                                        <label for="studentLvl" class="col-form-label">Level</label>
+                                        <select class="custom-select" id="studentLvl">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="studentGrd" class="col-form-label">Grade</label>
+                                        <select class="custom-select" id="studentGrd">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="studentSec" class="col-form-label">Section</label>
+                                        <input type="text" class="form-control mb-2" id="studentID">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
+                                        <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                        <input type="date" class="form-control mb-2" id="clinicDate">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="clinicIn" class="col-form-label">Time In</label>
+                                        <input type="time" class="form-control mb-2" id="clinicIn">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="clinicOut" class="col-form-label">Time Out</label>
+                                        <input type="time" class="form-control mb-2" id="clinicOut">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
+                                      <select class="custom-select" id="clinicianVisit">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>                                    
+                                </div>
+                                <div class="form-row col-12">
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" rows="3"></textarea>
+                                </div>
+                                <div class="form-row col-12">
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <textarea type="text" class="form-control mb-2" id="treamentVisit" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Medication -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user mb-5">
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                      <label class="col-form-label" for="medicationVisit">Medication</label>
+                                      <select class="custom-select" id="medicationVisit">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                        </select>                                    
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                        <input type="text" class="form-control mb-2" id="purposeVisit">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="amountMed">Amount</label>
+                                        <input type="text" class="form-control mb-2" id="amountMed">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="intervalMed">Interval</label>
+                                        <input type="text" class="form-control mb-2" id="intervalMed">
+                                    </div>
+                                </div>
+                                <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
+                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
+                            </form>
+                            <!-- <div id="container"></div> -->
+                            <table class="table" id="dynamic_field">  
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- More -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user mb-5">
+                                <div class="form-row col-12">
+                                    <label class="col-form-label" for="complaintVisit">Notes/Recommendations</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" rows="3"></textarea>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="clinicianVisit">Status</label>
+                                      <select class="custom-select" id="clinicianVisit">
+                                        <option selected>Choose...</option>
+                                        <option value="Discharged">Discharged</option>
+                                        <option value="Under Observation">Under Observation</option>
+                                        <option value="Hospitalized">Hospitalized</option>
+                                        <option value="Sent Home">Sent Home</option>
+                                    </select>                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <!-- End of Main Content -->
@@ -387,28 +1573,47 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="/login">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="public/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="public/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="public/js/demo/chart-area-demo.js"></script>
+    <script src="public/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        function openDiv(event, card) {
+            var i, menu, button;
+            menu = document.getElementsByClassName("divmenu");
+            for (i = 0; i < menu.length; i++) {
+                menu[i].style.display = "none";
+            }
+        
+            document.getElementById(card).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+
+        function searchProfile() {
+            document.getElementById('studentDiv').style.display = "block";
+        }
+    </script>
+    <script src="/js/pdfobject.js"></script>
+    <script>PDFObject.embed("/sample.pdf", "#example1");</script>
 
 </body>
 

@@ -14,6 +14,15 @@ router.get('/', (req, res) => {
     //}
   });
 
+  // Get dashboard page
+  router.get('/dashboard', (req, res) => {
+    //if (req.session.user) res.redirect('/POS');
+    //else {
+      console.log("Read dashboard successful!");
+      res.render('index');
+    //}
+  });
+
 router.post('/login', userController.login);
 //router.post('/getStudent', registrarController.getStudent);
 

@@ -55,6 +55,8 @@ exports.login = function(req, res){
         lastName: snapshot.child('lastName').val()
       }
 
+      res.render('index');
+      
       //res(user);
       // var pk = snapshot;
       // console.log("is dis the key? " + pk);

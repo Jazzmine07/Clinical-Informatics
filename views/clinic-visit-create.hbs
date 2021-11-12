@@ -1612,6 +1612,33 @@
             document.getElementById('studentDiv').style.display = "block";
         }
     </script>
+    <script type='text/javascript'>
+        $(document).ready(function() {
+        var itemsArray = [];
+
+        var i = 1;  
+        var idSupplyList = [], supplyList = [], expDateList = [], qtyList = [], priceList = [];
+
+        $('#addMedication').click(function(){
+            var selectMedication = document.getElementById("medicationVisit");
+            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            var purpose = document.getElementById("purposeVisit").value
+            var amount = document.getElementById("amountMed").value;
+            var interval = document.getElementById("intervalMed").value;
+            i++;
+
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+        });
+
+        $(document).on('click', '.btn_remove', function(){  
+            var button_id = $(this).attr("id");
+            var index = button_id - 2; 
+            console.log("removing..." + button_id);  
+            $('#row'+button_id+'').remove();  
+        });  
+    
+    });
+    </script>
     <script src="/js/pdfobject.js"></script>
     <script>PDFObject.embed("/sample.pdf", "#example1");</script>
 

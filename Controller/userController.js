@@ -89,7 +89,7 @@ exports.login = function(req, res){
     .then((userCredential) => {
       //How to get specific field and pk
       userRef.on('value', (snapshot) => {
-        console.log("true or false? " + snapshot.hasChild(userCredential.user.uid));
+        //console.log("true or false? " + !snapshot.hasChild(userCredential.user.uid));
         if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
           //add user to the realtime database
           var update = {
@@ -116,9 +116,7 @@ exports.login = function(req, res){
       //   // console.log("is dis the key? " + pk);
       // })
 
-      res.redirect('/dashboard', {
-        userId: userCredential.user.uid
-      });
+      res.redirect('/dashboard');
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -156,4 +154,50 @@ exports.login = function(req, res){
       }
     });
   }
+}
+
+exports.loggedIn = (req, res, next) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) { // user is signed in 
+      return next()
+    } else {
+      res.render('login',{
+        error: true,
+        error_msg: "Please log in!"
+      });
+    }
+  });
+};
+
+
+exports.getUser = function(req, res){
+  var database = firebase.database();
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var uid = user.uid;
+      var userRef = database.ref("users/" + uid);
+      var userInfo;
+      
+      userRef.on('value', (snapshot) => { 
+        if(snapshot.child('firstName').val() === ""){
+          userInfo = {
+            firstName: "user"
+          }
+        } else {
+          userInfo = {
+            firstName: snapshot.child(uid).child('firstName').val(),
+            lastName: snapshot.child(uid).child('lastName').val(),
+            role: snapshot.child(uid).child('role').val()
+          }
+        }
+      })
+      res(userInfo);
+    } else {
+      res.redirect('login', {
+        error: true,
+        error_msg: "You need to login!"
+      })
+    }
+  });
 }

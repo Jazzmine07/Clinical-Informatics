@@ -38,13 +38,16 @@
                                 <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                                 <div class="col-lg-6">
                                     <div class="p-5">
-                                        <div class="bg-login-logo mb-4" style="width: 345px;height: 77.2px;"></div>
+                                        <div class="bg-login-logo mb-3" style="width: 345px;height: 77.2px;"></div>
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                            <h1 class="h4 text-gray-900 mb-2">Welcome Back!</h1>
                                         </div>
                                         <form class="user" method="post" action="/login">
                                             {{#if error}}
-                                                <div id="error"><strong>{{error_msg}}</strong></div>
+                                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
+                                                    <i class="fa fa-exclamation-circle"></i>
+                                                    <strong class="mx-1">Error! </strong> {{error_msg}}
+                                                </div>
                                             {{/if}}
                                             <div class="form-group">
                                                 <input type="email" class="form-control form-control-user"

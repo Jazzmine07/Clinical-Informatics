@@ -12,7 +12,7 @@ exports.login = function(req, res){
   console.log("password: " + pass);
 
   var database = firebase.database();
-  var userRef = database.ref("user");
+  var userRef = database.ref("users");
 
   // var studentAccount = {
   //   idNum: '275755',
@@ -71,38 +71,54 @@ exports.login = function(req, res){
       error_msg: "Please enter data!"
     });
   }
+  if(email == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter email!"
+    });
+  }
+  if(pass == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter password!"
+    });
+  }
   else {
     // user sign in
     firebase.auth().signInWithEmailAndPassword(email, pass)
     .then((userCredential) => {
-
-      //How to get specific field
-      var query = userRef.child(userCredential.user.uid);
-      query.on('value', (snapshot) => {
-        console.log("result:");
-        console.log(snapshot.val());
-
-        console.log("email: " + snapshot.child('email').val());
-        console.log("firstName: " + snapshot.child('firstName').val());
-        console.log("lastName: " + snapshot.child('lastName').val());
-
-        var user = {
-          email: snapshot.child('email').val(),
-          firstName: snapshot.child('firstName').val(),
-          lastName: snapshot.child('lastName').val()
+      //How to get specific field and pk
+      userRef.on('value', (snapshot) => {
+        console.log("true or false? " + snapshot.hasChild(userCredential.user.uid));
+        if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
+          //add user to the realtime database
+          var update = {
+            email: userCredential.user.email,
+            firstName: "",
+            lastName: "",
+            role: ""
+          }
+          database.ref('users/' + userCredential.user.uid); // setting the path with uid as its pk
+          database.ref('users/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
         }
-        
-        //res(user);
-        // var pk = snapshot;
-        // console.log("is dis the key? " + pk);
-
-        // if(snapshot.key.child("email")){
-        //     console.log("email?: ");
-        //     console.log(snapshot.val());
-        // }
-
-        res.redirect('/dashboard'); // redirect to dashboard page
       })
+
+      // query.on('value', (snapshot) => {
+      //   console.log("false ba? " + snapshot.hasChild(userCredential.user.uid));
+
+      //   // getting specific field
+      //   // console.log("email: " + snapshot.child('email').val());
+      //   // console.log("firstName: " + snapshot.child('firstName').val());
+      //   // console.log("lastName: " + snapshot.child('lastName').val());
+
+      //   // geeting pk
+      //   // var pk = snapshot.key;
+      //   // console.log("is dis the key? " + pk);
+      // })
+
+      res.redirect('/dashboard', {
+        userId: userCredential.user.uid
+      });
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -140,38 +156,4 @@ exports.login = function(req, res){
       }
     });
   }
-
-  
-
-  //Retrieving data (entire object)
-  // get(userRef).then((snapshot) => {
-  //   if (snapshot.exists()) {
-  //     console.log("Data:");
-  //     console.log(snapshot.val());
-  //   } else {
-  //     console.log("No data available");
-  //   }
-  // }).catch((error) => {
-  //   console.log("Error");
-  //   console.error(error);
-  // });
-
-  //getting table userRef = user
-  // var childRef = child(userRef);
-  // console.log("child " + childRef);
-  // onValue(child, (snapshot) => {
-  //   console.log("onValue:");
-  //   console.log(snapshot.val());
-  //   if(snapchat.childSnapshot("email")){
-  //     console.log("email?:");
-  //     console.log(snapshot.val());
-  //   }
-  // })
-
-  // onValue(userRef, (snapshot) => {
-  //   snapshot.forEach((childSnapshot) => {
-  //     const childData = childSnapshot.val();
-  //     console.log("childata " + childData);
-  //   });
-  // })
 }

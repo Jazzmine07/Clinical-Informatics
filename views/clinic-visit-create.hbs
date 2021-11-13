@@ -378,10 +378,6 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <form class="user">
-                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px;" display="none" id="errorDiv">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <strong class="mx-1">Error!</strong><div id="error"></div>
-                                </div>
                                 <div>
                                     <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
                                 </div>
@@ -390,6 +386,8 @@
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
+                                </div>
+                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
                                 </div>
                             </form>
                         </div>
@@ -417,7 +415,7 @@
                                 <!-- <img class="rounded-circle mb-3 mt-4" src="assets/img/dogs/image2.jpeg" width="160" height="160"> -->
                                 <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
                                     <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
-                                    {{!-- <h5 class="font-weight-normal ml-4">Grade 2 - Charity</h5> --}}
+                                    <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
                                     <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
                                     <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
                                     <!-- <div>Grade 2 - Charity</div>
@@ -501,11 +499,11 @@
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">Nationality</span></div>
-                                            <div class="font-weight-normal" id="visitNationality"></span></div>                                        
+                                            <div class="font-weight-normal" id="visitNationality">-</span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">Religion</span></div>
-                                            <div class="font-weight-normal" id="visitReligion"></span></div>                                        
+                                            <div class="font-weight-normal" id="visitReligion">-</span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
@@ -519,11 +517,11 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Weight</span></div>
-                                            <div class="font-weight-normal">40kg</span></div>                                        
+                                            <div class="font-weight-normal">-</span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Height</span></div>
-                                            <div class="font-weight-normal">1.59m</span></div>                                        
+                                            <div class="font-weight-normal">-</span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
@@ -1399,38 +1397,41 @@
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
-                            <form class="user">
+                            <form class="user" id="clinicVisitForm">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
-                                      <input type="text" class="form-control mb-2" id="studentID" placeholder="118">
+                                      <input type="text" class="form-control mb-2" id="studentID">
                                     </div>
                                     <div class="col-8">
                                         <label class="col-form-label" for="studentName">Student Name</label>
-                                        <input type="text" class="form-control mb-2" id="student" placeholder="118">
+                                        <input type="text" class="form-control mb-2" id="studentName">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
                                         <label for="studentGrd" class="col-form-label">Grade</label>
-                                        <select class="custom-select" id="studentGrd">
+                                        <select class="custom-select" id="studentGrade">
                                             <option selected>Choose...</option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                            <option value="6">Six</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
                                         <label for="studentSec" class="col-form-label">Section</label>
-                                        <input type="text" class="form-control mb-2" id="studentID">
+                                        <input type="text" class="form-control mb-2" id="studentSection">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                        <input type="date" class="form-control mb-2" id="clinicDate">
+                                        <input type="date" class="form-control mb-2" id="visitDate">
                                     </div>
                                     <div class="col-4">
                                         <label for="clinicIn" class="col-form-label">Time In</label>
@@ -1608,23 +1609,44 @@
                 //if(typedID.isEmpty()){
                     // TO DO: display error message if walang ininput na id number si user
                 //}
-                if(data.firstName == null){ // if data is null so meaning no student with that id number
+                if(!typedID && !typedID.value){
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    
+                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+
+                    document.getElementById("clinicVisitForm").reset();
+
+                }
+                else if(data.firstName == null){ // if data is null so meaning no student with that id number
                     //console.log(data);
                     //console.log(data.error_msg);
-                    $('#error').html(data.error_msg);
-                    document.getElementsById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-                } else {
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    
+                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+                    
+                    document.getElementById("clinicVisitForm").reset();
+                } 
+                else {
                     document.getElementById('errorDiv').style.display = "none";   // hide error message 
                     $('#headerNameCollapse').html(typedID);
                     // Header
                     $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
                     $('#idHeaderVisit').html(typedID);
-                    $('#studentTypeHeader').html(data.studentType + " Student");
+                    //$('#studentTypeHeader').html(data.studentType + " Student");
 
                     // personal info
                     $('#visitLastName').html(data.lastName);
                     $('#visitFirstName').html(data.firstName);
                     $('#visitMiddleName').html(data.middleName);
+
+                    if(data.grade && data.section)
+                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                        
+                    if(data.studentType)
+                        $('#studentTypeHeader').html(data.studentType + " Student");    
+
                     $('#visitBirthday').html(data.birthday);
                     //$('#visitNationality').html(data.nationality);
                     //$('#visitReligion').html(data.religion);
@@ -1633,12 +1655,38 @@
                     $('#visitAddress').html(data.address);
 
                     // contacts
-                    $('#visitFN').html(data.fatherName);
-                    $('#visitFE').html(data.fatherEmail);
-                    $('#visitFC').html(data.fatherContact);
-                    $('#visitMN').html(data.motherName);
-                    $('#visitME').html(data.motherEmail);
-                    $('#visitMC').html(data.motherContact);
+                    if(data.fatherName)
+                        $('#visitFN').html(data.fatherName);
+                    
+                    if(data.fatherEmail)
+                        $('#visitFE').html(data.fatherEmail);
+
+                    if(data.fatherContact)
+                        $('#visitFC').html(data.fatherContact);
+
+                    if(data.motherName) 
+                        $('#visitMN').html(data.motherName);
+
+                    if(data.motherEmail)    
+                        $('#visitME').html(data.motherEmail);
+
+                    if(data.motherContact)    
+                        $('#visitMC').html(data.motherContact);
+
+
+                    //var today = new Date();
+                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+                    //auto-fill form
+                    $('#studentID').val(typedID);
+                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
+                    if(data.grade)
+                        $('#studentGrade').val(data.grade);
+                    if(data.section)
+                        $('#studentSection').val(data.section);
+                    //$('#visitDate').value(date);                 
+
+
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });

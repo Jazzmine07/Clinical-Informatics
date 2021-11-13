@@ -187,8 +187,8 @@ exports.getUsers = function(req, res){
       key = childSnapshot.key;                        // Getting primary keys of users
       childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
       //console.log("key "+ key);
-      console.log("childSnapshotData firstName "+childSnapshotData.firstName);
-      console.log("childSnapshotData lastName "+childSnapshotData.lastName);
+      //console.log("childSnapshotData firstName "+childSnapshotData.firstName);
+      //console.log("childSnapshotData lastName "+childSnapshotData.lastName);
 
       usersObject.push({
         key: key,

@@ -45,22 +45,27 @@ exports.getStudent = function(req, res){
 }
 
 exports.addClinicVisit = function(req, res){
-    var id = req.body.studentID;
+    var id = req.body.studentId;
     var visitDate = req.body.visitDate;
-    var timeIn = req.body.clinicIn;
-    var timeOut = req.body.clinicOut;
-    var clinician = req.body.clinicianVisit;
-    var complaint = req.body.complaintVisit;
-    var treatment = req.body.treatmentVisit;
+    var timeIn = req.body.timeIn;
+    var timeOut = req.body.timeOut;
+    var clinician = req.body.clinician;
+    var complaint = req.body.complaint;
+    var treatment = req.body.treatement;
     var notes = req.body.notes;
     var status = req.body.status;
     var medication = req.body.medicationVisit;
     var diagnosis = req.body.diagnosis; //ned to add
     var symptoms = req.body.symptoms;// need to add
 
-    res.send(req.body);
-    console.log(TAG, "id: "+ req.body.studentID);
-    console.log(TAG, "Body: " + req.body.treatmentVisit);
+    console.log("controller id: "+ id);
+    console.log("controller visitData: " + visitDate);
+    console.log("controller timein: "+timeIn);
+    console.log("controller timeOut: "+timeOut);
+    console.log("controller clinician: "+ clinician);
+    console.log("controller complaint: " + complaint);
+    console.log("controller treatment: "+treatment);
+    console.log("controller notes: "+notes);
 
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");

@@ -8,7 +8,7 @@ exports.login = function(req, res){
   var email = req.body.email;
   var pass = req.body.password;
   var database = firebase.database();
-  var userRef = database.ref("users");
+  var userRef = database.ref("clinicUsers");
 
   // var studentAccount = {
   //   idNum: '275755',
@@ -39,28 +39,6 @@ exports.login = function(req, res){
   // database.ref('studentInfo/' + personalInfo.idNum); // setting the path with id number as its pk
   // database.ref('studentInfo/' + personalInfo.idNum).set(personalInfo); // adding other fields
 
-
-  //create user with email and password in firebase authentication (wont reflect sa real time database)
-  // firebase.auth().createUserWithEmailAndPassword(email, pass) 
-  // .then((userCredential) => {
-  //   console.log("user " + userCredential.user);
-  //   // Update user with first name and last name
-  //   var update = {
-  //     email: userCredential.user.email,
-  //     firstName: "Dr. Joseph",
-  //     lastName: "Ayo"
-  //   }
-  //   database.ref('users/' + userCredential.user.uid); // setting the path with uid as its pk
-  //   database.ref('users/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname
-  // })
-  // .catch((error) => {
-  //   var errorCode = error.code;
-  //   var errorMessage = error.message;
-  //   console.log("error");
-  //   console.log(errorCode);
-  //   console.log(errorMessage);
-  // });
-
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   // if(email == "" && pass == ""){
   //   res.render('login',{
@@ -82,24 +60,24 @@ exports.login = function(req, res){
   // }
   // else {
     // user sign in
-    //firebase.auth().signInWithEmailAndPassword(email, pass)
-    //.then((userCredential) => {
-      //How to get specific field and pk
-      // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
-      // userRef.on('value', (snapshot) => {
-      //   //console.log("true or false? " + !snapshot.hasChild(userCredential.user.uid));
-      //   if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
-      //     //add user to the realtime database
-      //     var update = {
-      //       email: userCredential.user.email,
-      //       firstName: "",
-      //       lastName: "",
-      //       role: ""
-      //     }
-      //     database.ref('users/' + userCredential.user.uid); // setting the path with uid as its pk
-      //     database.ref('users/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
-      //   }
-      // })
+    // firebase.auth().signInWithEmailAndPassword(email, pass)
+    // .then((userCredential) => {
+    //   // How to get specific field and pk
+    //   // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
+    //   userRef.on('value', (snapshot) => {
+    //     //console.log("true or false? " + !snapshot.hasChild(userCredential.user.uid));
+    //     if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
+    //       //add user to the realtime database
+    //       var update = {
+    //         email: userCredential.user.email,
+    //         firstName: "",
+    //         lastName: "",
+    //         role: ""
+    //       }
+    //       database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
+    //       database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
+    //     }
+    //   })
 
       // query.on('value', (snapshot) => {
       //   console.log("false ba? " + snapshot.hasChild(userCredential.user.uid));
@@ -192,7 +170,6 @@ exports.getUser = function(req, res){
             //role: snapshot.child(uid).child('role').val()
           })
         }
-        
       })
       res(userInfo);
     }
@@ -201,12 +178,24 @@ exports.getUser = function(req, res){
 
 exports.getUsers = function(req, res){
   var database = firebase.database();
-  var userRef = database.ref('users').orderByChild('email');
+  var clinicUsers = database.ref('clinicUsers');
+  var usersObject = [];
+  var key, childSnapshotData;
 
-  userRef.on('value', (snapshot) => {
-    console.log("value? " + snapshot);
+  clinicUsers.on('value', (snapshot) => {
     snapshot.forEach(function(childSnapshot){
-      childSnapshot.key;
+      key = childSnapshot.key;                        // Getting primary keys of users
+      childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+      //console.log("key "+ key);
+      console.log("childSnapshotData firstName "+childSnapshotData.firstName);
+      console.log("childSnapshotData lastName "+childSnapshotData.lastName);
+
+      usersObject.push({
+        key: key,
+        firstName: childSnapshotData.firstName,
+        lastName: childSnapshotData.lastName
+      })
     })
+    res(usersObject);
   })
 }

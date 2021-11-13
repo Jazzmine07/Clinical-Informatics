@@ -1447,11 +1447,11 @@
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
                                       <select class="custom-select" id="clinicianVisit">
-                                        <option selected>Choose...</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>                                    
+                                          <option selected>Choose...</option>
+                                        {{#each users}}
+                                            <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                        {{/each}}
+                                      </select>                                    
                                 </div>
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>

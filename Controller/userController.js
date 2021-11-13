@@ -198,3 +198,15 @@ exports.getUser = function(req, res){
     }
   });
 }
+
+exports.getUsers = function(req, res){
+  var database = firebase.database();
+  var userRef = database.ref('users').orderByChild('email');
+
+  userRef.on('value', (snapshot) => {
+    console.log("value? " + snapshot);
+    snapshot.forEach(function(childSnapshot){
+      childSnapshot.key;
+    })
+  })
+}

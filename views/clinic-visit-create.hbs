@@ -378,7 +378,10 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <form class="user">
-                                {{error_msg}}
+                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorDiv">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <strong class="mx-1">Error!</strong>
+                                </div>
                                 <div>
                                     <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
                                 </div>
@@ -1290,29 +1293,29 @@
                                     <div class="form-row mb-2">
                                         <div class="col">
                                             <div class="font-weight-bold">Father</span></div>
-                                            <div class="font-weight-normal" id="visitFN">Christopher G. De Asis</span></div>                                        
+                                            <div class="font-weight-normal" id="visitFN"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal" id="visitFE">papa.deasis@gmail.com</span></div>                                        
+                                            <div class="font-weight-normal" id="visitFE"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal" id="visitFC">09165404040</span></div>                                        
+                                            <div class="font-weight-normal" id="visitFC"></span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
                                         <div class="col">
                                             <div class="font-weight-bold">Mother</span></div>
-                                            <div class="font-weight-normal" id="visitMN">Ma. Rose D. De Asis</span></div>                                        
+                                            <div class="font-weight-normal" id="visitMN"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal" id="visitME">mama.deasis@gmail.com</span></div>                                        
+                                            <div class="font-weight-normal" id="visitME"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal" id="visitMC">09165404040</span></div>                                        
+                                            <div class="font-weight-normal" id="visitMC"></span></div>                                        
                                         </div>
                                     </div>
                                 </div>
@@ -1599,11 +1602,17 @@
         }
 
         function searchProfile() {
-
             var typedID = document.getElementById("studentVisit").value;
-            $('#headerNameCollapse').html(typedID);
-
+            
             $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
+                if(data.firstName == null){ // if data is null so meaning no student with that id number
+                    console.log(data);
+                    console.log(data.error_msg);
+
+                    // *TO DO* hide yung error div, papakita lang siya dapat here
+                    $('#error').html(data.error_msg);
+                } else {
+                $('#headerNameCollapse').html(typedID);
                 //personal info
                 $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
                 $('#visitLastName').html(data.lastName);
@@ -1621,11 +1630,9 @@
                 $('#visitMN').html(data.motherName);
                 $('#visitME').html(data.motherEmail);
                 $('#visitMC').html(data.motherContact);
+                document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                }
             });
-
-            document.getElementById('studentDiv').style.display = "block";
-
-
         }
     </script>
     <script type='text/javascript'>

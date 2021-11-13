@@ -7,16 +7,10 @@ exports.getStudent = function(req, res){
     var studentRef = database.ref("studentInfo/"+ id);
     var studentInfo;
 
-    console.log("id: "+id);
     studentRef.on('value', (snapshot) => {
         if(snapshot.exists()){
-            console.log("test "+ snapshot.child('firstName').val());
-            console.log("test "+ snapshot.child('middleName').val());
-            console.log("test "+ snapshot.child('lastName').val());
-            console.log("test "+ snapshot.child('birthday').val());
-            console.log("test "+ snapshot.child('age').val());
-            console.log("test "+ snapshot.child('sex').val());
-            console.log("test "+ snapshot.child('address').val());
+            console.log("test "+ snapshot.child('motherName').val());
+            console.log("test "+ snapshot.child('motherEmail').val());
             studentInfo = {
                 firstName: snapshot.child('firstName').val(),
                 middleName: snapshot.child('middleName').val(),
@@ -37,14 +31,15 @@ exports.getStudent = function(req, res){
                 motherEmail: snapshot.child('motherEmail').val(),
                 motherContact: snapshot.child('motherContact').val(),
             }
+            res.send(studentInfo);
         } else {
-            res.render('clinic-visit-create',{
+            console.log("check if dadaan dito?");
+            res.send({
                 error: true,
-                errorr_msg: "No student with that id number!"
+                error_msg: "No student with that id number!"
             })
         }
     })
-    res.send(studentInfo);
 }
 
 exports.addClinicVisit = function(req, res){

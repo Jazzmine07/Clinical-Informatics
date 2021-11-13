@@ -378,15 +378,15 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <form class="user">
-                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorDiv">
+                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px;" display="none" id="errorDiv">
                                     <i class="fa fa-exclamation-circle"></i>
-                                    <strong class="mx-1">Error!</strong>
+                                    <strong class="mx-1">Error!</strong><div id="error"></div>
                                 </div>
                                 <div>
                                     <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="studentName" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
+                                    <input type="text" name="studentName" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
@@ -418,8 +418,8 @@
                                 <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
                                     <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
                                     {{!-- <h5 class="font-weight-normal ml-4">Grade 2 - Charity</h5> --}}
-                                    <h5 class="font-weight-normal ml-4">11824110</h5>
-                                    <h5 class="font-weight-normal ml-4">Old Student</h5>
+                                    <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
+                                    <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
                                     <!-- <div>Grade 2 - Charity</div>
                                     <div></div> -->
                                     <!-- <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Change Photo</button></div> -->
@@ -483,39 +483,39 @@
                                     <div class="form-row mb-2">
                                         <div class="col-3">
                                             <div class="font-weight-bold">Last Name</span></div>
-                                            <div class="font-weight-normal" id="visitLastName">De Asis</span></div>                                        
+                                            <div class="font-weight-normal" id="visitLastName"></span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">First Name</span></div>
-                                            <div class="font-weight-normal" id="visitFirstName">Jhose Mhiguel</span></div>                                        
+                                            <div class="font-weight-normal" id="visitFirstName"></span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">Middle Name</span></div>
-                                            <div class="font-weight-normal" id="visitMiddleName">Dizon</span></div>                                        
+                                            <div class="font-weight-normal" id="visitMiddleName"></span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
                                         <div class="col-3">
                                             <div class="font-weight-bold">Birthdate</span></div>
-                                            <div class="font-weight-normal" id="visitBirthday">10/10/2013</span></div>                                        
+                                            <div class="font-weight-normal" id="visitBirthday"></span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">Nationality</span></div>
-                                            <div class="font-weight-normal">Filipino</span></div>                                        
+                                            <div class="font-weight-normal" id="visitNationality"></span></div>                                        
                                         </div>
                                         <div class="col-3">
                                             <div class="font-weight-bold">Religion</span></div>
-                                            <div class="font-weight-normal">Catholic</span></div>                                        
+                                            <div class="font-weight-normal" id="visitReligion"></span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
                                         <div class="col">
                                             <div class="font-weight-bold">Age</span></div>
-                                            <div class="font-weight-normal" id="visitAge">8 years old</span></div>                                        
+                                            <div class="font-weight-normal" id="visitAge"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Sex</span></div>
-                                            <div class="font-weight-normal" id="visitSex">Male</span></div>                                        
+                                            <div class="font-weight-normal" id="visitSex"></span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Weight</span></div>
@@ -529,7 +529,7 @@
                                     <div class="form-row mb-2">
                                         <div class="col">
                                             <div class="font-weight-bold">Address</span></div>
-                                            <div class="font-weight-normal" id="visitAddress">7-D 19th Ave., Paranque City, Metro Manila</span></div>                                        
+                                            <div class="font-weight-normal" id="visitAddress"></span></div>                                        
                                         </div>
                                     </div>
                                 </div>
@@ -1605,32 +1605,41 @@
             var typedID = document.getElementById("studentVisit").value;
             
             $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
+                //if(typedID.isEmpty()){
+                    // TO DO: display error message if walang ininput na id number si user
+                //}
                 if(data.firstName == null){ // if data is null so meaning no student with that id number
-                    console.log(data);
-                    console.log(data.error_msg);
-
-                    // *TO DO* hide yung error div, papakita lang siya dapat here
+                    //console.log(data);
+                    //console.log(data.error_msg);
                     $('#error').html(data.error_msg);
+                    document.getElementsById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
                 } else {
-                $('#headerNameCollapse').html(typedID);
-                //personal info
-                $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
-                $('#visitLastName').html(data.lastName);
-                $('#visitFirstName').html(data.firstName);
-                $('#visitMiddleName').html(data.middleName);
-                $('#visitBirthday').html(data.birthday);
-                $('#visitAge').html(data.age + " years old");
-                $('#visitSex').html(data.sex);
-                $('#visitAddress').html(data.address);
+                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
+                    $('#headerNameCollapse').html(typedID);
+                    // Header
+                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#idHeaderVisit').html(typedID);
+                    $('#studentTypeHeader').html(data.studentType + " Student");
 
-                //contacts
-                $('#visitFN').html(data.fatherName);
-                $('#visitFE').html(data.fatherEmail);
-                $('#visitFC').html(data.fatherContact);
-                $('#visitMN').html(data.motherName);
-                $('#visitME').html(data.motherEmail);
-                $('#visitMC').html(data.motherContact);
-                document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                    // personal info
+                    $('#visitLastName').html(data.lastName);
+                    $('#visitFirstName').html(data.firstName);
+                    $('#visitMiddleName').html(data.middleName);
+                    $('#visitBirthday').html(data.birthday);
+                    //$('#visitNationality').html(data.nationality);
+                    //$('#visitReligion').html(data.religion);
+                    $('#visitAge').html(data.age + " years old");
+                    $('#visitSex').html(data.sex);
+                    $('#visitAddress').html(data.address);
+
+                    // contacts
+                    $('#visitFN').html(data.fatherName);
+                    $('#visitFE').html(data.fatherEmail);
+                    $('#visitFC').html(data.fatherContact);
+                    $('#visitMN').html(data.motherName);
+                    $('#visitME').html(data.motherEmail);
+                    $('#visitMC').html(data.motherContact);
+                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
         }

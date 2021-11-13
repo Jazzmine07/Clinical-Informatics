@@ -370,8 +370,11 @@
                         <div class="d-flex flex-row-reverse">
                             <a href="/clinic-visit-view" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
                                 class="mr-1 fas fa-times text-white-50"></i> Cancel</a>
-                            <a href="/addClinicVisit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                                class="mr-1 fas fa-check text-white-50"></i> Save</a>
+                            {{!-- <a href="/addClinicVisit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                class="mr-1 fas fa-check text-white-50"></i> Save</a> --}}
+                            {{!-- <button type="submit" form="clinicVisit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                class="mr-1 fas fa-check text-white-50"></i>Save</button> --}}
+                            
                         </div>
                     </div>
 
@@ -713,48 +716,48 @@
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Visit Date</span></div>
-                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
+                                                <div id="visitDate1" class="font-weight-normal">10/18/2021</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time In</span></div>
-                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
+                                                <div id ="timeIn" class="font-weight-normal">12:03 pm</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time Out</span></div>
-                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
+                                                <div id="timeOut" class="font-weight-normal">12:15 pm</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Attending Clinician</span></div>
-                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                                <div id="clinician" class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
                                             <div class="col-6">
                                                 <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                                <div class="font-weight-normal">Fever</span></div>                                        
+                                                <div id ="complaint" class="font-weight-normal">Fever</span></div>                                        
                                             </div>
                                             <div class="col-6">
                                                 <div class="font-weight-bold">Treatment</span></div>
-                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
+                                                <div id="treatment" class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
                                             </div>
                                         </div>
                                         <hr class="w-10"></hr>                                
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Medication</span></div>
-                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
+                                                <div id="medicine" class="font-weight-normal">Paracetamol</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Purpose</span></div>
-                                                <div class="font-weight-normal">For fever</span></div>                                        
+                                                <div id="medPurpose" class="font-weight-normal">For fever</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Amount</span></div>
-                                                <div class="font-weight-normal">500g</span></div>                                        
+                                                <div id="medAmount" class="font-weight-normal">500g</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Interval</span></div>
-                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
+                                                <div id="medInterval" class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Status</span></div>
@@ -1397,11 +1400,11 @@
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
-                            <form class="user" id="clinicVisitForm">
+                            <form class="user" id="clinicVisit" name="clinicVisit" method="post" action="/addClinicVisit">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
-                                      <input type="text" class="form-control mb-2" id="studentID">
+                                      <input type="text" class="form-control mb-2" id="studentID" name="studentID">
                                     </div>
                                     <div class="col-8">
                                         <label class="col-form-label" for="studentName">Student Name</label>
@@ -1431,37 +1434,52 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                        <input type="date" class="form-control mb-2" id="visitDate">
+                                        <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
                                     </div>
                                     <div class="col-4">
                                         <label for="clinicIn" class="col-form-label">Time In</label>
-                                        <input type="time" class="form-control mb-2" id="clinicIn">
+                                        <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
                                     </div>
                                     <div class="col-4">
                                         <label for="clinicOut" class="col-form-label">Time Out</label>
-                                        <input type="time" class="form-control mb-2" id="clinicOut">
+                                        <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+                                      <select class="custom-select" id="clinicianVisit" name="clinicianVisit">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>                                    
+=======
+>>>>>>> Stashed changes
                                       <select class="custom-select" id="clinicianVisit">
                                           <option selected>Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
                                       </select>                                    
+<<<<<<< Updated upstream
+=======
+>>>>>>> 9eba40845d7fe00a02d1509a0ae2fd2ee37c6121
+>>>>>>> Stashed changes
                                 </div>
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
                                 </div>
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treamentVisit" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treamentVisit" name="treatementVisit" rows="3"></textarea>
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
                     </div>
@@ -1469,11 +1487,11 @@
                     <!-- Medication -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
-                            <form class="user mb-5">
+                           
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
-                                      <select class="custom-select" id="medicationVisit">
+                                      <select class="custom-select" id="medicationVisit" name="medicationVisit">
                                         <option selected>Choose...</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -1482,22 +1500,22 @@
                                     </div>
                                     <div class="col-6">
                                         <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                        <input type="text" class="form-control mb-2" id="purposeVisit">
+                                        <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
                                         <label class="col-form-label" for="amountMed">Amount</label>
-                                        <input type="text" class="form-control mb-2" id="amountMed">
+                                        <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
                                     </div>
                                     <div class="col-6">
                                         <label class="col-form-label" for="intervalMed">Interval</label>
-                                        <input type="text" class="form-control mb-2" id="intervalMed">
+                                        <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
                                     </div>
                                 </div>
                                 <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
                                 <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
-                            </form>
+                            
                             <!-- <div id="container"></div> -->
                             <table class="table" id="dynamic_field">  
 
@@ -1508,15 +1526,15 @@
                     <!-- More -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
-                            <form class="user mb-5">
+                            
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="complaintVisit">Notes/Recommendations</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="notes" "notes" rows="3"></textarea>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Status</label>
-                                      <select class="custom-select" id="clinicianVisit">
+                                      <select class="custom-select" id="status" name="status">
                                         <option selected>Choose...</option>
                                         <option value="Discharged">Discharged</option>
                                         <option value="Under Observation">Under Observation</option>
@@ -1524,6 +1542,8 @@
                                         <option value="Sent Home">Sent Home</option>
                                     </select>                                    
                                 </div>
+                                <button type="submit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                class="mr-1 fas fa-check text-white-50"></i>Save</button>
                             </form>
                         </div>
                     </div>

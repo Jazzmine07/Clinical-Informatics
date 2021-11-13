@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
 const db = require('./firebase');
 
 //Routes imports
@@ -55,8 +54,8 @@ app.engine('hbs', exphbs.create({
 app.set('view engine', 'hbs');
 
 // Configuration for handling API endpoint data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname,'/')));
 app.use('/', indexRouter); // Routes

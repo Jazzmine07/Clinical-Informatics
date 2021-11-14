@@ -76,7 +76,7 @@ exports.addClinicVisit = function(req, res){
     };
 
     //clinicVisitRef.push(record);
-    key = clinicVisitRef.push(record).key;
+    //key = clinicVisitRef.push(record).key;
 
     for(i = 0; i < medicationList.length; i++){
         // left side is the field name in firebase

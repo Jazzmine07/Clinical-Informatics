@@ -73,22 +73,22 @@ exports.addClinicVisit = function(req, res){
 
 
     var record ={
-        attendingClinician:String(clinician),
-        notes: String(notes),
-        sIdNum: String(id),
-        status: String(status),
-        timeIn: String(timeIn),
-        timeout: String(timeOut),
-        visitDate: String(visitDate),
-        visitReason: String(complaint),
-        treatment: String(treatment),
+        attendingClinician:clinician,
+        notes: notes,
+        sIdNum: id,
+        status: status,
+        timeIn: timeIn,
+        timeout: timeOut,
+        visitDate: visitDate,
+        visitReason: complaint,
+        treatment: treatment,
         //diagnosis: String(diagnosis),
         //medication:medication,
         // symptoms: symptoms
     };
 
 
-    clinicVisitRef.push().set(Object.values(record));
+    clinicVisitRef.push(record);
 
 
 

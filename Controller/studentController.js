@@ -56,10 +56,11 @@ exports.addClinicVisit = function(req, res){
     var purposeList = req.body.purposeList;
     var amountList = req.body.amountList;
     var intervalList = req.body.intervalList;
-    var medication, i;
+    var medication;
+    var i;
 
     console.log("controller "+id);
-    for(i = 0; i < medicineList.length; i++){
+    for(i = 0; i < medicationList.length; i++){
         console.log("controller purposeList: "+purposeList[i]);
         // left side is the field name in firebase
         medication = {

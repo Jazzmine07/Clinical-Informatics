@@ -70,14 +70,14 @@
             
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/index">
                     <i class="fas fa-fw fa-exclamation-triangle"></i>
                     <span>Disease Surveillance</span></a>
             </li>
 
             <!-- Nav Item - Case Records -->
             <li class="nav-item">
-                <a class="nav-link" href="case-records.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Case Records</span></a>
             </li>
@@ -91,14 +91,14 @@
 
             <!-- Nav Item - Health Assessment -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-stethoscope"></i>
                     <span>Health Assessment</span></a>
             </li>
 
             <!-- Nav Item - Performance Assessment -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-star"></i>
                     <span>Performance Assessment</span></a>
             </li>
@@ -329,37 +329,7 @@
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->                   
-
-                <!-- Begin Page Content -->
-                {{!-- <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1>
-                        <a href="/clinic-visit" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
-                                class="fas fa-download fa-times text-white-50"></i> Cancel</a>
-                    </div>
-
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-2">
-                        <div class="card-body">
-                            <form class="user">
-                                <div>
-                                    <label class="form-row align-items-center ml-2"  for="studentVisit">Student</label>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="studentVisit" placeholder="Enter student name or student ID number.." aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <a href="/clinic-visit-view" class="btn btn-primary shadow-sm">View Record</a>                                    
-                                    </div>
-                                </div>
-                                
-                            </form>
-                        </div>
-                    </div>
-
-                </div> --}}
+                
                 <!-- /.container-fluid -->
 
                 <div class="container-fluid">
@@ -430,31 +400,31 @@
 
                         <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
                             <label class="btn btn-primary active">
-                              <input class="categorybtn active" type="radio" name="options" id="option1" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                              <input class="categorybtn active" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
                             </label>
                             <label class="btn btn-primary">
-                              <input class="categorybtn" type="radio" name="options" id="option2" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
+                              <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
                             </label>
                             <label class="btn btn-primary">
-                              <input class="categorybtn" type="radio" name="options" id="option3" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
+                              <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
                             </label>
                             <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option4" autocomplete="off"> Management 
+                                <input class="categorybtn" type="radio" name="options" autocomplete="off"> Management 
                             </label>
                             <label class="btn btn-primary">
-                              <input class="categorybtn" type="radio" name="options" id="option5" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
+                              <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
                             </label>
                             <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option6" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
                               </label>
                               <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option7" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
+                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
                               </label>
                               <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option8" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
+                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
                               </label>
                               <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option9" autocomplete="off" onclick="openDiv(event, 'contacts')"> Contacts
+                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'contacts')"> Contacts
                               </label>
                         </div>
 
@@ -716,48 +686,48 @@
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Visit Date</span></div>
-                                                <div id="visitDate1" class="font-weight-normal">10/18/2021</span></div>                                        
+                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time In</span></div>
-                                                <div id ="timeIn" class="font-weight-normal">12:03 pm</span></div>                                        
+                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time Out</span></div>
-                                                <div id="timeOut" class="font-weight-normal">12:15 pm</span></div>                                        
+                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Attending Clinician</span></div>
-                                                <div id="clinician" class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
                                             <div class="col-6">
                                                 <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                                <div id ="complaint" class="font-weight-normal">Fever</span></div>                                        
+                                                <div class="font-weight-normal">Fever</span></div>                                        
                                             </div>
                                             <div class="col-6">
                                                 <div class="font-weight-bold">Treatment</span></div>
-                                                <div id="treatment" class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
+                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
                                             </div>
                                         </div>
                                         <hr class="w-10"></hr>                                
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Medication</span></div>
-                                                <div id="medicine" class="font-weight-normal">Paracetamol</span></div>                                        
+                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Purpose</span></div>
-                                                <div id="medPurpose" class="font-weight-normal">For fever</span></div>                                        
+                                                <div class="font-weight-normal">For fever</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Amount</span></div>
-                                                <div id="medAmount" class="font-weight-normal">500g</span></div>                                        
+                                                <div class="font-weight-normal">500g</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Interval</span></div>
-                                                <div id="medInterval" class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
+                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Status</span></div>
@@ -841,8 +811,6 @@
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Status</span></div>
-                                                <!-- <h3 class="small font-weight-normal"> -->
-                                                    <!-- Small button groups (default and split) -->
                                                     <div class="btn-group">
                                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Sent Home
@@ -854,7 +822,6 @@
                                                         <button class="dropdown-item" type="button">Sent Home</button>
                                                     </div>
                                                     </div>
-                                                <!-- </h3>                                         -->
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
@@ -1438,18 +1405,18 @@
                                     </div>
                                     <div class="col-4">
                                         <label for="clinicIn" class="col-form-label">Time In</label>
-                                        <input type="time" class="form-control mb-2" id="clinicIn" name="timeIn">
+                                        <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
                                     </div>
                                     <div class="col-4">
                                         <label for="clinicOut" class="col-form-label">Time Out</label>
-                                        <input type="time" class="form-control mb-2" id="clinicOut" name="timeOut">
+                                        <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
-                                      <select class="custom-select" id="clinicianVisit" name="clinician">
+                                      <select class="custom-select" id="clinicianVisit" name="clinicianVisit">
                                           <option selected>Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
@@ -1458,11 +1425,11 @@
                                 </div>
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaint" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
                                 </div>
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treamentVisit" name="treatement" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
                                 </div>
                             
                         </div>
@@ -1513,12 +1480,12 @@
                         <div class="card-body">
                             
                                 <div class="form-row col-12">
-                                    <label class="col-form-label" for="complaintVisit">Notes/Recommendations</label>
+                                    <label class="col-form-label" for="notes">Notes/Recommendations</label>
                                     <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="3"></textarea>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
-                                      <label class="col-form-label" for="clinicianVisit">Status</label>
+                                      <label class="col-form-label" for="status">Status</label>
                                       <select class="custom-select" id="status" name="status">
                                         <option selected>Choose...</option>
                                         <option value="Discharged">Discharged</option>
@@ -1527,7 +1494,7 @@
                                         <option value="Sent Home">Sent Home</option>
                                     </select>                                    
                                 </div>
-                                <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
                                 class="mr-1 fas fa-check text-white-50"></i>Save</button>
                             </form>
                         </div>
@@ -1745,23 +1712,44 @@
 
         $("#saveBtn").click(function(){
             console.log("clicked?");
-            var id = document.getElementById("studentId").value;
-            var studentName = document.getElementById("studentName").value;
-            var visitDate =  document.getElementById("visitDate").value;
-            var timeIn =  document.getElementById("timeIn").value;
-            var timeOut =  document.getElementById("timeOut").value;
-            var selectClinician =  document.getElementById("clinician"); 
-            var selectedClinician =  selectClinician.options[selectClinician.selectedIndex].value;  
-            var complaint =  document.getElementById("complaint").value;
-            var treatment =  document.getElementById("treatement").value;
-            var notes =  document.getElementById("notes").value;
-            var status =  document.getElementById("status").value;
+console.log(studentID);
+
+            var id = $('#studentID').val();
+            console.log(id);
+            
+            var studentName = $('#studentName').val(); 
+            console.log(studentName);
+
+            var visitDate =  $('#visitDate').val(); 
+            console.log(visitDate);
+           
+            var timeIn =  $('#clinicIn').val();
+            console.log(timeIn);
+
+            var timeOut =  $('#clinicOut').val(); 
+            console.log(timeOut);
+
+            //var selectClinician =  $('#clinician').val();
+            var clinician =  $('#clinicianVisit').find(":selected").text();   
+            console.log(clinician);
+            
+            var complaint =  $('#complaintVisit').val(); 
+            console.log(complaint);
+
+            var treatment =  $('#treatmentVisit').val(); 
+            console.log(treatment);
+
+            var notes =  $('#notes').val(); 
+            console.log(notes);
+
+            var status =  $('#status').find(":selected").text();
+            console.log(status);
 
             /* TO DO: Add checkers for fields if empty */
 
-            console.log("may laman? "+purposeList);
-            console.log("may laman? "+amountList);
-            console.log("may laman? "+intervalList);
+            //console.log("may laman? "+purposeList);
+            //console.log("may laman? "+amountList);
+            //console.log("may laman? "+intervalList);
 
             $.ajax({
                 url: '/addClinicVisit',
@@ -1772,17 +1760,18 @@
                     visitDate: visitDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
-                    clinician: selectedClinician,
+                    clinician: clinician,
                     complaint: complaint,
                     treatement: treatment,
                     notes: notes,
-                    status: local ,
+                    status: status,
                     medicineList: medicineList,
                     purposeList: purposeList, 
                     amountList: amountList,
                     intervalList: intervalList
                 },
                 success: function() {
+                    console.log("pasok siyaaa");
                     window.location.href = "/clinic-visit";
                 }
             });

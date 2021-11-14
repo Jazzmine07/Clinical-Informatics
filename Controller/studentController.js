@@ -57,23 +57,10 @@ exports.addClinicVisit = function(req, res){
     var amountList = req.body.amountList;
     var intervalList = req.body.intervalList;
     var medication;
-    var i;
-
-    console.log("controller "+id);
-    for(i = 0; i < medicationList.length; i++){
-        console.log("controller purposeList: "+purposeList[i]);
-        // left side is the field name in firebase
-        medication = {
-            medicines: medicationList[i],
-            purpose: purposeList[i],
-            amount: amountList[i],
-            interval: intervalList[i]
-        };
-    }
+    var i, key;
     
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
-
     var record = {
         id: id, 
         studentName: name,
@@ -85,13 +72,25 @@ exports.addClinicVisit = function(req, res){
         treatment: treatment,
         notes: notes,
         status: status,
-        medication: medication
+        medication: ""
     };
 
-    clinicVisitRef.push(record);
+    //clinicVisitRef.push(record);
+    key = clinicVisitRef.push(record).key;
 
-    res.render('clinic-visit', {
+    for(i = 0; i < medicationList.length; i++){
+        // left side is the field name in firebase
+        medication = {
+            medicines: medicationList[i],
+            purpose: purposeList[i],
+            amount: amountList[i],
+            interval: intervalList[i]
+        };
+        //database.ref('clinicVisit/' + key + '/medication').push(medication);
+    }
+    
+    res.send({
         success: true,
         success_msg: "Record added!"
-    })
+    });
 }

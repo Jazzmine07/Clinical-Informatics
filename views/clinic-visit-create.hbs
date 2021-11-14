@@ -1730,7 +1730,7 @@ console.log(studentID);
             console.log(timeOut);
 
             //var selectClinician =  $('#clinician').val();
-            var clinician =  $('#clinicianVisit').find(":selected").text();   
+            var clinician =  $('#clinicianVisit').find(":selected").val();   
             console.log(clinician);
             
             var complaint =  $('#complaintVisit').val(); 
@@ -1770,8 +1770,8 @@ console.log(studentID);
                     amountList: amountList,
                     intervalList: intervalList
                 },
-                success: function() {
-                    console.log("pasok siyaaa");
+                success: function(data) {
+                    console.log("data " data.success_msg);
                     window.location.href = "/clinic-visit";
                 }
             });

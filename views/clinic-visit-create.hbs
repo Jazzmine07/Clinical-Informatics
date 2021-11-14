@@ -1721,8 +1721,10 @@
             console.log(studentName);
 
             var visitDate =  $('#visitDate').val(); 
-            var date = new Date (visitDate);
+            var forSort = visitDate.split("-");
+            var forSortDate = forSort.join('');
             console.log(visitDate);
+            console.log(forSortDate);
            
             var timeIn =  $('#clinicIn').val();
             console.log(timeIn);
@@ -1759,7 +1761,7 @@
                     studentId: id,
                     studentName: studentName,
                     visitDate: visitDate,
-                    timeStamp: date
+                    timeStamp: forSortDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
                     clinician: clinician,

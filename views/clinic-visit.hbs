@@ -320,7 +320,12 @@
                         <a href="/clinic-visit/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-plus text-white-50"></i> Create</a>
                     </div>
-
+                    {{#if success}}
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <strong class="mx-1">Success!</strong> {{success_msg}}
+                        </div>
+                    {{/if}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2 divmenu" id="clinicVisit">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>

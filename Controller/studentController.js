@@ -11,8 +11,6 @@ exports.getStudent = function(req, res){
 
     studentRef.on('value', (snapshot) => {
         if(snapshot.exists()){
-            console.log("test "+ snapshot.child('motherName').val());
-            console.log("test "+ snapshot.child('motherEmail').val());
             studentInfo = {
                 firstName: snapshot.child('firstName').val(),
                 middleName: snapshot.child('middleName').val(),
@@ -35,7 +33,6 @@ exports.getStudent = function(req, res){
             }
             res.send(studentInfo);
         } else {
-            console.log("check if dadaan dito?");
             res.send({
                 error: true,
                 error_msg: "No student with that id number!"
@@ -46,6 +43,7 @@ exports.getStudent = function(req, res){
 
 exports.addClinicVisit = function(req, res){
     var id = req.body.studentId;
+    var name = req.body.studentName;
     var visitDate = req.body.visitDate;
     var timeIn = req.body.timeIn;
     var timeOut = req.body.timeOut;
@@ -54,42 +52,45 @@ exports.addClinicVisit = function(req, res){
     var treatment = req.body.treatement;
     var notes = req.body.notes;
     var status = req.body.status;
-    var medication = req.body.medicationVisit;
-    var diagnosis = req.body.diagnosis; //ned to add
-    var symptoms = req.body.symptoms;// need to add
+    var medicationList = req.body.medicineList;
+    var purposeList = req.body.purposeList;
+    var amountList = req.body.amountList;
+    var intervalList = req.body.intervalList;
+    var medication, i;
 
-    console.log("controller id: "+ id);
-    console.log("controller visitData: " + visitDate);
-    console.log("controller timein: "+timeIn);
-    console.log("controller timeOut: "+timeOut);
-    console.log("controller clinician: "+ clinician);
-    console.log("controller complaint: " + complaint);
-    console.log("controller treatment: "+treatment);
-    console.log("controller notes: "+notes);
-
+    console.log("controller "+id);
+    for(i = 0; i < medicineList.length; i++){
+        console.log("controller purposeList: "+purposeList[i]);
+        // left side is the field name in firebase
+        medication = {
+            medicines: medicationList[i],
+            purpose: purposeList[i],
+            amount: amountList[i],
+            interval: intervalList[i]
+        };
+    }
+    
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
-    
 
-
-    var record ={
-        attendingClinician:clinician,
-        notes: notes,
-        sIdNum: id,
-        status: status,
+    var record = {
+        id: id, 
+        studentName: name,
+        visitDate: visitDate,
         timeIn: timeIn,
         timeout: timeOut,
-        visitDate: visitDate,
+        attendingClinician: clinician,
         visitReason: complaint,
         treatment: treatment,
-        //diagnosis: String(diagnosis),
-        //medication:medication,
-        // symptoms: symptoms
+        notes: notes,
+        status: status,
+        medication: medication
     };
-
 
     clinicVisitRef.push(record);
 
-
-
+    res.render('clinic-visit', {
+        success: true,
+        success_msg: "Record added!"
+    })
 }

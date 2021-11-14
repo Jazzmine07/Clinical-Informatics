@@ -702,7 +702,7 @@
                         </div>
 
                         <!-- Basic Card Example -->
-                        <div class="card shadow mb-2 divmenu" id="clinicVisit">
+                        <div class="card shadow mb-2 divmenu">
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
                             <div class="card-body">
                                     <!-- Card Header - Accordion -->
@@ -1400,7 +1400,7 @@
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
-                            <form class="user" id="clinicVisit" method="post" action="/addClinicVisit">
+                            <form class="user">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
@@ -1527,7 +1527,7 @@
                                         <option value="Sent Home">Sent Home</option>
                                     </select>                                    
                                 </div>
-                                <button type="submit" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
                                 class="mr-1 fas fa-check text-white-50"></i>Save</button>
                             </form>
                         </div>
@@ -1699,10 +1699,14 @@
     </script>
     <script type='text/javascript'>
         $(document).ready(function() {
-        var itemsArray = [];
+        var medicationsArray = [];
+
+        function addMedication(meds, purpose, amount, interval) {
+            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval});
+        }
 
         var i = 1;  
-        var idSupplyList = [], supplyList = [], expDateList = [], qtyList = [], priceList = [];
+        var medicineList = [], purposeList = [], amountList = [], intervalList = [];
 
         $('#addMedication').click(function(){
             var selectMedication = document.getElementById("medicationVisit");
@@ -1710,6 +1714,18 @@
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
+
+            /* TO DO: Add checkers for fields if empty */
+            medicineList.push(selectedMedication);
+            purposeList.push(purpose);
+            amountList.push(amount);
+            intervalList.push(interval);
+
+            console.log("push? "+purposeList);
+            console.log("push? "+amountList);
+            console.log("push? "+intervalList);
+
+            addMedication(selectedMedication, purpose, amount, interval);
             i++;
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
@@ -1720,7 +1736,57 @@
             var index = button_id - 2; 
             console.log("removing..." + button_id);  
             $('#row'+button_id+'').remove();  
+
+            medicineList.splice(index, 1);
+            purposeList.splice(index, 1);
+            amountList.splice(index, 1);
+            intervalList.splice(index, 1);
         });  
+
+        $("#saveBtn").click(function(){
+            console.log("clicked?");
+            var id = document.getElementById("studentId").value;
+            var studentName = document.getElementById("studentName").value;
+            var visitDate =  document.getElementById("visitDate").value;
+            var timeIn =  document.getElementById("timeIn").value;
+            var timeOut =  document.getElementById("timeOut").value;
+            var selectClinician =  document.getElementById("clinician"); 
+            var selectedClinician =  selectClinician.options[selectClinician.selectedIndex].value;  
+            var complaint =  document.getElementById("complaint").value;
+            var treatment =  document.getElementById("treatement").value;
+            var notes =  document.getElementById("notes").value;
+            var status =  document.getElementById("status").value;
+
+            /* TO DO: Add checkers for fields if empty */
+
+            console.log("may laman? "+purposeList);
+            console.log("may laman? "+amountList);
+            console.log("may laman? "+intervalList);
+
+            $.ajax({
+                url: '/addClinicVisit',
+                method: 'POST',
+                data: {
+                    studentId: id,
+                    studentName: studentName,
+                    visitDate: visitDate,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    clinician: selectedClinician,
+                    complaint: complaint,
+                    treatement: treatment,
+                    notes: notes,
+                    status: local ,
+                    medicineList: medicineList,
+                    purposeList: purposeList, 
+                    amountList: amountList,
+                    intervalList: intervalList
+                },
+                success: function() {
+                    window.location.href = "/clinic-visit";
+                }
+            });
+        });
     
     });
     </script>

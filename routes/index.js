@@ -35,7 +35,6 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
   userController.getUsers(req, usersInfo => {
-    console.log("index "+usersInfo);
     res.render('clinic-visit-create', {
       users: usersInfo
     });

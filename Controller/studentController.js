@@ -107,7 +107,7 @@ exports.getClinicVisits = function(req, res){
     query.on('value', (snapshot) => {
         snapshot.forEach(function(childSnapshot){                  // Getting primary keys of users
             childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-      
+            
             temp.push({ // contains all data (not grouped by date)
               studentName: childSnapshotData.studentName,
               timeIn: childSnapshotData.timeIn,
@@ -116,75 +116,39 @@ exports.getClinicVisits = function(req, res){
               visitDate: childSnapshotData.visitDate
             })         
         })
+        console.log(temp)
+        
+        /*
+            new object 'filtered' contains arrays of records
+            if date does not exist as a key in 'filtered' => add key to 'filtered' => push record to key
+            if date exists  as a key => push to the key
 
-        // for(i = 0; i < temp.length; i++){
-        //     console.log("temp i");
-        //     console.log(temp[i]);
-        //     if(i != 0){  // get first date of the first item in the array
-        //         for(j = 0; j < visitsObject.length; j++){
-        //             console.log("visit object");
-        //             console.log(visitsObject[j]);
-        //             if(temp[i].visitDate == visitsObject[j].date){   // if same date
-        //                 console.log("same date so pasok? ");
+            remove key
+            check if object with key 'date' exists => if not => create object with key 'date'
+            check if object with key 'date' exists => if exists => ????
+        */
+        var filtered = {};
+        
+        temp.forEach(record => {
+            if(record.visitDate in filtered){ //if key exist
+                var key = record.visitDate;
+                filtered[key].push({
+                    visitDetails: record
+                });
+            }
+            else{ 
+                var key = record.visitDate;
+                filtered[key] = [];
+                filtered[key].push(record);
+            }            
+        });
+        console.log(filtered);
 
-        //                 visitsObject[j].visitDetails.push({
-        //                     studentName: temp[i].studentName,
-        //                     timeIn: temp[i].timeIn,
-        //                     timeOut: temp[i].timeOut,
-        //                     status: temp[i].status,
-        //                     visitDate: temp[i].visitDate
-        //                 });
-        //                 break;
-        //             }
-        //             // if(temp[i].visitDate != visitsObject[j].date){   // if different date
-        //             //     console.log("different dates");
+        
 
-        //             //     detailsTemp.push({
-        //             //         studentName: temp[i].studentName,
-        //             //         timeIn: temp[i].timeIn,
-        //             //         timeOut: temp[i].timeOut,
-        //             //         status: temp[i].status,
-        //             //         visitDate: temp[i].visitDate
-        //             //     })
-                        
-        //             //     visitsObject.push({
-        //             //         date: temp[i].visitDate,
-        //             //         visitDetails: detailsTemp
-        //             //     })
-        //             //     detailsTemp = [];
-        //             //     break;
-        //             // }
-        //             if(j == visitsObject.length-1){ // adding row if different date
-        //                 console.log("ano ginagawa mo?");
-        //                 visitsObject.push({
-        //                     date: temp[i].visitDate,
-        //                     visitDetails: temp[i]
-        //                 })
-        //                 break;
-        //             }
-        //             console.log(visitsObject[j]);
-        //         }
-        //     }
-        //     else {
-        //         detailsTemp.push({
-        //             studentName: temp[i].studentName,
-        //             timeIn: temp[i].timeIn,
-        //             timeOut: temp[i].timeOut,
-        //             status: temp[i].status,
-        //             visitDate: temp[i].visitDate
-        //         })
-                
-        //         visitsObject.push({
-        //             date: temp[i].visitDate,
-        //             visitDetails: detailsTemp
-        //         })
-        //         detailsTemp = [];
-        //         console.log("first index");
-        //         console.log(visitsObject[0]);
-        //     }
-        // }
-        // temp = [];
-        //console.log("visit object "+visitsObject);
+        
+        
+        
         res(visitsObject);
     })
 }

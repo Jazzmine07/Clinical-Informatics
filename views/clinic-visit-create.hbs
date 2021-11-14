@@ -1712,7 +1712,7 @@
 
         $("#saveBtn").click(function(){
             console.log("clicked?");
-console.log(studentID);
+            console.log(studentID);
 
             var id = $('#studentID').val();
             console.log(id);
@@ -1721,6 +1721,7 @@ console.log(studentID);
             console.log(studentName);
 
             var visitDate =  $('#visitDate').val(); 
+            var date = new Date (visitDate);
             console.log(visitDate);
            
             var timeIn =  $('#clinicIn').val();
@@ -1758,6 +1759,7 @@ console.log(studentID);
                     studentId: id,
                     studentName: studentName,
                     visitDate: visitDate,
+                    timeStamp: date
                     timeIn: timeIn,
                     timeOut: timeOut,
                     clinician: clinician,
@@ -1771,7 +1773,6 @@ console.log(studentID);
                     intervalList: intervalList
                 },
                 success: function(data) {
-                    console.log("data " data.success_msg);
                     window.location.href = "/clinic-visit";
                 }
             });

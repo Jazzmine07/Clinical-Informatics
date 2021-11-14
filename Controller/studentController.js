@@ -45,6 +45,7 @@ exports.addClinicVisit = function(req, res){
     var id = req.body.studentId;
     var name = req.body.studentName;
     var visitDate = req.body.visitDate;
+    var timestamp = req.body.timeStamp;
     var timeIn = req.body.timeIn;
     var timeOut = req.body.timeOut;
     var clinician = req.body.clinician;
@@ -65,6 +66,7 @@ exports.addClinicVisit = function(req, res){
         id: id, 
         studentName: name,
         visitDate: visitDate,
+        timestamp: timestamp,
         timeIn: timeIn,
         timeout: timeOut,
         attendingClinician: clinician,
@@ -75,8 +77,8 @@ exports.addClinicVisit = function(req, res){
         medication: ""
     };
 
-    //clinicVisitRef.push(record);
-    //key = clinicVisitRef.push(record).key;
+    clinicVisitRef.push(record);
+    key = clinicVisitRef.push(record).key;
 
     for(i = 0; i < medicationList.length; i++){
         // left side is the field name in firebase
@@ -93,4 +95,69 @@ exports.addClinicVisit = function(req, res){
         success: true,
         success_msg: "Record added!"
     });
+}
+
+exports.getClinicVisits = function(req, res){
+    var database = firebase.database();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var query = clinicVisitRef.orderByChild("timestamp");
+    var visitsObject = [], temp =[], tempDate = [];
+    var i, j, childSnapshotData;
+
+    query.on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot){
+            //key = childSnapshot.key;                      // Getting primary keys of users
+            childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+      
+            //console.log("studentName? "+childSnapshotData.studentName);
+            temp.push({ // contains all data (not grouped by date)
+              //key: key,
+              studentName: childSnapshotData.studentName,
+              timeIn: childSnapshotData.timeIn,
+              timeOut: childSnapshotData.timeOut,
+              status: childSnapshotData.status,
+              visitDate: childSnapshotData.visitDate
+            })
+        })
+
+        for(i = 0; i < temp.length; i++){
+            if(i == 0){  // get first date of the first item in the array
+                visitsObject.push({
+                    date: temp[i].visitDate,
+                    visitDetails: temp[i]
+                })
+                i++;
+                console.log("temp[i].visitDate "+temp[i].visitDate);
+                // console.log("temp[i] "+temp[i]);
+            }
+            else {
+                // console.log("temp[i].visitDate "+temp[i].visitDate);
+                // console.log("visitsObject.length "+visitsObject.length);
+                for(j = 0; j < visitsObject.length; j++){
+                    //console.log("visitsObject[j].date "+visitsObject[j].date);
+                    if(temp[i].visitDate === visitsObject[j].date){   // if same date
+                        console.log("same date so pasok? ");
+                        visitsObject.push({
+                            visitDetails: temp[i]
+                        });
+                        //console.log("visitsObject[j] "+visitsObject[j]);
+                        break;
+                    }
+                    // if(j == ordersArray.length-1){
+                    //     ordersArray.push({
+                    //         productID: temp[i].productID,
+                    //         productName: temp[i].productName,
+                    //         orderQuantity: temp[i].orderQuantity,
+                    //         productPrice: temp[i].productPrice,
+                    //         subTotal: temp[i].subTotal
+                    //     })
+                    //     break;
+                    // }
+                }
+            }
+        }
+
+        //console.log("visit object "+visitsObject);
+        res(visitsObject);
+    })
 }

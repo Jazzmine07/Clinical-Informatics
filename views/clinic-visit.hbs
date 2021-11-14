@@ -64,7 +64,7 @@
 
             <!-- Nav Item - Clinic Visit -->
             <li class="nav-item active">
-                <a class="nav-link" href="clinic-visit.html">
+                <a class="nav-link" href="/clinic-visit">
                     <i class="fas fa-fw fa-medkit"></i>
                     <span>Clinic Visit</span></a>
             </li>
@@ -338,6 +338,7 @@
                             <!-- Card Content - Collapse -->
                             <div class="collapse" id="collapseVD">
                                 <div class="card-body">
+                                    {{#each clinicVisits}}
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -349,10 +350,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {{!-- {{#each visitDate}} --}}
                                                 <tr>
-                                                    <td>Baby Girl L. Garcia</td>
-                                                    <td>12:00 pm</td>
-                                                    <td>12:10 pm</td>
+                                                    <td>{{studentName}}</td>
+                                                    <td>{{timeIn}}</td>
+                                                    <td>{{timeOut}}</td>
+                                                    <td>{{status}}</td>
                                                     <td>
                                                         <div class="col">
                                                             <div class="btn-group">
@@ -369,29 +372,11 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Baby Boy J. Pangilinan</td>
-                                                    <td>11:05 am</td>
-                                                    <td>11:10 am</td>  
-                                                    <td>
-                                                        <div class="col">
-                                                            <div class="btn-group">
-                                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                Discharged
-                                                            </button>
-                                                                <div class="dropdown-menu">
-                                                                    <button class="dropdown-item" type="button">Discharged</button>
-                                                                    <button class="dropdown-item" type="button">Under Observation</button>
-                                                                    <button class="dropdown-item" type="button">Hospitalized</button>
-                                                                    <button class="dropdown-item" type="button">Sent Home</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td> 
-                                                </tr>
+                                                {{!-- {{/each}} --}}
                                             </tbody>
                                         </table>
                                     </div>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>

@@ -118,7 +118,7 @@ exports.getClinicVisits = function(req, res){
         })
         
         var filtered = [];
-        temp.forEach(record => {
+        temp.reverse().forEach(record => {
             var found = false;
             0
             for(i = 0; i < filtered.length; i++){
@@ -138,6 +138,7 @@ exports.getClinicVisits = function(req, res){
                 filtered[i].visitDetails.push(record);
             }          
         });
+
         res(filtered);
     })
 }

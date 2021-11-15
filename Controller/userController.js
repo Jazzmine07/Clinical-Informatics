@@ -40,98 +40,85 @@ exports.login = function(req, res){
   // database.ref('studentInfo/' + personalInfo.idNum).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
-  // if(email == "" && pass == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter data!"
-  //   });
-  // }
-  // if(email == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter email!"
-  //   });
-  // }
-  // if(pass == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter password!"
-  //   });
-  // }
-  // else {
-    // user sign in
-    // firebase.auth().signInWithEmailAndPassword(email, pass)
-    // .then((userCredential) => {
-    //   // How to get specific field and pk
-    //   // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
-    //   userRef.on('value', (snapshot) => {
-    //     //console.log("true or false? " + !snapshot.hasChild(userCredential.user.uid));
-    //     if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
-    //       //add user to the realtime database
-    //       var update = {
-    //         email: userCredential.user.email,
-    //         firstName: "",
-    //         lastName: "",
-    //         role: ""
-    //       }
-    //       database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
-    //       database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
-    //     }
-    //   })
-
-      // query.on('value', (snapshot) => {
-      //   console.log("false ba? " + snapshot.hasChild(userCredential.user.uid));
-
-      //   // getting specific field
-      //   // console.log("email: " + snapshot.child('email').val());
-      //   // console.log("firstName: " + snapshot.child('firstName').val());
-      //   // console.log("lastName: " + snapshot.child('lastName').val());
-
-      //   // geeting pk
-      //   // var pk = snapshot.key;
-      //   // console.log("is dis the key? " + pk);
-      // })
+  if(email == "" && pass == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter data!"
+    });
+  }
+  if(email == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter email!"
+    });
+  }
+  if(pass == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter password!"
+    });
+  }
+  else {
+    //user sign in
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then((userCredential) => {
+      // How to get specific field and pk
+      // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
+      userRef.on('value', (snapshot) => {
+        if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
+          //add user to the realtime database
+          var update = {
+            email: userCredential.user.email,
+            firstName: "",
+            lastName: "",
+            role: ""
+          }
+          database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
+          database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
+        }
+      })
 
       res.redirect('/dashboard');
-  //   })
-  //   .catch((error) => {
-  //     var errorCode = error.code;
-  //     var errorMessage = error.message;
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
 
-  //     if (errorCode === 'auth/wrong-password') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Wrong password!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/invalid-email') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Please enter a valid email!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/user-not-found') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "No user with such email!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/user-disabled') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Account disabled by Admin!"
-  //       });
-  //     }
-  //     else {  // in the case of multiple login failed attempts
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: errorMessage 
-  //       });
-  //     }
-  //   });
-  // }
+      if (errorCode === 'auth/wrong-password') {
+        res.render('login',{
+          error: true,
+          error_msg: "Wrong password!"
+        });
+      } 
+      else if (errorCode === 'auth/invalid-email') {
+        res.render('login',{
+          error: true,
+          error_msg: "Please enter a valid email!"
+        });
+      } 
+      else if (errorCode === 'auth/user-not-found') {
+        res.render('login',{
+          error: true,
+          error_msg: "No user with such email!"
+        });
+      } 
+      else if (errorCode === 'auth/user-disabled') {
+        res.render('login',{
+          error: true,
+          error_msg: "Account disabled by Admin!"
+        });
+      }
+      else {  // in the case of multiple login failed attempts
+        res.render('login',{
+          error: true,
+          error_msg: errorMessage 
+        });
+      }
+    });
+  }
 }
 
+// check if user is logged in 
 exports.loggedIn = (req, res, next) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) { // user is signed in 
@@ -142,6 +129,19 @@ exports.loggedIn = (req, res, next) => {
         error_msg: "Please log in!"
       });
     }
+  });
+};
+
+exports.logout = (req, res) => {
+  firebase.auth().signOut().then(() => {
+    // Sign-out successful.
+    res.redirect('/login');
+  }).catch((error) => {
+    // An error happened.
+    res.render('login',{
+      error: true,
+      error_msg: error.message
+    });
   });
 };
 

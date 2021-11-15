@@ -53,6 +53,7 @@ router.get('/profile', (req, res) => {
 });
 
 router.post('/login', userController.login);
+router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);
 router.post('/addClinicVisit', studentController.addClinicVisit);
 

@@ -101,8 +101,8 @@ exports.getClinicVisits = function(req, res){
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timestamp");
-    var visitsObject = [], detailsTemp = [], temp =[];
-    var i, j, childSnapshotData;
+    var i, temp =[];
+    var childSnapshotData;
 
     query.on('value', (snapshot) => {
         snapshot.forEach(function(childSnapshot){                  // Getting primary keys of users
@@ -116,39 +116,28 @@ exports.getClinicVisits = function(req, res){
               visitDate: childSnapshotData.visitDate
             })         
         })
-        console.log(temp)
         
-        /*
-            new object 'filtered' contains arrays of records
-            if date does not exist as a key in 'filtered' => add key to 'filtered' => push record to key
-            if date exists  as a key => push to the key
-
-            remove key
-            check if object with key 'date' exists => if not => create object with key 'date'
-            check if object with key 'date' exists => if exists => ????
-        */
-        var filtered = {};
-        
+        var filtered = [];
         temp.forEach(record => {
-            if(record.visitDate in filtered){ //if key exist
-                var key = record.visitDate;
-                filtered[key].push({
-                    visitDetails: record
-                });
+            var found = false;
+            0
+            for(i = 0; i < filtered.length; i++){
+                if(record.visitDate == filtered[i].date){   // filters if same date
+                    filtered[i].visitDetails.push(record);
+                    filtered[i].count++;
+                    found = true;
+                    break;
+                } 
             }
-            else{ 
-                var key = record.visitDate;
-                filtered[key] = [];
-                filtered[key].push(record);
-            }            
+            if(!found){
+                filtered.push({
+                    date: record.visitDate,
+                    visitDetails: [],
+                    count: 1
+                })
+                filtered[i].visitDetails.push(record);
+            }          
         });
-        console.log(filtered);
-
-        
-
-        
-        
-        
-        res(visitsObject);
+        res(filtered);
     })
 }

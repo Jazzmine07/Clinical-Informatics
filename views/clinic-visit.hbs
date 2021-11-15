@@ -330,15 +330,16 @@
                     <div class="card shadow mb-2 divmenu" id="clinicVisit">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
                         <div class="card-body">
+                            {{#each clinicVisits}}
                                 <!-- Card Header - Accordion -->
                             <a href="#collapseVD" class="d-block card-header py-3" data-toggle="collapse"
                                 role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">10/5/2021 (Tuesday)<span class="float-right">Total Visits: 2</span></h6>
+                                <h6 class="m-0 font-weight-bold text-primary">{{formatDate date}} <span class="float-right">Total Visits: {{count}}</span></h6>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse" id="collapseVD">
                                 <div class="card-body">
-                                    {{#each clinicVisits}}
+                                    
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -376,9 +377,10 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    {{/each}}
+                                    
                                 </div>
                             </div>
+                            {{/each}}
                         </div>
                     </div>
 

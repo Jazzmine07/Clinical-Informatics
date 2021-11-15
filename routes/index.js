@@ -29,6 +29,7 @@ router.get('/dashboard', (req, res) => {
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   studentController.getClinicVisits(req, records => {
+    console.log("clinicVisits index", records);
     res.render('clinic-visit', {
       clinicVisits: records
     });

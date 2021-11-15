@@ -31,6 +31,11 @@ app.engine('hbs', exphbs.create({
       var month = date.toLocaleString('default', { month: 'long' })
       return (month + ' ' + date.getFullYear());
     },
+    getDay: function(string){
+      let date = new Date(string)
+      var day = date.toLocaleString('default', {day: 'long'})
+      return (day);
+    },
     addZeroes: function(num){
       // Convert input string to a number and store as a variable.
       var value = parseFloat(num).toFixed(2);      

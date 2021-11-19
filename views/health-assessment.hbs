@@ -63,15 +63,15 @@
             </li>
 
             <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/clinic-visit">
                     <i class="fas fa-fw fa-medkit"></i>
                     <span>Clinic Visit</span></a>
             </li>
 
             <!-- Nav Item - Health Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="/health-assessment">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-stethoscope"></i>
                     <span>Health Assessment</span></a>
             </li>
@@ -313,13 +313,70 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Clinic Visit</h1>
-                        <a href="/clinic-visit/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-plus-circle mx-1 text-white-50"></i> Create</a>
+                        <h1 class="h3 mb-0 text-gray-800">Health Assessment</h1>
+                        <div class="d-flex flex-row-reverse">
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-share mx-1 text-white-50"></i> Send Email  </a>
+                            
+                            <div class="dropdown">
+                                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="createHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                class="fas fa-plus-circle mx-1 text-white-50"></i> Create  </a>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="createHA">
+                                    <a class="dropdown-item" data-toggle="modal" data-target="#modalHA">Physical Exam</a>
+                                    <a class="dropdown-item" href="#">Dental Exam</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="modal fade" id="modalHA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content" style="height: 300px;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Physical Exam</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        <label for="sectionPE">Enter grade and section to conduct Physical Exam</label>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <div class="input-group-text bg-transparent border-right-0">
+                                                <i class="fa fa-search"></i>
+                                                </div>
+                                            </span>
+                                            <input list="sections" class="form-control py-2 border-left-0 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
+                                        </div>
+                                        <datalist id="sections">
+                                            <option value="Grade 1 - Faithfulness">
+                                            <option value="Grade 1 - Honesty">
+                                            <option value="Grade 1 - Humility">
+                                            <option value="Grade 1 - Politeness">
+                                            <option value="Grade 1 - Sincerity">
+                                            <option value="Grade 2 - Charity">
+                                            <option value="Grade 2 - Gratefulness">
+                                            <option value="Grade 2 - Gratitude">
+                                            <option value="Grade 2 - Meekness">
+                                            <option value="Grade 2 - Simplicity">                                
+                                        </datalist>  
+                                    </div>                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                    <a href="/health-assessment/physical" class="btn btn-success">Proceed</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     {{#if success}}
                         <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
                             <i class="fa fa-exclamation-circle"></i>
@@ -328,13 +385,13 @@
                     {{/if}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2 divmenu" id="clinicVisit">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Physical Exam</h6></div>
                         <div class="card-body">
                             {{#each clinicVisits}}
                                 <!-- Card Header - Accordion -->
                             <a href="#collapseVD" class="d-block card-header py-3" data-toggle="collapse"
                                 role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">{{formatDate date}} <span class="float-right">Total Visits: {{count}}</span></h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Grade - Section</span></h6>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse" id="collapseVD">
@@ -345,8 +402,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Student</th>
-                                                    <th>Time In</th>
-                                                    <th>Time Out</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
@@ -357,21 +414,6 @@
                                                     <td>{{timeIn}}</td>
                                                     <td>{{timeOut}}</td>
                                                     <td>{{status}}</td>
-                                                    <td>
-                                                        <div class="col">
-                                                            <div class="btn-group">
-                                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                Sent Home
-                                                            </button>
-                                                                <div class="dropdown-menu">
-                                                                    <button class="dropdown-item" type="button">Discharged</button>
-                                                                    <button class="dropdown-item" type="button">Under Observation</button>
-                                                                    <button class="dropdown-item" type="button">Hospitalized</button>
-                                                                    <button class="dropdown-item" type="button">Sent Home</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                                 {{/each}}
                                             </tbody>

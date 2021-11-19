@@ -52,6 +52,27 @@ router.get('/profile', (req, res) => {
   res.render('profile');
 });
 
+// Get health assessment page
+router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
+  console.log("Read health assessment successful!");
+  studentController.getClinicVisits(req, records => {
+    console.log("clinicVisits index", records);
+    res.render('health-assessment', {
+      clinicVisits: records
+    });
+  })
+});
+
+// Get physical exam page
+router.get('/health-assessment/physical', (req, res) => {
+  console.log("Read create clinic visit successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('health-assessment-physical', {
+      users: usersInfo
+    });
+  })
+});
+
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);

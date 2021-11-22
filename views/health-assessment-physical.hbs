@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Title of App</title>
+    <title>IsKlinika</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,9 +53,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-user-md"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin<sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
             </a>
 
             <!-- Divider -->
@@ -71,7 +71,7 @@
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
                 <a class="nav-link" href="/index">
-                    <i class="fas fa-fw fa-exclamation-triangle"></i>
+                    <i class="fas fa-fw fa-virus"></i>
                     <span>Disease Surveillance</span></a>
             </li>
 
@@ -94,6 +94,13 @@
                 <a class="nav-link" href="/health-assessment">
                     <i class="fas fa-fw fa-stethoscope"></i>
                     <span>Health Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
             </li>
 
             <!-- Nav Item - Performance Assessment -->
@@ -337,12 +344,18 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Physical Exam Form</h1>
-                        
                     </div>
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
-                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Grade - Section</h6></div>
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. YYYY - YYYY</h6>                           
+                            
+                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
+                                class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
+                            <button type="button" class="btn btn-primary btn-sm mx-1 ">Skip<i
+                                class="fas fa-forward ml-2 text-white-50"></i></button>
+                        </div>
                         <div class="card-body">
                             <form class="user">
                                 <div class="form-row align-items-center">
@@ -353,6 +366,25 @@
                                     <div class="col-8">
                                         <label class="col-form-label" for="studentName">Student Name</label>
                                         <input type="text" class="form-control mb-2" id="studentName">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="studentGrd" class="col-form-label">Grade</label>
+                                        <select class="custom-select mb-2" id="studentGrade">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                            <option value="6">Six</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="studentSec" class="col-form-label">Section</label>
+                                        <input type="text" class="form-control mb-2" id="studentSection">
                                     </div>
                                 </div>
 
@@ -373,29 +405,65 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label for="medProb" class="col-form-label">Medical Problems</label>
-                                        <input type="name" class="form-control mb-2" id="medProb" name="medProb">
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="allergies" class="col-form-label">Allergies</label>
-                                        <input type="name" class="form-control mb-2" id="allergies" name="allergies">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
                                         <label for="dope" class="col-form-label">Date of Examination</label>
                                         <input type="date" class="form-control mb-2" id="dope">
                                     </div>
                                     <div class="col-6">
                                       <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
-                                      <select class="custom-select" id="clinicianVisit" name="clinicianVisit">
+                                      <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
                                           <option selected>Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
                                       </select>
                                     </div>   
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-2">
+                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1">°C</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="respRate" name="respRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="skinFind" class="col-form-label">Skin Findings</label>
+                                        <input type="name" class="form-control mb-2" id="skinFind" name="skinFind">
+                                    </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
@@ -452,6 +520,17 @@
                                     </div>
                                 </div>
 
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="medProb" class="col-form-label">Medical Problems</label>
+                                        <input type="name" class="form-control mb-2" id="medProb" name="medProb">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="allergies" class="col-form-label">Allergies</label>
+                                        <input type="name" class="form-control mb-2" id="allergies" name="allergies">
+                                    </div>
+                                </div>
+
                                 <div class="form-row col-12">
                                     <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
                                     <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
@@ -464,14 +543,15 @@
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
                                 </div>
-                            
+
+                        <nav class="d-flex justify-content-end">
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">Name of Student &raquo;</span>
+                            </a>
+                        </nav>
                         </form>
                     </div>
                     </div>
-
-        
-
-                   
                 </div>
 
             </div>

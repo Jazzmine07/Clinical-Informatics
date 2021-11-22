@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Charts</title>
+    <title>IsKlinka</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,9 +42,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-user-md"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
             </a>
 
             <!-- Divider -->
@@ -60,7 +60,7 @@
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-exclamation-triangle"></i>
+                    <i class="fas fa-fw fa-virus"></i>
                     <span>Disease Surveillance</span></a>
             </li>
 
@@ -85,11 +85,32 @@
                     <span>Health Assessment</span></a>
             </li>
 
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
+            </li>
+
             <!-- Nav Item - Performance Assessment -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-star"></i>
                     <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-tablets"></i>
+                    <span>Inventory</span></a>
             </li>
 
             <!-- Nav Item - Profile -->
@@ -180,7 +201,7 @@
                                     <div class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in">
                                         <h6 class="dropdown-header">alerts center</h6>
                                         <a class="d-flex align-items-center dropdown-item" href="#">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="assets/img/avatars/avatar4.jpeg">
+                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="public/assets/img/avatars/avatar4.jpeg">
                                                 <div class="bg-success status-indicator"></div>
                                             </div>
                                             <div class="font-weight-bold">
@@ -189,7 +210,7 @@
                                             </div>
                                         </a>
                                         <a class="d-flex align-items-center dropdown-item" href="#">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
+                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="public/assets/img/avatars/avatar2.jpeg">
                                                 <div class="status-indicator"></div>
                                             </div>
                                             <div class="font-weight-bold">
@@ -198,7 +219,7 @@
                                             </div>
                                         </a>
                                         <a class="d-flex align-items-center dropdown-item" href="#">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
+                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="public/assets/img/avatars/avatar3.jpeg">
                                                 <div class="bg-warning status-indicator"></div>
                                             </div>
                                             <div class="font-weight-bold">
@@ -207,7 +228,7 @@
                                             </div>
                                         </a>
                                         <a class="d-flex align-items-center dropdown-item" href="#">
-                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
+                                            <div class="dropdown-list-image mr-3"><img class="rounded-circle" src="public/assets/img/avatars/avatar5.jpeg">
                                                 <div class="bg-success status-indicator"></div>
                                             </div>
                                             <div class="font-weight-bold">
@@ -224,7 +245,7 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                     <img class="img-profile rounded-circle"
-                                        src="img/undraw_profile.svg">
+                                        src="public/img/undraw_profile.svg">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -285,9 +306,6 @@
                               <input class="categorybtn" type="radio" name="options" id="option3" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
                             </label>
                             <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option4" autocomplete="off"> Management 
-                            </label>
-                            <label class="btn btn-primary">
                               <input class="categorybtn" type="radio" name="options" id="option5" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
                             </label>
                             <label class="btn btn-primary">
@@ -300,7 +318,7 @@
                                 <input class="categorybtn" type="radio" name="options" id="option8" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
                               </label>
                               <label class="btn btn-primary">
-                                <input class="categorybtn" type="radio" name="options" id="option9" autocomplete="off" onclick="openDiv(event, 'contacts')"> Contacts
+                                <input class="categorybtn" type="radio" name="options" id="option9" autocomplete="off" onclick="openDiv(event, 'uploads')"> Uploads
                               </label>
                         </div>
 
@@ -328,29 +346,29 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="form-row mb-2">
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">Last Name</span></div>
                                             <div class="font-weight-normal">De Asis</span></div>                                        
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">First Name</span></div>
                                             <div class="font-weight-normal">Jhose Mhiguel</span></div>                                        
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">Middle Name</span></div>
                                             <div class="font-weight-normal">Dizon</span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">Birthdate</span></div>
                                             <div class="font-weight-normal">10/10/2013</span></div>                                        
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">Nationality</span></div>
                                             <div class="font-weight-normal">Filipino</span></div>                                        
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col">
                                             <div class="font-weight-bold">Religion</span></div>
                                             <div class="font-weight-normal">Catholic</span></div>                                        
                                         </div>
@@ -366,11 +384,11 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Weight</span></div>
-                                            <div class="font-weight-normal">40kg</span></div>                                        
+                                            <div class="font-weight-normal">40kg<span class="ml-2 badge badge-success">normal</span></div>                                        
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-bold">Height</span></div>
-                                            <div class="font-weight-normal">1.59m</span></div>                                        
+                                            <div class="font-weight-normal">1.59m<span class="ml-2 badge badge-danger">below normal</span></div>                                        
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
@@ -381,11 +399,11 @@
                                     </div>
                                 </div>
                             </div> 
-
+ 
                             <div class="card shadow mb-2">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Medical Certificate</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Parent/Guardian Information</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -403,23 +421,42 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <a href="#collapseMC" class="d-block card-header py-3" data-toggle="collapse"
-                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                        <h6 class="m-0 font-weight-bold text-primary">3/18/2020</span></h6>
-                                    </a>
-                                    <!-- Card Content - Collapse -->
-                                    <div class="collapse" id="collapseMC">
-                                        <div class="card-body">
-                                            <div>BLOB</div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Father</span></div>
+                                            <div class="font-weight-normal">Christopher G. De Asis</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">papa.deasis@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Mother</span></div>
+                                            <div class="font-weight-normal">Ma. Rose D. De Asis</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">mama.deasis@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
                                         </div>
                                     </div>
                                 </div>
                             </div> 
-
+                            
+                            <!-- Dropdown Card Example -->
                             <div class="card shadow mb-2">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Laboratory Results</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Healthcare Provider Information</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -437,14 +474,42 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <a href="#collapseLR" class="d-block card-header py-3" data-toggle="collapse"
-                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                        <h6 class="m-0 font-weight-bold text-primary">3/18/2020</span></h6>
-                                    </a>
-                                    <!-- Card Content - Collapse -->
-                                    <div class="collapse" id="collapseLR">
-                                        <div class="card-body">
-                                            <div>BLOB</div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Physician</span></div>
+                                            <div class="font-weight-normal">Dr. Maria Jose D. Chu</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">dr.chu@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09912876549</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col">
+                                            <div class="font-weight-bold">Dentist</span></div>
+                                            <div class="font-weight-normal">Dra. Joy B. Zamora</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Email</span></div>
+                                            <div class="font-weight-normal">dra.zamora@gmail.com</span></div>                                        
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-bold">Contact No.</span></div>
+                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-2">
+                                        <div class="col-4">
+                                            <div class="font-weight-bold">Preferred Hospital</span></div>
+                                            <div class="font-weight-normal">Manila Doctors Hospital</span></div>                                        
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="font-weight-bold">Address</span></div>
+                                            <div class="font-weight-normal">667 United Nations Ave, Ermita, Manila</span></div>                                        
                                         </div>
                                     </div>
                                 </div>
@@ -491,7 +556,6 @@
                                     <!-- Card Content - Collapse -->
                                     <div class="collapse" id="collapseDE">
                                         <div class="card-body">
-                                            <div id="example1"></div>
                                         </div>
                                     </div>
 
@@ -502,45 +566,6 @@
                                     <!-- Card Content - Collapse -->
                                     <div class="collapse" id="collapseAS">
                                         <div class="card-body">
-                                            <div class="form-row mb-2">
-                                                <div class="col-6">
-                                                    <div class="font-weight-bold">Disease</span></div>
-                                                    <div class="font-weight-normal">Asthma</span></div>                                        
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="font-weight-bold">Start Date</span></div>
-                                                    <div class="font-weight-normal">7/15/2020</span></div>                                        
-                                                </div>
-                                                <div class="col-3">
-                                                    <div class="font-weight-bold">End Date</span></div>
-                                                    <div class="font-weight-normal">-</span></div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-2">
-                                                <div class="col-6">
-                                                    <div class="font-weight-bold">Cause of disease</span></div>
-                                                    <div class="font-weight-normal">Allergies</span></div>                                        
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="font-weight-bold">Treatment to disease</span></div>
-                                                    <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-2">
-                                                <div class="col-12">
-                                                    <div class="font-weight-bold">Management Plan</span></div>
-                                                    <div class="font-weight-normal">Step 1: Sit the person upright.<br>
-                                                        Step 2: Give 4 separate puffs of blue/grey reliever puffer.<br>
-                                                        Step 3: Wait 4 minutes.<br>
-                                                        Step 4: If there is still no improvement callfor an ambulance.</span></div>                                        
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-2">
-                                                <div class="col-12">
-                                                    <div class="font-weight-bold">Other important notes</span></div>
-                                                    <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -557,9 +582,13 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Fever<span class="float-right">10/18/2021</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseVD">
+                                <div class="collapse show" id="collapseVD">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Attending Nurse</span></div>
+                                                <div class="font-weight-normal">Rose Pangilinan</span></div>                                        
+                                            </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Visit Date</span></div>
                                                 <div class="font-weight-normal">10/18/2021</span></div>                                        
@@ -572,22 +601,63 @@
                                                 <div class="font-weight-bold">Time Out</span></div>
                                                 <div class="font-weight-normal">12:15 pm</span></div>                                        
                                             </div>
+                                        </div>
+                                        <div class="form-row mb-2">
                                             <div class="col">
-                                                <div class="font-weight-bold">Attending Clinician</span></div>
-                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                                <div class="font-weight-bold">Body Temperature</span></div>
+                                                <div class="font-weight-normal">38 °C</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Blood Pressure</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Pulse Rate</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Respiration Rate</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
                                                 <div class="font-weight-normal">Fever</span></div>                                        
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Treatment</span></div>
                                                 <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
                                             </div>
+                                            <div class="col-3">
+                                                <div class="font-weight-bold">Status</span></div>
+                                                    <div class="btn-group">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sent Home
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <button class="dropdown-item" type="button">Discharged</button>
+                                                        <button class="dropdown-item" type="button">Under Observation</button>
+                                                        <button class="dropdown-item" type="button">Hospitalized</button>
+                                                        <button class="dropdown-item" type="button">Sent Home</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <hr class="w-10"></hr>                                
+                                        <hr class="w-10 mb-2"></hr>   
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Diagnosis</span></div>
+                                                <div class="font-weight-normal">Lack of Sleep</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <hr class="w-10 mb-2"></hr>                                           
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Prescribed by</span></div>
+                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                            </div>
+                                        </div>                        
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Medication</span></div>
@@ -606,103 +676,15 @@
                                                 <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
                                             </div>
                                             <div class="col">
-                                                <div class="font-weight-bold">Status</span></div>
-                                                <!-- <h3 class="small font-weight-normal"> -->
-                                                    <!-- Small button groups (default and split) -->
-                                                    <div class="btn-group">
-                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sent Home
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <button class="dropdown-item" type="button">Discharged</button>
-                                                        <button class="dropdown-item" type="button">Under Observation</button>
-                                                        <button class="dropdown-item" type="button">Hospitalized</button>
-                                                        <button class="dropdown-item" type="button">Sent Home</button>
-                                                    </div>
-                                                    </div>
-                                                <!-- </h3>                                         -->
+                                                <div class="font-weight-bold">Start Date</span></div>
+                                                <div class="font-weight-normal">07/15/2021</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">End Date</span></div>
+                                                <div class="font-weight-normal">07/18/2021</span></div>                                        
                                             </div>
                                         </div>
-                                        <div class="form-row mb-2">
-                                            <div class="col">
-                                                <div class="font-weight-bold">Notes/Recommendations</span></div>
-                                                <div class="font-weight-normal">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="#collapseMD" class="d-block card-header py-3" data-toggle="collapse"
-                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                    <h6 class="m-0 font-weight-bold text-primary">Abdominal Pain<span class="float-right">10/15/2021</span></h6>
-                                </a>
-                                <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseMD">
-                                    <div class="card-body">
-                                        <div class="form-row mb-2">
-                                            <div class="col">
-                                                <div class="font-weight-bold">Visit Date</span></div>
-                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Time In</span></div>
-                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Time Out</span></div>
-                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Attending Clinician</span></div>
-                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-2">
-                                            <div class="col-6">
-                                                <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                                <div class="font-weight-normal">Fever</span></div>                                        
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="font-weight-bold">Treatment</span></div>
-                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
-                                            </div>
-                                        </div>
-                                        <hr class="w-10"></hr>                                
-                                        <div class="form-row mb-2">
-                                            <div class="col">
-                                                <div class="font-weight-bold">Medication</span></div>
-                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Purpose</span></div>
-                                                <div class="font-weight-normal">For fever</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Amount</span></div>
-                                                <div class="font-weight-normal">500g</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Interval</span></div>
-                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-bold">Status</span></div>
-                                                <!-- <h3 class="small font-weight-normal"> -->
-                                                    <!-- Small button groups (default and split) -->
-                                                    <div class="btn-group">
-                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sent Home
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <button class="dropdown-item" type="button">Discharged</button>
-                                                        <button class="dropdown-item" type="button">Under Observation</button>
-                                                        <button class="dropdown-item" type="button">Hospitalized</button>
-                                                        <button class="dropdown-item" type="button">Sent Home</button>
-                                                    </div>
-                                                    </div>
-                                                <!-- </h3>                                         -->
-                                            </div>
-                                        </div>
+                                        <hr class="w-10 mb-2"></hr>                                           
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Notes/Recommendations</span></div>
@@ -740,30 +722,45 @@
                                     <thead>
                                         <tr>
                                             <th>Vaccine</th>
-                                            <th>No. of Doses</th>
-                                            <th>Date Administered</th>
+                                            <th>1st Dose</th>
+                                            <th>2nd Dose</th>
+                                            <th>3rd Dose</th>
+                                            <th>Booster 1</th>
+                                            <th>Booster 2</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Hepatitis A </td>
-                                            <td>2</td>
+                                            <td>Hepatitis A</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                             <td>12/10/2014</td>
                                         </tr>
                                         <tr>
                                             <td>Hepatitis B</td>
-                                            <td>3</td>
-                                            <td>1/10/2014</td>   
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>   
                                         </tr>
                                         <tr>
                                             <td>Measles, Mumps, Rubella (MMR)</td>
-                                            <td>2</td>
-                                            <td>2/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                         </tr>
                                         <tr>
                                             <td>Influenza</td>
-                                            <td>2</td>
-                                            <td>3/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -781,41 +778,47 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Dengue<span class="float-right">3/18/2021</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseDG">
+                                <div class="collapse show" id="collapseDG">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Disease</span></div>
                                                 <div class="font-weight-normal">Dengue</span></div>                                        
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Start Date</span></div>
                                                 <div class="font-weight-normal">3/18/2021</span></div>                                        
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col">
                                                 <div class="font-weight-bold">End Date</span></div>
                                                 <div class="font-weight-normal">4/2/2021</span></div>                                        
                                             </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Status</span></div>
+                                                <div class="font-weight-normal">Recovered</span></div>                                        
+                                            </div>
                                         </div>
                                         <div class="form-row mb-2">
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Cause of disease</span></div>
                                                 <div class="font-weight-normal">Mosquito Bite</span></div>                                        
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Treatment to disease</span></div>
                                                 <div class="font-weight-normal">Medication taken and admitted in the hospital</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Has medications?</span></div>
+                                                <div class="font-weight-normal">None</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Other important notes</span></div>
+                                                <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
                                             <div class="col-6">
                                                 <div class="font-weight-bold">Management Plan</span></div>
-                                                <div class="font-weight-normal">-</span></div>                                        
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-2">
-                                            <div class="col-12">
-                                                <div class="font-weight-bold">Other important notes</span></div>
                                                 <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                         </div>
@@ -827,45 +830,48 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Asthma<span class="float-right">7/15/2020</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="collapse" id="collapseAS">
+                                <div class="collapse show" id="collapseAS">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Disease</span></div>
                                                 <div class="font-weight-normal">Asthma</span></div>                                        
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Start Date</span></div>
                                                 <div class="font-weight-normal">7/15/2020</span></div>                                        
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col">
                                                 <div class="font-weight-bold">End Date</span></div>
                                                 <div class="font-weight-normal">-</span></div>                                        
                                             </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Status</span></div>
+                                                <div class="font-weight-normal">On Going</span></div>                                        
+                                            </div>
                                         </div>
                                         <div class="form-row mb-2">
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Cause of disease</span></div>
                                                 <div class="font-weight-normal">Allergies</span></div>                                        
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Treatment to disease</span></div>
                                                 <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Has medications?</span></div>
+                                                <div class="font-weight-normal">Yes</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Other important notes</span></div>
+                                                <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
                                             <div class="col-12">
                                                 <div class="font-weight-bold">Management Plan</span></div>
-                                                <div class="font-weight-normal">Step 1: Sit the person upright.<br>
-                                                    Step 2: Give 4 separate puffs of blue/grey reliever puffer.<br>
-                                                    Step 3: Wait 4 minutes.<br>
-                                                    Step 4: If there is still no improvement callfor an ambulance.</span></div>                                        
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-2">
-                                             <div class="col-12">
-                                                <div class="font-weight-bold">Other important notes</span></div>
-                                                <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
+                                                <div class="font-weight-normal">file.pdf</div>                                        
                                             </div>
                                         </div>
                                     </div>
@@ -899,8 +905,8 @@
                                         <tr>
                                             <th>Allergy</th>
                                             <th>Type</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
+                                            <th>Date of Diagnosis</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -908,19 +914,19 @@
                                             <td>Pollen, dust mites, animal fur</td>
                                             <td>Respiratory</td>
                                             <td>5/19/2019</td>
-                                            <td>-</td>
+                                            <td>Active</td>
                                         </tr>
                                         <tr>
                                             <td>Shellfish</td>
                                             <td>Food</td>
                                             <td>2/10/2020</td>
-                                            <td>-</td>   
+                                            <td>Inactive</td>   
                                         </tr>
                                         <tr>
                                             <td>Ibuprofen</td>
                                             <td>Drug</td>
                                             <td>2/10/2020</td>
-                                            <td>-</td>
+                                            <td>Active</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -930,6 +936,53 @@
 
                         <!-- Dropdown Card Example -->
                         <div class="divmenu" id="medication">
+                            <!-- Dropdown Card Example -->
+                            <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Medication History</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Medicine</th>
+                                                <th>Purpose</th>
+                                                <th>Dosage</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Amoxicillin</td>
+                                                <td>For ear infection</td>
+                                                <td>250mg every 8 hours for 7 days</td>
+                                                <td>04/12/2021</td>
+                                                <td>04/19/2021</td>
+                                                <td>Completed</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                             <div class="card shadow mb-2">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -1070,56 +1123,15 @@
                                 </div>
                             </div>
                             
-                            <!-- Dropdown Card Example -->
-                            <div class="card shadow mb-2">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Medication History</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Medicine</th>
-                                                <th>Purpose</th>
-                                                <th>Dosage</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Amoxicillin</td>
-                                                <td>For ear infection</td>
-                                                <td>250mg every 8 hours for 7 days</td>
-                                                <td>Completed</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>   
+                               
                         </div>
 
                         <!-- Dropdown Card Example -->
-                        <div class="divmenu" id="contacts">
+                        <div class="divmenu" id="uploads">
                             <div class="card shadow mb-2">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Parent/Guardian Information</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Medical Certificate</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1137,99 +1149,51 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="form-row mb-2">
-                                        <div class="col">
-                                            <div class="font-weight-bold">Father</span></div>
-                                            <div class="font-weight-normal">Christopher G. De Asis</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal">papa.deasis@gmail.com</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                    <a href="#collapseMC" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Chickenpox<span class="float-right">03/18/2020</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseMC">
+                                        <div class="card-body">
+                                            <div>BLOB</div>
                                         </div>
                                     </div>
-                                    <div class="form-row mb-2">
-                                        <div class="col">
-                                            <div class="font-weight-bold">Mother</span></div>
-                                            <div class="font-weight-normal">Ma. Rose D. De Asis</span></div>                                        
+                                </div>
+                            </div>
+                              <div class="card shadow mb-2">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Laboratory Results</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal">mama.deasis@gmail.com</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal">09165404040</span></div>                                        
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <a href="#collapseLR" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                        <h6 class="m-0 font-weight-bold text-primary">Blood Test - Diabetes<span class="float-right">03/18/2020</span></h6>
+                                    </a>
+                                    <!-- Card Content - Collapse -->
+                                    <div class="collapse" id="collapseLR">
+                                        <div class="card-body">
+                                            <div>BLOB</div>
                                         </div>
                                     </div>
                                 </div>
                             </div> 
-                            
-                            <!-- Dropdown Card Example -->
-                            <div class="card shadow mb-2">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Healthcare Provider Information</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="form-row mb-2">
-                                        <div class="col">
-                                            <div class="font-weight-bold">Physician</span></div>
-                                            <div class="font-weight-normal">Dr. Maria Jose D. Chu</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal">dr.chu@gmail.com</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal">09912876549</span></div>                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-2">
-                                        <div class="col">
-                                            <div class="font-weight-bold">Dentist</span></div>
-                                            <div class="font-weight-normal">Dra. Joy B. Zamora</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Email</span></div>
-                                            <div class="font-weight-normal">dra.zamora@gmail.com</span></div>                                        
-                                        </div>
-                                        <div class="col">
-                                            <div class="font-weight-bold">Contact No.</span></div>
-                                            <div class="font-weight-normal">09165404040</span></div>                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-2">
-                                        <div class="col-4">
-                                            <div class="font-weight-bold">Preferred Hospital</span></div>
-                                            <div class="font-weight-normal">Manila Doctors Hospital</span></div>                                        
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="font-weight-bold">Address</span></div>
-                                            <div class="font-weight-normal">667 United Nations Ave, Ermita, Manila</span></div>                                        
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>   
                         </div>
                     </div>
                 </div>
@@ -1280,8 +1244,6 @@
             event.currentTarget.className += " active";
         }
     </script>
-    <script src="/js/pdfobject.js"></script>
-    <script>PDFObject.embed("/sample.pdf", "#example1");</script>
 </body>
 
 </html>

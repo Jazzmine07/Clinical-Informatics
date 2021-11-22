@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Title of App</title>
+    <title>IsKlinika</title>
 
     <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -51,9 +51,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-user-md"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin<sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
             </a>
 
             <!-- Divider -->
@@ -69,7 +69,7 @@
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
                 <a class="nav-link" href="/index">
-                    <i class="fas fa-fw fa-exclamation-triangle"></i>
+                    <i class="fas fa-fw fa-virus"></i>
                     <span>Disease Surveillance</span></a>
             </li>
 
@@ -92,6 +92,13 @@
                 <a class="nav-link" href="/health-assessment">
                     <i class="fas fa-fw fa-stethoscope"></i>
                     <span>Health Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
             </li>
 
             <!-- Nav Item - Performance Assessment -->
@@ -1419,19 +1426,43 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-3">
                                         <label for="bodyTemp" class="col-form-label">Body Temperature</label>
-                                        <input type="number" class="form-control mb-2" id="bodyTemp" name="bodyTemp">
+                                        <div class="input-group mb-2">                                        
+                                            
+                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1">°C</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-3">
                                         <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
-                                        <input type="number" class="form-control mb-2" id="bloodPressure" name="bloodPressure">
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-3">
                                         <label for="pulseRate" class="col-form-label">Pulse Rate</label>
-                                        <input type="number" class="form-control mb-2" id="pulseRate" name="pulseRate">
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-3">
                                         <label for="respRate" class="col-form-label">Respiration Rate</label>
-                                        <input type="number" class="form-control mb-2" id="respRate" name="respRate">
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="respRate" name="respRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1453,15 +1484,24 @@
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
                             
                             <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
-                        
-                        <select id="assign" name="assign" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
-                            <option>Clinician</option>
-                            <option>Nurse</option>
-                        </select>
-                        
-                        
+                            <select id="assign" name="assign" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
+                                <option>Clinician</option>
+                                <option>Nurse</option>
+                            </select>
                         </div>
                         <div class="card-body">
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
+                                      <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
+                                          <option selected>Choose...</option>
+                                        {{#each users}}
+                                            <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                        {{/each}}
+                                      </select>  
+                                    </div>   
+                                </div>
                            
                                 <div class="form-row align-items-center">
                                     <div class="col-6">

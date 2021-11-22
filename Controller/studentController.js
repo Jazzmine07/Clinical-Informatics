@@ -120,7 +120,6 @@ exports.getClinicVisits = function(req, res){
         var filtered = [];
         temp.reverse().forEach(record => {
             var found = false;
-            0
             for(i = 0; i < filtered.length; i++){
                 if(record.visitDate == filtered[i].date){   // filters if same date
                     filtered[i].visitDetails.push(record);

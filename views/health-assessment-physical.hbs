@@ -96,6 +96,13 @@
                     <span>Health Assessment</span></a>
             </li>
 
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
+            </li>
+
             <!-- Nav Item - Promotive Care -->
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -108,6 +115,13 @@
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-star"></i>
                     <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-tablets"></i>
+                    <span>Inventory</span></a>
             </li>
 
             <!-- Nav Item - Profile -->
@@ -468,16 +482,33 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
-                                        <label for="height" class="col-form-label">Height (kg)</label>
-                                        <input type="number" class="form-control mb-2" id="height">
-                                    </div>
-                                    <div class="col-4">
                                         <label for="Weight" class="col-form-label">Weight</label>
-                                        <input type="number" class="form-control mb-2" id="weight">
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">kg</span>
+                                            </div>
+                                        </div>
                                     </div>
+                                
+                                    <div class="col-4">
+                                        <label for="height" class="col-form-label">Height</label>
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="height">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-4">
                                         <label for="bmi" class="col-form-label">BMI</label>
-                                        <input type="number" class="form-control mb-2" id="bmi">
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="bmi">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">kg/m²</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -546,7 +577,7 @@
 
                         <nav class="d-flex justify-content-end">
                             <a href="#" aria-label="Next">
-                                <span aria-hidden="true">Name of Student &raquo;</span>
+                                <span aria-hidden="true">Name of Next Student &raquo;</span>
                             </a>
                         </nav>
                         </form>

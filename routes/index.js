@@ -65,9 +65,19 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
 
 // Get physical exam page
 router.get('/health-assessment/physical', (req, res) => {
-  console.log("Read create clinic visit successful!");
+  console.log("Read physical exam successful!");
   userController.getUsers(req, usersInfo => {
     res.render('health-assessment-physical', {
+      users: usersInfo
+    });
+  })
+});
+
+// Get communications page
+router.get('/communications', (req, res) => {
+  console.log("Read communications successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('communications', {
       users: usersInfo
     });
   })

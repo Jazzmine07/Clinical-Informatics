@@ -9,25 +9,46 @@ exports.login = function(req, res){
   var pass = req.body.password;
   var database = firebase.database();
   var userRef = database.ref("clinicUsers");
+  var parentsRef = database.ref("parentInfo");
 
   // var studentAccount = {
-  //   idNum: '275755',
+  //   email: 'chloe_torres@gmail.com',
   //   password: 'manresa123',
   // }
-  // database.ref('users/' + studentAccount.idNum); // setting the path with id number as its pk
-  // database.ref('users/' + studentAccount.idNum).set(studentAccount); // adding other fields
+
+  // parentsRef.push(studentAccount);
+  //database.ref('parentUsers/' + studentAccount.idNum); // setting the path with id number as its pk
+  //database.ref('parentUsers/' + studentAccount.idNum).set(studentAccount); // adding other fields
+
+  // var parentInfo = {
+  //   motherName: 'Chloe Torres',
+  //   motherEmail: 'chloe_torres@gmail.com',
+  //   motherContact: "",
+  //   fatherName: 'Antonio Torres',
+  //   fatherEmail: 'antonio_torres@gmail.com',
+  //   fatherContact: "",
+  //   guardianName: 'Chloe Torres',
+  //   guardianEmail: 'chloe_torres@gmail.com',
+  //   guardianContact: "",
+  //   children: {
+  //     0: "275755",
+  //     1: "138088"
+  //   }
+  // }
+
+  // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02'); // setting the path with id number as its pk
+  // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02').set(parentInfo); // adding other fields
 
   // var personalInfo = {
-  //   idNum: '275755',
-  //   firstName: 'Levi',
+  //   firstName: 'Ava',
   //   middleName: 'Lopez',
   //   lastName: 'Torres',
   //   studentType: 'old',
-  //   grade: '2',
+  //   grade: '1',
   //   section: 'truthfulness',
-  //   birthday: '2013-11-15', // yyyy-mm-dd
-  //   age: '8',
-  //   sex: 'Male',
+  //   birthday: '2014-12-29', // yyyy-mm-dd
+  //   age: '7',
+  //   sex: 'Female',
   //   address: 'Metro Manila',
   //   motherName: 'Chloe Torres',
   //   motherEmail: 'chloe_torres@gmail.com',
@@ -36,86 +57,86 @@ exports.login = function(req, res){
   //   guardianName: 'Chloe Torres',
   //   guardianEmail: 'chloe_torres@gmail.com',
   // }
-  // database.ref('studentInfo/' + personalInfo.idNum); // setting the path with id number as its pk
-  // database.ref('studentInfo/' + personalInfo.idNum).set(personalInfo); // adding other fields
+  // database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
+  // database.ref('studentInfo/' + studentAccount.idNum).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
-  if(email == "" && pass == ""){
-    res.render('login',{
-      error: true,
-      error_msg: "Please enter data!"
-    });
-  }
-  if(email == ""){
-    res.render('login',{
-      error: true,
-      error_msg: "Please enter email!"
-    });
-  }
-  if(pass == ""){
-    res.render('login',{
-      error: true,
-      error_msg: "Please enter password!"
-    });
-  }
-  else {
-    //user sign in
-    firebase.auth().signInWithEmailAndPassword(email, pass)
-    .then((userCredential) => {
-      // How to get specific field and pk
-      // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
-      userRef.on('value', (snapshot) => {
-        if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
-          //add user to the realtime database
-          var update = {
-            email: userCredential.user.email,
-            firstName: "",
-            lastName: "",
-            role: ""
-          }
-          database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
-          database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
-        }
-      })
+  // if(email == "" && pass == ""){
+  //   res.render('login',{
+  //     error: true,
+  //     error_msg: "Please enter data!"
+  //   });
+  // }
+  // if(email == ""){
+  //   res.render('login',{
+  //     error: true,
+  //     error_msg: "Please enter email!"
+  //   });
+  // }
+  // if(pass == ""){
+  //   res.render('login',{
+  //     error: true,
+  //     error_msg: "Please enter password!"
+  //   });
+  // }
+  // else {
+  //   //user sign in
+  //   firebase.auth().signInWithEmailAndPassword(email, pass)
+  //   .then((userCredential) => {
+  //     // How to get specific field and pk
+  //     // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
+  //     userRef.on('value', (snapshot) => {
+  //       if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
+  //         //add user to the realtime database
+  //         var update = {
+  //           email: userCredential.user.email,
+  //           firstName: "",
+  //           lastName: "",
+  //           role: ""
+  //         }
+  //         database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
+  //         database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
+  //       }
+  //     })
 
       res.redirect('/dashboard');
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+  //   })
+  //   .catch((error) => {
+  //     var errorCode = error.code;
+  //     var errorMessage = error.message;
 
-      if (errorCode === 'auth/wrong-password') {
-        res.render('login',{
-          error: true,
-          error_msg: "Wrong password!"
-        });
-      } 
-      else if (errorCode === 'auth/invalid-email') {
-        res.render('login',{
-          error: true,
-          error_msg: "Please enter a valid email!"
-        });
-      } 
-      else if (errorCode === 'auth/user-not-found') {
-        res.render('login',{
-          error: true,
-          error_msg: "No user with such email!"
-        });
-      } 
-      else if (errorCode === 'auth/user-disabled') {
-        res.render('login',{
-          error: true,
-          error_msg: "Account disabled by Admin!"
-        });
-      }
-      else {  // in the case of multiple login failed attempts
-        res.render('login',{
-          error: true,
-          error_msg: errorMessage 
-        });
-      }
-    });
-  }
+  //     if (errorCode === 'auth/wrong-password') {
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: "Wrong password!"
+  //       });
+  //     } 
+  //     else if (errorCode === 'auth/invalid-email') {
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: "Please enter a valid email!"
+  //       });
+  //     } 
+  //     else if (errorCode === 'auth/user-not-found') {
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: "No user with such email!"
+  //       });
+  //     } 
+  //     else if (errorCode === 'auth/user-disabled') {
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: "Account disabled by Admin!"
+  //       });
+  //     }
+  //     else {  // in the case of multiple login failed attempts
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: errorMessage 
+  //       });
+  //     }
+  //   });
+  // }
 }
 
 // check if user is logged in 

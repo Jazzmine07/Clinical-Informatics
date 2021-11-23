@@ -834,8 +834,6 @@
                     if(data.section)
                         $('#studentSection').val(data.section);
                     //$('#visitDate').value(date);                 
-
-
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
@@ -859,8 +857,7 @@
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
-            var endMed= document.getElementById("endMed").value;
-
+            var endMed = document.getElementById("endMed").value;
 
             /* TO DO: Add checkers for fields if empty */
             medicineList.push(selectedMedication);
@@ -920,20 +917,34 @@
             var clinician =  $('#clinicianVisit').find(":selected").val();   
             console.log(clinician);
             
+            //vital signs
+            var bodyTemp =  $('#bodyTemp').val(); 
+            console.log(bodyTemp);
+
+            var bp =  $('#bloodPressure').val(); 
+            console.log(bp);
+
+            var pr =  $('#pulseRate').val(); 
+            console.log(pr);
+
+            var rr =  $('#respRate').val(); 
+            console.log(rr);
+
+
             var complaint =  $('#complaintVisit').val(); 
             console.log(complaint);
-
-            //vital signs!!!dont't forget
-
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            var notes =  $('#notes').val(); 
-            console.log(notes);
+            var diagnosis =  $('#diagnosis').val(); 
+            console.log(treatment);
 
             var status =  $('#status').find(":selected").text();
             console.log(status);
+
+            var notes =  $('#notes').val(); 
+            console.log(notes);
 
             /* TO DO: Add checkers for fields if empty */
 

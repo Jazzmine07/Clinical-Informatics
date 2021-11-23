@@ -58,6 +58,7 @@ exports.addClinicVisit = function(req, res){
     var amountList = req.body.amountList;
     var intervalList = req.body.intervalList;
     var medication;
+    var nurseId = req.body.nurseKey;
     var i, key;
     
     var database = firebase.database();
@@ -74,7 +75,9 @@ exports.addClinicVisit = function(req, res){
         treatment: treatment,
         notes: notes,
         status: status,
-        medication: ""
+        medication: "",
+        assignMedication: "",
+        assignedBy: nurseId
     };
 
     clinicVisitRef.push(record);
@@ -91,10 +94,7 @@ exports.addClinicVisit = function(req, res){
         //database.ref('clinicVisit/' + key + '/medication').push(medication);
     }
     
-    res.send({
-        success: true,
-        success_msg: "Record added!"
-    });
+    res.redirect('/clinic-visit');
 }
 
 exports.getClinicVisits = function(req, res){
@@ -139,7 +139,7 @@ exports.getClinicVisits = function(req, res){
         });
 
         res(filtered);
-    })    
+    })
 }
 
 exports.addAPE = function(req, res){

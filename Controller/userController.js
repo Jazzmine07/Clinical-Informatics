@@ -10,6 +10,7 @@ exports.login = function(req, res){
   var database = firebase.database();
   var userRef = database.ref("clinicUsers");
   var parentsRef = database.ref("parentInfo");
+  var userInfo;
 
   // var studentAccount = {
   //   email: 'chloe_torres@gmail.com',
@@ -81,26 +82,53 @@ exports.login = function(req, res){
   // }
   // else {
   //   //user sign in
-  //   firebase.auth().signInWithEmailAndPassword(email, pass)
-  //   .then((userCredential) => {
-  //     // How to get specific field and pk
-  //     // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
-  //     userRef.on('value', (snapshot) => {
-  //       if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the user tables
-  //         //add user to the realtime database
-  //         var update = {
-  //           email: userCredential.user.email,
-  //           firstName: "",
-  //           lastName: "",
-  //           role: ""
-  //         }
-  //         database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
-  //         database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
-  //       }
-  //     })
-
-      res.redirect('/dashboard');
-  //   })
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then((userCredential) => {
+      // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
+      userRef.on('value', (snapshot) => {
+        if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the clinicUsers tables
+          //add user to the realtime database
+          var update = {
+            email: userCredential.user.email,
+            firstName: "",
+            lastName: "",
+            role: ""
+          }
+          database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
+          database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
+          // redirect to profile page for setting up
+        } else {
+          var uid = userCredential.user.uid;
+          var childRef = database.ref("clinicUsers/"+uid);
+          var userInfo;
+          
+          childRef.on('value', (snapshot) => { 
+            console.log("snapshot " + snapshot.val());
+            if(snapshot.child('firstName').val() === ""){
+              userInfo = ({
+                firstName: "user",
+                lastName: "",
+                role: ""
+              })
+            } else {
+              userInfo = ({
+                firstName: snapshot.child('firstName').val(),
+                lastName: snapshot.child('lastName').val(),
+                role: snapshot.child('role').val()
+              })
+              if(userInfo.role == "Clinician"){
+                res.render("dashboard", {
+                  user: userInfo
+                });
+              } else {
+                res.redirect("/clinic-visit");
+              }
+            }
+          })
+        }
+      })
+      //res.redirect('/dashboard');
+     })
   //   .catch((error) => {
   //     var errorCode = error.code;
   //     var errorMessage = error.message;
@@ -173,11 +201,11 @@ exports.getUser = function(req, res){
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var uid = user.uid;
-      var userRef = database.ref("users/"+uid);
+      var userRef = database.ref("clinicUsers/"+uid);
       var userInfo;
       
       userRef.on('value', (snapshot) => { 
-        console.log("pease? " + snapshot.child('firstName').val());
+        console.log("snapshot key " + snapshot.key);
         if(snapshot.child('firstName').val() === ""){
           userInfo = ({
             firstName: "user",
@@ -186,17 +214,19 @@ exports.getUser = function(req, res){
           })
         } else {
           userInfo = ({
+            key: snapshot.key,
             firstName: snapshot.child('firstName').val(),
-            //lastName: snapshot.child(uid).child('lastName').val(),
-            //role: snapshot.child(uid).child('role').val()
-          })
+            lastName: snapshot.child('lastName').val(),
+            role: snapshot.child('role').val()
+          })            
         }
+        res(userInfo);
       })
-      res(userInfo);
     }
   });
 }
 
+// to get list of clinic users for the attending clinician for clinic visit
 exports.getUsers = function(req, res){
   var database = firebase.database();
   var clinicUsers = database.ref('clinicUsers');
@@ -214,7 +244,48 @@ exports.getUsers = function(req, res){
       usersObject.push({
         key: key,
         firstName: childSnapshotData.firstName,
-        lastName: childSnapshotData.lastName
+        lastName: childSnapshotData.lastName,
+      })
+    })
+    res(usersObject);
+  })
+}
+
+// to get list of nurse for the attending nurse for clinic visit
+exports.getNurse = function(req, res){
+  var database = firebase.database();
+  var clinicUsers = database.ref();
+  var usersObject = [];
+  var key, childSnapshotData;
+
+  clinicUsers.child("clinicUsers").orderByChild("role").equalTo("Nurse").on('value', (snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      key = childSnapshot.key;                        // Getting primary keys of users
+      childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+      usersObject.push({
+        key: key,
+        firstName: childSnapshotData.firstName,
+        lastName: childSnapshotData.lastName,
+      })
+    })
+    res(usersObject);
+  })
+}
+
+exports.getClinician = function(req, res){
+  var database = firebase.database();
+  var clinicUsers = database.ref();
+  var usersObject = [];
+  var key, childSnapshotData;
+
+  clinicUsers.child("clinicUsers").orderByChild("role").equalTo("Clinician").on('value', (snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      key = childSnapshot.key;                        // Getting primary keys of users
+      childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+      usersObject.push({
+        key: key,
+        firstName: childSnapshotData.firstName,
+        lastName: childSnapshotData.lastName,
       })
     })
     res(usersObject);

@@ -14,35 +14,57 @@ router.get('/login', (req, res) => {
 });
 
 // Get dashboard page
-router.get('/dashboard', (req, res) => {
-  // -------------DONT FORGET TO UNCOMMENT-------------
-  //userController.getUser(req, userInfo => {
-    //console.log("user? " + userInfo);
-    console.log("Read dashboard successful!");
-    res.render('dashboard', {
-      //user: userInfo
-    });
-  //})
-});
+router.get('/dashboard', userController.getUser);
 
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
-  studentController.getClinicVisits(req, records => {
-    console.log("clinicVisits index", records);
-    res.render('clinic-visit', {
-      clinicVisits: records
-    });
+  userController.getUser(req, user => {
+    studentController.getClinicVisits(req, records => {
+      if(user.role == "Nurse"){
+        res.render('clinic-visit', {
+          isNurse: true,
+          user: user,
+          clinicVisits: records
+        });
+      }
+      else {
+        res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
+          isNurse: false,
+          user: user,
+        });
+      }
+    })
   })
 });
 
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
-  userController.getUsers(req, usersInfo => {
-    res.render('clinic-visit-create', {
-      users: usersInfo
-    });
+  userController.getUser(req, user => {
+    userController.getNurse(req, nurse => {
+      userController.getClinician(req, clinician => {
+        userController.getUsers(req, users => {
+          if(user.role == "Nurse"){
+            res.render('clinic-visit-create', {
+              user: user,
+              isNurse: true,
+              nurse: nurse,
+              clinician: clinician,
+              users: users
+            });
+          } else {
+            res.render('clinic-visit-create', {
+              user: user, 
+              isNurse: false,
+              nurse: nurse,
+              clinician: clinician,
+              users: users
+            });
+          }
+        })
+      })
+    })
   })
 });
 

@@ -575,11 +575,11 @@
                                     <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
                                 </div>
 
-                        <nav class="d-flex justify-content-end">
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">Name of Next Student &raquo;</span>
-                            </a>
-                        </nav>
+                                <div class="d-flex justify-content-end mt-4 col-12">
+                                    <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
+                                        Save | Next Student<i class="ml-2 fas fa-arrow-right text-white-50"></i>
+                                    </button>                                    
+                                </div>
                         </form>
                     </div>
                     </div>
@@ -650,7 +650,7 @@
         
     <script type='text/javascript'>
         $(document).ready(function() {
-            $("#saveAPE").click(function(){
+            $("#saveBtn").click(function(){
                 console.log("clicked?");
 
                 var id = $('#studentID').val();

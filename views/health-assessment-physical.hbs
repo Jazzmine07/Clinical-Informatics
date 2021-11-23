@@ -385,7 +385,7 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label for="studentGrd" class="col-form-label">Grade</label>
+                                        <label for="studentGrade" class="col-form-label">Grade</label>
                                         <select class="custom-select mb-2" id="studentGrade">
                                             <option selected>Choose...</option>
                                             <option value="1">One</option>
@@ -397,7 +397,7 @@
                                         </select>
                                     </div>
                                     <div class="col-6">
-                                        <label for="studentSec" class="col-form-label">Section</label>
+                                        <label for="studentSection" class="col-form-label">Section</label>
                                         <input type="text" class="form-control mb-2" id="studentSection">
                                     </div>
                                 </div>
@@ -423,13 +423,13 @@
                                         <input type="date" class="form-control mb-2" id="dope">
                                     </div>
                                     <div class="col-6">
-                                      <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
-                                      <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
-                                          <option selected>Choose...</option>
-                                        {{#each users}}
-                                            <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                        {{/each}}
-                                      </select>
+                                      <label class="col-form-label" for="clinicianAPE">Attending Clinician</label>
+                                        <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
+                                            <option selected>Choose...</option>
+                                            {{#each users}}
+                                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>   
                                 </div>
 
@@ -571,7 +571,7 @@
                                     <textarea type="text" class="form-control mb-2" id="assessPE" name="assessPE" rows="3"></textarea>
                                 </div>
                                 <div class="form-check ml-2 mt-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="" id="normalPE">
                                     <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
                                 </div>
 
@@ -647,226 +647,96 @@
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
-
-    <script>
-        function openDiv(event, card) {
-            var i, menu, button;
-            menu = document.getElementsByClassName("divmenu");
-            for (i = 0; i < menu.length; i++) {
-                menu[i].style.display = "none";
-            }
         
-            document.getElementById(card).style.display = "block";
-            event.currentTarget.className += " active";
-        }
-
-        function searchProfile() {
-            var typedID = document.getElementById("studentVisit").value;
-            
-            $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
-                if(!typedID && !typedID.value){
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-
-                    document.getElementById("clinicVisitForm").reset();
-
-                }
-                else if(data.firstName == null){ // if data is null so meaning no student with that id number
-                    //console.log(data);
-                    //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-                    
-                    document.getElementById("clinicVisitForm").reset();
-                } 
-                else {
-                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
-                    $('#headerNameCollapse').html(typedID);
-                    // Header
-                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
-                    $('#idHeaderVisit').html(typedID);
-                    //$('#studentTypeHeader').html(data.studentType + " Student");
-
-                    // personal info
-                    $('#visitLastName').html(data.lastName);
-                    $('#visitFirstName').html(data.firstName);
-                    $('#visitMiddleName').html(data.middleName);
-
-                    if(data.grade && data.section)
-                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
-                        
-                    if(data.studentType)
-                        $('#studentTypeHeader').html(data.studentType + " Student");    
-
-                    $('#visitBirthday').html(data.birthday);
-                    //$('#visitNationality').html(data.nationality);
-                    //$('#visitReligion').html(data.religion);
-                    $('#visitAge').html(data.age + " years old");
-                    $('#visitSex').html(data.sex);
-                    $('#visitAddress').html(data.address);
-
-                    // contacts
-                    if(data.fatherName)
-                        $('#visitFN').html(data.fatherName);
-                    
-                    if(data.fatherEmail)
-                        $('#visitFE').html(data.fatherEmail);
-
-                    if(data.fatherContact)
-                        $('#visitFC').html(data.fatherContact);
-
-                    if(data.motherName) 
-                        $('#visitMN').html(data.motherName);
-
-                    if(data.motherEmail)    
-                        $('#visitME').html(data.motherEmail);
-
-                    if(data.motherContact)    
-                        $('#visitMC').html(data.motherContact);
-
-
-                    //var today = new Date();
-                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-                    //auto-fill form
-                    $('#studentID').val(typedID);
-                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
-                    if(data.grade)
-                        $('#studentGrade').val(data.grade);
-                    if(data.section)
-                        $('#studentSection').val(data.section);
-                    //$('#visitDate').value(date);                 
-
-
-                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
-                }
-            });
-        }
-    </script>
     <script type='text/javascript'>
         $(document).ready(function() {
-        var medicationsArray = [];
+            $("#saveAPE").click(function(){
+                console.log("clicked?");
 
-        function addMedication(meds, purpose, amount, interval) {
-            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval});
-        }
+                var id = $('#studentID').val();
+                console.log(id);
+                
+                var studentName = $('#studentName').val(); 
+                console.log(studentName);
 
-        var i = 1;  
-        var medicineList = [], purposeList = [], amountList = [], intervalList = [];
+                var studentGrade = $('#studentGrade').val(); 
+                console.log(studentGrade);
+                
+                var studentSection = $('#studentSection').val(); 
+                console.log(studentSection);
 
-        $('#addMedication').click(function(){
-            var selectMedication = document.getElementById("medicationVisit");
-            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
-            var purpose = document.getElementById("purposeVisit").value
-            var amount = document.getElementById("amountMed").value;
-            var interval = document.getElementById("intervalMed").value;
+                var dob = $('#dob').val(); 
+                console.log(dob);
 
-            /* TO DO: Add checkers for fields if empty */
-            medicineList.push(selectedMedication);
-            purposeList.push(purpose);
-            amountList.push(amount);
-            intervalList.push(interval);
+                var age = $('#age').val(); 
+                console.log(age);
 
-            console.log("push? "+purposeList);
-            console.log("push? "+amountList);
-            console.log("push? "+intervalList);
+                var gender = $('#gender').val(); 
+                console.log(gender);
 
-            addMedication(selectedMedication, purpose, amount, interval);
-            i++;
+                var dateAPE =  $('#dope').val(); 
+                console.log(dope);
+                
+                //var selectClinician =  $('#clinician').val();
+                var clinician =  $('#clinicianAPE').find(":selected").val();   
+                console.log(clinician);
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+                 //vital signs
+                var bodyTemp =  $('#bodyTemp').val(); 
+                console.log(bodyTemp);
+
+                var bp =  $('#bloodPressure').val(); 
+                console.log(bp);
+
+                var pr =  $('#pulseRate').val(); 
+                console.log(pr);
+
+                var rr =  $('#respRate').val(); 
+                console.log(rr);
+
+                var sf =  $('#skinFind').val(); 
+                console.log(sf);
+
+                var weight =  $('#weight').val(); 
+                console.log(weight);
+
+                var height =  $('#height').val(); 
+                console.log(height);
+
+                var bmi =  $('#bmi').val(); 
+                console.log(bmi);
+
+                //vision
+                var odVision =  $('#odVision').val(); 
+                console.log(odVision);
+
+                var osVision =  $('#osVision').val(); 
+                console.log(osVision);
+
+                var odGlasses =  $('#odGlasses').val(); 
+                console.log(odGlasses);
+
+                var osGlasses =  $('#osGlasses').val(); 
+                console.log(osGlasses);
+
+                var medProb =  $('#medProb').val(); 
+                console.log(medProb);
+
+                var allergies =  $('#allergies').val(); 
+                console.log(allergies);
+
+
+                
+                var complaintAPE =  $('#complaintAPE').val(); 
+                console.log(complaintAPE);
+
+                var assessAPE =  $('#assessAPE').val(); 
+                console.log(assessAPE);
+
+                var normalPE =  $('#normalPE').val(); 
+                console.log(normalPE);
+            });    
         });
-
-        $(document).on('click', '.btn_remove', function(){  
-            var button_id = $(this).attr("id");
-            var index = button_id - 2; 
-            console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
-
-            medicineList.splice(index, 1);
-            purposeList.splice(index, 1);
-            amountList.splice(index, 1);
-            intervalList.splice(index, 1);
-        });  
-
-        $("#saveBtn").click(function(){
-            console.log("clicked?");
-            console.log(studentID);
-
-            var id = $('#studentID').val();
-            console.log(id);
-            
-            var studentName = $('#studentName').val(); 
-            console.log(studentName);
-
-            var visitDate =  $('#visitDate').val(); 
-            var forSort = visitDate.split("-");
-            var forSortDate = forSort.join('');
-            console.log(visitDate);
-            console.log(forSortDate);
-           
-            var timeIn =  $('#clinicIn').val();
-            console.log(timeIn);
-
-            var timeOut =  $('#clinicOut').val(); 
-            console.log(timeOut);
-
-            //var selectClinician =  $('#clinician').val();
-            var clinician =  $('#clinicianVisit').find(":selected").val();   
-            console.log(clinician);
-            
-            var complaint =  $('#complaintVisit').val(); 
-            console.log(complaint);
-
-            var treatment =  $('#treatmentVisit').val(); 
-            console.log(treatment);
-
-            var notes =  $('#notes').val(); 
-            console.log(notes);
-
-            var status =  $('#status').find(":selected").text();
-            console.log(status);
-
-            /* TO DO: Add checkers for fields if empty */
-
-            //console.log("may laman? "+purposeList);
-            //console.log("may laman? "+amountList);
-            //console.log("may laman? "+intervalList);
-
-            $.ajax({
-                url: '/addClinicVisit',
-                method: 'POST',
-                data: {
-                    studentId: id,
-                    studentName: studentName,
-                    visitDate: visitDate,
-                    timeStamp: forSortDate,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    clinician: clinician,
-                    complaint: complaint,
-                    treatement: treatment,
-                    notes: notes,
-                    status: status,
-                    medicineList: medicineList,
-                    purposeList: purposeList, 
-                    amountList: amountList,
-                    intervalList: intervalList
-                },
-                success: function(data) {
-                    window.location.href = "/clinic-visit";
-                }
-            });
-        });
-    
-    });
     </script>
 </body>
 

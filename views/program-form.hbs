@@ -373,215 +373,52 @@
                         <div class="card-body">
                             <form class="user">
                                 <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                      <label class="col-form-label" for="studentID">Student ID Number</label>
-                                      <input type="text" class="form-control mb-2" id="studentID" name="studentId">
-                                    </div>
-                                    <div class="col-8">
-                                        <label class="col-form-label" for="studentName">Student Name</label>
-                                        <input type="text" class="form-control mb-2" id="studentName">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="progName">Name of Program</label>
+                                      <input type="text" class="form-control mb-2" id="progName" name="progName">
                                     </div>
                                 </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label for="studentGrd" class="col-form-label">Grade</label>
-                                        <select class="custom-select mb-2" id="studentGrade">
-                                            <option selected>Choose...</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
-                                            <option value="6">Six</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="studentSec" class="col-form-label">Section</label>
-                                        <input type="text" class="form-control mb-2" id="studentSection">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                        <label for="dob" class="col-form-label">Date of Birth</label>
-                                        <input type="date" class="form-control mb-2" id="dob">
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="gender" class="col-form-label">Gender</label>
-                                        <input type="name" class="form-control mb-2" id="gender">
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="age" class="col-form-label">Age</label>
-                                        <input type="number" class="form-control mb-2" id="age">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label for="dope" class="col-form-label">Date of Examination</label>
-                                        <input type="date" class="form-control mb-2" id="dope">
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
-                                      <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
-                                          <option selected>Choose...</option>
-                                        {{#each users}}
-                                            <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                        {{/each}}
-                                      </select>
-                                    </div>   
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-2">
-                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon1">°C</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon2">mmHg</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon3">beats/min</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="respRate" class="col-form-label">Respiration Rate</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="respRate" name="respRate">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">breaths/min</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="skinFind" class="col-form-label">Skin Findings</label>
-                                        <input type="name" class="form-control mb-2" id="skinFind" name="skinFind">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                        <label for="Weight" class="col-form-label">Weight</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="weight">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">kg</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                 
-                                    <div class="col-4">
-                                        <label for="height" class="col-form-label">Height</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="height">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">m</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-4">
-                                        <label for="bmi" class="col-form-label">BMI</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="bmi">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">kg/m²</span>
-                                            </div>
-                                        </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="description">Program Description</label>
+                                      <textarea type="text" class="form-control mb-2" id="description" name="description" rows="4"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-3">
-                                        <label for="odVision" class="ml-1 col-form-label">Vision</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">od</span>
-                                            </div>
-                                                <input type="text" class="form-control" id="odVision">
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="osVision" class="ml-1 col-form-label" style="color: white;">.</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">os</span>
-                                            </div>
-                                                <input type="text" class="form-control" id="osVision">
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="odGlasses" class="ml-1 col-form-label">with Glasses</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">od</span>
-                                            </div>
-                                                <input type="text" class="form-control" id="odGlasses">
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="osGlasses" class="ml-1 col-form-label" style="color: white;">.</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">os</span>
-                                            </div>
-                                                <input type="text" class="form-control" id="osGlasses">
-                                        </div>
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="population">Population of Interest</label>
+                                      <select id="population" class="form-control mb-2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
+                                        <option>Grade 1</option>
+                                        <option>All</option>
+                                    </select>
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label for="medProb" class="col-form-label">Medical Problems</label>
-                                        <input type="name" class="form-control mb-2" id="medProb" name="medProb">
+                                    <div class="col">
+                                        <label for="progStart" class="col-form-label">Start Date</label>
+                                        <input type="date" class="form-control mb-2" id="progStart">
                                     </div>
-                                    <div class="col-6">
-                                        <label for="allergies" class="col-form-label">Allergies</label>
-                                        <input type="name" class="form-control mb-2" id="allergies" name="allergies">
+                                    <div class="col">
+                                        <label for="progEnd" class="col-form-label">End Date</label>
+                                        <input type="date" class="form-control mb-2" id="progEnd">
                                     </div>
                                 </div>
 
-                                <div class="form-row col-12">
-                                    <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
-                                </div>
-                                <div class="form-row col-12">
-                                    <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
-                                    <textarea type="text" class="form-control mb-2" id="assessPE" name="assessPE" rows="3"></textarea>
-                                </div>
-                                <div class="form-check ml-2 mt-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="location">Location</label>
+                                      <input type="text" class="form-control mb-2" id="location" name="location">
+                                    </div>
                                 </div>
 
-                        <nav class="d-flex justify-content-end">
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">Name of Next Student &raquo;</span>
-                            </a>
-                        </nav>
-                        </form>
-                    </div>
+                                <nav class="d-flex justify-content-end">
+                                    <a href="#" aria-label="Next"><span aria-hidden="true">Name of Next Student &raquo;</span>
+                                </nav>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -647,226 +484,20 @@
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>
-        function openDiv(event, card) {
-            var i, menu, button;
-            menu = document.getElementsByClassName("divmenu");
-            for (i = 0; i < menu.length; i++) {
-                menu[i].style.display = "none";
-            }
-        
-            document.getElementById(card).style.display = "block";
-            event.currentTarget.className += " active";
-        }
-
-        function searchProfile() {
-            var typedID = document.getElementById("studentVisit").value;
-            
-            $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
-                if(!typedID && !typedID.value){
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-
-                    document.getElementById("clinicVisitForm").reset();
-
-                }
-                else if(data.firstName == null){ // if data is null so meaning no student with that id number
-                    //console.log(data);
-                    //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-                    
-                    document.getElementById("clinicVisitForm").reset();
-                } 
-                else {
-                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
-                    $('#headerNameCollapse').html(typedID);
-                    // Header
-                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
-                    $('#idHeaderVisit').html(typedID);
-                    //$('#studentTypeHeader').html(data.studentType + " Student");
-
-                    // personal info
-                    $('#visitLastName').html(data.lastName);
-                    $('#visitFirstName').html(data.firstName);
-                    $('#visitMiddleName').html(data.middleName);
-
-                    if(data.grade && data.section)
-                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
-                        
-                    if(data.studentType)
-                        $('#studentTypeHeader').html(data.studentType + " Student");    
-
-                    $('#visitBirthday').html(data.birthday);
-                    //$('#visitNationality').html(data.nationality);
-                    //$('#visitReligion').html(data.religion);
-                    $('#visitAge').html(data.age + " years old");
-                    $('#visitSex').html(data.sex);
-                    $('#visitAddress').html(data.address);
-
-                    // contacts
-                    if(data.fatherName)
-                        $('#visitFN').html(data.fatherName);
-                    
-                    if(data.fatherEmail)
-                        $('#visitFE').html(data.fatherEmail);
-
-                    if(data.fatherContact)
-                        $('#visitFC').html(data.fatherContact);
-
-                    if(data.motherName) 
-                        $('#visitMN').html(data.motherName);
-
-                    if(data.motherEmail)    
-                        $('#visitME').html(data.motherEmail);
-
-                    if(data.motherContact)    
-                        $('#visitMC').html(data.motherContact);
-
-
-                    //var today = new Date();
-                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-                    //auto-fill form
-                    $('#studentID').val(typedID);
-                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
-                    if(data.grade)
-                        $('#studentGrade').val(data.grade);
-                    if(data.section)
-                        $('#studentSection').val(data.section);
-                    //$('#visitDate').value(date);                 
-
-
-                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
-                }
-            });
-        }
-    </script>
-    <script type='text/javascript'>
-        $(document).ready(function() {
-        var medicationsArray = [];
-
-        function addMedication(meds, purpose, amount, interval) {
-            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval});
-        }
-
-        var i = 1;  
-        var medicineList = [], purposeList = [], amountList = [], intervalList = [];
-
-        $('#addMedication').click(function(){
-            var selectMedication = document.getElementById("medicationVisit");
-            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
-            var purpose = document.getElementById("purposeVisit").value
-            var amount = document.getElementById("amountMed").value;
-            var interval = document.getElementById("intervalMed").value;
-
-            /* TO DO: Add checkers for fields if empty */
-            medicineList.push(selectedMedication);
-            purposeList.push(purpose);
-            amountList.push(amount);
-            intervalList.push(interval);
-
-            console.log("push? "+purposeList);
-            console.log("push? "+amountList);
-            console.log("push? "+intervalList);
-
-            addMedication(selectedMedication, purpose, amount, interval);
-            i++;
-
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+        $("#population").select2({
+        placeholder: "Select or type keywords"
         });
-
-        $(document).on('click', '.btn_remove', function(){  
-            var button_id = $(this).attr("id");
-            var index = button_id - 2; 
-            console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
-
-            medicineList.splice(index, 1);
-            purposeList.splice(index, 1);
-            amountList.splice(index, 1);
-            intervalList.splice(index, 1);
-        });  
-
-        $("#saveBtn").click(function(){
-            console.log("clicked?");
-            console.log(studentID);
-
-            var id = $('#studentID').val();
-            console.log(id);
-            
-            var studentName = $('#studentName').val(); 
-            console.log(studentName);
-
-            var visitDate =  $('#visitDate').val(); 
-            var forSort = visitDate.split("-");
-            var forSortDate = forSort.join('');
-            console.log(visitDate);
-            console.log(forSortDate);
-           
-            var timeIn =  $('#clinicIn').val();
-            console.log(timeIn);
-
-            var timeOut =  $('#clinicOut').val(); 
-            console.log(timeOut);
-
-            //var selectClinician =  $('#clinician').val();
-            var clinician =  $('#clinicianVisit').find(":selected").val();   
-            console.log(clinician);
-            
-            var complaint =  $('#complaintVisit').val(); 
-            console.log(complaint);
-
-            var treatment =  $('#treatmentVisit').val(); 
-            console.log(treatment);
-
-            var notes =  $('#notes').val(); 
-            console.log(notes);
-
-            var status =  $('#status').find(":selected").text();
-            console.log(status);
-
-            /* TO DO: Add checkers for fields if empty */
-
-            //console.log("may laman? "+purposeList);
-            //console.log("may laman? "+amountList);
-            //console.log("may laman? "+intervalList);
-
-            $.ajax({
-                url: '/addClinicVisit',
-                method: 'POST',
-                data: {
-                    studentId: id,
-                    studentName: studentName,
-                    visitDate: visitDate,
-                    timeStamp: forSortDate,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    clinician: clinician,
-                    complaint: complaint,
-                    treatement: treatment,
-                    notes: notes,
-                    status: status,
-                    medicineList: medicineList,
-                    purposeList: purposeList, 
-                    amountList: amountList,
-                    intervalList: intervalList
-                },
-                success: function(data) {
-                    window.location.href = "/clinic-visit";
-                }
-            });
-        });
-    
-    });
     </script>
 </body>
 

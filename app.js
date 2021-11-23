@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const db = require('./firebase');
-const gmail = require('./gmail');
+// const gmail = require('./gmail');
 
 //Routes imports
 const indexRouter = require('./routes/index');

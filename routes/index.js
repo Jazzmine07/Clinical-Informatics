@@ -83,6 +83,26 @@ router.get('/communications', (req, res) => {
   })
 });
 
+// Get promotive care page
+router.get('/promotive-care', (req, res) => {
+  console.log("Read promotive care successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('promotive-care', {
+      users: usersInfo
+    });
+  })
+});
+
+// Get program form page
+router.get('/promotive-care/program-form', (req, res) => {
+  console.log("Read program form successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('program-form', {
+      users: usersInfo
+    });
+  })
+});
+
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);

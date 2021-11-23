@@ -13,7 +13,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
@@ -81,7 +83,7 @@
             </li>
 
             <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/clinic-visit">
                     <i class="fas fa-fw fa-medkit"></i>
                     <span>Clinic Visit</span></a>
@@ -102,7 +104,7 @@
             </li>
 
             <!-- Nav Item - Promotive Care -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-child"></i>
                     <span>Promotive Care</span></a>
@@ -352,316 +354,238 @@
                 <!-- /.container-fluid -->
 
                 <div class="container-fluid">
+
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1></div>
-                    <div class="card shadow mb-2">
-                        <div class="card-body">
-                            <form class="user">
-                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="studentName" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
-                                    </div>
-                                </div>
-                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
-                            </form>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div class="card shadow mb-2" id="studentDiv">
-                        <div class="card-body">
-                                <!-- Card Header - Accordion -->
-                            <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
-                                role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse" id="collapseCV">
-                                <div class="card-body">
-                                    <div class="container-fluid">
-                                        <div class="row mb-3">
-                                            <div class="col-lg-12">
-                                                <div class="card mb-3">
-                                                    <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
-                                                    <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
-                                                        <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
-                                                        <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
-                                                            <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
-                                                            <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
-                                                            <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
-                                                            <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
-                                                    <label class="btn btn-primary active">
-                                                    <input class="categorybtn active" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
-                                                    </label>
-                                                    <label class="btn btn-primary">
-                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'uploads')"> Uploads
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{!-- END OF STUDENT PROFILE --}}
-                            </div>
-                        </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Health Program Form</h1>
                     </div>
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
-                        <div class="card-body">
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label class="col-form-label" for="studentID">Student ID Number</label>
-                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId">
-                                </div>
-                                <div class="col-8">
-                                    <label class="col-form-label" for="studentName">Student Name</label>
-                                    <input type="text" class="form-control mb-2" id="studentName">
-                                </div>
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-6">
-                                    <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <select class="custom-select mb-2" id="studentGrade">
-                                        <option selected>Choose...</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                        <option value="6">Six</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <label for="studentSec" class="col-form-label">Section</label>
-                                    <input type="text" class="form-control mb-2" id="studentSection">
-                                </div>
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                    <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
-                                </div>
-                                <div class="col-4">
-                                    <label for="clinicIn" class="col-form-label">Time In</label>
-                                    <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
-                                </div>
-                                <div class="col-4">
-                                    <label for="clinicOut" class="col-form-label">Time Out</label>
-                                    <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
-                                </div>
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-12">
-                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                    <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
-                                        <option disabled>Choose...</option>
-                                        {{#each users}}
-                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                        {{/each}}
-                                    </select>  
-                                </div>   
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-3">
-                                    <label for="bodyTemp" class="col-form-label">Body Temperature</label>
-                                    <div class="input-group mb-2">                                        
-                                        
-                                        <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon1">°C</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
-                                    <div class="input-group mb-2">                                        
-                                        
-                                    <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <label for="pulseRate" class="col-form-label">Pulse Rate</label>
-                                    <div class="input-group mb-2">                                        
-                                        
-                                    <input type="number" class="form-control" id="pulseRate" name="pulseRate">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon3">beats/min</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <label for="respRate" class="col-form-label">Respiration Rate</label>
-                                    <div class="input-group mb-2">                                        
-                                        
-                                    <input type="number" class="form-control" id="respRate" name="respRate">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon4">breaths/min</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
-                            </div>
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6></div>
-                        <div class="card-body">
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-12">
-                                    <label class="col-form-label" for="status">Status</label>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option selected>Choose...</option>
-                                        <option value="Discharged">Discharged</option>
-                                        <option value="Under Observation">Under Observation</option>
-                                        <option value="Hospitalized">Hospitalized</option>
-                                        <option value="Sent Home">Sent Home</option>
-                                    </select>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Medication -->
-                    <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
-                            <select id="assign" name="assign" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
-                                <option>Clinician</option>
-                                <option>Nurse</option>
-                            </select>
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. YYYY - YYYY</h6>                           
+                            
+                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
+                                class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
+                            <button type="button" class="btn btn-primary btn-sm mx-1 ">Skip<i
+                                class="fas fa-forward ml-2 text-white-50"></i></button>
                         </div>
                         <div class="card-body">
+                            <form class="user">
                                 <div class="form-row align-items-center">
-                                    <div class="col-12">
-                                      <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
+                                    <div class="col-4">
+                                      <label class="col-form-label" for="studentID">Student ID Number</label>
+                                      <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                                    </div>
+                                    <div class="col-8">
+                                        <label class="col-form-label" for="studentName">Student Name</label>
+                                        <input type="text" class="form-control mb-2" id="studentName">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="studentGrd" class="col-form-label">Grade</label>
+                                        <select class="custom-select mb-2" id="studentGrade">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                            <option value="6">Six</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="studentSec" class="col-form-label">Section</label>
+                                        <input type="text" class="form-control mb-2" id="studentSection">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
+                                        <label for="dob" class="col-form-label">Date of Birth</label>
+                                        <input type="date" class="form-control mb-2" id="dob">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="gender" class="col-form-label">Gender</label>
+                                        <input type="name" class="form-control mb-2" id="gender">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="age" class="col-form-label">Age</label>
+                                        <input type="number" class="form-control mb-2" id="age">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="dope" class="col-form-label">Date of Examination</label>
+                                        <input type="date" class="form-control mb-2" id="dope">
+                                    </div>
+                                    <div class="col-6">
+                                      <label class="col-form-label" for="clinicianVisit">Attending Clinician</label>
                                       <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
                                           <option selected>Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
-                                      </select>  
+                                      </select>
                                     </div>   
                                 </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                      <label class="col-form-label" for="medicationVisit">Medication</label>
-                                      <select class="custom-select mb-2" id="medicationVisit" name="medicationVisit">
-                                        <option selected>Choose...</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </select>                                    
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                        <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
-                                    </div>
-                                </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="amountMed">Amount</label>
-                                        <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="intervalMed">Interval</label>
-                                        <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
-                                    </div>
-                                </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="startMed">Start Date</label>
-                                        <input type="date" class="form-control mb-2" id="startMed" name="startMed">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="endMed">End Date</label>
-                                        <input type="date" class="form-control mb-2" id="endMed" name="endMed">
-                                    </div>
-                                </div>
-                                <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
-                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
-                            
-                            <!-- <div id="container"></div> -->
-                            <table class="table" id="dynamic_field">  
 
-                            </table>
-                        </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-2">
+                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1">°C</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                        <div class="input-group mb-2">                                        
+                                            
+                                        <input type="number" class="form-control" id="respRate" name="respRate">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="skinFind" class="col-form-label">Skin Findings</label>
+                                        <input type="name" class="form-control mb-2" id="skinFind" name="skinFind">
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
+                                        <label for="Weight" class="col-form-label">Weight</label>
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="weight">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-4">
+                                        <label for="height" class="col-form-label">Height</label>
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="height">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-4">
+                                        <label for="bmi" class="col-form-label">BMI</label>
+                                        <div class="input-group mb-2">                                           
+                                        <input type="number" class="form-control" id="bmi">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon4">kg/m²</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-3">
+                                        <label for="odVision" class="ml-1 col-form-label">Vision</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">od</span>
+                                            </div>
+                                                <input type="text" class="form-control" id="odVision">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="osVision" class="ml-1 col-form-label" style="color: white;">.</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">os</span>
+                                            </div>
+                                                <input type="text" class="form-control" id="osVision">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="odGlasses" class="ml-1 col-form-label">with Glasses</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">od</span>
+                                            </div>
+                                                <input type="text" class="form-control" id="odGlasses">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="osGlasses" class="ml-1 col-form-label" style="color: white;">.</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">os</span>
+                                            </div>
+                                                <input type="text" class="form-control" id="osGlasses">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="medProb" class="col-form-label">Medical Problems</label>
+                                        <input type="name" class="form-control mb-2" id="medProb" name="medProb">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="allergies" class="col-form-label">Allergies</label>
+                                        <input type="name" class="form-control mb-2" id="allergies" name="allergies">
+                                    </div>
+                                </div>
+
+                                <div class="form-row col-12">
+                                    <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
+                                </div>
+                                <div class="form-row col-12">
+                                    <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
+                                    <textarea type="text" class="form-control mb-2" id="assessPE" name="assessPE" rows="3"></textarea>
+                                </div>
+                                <div class="form-check ml-2 mt-2">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
+                                </div>
+
+                        <nav class="d-flex justify-content-end">
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">Name of Next Student &raquo;</span>
+                            </a>
+                        </nav>
+                        </form>
                     </div>
-
-                    <!-- More -->
-                    <div class="card shadow mb-2">
-                        <div class="card-body">
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="notes">Notes/Recommendations</label>
-                                <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="3"></textarea>
-                            </div>
-                            {{!-- <div class="form-row align-items-center">
-                                <div class="col-12">
-                                    <label class="col-form-label" for="status">Status</label>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option selected>Choose...</option>
-                                        <option value="Discharged">Discharged</option>
-                                        <option value="Under Observation">Under Observation</option>
-                                        <option value="Hospitalized">Hospitalized</option>
-                                        <option value="Sent Home">Sent Home</option>
-                                    </select>  
-                                </div>                                  
-                            </div> --}}
-                            <div class="d-flex justify-content-end mt-4 col-12">
-                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
-                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
-                            </div>
-                        </div>
                     </div>
                 </div>
+
+            </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -723,21 +647,6 @@
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-            crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-
-    <script>
-        $("#assign").select2({
-        placeholder: "Select or type keywords"
-        });
-    </script>
 
     <script>
         function openDiv(event, card) {
@@ -845,12 +754,12 @@
         $(document).ready(function() {
         var medicationsArray = [];
 
-        function addMedication(meds, purpose, amount, interval, startMed, endMed) {
-            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
+        function addMedication(meds, purpose, amount, interval) {
+            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval});
         }
 
         var i = 1;  
-        var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
+        var medicineList = [], purposeList = [], amountList = [], intervalList = [];
 
         $('#addMedication').click(function(){
             var selectMedication = document.getElementById("medicationVisit");
@@ -858,25 +767,21 @@
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
-            var startMed = document.getElementById("startMed").value;
-            var endMed= document.getElementById("endMed").value;
-
 
             /* TO DO: Add checkers for fields if empty */
             medicineList.push(selectedMedication);
             purposeList.push(purpose);
             amountList.push(amount);
             intervalList.push(interval);
-            startMedList.push(startMed);
-            endMedList.push(endMed);
 
-            console.log("push? "+ startMed);
-            console.log("push? "+ endMed);
+            console.log("push? "+purposeList);
+            console.log("push? "+amountList);
+            console.log("push? "+intervalList);
 
-            addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+            addMedication(selectedMedication, purpose, amount, interval);
             i++;
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ startMed +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ endMed +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
         });
 
         $(document).on('click', '.btn_remove', function(){  
@@ -889,9 +794,6 @@
             purposeList.splice(index, 1);
             amountList.splice(index, 1);
             intervalList.splice(index, 1);
-            startMedList.splice(index, 1);
-            endMedList.splice(index, 1);
-            
         });  
 
         $("#saveBtn").click(function(){
@@ -922,9 +824,6 @@
             
             var complaint =  $('#complaintVisit').val(); 
             console.log(complaint);
-
-            //vital signs!!!dont't forget
-
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);

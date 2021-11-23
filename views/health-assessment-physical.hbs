@@ -371,7 +371,7 @@
                                 class="fas fa-forward ml-2 text-white-50"></i></button>
                         </div>
                         <div class="card-body">
-                            <form class="user">
+                            <form class="user" method="post" action="/addAPE">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
@@ -576,7 +576,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end mt-4 col-12">
-                                    <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
+                                    <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
                                         Save | Next Student<i class="ml-2 fas fa-arrow-right text-white-50"></i>
                                     </button>                                    
                                 </div>
@@ -735,6 +735,42 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE);
+
+
+            $.ajax({
+                url: '/addAPE',
+                method: 'POST',
+                data: {
+                    studentId: id,
+                    studentName: studentName,
+                    visitDate: dateAPE,
+                    //timeStamp: forSortDate,
+                    clinician: clinician,
+                    bodyTemp: bodyTemp,
+                    bp: bp,
+                    pr: pr,
+                    rr: rr,
+                    skinFindings: sf,
+                    weight: weight,
+                    height: height,
+                    bmi: bmi,
+                    odVision: odVision,
+                    osVision: osVision,
+                    odGlasses: odGlasses,
+                    osGlasses: osGlasses,
+                    medProb: medProb,
+                    allergies: allergies,
+                    concern: complaintAPE,
+                    assess: assessAPE,
+                    normal: normalPE
+                   
+                },
+                success: function(data) {
+                    window.location.href = "/clinic-visit";
+                }
+            });
+
+
             });    
         });
     </script>

@@ -139,5 +139,65 @@ exports.getClinicVisits = function(req, res){
         });
 
         res(filtered);
-    })
+    })    
+}
+
+exports.addAPE = function(req, res){
+    var id= req.body.studentId;
+    var name = req.body.studentName;
+    var apeDate = req.body.visitDate;
+    var clinician = req.body.clinician;
+    var temp= req.body.bodyTemp;
+    var bp = req.body.bp;
+    var pr = req.body.pr;
+    var rr = req.body.rr;
+    var sf = req.body.skinFindings;
+    var weight = req.body.weight;
+    var height = req.body.height;
+    var bmi = req.body.bmi;
+    var odVision = req.body.odVision;
+    var osVision = req.body.osVision;
+    var odGlasses = req.body.odGlasses;
+    var osGlasses = req.body.osGlasses;
+    var medProb = req.body.medProb;
+    var allergies = req.body.allergies;
+    var concern = req.body.concern;
+    var assess = req.body.assess;
+    var normal = req.body.normal;
+    
+    var key;
+
+    var database = firebase.database();
+    var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
+    var record = {
+        id: id,
+        name: name,
+        apeDate: apeDate,
+        clinician: clinician,
+        temp: temp,
+        bp: bp,
+        pr: pr,
+        rr: rr,
+        sf: sf,
+        weight: weight,
+        height: height,
+        bmi: bmi,
+        odVision: odVision,
+        osVision: osVision,
+        odGlasses: odGlasses,
+        osGlasses: osGlasses,
+        medProb: medProb,
+        allergies: allergies,
+        concern: concern,
+        //assess: assess,
+        // normal: normal
+    };
+
+    apeRef.push(record);
+    // key = apeRef.push(record).key;
+    
+    res.send({
+        success: true,
+        success_msg: "Record added!"
+    });
 }

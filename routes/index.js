@@ -107,5 +107,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);
 router.post('/addClinicVisit', studentController.addClinicVisit);
+router.post('/addAPE', studentController.addAPE);
+
 
 module.exports = router;

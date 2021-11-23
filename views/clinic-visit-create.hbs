@@ -952,6 +952,14 @@
             //console.log("may laman? "+amountList);
             //console.log("may laman? "+intervalList);
 
+             $("#assign").on("select2:select select2:unselect", function (e) {
+
+                //this returns all the selected item
+                var items= $(this).val();    
+                console.log(items);
+                console.log("checking..." + items);
+            });
+
             $.ajax({
                 url: '/addClinicVisit',
                 method: 'POST',

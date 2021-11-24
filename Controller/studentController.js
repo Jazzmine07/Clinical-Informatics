@@ -109,7 +109,6 @@ exports.addClinicVisit = function(req, res){
         notes: notes,
     };
 
-    clinicVisitRef.push(record);
     key = clinicVisitRef.push(record).key;
 
     // for(i = 0; i < medicationList.length; i++){
@@ -125,6 +124,7 @@ exports.addClinicVisit = function(req, res){
 
     var assignMedication = database.ref("assignedForms/"+ medicationAssign);
     var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+
     var medicationForm = {
         task: "Clinic Visit",
         description: "Medication",
@@ -143,28 +143,32 @@ exports.addClinicVisit = function(req, res){
         timestamp: timestamp
     }
 
-    assignMedication.push(medicationForm);
-    assignDiagnosis.push(diagnosisForm);
+    var assignBoth = {
+        task: "Clinic Visit",
+        description: "Diagnosis & Medication",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: timestamp
+    }
 
-    var medicationNotification = database.ref("notifications/"+medicationAssign);
-    var medNotif = {
+    var userNotification = database.ref("notifications/"+medicationAssign);
+
+    var notif = {
         type: "form",
         message: "You have been assigned to a new form!",
         date: visitDate,
         timestamp: timestamp,
         seen: false
     }
-    medicationNotification.push(medNotif);
 
-    var diagnosisNotification = database.ref("notifications/"+diagnosisAssign);
-    var diagnosisNotif = {
-        type: "form",
-        message: "You have been assigned to a new form!",
-        date: visitDate,
-        timestamp: timestamp,
-        seen: false
+    if(medicationAssign == diagnosisAssign){
+        assignMedication.push(assignBoth);
+    } else {
+        assignMedication.push(medicationForm);
+        assignDiagnosis.push(diagnosisForm);
+        userNotification.push(notif);
     }
-    diagnosisNotification.push(diagnosisNotif);
     
     res.redirect('/clinic-visit');
 }

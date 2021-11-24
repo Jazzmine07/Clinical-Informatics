@@ -316,6 +316,7 @@ exports.addAPE = function(req, res){
     var normal = req.body.normal;
     
     var key;
+    console.log("Assessment:" + assess);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
@@ -339,10 +340,9 @@ exports.addAPE = function(req, res){
         medProb: medProb,
         allergies: allergies,
         concern: concern,
-        //assess: assess,
+        assess: assess,
         // normal: normal
     };
-
     apeRef.push(record);
     // key = apeRef.push(record).key;
     
@@ -350,4 +350,34 @@ exports.addAPE = function(req, res){
         success: true,
         success_msg: "Record added!"
     });
+}
+
+exports.getSectionStudents = function(req, res){
+    var schoolYear= req.body.schoolYear;
+    var section = req.body.section;
+    var studentName= req.body.studentName;
+    const students = [];
+
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+       
+    if(section != null){
+        console.log(schoolYear);
+        console.log(section);
+        studentRef.orderByChild("section").equalTo(section).on('value', (snapshot) => {
+            if(snapshot.exists()){
+                snapshot.forEach(function(childSnapshot){
+                    console.log("looking for section:" + section);
+                    console.log("Key: "+childSnapshot.key);
+                    console.log("Section: "+childSnapshot.child("section").val());
+                    console.log("Id Number: "+childSnapshot.child("idNum").val());
+                    students.push(childSnapshot.key);
+                })
+                console.log("Students in "+ section +":"+students);
+            }
+            res.send(students);
+        });
+    }
+
+    
 }

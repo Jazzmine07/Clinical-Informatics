@@ -102,7 +102,7 @@
             </li>
 
             <!-- Nav Item - Health Assessment -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-stethoscope"></i>
                     <span>Health Assessment</span></a>
@@ -130,7 +130,7 @@
             </li>
 
             <!-- Nav Item - Inventory -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-tablets"></i>
                     <span>Inventory</span></a>
@@ -368,195 +368,18 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Health Assessment</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
                         <div class="d-flex flex-row-reverse">
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-share mr-1 text-white-50"></i> Send Email  </button>
-
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
-                                class="fas fa-calendar-alt mr-1 text-white-50" data-toggle="modal" data-target="#modalSched"></i> Schedule  </button>
-                            
-                            <div class="dropdown">
-                                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="createHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                            <a href="/inventory/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-plus-circle mr-1 text-white-50"></i> Create  </a>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="createHA">
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#modalHA">Physical Exam</a>
-                                    <a class="dropdown-item" href="#">Dental Exam</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
-
-                    <div class="modal fade" id="modalHA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Physical Exam</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <label for="schoolYear">Enter School Year</label>                                        
-                                    <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">S.Y.</span>
-                                    </div>
-                                    <input type="text" class="form-control" id="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sectionPE">Conduct APE by a Section</label>
-                                        <div class="input-group">
-                                            <span class="input-group-prepend">
-                                                <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
-                                                <i class="fa fa-search"></i>
-                                                </div>
-                                            </span>
-                                            <input list="sections" class="form-control py-2 border-left-1 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
-                                        </div>
-                                        <datalist id="sections">
-                                            <option value="Grade 1 - Faithfulness">
-                                            <option value="Grade 1 - Honesty">
-                                            <option value="Grade 1 - Humility">
-                                            <option value="Grade 1 - Politeness">
-                                            <option value="Grade 1 - Sincerity">
-                                            <option value="Grade 2 - Charity">
-                                            <option value="Grade 2 - Gratefulness">
-                                            <option value="Grade 2 - Gratitude">
-                                            <option value="Grade 2 - Meekness">
-                                            <option value="Grade 2 - Simplicity">                                
-                                        </datalist>  
-                                        <h6 id="or" class="h6 text-gray"><span>OR</span></h6>
-                                        <label for="studentPE">Conduct APE for a Student</label>
-                                        <div class="input-group">
-                                            <span class="input-group-prepend">
-                                                <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
-                                                <i class="fa fa-search"></i>
-                                                </div>
-                                            </span>
-                                            <input list="students" class="form-control py-2 border-left-1 border" id="studentPE" placeholder="Search student"/>                                       
-                                        </div>
-                                        <datalist id="students">
-                                            <option value="Christine Nahuli">                                
-                                        </datalist>
-
-                                    </div>                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                                    <a href="/health-assessment/physical" class="btn btn-success">Proceed</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="modalSched" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLongTitle">Schedule for Physical and Dental Exam</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="schoolYear">Enter School Year</label>                                        
-                                        <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
-                                        </div>
-                                        <div>
-                                            <label for="dope" class="col-form-label">Date of Examination</label>
-                                            <input type="date" class="form-control mb-2" id="dope">
-                                        </div>
-                                        <label for="sectionPE">Enter Grade and Section</label>
-                                        <div class="input-group">
-                                            <span class="input-group-prepend">
-                                                <div class="input-group-text bg-transparent border-right-0">
-                                                <i class="fa fa-search"></i>
-                                                </div>
-                                            </span>
-                                            <input list="sections" class="form-control py-2 border-left-0 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
-                                        </div>
-                                        <datalist id="sections">
-                                            <option value="Grade 1 - Faithfulness">
-                                            <option value="Grade 1 - Honesty">
-                                            <option value="Grade 1 - Humility">
-                                            <option value="Grade 1 - Politeness">
-                                            <option value="Grade 1 - Sincerity">
-                                            <option value="Grade 2 - Charity">
-                                            <option value="Grade 2 - Gratefulness">
-                                            <option value="Grade 2 - Gratitude">
-                                            <option value="Grade 2 - Meekness">
-                                            <option value="Grade 2 - Simplicity">                                
-                                        </datalist>  
-                                    </div>                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                                    <a href="/health-assessment/physical" class="btn btn-success">Proceed</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
                     {{#if success}}
                         <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
                             <i class="fa fa-exclamation-circle"></i>
                             <strong class="mx-1">Success!</strong> {{success_msg}}
                         </div>
                     {{/if}}
-
-                    <!-- Project Card Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="small font-weight-bold">Grade 1 <span
-                                    class="float-right">20%</span></h4>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                    aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Grade 2 <span
-                                    class="float-right">40%</span></h4>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 40%; background-color: #FF781F;"
-                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Grade 3 <span
-                                    class="float-right">60%</span></h4>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 60%; background-color: #FFE800;"
-                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Grade 4 <span
-                                    class="float-right">80%</span></h4>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%"
-                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Grade 5 <span
-                                    class="float-right">Complete!</span></h4>
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
-                                    aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Grade 6 <span
-                                    class="float-right">Complete!</span></h4>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 100%; background-color: #9400D3;"
-                                    aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -568,12 +391,12 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Grade and Section</th>
-                                            <th>Date of Schedule</th>
-                                            <th>No. of Students</th>
-                                            <th>Status</th>
-                                            <th>Time Out</th>
-                                            <th>Status</th>
+                                            <th>Medication</th>
+                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th>No. of Items</th>
+                                            <th>Expiry Date</th>
+                                            <th>-</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -672,88 +495,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-2 divmenu" id="haSched">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Schedule</h6></div>
-                        <div class="card-body">
-                            {{#each clinicVisits}}
-                                <!-- Card Header - Accordion -->
-                            {{!-- <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate purchaseDate}}</button> --}}
-                            <a class="d-block card-header py-3 collapsible" data-toggle="collapse" data-target="content" role="button" aria-expanded="false" aria-controls="content">
-                                <h6 class="m-0 font-weight-bold text-primary">Grade - Section</span></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="content">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Student</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{#each visitDetails}}
-                                            <tr>
-                                                <td>{{studentName}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
-                                            </tr>
-                                            {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-                    </div>
-
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-2 divmenu" id="haList">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Physical Exam</h6></div>
-                        <div class="card-body">
-                            {{#each clinicVisits}}
-                                <!-- Card Header - Accordion -->
-                            {{!-- <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate purchaseDate}}</button> --}}
-                            <a class="d-block card-header py-3 collapsible" data-toggle="collapse" data-target="content" role="button" aria-expanded="false" aria-controls="content">
-                                <h6 class="m-0 font-weight-bold text-primary">Grade - Section</span></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="content">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Student</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{#each visitDetails}}
-                                            <tr>
-                                                <td>{{studentName}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
-                                            </tr>
-                                            {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-                    </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 

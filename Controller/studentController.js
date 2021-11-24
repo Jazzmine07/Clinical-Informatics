@@ -46,6 +46,8 @@ exports.addClinicVisit = function(req, res){
     // visit details
     var id = req.body.studentId;
     var name = req.body.studentName;
+    var grade = req.body.studentGrade;
+    var section = req.body.studentSection;
     var visitDate = req.body.visitDate;
     var timestamp = req.body.timeStamp;
     var timeIn = req.body.timeIn;
@@ -66,8 +68,8 @@ exports.addClinicVisit = function(req, res){
     var purposeList = req.body.purposeList;
     var amountList = req.body.amountList;
     var intervalList = req.body.intervalList;
-    var startMed = req.body.startMed;
-    var endMed = req.body.endMed;
+    var startMedList = req.body.startMed;
+    var endMedList = req.body.endMed;
     
     // diagnosis
     var diagnosisAssign = req.body.diagnosisAssign;
@@ -83,6 +85,8 @@ exports.addClinicVisit = function(req, res){
     var record = {
         id: id, 
         studentName: name,
+        grade: grade,
+        section: section,
         visitDate: visitDate,
         timestamp: timestamp,
         timeIn: timeIn,
@@ -100,8 +104,6 @@ exports.addClinicVisit = function(req, res){
         medicationAssigned: medicationAssign,
         medicationPrescribed: prescribedBy,
         medication: "", // array of medications
-        medicationStartDate: startMed,
-        medicationEndDate: endMed,
 
         diagnosisAssigned: diagnosisAssign,
         diagnosis: diagnosis,
@@ -118,6 +120,8 @@ exports.addClinicVisit = function(req, res){
     //         purpose: purposeList[i],
     //         amount: amountList[i],
     //         interval: intervalList[i]
+    //         startDate: startMedList[i],
+    //         endDate: endMedList[i]
     //     };
     //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
     // }
@@ -131,7 +135,8 @@ exports.addClinicVisit = function(req, res){
         formId: key,
         assignedBy: nurse,
         dateAssigned: visitDate,
-        timestamp: timestamp
+        timestamp: timestamp,
+        status: "Pending"
     }
 
     var diagnosisForm = {
@@ -140,7 +145,8 @@ exports.addClinicVisit = function(req, res){
         formId: key,
         assignedBy: nurse,
         dateAssigned: visitDate,
-        timestamp: timestamp
+        timestamp: timestamp,
+        status: "Pending"
     }
 
     var assignBoth = {
@@ -149,7 +155,8 @@ exports.addClinicVisit = function(req, res){
         formId: key,
         assignedBy: nurse,
         dateAssigned: visitDate,
-        timestamp: timestamp
+        timestamp: timestamp,
+        status: "Pending"
     }
 
     var userNotification = database.ref("notifications/"+medicationAssign);
@@ -268,6 +275,63 @@ exports.getAssignedForms = function(req, res){
         } else {
             res(forms);
         }
+    })
+}
+
+exports.getClinicVisitForm = function(req, res){
+    var formId = req.params.id;
+    console.log("formid "+formId);
+    var database = firebase.database();
+    var formRef = database.ref("clinicVisit/"+formId);
+    var medication = [], details = [];
+    var childSnapshotData, nurse, fname, lname;
+    
+    formRef.on('value', (snapshot) => {
+        // snapshot.child("medication").on('value', (childSnapshot) => {
+        //     childSnapshot.forEach(function(data){
+        //         childSnapshotData = data.exportVal();
+        //         medication = {
+        //             medicines: childSnapshotData.medicines,
+        //             purpose: childSnapshotData.purpose,
+        //             amount: childSnapshotData.amount,
+        //             interval: childSnapshotData.interval,
+        //             startDate: childSnapshotData.startDate,
+        //             endDate: childSnapshotData.endDate,
+        //         }
+        //     })
+        // })
+        nurse = snapshot.child("attendingNurse").val();
+        database.ref("clinicUsers/"+nurse).on('value', (userSnapshot) => {
+            fname = userSnapshot.child('firstName').val();
+            lname = userSnapshot.child('lastName').val();
+        })
+        
+        details = {
+            formId: formId,
+            idNum: snapshot.child("id").val(),
+            studentName: snapshot.child("studentName").val(),
+            studentGrade: snapshot.child("grade").val(),
+            studentSection: snapshot.child("section").val(),
+            visitDate: snapshot.child("visitDate").val(),
+            timeIn: snapshot.child("timeIn").val(),
+            timeOut: snapshot.child("timeOut").val(),
+            attendingNurse: fname + " " + lname,
+            bodyTemp: snapshot.child("bodyTemp").val(),
+            systolicBP: snapshot.child("systolicBP").val(),
+            diastolicBP: snapshot.child("diastolicBP").val(),
+            pulseRate: snapshot.child("pulseRate").val(),
+            respirationRate: snapshot.child("respirationRate").val(),
+            visitReason: snapshot.child("visitReason").val(),
+            treatment: snapshot.child("treatment").val(),
+
+            //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
+            //medication: medication,
+
+            status: snapshot.child("status").val(),
+            notes: snapshot.child("notes").val(),
+
+        }
+        res(details);
     })
 }
 

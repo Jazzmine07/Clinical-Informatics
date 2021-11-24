@@ -79,6 +79,35 @@ router.get('/clinic-visit/create', (req, res) => {
   })
 });
 
+// Get clinic visit edit page
+router.get('/clinic-visit/edit/:id', (req, res) => {
+  console.log("Read create clinic visit edit successful!");
+  userController.getUser(req, user => {
+  //   userController.getNurse(req, nurse => {
+  //     userController.getClinician(req, clinician => {
+  //       userController.getUsers(req, users => {
+    studentController.getClinicVisitForm(req, form => {
+            if(user.role == "Nurse"){
+              res.render('clinic-visit-edit', {
+                user: user,
+                isNurse: true,
+                form: form
+              });
+            } else {
+              res.render('clinic-visit-edit', {
+                user: user, 
+                isNurse: false,
+                form: form
+              });
+            }
+    })
+          
+  //      })
+  //     })
+  //   })
+  })
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");

@@ -1007,10 +1007,10 @@
                                     <tbody>
                                         {{#each forms}}
                                         <tr>
-                                            <td>{{task}}</td>
-                                            <td>{{description}}</td>
-                                            <td>{{assignedBy}}</td>
-                                            <td>{{formatDate dateAssigned}}</td>
+                                            <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
+                                            <td><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
+                                            <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
+                                            <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate dateAssigned}}</a></td>
                                         </tr>
                                         {{/each}}
                                     </tbody>

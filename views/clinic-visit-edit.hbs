@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IsKlinika</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        .div[class*="divmenu"]:first-of-type {
+            display: block;
+        }
+
+        .divmenu {
+            display: none;
+            border-top: none;
+        }
+
+
+        .pdfobject-container { 
+            height: 30rem; 
+            border: 1rem solid rgba(0,0,0,.1); 
+        }
+
+        #studentDiv{
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            
+            <!-- Nav Item - Disease Surveillance -->
+            <li class="nav-item">
+                <a class="nav-link" href="/index">
+                    <i class="fas fa-fw fa-virus"></i>
+                    <span>Disease Surveillance</span></a>
+            </li>
+
+            <!-- Nav Item - Case Records -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Case Records</span></a>
+            </li>
+
+            <!-- Nav Item - Clinic Visit -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/clinic-visit">
+                    <i class="fas fa-fw fa-medkit"></i>
+                    <span>Clinic Visit</span></a>
+            </li>
+
+            <!-- Nav Item - Health Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/health-assessment">
+                    <i class="fas fa-fw fa-stethoscope"></i>
+                    <span>Health Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
+            </li>
+
+            <!-- Nav Item - Performance Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-star"></i>
+                    <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-tablets"></i>
+                    <span>Inventory</span></a>
+            </li>
+
+            <!-- Nav Item - Profile -->
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Profile</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                
+                <!-- /.container-fluid -->
+
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1></div>
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user">
+                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="card shadow mb-2" id="studentDiv">
+                        <div class="card-body">
+                                <!-- Card Header - Accordion -->
+                            <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
+                                role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
+                            </a>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse" id="collapseCV">
+                                <div class="card-body">
+                                    <div class="container-fluid">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-12">
+                                                <div class="card mb-3">
+                                                    <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
+                                                    <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
+                                                        <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                                        <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
+                                                            <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
+                                                            <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
+                                                            <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
+                                                            <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
+                                                    <label class="btn btn-primary active">
+                                                    <input class="categorybtn active" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'uploads')"> Uploads
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- END OF STUDENT PROFILE --}}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{!-- {{#if isNurse}} --}}
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <input id="formID" type="hidden" value="{{form.formId}}">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId" value="{{form.idNum}}">
+                                </div>
+                                <div class="col-8">
+                                    <label class="col-form-label" for="studentName">Student Name</label>
+                                    <input type="text" class="form-control mb-2" id="studentName" value="{{form.studentName}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-6">
+                                    <label for="studentGrd" class="col-form-label">Grade</label>
+                                    <input type="text" class="form-control mb-2" id="studentGrade" value="{{form.studentGrade}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="studentSec" class="col-form-label">Section</label>
+                                    <input type="text" class="form-control mb-2" id="studentSection" value="{{form.studentSection}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                    <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" value="{{form.visitDate}}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="clinicIn" class="col-form-label">Time In</label>
+                                    <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn" value="{{form.timeIn}}">
+                                </div>
+                                <div class="col-4">
+                                    <label for="clinicOut" class="col-form-label">Time Out</label>
+                                    <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut" value="{{form.timeOut}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                    <input type="text" class="form-control mb-2" id="attendingNurse" name="attendingNurse" value="{{form.attendingNurse}}">
+                                </div>   
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-3">
+                                    <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                    <div class="input-group mb-2">                                        
+                                        
+                                        <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" value="{{form.bodyTemp}}">                                        
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon1">°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                    <div class="input-group mb-2">                                        
+                                    
+                                    <label class="col-form-label">Systolic BP</label>
+                                    <input type="number" class="form-control" id="systolicBP" min="0" value="{{form.systolicBP}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group mb-2">                                        
+                                    
+                                    <label class="col-form-label">Diastolic BP</label>
+                                    <input type="number" class="form-control" id="diastolicBP" min="0" value="{{form.diastolicBP}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                    <div class="input-group mb-2">                                        
+                                        
+                                    <input type="number" class="form-control" id="pulseRate" name="pulseRate" value="{{form.pulseRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                    <div class="input-group mb-2">                                        
+                                        
+                                    <input type="number" class="form-control" id="respRate" name="respRate" value="{{form.respirationRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row col-12">
+                                <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3">{{form.visitReason}}</textarea>
+                            </div>
+                            <div class="form-row col-12">
+                                <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3">{{form.treatment}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Medication -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
+                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
+                            <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
+                            </select> 
+                        </div>
+                        <div class="card-body">
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                      <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
+                                      <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
+                                          <option selected>Choose...</option>
+                                      </select>  
+                                    </div>   
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                      <label class="col-form-label" for="medicationVisit">Medication</label>
+                                      <select class="custom-select mb-2" id="medicationVisit" name="medicationVisit">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                        </select>                                    
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                        <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="amountMed">Amount</label>
+                                        <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="intervalMed">Interval</label>
+                                        <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="startMed">Start Date</label>
+                                        <input type="date" class="form-control mb-2" id="startMed" name="startMed">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="endMed">End Date</label>
+                                        <input type="date" class="form-control mb-2" id="endMed" name="endMed">
+                                    </div>
+                                </div>
+                                <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
+                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
+                            
+                            <!-- <div id="container"></div> -->
+                            <table class="table" id="dynamic_field">  
+
+                            </table>
+                        </div>
+                    </div>
+
+                    {{!-- {{else}} --}}
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row col-12">
+                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- {{/if}} --}}
+
+                    <!-- More -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="status">Status</label>
+                                    <input type="text" class="form-control mb-2" id="status" name="status" value="{{form.status}}">                                  
+                                </div>
+                            </div>
+                            <div class="form-row col-12">
+                                <label class="col-form-label" for="notes">Notes/Recommendations</label>
+                                <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="3">{{form.notes}}</textarea>
+                            </div>
+                            {{!-- <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="status">Status</label>
+                                    <select class="custom-select" id="status" name="status">
+                                        <option selected>Choose...</option>
+                                        <option value="Discharged">Discharged</option>
+                                        <option value="Under Observation">Under Observation</option>
+                                        <option value="Hospitalized">Hospitalized</option>
+                                        <option value="Sent Home">Sent Home</option>
+                                    </select>  
+                                </div>                                  
+                            </div> --}}
+                            <div class="d-flex justify-content-end mt-4 col-12">
+                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
+                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form method="post" action="/logout">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="public/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/chart-area-demo.js"></script>
+    <script src="public/js/demo/chart-pie-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
+    <script>
+        function openDiv(event, card) {
+            var i, menu, button;
+            menu = document.getElementsByClassName("divmenu");
+            for (i = 0; i < menu.length; i++) {
+                menu[i].style.display = "none";
+            }
+        
+            document.getElementById(card).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+
+        function searchProfile() {
+            var typedID = document.getElementById("studentVisit").value;
+            
+            $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
+                //if(typedID.isEmpty()){
+                    // TO DO: display error message if walang ininput na id number si user
+                //}
+                if(!typedID && !typedID.value){
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    
+                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+
+                    document.getElementById("clinicVisitForm").reset();
+
+                }
+                else if(data.firstName == null){ // if data is null so meaning no student with that id number
+                    //console.log(data);
+                    //console.log(data.error_msg);
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    
+                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+                    
+                    document.getElementById("clinicVisitForm").reset();
+                } 
+                else {
+                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
+                    $('#headerNameCollapse').html(typedID);
+                    // Header
+                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#idHeaderVisit').html(typedID);
+                    //$('#studentTypeHeader').html(data.studentType + " Student");
+
+                    // personal info
+                    $('#visitLastName').html(data.lastName);
+                    $('#visitFirstName').html(data.firstName);
+                    $('#visitMiddleName').html(data.middleName);
+
+                    if(data.grade && data.section)
+                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                        
+                    if(data.studentType)
+                        $('#studentTypeHeader').html(data.studentType + " Student");    
+
+                    $('#visitBirthday').html(data.birthday);
+                    //$('#visitNationality').html(data.nationality);
+                    //$('#visitReligion').html(data.religion);
+                    $('#visitAge').html(data.age + " years old");
+                    $('#visitSex').html(data.sex);
+                    $('#visitAddress').html(data.address);
+
+                    // contacts
+                    if(data.fatherName)
+                        $('#visitFN').html(data.fatherName);
+                    
+                    if(data.fatherEmail)
+                        $('#visitFE').html(data.fatherEmail);
+
+                    if(data.fatherContact)
+                        $('#visitFC').html(data.fatherContact);
+
+                    if(data.motherName) 
+                        $('#visitMN').html(data.motherName);
+
+                    if(data.motherEmail)    
+                        $('#visitME').html(data.motherEmail);
+
+                    if(data.motherContact)    
+                        $('#visitMC').html(data.motherContact);
+
+
+                    //var today = new Date();
+                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+                    //auto-fill form
+                    $('#studentID').val(typedID);
+                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
+                    if(data.grade)
+                        $('#studentGrade').val(data.grade);
+                    if(data.section)
+                        $('#studentSection').val(data.section);
+                    //$('#visitDate').value(date);                 
+                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                }
+            });
+        }
+    </script>
+    <script type='text/javascript'>
+        $(document).ready(function() { 
+
+        $("#saveBtn").click(function(){
+            var id = $('#studentID').val();
+            console.log(id);
+            
+            var studentName = $('#studentName').val(); 
+            console.log(studentName);
+
+            var visitDate =  $('#visitDate').val(); 
+            var forSort = visitDate.split("-");
+            var forSortDate = forSort.join('');
+            console.log(visitDate);
+            console.log(forSortDate);
+           
+            var timeIn =  $('#clinicIn').val();
+            console.log(timeIn);
+
+            var timeOut =  $('#clinicOut').val(); 
+            console.log(timeOut);
+
+            var nurse =  $('#attendingNurse').find(":selected").val();   
+            console.log(nurse);
+            
+            //vital signs
+            var bodyTemp =  $('#bodyTemp').val(); 
+            console.log(bodyTemp);
+
+            var systolicBP =  $('#systolicBP').val(); 
+            var diastolicBP = $('#diastolicBP').val(); 
+
+            var pr =  $('#pulseRate').val(); 
+            console.log(pr);
+
+            var rr =  $('#respRate').val(); 
+            console.log(rr);
+
+            var complaint =  $('#complaintVisit').val(); 
+            console.log(complaint);
+
+            var treatment =  $('#treatmentVisit').val(); 
+            console.log(treatment);
+
+            var selectMedicationAssign = document.getElementById("assignMedication");
+            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+
+            var selectPrescribedBy = document.getElementById("prescribedBy");
+            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+
+            var startMed =  $('#startMed').val(); 
+            console.log(startMed);
+
+            var endMed =  $('#endMed').val(); 
+            console.log(endMed);
+
+            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            
+            var diagnosis =  $('#diagnosis').val(); 
+            console.log(diagnosis);
+
+            var status =  $('#status').find(":selected").text();
+            console.log(status);
+
+            var notes =  $('#notes').val(); 
+            console.log(notes);
+
+            /* TO DO: Add checkers for fields if empty */
+
+            //console.log("may laman? "+purposeList);
+            //console.log("may laman? "+amountList);
+            //console.log("may laman? "+intervalList);
+
+            $.ajax({
+                url: '/addClinicVisit',
+                method: 'POST',
+                data: {
+                    studentId: id,
+                    studentName: studentName,
+                    visitDate: visitDate,
+                    timeStamp: forSortDate,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    nurse: nurse, // attending nurse 
+                    bodyTemp: bodyTemp,
+                    systolicBP: systolicBP,
+                    diastolicBP: diastolicBP,
+                    pulseRate: pr,
+                    respirationRate: rr,
+                    complaint: complaint,
+                    treatement: treatment,                    
+                    
+                    medicationAssign: selectedMedicationAssign,
+                    prescribedBy: selectedPrescribedBy,
+                    medicineList: medicineList,
+                    purposeList: purposeList, 
+                    amountList: amountList,
+                    intervalList: intervalList,
+                    startMed: startMed,
+                    endMed: endMed,
+
+                    diagnosisAssign: selectedDaignosisAssign,
+                    diagnosis: diagnosis,
+
+                    status: status,
+                    notes: notes,
+
+                },
+                success: function(data) {
+                    window.location.href = "/clinic-visit";
+                }
+            });
+        });
+    
+    });
+    </script>
+</body>
+
+</html>

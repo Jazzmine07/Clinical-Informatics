@@ -136,6 +136,26 @@ router.get('/promotive-care/program-form', (req, res) => {
   })
 });
 
+// Get inventory page
+router.get('/inventory', (req, res) => {
+  console.log("Read inventory successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('inventory', {
+      users: usersInfo
+    });
+  })
+});
+
+// Get promotive care page
+router.get('/inventory/add', (req, res) => {
+  console.log("Read add inventory successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('inventory-add', {
+      users: usersInfo
+    });
+  })
+});
+
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);

@@ -929,6 +929,12 @@
             var studentName = $('#studentName').val(); 
             console.log(studentName);
 
+            var studentGrade = $('#studentGrade').val(); 
+            console.log(studentGrade);
+                
+            var studentSection = $('#studentSection').val(); 
+            console.log(studentSection);
+
             var visitDate =  $('#visitDate').val(); 
             var forSort = visitDate.split("-");
             var forSortDate = forSort.join('');
@@ -999,6 +1005,8 @@
                 data: {
                     studentId: id,
                     studentName: studentName,
+                    studentGrade: studentGrade,
+                    studentSection: studentSection,
                     visitDate: visitDate,
                     timeStamp: forSortDate,
                     timeIn: timeIn,

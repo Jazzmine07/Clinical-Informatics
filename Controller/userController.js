@@ -103,7 +103,6 @@ exports.login = function(req, res){
           var userInfo;
           
           childRef.on('value', (snapshot) => { 
-            console.log("snapshot " + snapshot.val());
             if(snapshot.child('firstName').val() === ""){
               userInfo = ({
                 firstName: "user",
@@ -111,15 +110,8 @@ exports.login = function(req, res){
                 role: ""
               })
             } else {
-              userInfo = ({
-                firstName: snapshot.child('firstName').val(),
-                lastName: snapshot.child('lastName').val(),
-                role: snapshot.child('role').val()
-              })
-              if(userInfo.role == "Clinician"){
-                res.render("dashboard", {
-                  user: userInfo
-                });
+              if(snapshot.child('role').val() == "Clinician"){
+                res.redirect("/dashboard");
               } else {
                 res.redirect("/clinic-visit");
               }
@@ -127,7 +119,6 @@ exports.login = function(req, res){
           })
         }
       })
-      //res.redirect('/dashboard');
      })
   //   .catch((error) => {
   //     var errorCode = error.code;
@@ -205,7 +196,6 @@ exports.getUser = function(req, res){
       var userInfo;
       
       userRef.on('value', (snapshot) => { 
-        console.log("snapshot key " + snapshot.key);
         if(snapshot.child('firstName').val() === ""){
           userInfo = ({
             firstName: "user",

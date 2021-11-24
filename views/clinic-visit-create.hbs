@@ -319,7 +319,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
                                 <img class="img-profile rounded-circle"
                                     src="public/img/undraw_profile.svg">
                             </a>
@@ -360,7 +360,7 @@
                             <form class="user">
                                 <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="studentName" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
@@ -435,7 +435,6 @@
                     {{!-- {{#if isNurse}} --}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
-                        <input id="nurseKey" type="hidden" value="{{user.key}}">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -485,7 +484,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                    <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
+                                    <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
                                         {{#each nurse}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
@@ -507,8 +506,18 @@
                                 <div class="col-3">
                                     <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
                                     <div class="input-group mb-2">                                        
-                                        
-                                    <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
+                                    
+                                    <label class="col-form-label">Systolic BP</label>
+                                    <input type="number" class="form-control" id="systolicBP" min="0">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group mb-2">                                        
+                                    
+                                    <label class="col-form-label">Diastolic BP</label>
+                                    <input type="number" class="form-control" id="diastolicBP" min="0">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
@@ -562,7 +571,7 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
-                                      <select class="custom-select mb-2" id="clinicianVisit" name="clinicianVisit">
+                                      <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
                                           <option selected>Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
@@ -632,18 +641,6 @@
                                 <label class="col-form-label" for="diagnosis">Diagnosis</label>
                                 <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
                             </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-12">
-                                    <label class="col-form-label" for="status">Status</label>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option selected>Choose...</option>
-                                        <option value="Discharged">Discharged</option>
-                                        <option value="Under Observation">Under Observation</option>
-                                        <option value="Hospitalized">Hospitalized</option>
-                                        <option value="Sent Home">Sent Home</option>
-                                    </select>                                    
-                                </div>
-                            </div>
                         </div>
                     </div>
                     {{!-- {{/if}} --}}
@@ -651,6 +648,18 @@
                     <!-- More -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="status">Status</label>
+                                    <select class="custom-select" id="status" name="status">
+                                        <option selected disabled>Choose...</option>
+                                        <option value="Discharged">Discharged</option>
+                                        <option value="Under Observation">Under Observation</option>
+                                        <option value="Hospitalized">Hospitalized</option>
+                                        <option value="Sent Home">Sent Home</option>
+                                    </select>                                    
+                                </div>
+                            </div>
                             <div class="form-row col-12">
                                 <label class="col-form-label" for="notes">Notes/Recommendations</label>
                                 <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="3"></textarea>
@@ -908,10 +917,6 @@
         });  
 
         $("#saveBtn").click(function(){
-            console.log("clicked?");
-            console.log(studentID);
-            var nurseKey = $('#nurseKey').val();
-
             var id = $('#studentID').val();
             console.log(id);
             
@@ -930,16 +935,15 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
-            //var selectClinician =  $('#clinician').val();
-            var clinician =  $('#clinicianVisit').find(":selected").val();   
-            console.log(clinician);
+            var nurse =  $('#attendingNurse').find(":selected").val();   
+            console.log(nurse);
             
             //vital signs
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
 
-            var bp =  $('#bloodPressure').val(); 
-            console.log(bp);
+            var systolicBP =  $('#systolicBP').val(); 
+            var diastolicBP = $('#diastolicBP').val(); 
 
             var pr =  $('#pulseRate').val(); 
             console.log(pr);
@@ -947,15 +951,29 @@
             var rr =  $('#respRate').val(); 
             console.log(rr);
 
-
             var complaint =  $('#complaintVisit').val(); 
             console.log(complaint);
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
+            var selectMedicationAssign = document.getElementById("assignMedication");
+            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+
+            var selectPrescribedBy = document.getElementById("prescribedBy");
+            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+
+            var startMed =  $('#startMed').val(); 
+            console.log(startMed);
+
+            var endMed =  $('#endMed').val(); 
+            console.log(endMed);
+
+            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            
             var diagnosis =  $('#diagnosis').val(); 
-            console.log(treatment);
+            console.log(diagnosis);
 
             var status =  $('#status').find(":selected").text();
             console.log(status);
@@ -979,16 +997,30 @@
                     timeStamp: forSortDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
-                    clinician: clinician,
+                    nurse: nurse, // attending nurse 
+                    bodyTemp: bodyTemp,
+                    systolicBP: systolicBP,
+                    diastolicBP: diastolicBP,
+                    pulseRate: pr,
+                    respirationRate: rr,
                     complaint: complaint,
-                    treatement: treatment,
-                    notes: notes,
-                    status: status,
+                    treatement: treatment,                    
+                    
+                    medicationAssign: selectedMedicationAssign,
+                    prescribedBy: selectedPrescribedBy,
                     medicineList: medicineList,
                     purposeList: purposeList, 
                     amountList: amountList,
                     intervalList: intervalList,
-                    nurseKey: nurseKey
+                    startMed: startMed,
+                    endMed: endMed,
+
+                    diagnosisAssign: selectedDaignosisAssign,
+                    diagnosis: diagnosis,
+
+                    status: status,
+                    notes: notes,
+
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";

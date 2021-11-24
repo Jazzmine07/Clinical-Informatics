@@ -14,26 +14,37 @@ router.get('/login', (req, res) => {
 });
 
 // Get dashboard page
-router.get('/dashboard', userController.getUser);
+router.get('/dashboard', (req, res) => {
+  userController.getUser(req, user => {
+    res.render('dashboard', {
+      user: user
+    })
+  })
+});
 
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   userController.getUser(req, user => {
+    console.log("user", user.key);
     studentController.getClinicVisits(req, records => {
-      if(user.role == "Nurse"){
-        res.render('clinic-visit', {
-          isNurse: true,
-          user: user,
-          clinicVisits: records
-        });
-      }
-      else {
-        res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
-          isNurse: false,
-          user: user,
-        });
-      }
+      studentController.getAssignedForms(user.key, forms => {
+        if(user.role == "Nurse"){
+          res.render('clinic-visit', {
+            isNurse: true,
+            user: user,
+            forms: forms,
+            clinicVisits: records,
+          });
+        }
+        else {
+          res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
+            isNurse: false,
+            user: user,
+            forms: forms,
+          });
+        }
+      })
     })
   })
 });
@@ -129,7 +140,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);
 router.post('/addClinicVisit', studentController.addClinicVisit);
-router.post('/addAPE', studentController.addAPE);
+router.post('/addAPE', studentController.addAPE); 
 
 
 module.exports = router;

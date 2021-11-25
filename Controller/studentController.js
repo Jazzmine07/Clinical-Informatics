@@ -410,6 +410,7 @@ exports.getNotifications = function(req, res){
 }
 
 exports.addAPE = function(req, res){
+    //adds new APE of student with the current school year as the key
     var schoolYear= req.body.schoolYear;
     var id= req.body.studentId;
     var name = req.body.studentName;
@@ -480,6 +481,7 @@ exports.getSectionStudents = function(req, res){
     if(section != null){
         console.log(schoolYear);
         console.log(section);
+        //looks for all the students in a specified section
         studentRef.orderByChild("section").equalTo(section).on('value', (snapshot) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
@@ -495,6 +497,7 @@ exports.getSectionStudents = function(req, res){
         });
     }
     else if(studentId !=null){
+        //specified student id in array 
         console.log(schoolYear);
         console.log(studentId);
         students.push(studentId);
@@ -510,7 +513,9 @@ exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
     var p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
-    //t# - total of grade #; c#- total of grade # that got APE; p# - percentage of c#/t#
+    //t# - total of grade #;
+    //c#- total of grade # that got APE
+    //p# - percentage of c#/t#
 
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
@@ -518,6 +523,9 @@ exports.getAPEPercentage = function(req, res){
 
     studentRef.on('value', (snapshot) =>{
         snapshot.forEach(function(childSnapshot){
+            // lines 522,532,544,554,564,574 is used to check what grade the student belongs to
+            // lines 525,536,547,557,567.577 is used to look for the file of the ape of student
+            // lines 527-528,538-539,549-550,559-560,569-570.579-580 is used to look through all the ape of the student and check if they have for the specified year
             if(childSnapshot.child("grade").val()=="1"){
                 t1=t1+1;
                 healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
@@ -538,7 +546,7 @@ exports.getAPEPercentage = function(req, res){
                         }
                     })
                 });
-                
+
             }
             else if(childSnapshot.child("grade").val()=="3"){
                 t3=t3+1;
@@ -581,33 +589,14 @@ exports.getAPEPercentage = function(req, res){
                 });
             }
         })
+        //computes for the percentage
         p1=c1/t1;
         p2=c2/t2;
         p3=c3/t3;
         p4=c4/t4;
         p5=c5/t5;
         p6=c6/t6;
-        console.log("Total per grade:");
-        console.log(t1);
-        console.log(t2);   
-        console.log(t3);
-        console.log(t4); 
-        console.log(t5);
-        console.log(t6);  
-        console.log("Currently has APE:")
-        console.log(c1);
-        console.log(c2);   
-        console.log(c3);
-        console.log(c4); 
-        console.log(c5);
-        console.log(c6);
-        console.log("Percentage of APE:")
-        console.log(p1);
-        console.log(p2);   
-        console.log(p3);
-        console.log(p4); 
-        console.log(p5);
-        console.log(p6);
+    
         var data={
             p1:p1,
             p2:p2,

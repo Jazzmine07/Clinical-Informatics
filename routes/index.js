@@ -16,8 +16,11 @@ router.get('/login', (req, res) => {
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   userController.getUser(req, user => {
-    res.render('dashboard', {
-      user: user
+    studentController.getNotifications(req, notifs => {
+      res.render('dashboard', {
+        user: user,
+        notification: notifs
+      })
     })
   })
 });
@@ -41,7 +44,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
           res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
             isNurse: false,
             user: user,
-            forms: forms,
+            clinicVisitForms: forms,
           });
         }
       })
@@ -189,6 +192,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);
 router.post('/addClinicVisit', studentController.addClinicVisit);
+router.post('/editClinicVisit', studentController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/addAPE', studentController.addAPE);
 router.post('/getSectionStudents',studentController.getSectionStudents);

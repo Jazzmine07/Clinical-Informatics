@@ -1018,7 +1018,7 @@
                     pulseRate: pr,
                     respirationRate: rr,
                     complaint: complaint,
-                    treatement: treatment,                    
+                    treatment: treatment,                    
                     
                     medicationAssign: selectedMedicationAssign,
                     prescribedBy: selectedPrescribedBy,
@@ -1026,17 +1026,18 @@
                     purposeList: purposeList, 
                     amountList: amountList,
                     intervalList: intervalList,
-                    startMed: startMed,
-                    endMed: endMed,
+                    startMedList: startMed,
+                    endMedList: endMed,
 
                     diagnosisAssign: selectedDaignosisAssign,
                     diagnosis: diagnosis,
 
-                    status: status,
                     notes: notes,
+                    status: status,
 
                 },
                 success: function(data) {
+                    console.log("success!");
                     window.location.href = "/clinic-visit";
                 }
             });

@@ -397,7 +397,7 @@ exports.getNotifications = function(req, res){
 }
 
 exports.addAPE = function(req, res){
-    //var sy= req.body.schoolYear;
+    var schoolYear= req.body.schoolYear;
     var id= req.body.studentId;
     var name = req.body.studentName;
     var apeDate = req.body.visitDate;
@@ -445,7 +445,8 @@ exports.addAPE = function(req, res){
         assess: assess
         // normal: normal
     }
-    apeRef.push(record);
+    console.log(schoolYear);
+    apeRef.child(schoolYear).push(record);
     // key = apeRef.push(record).key;
     
     res.send({
@@ -489,9 +490,13 @@ exports.getSectionStudents = function(req, res){
     
 }
 
+
+
+
 exports.getAPEPercentage = function(req, res){
+    var schoolYear= req.body.schoolYear;
     var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
-    var p1,p2,p3,p4,p5,p6;
+    var p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
     //t# - total of grade #; c#- total of grade # that got APE; p# - percentage of c#/t#
 
     var database = firebase.database();
@@ -500,33 +505,116 @@ exports.getAPEPercentage = function(req, res){
 
     studentRef.on('value', (snapshot) =>{
         snapshot.forEach(function(childSnapshot){
-            if(childSnapshot.child("grade").equalTo("1")){
+            if(childSnapshot.child("grade").val()=="1"){
                 t1=t1+1;
-                healthHistory.child(childSnapshot.key).child("ape").orderByChild("schoolYear").on(value,(ss) =>{
-                    if(!ss==null && !ss==""){
-                        
-                    }
-                })
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c1=c1+1;
+                        }
+                    })
+                });
             }
-            else if(childSnapshot.child("grade").equalTo("2")){
-                t12=t2+1;
+            else if(childSnapshot.child("grade").val()=="2"){
+                console.log(childSnapshot.key);
+                t2=t2+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c2=c2+1;
+                        }
+                    })
+                });
+                
             }
-            else if(childSnapshot.child("grade").equalTo("3")){
+            else if(childSnapshot.child("grade").val()=="3"){
                 t3=t3+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c3=c3+1;
+                        }
+                    })
+                });
             }
-            else if(childSnapshot.child("grade").equalTo("4")){
+            else if(childSnapshot.child("grade").val()=="4"){
                 t4=t4+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c4=c4+1;
+                        }
+                    })
+                });
             }
-            else if(childSnapshot.child("grade").equalTo("5")){
+            else if(childSnapshot.child("grade").val()=="5"){
                 t5=t5+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c5=c5+1;
+                        }
+                    })
+                });
             }
-            else if(childSnapshot.child("grade").equalTo("6")){
+            else if(childSnapshot.child("grade").val()=="6"){
                 t6=t6+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c6=c6+1;
+                        }
+                    })
+                });
             }
-
-
         })
-    })   
-
-        
+        p1=c1/t1;
+        p2=c2/t2;
+        p3=c3/t3;
+        p4=c4/t4;
+        p5=c5/t5;
+        p6=c6/t6;
+        console.log("Total per grade:");
+        console.log(t1);
+        console.log(t2);   
+        console.log(t3);
+        console.log(t4); 
+        console.log(t5);
+        console.log(t6);  
+        console.log("Currently has APE:")
+        console.log(c1);
+        console.log(c2);   
+        console.log(c3);
+        console.log(c4); 
+        console.log(c5);
+        console.log(c6);
+        console.log("Percentage of APE:")
+        console.log(p1);
+        console.log(p2);   
+        console.log(p3);
+        console.log(p4); 
+        console.log(p5);
+        console.log(p6);
+        var data={
+            p1:p1,
+            p2:p2,
+            p3:p3,
+            p4:p4,
+            p5:p5,
+            p6:p6,
+            t1:t1,
+            t2:t2,
+            t3:t3,
+            t4:t4,
+            t5:t5,
+            t6:t6,
+            c1:c1,
+            c2:c2,
+            c3:c3,
+            c4:c4,
+            c5:c5,
+            c6:c6
+        };
+        res.send(data);
+    })      
 }

@@ -686,8 +686,8 @@
                 
                 console.log("clicked?");
 
-                var schoolYear=$().val();
-                console.log(schoolYear);
+                var sy=schoolYear;
+                console.log(sy);
 
                 var id = $('#studentID').val();
                 console.log(id);
@@ -761,8 +761,6 @@
                 var allergies =  $('#allergies').val(); 
                 console.log(allergies);
 
-
-                
                 var complaintAPE =  $('#complaintAPE').val(); 
                 console.log(complaintAPE);
 
@@ -770,13 +768,14 @@
                 console.log(assessAPE);
 
                 var normalPE =  $('#normalPE').val(); 
-                console.log(normalPE);     
+                console.log(normalPE); 
+  
             
                 $.ajax({
                     url: '/addAPE',
                     method: 'POST',
                     data: {
-                        //schoolYear:schoolYear,
+                        schoolYear:sy,
                         studentId: id,
                         studentName: studentName,
                         visitDate: dateAPE,

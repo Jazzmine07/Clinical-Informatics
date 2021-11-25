@@ -438,6 +438,7 @@
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
+                                <input id="userKey" type="hidden" value="{{user.key}}">
                                 <input id="formID" type="hidden" value="{{form.formId}}">
                                 <div class="col-4">
                                     <label class="col-form-label" for="studentID">Student ID Number</label>
@@ -477,8 +478,9 @@
 
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                    <input type="text" class="form-control mb-2" id="attendingNurse" name="attendingNurse" value="{{form.attendingNurse}}">
+                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label> 
+                                    <input type="hidden" class="form-control mb-2" id="attendingNurse" name="attendingNurse" value="{{form.nurseKey}}">
+                                    <input type="text" class="form-control mb-2" value="{{form.attendingNurse}}">
                                 </div>   
                             </div>
 
@@ -549,9 +551,9 @@
                     <!-- Medication -->
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
-                            <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6> 
+                            <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
+                            {{!-- <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1"> --}}
                             </select> 
                         </div>
                         <div class="card-body">
@@ -613,6 +615,7 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
+                            <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
                         </div>
                         <div class="card-body">
                             <div class="form-row col-12">
@@ -827,14 +830,73 @@
         }
     </script>
     <script type='text/javascript'>
-        $(document).ready(function() { 
+    $(document).ready(function() { 
+        var medicationsArray = [];
+
+        function addMedication(meds, purpose, amount, interval, startMed, endMed) {
+            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
+        }
+
+        var i = 1;  
+        var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
+
+        $('#addMedication').click(function(){
+            var selectMedication = document.getElementById("medicationVisit");
+            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            var purpose = document.getElementById("purposeVisit").value
+            var amount = document.getElementById("amountMed").value;
+            var interval = document.getElementById("intervalMed").value;
+            var startMed = document.getElementById("startMed").value;
+            var endMed = document.getElementById("endMed").value;
+
+            /* TO DO: Add checkers for fields if empty */
+            medicineList.push(selectedMedication);
+            purposeList.push(purpose);
+            amountList.push(amount);
+            intervalList.push(interval);
+            startMedList.push(startMed);
+            endMedList.push(endMed);
+
+            console.log("push? "+ startMed);
+            console.log("push? "+ endMed);
+
+            addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+            i++;
+
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ startMed +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ endMed +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+        });
+
+        $(document).on('click', '.btn_remove', function(){  
+            var button_id = $(this).attr("id");
+            var index = button_id - 2; 
+            console.log("removing..." + button_id);  
+            $('#row'+button_id+'').remove();  
+
+            medicineList.splice(index, 1);
+            purposeList.splice(index, 1);
+            amountList.splice(index, 1);
+            intervalList.splice(index, 1);
+            startMedList.splice(index, 1);
+            endMedList.splice(index, 1);
+            
+        });  
 
         $("#saveBtn").click(function(){
+            console.log("pindot");
+            var userKey = $('#userKey').val();
+            var formId = $('#formID').val();
+
             var id = $('#studentID').val();
             console.log(id);
             
             var studentName = $('#studentName').val(); 
             console.log(studentName);
+
+            var studentGrade = $('#studentGrade').val(); 
+            console.log(studentGrade);
+                
+            var studentSection = $('#studentSection').val(); 
+            console.log(studentSection);
 
             var visitDate =  $('#visitDate').val(); 
             var forSort = visitDate.split("-");
@@ -848,7 +910,7 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
-            var nurse =  $('#attendingNurse').find(":selected").val();   
+            var nurse =  $('#attendingNurse').val();   
             console.log(nurse);
             
             //vital signs
@@ -870,25 +932,19 @@
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            var selectMedicationAssign = document.getElementById("assignMedication");
-            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+            //var selectMedicationAssign = document.getElementById("assignMedication");
+            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
 
-            var selectPrescribedBy = document.getElementById("prescribedBy");
-            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+            //var selectPrescribedBy = document.getElementById("prescribedBy");
+            //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
 
-            var startMed =  $('#startMed').val(); 
-            console.log(startMed);
-
-            var endMed =  $('#endMed').val(); 
-            console.log(endMed);
-
-            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            //var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+            //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
             
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
 
-            var status =  $('#status').find(":selected").text();
+            var status =  $('#status').val();
             console.log(status);
 
             var notes =  $('#notes').val(); 
@@ -901,11 +957,15 @@
             //console.log("may laman? "+intervalList);
 
             $.ajax({
-                url: '/addClinicVisit',
+                url: '/editClinicVisit',
                 method: 'POST',
                 data: {
+                    userKey, userKey,
+                    formId: formId,
                     studentId: id,
                     studentName: studentName,
+                    studentGrade: studentGrade,
+                    studentSection: studentSection,
                     visitDate: visitDate,
                     timeStamp: forSortDate,
                     timeIn: timeIn,
@@ -917,18 +977,18 @@
                     pulseRate: pr,
                     respirationRate: rr,
                     complaint: complaint,
-                    treatement: treatment,                    
+                    treatment: treatment,                    
                     
-                    medicationAssign: selectedMedicationAssign,
-                    prescribedBy: selectedPrescribedBy,
-                    medicineList: medicineList,
-                    purposeList: purposeList, 
-                    amountList: amountList,
-                    intervalList: intervalList,
-                    startMed: startMed,
-                    endMed: endMed,
+                    //medicationAssign: selectedMedicationAssign,
+                    //prescribedBy: selectedPrescribedBy,
+                    //medicineList: medicineList,
+                    //purposeList: purposeList, 
+                    //amountList: amountList,
+                    //intervalList: intervalList,
+                    //startMed: startMed,
+                    //endMed: endMed,
 
-                    diagnosisAssign: selectedDaignosisAssign,
+                    //diagnosisAssign: selectedDaignosisAssign,
                     diagnosis: diagnosis,
 
                     status: status,
@@ -940,7 +1000,6 @@
                 }
             });
         });
-    
     });
     </script>
 </body>

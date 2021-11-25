@@ -1005,10 +1005,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each forms}}
+                                        {{#each clinicVisitForms}}
                                         <tr>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
-                                            <td><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
+                                            <td id="clinicianDesc" value="{{@index}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate dateAssigned}}</a></td>
                                         </tr>
@@ -1084,6 +1084,17 @@
     <script src="public/js/demo/datatables-demo.js"></script>
 
     <script>
+        var index = "{{@index}}";
+        var forms =  [];
+        forms = '{{{clinicVisitForms}}}';
+        console.log(forms);
+        for(var i = 0; i < forms.length; i++)
+        {
+            console.log(forms[i]);
+        }
+        var clinicianDesc = "{{forms.index.desc}}"
+        console.log(clinicianDesc);
+
         $(document).on('click', '.clickable-row', function(e){
             window.location = "/clinic-visit/create";
         });

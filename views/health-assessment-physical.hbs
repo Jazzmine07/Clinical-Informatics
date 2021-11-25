@@ -363,11 +363,11 @@
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. YYYY - YYYY | Grade - Section</h6>                           
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. <span id="schoolYear"></span> | Grade - <span id="sectionTop"></span></h6>                           
                             
                             <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
                                 class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
-                            <button type="button" class="btn btn-primary btn-sm mx-1 ">Skip<i
+                            <button type="button" class="btn btn-primary btn-sm mx-1 " id="skipBtn">Skip<i
                                 class="fas fa-forward ml-2 text-white-50"></i></button>
                         </div>
                         <div class="card-body">
@@ -577,7 +577,7 @@
 
                                 <div class="d-flex justify-content-end mt-4 col-12">
                                     <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
-                                        Save | Next Student<i class="ml-2 fas fa-arrow-right text-white-50"></i>
+                                        <span id="saveButtonText"></span><i class="ml-2 fas fa-arrow-right text-white-50"></i>
                                     </button>                                    
                                 </div>
                         </form>
@@ -650,13 +650,44 @@
         
     <script type='text/javascript'>
         $(document).ready(function() {
+            
+            var schoolYear=localStorage.getItem("schoolYear");
+            var sec=localStorage.getItem("section");
+            var id = localStorage.getItem("id");
+            var i = localStorage.getItem("sectionStudentIndex");
+            var array=[];
+            var link;
+            array=JSON.parse(localStorage.myArray)
 
-            //$.get("/getSectionStudents", function(data){
-            //    console.log(data);
-            //});
+            document.getElementById("schoolYear").innerHTML = schoolYear;
+            document.getElementById("sectionTop").innerHTML = sec;
+            $('#studentID').val(array[i]);
+            i++;
+            
+            if(i<array.length){
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+            }
+            else{
+                document.getElementById("saveButtonText").innerHTML="Save";  
+                link="/health-assessment";
+            }
+            
+            localStorage.setItem("schoolYear",schoolYear);
+            localStorage.setItem("section",sec);
+            localStorage.setItem("id",id);
+            localStorage.setItem("sectionStudentIndex", i);
+            
+            $("#skipBtn").click(function(){
+                window.location.href = link;
+            });
 
             $("#saveBtn").click(function(){
+                
                 console.log("clicked?");
+
+                var schoolYear=$().val();
+                console.log(schoolYear);
 
                 var id = $('#studentID').val();
                 console.log(id);
@@ -740,40 +771,40 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE);     
-
             
-            $.ajax({
-                url: '/addAPE',
-                method: 'POST',
-                data: {
-                    studentId: id,
-                    studentName: studentName,
-                    visitDate: dateAPE,
-                    //timeStamp: forSortDate,
-                    clinician: clinician,
-                    bodyTemp: bodyTemp,
-                    bp: bp,
-                    pr: pr,
-                    rr: rr,
-                    skinFindings: sf,
-                    weight: weight,
-                    height: height,
-                    bmi: bmi,
-                    odVision: odVision,
-                    osVision: osVision,
-                    odGlasses: odGlasses,
-                    osGlasses: osGlasses,
-                    medProb: medProb,
-                    allergies: allergies,
-                    concern: complaintAPE,
-                    assess: assessAPE,
-                    normal: normalPE
-                   
-                },
-                success: function(data) {
-                    window.location.href = "/health-assessment/physical";
-                }
-            });
+                $.ajax({
+                    url: '/addAPE',
+                    method: 'POST',
+                    data: {
+                        //schoolYear:schoolYear,
+                        studentId: id,
+                        studentName: studentName,
+                        visitDate: dateAPE,
+                        //timeStamp: forSortDate,
+                        clinician: clinician,
+                        bodyTemp: bodyTemp,
+                        bp: bp,
+                        pr: pr,
+                        rr: rr,
+                        skinFindings: sf,
+                        weight: weight,
+                        height: height,
+                        bmi: bmi,
+                        odVision: odVision,
+                        osVision: osVision,
+                        odGlasses: odGlasses,
+                        osGlasses: osGlasses,
+                        medProb: medProb,
+                        allergies: allergies,
+                        concern: complaintAPE,
+                        assess: assessAPE,
+                        normal: normalPE
+                    
+                    },
+                    success: function(data) {
+                            window.location.href = link;
+                    }
+                });
 
 
             });    

@@ -936,10 +936,7 @@
             console.log(studentSection);
 
             var visitDate =  $('#visitDate').val(); 
-            var forSort = visitDate.split("-");
-            var forSortDate = forSort.join('');
             console.log(visitDate);
-            console.log(forSortDate);
            
             var timeIn =  $('#clinicIn').val();
             console.log(timeIn);
@@ -1008,7 +1005,6 @@
                     studentGrade: studentGrade,
                     studentSection: studentSection,
                     visitDate: visitDate,
-                    timeStamp: forSortDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
                     nurse: nurse, // attending nurse 

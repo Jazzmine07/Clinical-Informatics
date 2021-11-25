@@ -60,7 +60,7 @@ exports.addClinicVisit = function(req, res){
         grade: studentGrade,
         section: studentSection,
         visitDate: visitDate,
-        timestamp: timeStamp,
+        timestamp: time,
         timeIn: timeIn,
         timeout: timeOut,
         attendingNurse: nurse,
@@ -128,10 +128,12 @@ exports.addClinicVisit = function(req, res){
         timestamp: time
     }
 
-    var userNotification = database.ref("notifications/"+medicationAssign+"/"+key);
+    var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
+    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
 
     var notif = {
         type: "form",
+        formId: key,
         message: "You have been assigned to a new form!",
         date: visitDate,
         timestamp: time,
@@ -140,13 +142,15 @@ exports.addClinicVisit = function(req, res){
 
     if(medicationAssign == diagnosisAssign){
         assignMedication.push(assignBoth);
+        userMedNotification.set(notif);
     } else {
         assignMedication.push(medicationForm);
         assignDiagnosis.push(diagnosisForm);
-        userNotification.set(notif);
+        userMedNotification.set(notif);
+        userDiagnosisNotification.set(notif);
     }
     
-    //res.status(200).send();
+    res.redirect('/clinic-visit');
 }
 
 exports.editClinicVisit = function(req, res){
@@ -212,10 +216,14 @@ exports.editClinicVisit = function(req, res){
     
     database.ref("assignedForms/"+ userKey + "/" + formKey).remove();
     
-    // var notifRef = database.ref("notifications/"+ userKey + "/" + formId).remove();
-    // notifRef.equalTo(formId).on('value', (snapshot) => {
-    //     notifKey = snapshot.key;
-    // })
+    var notifRef = database.ref("notifications/"+ userKey);
+    notifRef.orderByChild("formId").equalTo(formId).on('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot) {
+            notifKey = childSnapshot.key;
+        });
+    })
+
+    database.ref("notifications/"+ userKey + "/" + formKey).remove();
     res.redirect('/clinic-visit');
 }
 
@@ -376,23 +384,28 @@ exports.getClinicVisitForm = function(req, res){
 
 exports.getNotifications = function(req, res){
     var user = req;
+    console.log('user ' +user);
     var database = firebase.database();
     var notifRef = database.ref("notifications/"+user);
     var childSnapshotData;
     var notifs = [];
 
-    notifRef.on('value', (snapshot) => {
-        snapshot.forEach(function(childSnapshot){
-            childSnapshotData = childSnapshot.exportVal();
-            notifs.push({
-                type: childSnapshotData.type,
-                message: childSnapshotData.message,
-                date: childSnapshotData.date,
-                seen: childSnapshotData.seen
+    notifRef.orderByChild("timestamp").on('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                notifs.push({
+                    type: childSnapshotData.type,
+                    message: childSnapshotData.message,
+                    date: childSnapshotData.date,
+                    seen: childSnapshotData.seen
+                })
             })
             notifs.reverse();
-            res.send(notifs);
-        })
+            res(notifs);
+        } else {
+            res(notifs);
+        }
     })
 }
 

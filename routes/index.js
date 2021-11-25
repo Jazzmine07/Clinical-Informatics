@@ -16,10 +16,17 @@ router.get('/login', (req, res) => {
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   userController.getUser(req, user => {
-    studentController.getNotifications(req, notifs => {
+    studentController.getNotifications(user.key, notifs => {
+      var i, count = 0;
+
+      for(i = 0; i < notifs.length; i++){
+        count++; 
+      }
+
       res.render('dashboard', {
         user: user,
-        notification: notifs
+        notification: notifs,
+        count: count
       })
     })
   })

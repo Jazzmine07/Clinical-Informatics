@@ -410,6 +410,7 @@ exports.getNotifications = function(req, res){
 }
 
 exports.addAPE = function(req, res){
+    //var sy= req.body.schoolYear;
     var id= req.body.studentId;
     var name = req.body.studentName;
     var apeDate = req.body.visitDate;
@@ -431,9 +432,6 @@ exports.addAPE = function(req, res){
     var concern = req.body.concern;
     var assess = req.body.assess;
     var normal = req.body.normal;
-    
-    var key;
-    console.log("Assessment:" + assess);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
@@ -457,9 +455,9 @@ exports.addAPE = function(req, res){
         medProb: medProb,
         allergies: allergies,
         concern: concern,
-        assess: assess,
+        assess: assess
         // normal: normal
-    };
+    }
     apeRef.push(record);
     // key = apeRef.push(record).key;
     
@@ -472,12 +470,12 @@ exports.addAPE = function(req, res){
 exports.getSectionStudents = function(req, res){
     var schoolYear= req.body.schoolYear;
     var section = req.body.section;
-    var studentName= req.body.studentName;
-    const students = [];
+    var studentId= req.body.studentId;
+    var students = [];
 
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
-       
+
     if(section != null){
         console.log(schoolYear);
         console.log(section);
@@ -495,6 +493,53 @@ exports.getSectionStudents = function(req, res){
             res.send(students);
         });
     }
-
+    else if(studentId !=null){
+        console.log(schoolYear);
+        console.log(studentId);
+        students.push(studentId);
+        res.send(students);
+    }
     
+}
+
+exports.getAPEPercentage = function(req, res){
+    var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
+    var p1,p2,p3,p4,p5,p6;
+    //t# - total of grade #; c#- total of grade # that got APE; p# - percentage of c#/t#
+
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+    var healthHistory = database.ref("studentHealthHistory");
+
+    studentRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            if(childSnapshot.child("grade").equalTo("1")){
+                t1=t1+1;
+                healthHistory.child(childSnapshot.key).child("ape").orderByChild("schoolYear").on(value,(ss) =>{
+                    if(!ss==null && !ss==""){
+                        
+                    }
+                })
+            }
+            else if(childSnapshot.child("grade").equalTo("2")){
+                t12=t2+1;
+            }
+            else if(childSnapshot.child("grade").equalTo("3")){
+                t3=t3+1;
+            }
+            else if(childSnapshot.child("grade").equalTo("4")){
+                t4=t4+1;
+            }
+            else if(childSnapshot.child("grade").equalTo("5")){
+                t5=t5+1;
+            }
+            else if(childSnapshot.child("grade").equalTo("6")){
+                t6=t6+1;
+            }
+
+
+        })
+    })   
+
+        
 }

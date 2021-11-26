@@ -185,10 +185,9 @@ exports.logout = (req, res) => {
   });
 };
 
-
+// This function gets the user's details
 exports.getUser = function(req, res){
   var database = firebase.database();
-
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var uid = user.uid;
@@ -216,7 +215,7 @@ exports.getUser = function(req, res){
   });
 }
 
-// to get list of clinic users for the attending clinician for clinic visit
+// This function gets all the clinic users
 exports.getUsers = function(req, res){
   var database = firebase.database();
   var clinicUsers = database.ref('clinicUsers');
@@ -241,7 +240,7 @@ exports.getUsers = function(req, res){
   })
 }
 
-// to get list of nurse for the attending nurse for clinic visit
+// This function is to get all users with nurse role
 exports.getNurse = function(req, res){
   var database = firebase.database();
   var clinicUsers = database.ref();
@@ -262,6 +261,7 @@ exports.getNurse = function(req, res){
   })
 }
 
+// This function is to get all users with clinician role
 exports.getClinician = function(req, res){
   var database = firebase.database();
   var clinicUsers = database.ref();
@@ -277,6 +277,31 @@ exports.getClinician = function(req, res){
         firstName: childSnapshotData.firstName,
         lastName: childSnapshotData.lastName,
       })
+    })
+    res(usersObject);
+  })
+}
+
+// This function is to get all users except the current user's
+exports.assignTo = function(req, res){
+  var user = req;
+  console.log("user in controller"+user);
+  var database = firebase.database();
+  var clinicUsers = database.ref('clinicUsers');
+  var usersObject = [];
+  var key, childSnapshotData;
+
+  clinicUsers.on('value', (snapshot) => {
+    snapshot.forEach(function(childSnapshot){
+      key = childSnapshot.key;                        // Getting primary keys of users
+      childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+      if(user != key){
+        usersObject.push({
+          key: key,
+          firstName: childSnapshotData.firstName,
+          lastName: childSnapshotData.lastName,
+        })
+      }
     })
     res(usersObject);
   })

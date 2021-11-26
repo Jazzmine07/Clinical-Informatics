@@ -12,7 +12,6 @@ var expressHbs =  require('handlebars');
 // register new function
 expressHbs.registerHelper('ifEquals', function(arg1, options) {
   if(arg1 === false) {
-    console.log("SUCCESS");
     return options.fn(this);
   }
   return options.inverse(this);
@@ -32,16 +31,22 @@ router.get('/login', (req, res) => {
 router.get('/dashboard', (req, res) => {
   userController.getUser(req, user => {
     studentController.getNotifications(user.key, notifs => {
-      var i, count = 0;
+      var i, count = 0, newNotifs;
 
       for(i = 0; i < notifs.length; i++){
-        count++; 
+        if(notifs[i].seen == false){
+          newNotifs = true;
+          count++; 
+        } else {
+          newNotifs = false;
+        }
       }
 
       res.render('dashboard', {
         user: user,
         notification: notifs,
-        count: count
+        count: count,
+        newNotifs: newNotifs
       })
     })
   })
@@ -51,7 +56,6 @@ router.get('/dashboard', (req, res) => {
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   userController.getUser(req, user => {
-    console.log("user", user.key);
     studentController.getClinicVisits(req, records => {
       studentController.getAssignedForms(user.key, forms => {
         if(user.role == "Nurse"){
@@ -80,7 +84,7 @@ router.get('/clinic-visit/create', (req, res) => {
   userController.getUser(req, user => {
     userController.getNurse(req, nurse => {
       userController.getClinician(req, clinician => {
-        userController.getUsers(req, users => {
+        userController.assignTo(user.key, users => {
           if(user.role == "Nurse"){
             res.render('clinic-visit-create', {
               user: user,

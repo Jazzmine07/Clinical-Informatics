@@ -384,7 +384,6 @@ exports.getClinicVisitForm = function(req, res){
 
 exports.getNotifications = function(req, res){
     var user = req;
-    console.log('user ' +user);
     var database = firebase.database();
     var notifRef = database.ref("notifications/"+user);
     var childSnapshotData;
@@ -411,7 +410,12 @@ exports.getNotifications = function(req, res){
 }
 
 exports.updateNotifications = function(req, res){
-    
+    var { userID, formIds } = req.body;
+    var database = firebase.database();
+
+    for(var i = 0; i < formIds.length; i++){
+        database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
+    }
 }
 
 exports.addAPE = function(req, res){

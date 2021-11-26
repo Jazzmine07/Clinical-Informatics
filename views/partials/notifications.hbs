@@ -4,7 +4,9 @@
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
+        {{#if newNotifs}}
         <span id="notifCount" class="badge badge-danger badge-counter">{{count}}</span>
+        {{/if}}
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -40,31 +42,30 @@
     </div>
 </li>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => { 
-        let alerts = document.getElementById('alertsDropdown');
-        alerts.addEventListener('click', () =>{
-            let count = document.getElementById('notifCount');
-            count.remove();
-            
-            var classesNodeList = document.querySelectorAll(".formID");
-            var values = Array.prototype.map.call(classesNodeList, function(element) {
-            return element.value;
-            });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type='text/javascript'>
+    $("#alertsDropdown").click(function(){
+        let count = document.getElementById('notifCount');
+        count.remove();
+        
+        var userID = $('#userID').val();
+        var classesNodeList = document.querySelectorAll(".formID");
+        var values = Array.prototype.map.call(classesNodeList, function(element) {
+        return element.value;
+        });
+        console.log(userID);
+        console.log(values);
 
-            console.log(values);
-
-            //var r = new XMLHttpRequest(); 
-            //r.open("POST", "/webservice", true);
-            //r.onreadystatechange = function () {
-              //  if (r.readyState != 4 || r.status != 200) return; 
-                //console.log(r.responseText);
-            //};
-            //r.send({
-               // userID: userID,
-               // status: status;
-            //});
-
+        $.ajax({
+            url: '/updateNotif',
+            method: 'POST',
+            data: {
+                userID: userID,
+                formIds: values
+            },
+            success: function(data) {
+                console.log("success!");
+            }
         });
     });
 </script>

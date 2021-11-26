@@ -373,8 +373,8 @@
                             <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-share mr-1 text-white-50"></i> Send Email  </button>
 
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
-                                class="fas fa-calendar-alt mr-1 text-white-50" data-toggle="modal" data-target="#modalSched"></i> Schedule  </button>
+                            <a href="/health-assessment/schedule" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a>
                             
                             <div class="dropdown">
                                 <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="createHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -445,61 +445,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal fade" id="modalSched" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLongTitle">Schedule for Physical and Dental Exam</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="schoolYear">Enter School Year</label>                                        
-                                        <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
-                                        </div>
-                                        <div>
-                                            <label for="dope" class="col-form-label">Date of Examination</label>
-                                            <input type="date" class="form-control mb-2" id="dope">
-                                        </div>
-                                        <label for="sectionPE">Enter Section</label>
-                                        <div class="input-group">
-                                            <span class="input-group-prepend">
-                                                <div class="input-group-text border-right-1" style="background-color: #eaecf4; border: 1px solid #d1d3e2;">
-                                                <i class="fa fa-search"></i>
-                                                </div>
-                                            </span>
-                                            <input list="sections" class="form-control py-2 border-left-1 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
-                                        </div>
-                                        <datalist id="sections">
-                                            <option value="Grade 1 - Faithfulness">
-                                            <option value="Grade 1 - Honesty">
-                                            <option value="Grade 1 - Humility">
-                                            <option value="Grade 1 - Politeness">
-                                            <option value="Grade 1 - Sincerity">
-                                            <option value="Grade 2 - Charity">
-                                            <option value="Grade 2 - Gratefulness">
-                                            <option value="Grade 2 - Gratitude">
-                                            <option value="Grade 2 - Meekness">
-                                            <option value="Grade 2 - Simplicity">                                
-                                        </datalist>  
-                                    </div>                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                                    <a href="/health-assessment/physical" class="btn btn-success">Proceed</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
 
                     {{#if success}}
                         <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">

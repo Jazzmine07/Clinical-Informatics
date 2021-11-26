@@ -2,6 +2,21 @@ const router = require('express').Router();
 const userController = require('../Controller/userController');
 const studentController = require('../Controller/studentController');
 const { loggedIn } = require('../Controller/userController');
+var expressHbs =  require('handlebars');
+
+//app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs'}).engine)
+//app.set('view engine', '.hbs');
+
+//var hbs = expressHbs.create({});
+
+// register new function
+expressHbs.registerHelper('ifEquals', function(arg1, options) {
+  if(arg1 === false) {
+    console.log("SUCCESS");
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
 
 router.get('/', (req, res) => {
   res.redirect('/login');

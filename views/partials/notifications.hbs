@@ -15,6 +15,15 @@
         <input id="userID" type="hidden" value="{{user.key}}">
         {{#each notification}}
             <a class="dropdown-item d-flex align-items-center" href="/clinic-visit">
+                {{#ifEquals seen}}
+                <div style="height: 40px;">
+                    <span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span>
+                </div>
+                {{else}}
+                <div style="height: 40px;">
+                    <span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span>
+                </div>
+                {{/ifEquals}}
                 <div class="mr-3">
                     <div class="icon-circle bg-primary">
                         <i class="fas fa-file-alt text-white"></i>
@@ -46,12 +55,15 @@
             console.log(values);
 
             //var r = new XMLHttpRequest(); 
-            //r.open("POST", "webservice", true);
+            //r.open("POST", "/webservice", true);
             //r.onreadystatechange = function () {
-            //    if (r.readyState != 4 || r.status != 200) return; 
-            //    console.log(r.responseText);
+              //  if (r.readyState != 4 || r.status != 200) return; 
+                //console.log(r.responseText);
             //};
-            //r.send("a=1&b=2&c=3");
+            //r.send({
+               // userID: userID,
+               // status: status;
+            //});
 
         });
     });

@@ -37,41 +37,22 @@
         alerts.addEventListener('click', () =>{
             let count = document.getElementById('notifCount');
             count.remove();
-        });
-    });
-</script>
-<script>
-    var formID = document.querySelectorAll(".formID").value;
-            var values = [];
-
-            for(var i = 0; i < formID.length; i++) {
-                values.push(formID [i].value);
-            }
+            
+            var classesNodeList = document.querySelectorAll(".formID");
+            var values = Array.prototype.map.call(classesNodeList, function(element) {
+            return element.value;
+            });
 
             console.log(values);
-</script>
-<script src="public/vendor/jquery/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {    
-        $("#alertsDropdown").click(function(){
-            var seen = true;
-            //var userId = getElementById("userID");
-            //var formIds = [];
-            //formIds.getElementByClass("formID");
 
-            
-            //$.ajax({
-             //   url: '/updateNotif',
-             //   method: 'POST',
-             //   data: {
-             //       userId: userId,
-             //       status: seen
-             //   },
-             //   success: function(data) {
-             //       console.log("success!");
-              //  }
-            //});
+            //var r = new XMLHttpRequest(); 
+            //r.open("POST", "webservice", true);
+            //r.onreadystatechange = function () {
+            //    if (r.readyState != 4 || r.status != 200) return; 
+            //    console.log(r.responseText);
+            //};
+            //r.send("a=1&b=2&c=3");
+
         });
     });
 </script>
-

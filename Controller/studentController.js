@@ -625,3 +625,25 @@ exports.getAPEPercentage = function(req, res){
         res.send(data);
     })      
 }
+
+exports.getSections=function(req,res){
+    var database = firebase.database();
+    var sectionRef= database.ref("sections");
+    var section=[];
+    var g1=[],g2=[],g3=[],g4=[],g5=[],g6=[];
+
+
+    sectionRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){// itering thru grade 12...
+            //console.log("key?? :", childSnapshot.key);
+            var child = childSnapshot.exportVal();
+            section.push({
+                section: child.section
+            });
+        })
+        console.log(section);
+        res(section);
+    });
+
+}
+

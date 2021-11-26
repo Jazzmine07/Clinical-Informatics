@@ -417,16 +417,9 @@
                                                 <input list="sections" class="form-control py-2 border-left-1 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
                                             </div>
                                             <datalist id="sections">
-                                                <option value="Grade 1 - Faithfulness">
-                                                <option value="Grade 1 - Honesty">
-                                                <option value="Grade 1 - Humility">
-                                                <option value="Grade 1 - Politeness">
-                                                <option value="Grade 1 - Sincerity">
-                                                <option value="Grade 2 - Charity">
-                                                <option value="Grade 2 - Gratefulness">
-                                                <option value="Gratitude">
-                                                <option value="Grade 2 - Meekness">
-                                                <option value="Grade 2 - Simplicity">                                
+                                                {{#each sections}}
+                                                    <option value='{{section}}'> </option>
+                                                {{/each}}                             
                                             </datalist>  
                                             <h6 id="or" class="h6 text-gray"><span>OR</span></h6>
                                             <label for="studentPE">Conduct APE for a Student</label>
@@ -518,7 +511,7 @@
                     <!-- Project Card Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Annual Physical Exam</h6>
                         </div>
                         <div class="card-body">
                             <h4 class="small font-weight-bold">Grade 1 <span
@@ -849,22 +842,8 @@
     </script>
      <script type='text/javascript'>
         $(document).ready(function() {
-        //    $('#searchStudentBtn').click(function({
-        //        var searchId = $('searchStudentId').val();
-        //        console.log(searchId);
-
-        //        $.ajax({
-        //            url: '/getStudentAPE',
-        //            method: 'POST',
-        //            data: {
-        //                searchId:searchId
-        //            },
-        //            success: function(data) {
-        //                window.location.href = "/health-assessment/physical";
-        //            }
-        //        });
-        //    }))
-        var sy="2021-2022"
+        
+        var sy="2021-2022";
         $.post("/getPercentageChart",{schoolYear:sy}, function(data){
             var p1=data.p1 * 100 +"%";
             var p2=data.p2 * 100 +"%";

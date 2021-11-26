@@ -143,10 +143,14 @@ router.get('/profile', (req, res) => {
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
   studentController.getClinicVisits(req, records => {
-    console.log("clinicVisits index", records);
-    res.render('health-assessment', {
-      clinicVisits: records
-    });
+    studentController.getSections(req, sections => {
+      console.log("clinicVisits index", records);
+      console.log("sections:", sections);
+      res.render('health-assessment', {
+        clinicVisits: records,
+        sections: sections
+      });
+    })
   })
 });
 

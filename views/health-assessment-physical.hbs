@@ -366,6 +366,8 @@
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. <span id="schoolYear"></span> | Grade - <span id="sectionTop"></span></h6>                           
                             
                             <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
+                                class="fas fa-backward mr-2 text-white-50"></i>Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
                                 class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
                             <button type="button" class="btn btn-primary btn-sm mx-1 " id="skipBtn">Skip<i
                                 class="fas fa-forward ml-2 text-white-50"></i></button>
@@ -438,7 +440,7 @@
                                         <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                         <div class="input-group mb-2">                                        
                                             
-                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" step="0.01">                                        
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1">°C</span>
                                             </div>
@@ -484,7 +486,7 @@
                                     <div class="col-4">
                                         <label for="Weight" class="col-form-label">Weight</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="weight">
+                                        <input type="number" class="form-control" id="weight" step="0.01">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon4">kg</span>
                                             </div>
@@ -494,7 +496,7 @@
                                     <div class="col-4">
                                         <label for="height" class="col-form-label">Height</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="height">
+                                        <input type="number" class="form-control" id="height" step="0.01">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon4">m</span>
                                             </div>
@@ -504,7 +506,7 @@
                                     <div class="col-4">
                                         <label for="bmi" class="col-form-label">BMI</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="bmi">
+                                        <input type="number" class="form-control" id="bmi" step="0.01">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon4">kg/m²</span>
                                             </div>

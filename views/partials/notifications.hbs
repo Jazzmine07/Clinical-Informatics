@@ -4,7 +4,7 @@
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter">{{count}}</span>
+        <span id="notifCount" class="badge badge-danger badge-counter">{{count}}</span>
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -28,17 +28,29 @@
         <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
     </div>
 </li>
+<script>
+    document.addEventListener("DOMContentLoaded", () => { 
+        let alerts = document.getElementById('alertsDropdown');
+        alerts.addEventListener('click', () =>{
+            let count = document.getElementById('notifCount');
+            count.remove();
+        });
+
+    });
+</script>
 
 <script>
     $(document).ready(function() {
+        
         $("#alertsDropdown").click(function(){
             var seen = true;
-
+            
+            // make them display: none
             // to do in front end, when the bell is clicked mag didisappear yung span class showing the count ng notifs niya
             // gawa ajax para ipasa yung variable para uupdate ko sa backend na "seen niya yung notif but i wont delete the notif unless na update niya na yung mismong form ehe"
 
             $.ajax({
-                url: '/addClinicVisit',
+                url: '/updateNotif',
                 method: 'POST',
                 data: {
                     status: seen
@@ -50,3 +62,4 @@
         });
     });
 </script>
+

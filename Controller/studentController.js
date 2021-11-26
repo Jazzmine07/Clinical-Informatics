@@ -1,6 +1,6 @@
 const firebase = require('../firebase');
 const bodyParser = require('body-parser');
-const { use } = require('../routes');
+// const { use } = require('../routes');
 
 var TAG = "studentController.js";
 

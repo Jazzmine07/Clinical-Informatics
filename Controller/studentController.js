@@ -215,15 +215,8 @@ exports.editClinicVisit = function(req, res){
     })
     
     database.ref("assignedForms/"+ userKey + "/" + formKey).remove();
+    database.ref("notifications/"+ userKey + "/" + formId).remove();
     
-    var notifRef = database.ref("notifications/"+ userKey);
-    notifRef.orderByChild("formId").equalTo(formId).on('value', (snapshot) => {
-        snapshot.forEach(function(childSnapshot) {
-            notifKey = childSnapshot.key;
-        });
-    })
-
-    database.ref("notifications/"+ userKey + "/" + formKey).remove();
     res.redirect('/clinic-visit');
 }
 

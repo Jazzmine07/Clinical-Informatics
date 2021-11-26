@@ -365,8 +365,8 @@
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. <span id="schoolYear"></span>  |  <span id="sectionTop"></span></h6>                           
                             
-                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
-                                class="fas fa-backward mr-2 text-white-50"></i>Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1" id="prevBtn"><i
+                                class="fas fa-backward mr-2 text-white-50" ></i>Previous</button>
                             <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
                                 class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
                             <button type="button" class="btn btn-primary btn-sm mx-1 " id="skipBtn">Skip<i
@@ -664,28 +664,49 @@
             document.getElementById("schoolYear").innerHTML = schoolYear;
             document.getElementById("sectionTop").innerHTML = sec;
             $('#studentID').val(array[i]);
-            i++;
-            
-            if(i<array.length){
+
+
+            if(i<array.length-1){
+                document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
                 link="/health-assessment/physical";
             }
-            else{
+            else if(i=>array.length){
+                document.getElementById("skipBtn").style.display="none";
                 document.getElementById("saveButtonText").innerHTML="Save";  
                 link="/health-assessment";
             }
-            
+
+            if(i == "0"){
+                document.getElementById("prevBtn").style.display="none";
+            }
+            else{
+                document.getElementById("prevBtn").style.display="block";
+            }
+
             localStorage.setItem("schoolYear",schoolYear);
             localStorage.setItem("section",sec);
             localStorage.setItem("id",id);
-            localStorage.setItem("sectionStudentIndex", i);
+            
+            console.log("before:"+i);            
+
+            $("#prevBtn").click(function(){
+                localStorage.setItem("sectionStudentIndex", parseInt(i-1));
+                console.log("prev:"+i);
+                console.log("HI Prev");
+                window.location.href = "/health-assessment/physical";
+            });
+
+            
             
             $("#skipBtn").click(function(){
+                localStorage.setItem("sectionStudentIndex", parseInt(i+1));
                 window.location.href = link;
             });
 
             $("#saveBtn").click(function(){
-                
+               localStorage.setItem("sectionStudentIndex", parseInt(i+1));
+                console.log("save:"+i);
                 console.log("clicked?");
 
                 var sy=schoolYear;
@@ -803,7 +824,7 @@
                     
                     },
                     success: function(data) {
-                            window.location.href = link;
+                        window.location.href = link;
                     }
                 });
 

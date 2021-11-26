@@ -396,6 +396,7 @@ exports.getNotifications = function(req, res){
                 childSnapshotData = childSnapshot.exportVal();
                 notifs.push({
                     type: childSnapshotData.type,
+                    formId: childSnapshotData.formId,
                     message: childSnapshotData.message,
                     date: childSnapshotData.date,
                     seen: childSnapshotData.seen
@@ -407,6 +408,10 @@ exports.getNotifications = function(req, res){
             res(notifs);
         }
     })
+}
+
+exports.updateNotifications = function(req, res){
+    
 }
 
 exports.addAPE = function(req, res){

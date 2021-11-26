@@ -12,6 +12,7 @@
         <h6 class="dropdown-header">
             Alerts Center
         </h6>
+        <input id="userID" type="hidden" value="{{user.key}}">
         {{#each notification}}
             <a class="dropdown-item d-flex align-items-center" href="/clinic-visit">
                 <div class="mr-3">
@@ -20,6 +21,7 @@
                     </div>
                 </div>
                 <div>
+                    <input class="formID" type="hidden" value="{{formId}}">
                     <div class="small text-gray-500">{{formatDate date}}</div>
                     <span class="font-weight-bold">{{message}}</span>
                 </div>
@@ -28,6 +30,7 @@
         <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
     </div>
 </li>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => { 
         let alerts = document.getElementById('alertsDropdown');
@@ -35,30 +38,39 @@
             let count = document.getElementById('notifCount');
             count.remove();
         });
-
     });
 </script>
-
 <script>
-    $(document).ready(function() {
-        
+    var formID = document.querySelectorAll(".formID").value;
+            var values = [];
+
+            for(var i = 0; i < formID.length; i++) {
+                values.push(formID [i].value);
+            }
+
+            console.log(values);
+</script>
+<script src="public/vendor/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {    
         $("#alertsDropdown").click(function(){
             var seen = true;
-            
-            // make them display: none
-            // to do in front end, when the bell is clicked mag didisappear yung span class showing the count ng notifs niya
-            // gawa ajax para ipasa yung variable para uupdate ko sa backend na "seen niya yung notif but i wont delete the notif unless na update niya na yung mismong form ehe"
+            //var userId = getElementById("userID");
+            //var formIds = [];
+            //formIds.getElementByClass("formID");
 
-            $.ajax({
-                url: '/updateNotif',
-                method: 'POST',
-                data: {
-                    status: seen
-                },
-                success: function(data) {
-                    //window.location.href = "/clinic-visit";
-                }
-            });
+            
+            //$.ajax({
+             //   url: '/updateNotif',
+             //   method: 'POST',
+             //   data: {
+             //       userId: userId,
+             //       status: seen
+             //   },
+             //   success: function(data) {
+             //       console.log("success!");
+              //  }
+            //});
         });
     });
 </script>

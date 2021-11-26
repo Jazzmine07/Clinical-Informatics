@@ -203,7 +203,8 @@ router.post('/editClinicVisit', studentController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/addAPE', studentController.addAPE);
 router.post('/getSectionStudents',studentController.getSectionStudents);
-router.post('/getPercentageChart', studentController.getAPEPercentage)
+router.post('/getPercentageChart', studentController.getAPEPercentage);
+router.post('/updateNotif', studentController.updateNotifications);
 
 
 module.exports = router;

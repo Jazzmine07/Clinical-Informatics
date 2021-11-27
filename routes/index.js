@@ -238,6 +238,8 @@ router.post('/addAPE', studentController.addAPE);
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', studentController.updateNotifications);
+router.post('/addSchedule', studentController.addSchedule);
+
 
 
 module.exports = router;

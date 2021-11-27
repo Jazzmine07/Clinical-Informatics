@@ -661,3 +661,41 @@ exports.getSections=function(req,res){
 
 }
 
+exports.addSchedule=function(req,res){
+    var database = firebase.database();
+    var schedRef= database.ref("apeSchedule");
+    var schedule=[];
+    schedule = req.body.schedules;
+    var i;
+
+    for(i=0;i<schedule.length;i++){
+        var currSec= schedule[i].section;
+        var count=0;
+        schedRef.on('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){
+                var child = childSnapshot.exportVal();
+                console.log("Child:"+child.section);
+                console.log("Section: "+ currSec);
+                if(child.section == currSec){
+                    console.log("Has a schedule already");
+                    count=count+1;
+                }
+            }) 
+            console.log("counter:"+count);
+            if(count==0){
+                console.log("pushed");
+                schedRef.push(schedule[i]);
+            }
+            else{
+                console.log("no repeat");
+            }
+        });
+    }
+
+
+
+    res.send("hi");
+    
+    //
+}
+

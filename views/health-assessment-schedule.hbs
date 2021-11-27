@@ -518,6 +518,36 @@
             console.log(scheduleArray);           
             
         }); 
+
+        $('#saveBtn').click(function(){
+            var dope = document.getElementById("dope").value;
+            var tope = document.getElementById("tope").value
+            var section = document.getElementById("sectionPE").value;   
+            scheduleArray.push({date: dope, time: tope, section: section});
+
+            if (scheduleArray === undefined || scheduleArray.length == 0) {
+                console.log("No items");
+            }
+            else{
+                console.log("Sched" + scheduleArray);
+            }
+             $.ajax({
+                    url: '/addSchedule',
+                    method: 'POST',
+                    data: {
+                        schedules:scheduleArray
+                    },
+                    success: function(data) {
+                        console.log("added");
+                        window.location.href = "/health-assessment";
+                    }
+                });
+
+
+        });
+
+
+
     </script>
         
     

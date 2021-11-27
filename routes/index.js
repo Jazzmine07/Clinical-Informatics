@@ -168,6 +168,16 @@ router.get('/health-assessment/physical', (req, res) => {
   })
 });
 
+// Get health assessment schedule page
+router.get('/health-assessment/schedule', (req, res) => {
+  console.log("Read health assessment schedule successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('health-assessment-schedule', {
+      users: usersInfo
+    });
+  })
+});
+
 // Get communications page
 router.get('/communications', (req, res) => {
   console.log("Read communications successful!");

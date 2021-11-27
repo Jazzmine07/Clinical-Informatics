@@ -489,7 +489,7 @@
             crossorigin="anonymous"></script>
 
     <script>
-        var i = 1;
+        var i = 0;
 
         var scheduleArray = [];
 
@@ -504,15 +504,18 @@
             //var section = document.getElementById("sections").innerHTML;
 
             addSchedule(dope, tope, section);
-            i++;
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + dope +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + tope + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ section +'"></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            i++;
+
         });
+
+        var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            var index = button_id - 2; 
             console.log("removing..." + button_id);  
+            removeIDs.push(button_id);
             $('#row'+button_id+'').remove(); 
             scheduleArray.splice(index, 1);
             console.log(scheduleArray);           

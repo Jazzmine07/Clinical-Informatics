@@ -878,7 +878,7 @@
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
         }
 
-        var i = 1;  
+        var i = 0;  
         var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
 
         $('#addMedication').click(function(){
@@ -902,27 +902,48 @@
             console.log("push? "+ endMed);
 
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ startMed +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ endMed +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
         });
+
+        var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            var index = button_id - 2; 
             console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
-
-            medicineList.splice(index, 1);
-            purposeList.splice(index, 1);
-            amountList.splice(index, 1);
-            intervalList.splice(index, 1);
-            startMedList.splice(index, 1);
-            endMedList.splice(index, 1);
-            
+            removeIDs.push(button_id);
+            $('#row'+button_id+'').remove(); 
+            console.log(removeIDs);    
         });  
 
-        $("#saveBtn").click(function(){
+        $('#saveBtn').click(function(){
+            const toNumbers = arr => arr.map(Number);
+            var newArray = toNumbers(removeIDs);
+            console.log(newArray);       
+
+            newArray.sort();
+            console.log(newArray);
+
+            for (var j = newArray.length -1; j >= 0; j--){
+                medicationsArray.splice(newArray[j],1);
+                medicineList.splice(newArray[j], 1);
+                purposeList.splice(newArray[j], 1);
+                amountList.splice(newArray[j], 1);
+                intervalList.splice(newArray[j], 1);
+                startMedList.splice(newArray[j], 1);
+                endMedList.splice(newArray[j], 1);
+            }
+
+            console.log(medicationsArray);   
+            console.log(medicineList);              
+            console.log(purposeList);              
+            console.log(amountList);              
+            console.log(intervalList);              
+            console.log(startMedList);              
+            console.log(endMedList);              
+
             var id = $('#studentID').val();
             console.log(id);
             
@@ -1038,7 +1059,6 @@
                 }
             });
         });
-    
     });
     </script>
 </body>

@@ -486,22 +486,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
-    <script type='text/javascript'>
-        $(document).ready(function() {
+    <script>
         var medicationsArray = [];
 
         function addMedication(medication, quantity, unit, numItems, expDate) {
             medicationsArray.push({medication: medication, quantity: quantity, unit: unit, numItems: numItems, expDate: expDate});
         }
 
-        var i = 1;  
-        var medicineList = [], quantityList = [], unitList = [], numItemsList = [], expDateList = [];
+        var i = 0;  
 
         $('#addMedication').click(function(){
-            var medication = document.getElementById("medication");
+            var medication = document.getElementById("medication").value;
             //var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+
             var quantity = document.getElementById("quantity").value
-            var unit = document.getElementById("unit").value;
+            var unit = document.getElementById("unit");
             var selectedUnit = unit.options[unit.selectedIndex].value;
             var numItems = document.getElementById("numItems").value;
             var expDate = document.getElementById("expDate").value;
@@ -512,33 +511,36 @@
             console.log(numItems);
             console.log(expDate);
 
-            /* TO DO: Add checkers for fields if empty */
-            medicineList.push(medication);
-            quantityList.push(quantity);
-            unitList.push(selectedUnit);
-            numItemsList.push(numItems);
-            expDateList.push(expDate);
+            addMedication(medication, quantity, selectedUnit, numItems, expDate);
 
-            //addMedication(medication, quantity, selectedUnit, numItems, expDate);
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ numItems +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            
             i++;
-
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + medication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ numItems +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ expDate +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
         });
+
+        var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            var index = button_id - 2; 
             console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
-
-            medicineList.splice(index, 1);
-            quantityList.splice(index, 1);
-            unitList.splice(index, 1);
-            numItemsList.splice(index, 1);
-            expDateList.splice(index, 1);            
+            removeIDs.push(button_id);
+            $('#row'+button_id+'').remove(); 
+            console.log(removeIDs);    
         });  
-    
-    });
+
+        $('#saveBtn').click(function(){
+            const toNumbers = arr => arr.map(Number);
+            var newArray = toNumbers(removeIDs);
+            console.log(newArray);       
+
+            newArray.sort();
+            console.log(newArray);
+
+            for (var j = newArray.length -1; j >= 0; j--)
+                medicationsArray.splice(newArray[j],1);
+
+            console.log(medicationsArray);
+        });
     </script>
 </body>
 

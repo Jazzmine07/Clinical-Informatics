@@ -43,113 +43,114 @@ exports.getStudent = function(req, res){
 }
 
 exports.addClinicVisit = function(req, res){
-    // var { studentId, studentName , studentGrade, studentSection, visitDate, timeStamp, timeIn, timeOut, nurse, 
-    //     bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
-    //     medicationAssign, prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
-    //     diagnosisAssign, diagnosis, notes, status } = req.body;
+    var { studentId, studentName , studentGrade, studentSection, visitDate, timeStamp, timeIn, timeOut, nurse, 
+        bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
+        medicationAssign, prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
+        diagnosisAssign, diagnosis, notes, status } = req.body;
 
     var i, key;
     var time = Math.round(+new Date()/1000);
-    console.log("pasok sa controller");
-    // var database = firebase.database();
-    // var clinicVisitRef = database.ref("clinicVisit");
 
-    // var record = {
-    //     id: studentId, 
-    //     studentName: studentName,
-    //     grade: studentGrade,
-    //     section: studentSection,
-    //     visitDate: visitDate,
-    //     timestamp: time,
-    //     timeIn: timeIn,
-    //     timeout: timeOut,
-    //     attendingNurse: nurse,
-    //     bodyTemp: bodyTemp,
-    //     systolicBP: systolicBP,
-    //     diastolicBP: diastolicBP,
-    //     pulseRate: pulseRate,
-    //     respirationRate: respirationRate,   
+    var database = firebase.database();
+    var clinicVisitRef = database.ref("clinicVisit");
 
-    //     visitReason: complaint,
-    //     treatment: treatment,
+    var record = {
+        id: studentId, 
+        studentName: studentName,
+        grade: studentGrade,
+        section: studentSection,
+        visitDate: visitDate,
+        timestamp: time,
+        timeIn: timeIn,
+        timeout: timeOut,
+        attendingNurse: nurse,
+        bodyTemp: bodyTemp,
+        systolicBP: systolicBP,
+        diastolicBP: diastolicBP,
+        pulseRate: pulseRate,
+        respirationRate: respirationRate,   
 
-    //     medicationAssigned: medicationAssign,
-    //     medicationPrescribed: prescribedBy,
-    //     medication: "", // array of medications
+        visitReason: complaint,
+        treatment: treatment,
 
-    //     diagnosisAssigned: diagnosisAssign,
-    //     diagnosis: diagnosis,
-    //     status: status,
-    //     notes: notes,
-    // };
+        medicationAssigned: medicationAssign,
+        medicationPrescribed: prescribedBy,
+        medication: "", // array of medications
 
-    // key = clinicVisitRef.push(record).key;
+        diagnosisAssigned: diagnosisAssign,
+        diagnosis: diagnosis,
+        status: status,
+        notes: notes,
+    };
 
-    // // for(i = 0; i < medicineList.length; i++){
-    // //     // left side is the field name in firebase
-    // //     medication = {
-    // //         medicines: medicineList[i],
-    // //         purpose: purposeList[i],
-    // //         amount: amountList[i],
-    // //         interval: intervalList[i]
-    // //         startDate: startMedList[i],
-    // //         endDate: endMedList[i]
-    // //     };
-    // //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
-    // // }
+    key = clinicVisitRef.push(record).key;
 
-    // var assignMedication = database.ref("assignedForms/"+ medicationAssign);
-    // var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
-
-    // var medicationForm = {
-    //     task: "Clinic Visit",
-    //     description: "Medication",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
+    // for(i = 0; i < medicineList.length; i++){
+    //     // left side is the field name in firebase
+    //     medication = {
+    //         medicines: medicineList[i],
+    //         purpose: purposeList[i],
+    //         amount: amountList[i],
+    //         interval: intervalList[i]
+    //         startDate: startMedList[i],
+    //         endDate: endMedList[i]
+    //     };
+    //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
     // }
 
-    // var diagnosisForm = {
-    //     task: "Clinic Visit",
-    //     description: "Diagnosis",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
+    var assignMedication = database.ref("assignedForms/"+ medicationAssign);
+    var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
 
-    // var assignBoth = {
-    //     task: "Clinic Visit",
-    //     description: "Diagnosis & Medication",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
+    var medicationForm = {
+        task: "Clinic Visit",
+        description: "Medication",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
-    // var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+    var diagnosisForm = {
+        task: "Clinic Visit",
+        description: "Diagnosis",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // var notif = {
-    //     type: "form",
-    //     formId: key,
-    //     message: "You have been assigned to a new form!",
-    //     date: visitDate,
-    //     timestamp: time,
-    //     seen: false
-    // }
+    var assignBoth = {
+        task: "Clinic Visit",
+        description: "Diagnosis & Medication",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // if(medicationAssign == diagnosisAssign){
-    //     assignMedication.push(assignBoth);
-    //     userMedNotification.set(notif);
-    // } else {
-    //     assignMedication.push(medicationForm);
-    //     assignDiagnosis.push(diagnosisForm);
-    //     userMedNotification.set(notif);
-    //     userDiagnosisNotification.set(notif);
-    // }
+    var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
+    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+
+    var notif = {
+        type: "form",
+        formId: key,
+        message: "You have been assigned to a new form!",
+        date: visitDate,
+        timestamp: time,
+        seen: false
+    }
+
+    if(medicationAssign == diagnosisAssign){
+        assignMedication.push(assignBoth);
+        userMedNotification.set(notif);
+    } else {
+        assignMedication.push(medicationForm);
+        assignDiagnosis.push(diagnosisForm);
+        userMedNotification.set(notif);
+        userDiagnosisNotification.set(notif);
+    }
     
+    // needed as ajax was used to send data
     res.status(200).send();
 }
 

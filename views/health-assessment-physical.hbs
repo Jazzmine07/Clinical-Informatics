@@ -657,6 +657,7 @@
             var sec=localStorage.getItem("section");
             var id = localStorage.getItem("id");
             var i = localStorage.getItem("sectionStudentIndex");
+
             var array=[];
             var link;
             array=JSON.parse(localStorage.myArray)
@@ -665,14 +666,13 @@
             document.getElementById("sectionTop").innerHTML = sec;
             $('#studentID').val(array[i]);
 
-
             if(i<array.length-1){
                 document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
                 link="/health-assessment/physical";
             }
             else if(i=>array.length){
-                document.getElementById("skipBtn").style.display="none";
+                
                 document.getElementById("saveButtonText").innerHTML="Save";  
                 link="/health-assessment";
             }
@@ -683,14 +683,13 @@
             else{
                 document.getElementById("prevBtn").style.display="block";
             }
-
-            localStorage.setItem("schoolYear",schoolYear);
-            localStorage.setItem("section",sec);
-            localStorage.setItem("id",id);
             
             console.log("before:"+i);            
 
             $("#prevBtn").click(function(){
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",sec);
+                localStorage.setItem("id",id);
                 localStorage.setItem("sectionStudentIndex", parseInt(i-1));
                 console.log("prev:"+i);
                 console.log("HI Prev");
@@ -700,17 +699,26 @@
             
             
             $("#skipBtn").click(function(){
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",sec);
+                localStorage.setItem("id",id);
                 localStorage.setItem("sectionStudentIndex", parseInt(i+1));
                 window.location.href = link;
             });
 
             $("#saveBtn").click(function(){
-               localStorage.setItem("sectionStudentIndex", parseInt(i+1));
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",sec);
+                localStorage.setItem("id",id);
+                localStorage.setItem("sectionStudentIndex", parseInt(i+1));
                 console.log("save:"+i);
                 console.log("clicked?");
 
                 var sy=schoolYear;
                 console.log(sy);
+
+                var sectionHeader=sec;
+                console.log(sectionHeader);
 
                 var id = $('#studentID').val();
                 console.log(id);
@@ -792,13 +800,15 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE); 
-  
+
+                
             
                 $.ajax({
                     url: '/addAPE',
                     method: 'POST',
                     data: {
                         schoolYear:sy,
+                        section: sectionHeader,
                         studentId: id,
                         studentName: studentName,
                         visitDate: dateAPE,

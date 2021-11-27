@@ -414,6 +414,7 @@ exports.updateNotifications = function(req, res){
 exports.addAPE = function(req, res){
     //adds new APE of student with the current school year as the key
     var schoolYear= req.body.schoolYear;
+    var sectionTop= req.body.section;
     var id= req.body.studentId;
     var name = req.body.studentName;
     var apeDate = req.body.visitDate;
@@ -438,6 +439,8 @@ exports.addAPE = function(req, res){
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
+    var schedRef=database.ref("apeSchedule");
+
     var record = {
         id: id,
         name: name,
@@ -461,6 +464,20 @@ exports.addAPE = function(req, res){
         assess: assess
         // normal: normal
     }
+    console.log("sectionTop:" + sectionTop);
+
+    if(sectionTop != "" && sectionTop != null){
+        schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+            if(snapshot.exists()){
+                snapshot.forEach(function(childSnapshot){
+                    childSnapshot.ref.remove();
+                    console.log("deleted");
+                })
+            }
+        })
+    }
+
+
     console.log(schoolYear);
     apeRef.child(schoolYear).push(record);
     // key = apeRef.push(record).key;

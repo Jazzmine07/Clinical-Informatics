@@ -239,6 +239,8 @@ router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', studentController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
+router.post('/getSchedules', studentController.getAllApeSched);
+
 
 
 

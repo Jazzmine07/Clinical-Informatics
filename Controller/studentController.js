@@ -150,7 +150,8 @@ exports.addClinicVisit = function(req, res){
         userDiagnosisNotification.set(notif);
     }
     
-    res.redirect('/clinic-visit');
+    // needed as ajax was used to send data
+    res.status(200).send();
 }
 
 exports.editClinicVisit = function(req, res){

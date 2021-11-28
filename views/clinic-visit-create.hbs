@@ -883,7 +883,7 @@
 
         $('#addMedication').click(function(){
             var selectMedication = document.getElementById("medicationVisit");
-            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            //var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
@@ -891,21 +891,20 @@
             var endMed = document.getElementById("endMed").value;
 
             /* TO DO: Add checkers for fields if empty */
-            medicineList.push(selectedMedication);
-            purposeList.push(purpose);
-            amountList.push(amount);
-            intervalList.push(interval);
-            startMedList.push(startMed);
-            endMedList.push(endMed);
+            //medicineList.push(selectedMedication);
+            //purposeList.push(purpose);
+            //amountList.push(amount);
+            //intervalList.push(interval);
+            //startMedList.push(startMed);
+            //endMedList.push(endMed);
 
-            console.log("push? "+ startMed);
-            console.log("push? "+ endMed);
+            //console.log("push? "+ startMed);
+            //console.log("push? "+ endMed);
 
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
-
         });
 
         var removeIDs = [];
@@ -921,28 +920,28 @@
         $('#saveBtn').click(function(){
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
-            console.log(newArray);       
+            //console.log(newArray);       
 
             newArray.sort();
-            console.log(newArray);
+            //console.log(newArray);
 
-            for (var j = newArray.length -1; j >= 0; j--){
-                medicationsArray.splice(newArray[j],1);
-                medicineList.splice(newArray[j], 1);
-                purposeList.splice(newArray[j], 1);
-                amountList.splice(newArray[j], 1);
-                intervalList.splice(newArray[j], 1);
-                startMedList.splice(newArray[j], 1);
-                endMedList.splice(newArray[j], 1);
-            }
+            //for (var j = newArray.length -1; j >= 0; j--){
+            //    medicationsArray.splice(newArray[j],1);
+            //    medicineList.splice(newArray[j], 1);
+            //    purposeList.splice(newArray[j], 1);
+            //    amountList.splice(newArray[j], 1);
+            //    intervalList.splice(newArray[j], 1);
+            //    startMedList.splice(newArray[j], 1);
+            //    endMedList.splice(newArray[j], 1);
+            //}
 
-            console.log(medicationsArray);   
-            console.log(medicineList);              
-            console.log(purposeList);              
-            console.log(amountList);              
-            console.log(intervalList);              
-            console.log(startMedList);              
-            console.log(endMedList);              
+            //console.log(medicationsArray);   
+            //console.log(medicineList);              
+            //console.log(purposeList);              
+            //console.log(amountList);              
+            //console.log(intervalList);              
+            //console.log(startMedList);              
+            //console.log(endMedList);              
 
             var id = $('#studentID').val();
             console.log(id);
@@ -973,7 +972,10 @@
             console.log(bodyTemp);
 
             var systolicBP =  $('#systolicBP').val(); 
+            console.log(systolicBP);
+
             var diastolicBP = $('#diastolicBP').val(); 
+            console.log(diastolicBP);
 
             var pr =  $('#pulseRate').val(); 
             console.log(pr);
@@ -988,19 +990,13 @@
             console.log(treatment);
 
             var selectMedicationAssign = document.getElementById("assignMedication");
-            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
 
             var selectPrescribedBy = document.getElementById("prescribedBy");
-            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-
-            var startMed =  $('#startMed').val(); 
-            console.log(startMed);
-
-            var endMed =  $('#endMed').val(); 
-            console.log(endMed);
+            //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
             
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
@@ -1012,10 +1008,6 @@
             console.log(notes);
 
             /* TO DO: Add checkers for fields if empty */
-
-            //console.log("may laman? "+purposeList);
-            //console.log("may laman? "+amountList);
-            //console.log("may laman? "+intervalList);
 
             $.ajax({
                 url: '/addClinicVisit',
@@ -1037,16 +1029,16 @@
                     complaint: complaint,
                     treatment: treatment,                    
                     
-                    medicationAssign: selectedMedicationAssign,
-                    prescribedBy: selectedPrescribedBy,
-                    medicineList: medicineList,
-                    purposeList: purposeList, 
-                    amountList: amountList,
-                    intervalList: intervalList,
-                    startMedList: startMed,
-                    endMedList: endMed,
+                    //medicationAssign: selectedMedicationAssign,
+                    //prescribedBy: selectedPrescribedBy,
+                    //medicineList: medicineList,
+                    //purposeList: purposeList, 
+                    //amountList: amountList,
+                    //intervalList: intervalList,
+                    //startMedList: startMed,
+                    //endMedList: endMed,
 
-                    diagnosisAssign: selectedDaignosisAssign,
+                    //diagnosisAssign: selectedDaignosisAssign,
                     diagnosis: diagnosis,
 
                     notes: notes,
@@ -1054,7 +1046,7 @@
 
                 },
                 success: function(data) {
-                    console.log("success!");
+                    console.log("success in ajax!");
                     window.location.href = "/clinic-visit";
                 }
             });

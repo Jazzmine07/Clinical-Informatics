@@ -82,6 +82,36 @@ exports.login = function(req, res){
   // }
   // else {
   //   //user sign in
+  /*
+    -- this is the function to sign in users without the use of firebase authentication 
+    -- dont forget to remove clinicUsers in ref
+  */
+  // userRef.child("clinicUsers").orderByChild("email").equalTo(email).on('value', (snapshot) => {
+  //   if(!snapshot.exists()){
+  //     res.render('login',{
+  //       error: true,
+  //       error_msg: "No user with that email!"
+  //     });
+  //   } 
+
+  //   snapshot.forEach(function(childSnapshot){
+  //     var childSnapshotData = childSnapshot.exportVal();
+  //     if(childSnapshotData.password != pass){
+  //       res.render('login',{
+  //         error: true,
+  //         error_msg: "Wrong password!"
+  //       });
+  //     }
+  //     else {
+  //       if(childSnapshotData.role == "Clinician"){ // if user is clinician
+  //         res.redirect("/dashboard");
+  //       } else {  // if user is nurse
+  //         res.redirect("/clinic-visit");
+  //       }
+  //     }
+  //   });
+  // })
+
     firebase.auth().signInWithEmailAndPassword(email, pass)
     .then((userCredential) => {
       // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------

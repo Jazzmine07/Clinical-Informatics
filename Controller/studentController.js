@@ -389,8 +389,8 @@ exports.getNotifications = function(req, res){
             var userRef = database.ref("clinicUsers/"+uid);
             var notifRef = database.ref("notifications/"+uid);
             
-            userRef.on('value', (snapshot) => {        
-                notifRef.orderByChild("timestamp").on('value', (snapshot) => {
+            userRef.once('value', (snapshot) => {        
+                notifRef.orderByChild("timestamp").once('value', (snapshot) => {
                     if(snapshot.exists()){
                         snapshot.forEach(function(childSnapshot){
                             childSnapshotData = childSnapshot.exportVal();
@@ -404,12 +404,6 @@ exports.getNotifications = function(req, res){
                             })
                         })
                         notifs.reverse();
-                        // notifs.push({
-                        //     user: snapshot.key,
-                        //     notifs: temp.reverse()
-                        // })
-                        console.log("notifs in controller");
-                        console.log(notifs);
                         res.send(notifs);
                     } else {
                         res.send(notifs);
@@ -425,10 +419,12 @@ exports.getNotifications = function(req, res){
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
     var database = firebase.database();
+    console.log("controller form ids"+formIds);
 
     for(var i = 0; i < formIds.length; i++){
         database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
     }
+    res.status(200).send();
 }
 
 exports.addAPE = function(req, res){

@@ -24,19 +24,27 @@
 <script type='text/javascript'>
     $(document).ready(function() {
         var formIds = [];
+
         getNotification();
-    
+        setInterval(function(){ getNotification(); }, 3000);
+
         function getNotification() {
             $.get("/getNotification", function(notifs){
                 var i;
                 var count = 0;
-                //var forms = document.getElementById('formID');
+                
+                formIds = [];
                 
                 $('#userID').val(notifs[notifs.length-1].user); // user key
-                
+                for(i = 0; i < notifs.length; i++){
+                    if(notifs[i].seen == true){
+                        $('#notifList').empty();
+                        break;
+                    }
+                }
                 // getting list of notifications
                 for(i = 0; i < notifs.length; i++){
-                    // TO DO: the if else statement for the display if seen or not
+                    // the if else statement for the display if seen or not
                     if(notifs[i].seen == true){
                         $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
 
@@ -44,12 +52,8 @@
                         $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
                         count++;  // notififcation count
                     }
-
-                    //$('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
-                                        
-                    // TO DO: put key value of forms 
+                    // put key value of forms 
                     formIds.push(notifs[i].formId);
-
                 }
                 console.log(formIds);
                 
@@ -62,34 +66,23 @@
         }
 
         $("#alertsDropdown").click(function(){
-            /*
-                TO DO:
-                -- make sure yung data na nakukuha is tama based from the get notification function
-                -- fix removing of count (sorry huhu)
-                -- userID is correct na so I jut need yung id nung forms
-            */
             var count =  $('#notifCount');
-            console.log("count after press");
-            console.log(count);
             count.remove();
             
             var userID = $('#userID').val();
             
-            console.log(userID);
-            console.log("formIds after press... ");
-            console.log(formIds);
-
-            //$.ajax({
-            //    url: '/updateNotif',
-            //    method: 'POST',
-            //    data: {
-            //        userID: userID,
-            //        formIds: values
-            //    },
-            //    success: function(data) {
-            //        console.log("success!");
-            //   }
-            //});
+            console.log("bago mag ajax");
+            $.ajax({
+                url: '/updateNotif',
+                method: 'POST',
+                data: {
+                    userID: userID,
+                    formIds: formIds.reverse()
+                },
+                success: function(data) {
+                    console.log("success!");
+                }
+            });
         });
     });
 </script>

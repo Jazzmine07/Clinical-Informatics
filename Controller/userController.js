@@ -9,15 +9,14 @@ exports.login = function(req, res){
   var pass = req.body.password;
   var database = firebase.database();
   var userRef = database.ref("clinicUsers");
-  var parentsRef = database.ref("parentInfo");
+  var parentsRef = database.ref("medicineList");
   var userInfo;
 
-  // var studentAccount = {
-  //   email: 'chloe_torres@gmail.com',
-  //   password: 'manresa123',
-  // }
+  var studentAccount = {
+    medicineName: 'chloe_torres@gmail.com'
+  }
 
-  // parentsRef.push(studentAccount);
+  parentsRef.push(studentAccount);
   //database.ref('parentUsers/' + studentAccount.idNum); // setting the path with id number as its pk
   //database.ref('parentUsers/' + studentAccount.idNum).set(studentAccount); // adding other fields
 

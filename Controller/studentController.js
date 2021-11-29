@@ -379,28 +379,47 @@ exports.getClinicVisitForm = function(req, res){
 exports.getNotifications = function(req, res){
     var user = req;
     var database = firebase.database();
-    var notifRef = database.ref("notifications/"+user);
     var childSnapshotData;
-    var notifs = [];
+    var temp = [], notifs = [];
 
-    notifRef.orderByChild("timestamp").on('value', (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                notifs.push({
-                    type: childSnapshotData.type,
-                    formId: childSnapshotData.formId,
-                    message: childSnapshotData.message,
-                    date: childSnapshotData.date,
-                    seen: childSnapshotData.seen
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            var uid = user.uid;
+            var userRef = database.ref("clinicUsers/"+uid);
+            var notifRef = database.ref("notifications/"+uid);
+            
+            userRef.on('value', (snapshot) => {        
+                notifRef.orderByChild("timestamp").on('value', (snapshot) => {
+                    if(snapshot.exists()){
+                        snapshot.forEach(function(childSnapshot){
+                            childSnapshotData = childSnapshot.exportVal();
+                             notifs.push({
+                                user: snapshot.key,
+                                type: childSnapshotData.type,
+                                formId: childSnapshotData.formId,
+                                message: childSnapshotData.message,
+                                date: childSnapshotData.date,
+                                seen: childSnapshotData.seen
+                            })
+                        })
+                        notifs.reverse();
+                        // notifs.push({
+                        //     user: snapshot.key,
+                        //     notifs: temp.reverse()
+                        // })
+                        console.log("notifs in controller");
+                        console.log(notifs);
+                        res.send(notifs);
+                    } else {
+                        res.send(notifs);
+                    }
                 })
             })
-            notifs.reverse();
-            res(notifs);
-        } else {
-            res(notifs);
         }
-    })
+    });
+
+    
 }
 
 exports.updateNotifications = function(req, res){

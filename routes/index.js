@@ -27,28 +27,30 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/getNotification', studentController.getNotifications);
+
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   userController.getUser(req, user => {
-    studentController.getNotifications(user.key, notifs => {
+    //studentController.getNotifications(user.key, notifs => {
       var i, count = 0, newNotifs;
 
-      for(i = 0; i < notifs.length; i++){
-        if(notifs[i].seen == false){
-          newNotifs = true;
-          count++; 
-        } else {
-          newNotifs = false;
-        }
-      }
+      // for(i = 0; i < notifs.length; i++){
+      //   if(notifs[i].seen == false){
+      //     newNotifs = true;
+      //     count++; 
+      //   } else {
+      //     newNotifs = false;
+      //   }
+      // }
 
       res.render('dashboard', {
         user: user,
-        notification: notifs,
+        //notification: notifs,
         count: count,
-        newNotifs: newNotifs
+        //newNotifs: newNotifs
       })
-    })
+    //})
   })
 });
 
@@ -211,9 +213,9 @@ router.get('/promotive-care/program-form', (req, res) => {
 // Get inventory page
 router.get('/inventory', (req, res) => {
   console.log("Read inventory successful!");
-  userController.getUsers(req, usersInfo => {
+  userController.getUser(req, user => {
     res.render('inventory', {
-      users: usersInfo
+      user: user
     });
   })
 });
@@ -221,9 +223,9 @@ router.get('/inventory', (req, res) => {
 // Get promotive care page
 router.get('/inventory/add', (req, res) => {
   console.log("Read add inventory successful!");
-  userController.getUsers(req, usersInfo => {
+  userController.getUser(req, user => {
     res.render('inventory-add', {
-      users: usersInfo
+      user: user
     });
   })
 });

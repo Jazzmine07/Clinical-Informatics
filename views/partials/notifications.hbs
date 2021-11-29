@@ -4,9 +4,9 @@
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        {{#if newNotifs}}
-        <span id="notifCount" class="badge badge-danger badge-counter">{{count}}</span>
-        {{/if}}
+        {{!-- {{#if newNotifs}} --}}
+        <span id="notifCount" class="badge badge-danger badge-counter"></span>
+        {{!-- {{/if}} --}}
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -14,58 +14,107 @@
         <h6 class="dropdown-header">
             Alerts Center
         </h6>
-        <input id="userID" type="hidden" value="{{user.key}}">
-        {{#each notification}}
+        <input id="userID" type="hidden">
+        {{!-- {{#each notification}} --}}
             <a class="dropdown-item d-flex align-items-center" href="/clinic-visit">
-                {{#ifEquals seen}}
+                {{!-- {{#ifEquals seen}} --}}
                 <div style="height: 40px;">
                     <span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span>
                 </div>
-                {{else}}
+                {{!-- {{else}} --}}
                 <div style="height: 40px;">
                     <span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span>
                 </div>
-                {{/ifEquals}}
+                {{!-- {{/ifEquals}} --}}
                 <div class="mr-3">
                     <div class="icon-circle bg-primary">
                         <i class="fas fa-file-alt text-white"></i>
                     </div>
                 </div>
                 <div>
-                    <input class="formID" type="hidden" value="{{formId}}">
-                    <div class="small text-gray-500">{{formatDate date}}</div>
-                    <span class="font-weight-bold">{{message}}</span>
+                    <input id="formID" type="text">
+                    <span class="small text-gray-500" id="date"></span>
+                    <span class="font-weight-bold" id="message"></span>
                 </div>
             </a>
-        {{/each}}
+        {{!-- {{/each}} --}}
         <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
     </div>
 </li>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type='text/javascript'>
+    $(document).ready(function() {
+        getNotification();
+    });
+
+    function getNotification() {
+        $.get("/getNotification", function(notifs){
+            var i;
+            var count = 0;
+            var formIds = [];
+            var forms = document.getElementById('formID');
+            
+            $('#userID').val(notifs[notifs.length-1].user); // user key
+            
+            for(i = 0; i < notifs.length; i++){
+                // TO DO: the if else statement for the display if seen or not
+                if(notifs[i].seen == true){
+                    // remove yung red na bilog sa notif
+                } else {
+                    // meron red na bilog sa notif
+                    count++;  // notififcation count
+                }
+
+                // TO DO: put key value of forms 
+                formIds.push(notifs[i].formId);
+
+                // TO DO: display dates
+                $('#date').text(notifs[i].date);
+
+                // TO DO: display messages
+                $("#message").text(notifs[i].message);
+            }
+            console.log(formIds);
+            
+            $('#notifCount').text(count);
+            // TO DO: if count = 0, remove notifCount 
+            // if(count == 0){
+
+            // }
+        });
+    }
+
     $("#alertsDropdown").click(function(){
-        let count = document.getElementById('notifCount');
-        count.remove();
+        /*
+            TO DO:
+            -- make sure yung data na nakukuha is tama based from the get notification function
+            -- fix removing of count (sorry huhu)
+            -- userID is correct na so I jut need yung id nung forms
+        */
+        let count =  $('#notifCount').val();
+        console.log("count after press");
+        console.log(count);
+        //count.remove();
         
         var userID = $('#userID').val();
-        var classesNodeList = document.querySelectorAll(".formID");
-        var values = Array.prototype.map.call(classesNodeList, function(element) {
-        return element.value;
-        });
+        ///var classesNodeList = document.querySelectorAll(".formID");
+        //var values = Array.prototype.map.call(classesNodeList, function(element) {
+        //    return element.value;
+        //});
         console.log(userID);
-        console.log(values);
+        //console.log("formIds after press "+values);
 
-        $.ajax({
-            url: '/updateNotif',
-            method: 'POST',
-            data: {
-                userID: userID,
-                formIds: values
-            },
-            success: function(data) {
-                console.log("success!");
-            }
-        });
+        //$.ajax({
+        //    url: '/updateNotif',
+        //    method: 'POST',
+        //    data: {
+        //        userID: userID,
+        //        formIds: values
+        //    },
+        //    success: function(data) {
+        //        console.log("success!");
+        //   }
+        //});
     });
 </script>

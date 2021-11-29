@@ -462,6 +462,7 @@ exports.addAPE = function(req, res){
     var schedRef=database.ref("apeSchedule");
 
     var record = {
+        schoolYear:schoolYear,
         id: id,
         name: name,
         apeDate: apeDate,
@@ -711,11 +712,67 @@ exports.addSchedule=function(req,res){
             }
         });
     }
-
-
-
     res.send("hi");
+}
+
+exports.getAllApeSched=function(req,res){
+    //gets all the schedule created for the APE
+    var database = firebase.database();
+    var schedRef= database.ref("apeSchedule");
+    var studentRef = database.ref("studentInfo");
+    var schedule=[];
     
-    //
+    schedRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            var childValues = childSnapshot.exportVal();
+            var grade;
+            var students=[];
+            var numStudents;
+            console.log("Sections"+childValues.section);
+            if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
+                grade="1";
+            }
+            else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
+                grade="2";
+            }
+            else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
+                grade="3";
+            }
+            else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
+                grade="4";
+            }         
+            else if(childValues.section=="Trustwortiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+                grade="5";
+            }
+            else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
+                grade="6";
+            }
+
+            studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                if(ss.exists()){
+                    ss.forEach(function(cs){
+                        console.log("looking for section:" + childValues.section);
+                        console.log("Key: "+cs.key);
+                        console.log("Section: "+cs.child("section").val());
+                        console.log("Id Number: "+cs.child("idNum").val());
+                        students.push(cs.key);
+                    })
+                    console.log("Students in "+ childValues.section +":"+students.length);
+                }
+            });
+
+            record={
+                grade:grade,
+                section:childValues.section,
+                numStudents:students.length,
+                examDate:childValues.date,
+                time:childValues.time
+            }
+            schedule.push(record);
+
+        }) 
+        console.log(schedule);
+        res.send(schedule)
+    });
 }
 

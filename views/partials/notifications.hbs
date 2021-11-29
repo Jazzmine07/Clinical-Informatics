@@ -24,48 +24,34 @@
 <script type='text/javascript'>
     $(document).ready(function() {
         var formIds = [];
-        var oldFormIds = [];
-
-        setInterval(function(){ getNotification(); }, 3000);
-
+        getNotification();
+    
         function getNotification() {
             $.get("/getNotification", function(notifs){
-                var i, j;
+                var i;
                 var count = 0;
                 //var forms = document.getElementById('formID');
-
-                
-                for(i = 0; i < notifs.length; i++){
-                    if(oldFormIds.length == 0){
-                        console.log("old form length 0");
-                        oldFormIds.push(notifs[i].formId);
-                        console.log(oldFormIds.length);
-                        i++;
-                    }
-
-                    /// 0 < 1
-                    for(j = 0; j < oldFormIds.length; j++)
-                    {
-                        console.log("may laman na kase?");
-                        if(notifs[i].formId != oldFormIds[j]){
-                            oldFormIds.push(notifs[i].formId);
-                            console.log("old form new item");
-
-                            if(notifs[i].seen == true){
-                                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
-
-                            } else {
-                                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
-                                count++;  // notififcation count
-                            }
-                        }
-                    }
-                    
-                    // TO DO: put key value of forms 
-                    formIds.push(notifs[i].formId);
-                }
                 
                 $('#userID').val(notifs[notifs.length-1].user); // user key
+                
+                // getting list of notifications
+                for(i = 0; i < notifs.length; i++){
+                    // TO DO: the if else statement for the display if seen or not
+                    if(notifs[i].seen == true){
+                        $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+
+                    } else {
+                        $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+                        count++;  // notififcation count
+                    }
+
+                    //$('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+                                        
+                    // TO DO: put key value of forms 
+                    formIds.push(notifs[i].formId);
+
+                }
+                console.log(formIds);
                 
                 $('#notifCount').text(count);
                 if (count == 0){

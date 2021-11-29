@@ -705,8 +705,20 @@
     </script>
      <script type='text/javascript'>
         $(document).ready(function() {
-        
-        var sy="2021-2022";
+        var currentTime = new Date()
+        var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+        var currYear = currentTime.getFullYear();
+        //var month=1;
+        //var currYear=2021;
+        if(month>=6){
+            var sy= currYear +"-"+ (currYear+1) ;
+        }
+        else{
+            var sy= (currYear-1) +"-"+ (currYear) ;
+        }
+        console.log(sy);
+        document.getElementById("schoolYear").value=sy;
+
         $.post("/getPercentageChart",{schoolYear:sy}, function(data){
             var p1=data.p1 * 100 +"%";
             var p2=data.p2 * 100 +"%";
@@ -752,7 +764,7 @@
 
             $("#searchBtn").click(function(){
                 console.log("clicked?");
-
+                                                
                 var schoolYear = $('#schoolYear').val();
                 console.log(schoolYear);
                 

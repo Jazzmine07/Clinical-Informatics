@@ -434,6 +434,7 @@ exports.updateNotifications = function(req, res){
 exports.addAPE = function(req, res){
     //adds new APE of student with the current school year as the key
     var schoolYear= req.body.schoolYear;
+    var age= req.body.age;
     var sectionTop= req.body.section;
     var id= req.body.studentId;
     var name = req.body.studentName;
@@ -463,6 +464,7 @@ exports.addAPE = function(req, res){
 
     var record = {
         schoolYear:schoolYear,
+        age:age,
         id: id,
         name: name,
         apeDate: apeDate,
@@ -500,7 +502,7 @@ exports.addAPE = function(req, res){
 
 
     console.log(schoolYear);
-    apeRef.child(schoolYear).push(record);
+    apeRef.child(schoolYear).set(record);
     // key = apeRef.push(record).key;
     
     res.send({

@@ -990,13 +990,13 @@
             console.log(treatment);
 
             var selectMedicationAssign = document.getElementById("assignMedication");
-            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
 
             var selectPrescribedBy = document.getElementById("prescribedBy");
             //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
             
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
@@ -1029,7 +1029,7 @@
                     complaint: complaint,
                     treatment: treatment,                    
                     
-                    //medicationAssign: selectedMedicationAssign,
+                    medicationAssign: selectedMedicationAssign,
                     //prescribedBy: selectedPrescribedBy,
                     //medicineList: medicineList,
                     //purposeList: purposeList, 
@@ -1038,7 +1038,7 @@
                     //startMedList: startMed,
                     //endMedList: endMed,
 
-                    //diagnosisAssign: selectedDaignosisAssign,
+                    diagnosisAssign: selectedDaignosisAssign,
                     diagnosis: diagnosis,
 
                     notes: notes,

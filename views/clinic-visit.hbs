@@ -742,7 +742,7 @@
 
             <!-- Nav Item - Inventory -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/inventory">
                     <i class="fas fa-fw fa-tablets"></i>
                     <span>Inventory</span></a>
             </li>
@@ -1008,7 +1008,7 @@
                                         {{#each clinicVisitForms}}
                                         <tr>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
-                                            <td id="clinicianDesc" value="{{@index}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
+                                            <td id="clinicianDesc" value="{{description}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate dateAssigned}}</a></td>
                                         </tr>

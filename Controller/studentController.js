@@ -74,7 +74,7 @@ exports.addClinicVisit = function(req, res){
         treatment: treatment,
 
         medicationAssigned: medicationAssign,
-        medicationPrescribed: prescribedBy,
+        // /medicationPrescribed: prescribedBy,
         medication: "", // array of medications
 
         diagnosisAssigned: diagnosisAssign,
@@ -183,11 +183,11 @@ exports.editClinicVisit = function(req, res){
         visitReason: complaint,
         treatment: treatment,
 
-        //medicationAssigned: medicationAssign,
+        medicationAssigned: medicationAssign,
         //medicationPrescribed: prescribedBy,
         medication: "", // array of medications
 
-        //diagnosisAssigned: diagnosisAssign,
+        diagnosisAssigned: diagnosisAssign,
         diagnosis: diagnosis,
         status: status,
         notes: notes,

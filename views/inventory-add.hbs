@@ -364,7 +364,7 @@
                                                 <i class="fa fa-search"></i>
                                                 </div>
                                             </span>
-                                            <input list="medications" class="form-control py-2 border-left-1 border" id="medication" placeholder="Create or select medication"/>                                       
+                                            <input list="medications" class="form-control py-2 border-left-1 border" id="medication" placeholder="Create or select medication. (ex. Paracetamol Tablet 250mg)"/>                                       
                                         </div>
                                         <datalist id="medications">
                                             <option value="meds">                          
@@ -380,22 +380,16 @@
                                     <div class="col-6">
                                         <label for="unit" class="col-form-label">Unit</label>
                                         <select class="custom-select mb-2 form-control" id="unit" name="unit">
-                                            <option>mg</option>
-                                            <option>g</option>
-                                            <option>ml</option>
+                                            <option>Bottle</option>
+                                            <option>Pieces</option>
                                         </select> 
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label for="numItems" class="col-form-label">No. of item</label>
-                                        <div class="input-group mb-2">                                        
-                                            <input type="number" class="form-control" id="numItems" name="numItems">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">pieces</span>
-                                            </div>
-                                        </div>
+                                        <label for="purchDate" class="col-form-label">Purchase Date</label>
+                                        <input type="date" class="form-control mb-2" id="purchDate" name="purchDate">
                                     </div>
                                     <div class="col-6">
                                         <label for="expDate" class="col-form-label">Expiry Date</label>
@@ -403,7 +397,7 @@
                                     </div>
                                 </div>
                                 
-                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>                                
+                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medicines</a>                                
                                 <table class="table" id="dynamic_field">  
 
                                 </table>
@@ -489,31 +483,29 @@
     <script>
         var medicationsArray = [];
 
-        function addMedication(medication, quantity, unit, numItems, expDate) {
-            medicationsArray.push({medication: medication, quantity: quantity, unit: unit, numItems: numItems, expDate: expDate});
+        function addMedication(medication, quantity, unit, purchDate, expDate) {
+            medicationsArray.push({medication: medication, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
         }
 
         var i = 0;  
 
         $('#addMedication').click(function(){
             var medication = document.getElementById("medication").value;
-            //var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
-
             var quantity = document.getElementById("quantity").value
             var unit = document.getElementById("unit");
             var selectedUnit = unit.options[unit.selectedIndex].value;
-            var numItems = document.getElementById("numItems").value;
+            var purchDate = document.getElementById("purchDate").value;
             var expDate = document.getElementById("expDate").value;
 
             console.log(medication);
             console.log(quantity);
             console.log(selectedUnit);
-            console.log(numItems);
+            console.log(purchDate);
             console.log(expDate);
 
-            addMedication(medication, quantity, selectedUnit, numItems, expDate);
+            addMedication(medication, quantity, selectedUnit, purchDate, expDate);
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ numItems +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             
             i++;
         });
@@ -540,6 +532,18 @@
                 medicationsArray.splice(newArray[j],1);
 
             console.log(medicationsArray);
+
+            $.ajax({
+                url: '/addInventory',
+                method: 'POST',
+                data: {
+                    meds: medicationsArray
+                },
+                success: function(data) {
+                    console.log("success in ajax!");
+                    window.location.href = "/inventory";
+                }
+            });
         });
     </script>
 </body>

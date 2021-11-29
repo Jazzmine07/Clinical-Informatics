@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const userController = require('../Controller/userController');
 const studentController = require('../Controller/studentController');
+const inventoryController = require('../Controller/inventoryController');
 const { loggedIn } = require('../Controller/userController');
 var expressHbs =  require('handlebars');
 
@@ -214,9 +215,12 @@ router.get('/promotive-care/program-form', (req, res) => {
 router.get('/inventory', (req, res) => {
   console.log("Read inventory successful!");
   userController.getUser(req, user => {
-    res.render('inventory', {
-      user: user
-    });
+    inventoryController.getInventory(req, inventory => {
+      res.render('inventory', {
+        user: user,
+        inventory: inventory
+      });
+    })
   })
 });
 
@@ -242,7 +246,7 @@ router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', studentController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSchedules', studentController.getAllApeSched);
-
+router.post('/addInventory', inventoryController.addInventory);
 
 
 

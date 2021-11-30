@@ -688,10 +688,10 @@
 
             $("#weight").change(function(){
                 var w = $("#weight").val();
-                if(!h==null){
-                    var h= $("#height").val()/100;
+                var h= $("#height").val()/100;
+                console.log(h);
+                if(!h==null || !h==""){
                     var b= w/(h*h);
-
                     var id = $('#studentID').val();
                     var dob = $('#dob').val(); 
                     var age = $('#age').val(); 
@@ -699,19 +699,57 @@
                     var dateAPE =  $('#dope').val(); 
                     document.getElementById("bmi").value=b.toFixed(2);
                     var bmiVal=$('#bmi').val();
-                    $.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
-                        
-                    })
+
+                    $.ajax({
+                    url: '/getBmiStatus',
+                    method: 'POST',
+                    data: {
+                        id:id,
+                        dob:dob,
+                        age:age,
+                        sex:gender,
+                        dateAPE:dateAPE,
+                        bmi:bmiVal
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+
+
+                    //$.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
+                    //   console.log(data)
+                    //})
                 }
             });
             $("#height").change(function(){
                 var w = $("#weight").val();
                 var h= $("#height").val()/100;
-                if(!w==null){
+                console.log(w);
+                if(!w==null || !w==""){
                     var b= w/(h*h);
-                    document.getElementById("bmi").value=b.toFixed(2); 
-
-                    // add $.post from weight change
+                    var id = $('#studentID').val();
+                    var dob = $('#dob').val(); 
+                    var age = $('#age').val(); 
+                    var gender = $('#gender').val(); 
+                    var dateAPE =  $('#dope').val(); 
+                    document.getElementById("bmi").value=b.toFixed(2);
+                    var bmiVal=$('#bmi').val();
+                    $.ajax({
+                    url: '/getBmiStatus',
+                    method: 'POST',
+                    data: {
+                        id:id,
+                        dob:dob,
+                        age:age,
+                        sex:gender,
+                        dateAPE:dateAPE,
+                        bmi:bmiVal
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                    });
 
                 }
             });

@@ -785,14 +785,24 @@ exports.getBmiStatus=function(req,res){
     var bmi=req.body.bmi;
     var monthAge;
     var bmiStatus;
-    var bMonth=dob.getMonth() + 1;
-    var vMonth=visitDate.getMonth() + 1;
-    
+
+    var bDate = new Date(dob);
+    var vDate = new Date(visitDate);
+    var bMonth=bDate.getMonth();
+    var vMonth=vDate.getMonth();
+
+
     if(vMonth>=bMonth){
         monthAge=vMonth-bMonth;
+        console.log("1"+bMonth);
+        console.log(vMonth);
+        console.log(monthAge);
     }
     else if(vMonth<bMonth){
         monthAge=vMonth+12-bMonth;
+        console.log("2"+bMonth);
+        console.log(vMonth);
+        console.log(monthAge);
     }    
 
     if(sex=="female"){
@@ -2070,6 +2080,8 @@ exports.getBmiStatus=function(req,res){
                 } 
             } 
         }
+        console.log(bmiStatus);
+        res.send(bmiStatus);
     }
     else if(sex=="male"){
         if(yearAge=="5"){
@@ -2099,9 +2111,7 @@ exports.getBmiStatus=function(req,res){
         else if(yearAge=="13"){
             
         }
-        else if(yearAge=="14"){
-            
-        }
+        
     }
 
 

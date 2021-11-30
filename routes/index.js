@@ -247,7 +247,7 @@ router.post('/updateNotif', studentController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/addInventory', inventoryController.addInventory);
-
+router.post('/getBmiStatus', studentController.getBmiStatus);
 
 
 module.exports = router;

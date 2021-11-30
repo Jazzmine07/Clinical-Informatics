@@ -43,8 +43,8 @@ exports.getInventory = function(req, res){
                         expDate: childSnapshotData.expDate
                     })
                 })
-                console.log("inventory in controller");
-                console.log(inventory);
+                // console.log("inventory in controller");
+                // console.log(inventory);
                 res(inventory);
             })
         } else {

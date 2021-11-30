@@ -498,7 +498,7 @@
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="height" step="0.01">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">cm</span>
+                                                <span class="input-group-text" id="basic-addon4">m</span>
                                             </div>
                                         </div>
                                     </div>
@@ -508,7 +508,7 @@
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="bmi" step="0.01">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">kg/m²</span>
+                                                <span class="input-group-text" id="bmiStatus"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -686,19 +686,6 @@
             
             console.log("before:"+i);            
 
-            $("#weight").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                var b= w/(h*h);
-                document.getElementById("bmi").value=b;
-            })
-            $("#height").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                var b= w/(h*h);
-                document.getElementById("bmi").value=b;
-            })
-
             $("#prevBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
                 localStorage.setItem("section",sec);
@@ -821,7 +808,6 @@
                     method: 'POST',
                     data: {
                         schoolYear:sy,
-                        age:age,
                         section: sectionHeader,
                         studentId: id,
                         studentName: studentName,

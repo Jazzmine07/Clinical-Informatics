@@ -688,16 +688,33 @@
 
             $("#weight").change(function(){
                 var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                var b= w/(h*h);
-                document.getElementById("bmi").value=b;
-            })
+                if(!h==null){
+                    var h= $("#height").val()/100;
+                    var b= w/(h*h);
+
+                    var id = $('#studentID').val();
+                    var dob = $('#dob').val(); 
+                    var age = $('#age').val(); 
+                    var gender = $('#gender').val(); 
+                    var dateAPE =  $('#dope').val(); 
+                    document.getElementById("bmi").value=b.toFixed(2);
+                    var bmiVal=$('#bmi').val();
+                    $.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
+                        
+                    })
+                }
+            });
             $("#height").change(function(){
                 var w = $("#weight").val();
                 var h= $("#height").val()/100;
-                var b= w/(h*h);
-                document.getElementById("bmi").value=b;
-            })
+                if(!w==null){
+                    var b= w/(h*h);
+                    document.getElementById("bmi").value=b.toFixed(2); 
+
+                    // add $.post from weight change
+
+                }
+            });
 
             $("#prevBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
@@ -744,7 +761,7 @@
                 
                 var studentSection = $('#studentSection').val(); 
                 console.log(studentSection);
-
+                
                 var dob = $('#dob').val(); 
                 console.log(dob);
 

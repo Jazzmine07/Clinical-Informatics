@@ -774,3 +774,1338 @@ exports.getAllApeSched=function(req,res){
     });
 }
 
+exports.getBmiStatus=function(req,res){
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+
+    var id=req.body.id;
+    var dob=req.body.dob;
+    var yearAge=req.body.age;
+    var sex=req.body.sex;
+    var visitDate=req.body.dateAPE;
+    var bmi=req.body.bmi;
+    var monthAge;
+    var bmiStatus;
+    var bMonth=dob.getMonth() + 1;
+    var vMonth=visitDate.getMonth() + 1;
+    
+    if(vMonth>=bMonth){
+        monthAge=vMonth-bMonth;
+    }
+    else if(vMonth<bMonth){
+        monthAge=vMonth+12-bMonth;
+    }    
+
+    if(sex=="female"){
+        if(yearAge=="5"){
+            if(bmi<13.1){ 
+                bmiStatus="Underweight";
+            }
+            else{ //bmi>=13.1 (health,over,obese)
+                if(monthAge<=2){
+                    if(bmi>=13.1 && bmi<16.9){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=16.9 && bmi<=18.1){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.1){
+                        bmiStatus="Obese";
+                    }
+                }
+                else if(monthAge==3){
+                    if(bmi>=13.1 && bmi<17){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17 && bmi<=18.1){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.1){
+                        bmiStatus="Obese";
+                    }
+                }
+                else if(monthAge >=4 && monthAge<=7){
+                    if(bmi>=13.1 && bmi<17){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17 && bmi<=18.2){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.2){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge >=8 && monthAge<=10){
+                    if(bmi>=13.1 && bmi<17){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17 && bmi<=18.3){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.3){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge ==11){
+                    if(bmi>=13.1 && bmi<17.1){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.1 && bmi<=18.3){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.3){
+                        bmiStatus="Obese";
+                    } 
+                }
+
+            }
+        }
+        else if(yearAge=="6"){
+            if(bmi<13.1){ 
+                bmiStatus="Underweight";
+            }
+            else{
+                if(monthAge<=2){
+                    if(bmi>=13.1 && bmi<17.1){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.1 && bmi<=18.4){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.4){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==3){
+                    if(bmi>=13.1 && bmi<17.1){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.1 && bmi<=18.5){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.5){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==4 || monthAge==5){
+                    if(bmi>=13.1 && bmi<17.2){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.2 && bmi<=18.5){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.5){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==6 || monthAge==7){
+                    if(bmi>=13.1 && bmi<17.2){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.2 && bmi<=18.6){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.6){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==8){
+                    if(bmi>=13.1 && bmi<17.3){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.3 && bmi<=18.6){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.6){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==9 || monthAge==10){
+                    if(bmi>=13.1 && bmi<17.3){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.3 && bmi<=18.7){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.7){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==11){
+                    if(bmi>=13.1 && bmi<17.3){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.3 && bmi<=18.8){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>18.8){
+                        bmiStatus="Obese";
+                    } 
+                }
+            }
+
+        }
+        else if(yearAge=="7"){
+            if(monthAge<=1){
+                if(bmi<13.1){
+                    bmiStatus="Underweight";
+                }
+                if(bmi>=13.1 && bmi<17.4){
+                    bmiStatus="Normal weight";
+                }
+                else{
+                    if(monthAge==0){
+                        if(bmi>=17.4 && bmi<=18.8){
+                            bmiStatus="Overweight";
+                        }
+                        else if(bmi>18.8){
+                            bmiStatus="Obese";
+                        } 
+                    }
+                    else if(monthAge==1){
+                        if(bmi>=17.4 && bmi<=18.9){
+                            bmiStatus="Overweight";
+                        }
+                        else if(bmi>18.9){
+                            bmiStatus="Obese";
+                        } 
+                    }
+                }
+            }
+            else{//monthAge >2
+                if(monthAge>=2 && monthAge<=9){
+                    if(bmi<13.2){
+                        bmiStatus="Underweight";
+                    }
+                    else{//bmi>13.2
+                        if(monthAge==2){
+                            if(bmi>=13.2 && bmi<17.4){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.4 && bmi<=18.9){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>18.9){
+                                bmiStatus="Obese";
+                            } 
+                        }
+                        else if(monthAge==3 || monthAge==4){
+                            if(bmi>=13.2 && bmi<17.5){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.5 && bmi<=19){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>19){
+                                bmiStatus="Obese";
+                            } 
+                        }
+                        else if(monthAge==5){
+                            if(bmi>=13.2 && bmi<17.5){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.5 && bmi<=19.1){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>19.1){
+                                bmiStatus="Obese";
+                            } 
+                        }
+                        else if(monthAge==6){
+                            if(bmi>=13.2 && bmi<17.6){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.6 && bmi<=19.1){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>19.1){
+                                bmiStatus="Obese";
+                            } 
+                        }
+                        else if(monthAge==7 || monthAge==8){
+                            if(bmi>=13.2 && bmi<17.6){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.6 && bmi<=19.2){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>19.2){
+                                bmiStatus="Obese";
+                            } 
+                        }
+                        else if(monthAge==9){
+                            if(bmi>=13.2 && bmi<17.7){
+                                bmiStatus="Normal weight";
+                            }
+                            else if(bmi>=17.7 && bmi<=19.3){
+                                bmiStatus="Overweight";
+                            }
+                            else if(bmi>19.3){
+                                bmiStatus="Obese";
+                            } 
+                        
+                    }
+                }                    
+            }
+                else if(monthAge==10){
+                    if(bmi<13.3){
+                        bmiStatus="Underweight";
+                    }
+                    else if(bmi>=13.3 && bmi<17.7){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.7 && bmi<=19.3){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>19.3){
+                        bmiStatus="Obese";
+                    } 
+                }
+                else if(monthAge==11){
+                    if(bmi<13.3){
+                        bmiStatus="Underweight";
+                    }
+                    else if(bmi>=13.3 && bmi<17.8){
+                        bmiStatus="Normal weight";
+                    }
+                    else if(bmi>=17.8 && bmi<=19.4){
+                        bmiStatus="Overweight";
+                    }
+                    else if(bmi>19.4){
+                        bmiStatus="Obese";
+                    } 
+                }    
+            }
+        }
+        else if(yearAge=="8"){
+            if(monthAge==0){
+                if(bmi<13.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.3 && bmi<17.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=17.8 && bmi<=19.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.4){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==1){
+                if(bmi<13.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.3 && bmi<17.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=17.9 && bmi<=19.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.5){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==2){
+                if(bmi<13.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.3 && bmi<17.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=17.9 && bmi<=19.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.6){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==3){
+                if(bmi<13.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.4 && bmi<18){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18 && bmi<=19.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.6){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==4){
+                if(bmi<13.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.4 && bmi<18){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18 && bmi<=19.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.7){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==5 || monthAge ==6){
+                if(bmi<13.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.4 && bmi<18.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.1 && bmi<=19.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19.8){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==7){
+                if(bmi<13.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.4 && bmi<18.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.2 && bmi<=19.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>19){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==8){
+                if(bmi<13.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.5 && bmi<18.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.2 && bmi<=20){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==9){
+                if(bmi<13.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.5 && bmi<18.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.3 && bmi<=20){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==10){
+                if(bmi<13.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.5 && bmi<18.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.3 && bmi<=20.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.1){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==11){
+                if(bmi<13.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.5 && bmi<18.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.4 && bmi<=20.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.2){
+                    bmiStatus="Obese";
+                } 
+            }   
+        }
+        else if(yearAge=="9"){
+            if(monthAge==0){
+                if(bmi<13.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.6 && bmi<18.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.4 && bmi<=20.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.2){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==1){
+                if(bmi<13.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.6 && bmi<18.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.5 && bmi<=20.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.3){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==2){
+                if(bmi<13.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.6 && bmi<18.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.5 && bmi<=20.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.4){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==3){
+                if(bmi<13.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.6 && bmi<18.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.6 && bmi<=20.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.5){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==4){
+                if(bmi<13.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.7 && bmi<18.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.7 && bmi<=20.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.5){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==5){
+                if(bmi<13.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.7 && bmi<18.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.7 && bmi<=20.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.6){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==6){
+                if(bmi<13.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.7 && bmi<18.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.8 && bmi<=20.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.7){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==7){
+                if(bmi<13.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.8 && bmi<18.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.8 && bmi<=20.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.7){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==8){
+                if(bmi<13.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.8 && bmi<18.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.9 && bmi<=20.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.8){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==9){
+                if(bmi<13.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.8 && bmi<18.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=18.9 && bmi<=20.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>20.9){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==10){
+                if(bmi<13.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.9 && bmi<19){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19 && bmi<=21){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21){
+                    bmiStatus="Obese";
+                } 
+            }
+            else if(monthAge==11){
+                if(bmi<13.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.9 && bmi<19.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.1 && bmi<=21.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.1){
+                    bmiStatus="Obese";
+                } 
+            }   
+            
+        }
+        else if(yearAge=="10"){
+            if(monthAge==0){
+                if(bmi<13.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=13.9 && bmi<19.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.1 && bmi<=21.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.1){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==1){
+                if(bmi<14){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14 && bmi<19.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.2 && bmi<=21.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.2){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==2){
+                if(bmi<14){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14 && bmi<19.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.3 && bmi<=21.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.3){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==3){
+                if(bmi<14){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14 && bmi<19.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.3 && bmi<=21.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.4){
+                    bmiStatus="Obese";
+                } 
+            }   
+            else if(monthAge==4){
+                if(bmi<14.1){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.1 && bmi<19.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.4 && bmi<=21.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.5){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==5){
+                if(bmi<14.1){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.1 && bmi<19.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.5 && bmi<=21.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.5){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==6){
+                if(bmi<14.1){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.1 && bmi<19.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.5 && bmi<=21.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.6){
+                    bmiStatus="Obese";
+                } 
+            }     
+            else if(monthAge==7){
+                if(bmi<14.2){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.2 && bmi<19.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.6 && bmi<=21.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.7){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==8){
+                if(bmi<14.2){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.2 && bmi<19.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.7 && bmi<=21.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.8){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==9){
+                if(bmi<14.2){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.2 && bmi<19.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.8 && bmi<=21.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>21.9){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==10){
+                if(bmi<14.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.3 && bmi<19.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.8 && bmi<=22){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==11){
+                if(bmi<14.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.3 && bmi<19.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=19.9 && bmi<=22.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.1){
+                    bmiStatus="Obese";
+                } 
+            }  
+        }
+        else if(yearAge=="11"){
+            if(monthAge==0 ||monthAge==1){
+                if(bmi<14.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.4 && bmi<20){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20 && bmi<=22.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.2){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==2){
+                if(bmi<14.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.4 && bmi<20.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.1 && bmi<=22.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.3){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==3){
+                if(bmi<14.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.5 && bmi<20.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.2 && bmi<=22.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.4){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==4){
+                if(bmi<14.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.5 && bmi<20.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.3 && bmi<=22.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.5){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==5){
+                if(bmi<14.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.6 && bmi<20.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.4 && bmi<=22.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.6){
+                    bmiStatus="Obese";
+                } 
+            }  
+            else if(monthAge==6){
+                if(bmi<14.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.6 && bmi<20.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.4 && bmi<=22.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.7){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==7){
+                if(bmi<14.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.7 && bmi<20.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.5 && bmi<=22.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.8){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==8){
+                if(bmi<14.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.7 && bmi<20.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.6 && bmi<=22.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>22.9){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==9){
+                if(bmi<14.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.8 && bmi<20.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.7 && bmi<=23){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==10){
+                if(bmi<14.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.8 && bmi<20.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.8 && bmi<=23.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.1){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==11){
+                if(bmi<14.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.9 && bmi<20.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.8 && bmi<=23.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.2){
+                    bmiStatus="Obese";
+                } 
+            } 
+        }
+        else if(yearAge=="12"){
+            if(monthAge==0){
+                if(bmi<14.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=14.9 && bmi<20.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=20.9 && bmi<=23.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.3){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==1){
+                if(bmi<15){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15 && bmi<21){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21 && bmi<=23.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.4){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==2){
+                if(bmi<15){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15 && bmi<21.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.1 && bmi<=23.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.5){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==3){
+                if(bmi<15){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15 && bmi<21.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.2 && bmi<=23.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.6){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==4){
+                if(bmi<15.1){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.1 && bmi<21.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.3 && bmi<=23.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.7){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==5){
+                if(bmi<15.1){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.1 && bmi<21.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.3 && bmi<=23.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.8){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==6){
+                if(bmi<15.2){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.2 && bmi<21.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.4 && bmi<=23.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.9){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==7){
+                if(bmi<15.2){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.2 && bmi<21.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.5 && bmi<=23.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>23.9){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==8){
+                if(bmi<15.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.3 && bmi<21.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.6 && bmi<=24){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==9){
+                if(bmi<15.3){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.3 && bmi<21.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.7 && bmi<=24.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.1){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==10){
+                if(bmi<15.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.4 && bmi<21.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.8 && bmi<=24.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.2){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==11){
+                if(bmi<15.4){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.4 && bmi<21.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.8 && bmi<=24.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.3){
+                    bmiStatus="Obese";
+                } 
+            } 
+            
+        }
+        else if(yearAge=="13"){
+            if(monthAge==0){
+                if(bmi<15.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.5 && bmi<21.9){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=21.9 && bmi<=24.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.4){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==1){
+                if(bmi<15.5){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.5 && bmi<22){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22 && bmi<=24.5){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.5){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==2){
+                if(bmi<15.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.6 && bmi<22.1){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.1 && bmi<=24.6){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.6){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==3){
+                if(bmi<15.6){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.6 && bmi<22.2){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.2 && bmi<=24.7){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.7){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==4){
+                if(bmi<15.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.7 && bmi<22.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.3 && bmi<=24.8){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.8){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==5){
+                if(bmi<15.7){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.7 && bmi<22.3){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.3 && bmi<=24.9){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>24.9){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==6){
+                if(bmi<15.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.8 && bmi<22.4){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.4 && bmi<=25){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==7){
+                if(bmi<15.8){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.8 && bmi<22.5){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.5 && bmi<=25.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25.1){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==8){
+                if(bmi<15.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.9 && bmi<22.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.6 && bmi<=25.1){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25.1){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==9){
+                if(bmi<15.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.9 && bmi<22.6){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.6 && bmi<=25.2){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25.2){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==10){
+                if(bmi<15.9){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=15.9 && bmi<22.7){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.7 && bmi<=25.3){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25.3){
+                    bmiStatus="Obese";
+                } 
+            } 
+            else if(monthAge==11){
+                if(bmi<16){
+                    bmiStatus="Underweight";
+                }
+                else if(bmi>=16 && bmi<22.8){
+                    bmiStatus="Normal weight";
+                }
+                else if(bmi>=22.8 && bmi<=25.4){
+                    bmiStatus="Overweight";
+                }
+                else if(bmi>25.4){
+                    bmiStatus="Obese";
+                } 
+            } 
+        }
+    }
+    else if(sex=="male"){
+        if(yearAge=="5"){
+
+        }
+        else if(yearAge=="6"){
+
+        }
+        else if(yearAge=="7"){
+            
+        }
+        else if(yearAge=="8"){
+            
+        }
+        else if(yearAge=="9"){
+            
+        }
+        else if(yearAge=="10"){
+            
+        }
+        else if(yearAge=="11"){
+            
+        }
+        else if(yearAge=="12"){
+            
+        }
+        else if(yearAge=="13"){
+            
+        }
+        else if(yearAge=="14"){
+            
+        }
+    }
+
+
+
+}
+

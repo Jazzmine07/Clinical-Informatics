@@ -452,10 +452,24 @@ exports.addAPE = function(req, res){
     var concern = req.body.concern;
     var assess = req.body.assess;
     var normal = req.body.normal;
+    var bmiStatus= req.body.bmiStatus;
+
+    console.log("section(1):" + sectionTop);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
     var schedRef=database.ref("apeSchedule");
+
+    if(!sectionTop ==undefined && !sectionTop == null){
+        schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+            if(snapshot.exists()){
+                snapshot.forEach(function(childSnapshot){
+                    childSnapshot.ref.remove();
+                    console.log("deleted");
+                })
+            }
+        })
+    }
 
     var record = {
         schoolYear:schoolYear,
@@ -479,20 +493,9 @@ exports.addAPE = function(req, res){
         medProb: medProb,
         allergies: allergies,
         concern: concern,
-        assess: assess
+        assess: assess,
+        bmiStatus:bmiStatus
         // normal: normal
-    }
-    console.log("sectionTop:" + sectionTop);
-
-    if(sectionTop != "" && sectionTop != null){
-        schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
-            if(snapshot.exists()){
-                snapshot.forEach(function(childSnapshot){
-                    childSnapshot.ref.remove();
-                    console.log("deleted");
-                })
-            }
-        })
     }
 
 
@@ -542,9 +545,6 @@ exports.getSectionStudents = function(req, res){
     }
     
 }
-
-
-
 
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
@@ -773,6 +773,8 @@ exports.getAllApeSched=function(req,res){
     });
 }
 
+
+//computes BMI status of the child
 exports.getBmiStatus=function(req,res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
@@ -3276,10 +3278,8 @@ exports.getBmiStatus=function(req,res){
                 }
             }
         }
-        
+        console.log(bmiStatus);
+        res.send(bmiStatus);
     }
-
-
-
 }
 

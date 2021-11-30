@@ -657,7 +657,7 @@
             var sec=localStorage.getItem("section");
             var id = localStorage.getItem("id");
             var i = localStorage.getItem("sectionStudentIndex");
-
+            var computedBmiStatus;
             var array=[];
             var link;
             array=JSON.parse(localStorage.myArray)
@@ -692,11 +692,11 @@
                 console.log(h);
                 if(!h==null || !h==""){
                     var b= w/(h*h);
-                    var id = $('#studentID').val();
+                    var sId = $('#studentID').val();
                     var dob = $('#dob').val(); 
-                    var age = $('#age').val(); 
-                    var gender = $('#gender').val(); 
-                    var dateAPE =  $('#dope').val(); 
+                    var a = $('#age').val(); 
+                    var g = $('#gender').val(); 
+                    var apeDate =  $('#dope').val(); 
                     document.getElementById("bmi").value=b.toFixed(2);
                     var bmiVal=$('#bmi').val();
 
@@ -704,15 +704,16 @@
                     url: '/getBmiStatus',
                     method: 'POST',
                     data: {
-                        id:id,
+                        id:sId,
                         dob:dob,
-                        age:age,
-                        sex:gender,
-                        dateAPE:dateAPE,
+                        age:a,
+                        sex:g,
+                        dateAPE:apeDate,
                         bmi:bmiVal
                     },
                     success: function(data) {
                         console.log(data);
+                        computedBmiStatus=data;
                     }
                 });
 
@@ -728,28 +729,30 @@
                 console.log(w);
                 if(!w==null || !w==""){
                     var b= w/(h*h);
-                    var id = $('#studentID').val();
+                    var sId = $('#studentID').val();
                     var dob = $('#dob').val(); 
-                    var age = $('#age').val(); 
-                    var gender = $('#gender').val(); 
-                    var dateAPE =  $('#dope').val(); 
+                    var a = $('#age').val(); 
+                    var g = $('#gender').val(); 
+                    var apeDate =  $('#dope').val(); 
                     document.getElementById("bmi").value=b.toFixed(2);
                     var bmiVal=$('#bmi').val();
+
                     $.ajax({
                     url: '/getBmiStatus',
                     method: 'POST',
                     data: {
-                        id:id,
+                        id:sId,
                         dob:dob,
-                        age:age,
-                        sex:gender,
-                        dateAPE:dateAPE,
+                        age:a,
+                        sex:g,
+                        dateAPE:apeDate,
                         bmi:bmiVal
                     },
                     success: function(data) {
                         console.log(data);
+                        computedBmiStatus=data;
                     }
-                    });
+                });
 
                 }
             });
@@ -868,15 +871,12 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE); 
-
+                console.log(computedBmiStatus); 
                 
-            
-                $.ajax({
-                    url: '/addAPE',
-                    method: 'POST',
-                    data: {
-                        schoolYear:sy,
+                $.post('addAPE',{
                         section: sectionHeader,
+                        age:age,
+                        schoolYear:sy,
                         studentId: id,
                         studentName: studentName,
                         visitDate: dateAPE,
@@ -898,14 +898,49 @@
                         allergies: allergies,
                         concern: complaintAPE,
                         assess: assessAPE,
-                        normal: normalPE
+                        normal: normalPE,
+                        bmiStatus:computedBmiStatus
+                    
+                    }, function(data){
+                        window.location.href = link;
+                    })
+            
+                /*$.ajax({
+                    url: '/addAPE',
+                    method: 'POST',
+                    data: {
+                        section: sectionHeader,
+                        schoolYear:sy,
+                        studentId: id,
+                        studentName: studentName,
+                        visitDate: dateAPE,
+                        //timeStamp: forSortDate,
+                        clinician: clinician,
+                        bodyTemp: bodyTemp,
+                        bp: bp,
+                        pr: pr,
+                        rr: rr,
+                        skinFindings: sf,
+                        weight: weight,
+                        height: height,
+                        bmi: bmi,
+                        odVision: odVision,
+                        osVision: osVision,
+                        odGlasses: odGlasses,
+                        osGlasses: osGlasses,
+                        medProb: medProb,
+                        allergies: allergies,
+                        concern: complaintAPE,
+                        assess: assessAPE,
+                        normal: normalPE,
+                        bmiStatus:computedBmiStatus
                     
                     },
                     success: function(data) {
                         window.location.href = link;
                     }
                 });
-
+                */
 
             });    
         });

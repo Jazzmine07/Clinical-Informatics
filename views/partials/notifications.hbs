@@ -4,9 +4,7 @@
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        {{!-- {{#if newNotifs}} --}}
         <span id="notifCount" class="badge badge-danger badge-counter"></span>
-        {{!-- {{/if}} --}}
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -56,7 +54,7 @@
                     formIds.push(notifs[i].formId);
                 }
                 console.log(formIds);
-                
+
                 $('#notifCount').text(count);
                 if (count == 0){
                     var notifHide =  $('#notifCount');

@@ -506,18 +506,7 @@
                                 <div class="col-3">
                                     <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
                                     <div class="input-group mb-2">                                        
-                                    
-                                    <label class="col-form-label">Systolic BP</label>
-                                    <input type="number" class="form-control" id="systolicBP" min="0">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group mb-2">                                        
-                                    
-                                    <label class="col-form-label">Diastolic BP</label>
-                                    <input type="number" class="form-control" id="diastolicBP" min="0">
+                                        <input type="name" class="form-control" id="bloodPressure" min="0">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
@@ -580,7 +569,7 @@
                                     </div>   
                                 </div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-12">
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
                                         <select class="custom-select mb-2" id="medicationVisit" name="medicationVisit">
                                             <option selected>Choose...</option>
@@ -589,21 +578,11 @@
                                             <option value="3">Three</option>
                                         </select>                                    
                                     </div>
-                                    <div class="col-6">
-                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                        <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
-                                    </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label class="col-form-label" for="amountMed">Amount</label>
-                                            <input type="text" class="form-control mb-2 col-4" id="amountMed" name="amountMed">                                            
-                                            <select class="form-control mb-2 col-2" id="amountUnit">
-                                                <option>mg</option>
-                                                <option>g</option>
-                                                <option>ml</option>
-                                            </select>
-                                        
+                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                        <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
                                     </div>
                                     <div class="col-6">
                                         <label class="col-form-label" for="intervalMed">Interval</label>
@@ -633,10 +612,10 @@
                     {{!-- {{else}} --}}
                     {{!-- Diagnosis --}}
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
-                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
-                            <select id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
+                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
+                            <select id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
                                 {{#each clinician}}
                                     <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                 {{/each}}
@@ -971,11 +950,8 @@
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
 
-            var systolicBP =  $('#systolicBP').val(); 
-            console.log(systolicBP);
-
-            var diastolicBP = $('#diastolicBP').val(); 
-            console.log(diastolicBP);
+            var bloodPressure =  $('#bloodPressure').val(); 
+            console.log(bloodPressure);
 
             var pr =  $('#pulseRate').val(); 
             console.log(pr);
@@ -1022,8 +998,7 @@
                     timeOut: timeOut,
                     nurse: nurse, // attending nurse 
                     bodyTemp: bodyTemp,
-                    systolicBP: systolicBP,
-                    diastolicBP: diastolicBP,
+                    bloodPressure: bloodPressure,
                     pulseRate: pr,
                     respirationRate: rr,
                     complaint: complaint,

@@ -12,11 +12,11 @@ exports.login = function(req, res){
   var parentsRef = database.ref("medicineList");
   var userInfo;
 
-  var studentAccount = {
-    medicineName: 'chloe_torres@gmail.com'
-  }
+  // var studentAccount = {
+  //   medicineName: 'chloe_torres@gmail.com'
+  // }
 
-  parentsRef.push(studentAccount);
+  //parentsRef.push(studentAccount);
   //database.ref('parentUsers/' + studentAccount.idNum); // setting the path with id number as its pk
   //database.ref('parentUsers/' + studentAccount.idNum).set(studentAccount); // adding other fields
 

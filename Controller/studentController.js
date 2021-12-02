@@ -226,7 +226,7 @@ exports.getClinicVisits = function(req, res){
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timestamp");
-    var i, temp =[];
+    var i, visits =[];
     var childSnapshotData;
 
     databaseRef.once('value', (snapshot) => {
@@ -235,8 +235,9 @@ exports.getClinicVisits = function(req, res){
                 childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
                     
-                    temp.push({ // contains all data (not grouped by date)
+                    visits.push({ // contains all data (not grouped by date)
                       studentName: childSnapshotData.studentName,
+                      complaint: childSnapshotData.visitReason,
                       timeIn: childSnapshotData.timeIn,
                       timeOut: childSnapshotData.timeOut,
                       status: childSnapshotData.status,
@@ -244,27 +245,28 @@ exports.getClinicVisits = function(req, res){
                     })         
                 })
                 
-                var filtered = [];
-                temp.reverse().forEach(record => {
-                    var found = false;
-                    for(i = 0; i < filtered.length; i++){
-                        if(record.visitDate == filtered[i].date){   // filters if same date
-                            filtered[i].visitDetails.push(record);
-                            filtered[i].count++;
-                            found = true;
-                            break;
-                        } 
-                    }
-                    if(!found){
-                        filtered.push({
-                            date: record.visitDate,
-                            visitDetails: [],
-                            count: 1
-                        })
-                        filtered[i].visitDetails.push(record);
-                    }          
-                });
-                res(filtered);
+                // var filtered = [];
+                // temp.reverse().forEach(record => {
+                //     var found = false;
+                //     for(i = 0; i < filtered.length; i++){
+                //         if(record.visitDate == filtered[i].date){   // filters if same date
+                //             filtered[i].visitDetails.push(record);
+                //             filtered[i].count++;
+                //             found = true;
+                //             break;
+                //         } 
+                //     }
+                //     if(!found){
+                //         filtered.push({
+                //             date: record.visitDate,
+                //             visitDetails: [],
+                //             count: 1
+                //         })
+                //         filtered[i].visitDetails.push(record);
+                //     }          
+                // });
+                // console.log(filtered);
+                res(visits);
             })
         }
         else {
@@ -385,29 +387,25 @@ exports.getNotifications = function(req, res){
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
-            var userRef = database.ref("clinicUsers/"+uid);
             var notifRef = database.ref("notifications/"+uid);
-            
-            userRef.once('value', (snapshot) => {        
-                notifRef.orderByChild("timestamp").once('value', (snapshot) => {
-                    if(snapshot.exists()){
-                        snapshot.forEach(function(childSnapshot){
-                            childSnapshotData = childSnapshot.exportVal();
-                             notifs.push({
-                                user: snapshot.key,
-                                type: childSnapshotData.type,
-                                formId: childSnapshotData.formId,
-                                message: childSnapshotData.message,
-                                date: childSnapshotData.date,
-                                seen: childSnapshotData.seen
-                            })
+                    
+            notifRef.orderByChild("timestamp").on('value', (snapshot) => {
+                if(snapshot.exists()){
+                    snapshot.forEach(function(childSnapshot){
+                        childSnapshotData = childSnapshot.exportVal();
+                            notifs.push({
+                            user: snapshot.key,
+                            type: childSnapshotData.type,
+                            formId: childSnapshotData.formId,
+                            message: childSnapshotData.message,
+                            date: childSnapshotData.date,
+                            seen: childSnapshotData.seen
                         })
-                        notifs.reverse();
-                        res.send(notifs);
-                    } else {
-                        res.send(notifs);
-                    }
-                })
+                    })
+                    notifs.reverse();
+                } else {
+                    res.send(notifs);
+                }
             })
         }
     });
@@ -3283,3 +3281,31 @@ exports.getBmiStatus=function(req,res){
     }
 }
 
+exports.getBMI = function(req, res){
+    var id = req.body.idNum;
+    var database = firebase.database();
+    var historyRef = database.ref("studentHealthHistory/"+ id + "/ape");
+    var studentInfo = [];
+
+    historyRef.on('value', (snapshot) => {
+        if(snapshot.exists()){
+            var test = snapshot.exportVal();
+            console.log("snasphot exportval");
+            console.log(test);
+            
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                studentInfo.push({ 
+                    schoolYear: childSnapshot.key,  // getting parent key
+                    bmi: childSnapshotData.bmi
+                })  
+            })
+            res.send(studentInfo);
+        } else {
+            res.send({
+                error: true,
+                error_msg: "No student with that id number!"
+            })
+        }
+    })
+}

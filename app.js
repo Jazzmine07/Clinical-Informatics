@@ -24,8 +24,8 @@ app.engine('hbs', exphbs.create({
     },
     formatDate: function(string){
       let date = new Date(string)
-      var month = date.toLocaleString('default', { month: 'long' })
-      return (month + ' ' + date.getDate() + ', ' + date.getFullYear());
+      var month = date.toLocaleString('default', { month: 'short' })
+      return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
     },
     format_Date: function(string){
       let date = new Date(string)

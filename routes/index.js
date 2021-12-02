@@ -34,7 +34,7 @@ router.get('/getNotification', studentController.getNotifications);
 router.get('/dashboard', (req, res) => {
   userController.getUser(req, user => {
     //studentController.getNotifications(user.key, notifs => {
-      var i, count = 0, newNotifs;
+      var count = 0;
 
       // for(i = 0; i < notifs.length; i++){
       //   if(notifs[i].seen == false){
@@ -140,23 +140,30 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   })
 });
 
-// Get profile page
-router.get('/profile', (req, res) => {
-  console.log("Read profile successful!");
-  res.render('profile');
-});
-
 // Get health assessment page
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  studentController.getClinicVisits(req, records => {
-    studentController.getSections(req, sections => {
-      console.log("clinicVisits index", records);
-      console.log("sections:", sections);
-      res.render('health-assessment', {
-        clinicVisits: records,
-        sections: sections
-      });
+  userController.getUser(req, user => {
+    studentController.getClinicVisits(req, records => {
+      studentController.getSections(req, sections => {
+        console.log("clinicVisits index", records);
+        console.log("sections:", sections);
+        if(user.role == "Nurse"){
+          res.render('health-assessment', {
+            user: user,
+            isNurse: true,
+            clinicVisits: records,
+            sections: sections
+          });
+        } else {
+          res.render('health-assessment', {
+            user: user, 
+            isNurse: false,
+            clinicVisits: records,
+            sections: sections
+          });
+        }
+      })
     })
   })
 });
@@ -234,6 +241,15 @@ router.get('/inventory/add', (req, res) => {
   })
 });
 
+// Get bmi info
+router.post('/getBMI', studentController.getBMI);
+
+// Get profile page
+router.get('/profile', (req, res) => {
+  console.log("Read profile successful!");
+  res.render('profile');
+});
+
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentController.getStudent);
@@ -249,5 +265,6 @@ router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/addInventory', inventoryController.addInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
+router.post('/uk-who/calculation', );
 
 module.exports = router;

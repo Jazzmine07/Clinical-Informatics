@@ -117,7 +117,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/profile">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Profile</span></a>
+                    <span>Student Profile</span></a>
             </li>
 
             <!-- Divider -->
@@ -152,8 +152,8 @@
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
-                                <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" id="idNum" placeholder="Search for ...">
+                                <div class="input-group-append"><button class="btn btn-primary py-0" type="button" onclick="searchStudent()"><i class="fas fa-search"></i></button></div>
                             </div>
                         </form>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
@@ -250,10 +250,6 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Settings
@@ -1226,10 +1222,14 @@
     <script src="public/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="public/vendor/chart.js/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    {{!-- <script src="public/vendor/chart.js/Chart.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> --}}
 
     <!-- Page level custom scripts -->
-    <script src="public/js/demo/chart-area-demo.js"></script>
+    {{!-- <script src="public/js/demo/chart-area-demo.js"></script> --}}
     <script src="public/js/demo/chart-pie-demo.js"></script>
     <script src="public/js/demo/chart-bar-demo.js"></script>
     <script>
@@ -1242,6 +1242,96 @@
         
             document.getElementById(card).style.display = "block";
             event.currentTarget.className += " active";
+        }
+    </script>
+    <script>
+        var schoolYear = [];
+        var BMI = [];
+        function searchStudent() {
+            var typedID = document.getElementById("idNum").value;
+            
+            $.post("/getBMI", {idNum: typedID}, function(data){
+                var i;
+                //if(typedID.isEmpty()){
+                    // TO DO: display error message if walang ininput na id number si user
+                //}
+
+                for(i = 0; i < data.length; i++){
+                schoolYear.push(data[i].schoolYear);
+                BMI.push(parseFloat(data[i].bmi));
+                //console.log(data[i].bmi);
+                }
+                
+                growthChart(schoolYear, BMI);
+            });
+        }
+
+        function growthChart(schoolYear, BMI){
+            // Area Chart Example
+            var ctx = document.getElementById("myAreaChart");
+            var myLineChart = new Chart(ctx, {  // line chart
+                type: 'line',
+                data: {
+                    labels: schoolYear, // x-axis
+                    datasets: [{
+                        label: "BMI",
+                        lineTension: 0.3,
+                        backgroundColor: "rgba(78, 115, 223, 0.05)",
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
+                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHoverRadius: 3,
+                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHitRadius: 10,
+                        pointBorderWidth: 2,
+                        data: BMI,
+                    }],
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Growth Chart by BMI per School'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'School Year'
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'BMI'
+                            }
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
         }
     </script>
 </body>

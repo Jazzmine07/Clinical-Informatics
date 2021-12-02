@@ -504,7 +504,7 @@
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="bmi" step="0.01">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="bmiStatus"></span>
+                                                <span class="input-group-text" id="bmiStatus">-</span>
                                             </div>
                                         </div>
                                     </div>
@@ -788,6 +788,7 @@
                     success: function(data) {
                         console.log(data);
                         computedBmiStatus=data;
+                        document.getElementById("bmiStatus").innerHTML = data;
                     }
                 });
 
@@ -825,6 +826,7 @@
                     success: function(data) {
                         console.log(data);
                         computedBmiStatus=data;
+                        document.getElementById("bmiStatus").innerHTML = data;
                     }
                 });
 

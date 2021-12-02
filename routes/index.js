@@ -140,6 +140,22 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   })
 });
 
+// Get case-records page
+router.get('/case-records', (req, res) => {
+  console.log("Read case records successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('case-records', {
+      users: usersInfo
+    });
+  })
+});
+
+// Get profile page
+router.get('/profile', (req, res) => {
+  console.log("Read profile successful!");
+  res.render('profile');
+});
+
 // Get health assessment page
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");

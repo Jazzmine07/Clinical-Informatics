@@ -451,6 +451,7 @@ exports.addAPE = function(req, res){
     var assess = req.body.assess;
     var normal = req.body.normal;
     var bmiStatus= req.body.bmiStatus;
+    console.log(bmiStatus);
 
     console.log("section(1):" + sectionTop);
 
@@ -710,6 +711,89 @@ exports.addSchedule=function(req,res){
     res.send("hi");
 }
 
+exports.loadPrevData=function(req,res){
+    var currSY= req.body.schoolYear;
+    var id= req.body.id;
+    var start=parseInt(currSY.substr(0,4))-1;
+    var end= parseInt(currSY.substr(5,8))-1;
+    console.log("Start and End:"+start+" and "+end);
+    var prevYear= start+"-"+end;
+    
+    var database = firebase.database();
+    var studentInfoRef= database.ref("studentInfo/"+id);
+    var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ape/"+prevYear);
+    var name,bday,sex;
+    var temp,bp,pr,rr,sf,weight,height,bmi,bmiStatus,od,os,odGlasses,osGlasses,medProb,allergies,complaints,reco;
+    
+    console.log("Path1: " + studentInfoRef);
+    console.log("Path2: " + studentHealthHistoryRef);
+
+    studentInfoRef.on('value', (snapshot) =>{
+
+            var childValues = snapshot.exportVal();
+            console.log("DATA Path1: " + childValues);
+            name=childValues.firstName +" "+ childValues.lastName;
+            bday=childValues.birthday;
+            sex=childValues.sex;
+
+    });
+    
+    console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
+    
+    studentHealthHistoryRef.on('value', (snapshot) =>{
+        
+            var childValues = snapshot.exportVal();
+            console.log("DATA Path2: " + childValues);
+            temp = childValues.temp;
+            bp= childValues.bp;
+            pr= childValues.pr;
+            rr= childValues.rr;
+            sf=childValues.sf;
+            weight = childValues.weight;
+            height= childValues.height;
+            bmi = childValues.bmi;
+            bmiStatus = childValues.bmiStatus;
+            od= childValues.odVision;
+            os= childValues.osVision;
+            odGlasses = childValues.odGlasses;
+            osGlasses= childValues.osGlasses;
+            medProb= childValues.medProb;
+            allergies= childValues.allergies;
+            complaints= childValues.concern;
+            reco= childValues.assess;
+        
+    });
+    console.log("DYING:"+ weight +", "+height);
+    
+    var data={
+        studentName:name,
+        birthday:bday,
+        sex:sex,
+        temp:temp,
+        bp:bp,
+        pr:pr,
+        rr:rr,
+        sf:sf,
+        weight:weight,
+        height: height,
+        bmi:bmi,
+        bmiStatus:bmiStatus,
+        odVision:od,
+        osVision:os,
+        odGlasses:odGlasses,
+        osGlasses:osGlasses,
+        medProb:medProb,
+        allergies:allergies,
+        complaints:complaints,
+        reco:reco
+    };
+    console.log("Inside"+data);
+    res.send(data);
+}
+
+
+
+
 exports.getAllApeSched=function(req,res){
     //gets all the schedule created for the APE
     var database = firebase.database();
@@ -805,7 +889,7 @@ exports.getBmiStatus=function(req,res){
         console.log(monthAge);
     }    
 
-    if(sex=="female"){
+    if(sex=="female"|| sex=="Female"){
         if(yearAge=="5"){
             if(bmi<13.1){ 
                 bmiStatus="Underweight";
@@ -2083,7 +2167,7 @@ exports.getBmiStatus=function(req,res){
         console.log(bmiStatus);
         res.send(bmiStatus);
     }
-    else if(sex=="male"){
+    else if(sex=="male"||sex=="Male"){
         if(yearAge=="5"){
             if(bmi<13.4){
                 bmiStatus="Underweight";

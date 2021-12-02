@@ -660,6 +660,8 @@
 
             document.getElementById("schoolYear").innerHTML = schoolYear;
             document.getElementById("sectionTop").innerHTML = sec;
+            document.getElementById("studentID").innerHTML=id;
+            document.getElementById("studentSection").value=sec;
             $('#studentID').val(array[i]);
 
             if(i<array.length-1){
@@ -680,8 +682,84 @@
                 document.getElementById("prevBtn").style.display="block";
             }
             
-            console.log("before:"+i);            
+            console.log("before:"+i);  
+            console.log(id);
+            idInput=$('#studentID').val();
+              console.log("Id:" + idInput);
+            $.ajax({
+                    url: '/loadPrevData',
+                    method: 'POST',
+                    data: {
+                        schoolYear:schoolYear,
+                        id:idInput
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if(!data.studentName==null && !data.studentName=="")
+                            document.getElementById("studentName").value=data.studentName;
+                        if(!data.birthday==null || !data.birthday=="")
+                            document.getElementById("dob").value=data.birthday;
+                        if(!data.sex==null || !data.sex=="")
+                            document.getElementById("gender").value=data.sex;
+                        if(!data.temp==null || !data.temp=="")
+                            document.getElementById("bodyTemp").value=data.temp;
+                        if(!data.bp==null || !data.bp=="")
+                            document.getElementById("bloodPressure").value=data.bp;
+                        if(!data.pr==null || !data.pr=="")
+                            document.getElementById("pulseRate").value=data.pr;
+                        if(!data.rr==null || !data.rr=="")
+                            document.getElementById("respRate").value=data.rr;
+                        if(!data.sf==null || !data.sf=="")
+                            document.getElementById("skinFind").value=data.sf;
+                        if(!data.weight==null || !data.weight=="")
+                            document.getElementById("weight").value=data.weight;
+                        if(!data.height==null || !data.height=="")
+                            document.getElementById("height").value=data.height;
+                        if(!data.bmi==null || !data.bmi=="")
+                            document.getElementById("bmi").value=data.bmi;
+                        //document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
+                        if(!data.odVision==null || !data.odVision=="")
+                            document.getElementById("odVision").value=data.odVision;
+                        if(!data.osVision==null || !data.osVision=="")
+                            document.getElementById("osVision").value=data.osVision;
+                        if(!data.odGlasses==null || !data.odGlasses=="")
+                            document.getElementById("odGlasses").value=data.odGlasses;
+                        if(!data.osGlasses==null || !data.osGlasses=="")
+                            document.getElementById("osGlasses").value=data.osGlasses;
+                        if(!data.medProb==null || !data.medProb=="")
+                            document.getElementById("medProb").value=data.medProb;
+                        if(!data.allergies==null || !data.allergies=="")
+                            document.getElementById("allergies").value=data.allergies;
+                        if(!data.complaints==null || !data.complaints=="")
+                            document.getElementById("complaintAPE").value=data.complaints;
+                        if(!data.recp==null || !data.reco=="")
+                            document.getElementById("assessAPE").value=data.reco;
 
+                    }  
+                });
+            
+            $("#dope").change(function(){
+                var bDate = new Date(document.getElementById("dob").value);
+                var vDate = new Date(document.getElementById("dope").value);
+                var bYear=bDate.getFullYear();
+                var vYear=vDate.getFullYear();
+                var bMonth=bDate.getMonth();
+                var vMonth=vDate.getMonth();
+                var bDay=bDate.getDate();
+                var vDay=vDate.getDate();
+
+                var ageYear=vYear-bYear;
+                if(vMonth<bMonth){
+                    ageYear=ageYear-1;
+                }
+                else if(vMonth==bMonth){
+                    if(vDay<bDay){
+                        ageYear=ageYear-1;
+                    }
+                }
+                document.getElementById("age").value=ageYear;
+            })
+    
             $("#weight").change(function(){
                 var w = $("#weight").val();
                 var h= $("#height").val()/100;
@@ -806,7 +884,7 @@
                 console.log(age);
 
                 var gender = $('#gender').val(); 
-                console.log(gender);
+                console.log(gender); 
 
                 var dateAPE =  $('#dope').val(); 
                 console.log(dope);
@@ -867,10 +945,11 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE); 
-                console.log(computedBmiStatus); 
+                console.log("BMISTATUS"+computedBmiStatus); 
                 
                 $.post('addAPE',{
-                        section: sectionHeader,
+                        bmiStatus:computedBmiStatus,
+                        section:  studentSection,
                         age:age,
                         schoolYear:sy,
                         studentId: id,
@@ -895,48 +974,12 @@
                         concern: complaintAPE,
                         assess: assessAPE,
                         normal: normalPE,
-                        bmiStatus:computedBmiStatus
                     
                     }, function(data){
                         window.location.href = link;
                     })
             
-                /*$.ajax({
-                    url: '/addAPE',
-                    method: 'POST',
-                    data: {
-                        section: sectionHeader,
-                        schoolYear:sy,
-                        studentId: id,
-                        studentName: studentName,
-                        visitDate: dateAPE,
-                        //timeStamp: forSortDate,
-                        clinician: clinician,
-                        bodyTemp: bodyTemp,
-                        bp: bp,
-                        pr: pr,
-                        rr: rr,
-                        skinFindings: sf,
-                        weight: weight,
-                        height: height,
-                        bmi: bmi,
-                        odVision: odVision,
-                        osVision: osVision,
-                        odGlasses: odGlasses,
-                        osGlasses: osGlasses,
-                        medProb: medProb,
-                        allergies: allergies,
-                        concern: complaintAPE,
-                        assess: assessAPE,
-                        normal: normalPE,
-                        bmiStatus:computedBmiStatus
-                    
-                    },
-                    success: function(data) {
-                        window.location.href = link;
-                    }
-                });
-                */
+                
 
             });    
         });

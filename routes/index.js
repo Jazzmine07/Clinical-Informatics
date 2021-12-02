@@ -264,7 +264,6 @@ router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/addInventory', inventoryController.addInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
-
-router.post('/uk-who/calculation', );
+router.post('/loadPrevData', studentController.loadPrevData);
 
 module.exports = router;

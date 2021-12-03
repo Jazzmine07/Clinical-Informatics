@@ -150,6 +150,16 @@ router.get('/case-records', (req, res) => {
   })
 });
 
+// Get disease surveillance page
+router.get('/disease-surveillance', (req, res) => {
+  console.log("Read disease surveillance successful!");
+  userController.getUsers(req, usersInfo => {
+    res.render('disease-surveillance', {
+      users: usersInfo
+    });
+  })
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");

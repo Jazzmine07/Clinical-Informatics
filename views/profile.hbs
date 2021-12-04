@@ -536,13 +536,10 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
+                                        <canvas id="weightHeightChart"></canvas>
+                                    </div>
+                                    <div class="chart-area">
                                         <canvas id="bmiChart"></canvas>
-                                    </div>
-                                    <div class="chart-area">
-                                        <canvas id="weightChart"></canvas>
-                                    </div>
-                                    <div class="chart-area">
-                                        <canvas id="heightChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -1267,12 +1264,113 @@
                     BMI.push(parseFloat(data[i].bmi));
                     weight.push(parseFloat(data[i].weight));
                     height.push(parseFloat(data[i].height));
-                    //console.log(data[i].bmi);
                 }
-                
+                weightHeightChart(schoolYear, weight, height);
                 bmiChart(schoolYear, BMI);
-                weightChart(schoolYear, weight);
-                heightChart(schoolYear, height);
+            });
+        }
+
+        function weightHeightChart(schoolYear, weight, height){
+            var ctx = document.getElementById("weightHeightChart");
+            var myLineChart = new Chart(ctx, {  // line chart
+                type: 'line',
+                data: {
+                    labels: schoolYear, // x-axis
+                    datasets: [{
+                        label: "Weight",
+                        yAxisID: 'y',
+                        lineTension: 0,                                     // this will set if line is curve or straight
+                        borderColor: 'rgba(255, 99, 132, 1)',               // border color of the line and legend border
+                        //backgroundColor: "rgba(255, 99, 132, 1)",         // legend background color
+                        pointBorderColor: "rgba(255, 99, 132, 1)",          // color of points
+                        pointBackgroundColor: "rgba(255, 99, 132, 1)",      // background color of points
+                        pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
+                        pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
+                        pointRadius: 3,
+                        data: weight,   // values of the point
+                    }, {
+                        label: "Height",
+                        yAxisID: 'y1',
+                        lineTension: 0,
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        //backgroundColor: "rgba(78, 115, 223, 0.05)",
+                        pointBorderColor: "rgba(78, 115, 223, 1)",
+                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
+                        data: height,
+                    }],
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 0,
+                            bottom: 25
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Weight and height per school year',
+                            size: 30
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'School Year'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Weight in kg'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Height in cm',
+                                
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        }
+                    },
+                    //legend: {
+                    //    display: false
+                    //}
+                }
             });
         }
 
@@ -1285,16 +1383,13 @@
                     datasets: [{
                         label: "BMI",
                         lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
                         borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                        backgroundColor: "rgba(78, 115, 223, 0.05)",
                         pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
                         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
                         data: BMI,
                     }],
                 },
@@ -1335,140 +1430,6 @@
                                 text: 'BMI'
                             }
                         },
-                    },
-                    legend: {
-                        display: false
-                    }
-                }
-            });
-        }
-
-        function weightChart(schoolYear, weight){
-            var ctx = document.getElementById("weightChart");
-            var myLineChart = new Chart(ctx, {  // line chart
-                type: 'line',
-                data: {
-                    labels: schoolYear, // x-axis
-                    datasets: [{
-                        label: "Weight",
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: weight,
-                    }],
-                },
-                plugins: [ChartDataLabels],
-                options: {
-                    maintainAspectRatio: false,
-                    layout: {   // layout ng entire chart
-                        padding: {
-                            left: 30,
-                            right: 25,
-                            top: 25,
-                            bottom: 0
-                        }
-                    },
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top',
-                            font: {
-                                weight: 'bold'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Growth Chart by weight per School Year'
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'School Year'
-                            },
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Weight by kg'
-                            }
-                        }
-                    },
-                    legend: {
-                        display: false
-                    }
-                }
-            });
-        }
-
-        function heightChart(schoolYear, height){
-            var ctx = document.getElementById("heightChart");
-            var myLineChart = new Chart(ctx, {  // line chart
-                type: 'line',
-                data: {
-                    labels: schoolYear, // x-axis
-                    datasets: [{
-                        label: "Weight",
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
-                        pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        pointHitRadius: 10,
-                        pointBorderWidth: 2,
-                        data: height,
-                    }],
-                },
-                plugins: [ChartDataLabels],
-                options: {
-                    maintainAspectRatio: false,
-                    layout: {   // layout ng entire chart
-                        padding: {
-                            left: 30,
-                            right: 25,
-                            top: 25,
-                            bottom: 0
-                        }
-                    },
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top',
-                            font: {
-                                weight: 'bold'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Growth Chart by height per School Year'
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'School Year'
-                            },
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Height in cm'
-                            }
-                        }
                     },
                     legend: {
                         display: false

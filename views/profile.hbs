@@ -1414,20 +1414,30 @@
                         },
                         title: {
                             display: true,
-                            text: 'Growth Chart by BMI per School Year'
+                            text: 'BMI per school year'
                         }
                     },
                     scales: {
                         x: {
                             title: {
                                 display: true,
-                                text: 'School Year'
+                                text: 'School Year',
                             },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
                         },
                         y: {
                             title: {
                                 display: true,
                                 text: 'BMI'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
                             }
                         },
                     },

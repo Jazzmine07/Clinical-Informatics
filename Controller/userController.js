@@ -215,33 +215,56 @@ exports.logout = (req, res) => {
 };
 
 // This function gets the user's details
-exports.getUser = function(req, res){
+exports.getUser = function(){
   var database = firebase.database();
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      var uid = user.uid;
-      var userRef = database.ref("clinicUsers/"+uid);
-      var userInfo;
-      
-      userRef.on('value', (snapshot) => { 
-        if(snapshot.child('firstName').val() === ""){
-          userInfo = ({
-            firstName: "user",
-            lastName: "",
-            role: ""
-          })
-        } else {
+  var userInfo;
+  
+  var promise = new Promise((resolve,reject)=>{
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        var uid = user.uid;
+        var userRef = database.ref("clinicUsers/"+uid);
+        
+        userRef.on('value', (snapshot) => { 
           userInfo = ({
             key: snapshot.key,
             firstName: snapshot.child('firstName').val(),
             lastName: snapshot.child('lastName').val(),
             role: snapshot.child('role').val()
-          })            
-        }
-        res(userInfo);
-      })
-    }
-  });
+          })      
+          console.log("userInfo sa controller");      
+          console.log(userInfo);
+          resolve (userInfo); // the initial repsonse
+          console.log("HI, does this work?");
+          
+        })
+      }
+      else{
+        reject(Error("Why? :'("))
+      }
+    });
+  })
+
+  return promise;
+  //  await firebase.auth().onAuthStateChanged(async (user) => {
+  //   if (user) {
+  //     var uid = user.uid;
+  //     var userRef = database.ref("clinicUsers/"+uid);
+      
+      
+  //     await userRef.on('value', (snapshot) => { 
+  //       userInfo = ({
+  //         key: snapshot.key,
+  //         firstName: snapshot.child('firstName').val(),
+  //         lastName: snapshot.child('lastName').val(),
+  //         role: snapshot.child('role').val()
+  //       })      
+  //       console.log("userInfo sa controller");      
+  //       console.log(userInfo);
+  //       return userInfo; // the initial repsonse
+  //     })
+  //   }
+  // });
 }
 
 // This function gets all the clinic users

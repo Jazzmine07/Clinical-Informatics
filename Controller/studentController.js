@@ -684,14 +684,15 @@ exports.addSchedule=function(req,res){
     var schedule=[];
     schedule = req.body.schedules;
     var i;
+    
 
     for(i=0;i<schedule.length;i++){
         var currSec= schedule[i].section;
         var count=0;
-        schedRef.on('value', (snapshot) =>{
+        schedRef.once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var child = childSnapshot.exportVal();
-                console.log("Child:"+child.section);
+                // console.log("Child:"+child.section);
                 console.log("Section: "+ currSec);
                 if(child.section == currSec){
                     console.log("Has a schedule already");

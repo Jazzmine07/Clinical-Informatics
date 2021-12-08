@@ -862,21 +862,39 @@
                 console.log("clicked?");
 
                 var sy=schoolYear;
+                if(sy==null){
+                    sy="";
+                }
                 console.log(sy);
 
                 var sectionHeader=sec;
+                if(sectionHeader==null){
+                    sectionHeader="";
+                }
                 console.log(sectionHeader);
 
                 var id = $('#studentID').val();
+                if(id==null){
+                    id="";
+                }
                 console.log(id);
                 
                 var studentName = $('#studentName').val(); 
+                if(studentName==null){
+                    studentName="";
+                }
                 console.log(studentName);
 
                 var studentGrade = $('#studentGrade').val(); 
+                if(studentGrade==null){
+                    studentGrade="";
+                }
                 console.log(studentGrade);
                 
                 var studentSection = $('#studentSection').val(); 
+                if(studentSection==null){
+                    studentSection="";
+                }
                 console.log(studentSection);
                 
                 var dob = $('#dob').val(); 
@@ -886,63 +904,116 @@
                 console.log(age);
 
                 var gender = $('#gender').val(); 
+                if(gender ==null){
+                    gender="";
+                }
                 console.log(gender); 
 
                 var dateAPE =  $('#dope').val(); 
+                if(dateAPE==null){
+                    dateAPE="";
+                }
                 console.log(dope);
                 
                 //var selectClinician =  $('#clinician').val();
                 var clinician =  $('#clinicianAPE').find(":selected").val();   
+                if(clinician==null){
+                    cllinician="";
+                }
                 console.log(clinician);
 
                  //vital signs
                 var bodyTemp =  $('#bodyTemp').val(); 
-                console.log(bodyTemp);
+                if(bodyTemp==null){
+                    bodyTemp="";
+                }console.log(bodyTemp);
 
                 var bp =  $('#bloodPressure').val(); 
-                console.log(bp);
+                if(bp==null){
+                    bp="";
+                }console.log(bp);
 
                 var pr =  $('#pulseRate').val(); 
+                if(pr==null){
+                    pr="";
+                }
                 console.log(pr);
 
                 var rr =  $('#respRate').val(); 
+                if(rr==null){
+                    rr="";
+                }
                 console.log(rr);
 
                 var sf =  $('#skinFind').val(); 
+                if(sf==null){
+                    sf="";
+                }
                 console.log(sf);
 
                 var weight =  $('#weight').val(); 
+                if(weight==null){
+                    weight="";
+                }
                 console.log(weight);
 
                 var height =  $('#height').val(); 
+                if(height==null){
+                    height="";
+                }
                 console.log(height);
 
                 var bmi =  $('#bmi').val(); 
+                if(bmi==null){
+                    bmi="";
+                }
                 console.log(bmi);
 
                 //vision
                 var odVision =  $('#odVision').val(); 
+                if(odVision==null){
+                    odVision="";
+                }
                 console.log(odVision);
 
                 var osVision =  $('#osVision').val(); 
+                if(osVision==null){
+                    osVision="";
+                }
                 console.log(osVision);
 
                 var odGlasses =  $('#odGlasses').val(); 
-                console.log(odGlasses);
+                if(odGlasses==null){
+                    odGlasses="";
+                }console.log(odGlasses);
 
                 var osGlasses =  $('#osGlasses').val(); 
+                if(osGlasses==null){
+                    osGlasses="";
+                }
                 console.log(osGlasses);
 
                 var medProb =  $('#medProb').val(); 
-                console.log(medProb);
+                if(medProb==null){
+                    medProb="";
+                }console.log(medProb);
 
                 var allergies =  $('#allergies').val(); 
+                if(allergies==null){
+                    allergies="";
+                }
                 console.log(allergies);
 
                 var complaintAPE =  $('#complaintAPE').val(); 
+                if(complaintAPE==null){
+                    complaintAPE="";
+                }
                 console.log(complaintAPE);
 
                 var assessAPE =  $('#assessAPE').val(); 
+                if(assessAPE==null){
+                    assessAPE="";
+                }
                 console.log(assessAPE);
 
                 var normalPE =  $('#normalPE').val(); 

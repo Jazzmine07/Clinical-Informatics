@@ -31,28 +31,35 @@ router.get('/login', (req, res) => {
 router.get('/getNotification', studentController.getNotifications);
 
 // Get dashboard page
-router.get('/dashboard', (req, res) => {
-  userController.getUser(req, user => {
-    //studentController.getNotifications(user.key, notifs => {
-      var count = 0;
+router.get('/dashboard',  (req, res) => {
 
-      // for(i = 0; i < notifs.length; i++){
-      //   if(notifs[i].seen == false){
-      //     newNotifs = true;
-      //     count++; 
-      //   } else {
-      //     newNotifs = false;
-      //   }
-      // }
+  var userInfo =  userController.getUser();
+  //Promise.resolve(userInfo);
+  //studentController.getNotifications(user.key, notifs => {
+    var count = 0;
 
-      res.render('dashboard', {
-        user: user,
+    // for(i = 0; i < notifs.length; i++){
+    //   if(notifs[i].seen == false){
+    //     newNotifs = true;
+    //     count++; 
+    //   } else {
+    //     newNotifs = false;
+    //   }
+    // }
+    console.log("userInfo sa index");
+    console.log(userInfo);
+    console.log("Read dashboard successful!");
+    userInfo.then(function(result){
+      console.log("Result in index: "+result.lastName);
+      res.render('dashboard', { // nagsesend ng another response
+        user: result,
         //notification: notifs,
-        count: count,
+        //count: count,
         //newNotifs: newNotifs
       })
-    //})
-  })
+    })
+    
+  //})
 });
 
 // Get clinic visit page
@@ -169,11 +176,12 @@ router.get('/profile', (req, res) => {
 // Get health assessment page
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  userController.getUser(req, user => {
+  // userController.getUser(req, user => {
     studentController.getClinicVisits(req, records => {
       studentController.getSections(req, sections => {
         console.log("clinicVisits index", records);
         console.log("sections:", sections);
+        userController.getUser(req, user => {
         if(user.role == "Nurse"){
           res.render('health-assessment', {
             user: user,
@@ -282,7 +290,6 @@ router.post('/getStudentRecord', studentController.getStudent);
 router.post('/addClinicVisit', studentController.addClinicVisit);
 router.post('/editClinicVisit', studentController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
-router.post('/addAPE', studentController.addAPE);
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', studentController.updateNotifications);

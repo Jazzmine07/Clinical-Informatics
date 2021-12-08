@@ -268,28 +268,31 @@ exports.getUser = function(){
 }
 
 // This function gets all the clinic users
-exports.getUsers = function(req, res){
+exports.getUsers = function(){
   var database = firebase.database();
   var clinicUsers = database.ref('clinicUsers');
   var usersObject = [];
   var key, childSnapshotData;
 
-  clinicUsers.on('value', (snapshot) => {
-    snapshot.forEach(function(childSnapshot){
-      key = childSnapshot.key;                        // Getting primary keys of users
-      childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-      //console.log("key "+ key);
-      //console.log("childSnapshotData firstName "+childSnapshotData.firstName);
-      //console.log("childSnapshotData lastName "+childSnapshotData.lastName);
-
-      usersObject.push({
-        key: key,
-        firstName: childSnapshotData.firstName,
-        lastName: childSnapshotData.lastName,
+  var promise = new Promise((resolve,reject)=>{
+    clinicUsers.on('value', (snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        key = childSnapshot.key;                        // Getting primary keys of users
+        childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+        //console.log("key "+ key);
+        //console.log("childSnapshotData firstName "+childSnapshotData.firstName);
+        //console.log("childSnapshotData lastName "+childSnapshotData.lastName);
+  
+        usersObject.push({
+          key: key,
+          firstName: childSnapshotData.firstName,
+          lastName: childSnapshotData.lastName,
+        })
       })
+      resolve(usersObject);
     })
-    res(usersObject);
   })
+  return promise;
 }
 
 // This function is to get all users with nurse role

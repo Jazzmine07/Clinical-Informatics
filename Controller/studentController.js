@@ -308,61 +308,64 @@ exports.getAssignedForms = function(req){
     return promise;
 }
 
-exports.getClinicVisitForm = function(req, res){
+exports.getClinicVisitForm = function(){
     var formId = req.params.id;
     var database = firebase.database();
     var formRef = database.ref("clinicVisit/"+formId);
     var medication = [], details = [];
     var childSnapshotData, nurse, fname, lname;
     var medicationAssigned, diagnosisAssigned, bothAssigned;
+
+    var promise = new Promise((resolve,reject)=>{
+        formRef.on('value', (snapshot) => {
+            // snapshot.child("medication").on('value', (childSnapshot) => {
+            //     childSnapshot.forEach(function(data){
+            //         childSnapshotData = data.exportVal();
+            //         medication = {
+            //             medicines: childSnapshotData.medicines,
+            //             purpose: childSnapshotData.purpose,
+            //             amount: childSnapshotData.amount,
+            //             interval: childSnapshotData.interval,
+            //             startDate: childSnapshotData.startDate,
+            //             endDate: childSnapshotData.endDate,
+            //         }
+            //     })
+            // })
+            nurse = snapshot.child("attendingNurse").val();
+            database.ref("clinicUsers/"+nurse).on('value', (userSnapshot) => {
+                fname = userSnapshot.child('firstName').val();
+                lname = userSnapshot.child('lastName').val();
+            })
+            
+            details = {
+                formId: formId,
+                idNum: snapshot.child("id").val(),
+                studentName: snapshot.child("studentName").val(),
+                studentGrade: snapshot.child("grade").val(),
+                studentSection: snapshot.child("section").val(),
+                visitDate: snapshot.child("visitDate").val(),
+                timeIn: snapshot.child("timeIn").val(),
+                timeOut: snapshot.child("timeOut").val(),
+                nurseKey: nurse,
+                attendingNurse: fname + " " + lname,
+                bodyTemp: snapshot.child("bodyTemp").val(),
+                bloodPressure: snapshot.child("bloodPressure").val(),
+                pulseRate: snapshot.child("pulseRate").val(),
+                respirationRate: snapshot.child("respirationRate").val(),
+                visitReason: snapshot.child("visitReason").val(),
+                treatment: snapshot.child("treatment").val(),
     
-    formRef.on('value', (snapshot) => {
-        // snapshot.child("medication").on('value', (childSnapshot) => {
-        //     childSnapshot.forEach(function(data){
-        //         childSnapshotData = data.exportVal();
-        //         medication = {
-        //             medicines: childSnapshotData.medicines,
-        //             purpose: childSnapshotData.purpose,
-        //             amount: childSnapshotData.amount,
-        //             interval: childSnapshotData.interval,
-        //             startDate: childSnapshotData.startDate,
-        //             endDate: childSnapshotData.endDate,
-        //         }
-        //     })
-        // })
-        nurse = snapshot.child("attendingNurse").val();
-        database.ref("clinicUsers/"+nurse).on('value', (userSnapshot) => {
-            fname = userSnapshot.child('firstName').val();
-            lname = userSnapshot.child('lastName').val();
+                //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
+                //medication: medication,
+                diagnosis: snapshot.child("diagnosis").val(),
+                status: snapshot.child("status").val(),
+                notes: snapshot.child("notes").val(),
+    
+            }
+            resolve(details);
         })
-        
-        details = {
-            formId: formId,
-            idNum: snapshot.child("id").val(),
-            studentName: snapshot.child("studentName").val(),
-            studentGrade: snapshot.child("grade").val(),
-            studentSection: snapshot.child("section").val(),
-            visitDate: snapshot.child("visitDate").val(),
-            timeIn: snapshot.child("timeIn").val(),
-            timeOut: snapshot.child("timeOut").val(),
-            nurseKey: nurse,
-            attendingNurse: fname + " " + lname,
-            bodyTemp: snapshot.child("bodyTemp").val(),
-            bloodPressure: snapshot.child("bloodPressure").val(),
-            pulseRate: snapshot.child("pulseRate").val(),
-            respirationRate: snapshot.child("respirationRate").val(),
-            visitReason: snapshot.child("visitReason").val(),
-            treatment: snapshot.child("treatment").val(),
-
-            //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
-            //medication: medication,
-            diagnosis: snapshot.child("diagnosis").val(),
-            status: snapshot.child("status").val(),
-            notes: snapshot.child("notes").val(),
-
-        }
-        res(details);
     })
+    return promise;
 }
 
 exports.getNotifications = function(req, res){
@@ -651,19 +654,20 @@ exports.getSections=function(req,res){
     var section=[];
     var g1=[],g2=[],g3=[],g4=[],g5=[],g6=[];
 
-
-    sectionRef.on('value', (snapshot) =>{
-        snapshot.forEach(function(childSnapshot){// itering thru grade 12...
-            //console.log("key?? :", childSnapshot.key);
-            var child = childSnapshot.exportVal();
-            section.push({
-                section: child.section
-            });
-        })
-        console.log(section);
-        res(section);
+    var promise = new Promise((resolve,reject)=>{
+        sectionRef.on('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){// itering thru grade 12...
+                //console.log("key?? :", childSnapshot.key);
+                var child = childSnapshot.exportVal();
+                section.push({
+                    section: child.section
+                });
+            })
+            console.log(section);
+            resolve(section);
+        });
     });
-
+    return promise;
 }
 
 exports.addSchedule=function(req,res){
@@ -677,11 +681,11 @@ exports.addSchedule=function(req,res){
     for(i=0;i<schedule.length;i++){
         var currSec= schedule[i].section;
         var count=0;
-        schedRef.once('value', (snapshot) =>{
+        schedRef.on('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var child = childSnapshot.exportVal();
                 // console.log("Child:"+child.section);
-                console.log("Section: "+ currSec);
+                //console.log("Section: "+ currSec);
                 if(child.section == currSec){
                     console.log("Has a schedule already");
                     count=count+1;

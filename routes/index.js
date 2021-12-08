@@ -188,50 +188,111 @@ router.get('/clinic-visit/create', (req, res) => {
 // Get clinic visit edit page
 router.get('/clinic-visit/edit/:id', (req, res) => {
   console.log("Read create clinic visit edit successful!");
-  userController.getUser(req, user => {
-  //   userController.getNurse(req, nurse => {
-  //     userController.getClinician(req, clinician => {
-  //       userController.getUsers(req, users => {
-    studentController.getClinicVisitForm(req, form => {
-            if(user.role == "Nurse"){
-              res.render('clinic-visit-edit', {
-                user: user,
-                isNurse: true,
-                form: form
-              });
-            } else {
-              res.render('clinic-visit-edit', {
-                user: user, 
-                isNurse: false,
-                form: form
-              });
-            }
-    })
-          
-  //      })
-  //     })
-  //   })
+  var prom1,prom2,prom3,prom4,prom5,user,nurse,clinician,users,form;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in clinic visit create: " + result.key);
+    user=result;
+  });
+  // prom2= userController.getNurse();
+  // prom2.then(function(result){
+  //   nurse=result;
+  //   console.log("Promise2 in clinic visit create: " + result);
+  // });  
+  // prom3= userController.getClinician();
+  // prom3.then(function(result){
+  //   clinician=result;
+  //   console.log("Promise3 in clinic visit create:" + result);
+  // })
+  // prom4= userController.assignTo(result.key);
+  // prom4.then(function(result){
+  //   users=result;
+  //   console.log("Promise4 in clinic visit create :"+ result);
+  // })
+  prom5=studentController.getClinicVisitForm()
+  prom5.then(function(result){
+    form=result
+    console.log("Promise4 in clinic visit create :"+ result);
   })
+
+  Promise.all([prom1,prom2,prom3,prom4,prom5]).then(result => {
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-edit', {
+        user: user,
+        isNurse: true,
+        form: form
+      });
+    } else {
+      res.render('clinic-visit-edit', {
+        user: user, 
+        isNurse: false,
+        form: form
+      });
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+ 
+
+  // userController.getUser(req, user => {
+  // //   userController.getNurse(req, nurse => {
+  // //     userController.getClinician(req, clinician => {
+  // //       userController.getUsers(req, users => {
+  //   studentController.getClinicVisitForm(req, form => {
+  //           if(user.role == "Nurse"){
+  //             res.render('clinic-visit-edit', {
+  //               user: user,
+  //               isNurse: true,
+  //               form: form
+  //             });
+  //           } else {
+  //             res.render('clinic-visit-edit', {
+  //               user: user, 
+  //               isNurse: false,
+  //               form: form
+  //             });
+  //           }
+  //   })
+          
+  // //      })
+  // //     })
+  // //   })
+  // })
 });
 
 // Get case-records page
 router.get('/case-records', (req, res) => {
   console.log("Read case records successful!");
-  userController.getUsers(req, usersInfo => {
+
+  var users =  userController.getUsers();
+  users.then(function(result){
     res.render('case-records', {
-      users: usersInfo
+      users: users
     });
   })
+
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('case-records', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get disease surveillance page
 router.get('/disease-surveillance', (req, res) => {
   console.log("Read disease surveillance successful!");
-  userController.getUsers(req, usersInfo => {
+  var users =  userController.getUsers();
+  users.then(function(result){
     res.render('disease-surveillance', {
-      users: usersInfo
+      users: users
     });
   })
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('disease-surveillance', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get profile page
@@ -243,103 +304,213 @@ router.get('/profile', (req, res) => {
 // Get health assessment page
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  // userController.getUser(req, user => {
-    studentController.getClinicVisits(req, records => {
-      studentController.getSections(req, sections => {
-        console.log("clinicVisits index", records);
-        console.log("sections:", sections);
-        userController.getUser(req, user => {
-        if(user.role == "Nurse"){
-          res.render('health-assessment', {
-            user: user,
-            isNurse: true,
-            clinicVisits: records,
-            sections: sections
-          });
-        } else {
-          res.render('health-assessment', {
-            user: user, 
-            isNurse: false,
-            clinicVisits: records,
-            sections: sections
-          });
-        }
-      })
-    })
+  var prom1,prom2,prom3,user,records,sections;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in health assessment: " + result.key);
+    user=result;
+  });
+
+  prom2= studentController.getClinicVisits();
+  prom2.then(function(result){
+    console.log("Promise2 in health assessment: " + result);
+    records=result;
+  }); 
+
+  prom3= studentController.getSections();
+  prom3.then(function(result){
+    console.log("Promise3 in health assessment:" + result);
+    sections=result;
   })
+
+
+  Promise.all([prom1,prom2,prom3]).then(result => {
+    if(user.role == "Nurse"){
+      res.render('health-assessment', {
+        user: user,
+        isNurse: true,
+        clinicVisits: records,
+        sections: sections
+      });
+    } else {
+      res.render('health-assessment', {
+        user: user, 
+        isNurse: false,
+        clinicVisits: records,
+        sections: sections
+      });
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+
+  // userController.getUser(req, user => {
+  //     studentController.getClinicVisits(req, records => {
+  //       studentController.getSections(req, sections => {
+  //         console.log("clinicVisits index", records);
+  //         console.log("sections:", sections);
+  //         userController.getUser(req, user => {
+  //         if(user.role == "Nurse"){
+  //           res.render('health-assessment', {
+  //             user: user,
+  //             isNurse: true,
+  //             clinicVisits: records,
+  //             sections: sections
+  //           });
+  //         } else {
+  //           res.render('health-assessment', {
+  //             user: user, 
+  //             isNurse: false,
+  //             clinicVisits: records,
+  //             sections: sections
+  //           });
+  //         }
+  //       })
+  //     })
+  //   })
+  // });
 });
 
 // Get physical exam page
 router.get('/health-assessment/physical', (req, res) => {
   console.log("Read physical exam successful!");
-  userController.getUsers(req, usersInfo => {
+  
+  var user =  userController.getUser();
+  user.then(function(result){
     res.render('health-assessment-physical', {
-      users: usersInfo
+      users: result
     });
   })
+  
+  
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('health-assessment-physical', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get health assessment schedule page
 router.get('/health-assessment/schedule', (req, res) => {
   console.log("Read health assessment schedule successful!");
-  userController.getUsers(req, usersInfo => {
-    res.render('health-assessment-schedule', {
-      users: usersInfo
-    });
-  })
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('health-assessment-schedule', { 
+      user: result
+    })
+  });
+  
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('health-assessment-schedule', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get communications page
 router.get('/communications', (req, res) => {
   console.log("Read communications successful!");
-  userController.getUsers(req, usersInfo => {
+  var users =  userController.getUsers();
+  users.then(function(result){
     res.render('communications', {
-      users: usersInfo
+      users: users
     });
   })
+  
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('communications', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get promotive care page
 router.get('/promotive-care', (req, res) => {
   console.log("Read promotive care successful!");
-  userController.getUsers(req, usersInfo => {
+  var users =  userController.getUsers();
+  users.then(function(result){
     res.render('promotive-care', {
-      users: usersInfo
+      users: users
     });
   })
+  
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('promotive-care', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get program form page
 router.get('/promotive-care/program-form', (req, res) => {
   console.log("Read program form successful!");
-  userController.getUsers(req, usersInfo => {
+  var users =  userController.getUsers();
+  users.then(function(result){
     res.render('program-form', {
-      users: usersInfo
+      users: users
     });
   })
+  
+  // userController.getUsers(req, usersInfo => {
+  //   res.render('program-form', {
+  //     users: usersInfo
+  //   });
+  // })
 });
 
 // Get inventory page
 router.get('/inventory', (req, res) => {
   console.log("Read inventory successful!");
-  userController.getUser(req, user => {
-    inventoryController.getInventory(req, inventory => {
-      res.render('inventory', {
-        user: user,
-        inventory: inventory
-      });
-    })
-  })
+
+  var prom1,prom2,user,inventory;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in inventory: " + result.key);
+    user=result;
+  });
+
+  prom2= inventoryController.getInventory();
+  prom2.then(function(result){
+    console.log("Promise2 in inventory: " + result);
+    inventory=result;
+  }); 
+
+  Promise.all([prom1,prom2]).then(result => {
+    res.render('inventory', {
+      user: user,
+      inventory: inventory
+    });
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+
+
+  // userController.getUser(req, user => {
+  //   inventoryController.getInventory(req, inventory => {
+  //     res.render('inventory', {
+  //       user: user,
+  //       inventory: inventory
+  //     });
+  //   })
+  // })
 });
 
 // Get promotive care page
 router.get('/inventory/add', (req, res) => {
   console.log("Read add inventory successful!");
-  userController.getUser(req, user => {
+  var userInfo =  userController.getUser();
+  userInfo.then(function(result){
     res.render('inventory-add', {
-      user: user
+      user: result
     });
-  })
+  });
+  // userController.getUser(req, user => {
+  //   res.render('inventory-add', {
+  //     user: user
+  //   });
+  // })
 });
 
 // Get bmi info

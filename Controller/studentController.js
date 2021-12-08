@@ -221,7 +221,7 @@ exports.editClinicVisit = function(req, res){
     res.redirect('/clinic-visit');
 }
 
-exports.getClinicVisits = function(req, res){
+exports.getClinicVisits = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
@@ -229,53 +229,35 @@ exports.getClinicVisits = function(req, res){
     var i, visits =[];
     var childSnapshotData;
 
-    databaseRef.once('value', (snapshot) => {
-        if(snapshot.hasChild("clinicVisit")){
-            query.on('value', (childSnapshot) => {
-                childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
-                    childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                    
-                    visits.push({ // contains all data (not grouped by date)
-                      studentName: childSnapshotData.studentName,
-                      complaint: childSnapshotData.visitReason,
-                      timeIn: childSnapshotData.timeIn,
-                      timeOut: childSnapshotData.timeOut,
-                      status: childSnapshotData.status,
-                      visitDate: childSnapshotData.visitDate
-                    })         
+    var promise = new Promise((resolve,reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("clinicVisit")){
+                query.on('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
+                        childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                        
+                        visits.push({ // contains all data (not grouped by date)
+                          studentName: childSnapshotData.studentName,
+                          complaint: childSnapshotData.visitReason,
+                          timeIn: childSnapshotData.timeIn,
+                          timeOut: childSnapshotData.timeOut,
+                          status: childSnapshotData.status,
+                          visitDate: childSnapshotData.visitDate
+                        })         
+                    })
+                    resolve(visits);
                 })
-                
-                // var filtered = [];
-                // temp.reverse().forEach(record => {
-                //     var found = false;
-                //     for(i = 0; i < filtered.length; i++){
-                //         if(record.visitDate == filtered[i].date){   // filters if same date
-                //             filtered[i].visitDetails.push(record);
-                //             filtered[i].count++;
-                //             found = true;
-                //             break;
-                //         } 
-                //     }
-                //     if(!found){
-                //         filtered.push({
-                //             date: record.visitDate,
-                //             visitDetails: [],
-                //             count: 1
-                //         })
-                //         filtered[i].visitDetails.push(record);
-                //     }          
-                // });
-                // console.log(filtered);
-                res(visits);
-            })
-        }
-        else {
-            res(temp);
-        }
+            }
+            else {
+                resolve(visits);
+            }
+        })
     })
+    return promise;
+
 }
 
-exports.getAssignedForms = function(req, res){
+exports.getAssignedForms = function(req){
     var user = req;
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -287,37 +269,43 @@ exports.getAssignedForms = function(req, res){
     var childSnapshotData;
     var fname, lname;
     
-    databaseRef.once('value', (dbSnapshot) => {
-        if(dbSnapshot.hasChild("assignedForms")){
-            formsReference.once('value', (formSnapshot) => {
-                if(formSnapshot.hasChild(user)){
-                    query.on('value', (snapshot) => {
-                        snapshot.forEach(function(childSnapshot){                 
-                            childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                            userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
-                                fname = userSnapshot.child('firstName').val();
-                                lname = userSnapshot.child('lastName').val();
-                                forms.push({ // contains all data (not grouped by date)
-                                    task: childSnapshotData.task,
-                                    description: childSnapshotData.description,
-                                    formId: childSnapshotData.formId,
-                                    assignedBy: fname + " " + lname,
-                                    dateAssigned: childSnapshotData.dateAssigned
+    var promise = new Promise((resolve,reject)=>{
+        databaseRef.once('value', (dbSnapshot) => {
+            if(dbSnapshot.hasChild("assignedForms")){
+                formsReference.once('value', (formSnapshot) => {
+                    if(formSnapshot.hasChild(user)){
+                        query.on('value', (snapshot) => {
+                            snapshot.forEach(function(childSnapshot){                 
+                                childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                                userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
+                                    fname = userSnapshot.child('firstName').val();
+                                    lname = userSnapshot.child('lastName').val();
+                                    forms.push({ // contains all data (not grouped by date)
+                                        task: childSnapshotData.task,
+                                        description: childSnapshotData.description,
+                                        formId: childSnapshotData.formId,
+                                        assignedBy: fname + " " + lname,
+                                        dateAssigned: childSnapshotData.dateAssigned
+                                    })  
+                                    forms.reverse();
                                 })  
-                                forms.reverse();
-                            })  
+                            })
+                            console.log(forms);
+                            resolve(forms);
+                            console.log("HI, does promise3 work(1)?");
                         })
-                        console.log(forms);
-                        res(forms);
-                    })
-                } else {
-                    res(forms);
-                }
-            })
-        } else {
-            res(forms);
-        }
+                    } else {
+                        resolve(forms);
+                        console.log("HI, does promise3 work(2)?");
+                    }
+                })
+            } else {
+                resolve(forms);
+                console.log("HI, does promise3 work(3)?");
+            }
+        })
     })
+    return promise;
 }
 
 exports.getClinicVisitForm = function(req, res){

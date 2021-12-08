@@ -37,7 +37,6 @@ router.get('/dashboard',  (req, res) => {
   //Promise.resolve(userInfo);
   //studentController.getNotifications(user.key, notifs => {
     var count = 0;
-
     // for(i = 0; i < notifs.length; i++){
     //   if(notifs[i].seen == false){
     //     newNotifs = true;
@@ -65,57 +64,125 @@ router.get('/dashboard',  (req, res) => {
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
-  userController.getUser(req, user => {
-    studentController.getClinicVisits(req, records => {
-      studentController.getAssignedForms(user.key, forms => {
-        if(user.role == "Nurse"){
-          res.render('clinic-visit', {
-            isNurse: true,
-            user: user,
-            forms: forms,
-            clinicVisits: records,
-          });
-        }
-        else {
-          res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
-            isNurse: false,
-            user: user,
-            clinicVisitForms: forms,
-          });
-        }
-      })
+
+  var promise1,promise2,promise3,user;
+  var formId,record;
+
+  promise1 =userController.getUser();
+  promise1.then(function(result){
+    user=result;
+    console.log("User Var:"+user.role);
+    console.log("Promise1 in clinic Visit: "+result.key + "," + result.role);
+    promise3= studentController.getAssignedForms(result.key);
+    promise3.then(function(result2){
+      formId=result2
+      console.log("Promise3 in clinic Visit:"+result2);
     })
-  })
+  });
+  promise2= studentController.getClinicVisits();
+  promise2.then(function(result){
+    record=result;
+    console.log("Promise2 in clinic Visit: "+result[0].studentName);
+  });
+  
+  Promise.all([promise1, promise2, promise3]).then(result => {
+    console.log("Dying:"+user.role);
+    if(user.role == "Nurse"){
+      console.log("Promise1 clinic Visit"+user.role);
+      res.render('clinic-visit', {
+        isNurse: true,
+        user: user,
+        forms: formId,
+        clinicVisits: record,
+      });
+    }
+    else {
+      res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
+        isNurse: false,
+        user: user,
+        clinicVisitForms: formId,
+      });
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
 });
 
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
-  userController.getUser(req, user => {
-    userController.getNurse(req, nurse => {
-      userController.getClinician(req, clinician => {
-        userController.assignTo(user.key, users => {
-          if(user.role == "Nurse"){
-            res.render('clinic-visit-create', {
-              user: user,
-              isNurse: true,
-              nurse: nurse,
-              clinician: clinician,
-              users: users
-            });
-          } else {
-            res.render('clinic-visit-create', {
-              user: user, 
-              isNurse: false,
-              nurse: nurse,
-              clinician: clinician,
-              users: users
-            });
-          }
-        })
-      })
+
+  var prom1,prom2,prom3,prom4,user,nurse,clinician,users;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in clinic visit create: " + result.key);
+    user=result;
+    prom4= userController.assignTo(result.key);
+    prom4.then(function(result){
+      users=result;
+      console.log("Promise4 in clinic visit create :"+ result);
     })
+
+  });
+  prom2= userController.getNurse();
+  prom2.then(function(result){
+    nurse=result;
+    console.log("Promise2 in clinic visit create: " + result);
+  });  
+  prom3= userController.getClinician();
+  prom3.then(function(result){
+    clinician=result;
+    console.log("Promise3 in clinic visit create:" + result);
   })
+  
+  Promise.all([prom1,prom2,prom3,prom4]).then(result => {
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-create', {
+        user: user,
+        isNurse: true,
+        nurse: nurse,
+        clinician: clinician,
+        users: users
+      });
+    } else {
+      res.render('clinic-visit-create', {
+        user: user, 
+        isNurse: false,
+        nurse: nurse,
+        clinician: clinician,
+        users: users
+      });
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+  
+  // userController.getUser(req, user => {
+  //   userController.getNurse(req, nurse => {
+  //     userController.getClinician(req, clinician => {
+  //       userController.assignTo(user.key, users => {
+  //         if(user.role == "Nurse"){
+  //           res.render('clinic-visit-create', {
+  //             user: user,
+  //             isNurse: true,
+  //             nurse: nurse,
+  //             clinician: clinician,
+  //             users: users
+  //           });
+  //         } else {
+  //           res.render('clinic-visit-create', {
+  //             user: user, 
+  //             isNurse: false,
+  //             nurse: nurse,
+  //             clinician: clinician,
+  //             users: users
+  //           });
+  //         }
+  //       })
+  //     })
+  //   })
+  // })
 });
 
 // Get clinic visit edit page

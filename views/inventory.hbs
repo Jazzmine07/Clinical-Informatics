@@ -380,13 +380,14 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Schedule</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Medicine Inventory</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Batch Number</th>
                                             <th>Medicine Name</th>
                                             <th>Quantity</th>
                                             <th>Unit</th>
@@ -407,11 +408,12 @@
                                     <tbody>
                                         {{#each inventory}}
                                             <tr>
+                                                <td>{{batchNum}}</td>
                                                 <td>{{med}}</td>
                                                 <td>{{qty}}</td>
                                                 <td>{{unit}}</td>
-                                                <td>{{purchDate}}</td>
-                                                <td>{{expDate}}</td>
+                                                <td>{{formatDate purchDate}}</td>
+                                                <td>{{formatDate expDate}}</td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

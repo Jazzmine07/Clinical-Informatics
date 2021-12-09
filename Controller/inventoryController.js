@@ -24,7 +24,7 @@ exports.addInventory = function(req, res){
 }
 
 exports.getInventory = function(){
-    var childSnapshotData, temp = [];
+    var childSnapshotData, inventory = [];
 
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -36,7 +36,8 @@ exports.getInventory = function(){
                 inventoryRef.on('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        temp.push({
+                        inventory.push({
+                            batchNum: childSnapshotData.batchNum,
                             med: childSnapshotData.medicine,
                             qty: parseInt(childSnapshotData.quantity),
                             unit: childSnapshotData.unit,
@@ -44,31 +45,6 @@ exports.getInventory = function(){
                             expDate: childSnapshotData.expDate
                         })
                     })
-                    var inventory = [];
-    
-                    temp.reverse().forEach(inv => {
-                        var found = false;
-                        for(i = 0; i < inventory.length; i++){
-                            if(inv.med == inventory[i].med){   // filters if same medication
-                                inventory[i].purchDate.push(inv.purchDate);
-                                inventory[i].expDate.push(inv.expDate);
-                                inventory[i].qty += inv.qty;
-                                found = true;
-                                break;
-                            } 
-                        }
-                        if(!found){
-                            inventory.push({
-                                med: inv.med,
-                                qty: inv.qty,
-                                unit: inv.unit,
-                                purchDate: [],
-                                expDate: []
-                            })
-                            inventory[i].purchDate.push(inv.purchDate);
-                            inventory[i].expDate.push(inv.expDate);
-                        }          
-                    });
                     console.log("inventory in controller");
                     console.log(inventory);
                     resolve(inventory);

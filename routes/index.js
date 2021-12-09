@@ -290,7 +290,7 @@ router.get('/profile', (req, res) => {
 // Get health assessment page
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  var prom1,prom2,prom3,user,records,sections;
+  var prom1,prom2,prom3,prom4,user,records,sections,schedule;
 
   prom1 =userController.getUser();
   prom1.then(function(result){
@@ -309,22 +309,30 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
     console.log("Promise3 in health assessment:" + result);
     sections=result;
   })
+  prom4= studentController.getAllApeSched();
+  console.log("Promise 4");
+  console.log(prom4);
+  prom4.then(function(result){
+    console.log("Promise4 in health assessment:" + result);
+    schedule=result;
+  })
 
-
-  Promise.all([prom1,prom2,prom3]).then(result => {
+  Promise.all([prom1,prom2,prom3,prom4]).then(result => {
     if(user.role == "Nurse"){
       res.render('health-assessment', {
         user: user,
         isNurse: true,
         clinicVisits: records,
-        sections: sections
+        sections: sections,
+        schedule: schedule
       });
     } else {
       res.render('health-assessment', {
         user: user, 
         isNurse: false,
         clinicVisits: records,
-        sections: sections
+        sections: sections,
+        schedule: schedule
       });
     }
   }).catch(error => {
@@ -365,7 +373,7 @@ router.get('/health-assessment/physical', (req, res) => {
   var user =  userController.getUser();
   user.then(function(result){
     res.render('health-assessment-physical', {
-      users: result
+      user: result
     });
   })
   
@@ -518,7 +526,7 @@ router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', studentController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
-router.post('/getSchedules', studentController.getAllApeSched);
+// router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/addInventory', inventoryController.addInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 router.post('/loadPrevData', studentController.loadPrevData);

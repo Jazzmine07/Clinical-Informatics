@@ -263,9 +263,10 @@ exports.getAssignedForms = function(req){
     var formsRef = database.ref("assignedForms/"+user);
     var userRef = database.ref("clinicUsers");
     var query = formsRef.orderByChild("timestamp");
+    var fname, lname,assignedName;
     var temp, forms =[];
     var childSnapshotData;
-    var fname, lname;
+
     
     var promise = new Promise((resolve,reject)=>{
         databaseRef.once('value', (dbSnapshot) => {
@@ -278,18 +279,18 @@ exports.getAssignedForms = function(req){
                                 userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
                                     fname = userSnapshot.child('firstName').val();
                                     lname = userSnapshot.child('lastName').val();
-                                    temp = { // contains all data (not grouped by date)
-                                        task: childSnapshotData.task,
-                                        description: childSnapshotData.description,
-                                        formId: childSnapshotData.formId,
-                                        assignedBy: fname + " " + lname,
-                                        dateAssigned: childSnapshotData.dateAssigned
-                                    }
-                                    forms.push(temp);
-                                    forms.reverse();
-                                    console.log("forms0");
-                                    console.log(forms);
-                                })  
+                                });  
+                                temp = { // contains all data (not grouped by date)
+                                    task: childSnapshotData.task,
+                                    description: childSnapshotData.description,
+                                    formId: childSnapshotData.formId,
+                                    assignedBy: fname + " " + lname,
+                                    dateAssigned: childSnapshotData.dateAssigned
+                                };
+                                forms.push(temp);
+                                forms.reverse();
+                                console.log("forms0");
+                                console.log(forms);
                                 console.log("forms1");
                                 console.log(forms);
                                 resolve(forms);

@@ -365,6 +365,11 @@
                                         <datalist id="medications">
                                             <option value="meds">                          
                                         </datalist> 
+                                        
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="quantity" class="col-form-label">Batch Number</label>
+                                        <input type="number" class="form-control mb-2" id="batchNum" placeholder="ex. 1, 2">
                                     </div>
                                 </div>
 
@@ -479,29 +484,31 @@
     <script>
         var medicationsArray = [];
 
-        function addMedication(medication, quantity, unit, purchDate, expDate) {
-            medicationsArray.push({medication: medication, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
+        function addMedication(medication, batchNum, quantity, unit, purchDate, expDate) {
+            medicationsArray.push({medication: medication, batchNum: batchNum, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
         }
 
         var i = 0;  
 
         $('#addMedication').click(function(){
             var medication = document.getElementById("medication").value;
-            var quantity = document.getElementById("quantity").value
+            var batchNum = document.getElementById("batchNum").value;
+            var quantity = document.getElementById("quantity").value;
             var unit = document.getElementById("unit");
             var selectedUnit = unit.options[unit.selectedIndex].value;
             var purchDate = document.getElementById("purchDate").value;
             var expDate = document.getElementById("expDate").value;
 
             console.log(medication);
+            console.log(batchNum);
             console.log(quantity);
             console.log(selectedUnit);
             console.log(purchDate);
             console.log(expDate);
 
-            addMedication(medication, quantity, selectedUnit, purchDate, expDate);
+            addMedication(medication, batchNum, quantity, selectedUnit, purchDate, expDate);
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + batchNum + '"</input><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             
             i++;
         });

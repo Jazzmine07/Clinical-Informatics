@@ -10,6 +10,7 @@ exports.addInventory = function(req, res){
 
     // for(i = 0; i < medicationsArray.length; i++){
     //     medicines = {
+    //         batchNum: medicationsArray[i].batchNum,
     //         medicine: medicationsArray[i].medication,
     //         quantity: medicationsArray[i].quantity,
     //         unit: medicationsArray[i].unit,

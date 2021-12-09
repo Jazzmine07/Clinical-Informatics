@@ -459,7 +459,7 @@ exports.getSectionStudents = function(req, res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
 
-    if(section != null){
+    if(section != null && (studentId==null||studentId=="")){
         console.log(schoolYear);
         console.log(section);
         //looks for all the students in a specified section
@@ -477,7 +477,7 @@ exports.getSectionStudents = function(req, res){
             res.send(students);
         });
     }
-    else if(studentId !=null){
+    else if(studentId !=null && (section==null||section=="")){
         //specified student id in array 
         console.log(schoolYear);
         console.log(studentId);
@@ -674,43 +674,45 @@ exports.loadPrevData=function(req,res){
     console.log("Path1: " + studentInfoRef);
     console.log("Path2: " + studentHealthHistoryRef);
 
-    studentInfoRef.orderByChild(prevYear).on('value', (snapshot) =>{
+    studentInfoRef.on('value', (snapshot) =>{
             var childValues = snapshot.exportVal();
             console.log("DATA Path1: " + childValues);
             name=childValues.firstName +" "+ childValues.lastName;
             bday=childValues.birthday;
             sex=childValues.sex;
-
+            
             studentHealthHistoryRef.on('value', (snapshot) =>{
-                console.log(snapshot.key);
-                if(snapshot.exists){
-                    var childValues = snapshot.exportVal();
-                    temp = childValues.temp;
-                    bp= childValues.bp;
-                    pr= childValues.pr;
-                    rr= childValues.rr;
-                    sf=childValues.sf;
-                    weight = childValues.weight;
-                    height= childValues.height;
-                    bmi = childValues.bmi;
-                    bmiStatus = childValues.bmiStatus;
-                    od= childValues.odVision;
-                    os= childValues.osVision;
-                    odGlasses = childValues.odGlasses;
-                    osGlasses= childValues.osGlasses;
-                    medProb= childValues.medProb;
-                    allergies= childValues.allergies;
-                    complaints= childValues.concern;
-                    reco= childValues.assess;
-                    
-                }
+                snapshot.forEach(function(childSnapshot){
+                    console.log(childSnapshot.key);
+                    console.log(prevYear);
+                    if(childSnapshot.key==prevYear){
+                        var childValues = childSnapshot.exportVal();
+                        temp = childValues.temp;
+                        bp= childValues.bp;
+                        pr= childValues.pr;
+                        rr= childValues.rr;
+                        sf=childValues.sf;
+                        weight = childValues.weight;
+                        height= childValues.height;
+                        bmi = childValues.bmi;
+                        bmiStatus = childValues.bmiStatus;
+                        od= childValues.odVision;
+                        os= childValues.osVision;
+                        odGlasses = childValues.odGlasses;
+                        osGlasses= childValues.osGlasses;
+                        medProb= childValues.medProb;
+                        allergies= childValues.allergies;
+                        complaints= childValues.concern;
+                        reco= childValues.assess;
+                    }
+                });
             });
-
-    });
+        });
     
     console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
+    console.log(temp);
     var data={
-        studentName:name,
+        name:name,
         birthday:bday,
         sex:sex,
         temp:temp,
@@ -731,7 +733,8 @@ exports.loadPrevData=function(req,res){
         complaints:complaints,
         reco:reco
     };
-    console.log("Inside"+data);
+    console.log("Inside"+data.name);
+    console.log("Inside"+data.temp);
     res.send(data);
     
 }

@@ -377,7 +377,7 @@
                                     </div>
                                     <div class="col-8">
                                         <label class="col-form-label" for="studentName">Student Name</label>
-                                        <input type="text" class="form-control mb-2" id="studentName">
+                                        <input type="text" class="form-control mb-2" id="studentName" name="studentName">
                                     </div>
                                 </div>
 
@@ -684,7 +684,7 @@
             console.log("before:"+i);  
             console.log(id);
             idInput=$('#studentID').val();
-              console.log("Id:" + idInput);
+            console.log("Id:" + idInput);
             $.ajax({
                     url: '/loadPrevData',
                     method: 'POST',
@@ -693,46 +693,29 @@
                         id:idInput
                     },
                     success: function(data) {
-                        console.log(data);
-                        if(!data.studentName==null && !data.studentName=="")
-                            document.getElementById("studentName").value=data.studentName;
-                        if(!data.birthday==null || !data.birthday=="")
-                            document.getElementById("dob").value=data.birthday;
-                        if(!data.sex==null || !data.sex=="")
-                            document.getElementById("gender").value=data.sex;
-                        if(!data.temp==null || !data.temp=="")
-                            document.getElementById("bodyTemp").value=data.temp;
-                        if(!data.bp==null || !data.bp=="")
-                            document.getElementById("bloodPressure").value=data.bp;
-                        if(!data.pr==null || !data.pr=="")
-                            document.getElementById("pulseRate").value=data.pr;
-                        if(!data.rr==null || !data.rr=="")
-                            document.getElementById("respRate").value=data.rr;
-                        if(!data.sf==null || !data.sf=="")
-                            document.getElementById("skinFind").value=data.sf;
-                        if(!data.weight==null || !data.weight=="")
-                            document.getElementById("weight").value=data.weight;
-                        if(!data.height==null || !data.height=="")
-                            document.getElementById("height").value=data.height;
-                        if(!data.bmi==null || !data.bmi=="")
-                            document.getElementById("bmi").value=data.bmi;
-                        //document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
-                        if(!data.odVision==null || !data.odVision=="")
-                            document.getElementById("odVision").value=data.odVision;
-                        if(!data.osVision==null || !data.osVision=="")
-                            document.getElementById("osVision").value=data.osVision;
-                        if(!data.odGlasses==null || !data.odGlasses=="")
-                            document.getElementById("odGlasses").value=data.odGlasses;
-                        if(!data.osGlasses==null || !data.osGlasses=="")
-                            document.getElementById("osGlasses").value=data.osGlasses;
-                        if(!data.medProb==null || !data.medProb=="")
-                            document.getElementById("medProb").value=data.medProb;
-                        if(!data.allergies==null || !data.allergies=="")
-                            document.getElementById("allergies").value=data.allergies;
-                        if(!data.complaints==null || !data.complaints=="")
-                            document.getElementById("complaintAPE").value=data.complaints;
-                        if(!data.recp==null || !data.reco=="")
-                            document.getElementById("assessAPE").value=data.reco;
+                        console.log("HELLO DATA:");
+                        console.log(data.name);
+                        
+                        document.getElementById("studentName").value=data.name;                            
+                        document.getElementById("dob").value=data.birthday;
+                        document.getElementById("gender").value=data.sex;
+                        document.getElementById("bodyTemp").value=data.temp;
+                        document.getElementById("bloodPressure").value=data.bp;
+                        document.getElementById("pulseRate").value=data.pr;
+                        document.getElementById("respRate").value=data.rr;
+                        document.getElementById("skinFind").value=data.sf;
+                        document.getElementById("weight").value=data.weight;
+                        document.getElementById("height").value=data.height;
+                        document.getElementById("bmi").value=data.bmi;
+                        document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
+                        document.getElementById("odVision").value=data.odVision;
+                        document.getElementById("osVision").value=data.osVision;
+                        document.getElementById("odGlasses").value=data.odGlasses;
+                        document.getElementById("osGlasses").value=data.osGlasses;
+                        document.getElementById("medProb").value=data.medProb;
+                        document.getElementById("allergies").value=data.allergies;
+                        document.getElementById("complaintAPE").value=data.complaints;
+                        document.getElementById("assessAPE").value=data.reco;
 
                     }  
                 });

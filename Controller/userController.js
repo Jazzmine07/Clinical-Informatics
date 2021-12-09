@@ -61,130 +61,75 @@ exports.login = function(req, res){
   // database.ref('studentInfo/' + studentAccount.idNum).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
-  // if(email == "" && pass == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter data!"
-  //   });
-  // }
-  // if(email == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter email!"
-  //   });
-  // }
-  // if(pass == ""){
-  //   res.render('login',{
-  //     error: true,
-  //     error_msg: "Please enter password!"
-  //   });
-  // }
-  // else {
-  //   //user sign in
-  /*
-    -- this is the function to sign in users without the use of firebase authentication 
-    -- dont forget to remove clinicUsers in ref
-  */
-  // userRef.child("clinicUsers").orderByChild("email").equalTo(email).on('value', (snapshot) => {
-  //   if(!snapshot.exists()){
-  //     res.render('login',{
-  //       error: true,
-  //       error_msg: "No user with that email!"
-  //     });
-  //   } 
-
-  //   snapshot.forEach(function(childSnapshot){
-  //     var childSnapshotData = childSnapshot.exportVal();
-  //     if(childSnapshotData.password != pass){
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Wrong password!"
-  //       });
-  //     }
-  //     else {
-  //       if(childSnapshotData.role == "Clinician"){ // if user is clinician
-  //         res.redirect("/dashboard");
-  //       } else {  // if user is nurse
-  //         res.redirect("/clinic-visit");
-  //       }
-  //     }
-  //   });
-  // })
-
+  if(email == "" && pass == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter data!"
+    });
+  }
+  if(email == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter email!"
+    });
+  }
+  if(pass == ""){
+    res.render('login',{
+      error: true,
+      error_msg: "Please enter password!"
+    });
+  }
+  else {
     firebase.auth().signInWithEmailAndPassword(email, pass)
     .then((userCredential) => {
       // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
-      userRef.on('value', (snapshot) => {
-        if(snapshot.hasChild(userCredential.user.uid) == false){  // checker if user is in the clinicUsers tables
-          //add user to the realtime database
-          var update = {
-            email: userCredential.user.email,
-            firstName: "",
-            lastName: "",
-            role: ""
-          }
-          database.ref('clinicUsers/' + userCredential.user.uid); // setting the path with uid as its pk
-          database.ref('clinicUsers/' + userCredential.user.uid).set(update); // adding fields such as email, firstname and lastname 
-          // redirect to profile page for setting up
+      var uid = userCredential.user.uid;
+      var childRef = database.ref("clinicUsers/"+uid);
+      
+      childRef.on('value', (snapshot) => { 
+        if(snapshot.child('role').val() == "Clinician"){
+          res.redirect("/dashboard");
         } else {
-          var uid = userCredential.user.uid;
-          var childRef = database.ref("clinicUsers/"+uid);
-          var userInfo;
-          
-          childRef.on('value', (snapshot) => { 
-            if(snapshot.child('firstName').val() === ""){
-              userInfo = ({
-                firstName: "user",
-                lastName: "",
-                role: ""
-              })
-            } else {
-              if(snapshot.child('role').val() == "Clinician"){
-                res.redirect("/dashboard");
-              } else {
-                res.redirect("/clinic-visit");
-              }
-            }
-          })
+          res.redirect("/clinic-visit");
         }
       })
      })
-  //   .catch((error) => {
-  //     var errorCode = error.code;
-  //     var errorMessage = error.message;
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
 
-  //     if (errorCode === 'auth/wrong-password') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Wrong password!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/invalid-email') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Please enter a valid email!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/user-not-found') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "No user with such email!"
-  //       });
-  //     } 
-  //     else if (errorCode === 'auth/user-disabled') {
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: "Account disabled by Admin!"
-  //       });
-  //     }
-  //     else {  // in the case of multiple login failed attempts
-  //       res.render('login',{
-  //         error: true,
-  //         error_msg: errorMessage 
-  //       });
-  //     }
-  //   });
-  // }
+      if (errorCode === 'auth/wrong-password') {
+        res.render('login',{
+          error: true,
+          error_msg: "Wrong password!"
+        });
+      } 
+      else if (errorCode === 'auth/invalid-email') {
+        res.render('login',{
+          error: true,
+          error_msg: "Please enter a valid email!"
+        });
+      } 
+      else if (errorCode === 'auth/user-not-found') {
+        res.render('login',{
+          error: true,
+          error_msg: "No user with such email!"
+        });
+      } 
+      else if (errorCode === 'auth/user-disabled') {
+        res.render('login',{
+          error: true,
+          error_msg: "Account disabled by Admin!"
+        });
+      }
+      else {  // in the case of multiple login failed attempts
+        res.render('login',{
+          error: true,
+          error_msg: errorMessage 
+        });
+      }
+    });
+  }
 }
 
 // check if user is logged in 
@@ -219,7 +164,7 @@ exports.getUser = function(){
   var database = firebase.database();
   var userInfo;
   
-  var promise = new Promise((resolve,reject)=>{
+  var promise = new Promise((resolve,reject) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         var uid = user.uid;
@@ -232,16 +177,12 @@ exports.getUser = function(){
             lastName: snapshot.child('lastName').val(),
             role: snapshot.child('role').val()
           })      
-          console.log("userInfo sa controller");      
-          console.log(userInfo);
-          resolve (userInfo); // the initial repsonse
-          
-          
+          resolve (userInfo); 
         })
       }
-      else{
-        reject(Error("Why? :'("))
-      }
+      // else{
+      //   reject(Error("Why? :'("))
+      // }
     });
   })
 
@@ -370,6 +311,5 @@ exports.assignTo = function(req){
       resolve(usersObject);
     })
   })
-
   return promise;
 }

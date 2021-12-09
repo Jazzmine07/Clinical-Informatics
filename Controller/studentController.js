@@ -43,8 +43,8 @@ exports.getStudent = function(req, res){
 }
 
 exports.addClinicVisit = function(req, res){
-    var { studentId, studentName , studentGrade, studentSection, visitDate, timeStamp, timeIn, timeOut, nurse, 
-        bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
+    var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, nurse, 
+        bodyTemp, bloodPressure, pulseRate, respirationRate, complaint, treatment,
         medicationAssign, prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
         diagnosisAssign, diagnosis, notes, status } = req.body;
 
@@ -54,36 +54,35 @@ exports.addClinicVisit = function(req, res){
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
 
-    // var record = {
-    //     id: studentId, 
-    //     studentName: studentName,
-    //     grade: studentGrade,
-    //     section: studentSection,
-    //     visitDate: visitDate,
-    //     timestamp: time,
-    //     timeIn: timeIn,
-    //     timeout: timeOut,
-    //     attendingNurse: nurse,
-    //     bodyTemp: bodyTemp,
-    //     systolicBP: systolicBP,
-    //     diastolicBP: diastolicBP,
-    //     pulseRate: pulseRate,
-    //     respirationRate: respirationRate,   
+    var record = {
+        id: studentId, 
+        studentName: studentName,
+        grade: studentGrade,
+        section: studentSection,
+        visitDate: visitDate,
+        timestamp: time,
+        timeIn: timeIn,
+        timeout: timeOut,
+        attendingNurse: nurse,
+        bodyTemp: bodyTemp,
+        bloodPressure: bloodPressure,
+        pulseRate: pulseRate,
+        respirationRate: respirationRate,   
 
-    //     visitReason: complaint,
-    //     treatment: treatment,
+        visitReason: complaint,
+        treatment: treatment,
 
-    //     medicationAssigned: medicationAssign,
-    //     // /medicationPrescribed: prescribedBy,
-    //     medication: "", // array of medications
+        medicationAssigned: medicationAssign,
+        // medicationPrescribed: prescribedBy,
+        medication: "", // array of medications
 
-    //     diagnosisAssigned: diagnosisAssign,
-    //     diagnosis: diagnosis,
-    //     status: status,
-    //     notes: notes,
-    // };
+        diagnosisAssigned: diagnosisAssign,
+        diagnosis: diagnosis,
+        status: status,
+        notes: notes,
+    };
 
-    //key = clinicVisitRef.push(record).key;
+    key = clinicVisitRef.push(record).key;
 
     // for(i = 0; i < medicineList.length; i++){
     //     // left side is the field name in firebase
@@ -91,64 +90,64 @@ exports.addClinicVisit = function(req, res){
     //         medicines: medicineList[i],
     //         purpose: purposeList[i],
     //         amount: amountList[i],
-    //         interval: intervalList[i]
+    //         interval: intervalList[i],
     //         startDate: startMedList[i],
     //         endDate: endMedList[i]
     //     };
     //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
     // }
 
-    // var assignMedication = database.ref("assignedForms/"+ medicationAssign);
-    // var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+    var assignMedication = database.ref("assignedForms/"+ medicationAssign);
+    var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
 
-    // var medicationForm = {
-    //     task: "Clinic Visit",
-    //     description: "Medication",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
+    var medicationForm = {
+        task: "Clinic Visit",
+        description: "Medication",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // var diagnosisForm = {
-    //     task: "Clinic Visit",
-    //     description: "Diagnosis",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
+    var diagnosisForm = {
+        task: "Clinic Visit",
+        description: "Diagnosis",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // var assignBoth = {
-    //     task: "Clinic Visit",
-    //     description: "Diagnosis & Medication",
-    //     formId: key,
-    //     assignedBy: nurse,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
+    var assignBoth = {
+        task: "Clinic Visit",
+        description: "Diagnosis & Medication",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
 
-    // var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
-    // var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+    var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
+    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
 
-    // var notif = {
-    //     type: "form",
-    //     formId: key,
-    //     message: "You have been assigned to a new form!",
-    //     date: visitDate,
-    //     timestamp: time,
-    //     seen: false
-    // }
+    var notif = {
+        type: "form",
+        formId: key,
+        message: "You have been assigned to a new form!",
+        date: visitDate,
+        timestamp: time,
+        seen: false
+    }
 
-    // if(medicationAssign == diagnosisAssign){
-    //     assignMedication.push(assignBoth);
-    //     userMedNotification.set(notif);
-    // } else {
-    //     assignMedication.push(medicationForm);
-    //     assignDiagnosis.push(diagnosisForm);
-    //     userMedNotification.set(notif);
-    //     userDiagnosisNotification.set(notif);
-    // }
+    if(medicationAssign == diagnosisAssign){
+        assignMedication.push(assignBoth);
+        userMedNotification.set(notif);
+    } else {
+        assignMedication.push(medicationForm);
+        assignDiagnosis.push(diagnosisForm);
+        userMedNotification.set(notif);
+        userDiagnosisNotification.set(notif);
+    }
     
     // needed as ajax was used to send data
     res.status(200).send();
@@ -254,7 +253,6 @@ exports.getClinicVisits = function(){
         })
     })
     return promise;
-
 }
 
 exports.getAssignedForms = function(req){
@@ -369,11 +367,9 @@ exports.getClinicVisitForm = function(){
 }
 
 exports.getNotifications = function(req, res){
-    var user = req;
     var database = firebase.database();
     var childSnapshotData;
-    var temp = [], notifs = [];
-
+    var notifs = [];
 
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -394,24 +390,26 @@ exports.getNotifications = function(req, res){
                         })
                     })
                     notifs.reverse();
+                    //return res.send(notifs);
                 } else {
-                    res.send(notifs);
+                    //res.send(notifs);
                 }
             })
         }
     });
-
-    
 }
 
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
     var database = firebase.database();
-    console.log("controller form ids"+formIds);
+    //console.log("controller form ids"+formIds);
 
-    for(var i = 0; i < formIds.length; i++){
-        database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
+    if(formIds.length != 0){
+        for(var i = 0; i < formIds.length; i++){
+            database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
+        }
     }
+
     res.status(200).send();
 }
 
@@ -844,7 +842,7 @@ exports.getAllApeSched=function(req,res){
 
         }) 
         console.log(schedule);
-        res.send(schedule)
+        res.send(schedule);
     });
 }
 

@@ -32,24 +32,10 @@ router.get('/getNotification', studentController.getNotifications);
 
 // Get dashboard page
 router.get('/dashboard',  (req, res) => {
-
   var userInfo =  userController.getUser();
-  //Promise.resolve(userInfo);
   //studentController.getNotifications(user.key, notifs => {
-    var count = 0;
-    // for(i = 0; i < notifs.length; i++){
-    //   if(notifs[i].seen == false){
-    //     newNotifs = true;
-    //     count++; 
-    //   } else {
-    //     newNotifs = false;
-    //   }
-    // }
-    console.log("userInfo sa index");
-    console.log(userInfo);
     console.log("Read dashboard successful!");
     userInfo.then(function(result){
-      console.log("Result in index: "+result.lastName);
       res.render('dashboard', { // nagsesend ng another response
         user: result,
         //notification: notifs,

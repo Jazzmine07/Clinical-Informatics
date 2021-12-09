@@ -366,53 +366,6 @@ exports.getClinicVisitForm = function(){
     return promise;
 }
 
-exports.getNotifications = function(req, res){
-    var database = firebase.database();
-    var childSnapshotData;
-    var notifs = [];
-
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            var uid = user.uid;
-            var notifRef = database.ref("notifications/"+uid);
-                    
-            notifRef.orderByChild("timestamp").on('value', (snapshot) => {
-                if(snapshot.exists()){
-                    snapshot.forEach(function(childSnapshot){
-                        childSnapshotData = childSnapshot.exportVal();
-                            notifs.push({
-                            user: snapshot.key,
-                            type: childSnapshotData.type,
-                            formId: childSnapshotData.formId,
-                            message: childSnapshotData.message,
-                            date: childSnapshotData.date,
-                            seen: childSnapshotData.seen
-                        })
-                    })
-                    notifs.reverse();
-                    //return res.send(notifs);
-                } else {
-                    //res.send(notifs);
-                }
-            })
-        }
-    });
-}
-
-exports.updateNotifications = function(req, res){
-    var { userID, formIds } = req.body;
-    var database = firebase.database();
-    //console.log("controller form ids"+formIds);
-
-    if(formIds.length != 0){
-        for(var i = 0; i < formIds.length; i++){
-            database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
-        }
-    }
-
-    res.status(200).send();
-}
-
 exports.addAPE = function(req, res){
     //adds new APE of student with the current school year as the key
     var schoolYear= req.body.schoolYear;

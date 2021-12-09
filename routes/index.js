@@ -2,6 +2,7 @@ const router = require('express').Router();
 const userController = require('../Controller/userController');
 const studentController = require('../Controller/studentController');
 const inventoryController = require('../Controller/inventoryController');
+const notificationController = require('../Controller/notificationController');
 const { loggedIn } = require('../Controller/userController');
 var expressHbs =  require('handlebars');
 
@@ -28,22 +29,62 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/getNotification', studentController.getNotifications);
+//router.get('/getNotification', notificationController.js.getNotifications);
 
 // Get dashboard page
 router.get('/dashboard',  (req, res) => {
-  var userInfo =  userController.getUser();
+  var prom1,prom2,user,notifs;
+
+  var prom1 =  userController.getUser();
   //studentController.getNotifications(user.key, notifs => {
-    console.log("Read dashboard successful!");
-    userInfo.then(function(result){
+  console.log("Read dashboard successful!");
+  prom1.then(function(result){
+    user=result;
+  })
+  prom2 = notificationController.getNotifications();
+  prom2.then(function(result){
+    notifs=result;
+  });
+
+  Promise.all([prom1,prom2]).then(result => {
+    var i, count = 0, newNotifs;
+    
+    for(i = 0; i < notifs.length; i++){
+      console.log(notifs[i].seen);
+      if(notifs[i].seen == false){
+        count++; 
+        console.log("count in index 2");
+        console.log(count);
+      }
+    }
+
+    if(count != 0){
+      newNotifs = true;
+    } else {
+      newNotifs = false;
+    }
+    console.log("user in index");
+    console.log(user.key);
+    if(user.role == "Nurse"){
+      console.log("Promise1 clinic Visit"+user.role);
+      res.render('clinic-visit', {
+        isNurse: true,
+        user: user,
+        forms: formId,
+        clinicVisits: record,
+      });
+    }
+    else {
       res.render('dashboard', { // nagsesend ng another response
         user: result,
-        //notification: notifs,
-        //count: count,
-        //newNotifs: newNotifs
+        notification: notifs,
+        count: count,
+        newNotifs: newNotifs
       })
-    })
-    
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
   //})
 });
 
@@ -524,7 +565,7 @@ router.post('/editClinicVisit', studentController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
-router.post('/updateNotif', studentController.updateNotifications);
+router.post('/updateNotif', notificationController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/addInventory', inventoryController.addInventory);

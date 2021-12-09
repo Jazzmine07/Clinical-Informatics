@@ -697,7 +697,7 @@ exports.addSchedule=function(req,res){
                 schedRef.push(schedule[i]);
             }
             else{
-                console.log("no repeat");
+                console.log("no repeat"); //if already has schedule do nothing? 
             }
         });
     }
@@ -714,50 +714,50 @@ exports.loadPrevData=function(req,res){
     
     var database = firebase.database();
     var studentInfoRef= database.ref("studentInfo/"+id);
-    var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ape/"+prevYear);
+    var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ape");
+    console.log("Previous Year:"+ prevYear);
     var name,bday,sex;
-    var temp,bp,pr,rr,sf,weight,height,bmi,bmiStatus,od,os,odGlasses,osGlasses,medProb,allergies,complaints,reco;
+    var temp="",bp="",pr="",rr="",sf="",weight="",height="",bmi="",bmiStatus="",od="",os="",odGlasses="",osGlasses="";
+    var medProb="",allergies="",complaints="",reco="";
     
     console.log("Path1: " + studentInfoRef);
     console.log("Path2: " + studentHealthHistoryRef);
 
-    studentInfoRef.on('value', (snapshot) =>{
-
+    studentInfoRef.orderByChild(prevYear).on('value', (snapshot) =>{
             var childValues = snapshot.exportVal();
             console.log("DATA Path1: " + childValues);
             name=childValues.firstName +" "+ childValues.lastName;
             bday=childValues.birthday;
             sex=childValues.sex;
 
+            studentHealthHistoryRef.on('value', (snapshot) =>{
+                console.log(snapshot.key);
+                if(snapshot.exists){
+                    var childValues = snapshot.exportVal();
+                    temp = childValues.temp;
+                    bp= childValues.bp;
+                    pr= childValues.pr;
+                    rr= childValues.rr;
+                    sf=childValues.sf;
+                    weight = childValues.weight;
+                    height= childValues.height;
+                    bmi = childValues.bmi;
+                    bmiStatus = childValues.bmiStatus;
+                    od= childValues.odVision;
+                    os= childValues.osVision;
+                    odGlasses = childValues.odGlasses;
+                    osGlasses= childValues.osGlasses;
+                    medProb= childValues.medProb;
+                    allergies= childValues.allergies;
+                    complaints= childValues.concern;
+                    reco= childValues.assess;
+                    
+                }
+            });
+
     });
     
     console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
-    
-    studentHealthHistoryRef.on('value', (snapshot) =>{
-        
-            var childValues = snapshot.exportVal();
-            console.log("DATA Path2: " + childValues);
-            temp = childValues.temp;
-            bp= childValues.bp;
-            pr= childValues.pr;
-            rr= childValues.rr;
-            sf=childValues.sf;
-            weight = childValues.weight;
-            height= childValues.height;
-            bmi = childValues.bmi;
-            bmiStatus = childValues.bmiStatus;
-            od= childValues.odVision;
-            os= childValues.osVision;
-            odGlasses = childValues.odGlasses;
-            osGlasses= childValues.osGlasses;
-            medProb= childValues.medProb;
-            allergies= childValues.allergies;
-            complaints= childValues.concern;
-            reco= childValues.assess;
-        
-    });
-    console.log("DYING:"+ weight +", "+height);
-    
     var data={
         studentName:name,
         birthday:bday,
@@ -782,70 +782,77 @@ exports.loadPrevData=function(req,res){
     };
     console.log("Inside"+data);
     res.send(data);
+    
 }
 
 
 
 
-exports.getAllApeSched=function(req,res){
+exports.getAllApeSched=function(){
     //gets all the schedule created for the APE
     var database = firebase.database();
     var schedRef= database.ref("apeSchedule");
     var studentRef = database.ref("studentInfo");
     var schedule=[];
     
-    schedRef.on('value', (snapshot) =>{
-        snapshot.forEach(function(childSnapshot){
-            var childValues = childSnapshot.exportVal();
-            var grade;
-            var students=[];
-            var numStudents;
-            console.log("Sections"+childValues.section);
-            if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
-                grade="1";
-            }
-            else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
-                grade="2";
-            }
-            else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
-                grade="3";
-            }
-            else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
-                grade="4";
-            }         
-            else if(childValues.section=="Trustwortiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
-                grade="5";
-            }
-            else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
-                grade="6";
-            }
-
-            studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
-                if(ss.exists()){
-                    ss.forEach(function(cs){
-                        console.log("looking for section:" + childValues.section);
-                        console.log("Key: "+cs.key);
-                        console.log("Section: "+cs.child("section").val());
-                        console.log("Id Number: "+cs.child("idNum").val());
-                        students.push(cs.key);
-                    })
-                    console.log("Students in "+ childValues.section +":"+students.length);
+    var promise = new Promise((resolve,reject)=>{
+        schedRef.once('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){
+                var childValues = childSnapshot.exportVal();
+                var grade;
+                var students=[];
+                var numStudents;
+                console.log("Sections"+childValues.section);
+                if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
+                    grade="1";
                 }
-            });
-
-            record={
-                grade:grade,
-                section:childValues.section,
-                numStudents:students.length,
-                examDate:childValues.date,
-                time:childValues.time
-            }
-            schedule.push(record);
-
-        }) 
-        console.log(schedule);
-        res.send(schedule)
-    });
+                else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
+                    grade="2";
+                }
+                else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
+                    grade="3";
+                }
+                else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
+                    grade="4";
+                }         
+                else if(childValues.section=="Trustwortiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+                    grade="5";
+                }
+                else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
+                    grade="6";
+                }
+    
+                studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                    if(ss.exists()){
+                        ss.forEach(function(cs){
+                            // console.log("looking for section:" + childValues.section);
+                            // console.log("Key: "+cs.key);
+                            // console.log("Section: "+cs.child("section").val());
+                            // console.log("Id Number: "+cs.child("idNum").val());
+                            students.push(cs.key);
+                        })
+                        console.log("Students in "+ childValues.section +":"+students.length);
+                    }
+                });
+    
+                record={
+                    grade:grade,
+                    section:childValues.section,
+                    numStudents:students.length,
+                    examDate:childValues.date,
+                    time:childValues.time
+                }
+                //console.log(record);
+                schedule.push(record);
+    
+            }) 
+            console.log("Schedule size:" + schedule.length);
+            resolve(schedule);
+            reject(schedule);
+        });
+    })
+    return promise;    
+    
 }
 
 

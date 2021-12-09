@@ -512,6 +512,16 @@
                                             <th>Status</th> --}}
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        {{#each schedule}}
+                                            <tr>
+                                                <td>Grade {{grade}}-{{section}}</td>
+                                                <td>{{formatDate examDate}}</td>
+                                                <td>{{numStudents}}</td>
+                                                <td>{{time}}</td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
                                     {{!-- <tfoot>
                                         <tr>
                                             <th>Name</th>
@@ -738,25 +748,6 @@
             document.getElementById("g6prog").style.width= p6;
             
         });
-
-        $.post("/getSchedules",function(data){
-            console.log(data);
-            var table = document.getElementById("dataTable");
-            var i;
-            for(i=0;i<data.length;i++){
-                var newRow = table.insertRow(table.rows.length);
-                var cell1 = newRow.insertCell(0);
-                var cell2 = newRow.insertCell(1);
-                var cell3 = newRow.insertCell(2);
-                var cell4 = newRow.insertCell(3);
-                cell1.innerHTML = ("Grade " + data[i].grade + "-" + data[i].section);
-                cell2.innerHTML = (data[i].examDate);
-                cell3.innerHTML = (data[i].numStudents);
-                cell4.innerHTML = (data[i].time); 
-            }
-
-        })
-
 
             $("#searchBtn").click(function(){
                 console.log("clicked?");

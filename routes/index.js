@@ -39,18 +39,17 @@ router.get('/dashboard',  (req, res) => {
   //studentController.getNotifications(user.key, notifs => {
   console.log("Read dashboard successful!");
   prom1.then(function(result){
-    user=result;
+    user = result;
   })
   prom2 = notificationController.getNotifications();
   prom2.then(function(result){
-    notifs=result;
+    notifs = result;
   });
 
   Promise.all([prom1,prom2]).then(result => {
     var i, count = 0, newNotifs;
     
     for(i = 0; i < notifs.length; i++){
-      console.log(notifs[i].seen);
       if(notifs[i].seen == false){
         count++; 
       }
@@ -61,7 +60,7 @@ router.get('/dashboard',  (req, res) => {
     } else {
       newNotifs = false;
     }
-    
+
     if(user.role == "Nurse"){
       // dashboard for nurse to be fixed
       res.render('clinic-visit', {
@@ -88,45 +87,42 @@ router.get('/dashboard',  (req, res) => {
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
+  var promise1, promise2, promise3;
+  var user, formId, record;
 
-  var promise1,promise2,promise3,user;
-  var formId,record;
-
-  promise1 =userController.getUser();
+  promise1 = userController.getUser();
   promise1.then(function(result){
-    user=result;
-    console.log("User Var:"+user.role);
-    console.log("Promise1 in clinic Visit: "+result.key + "," + result.role);
-    promise3= studentController.getAssignedForms(result.key);
-    promise3.then(function(result2){
-      formId=result2
-      console.log("Promise3 in clinic Visit:"+result2);
-    })
+    user = result;
   });
+
   promise2= studentController.getClinicVisits();
   promise2.then(function(result){
-    record=result;
-    console.log("Promise2 in clinic Visit: "+result[0].studentName);
+    record = result;
   });
   
-  Promise.all([promise1, promise2, promise3]).then(result => {
-    console.log("Dying:"+user.role);
-    if(user.role == "Nurse"){
-      console.log("Promise1 clinic Visit"+user.role);
-      res.render('clinic-visit', {
-        isNurse: true,
-        user: user,
-        forms: formId,
-        clinicVisits: record,
-      });
-    }
-    else {
-      res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
-        isNurse: false,
-        user: user,
-        clinicVisitForms: formId,
-      });
-    }
+  Promise.all([promise1, promise2]).then(result => {
+    promise3 = studentController.getAssignedForms(user.key);
+    promise3.then(function(forms){
+      formId = forms;
+      console.log("Promise3 in clinic Visit:");
+      console.log(formId);
+      
+      if(user.role == "Nurse"){
+        res.render('clinic-visit', {
+          isNurse: true,
+          user: user,
+          forms: formId,
+          clinicVisits: record,
+        });
+      }
+      else {
+        res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
+          isNurse: false,
+          user: user,
+          clinicVisitForms: formId,
+        });
+      }
+    })
   }).catch(error => {
     console.log('An Error Occured');
   });

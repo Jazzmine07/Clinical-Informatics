@@ -225,10 +225,10 @@ exports.getClinicVisits = function(){
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timestamp");
-    var i, visits =[];
+    var visits =[];
     var childSnapshotData;
 
-    var promise = new Promise((resolve,reject)=>{
+    var promise = new Promise((resolve,reject) => {
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("clinicVisit")){
                 query.on('value', (childSnapshot) => {
@@ -263,7 +263,7 @@ exports.getAssignedForms = function(req){
     var formsRef = database.ref("assignedForms/"+user);
     var userRef = database.ref("clinicUsers");
     var query = formsRef.orderByChild("timestamp");
-    var forms =[];
+    var temp, forms =[];
     var childSnapshotData;
     var fname, lname;
     
@@ -278,30 +278,37 @@ exports.getAssignedForms = function(req){
                                 userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
                                     fname = userSnapshot.child('firstName').val();
                                     lname = userSnapshot.child('lastName').val();
-                                    forms.push({ // contains all data (not grouped by date)
+                                    temp = { // contains all data (not grouped by date)
                                         task: childSnapshotData.task,
                                         description: childSnapshotData.description,
                                         formId: childSnapshotData.formId,
                                         assignedBy: fname + " " + lname,
                                         dateAssigned: childSnapshotData.dateAssigned
-                                    })  
+                                    }
+                                    forms.push(temp);
                                     forms.reverse();
+                                    console.log("forms0");
+                                    console.log(forms);
                                 })  
+                                console.log("forms1");
+                                console.log(forms);
+                                resolve(forms);
                             })
+                            console.log("forms2");
                             console.log(forms);
-                            resolve(forms);
-                            console.log("HI, does promise3 work(1)?");
                         })
+                        console.log("forms3");
+                        console.log(forms);
                     } else {
                         resolve(forms);
-                        console.log("HI, does promise3 work(2)?");
                     }
                 })
             } else {
                 resolve(forms);
-                console.log("HI, does promise3 work(3)?");
             }
         })
+        console.log("labas");
+        console.log(forms);
     })
     return promise;
 }

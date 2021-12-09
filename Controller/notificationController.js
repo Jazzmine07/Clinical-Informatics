@@ -36,7 +36,6 @@ exports.getNotifications = function(){
         }, 5000);
     });
     return promise;
-    
 }
 
 exports.updateNotifications = function(req, res){

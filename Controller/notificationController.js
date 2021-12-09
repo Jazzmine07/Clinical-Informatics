@@ -42,14 +42,12 @@ exports.getNotifications = function(){
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
     var database = firebase.database();
-    console.log("controller userID"+userID);
-    console.log("controller form ids"+formIds);
 
-    // if(formIds.length != 0){
-    //     for(var i = 0; i < formIds.length; i++){
-    //         database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
-    //     }
-    // }
+    if(formIds.length != 0){
+        for(var i = 0; i < formIds.length; i++){
+            database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
+        }
+    }
 
     res.status(200).send();
 }

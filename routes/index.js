@@ -53,8 +53,6 @@ router.get('/dashboard',  (req, res) => {
       console.log(notifs[i].seen);
       if(notifs[i].seen == false){
         count++; 
-        console.log("count in index 2");
-        console.log(count);
       }
     }
 
@@ -63,10 +61,9 @@ router.get('/dashboard',  (req, res) => {
     } else {
       newNotifs = false;
     }
-    console.log("user in index");
-    console.log(user.key);
+    
     if(user.role == "Nurse"){
-      console.log("Promise1 clinic Visit"+user.role);
+      // dashboard for nurse to be fixed
       res.render('clinic-visit', {
         isNurse: true,
         user: user,
@@ -76,7 +73,7 @@ router.get('/dashboard',  (req, res) => {
     }
     else {
       res.render('dashboard', { // nagsesend ng another response
-        user: result,
+        user: user,
         notification: notifs,
         count: count,
         newNotifs: newNotifs

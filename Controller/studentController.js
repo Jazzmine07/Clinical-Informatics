@@ -289,27 +289,27 @@ exports.getAssignedForms = function(req){
                                 };
                                 forms.push(temp);
                                 forms.reverse();
-                                console.log("forms0");
-                                console.log(forms);
-                                console.log("forms1");
-                                console.log(forms);
-                                resolve(forms);
                             })
-                            console.log("forms2");
-                            console.log(forms);
                         })
-                        console.log("forms3");
-                        console.log(forms);
+                        console.log("HEYYA");
+                        if(forms!=null && forms.assignedBy!=undefined){
+                            console.log("1");
+                            resolve(forms);
+                        }
+                        else{
+                            console.log("2");
+                            resolve(forms);
+                        }
                     } else {
+                        console.log("HELLO2")
                         resolve(forms);
                     }
                 })
             } else {
+                console.log("HI1");
                 resolve(forms);
             }
         })
-        console.log("labas");
-        console.log(forms);
     })
     return promise;
 }

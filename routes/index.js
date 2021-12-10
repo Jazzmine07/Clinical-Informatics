@@ -33,11 +33,12 @@ router.get('/login', (req, res) => {
 
 // Get dashboard page
 router.get('/dashboard',  (req, res) => {
+  console.log("Read dashboard successful!");
   var prom1,prom2,user,notifs;
 
   var prom1 =  userController.getUser();
   //studentController.getNotifications(user.key, notifs => {
-  console.log("Read dashboard successful!");
+  
   prom1.then(function(result){
     user = result;
   })
@@ -63,11 +64,9 @@ router.get('/dashboard',  (req, res) => {
 
     if(user.role == "Nurse"){
       // dashboard for nurse to be fixed
-      res.render('clinic-visit', {
+      res.render('dashboard', {
         isNurse: true,
         user: user,
-        forms: formId,
-        clinicVisits: record,
       });
     }
     else {
@@ -79,9 +78,9 @@ router.get('/dashboard',  (req, res) => {
       })
     }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log(error.message);
+    console.log('Error in dashboard');
   });
-  //})
 });
 
 // Get clinic visit page
@@ -91,21 +90,26 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   var user, formId, record;
 
   promise1 = userController.getUser();
-  promise1.then(function(result){
-    user = result;
-  });
+  // promise1.then(function(result){
+    
+  // });
 
   promise2= studentController.getClinicVisits();
-  promise2.then(function(result){
-    record = result;
-  });
-  
+  // promise2.then(function(result){
+  //   record = result;
+  // });
+
   Promise.all([promise1, promise2]).then(result => {
+    user = result[0];
+    record = result[1];
+    //formId = result[2];
     promise3 = studentController.getAssignedForms(user.key);
     promise3.then(function(forms){
       formId = forms;
-      console.log("Promise3 in clinic Visit:");
+      console.log("forms in index");
       console.log(formId);
+      // console.log("forms in index");
+      // console.log(formId);
       
       if(user.role == "Nurse"){
         res.render('clinic-visit', {
@@ -119,12 +123,13 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
         res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
           isNurse: false,
           user: user,
-          clinicVisitForms: formId,
+          forms: formId,
         });
       }
     })
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in clinic visit!');
+    console.log(error.message);
   });
 });
 

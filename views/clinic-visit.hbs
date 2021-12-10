@@ -844,8 +844,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each clinicVisitForms}}
+                                        {{#each forms}}
                                         <tr>
+                                            <td>{{formId}}</td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
                                             <td id="clinicianDesc" value="{{description}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
                                             <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
@@ -937,6 +938,79 @@
         $(document).on('click', '.clickable-row', function(e){
             window.location = "/clinic-visit/create";
         });
+        $(document).ready(function() {
+        //var formIds = [];
+
+        //getNotification();
+        //setInterval(function(){ getNotification(); }, 3000);
+
+        //function getNotification() {
+        //    $.get("/getNotification", function(notifs){
+        //        console.log("notifs in front-end");
+        //        console.log(notifs);
+        //        var i;
+        //        var count = 0;
+                
+        //        formIds = [];
+                
+        //        $('#userID').val(notifs[notifs.length-1].user); // user key
+        //        for(i = 0; i < notifs.length; i++){
+        //            if(notifs[i].seen == true){
+        //                $('#notifList').empty();
+        //                break;
+        //            }
+        //        }
+                // getting list of notifications
+        //        for(i = 0; i < notifs.length; i++){
+                    // the if else statement for the display if seen or not
+        //            if(notifs[i].seen == true){
+        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+
+        //            } else {
+        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+        //                count++;  // notififcation count
+        //            }
+                    // put key value of forms 
+        //            formIds.push(notifs[i].formId);
+        //        }
+        //        console.log(formIds);
+
+        //        $('#notifCount').text(count);
+        //        if (count == 0){
+        //            var notifHide =  $('#notifCount');
+        //            notifHide.remove();
+        //        } 
+        //    });
+        //}
+
+        $("#alertsDropdown").click(function(){
+            let count = document.getElementById('notifCount');
+            count.remove();
+            
+            var userID = $('#userID').val();
+            var classesNodeList = document.querySelectorAll(".formID");
+            var values = Array.prototype.map.call(classesNodeList, function(element) {
+                return element.value;
+            });
+            console.log("userID");
+            console.log(userID);
+            console.log("values");
+            console.log(values);
+
+            $.ajax({
+                url: '/updateNotif',
+                method: 'POST',
+                data: {
+                    userID: userID,
+                    formIds: values
+                },
+                success: function(data) {
+                    console.log("success!");
+                }
+            });
+        });
+
+    });
     </script>
 
 </body>

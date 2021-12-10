@@ -255,62 +255,71 @@ exports.getClinicVisits = function(){
     return promise;
 }
 
-exports.getAssignedForms = function(req){
+exports.getAssignedForms = async function(req){
     var user = req;
+    console.log("user sa controller");
+    console.log(user);
     var database = firebase.database();
     var databaseRef = database.ref();
     var formsReference = database.ref("assignedForms");
     var formsRef = database.ref("assignedForms/"+user);
     var userRef = database.ref("clinicUsers");
     var query = formsRef.orderByChild("timestamp");
-    var fname, lname,assignedName;
+    var fname, lname;
     var temp, forms =[];
     var childSnapshotData;
-
     
+    //return await new Promise( (resolve, reject)=>{
     var promise = new Promise((resolve,reject)=>{
-        databaseRef.once('value', (dbSnapshot) => {
+         databaseRef.once('value',  (dbSnapshot) => {
+            console.log("1"); 
             if(dbSnapshot.hasChild("assignedForms")){
-                formsReference.once('value', (formSnapshot) => {
-                    if(formSnapshot.hasChild(user)){
-                        query.on('value', (snapshot) => {
-                            snapshot.forEach(function(childSnapshot){                 
-                                childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                                userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
-                                    fname = userSnapshot.child('firstName').val();
-                                    lname = userSnapshot.child('lastName').val();
-                                });  
-                                temp = { // contains all data (not grouped by date)
+                console.log("2"); 
+                if(dbSnapshot.child("assignedForms").hasChild(user)){
+                    console.log("3"); 
+                     query.on('value',  (snapshot) => {
+                        console.log("4"); 
+                        snapshot.forEach( function(childSnapshot){  
+                            console.log("5");               
+                            childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                             userRef.child(childSnapshotData.assignedBy).on('value',  (userSnapshot) => {
+                                console.log("6"); 
+                                fname = userSnapshot.child('firstName').val();
+                                lname = userSnapshot.child('lastName').val();
+                                 forms.push({ // contains all data (not grouped by date)
                                     task: childSnapshotData.task,
                                     description: childSnapshotData.description,
                                     formId: childSnapshotData.formId,
                                     assignedBy: fname + " " + lname,
                                     dateAssigned: childSnapshotData.dateAssigned
-                                };
-                                forms.push(temp);
-                                forms.reverse();
-                            })
+                                });
+                                console.log("7"); 
+                            });  
+                            // forms.reverse();
+                            console.log("8"); 
+                            //resolve(forms);
+                            console.log("forms2");
+                            console.log(forms);
                         })
-                        console.log("HEYYA");
-                        if(forms!=null && forms.assignedBy!=undefined){
-                            console.log("1");
-                            resolve(forms);
-                        }
-                        else{
-                            console.log("2");
-                            resolve(forms);
-                        }
-                    } else {
-                        console.log("HELLO2")
+                        console.log("9"); 
                         resolve(forms);
-                    }
-                })
+                        console.log("forms3");
+                        console.log(forms);
+                    })
+                    console.log("10"); 
+                } else {
+                    console.log("HELLO2")
+                    resolve(forms);
+                }
             } else {
                 console.log("HI1");
                 resolve(forms);
             }
+            console.log("11"); 
         })
+        console.log("12"); 
     })
+    // console.log("13"); 
     return promise;
 }
 

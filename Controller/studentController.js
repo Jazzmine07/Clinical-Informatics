@@ -3369,13 +3369,15 @@ exports.getTopDiseaseWeek=function(){
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timeStamp");
-    var visitConcern=[],temp=[], topDisease=[];
+    var temp=[], strings=[];
+    var vcWeek=[], weekTopDisease=[], stringWeekTopDisease=""; // variables for top disease week
+    var vcMonth=[], monthTopDisease=[], stringMonthTopDisease=""; // variables for top disease month
     var childSnapshotData;
     var parts, dbDate,alreadyAdded;
     var currDate =  new Date();
     var today = new Date();
     var weekAgo=new Date(today.setDate(today.getDate() - 7));
-    var i,j,vCount,stringTopDisease="";
+    var i,j,vCount;
 
     var promise = new Promise((resolve,reject) => {
         databaseRef.once('value', (snapshot) => {
@@ -3402,22 +3404,22 @@ exports.getTopDiseaseWeek=function(){
                 dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
                 alreadyAdded=0;
                 if(dbDate<=currDate && dbDate>=weekAgo){
-                    if(visitConcern==null){ //if empty auto add
-                        visitConcern.push({
+                    if(vcWeek==null){ //if empty auto add
+                        vcWeek.push({
                             concern: temp[i].diagnosis,
                             count:1
                         })
                     }
                     else{ //if not empty
-                        for(j=0;j<visitConcern.length;j++){ //this whole thing is used to check if it has a count
-                            if(visitConcern[j].concern==temp[i].diagnosis){ 
-                                visitConcern[j].count=visitConcern[j].count+1;
+                        for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
+                            if(vcWeek[j].concern==temp[i].diagnosis){ 
+                                vcWeek[j].count=vcWeek[j].count+1;
                                 alreadyAdded=1;
                                 console.log("Already has record so just added")
                             }
                         }
                         if(alreadyAdded!=1){
-                            visitConcern.push({
+                            vcWeek.push({
                                 concern: temp[i].diagnosis,
                                 count:1
                             })
@@ -3428,54 +3430,133 @@ exports.getTopDiseaseWeek=function(){
 
             }
 
-            console.log("visitConcern:");
-            console.log(visitConcern);
-
-            //finding top Disease/s
-            if(visitConcern.length>=0){
-                for(i=0;i<visitConcern.length;i++){
-                    vCount=visitConcern[i].count;
-                    if(topDisease.length>0){                        
-                        if(topDisease.length>1){
-                            if(vCount>topDisease[0].count){
-                                while(topDisease.length > 0) {
-                                    topDisease.pop();
-                                }
-                                topDisease.push(visitConcern[i]);
+            //getting only the clinic visits current month
+            for(i=0;i<temp.length;i++){
+                parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
+                dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+                console.log("Current Month:"+currDate.getMonth());
+                alreadyAdded=0;
+                if(dbDate.getMonth()==currDate.getMonth() && dbDate.getFullYear()==currDate.getFullYear()){
+                    if(vcMonth==null){ //if empty auto add
+                        vcMonth.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        })
+                    }
+                    else{ //if not empty
+                        for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
+                            if(vcMonth[j].concern==temp[i].diagnosis){ 
+                                vcMonth[j].count=vcMonth[j].count+1;
+                                alreadyAdded=1;
+                                console.log("Already has record so just added")
                             }
-                            else if(vCount==topDisease[0].count){
-                                topDisease.push(visitConcern[i]);
+                        }
+                        if(alreadyAdded!=1){
+                            vcMonth.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            })
+                            console.log("Added to array");
+                        }
+                    }
+                }
+
+            }
+            
+
+            console.log("vcWeek:");
+            console.log(vcWeek);
+
+            //finding top Disease/s for the week
+            if(vcWeek.length>=0){
+                for(i=0;i<vcWeek.length;i++){
+                    vCount=vcWeek[i].count;
+                    if(weekTopDisease.length>0){                        
+                        if(weekTopDisease.length>1){
+                            if(vCount>weekTopDisease[0].count){
+                                while(weekTopDisease.length > 0) {
+                                    weekTopDisease.pop();
+                                }
+                                weekTopDisease.push(vcWeek[i]);
+                            }
+                            else if(vCount==weekTopDisease[0].count){
+                                weekTopDisease.push(vcWeek[i]);
                             }
                         }
                         else{ //has only 1 at the moment
-                            if(vCount > topDisease[0].count){
-                                while(topDisease.length > 0) {
-                                    topDisease.pop();
+                            if(vCount > weekTopDisease[0].count){
+                                while(weekTopDisease.length > 0) {
+                                    weekTopDisease.pop();
                                 }
-                                topDisease.push(visitConcern[i]);
+                                weekTopDisease.push(vcWeek[i]);
                             }
-                            else if(vCount==topDisease[0].count){
-                                topDisease.push(visitConcern[i]);
+                            else if(vCount==weekTopDisease[0].count){
+                                weekTopDisease.push(vcWeek[i]);
                             }
                         }
                     }
                     else{
-                        topDisease.push(visitConcern[i]);
+                        weekTopDisease.push(vcWeek[i]);
+                    }
+                }
+            }
+            //appending all top disease of the week
+            if(weekTopDisease!=null){
+                for(i=0;i<weekTopDisease.length;i++){
+                    stringWeekTopDisease =stringWeekTopDisease +weekTopDisease[i].concern;
+                    if(i!=weekTopDisease.length-1){
+                        stringWeekTopDisease=stringWeekTopDisease+"\n";
                     }
                 }
             }
 
-            //appending all top disease of the week
-            if(topDisease!=null){
-                for(i=0;i<topDisease.length;i++){
-                    stringTopDisease =stringTopDisease +topDisease[i].concern;
-                    if(i!=topDisease.length-1){
-                        stringTopDisease=stringTopDisease+"\n";
+            if(vcMonth.length>=0){
+                for(i=0;i<vcMonth.length;i++){
+                    vCount=vcMonth[i].count;
+                    if(monthTopDisease.length>0){                        
+                        if(monthTopDisease.length>1){
+                            if(vCount>monthTopDisease[0].count){
+                                while(monthTopDisease.length > 0) {
+                                    monthTopDisease.pop();
+                                }
+                                monthTopDisease.push(vcMonth[i]);
+                            }
+                            else if(vCount==monthTopDisease[0].count){
+                                monthTopDisease.push(vcMonth[i]);
+                            }
+                        }
+                        else{ //has only 1 at the moment
+                            if(vCount > monthTopDisease[0].count){
+                                while(monthTopDisease.length > 0) {
+                                    monthTopDisease.pop();
+                                }
+                                monthTopDisease.push(vcMonth[i]);
+                            }
+                            else if(vCount==monthTopDisease[0].count){
+                                monthTopDisease.push(vcMonth[i]);
+                            }
+                        }
+                    }
+                    else{
+                        monthTopDisease.push(vcMonth[i]);
                     }
                 }
             }
-            console.log(stringTopDisease);
-            resolve(stringTopDisease);
+            if(monthTopDisease!=null){
+                for(i=0;i<monthTopDisease.length;i++){
+                    stringMonthTopDisease =stringMonthTopDisease +monthTopDisease[i].concern;
+                    if(i!=weekTopDisease.length-1){
+                        stringMonthTopDisease=stringMonthTopDisease+"\n";
+                    }
+                }
+            }
+            
+            strings.push(stringWeekTopDisease);
+            strings.push(stringMonthTopDisease);
+            
+            
+            console.log(strings);
+            resolve(strings);
         })                     
     })
     return promise;

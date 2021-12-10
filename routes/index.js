@@ -307,12 +307,32 @@ router.get('/case-records', (req, res) => {
 // Get disease surveillance page
 router.get('/disease-surveillance', (req, res) => {
   console.log("Read disease surveillance successful!");
-  var users =  userController.getUsers();
-  users.then(function(result){
-    res.render('disease-surveillance', {
-      users: users
-    });
+  var prom1,prom2,user,topDiagnosis;
+  prom1 =  userController.getUsers();
+  prom1.then(function(result){
+      user = result
   })
+  prom2 = studentController.getTopDiseaseWeek();
+  prom2.then(function(result){
+    topDiagnosis=result;
+  })
+
+  Promise.all([prom1,prom2]).then(result => {
+    if(user.role == "Nurse"){
+      res.render('disease-surveillance', {
+        user: user,
+        topDiagnosis:topDiagnosis
+      });
+    } else {
+      res.render('disease-surveillance', {
+        user: user,
+        topDiagnosis:topDiagnosis
+      });
+    }
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+
   // userController.getUsers(req, usersInfo => {
   //   res.render('disease-surveillance', {
   //     users: usersInfo

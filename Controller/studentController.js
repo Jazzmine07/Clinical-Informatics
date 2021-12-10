@@ -3362,3 +3362,122 @@ exports.getBMI = function(req, res){
         }
     })
 }
+
+exports.getTopDiseaseWeek=function(){
+
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var query = clinicVisitRef.orderByChild("timeStamp");
+    var visitConcern=[],temp=[], topDisease=[];
+    var childSnapshotData;
+    var parts, dbDate,alreadyAdded;
+    var currDate =  new Date();
+    var today = new Date();
+    var weekAgo=new Date(today.setDate(today.getDate() - 7));
+    var i,j,vCount,stringTopDisease="";
+
+    var promise = new Promise((resolve,reject) => {
+        databaseRef.once('value', (snapshot) => {
+            //retrieving the clinic visit records
+            if(snapshot.hasChild("clinicVisit")){
+                query.on('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            diagnosis:childSnapshotData.diagnosis,
+                            visitDate:childSnapshotData.visitDate,
+                            id:childSnapshotData.id
+                        })
+                    })
+                    
+                })
+            }
+            console.log("temp array");
+            console.log(temp);
+
+            //getting only the clinic visits in the last week
+            for(i=0;i<temp.length;i++){
+                parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
+                dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+                alreadyAdded=0;
+                if(dbDate<=currDate && dbDate>=weekAgo){
+                    if(visitConcern==null){ //if empty auto add
+                        visitConcern.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        })
+                    }
+                    else{ //if not empty
+                        for(j=0;j<visitConcern.length;j++){ //this whole thing is used to check if it has a count
+                            if(visitConcern[j].concern==temp[i].diagnosis){ 
+                                visitConcern[j].count=visitConcern[j].count+1;
+                                alreadyAdded=1;
+                                console.log("Already has record so just added")
+                            }
+                        }
+                        if(alreadyAdded!=1){
+                            visitConcern.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            })
+                            console.log("Added to array");
+                        }
+                    }
+                }
+
+            }
+
+            console.log("visitConcern:");
+            console.log(visitConcern);
+
+            //finding top Disease/s
+            if(visitConcern.length>=0){
+                for(i=0;i<visitConcern.length;i++){
+                    vCount=visitConcern[i].count;
+                    if(topDisease.length>0){                        
+                        if(topDisease.length>1){
+                            if(vCount>topDisease[0].count){
+                                while(topDisease.length > 0) {
+                                    topDisease.pop();
+                                }
+                                topDisease.push(visitConcern[i]);
+                            }
+                            else if(vCount==topDisease[0].count){
+                                topDisease.push(visitConcern[i]);
+                            }
+                        }
+                        else{ //has only 1 at the moment
+                            if(vCount > topDisease[0].count){
+                                while(topDisease.length > 0) {
+                                    topDisease.pop();
+                                }
+                                topDisease.push(visitConcern[i]);
+                            }
+                            else if(vCount==topDisease[0].count){
+                                topDisease.push(visitConcern[i]);
+                            }
+                        }
+                    }
+                    else{
+                        topDisease.push(visitConcern[i]);
+                    }
+                }
+            }
+
+            //appending all top disease of the week
+            if(topDisease!=null){
+                for(i=0;i<topDisease.length;i++){
+                    stringTopDisease =stringTopDisease +topDisease[i].concern;
+                    if(i!=topDisease.length-1){
+                        stringTopDisease=stringTopDisease+"\n";
+                    }
+                }
+            }
+            console.log(stringTopDisease);
+            resolve(stringTopDisease);
+        })                     
+    })
+    return promise;
+
+}

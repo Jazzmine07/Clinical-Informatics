@@ -438,14 +438,14 @@
                                     <label class="col-form-label" for="studentID">Student ID Number</label>
                                     <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                                 </div>
-                                <div class="col-8">
+                                <div class="col-4">
                                     <label class="col-form-label" for="studentName">Student Name</label>
                                     <input type="text" class="form-control mb-2" id="studentName">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <label for="studentGrd" class="col-form-label">Grade</label>
                                     <select class="custom-select mb-2" id="studentGrade">
                                         <option value="1">One</option>
@@ -456,7 +456,7 @@
                                         <option value="6">Six</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <label for="studentSec" class="col-form-label">Section</label>
                                     <input type="text" class="form-control mb-2" id="studentSection">
                                 </div>
@@ -478,7 +478,7 @@
                             </div>
 
                             <div class="form-row align-items-center">
-                                <div class="col-12">
+                                <div class="col-4">
                                     <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
                                     <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
                                         {{#each nurse}}
@@ -489,7 +489,7 @@
                             </div>
 
                             <div class="form-row align-items-center">
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                     <div class="input-group mb-2">                                        
                                         
@@ -499,7 +499,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
                                     <div class="input-group mb-2">                                        
                                         <input type="name" class="form-control" id="bloodPressure" min="0">
@@ -508,7 +508,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
+                                    <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                    <div class="input-group mb-2">                                        
+                                        <input type="name" class="form-control" id="bloodPressure" min="0">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
                                     <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                     <div class="input-group mb-2">                                        
                                         
@@ -518,7 +527,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label for="respRate" class="col-form-label">Respiration Rate</label>
                                     <div class="input-group mb-2">                                        
                                         
@@ -530,16 +539,43 @@
                                 </div>
                             </div>
 
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
+                                </div>
                             </div>
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    {{!-- {{else}} --}}
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
+                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
+                            <select id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
+                                {{#each clinician}}
+                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                {{/each}}
+                            </select> 
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <textarea type="text" class="form-control" id="diagnosis" name="diagnosis" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- {{/if}} --}}
                     
                     <!-- Medication -->
                     <div class="card shadow mb-2">
@@ -557,7 +593,7 @@
                                     <div class="col-12">
                                       <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                       <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
-                                          <option selected>Choose...</option>
+                                          <option disabled="disabled" selected="true">Choose...</option>
                                         {{#each users}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
@@ -565,14 +601,22 @@
                                     </div>   
                                 </div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
-                                        <select class="custom-select mb-2" id="medicationVisit" name="medicationVisit">
-                                            <option selected>Choose...</option>
+                                        <select class="custom-select mb-2 is-valid" id="medicationVisit" name="medicationVisit">
+                                            <option disabled="disabled" selected="true">Choose...</option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
-                                        </select>                                    
+                                        </select>
+                                        <div id="validMedicaton" class="valid-feedback">Medication safe!</div>
+                                        <div id="invalidMedicaton" class="invalid-feedback">Student has allergy with this drug</div>                                    
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="col-form-label" for="amountMed">Amount</label>
+                                        <input type="text" class="form-control mb-2 is-invalid" id="amountMed" name="amountMed">
+                                        <div id="validAmount" class="valid-feedback">Dosage safe!</div>
+                                        <div id="invalidAmount" class="invalid-feedback">Dosage too high!</div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
@@ -605,45 +649,27 @@
                         </div>
                     </div>
 
-                    {{!-- {{else}} --}}
-                    {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2">
-                        <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
-                            <select id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
-                                {{#each clinician}}
-                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                {{/each}}
-                            </select> 
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    {{!-- {{/if}} --}}
-
                     <!-- More -->
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="status">Status</label>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="Discharged">Discharged</option>
+                                    <select class="custom-select mb-2" id="status" name="status">
+                                        <option disabled="disabled" selected="true">Choose...</option>
+                                        <option value="Treated">Treated</option>
                                         <option value="Under Observation">Under Observation</option>
                                         <option value="Hospitalized">Hospitalized</option>
+                                        <option value="Discharged">Discharged</option>
                                         <option value="Sent Home">Sent Home</option>
                                     </select>                                    
                                 </div>
                             </div>
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="notes">Notes/Recommendations</label>
-                                <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="3"></textarea>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="notes">Notes/Recommendations</label>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                </div>    
                             </div>
                             {{!-- <div class="form-row align-items-center">
                                 <div class="col-12">
@@ -891,6 +917,15 @@
             $('#row'+button_id+'').remove(); 
             console.log(removeIDs);    
         });  
+
+        $("#assignDiagnosis").change(function(){
+            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            console.log("itlog " + selectedDaignosisAssign);
+            if(!selectedDaignosisAssign == null || !selectedDaignosisAssign == "" || !selectedDaignosisAssign == undefined){
+                document.getElementById("prescribedBy").value=selectedDaignosisAssign;
+            }
+        });
 
         $('#saveBtn').click(function(){
             const toNumbers = arr => arr.map(Number);

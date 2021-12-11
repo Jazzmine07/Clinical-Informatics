@@ -129,12 +129,31 @@
                     <span>Performance Assessment</span></a>
             </li>
 
+            {{#if isNurse}}
             <!-- Nav Item - Inventory -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/inventory">
-                    <i class="fas fa-fw fa-tablets"></i>
+            <li class="nav-item">
+                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fas fa-fw fa-archive"></i>
                     <span>Inventory</span></a>
+                <ul class="collapse list-unstyled" id="inventory">
+                    <li>
+                        <a class="nav-link active" href="/inventory-medicine">
+                            <i class="fas fa-fw fa-tablets"></i>
+                            <span>Medicine</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-supply">
+                            <i class="fas fa-fw fa-pump-medical"></i>
+                            <span>Supply</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-dental">
+                            <i class="fas fa-fw fa-tooth"></i>
+                            <span>Dental</span></a>
+                    </li>
+                </ul>
             </li>
+            {{/if}}
 
             <!-- Nav Item - Profile -->
             <li class="nav-item">
@@ -366,8 +385,8 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
                         <div class="d-flex flex-row-reverse">
-                            <a href="/inventory/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
-                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Inventory  </a>
+                            <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
                         </div>
                     </div>
                     {{#if success}}
@@ -388,7 +407,7 @@
                                     <thead>
                                         <tr>
                                             <th>Batch Number</th>
-                                            <th>Medicine Name</th>
+                                            <th>Medicine</th>
                                             <th>Quantity</th>
                                             <th>Unit</th>
                                             <th>Purchase Date</th>

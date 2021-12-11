@@ -516,28 +516,28 @@ router.get('/promotive-care/program-form', (req, res) => {
   // })
 });
 
-// Get inventory page
-router.get('/inventory', (req, res) => {
-  console.log("Read inventory successful!");
+// Get medicine inventory page
+router.get('/inventory-medicine', (req, res) => {
+  console.log("Read medicine successful!");
 
-  var prom1,prom2,user,inventory;
+  var prom1,prom2,user,medicine;
 
   prom1 =userController.getUser();
   prom1.then(function(result){
-    console.log("Promise1 in inventory: " + result.key);
+    console.log("Promise1 in medicine: " + result.key);
     user=result;
   });
 
   prom2= inventoryController.getInventory();
   prom2.then(function(result){
     console.log("Promise2 in inventory: " + result);
-    inventory=result;
+    medicine=result;
   }); 
 
   Promise.all([prom1,prom2]).then(result => {
-    res.render('inventory', {
+    res.render('inventory-medicine', {
       user: user,
-      inventory: inventory
+      inventory: medicine
     });
   }).catch(error => {
     console.log('An Error Occured');
@@ -554,12 +554,120 @@ router.get('/inventory', (req, res) => {
   // })
 });
 
-// Get promotive care page
-router.get('/inventory/add', (req, res) => {
-  console.log("Read add inventory successful!");
+// Get add medicine inventory page
+router.get('/inventory-medicine/add', (req, res) => {
+  console.log("Read add medicine successful!");
   var userInfo =  userController.getUser();
   userInfo.then(function(result){
-    res.render('inventory-add', {
+    res.render('inventory-medicine-add', {
+      user: result
+    });
+  });
+  // userController.getUser(req, user => {
+  //   res.render('inventory-add', {
+  //     user: user
+  //   });
+  // })
+});
+
+// Get supply inventory page
+router.get('/inventory-supply', (req, res) => {
+  console.log("Read supply successful!");
+
+  var prom1,prom2,user,medicine;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in supply: " + result.key);
+    user=result;
+  });
+
+  prom2= inventoryController.getInventory();
+  prom2.then(function(result){
+    console.log("Promise2 in supply: " + result);
+    medicine=result;
+  }); 
+
+  Promise.all([prom1,prom2]).then(result => {
+    res.render('inventory-supply', {
+      user: user,
+      inventory: medicine
+    });
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+
+
+  // userController.getUser(req, user => {
+  //   inventoryController.getInventory(req, inventory => {
+  //     res.render('inventory', {
+  //       user: user,
+  //       inventory: inventory
+  //     });
+  //   })
+  // })
+});
+
+// Get add supply inventory page
+router.get('/inventory-supply/add', (req, res) => {
+  console.log("Read add supply successful!");
+  var userInfo =  userController.getUser();
+  userInfo.then(function(result){
+    res.render('inventory-supply-add', {
+      user: result
+    });
+  });
+  // userController.getUser(req, user => {
+  //   res.render('inventory-add', {
+  //     user: user
+  //   });
+  // })
+});
+
+// Get dental inventory page
+router.get('/inventory-dental', (req, res) => {
+  console.log("Read dental successful!");
+
+  var prom1,prom2,user,medicine;
+
+  prom1 =userController.getUser();
+  prom1.then(function(result){
+    console.log("Promise1 in dental: " + result.key);
+    user=result;
+  });
+
+  prom2= inventoryController.getInventory();
+  prom2.then(function(result){
+    console.log("Promise2 in dental: " + result);
+    medicine=result;
+  }); 
+
+  Promise.all([prom1,prom2]).then(result => {
+    res.render('inventory-dental', {
+      user: user,
+      inventory: medicine
+    });
+  }).catch(error => {
+    console.log('An Error Occured');
+  });
+
+
+  // userController.getUser(req, user => {
+  //   inventoryController.getInventory(req, inventory => {
+  //     res.render('inventory', {
+  //       user: user,
+  //       inventory: inventory
+  //     });
+  //   })
+  // })
+});
+
+// Get add supply inventory page
+router.get('/inventory-dental/add', (req, res) => {
+  console.log("Read add dental successful!");
+  var userInfo =  userController.getUser();
+  userInfo.then(function(result){
+    res.render('inventory-dental-add', {
       user: result
     });
   });

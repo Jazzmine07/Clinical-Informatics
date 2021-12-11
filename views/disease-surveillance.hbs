@@ -19,6 +19,25 @@
 
     <!-- Custom styles for this template-->
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        #reportrange{
+            display: inline-block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            vertical-align: middle;
+            background: #ffff;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+        }
+    </style>
 
 </head>
 
@@ -226,61 +245,56 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-3">
                         <!-- Content Row -->
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <div class="card border-left-primary shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="h6 font-weight-bold text-primary mb-1">
-                                                        Top Disease for The Week</div>
-                                                    <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisWeek}}</div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <i class="fas fa-virus fa-2x text-gray-300"></i>
-                                                </div>
-                                            </div>
+                        <div class="col-3 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="h6 font-weight-bold text-primary mb-1">
+                                                Top Disease for The Week</div>
+                                            <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisWeek}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-virus fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <div class="card border-left-primary shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="h6 font-weight-bold text-primary mb-1">
-                                                        Top Disease for The Month</div>
-                                                    <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisMonth}}</div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <i class="fas fa-virus fa-2x text-gray-300"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-4">
-                                    <div class="card border-left-primary shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="h6 font-weight-bold text-primary mb-1">
-                                                        Disease by Gender</div>
-                                                    <div class="h4 mb-2 font-weight-bold text-gray-800"><i class="mr-2 fas fa-mars text-primary"></i>Male: 33</div>
-                                                    <div class="h4 mb-2 font-weight-bold text-gray-800"><i class="mr-2 fas fa-venus text-danger"></i>Female: 24</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                       
                             </div>
                         </div>
+                        <div class="col-3 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="h6 font-weight-bold text-primary mb-1">
+                                                Top Disease for The Month</div>
+                                            <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisMonth}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-virus fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                           
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-4">
+                            <select class="custom-select" id="disease" name="disease">
+                                <option disabled="disabled" selected="true">Communicable Disease</option>
+                                <option value="chickenpox">Chickenpox</option>
+                                <option value="common-cold">Common Cold</option>
+                            </select>
+                        </div>
+                        <div class="col-3 mb-4">
+                            <div id="reportrange">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down"></i>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
                         <div class="col-9">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -294,14 +308,6 @@
                             </div>
                         </div>
                     </div>
-
-                    
-                
-
-                    
-
-                    
-                    
 
                     <!-- Content Row -->
 
@@ -647,6 +653,40 @@
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
     <script src="public/js/demo/chart-bar-demo.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script type="text/javascript">
+
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+        var disease =  $('#disease').find(":selected").text();
+            console.log(disease);
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            console.log("START " + start.format('YYYY-MM-DD'));
+            console.log("END " + end.format('YYYY-MM-DD'));
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+    
+    </script>
 
 
 </body>

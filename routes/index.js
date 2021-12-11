@@ -88,23 +88,19 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   var promise1, promise2, promise3;
   var user, formId, record;
-
+  console.log("before promise 1");
   promise1 = userController.getUser();
-  // promise1.then(function(result){
-    
-  // });
+  console.log("after promise 1");
+  promise2 = studentController.getClinicVisits();
 
-  promise2= studentController.getClinicVisits();
-  // promise2.then(function(result){
-  //   record = result;
-  // });
-
-  Promise.all([promise1, promise2]).then(result => {
+  Promise.all([promise1, promise2]).then(async result => {
     user = result[0];
     record = result[1];
     //formId = result[2];
+    console.log("before promise 3");
     promise3 = studentController.getAssignedForms(user.key);
-    promise3.then(function(forms){
+    await promise3.then(function(forms){
+      console.log("after promise3 in index");
       formId = forms;
       console.log("forms in index");
       console.log(formId);
@@ -180,7 +176,8 @@ router.get('/clinic-visit/create', (req, res) => {
       });
     }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in clinic visit create');
+    console.log(error.message);
   });
   
   // userController.getUser(req, user => {
@@ -518,164 +515,162 @@ router.get('/promotive-care/program-form', (req, res) => {
 
 // Get medicine inventory page
 router.get('/inventory-medicine', (req, res) => {
-  console.log("Read medicine successful!");
+  console.log("Read medicine inventory successful!");
+  var prom1, prom2, user, inventory;
+  prom1 = userController.getUser();
+  prom2 = inventoryController.getMedicineInventory();
 
-  var prom1,prom2,user,medicine;
-
-  prom1 =userController.getUser();
-  prom1.then(function(result){
-    console.log("Promise1 in medicine: " + result.key);
-    user=result;
-  });
-
-  prom2= inventoryController.getInventory();
-  prom2.then(function(result){
-    console.log("Promise2 in inventory: " + result);
-    medicine=result;
-  }); 
-
-  Promise.all([prom1,prom2]).then(result => {
-    res.render('inventory-medicine', {
-      user: user,
-      inventory: medicine
-    });
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    inventory = result[1];
+    if(user.role == "Nurse"){
+      res.render('inventory-medicine', {
+        user: user,
+        isNurse: true,
+        inventory: inventory
+      });
+    } else {
+      res.render('inventory-medicine', {
+        user: user, 
+        isNurse: false,
+      });
+    }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Errorin medicine inventory');
+    console.log(error.messgae);
   });
-
-
-  // userController.getUser(req, user => {
-  //   inventoryController.getInventory(req, inventory => {
-  //     res.render('inventory', {
-  //       user: user,
-  //       inventory: inventory
-  //     });
-  //   })
-  // })
 });
 
 // Get add medicine inventory page
 router.get('/inventory-medicine/add', (req, res) => {
   console.log("Read add medicine successful!");
-  var userInfo =  userController.getUser();
-  userInfo.then(function(result){
-    res.render('inventory-medicine-add', {
-      user: result
-    });
-  });
-  // userController.getUser(req, user => {
-  //   res.render('inventory-add', {
-  //     user: user
-  //   });
-  // })
+  var prom1, prom2, user, medicines;
+  prom1 =  userController.getUser();
+  prom2 = inventoryController.getMedicines();
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    medicines = result[1];
+    
+    if(user.role == "Nurse"){
+      res.render('inventory-medicine-add', {
+        user: user,
+        isNurse: true,
+        medicines: medicines
+      });
+    } else {
+      res.render('inventory-medicine-add', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  })   
 });
 
 // Get supply inventory page
 router.get('/inventory-supply', (req, res) => {
-  console.log("Read supply successful!");
-
-  var prom1,prom2,user,medicine;
-
-  prom1 =userController.getUser();
-  prom1.then(function(result){
-    console.log("Promise1 in supply: " + result.key);
-    user=result;
-  });
-
-  prom2= inventoryController.getInventory();
-  prom2.then(function(result){
-    console.log("Promise2 in supply: " + result);
-    medicine=result;
-  }); 
-
+  console.log("Read supply inventory successful!");
+  var prom1, prom2, user, supply;
+  prom1 = userController.getUser();
+  prom2= inventoryController.getSupplyInventory();
+ 
   Promise.all([prom1,prom2]).then(result => {
-    res.render('inventory-supply', {
-      user: user,
-      inventory: medicine
-    });
+    user = result[0];
+    supply = result[1];
+    if(user.role == "Nurse"){
+      res.render('inventory-supply', {
+        user: user,
+        isNurse: true,
+        inventory: supply
+      });
+    } else {
+      res.render('inventory-supply', {
+        user: user, 
+        isNurse: false,
+      });
+    }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in supply inventory');
+    console.log(error.message);
   });
-
-
-  // userController.getUser(req, user => {
-  //   inventoryController.getInventory(req, inventory => {
-  //     res.render('inventory', {
-  //       user: user,
-  //       inventory: inventory
-  //     });
-  //   })
-  // })
 });
 
 // Get add supply inventory page
 router.get('/inventory-supply/add', (req, res) => {
   console.log("Read add supply successful!");
-  var userInfo =  userController.getUser();
-  userInfo.then(function(result){
-    res.render('inventory-supply-add', {
-      user: result
-    });
-  });
-  // userController.getUser(req, user => {
-  //   res.render('inventory-add', {
-  //     user: user
-  //   });
-  // })
+  var prom1, prom2, user, supplies;
+  prom1 =  userController.getUser();
+  prom2 = inventoryController.getSupplies();
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    supplies = result[1];
+    
+    if(user.role == "Nurse"){
+      res.render('inventory-supply-add', {
+        user: user,
+        isNurse: true,
+        supply: supplies
+      });
+    } else {
+      res.render('inventory-supply-add', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  })   
 });
 
 // Get dental inventory page
 router.get('/inventory-dental', (req, res) => {
   console.log("Read dental successful!");
+  var prom1, prom2, user, dental;
 
-  var prom1,prom2,user,medicine;
-
-  prom1 =userController.getUser();
-  prom1.then(function(result){
-    console.log("Promise1 in dental: " + result.key);
-    user=result;
-  });
-
-  prom2= inventoryController.getInventory();
-  prom2.then(function(result){
-    console.log("Promise2 in dental: " + result);
-    medicine=result;
-  }); 
+  prom1 = userController.getUser();
+  prom2 = inventoryController.getDentalInventory();
 
   Promise.all([prom1,prom2]).then(result => {
-    res.render('inventory-dental', {
-      user: user,
-      inventory: medicine
-    });
+    user = result[0];
+    dental = result[1];
+    if(user.role == "Nurse"){
+      res.render('inventory-dental', {
+        user: user,
+        isNurse: true,
+        dental: dental
+      });
+    } else {
+      res.render('inventory-dental', {
+        user: user, 
+        isNurse: false,
+      });
+    }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in dental inventory');
+    console.log(error.message);
   });
-
-
-  // userController.getUser(req, user => {
-  //   inventoryController.getInventory(req, inventory => {
-  //     res.render('inventory', {
-  //       user: user,
-  //       inventory: inventory
-  //     });
-  //   })
-  // })
 });
 
 // Get add supply inventory page
 router.get('/inventory-dental/add', (req, res) => {
   console.log("Read add dental successful!");
-  var userInfo =  userController.getUser();
-  userInfo.then(function(result){
-    res.render('inventory-dental-add', {
-      user: result
-    });
-  });
-  // userController.getUser(req, user => {
-  //   res.render('inventory-add', {
-  //     user: user
-  //   });
-  // })
+  var prom1, prom2, user, dental;
+  prom1 =  userController.getUser();
+  prom2 = inventoryController.getDentals();
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    dental = result[1];
+    
+    if(user.role == "Nurse"){
+      res.render('inventory-dental-add', {
+        user: user,
+        isNurse: true,
+        supply: dental
+      });
+    } else {
+      res.render('inventory-dental-add', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  })   
 });
 
 // Get bmi info
@@ -698,7 +693,9 @@ router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/updateNotif', notificationController.updateNotifications);
 router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);
-router.post('/addInventory', inventoryController.addInventory);
+router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
+router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
+router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 router.post('/loadPrevData', studentController.loadPrevData);
 

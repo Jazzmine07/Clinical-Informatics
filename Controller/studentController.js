@@ -255,7 +255,7 @@ exports.getClinicVisits = function(){
     return promise;
 }
 
-exports.getAssignedForms = async function(req){
+exports.getAssignedForms = function(req){
     var user = req;
     console.log("user sa controller");
     console.log(user);
@@ -269,24 +269,23 @@ exports.getAssignedForms = async function(req){
     var temp, forms =[];
     var childSnapshotData;
     
-    //return await new Promise( (resolve, reject)=>{
-    var promise = new Promise((resolve,reject)=>{
-         databaseRef.once('value',  (dbSnapshot) => {
+    var promise = new Promise((resolve,reject) => {
+        databaseRef.once('value', (dbSnapshot) => {
             console.log("1"); 
             if(dbSnapshot.hasChild("assignedForms")){
                 console.log("2"); 
                 if(dbSnapshot.child("assignedForms").hasChild(user)){
                     console.log("3"); 
-                     query.on('value',  (snapshot) => {
+                    query.once('value', async (snapshot) => {
                         console.log("4"); 
-                        snapshot.forEach( function(childSnapshot){  
+                        await snapshot.forEach(async function(childSnapshot){  
                             console.log("5");               
                             childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                             userRef.child(childSnapshotData.assignedBy).on('value',  (userSnapshot) => {
+                            await userRef.child(childSnapshotData.assignedBy).on('value', (userSnapshot) => {
                                 console.log("6"); 
                                 fname = userSnapshot.child('firstName').val();
                                 lname = userSnapshot.child('lastName').val();
-                                 forms.push({ // contains all data (not grouped by date)
+                                forms.push({
                                     task: childSnapshotData.task,
                                     description: childSnapshotData.description,
                                     formId: childSnapshotData.formId,
@@ -295,14 +294,13 @@ exports.getAssignedForms = async function(req){
                                 });
                                 console.log("7"); 
                             });  
-                            // forms.reverse();
                             console.log("8"); 
                             //resolve(forms);
                             console.log("forms2");
                             console.log(forms);
                         })
                         console.log("9"); 
-                        resolve(forms);
+                        await resolve(forms);
                         console.log("forms3");
                         console.log(forms);
                     })
@@ -319,7 +317,7 @@ exports.getAssignedForms = async function(req){
         })
         console.log("12"); 
     })
-    // console.log("13"); 
+    console.log("13"); 
     return promise;
 }
 

@@ -23,9 +23,13 @@ app.engine('hbs', exphbs.create({
       return (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear();
     },
     formatDate: function(string){
-      let date = new Date(string)
-      var month = date.toLocaleString('default', { month: 'short' })
-      return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
+      if(string == ""){
+        return "-";
+      } else {
+        let date = new Date(string)
+        var month = date.toLocaleString('default', { month: 'short' })
+        return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
+      }
     },
     format_Date: function(string){
       let date = new Date(string)

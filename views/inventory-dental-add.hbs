@@ -381,10 +381,12 @@
                                                 <i class="fa fa-search"></i>
                                                 </div>
                                             </span>
-                                            <input list="dental-supplies" class="form-control border-left-1 border" id="dental" placeholder="Create or select dental supply (ex. Paracetamol Tablet 250mg)"/>                                       
+                                            <input list="dental-supplies" class="form-control border-left-1 border" id="dental" placeholder="Create or select dental supply (ex. Mouth Mirror)"/>                                       
                                         </div>
                                         <datalist id="dental-supplies">
-                                            <option value="ds">                          
+                                            {{#each supply}}
+                                                <option value="{{dental}}">  
+                                            {{/each}}                        
                                         </datalist> 
                                         
                                     </div>
@@ -553,10 +555,10 @@
             console.log(dentalArray);
 
             $.ajax({
-                url: '/addInventory',
+                url: '/addDentalInventory',
                 method: 'POST',
                 data: {
-                    meds: dentalArray
+                    dentalArray: dentalArray
                 },
                 success: function(data) {
                     console.log("adding inventory success in ajax!");

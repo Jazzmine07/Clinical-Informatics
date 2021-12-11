@@ -384,9 +384,10 @@
                                             <input list="supplies" class="form-control border-left-1 border" id="supply" placeholder="Create or select supply (ex. Cotton 150mg)"/>                                       
                                         </div>
                                         <datalist id="supplies">
-                                            <option value="clinic-supply">                          
+                                            {{#each supply}}
+                                                <option value="{{supply}}">
+                                            {{/each}}                          
                                         </datalist> 
-                                        
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
@@ -554,10 +555,10 @@
             console.log(suppliesArray);
 
             $.ajax({
-                url: '/addInventory',
+                url: '/addSupplyInventory',
                 method: 'POST',
                 data: {
-                    meds: suppliesArray
+                    supplies: suppliesArray
                 },
                 success: function(data) {
                     console.log("adding supply success in ajax!");

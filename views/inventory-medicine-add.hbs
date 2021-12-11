@@ -384,9 +384,10 @@
                                             <input list="medications" class="form-control border-left-1 border" id="medication" placeholder="Create or select medication (ex. Paracetamol Tablet 250mg)"/>                                       
                                         </div>
                                         <datalist id="medications">
-                                            <option value="meds">                          
+                                            {{#each medicines}}
+                                                <option value="{{med}}">   
+                                            {{/each}} 
                                         </datalist> 
-                                        
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
@@ -553,7 +554,7 @@
             console.log(medicationsArray);
 
             $.ajax({
-                url: '/addInventory',
+                url: '/addMedicineInventory',
                 method: 'POST',
                 data: {
                     meds: medicationsArray

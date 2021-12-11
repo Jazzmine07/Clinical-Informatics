@@ -304,18 +304,21 @@ router.get('/case-records', (req, res) => {
 // Get disease surveillance page
 router.get('/disease-surveillance', (req, res) => {
   console.log("Read disease surveillance successful!");
-  var prom1,prom2,user,topDiagnosis;
+  var prom1,prom2,prom3,user,topDiagnosis;
   prom1 =  userController.getUsers();
   prom1.then(function(result){
       user = result
   })
-  
-  prom2 = studentController.getTopDiseaseWeek();
+  prom2= studentController.getDiseaseSurveillanceData();
   prom2.then(function(result){
-    topDiagnosis=result;
+    prom3 = studentController.getTopDisease(result);
+    prom3.then(function(result){
+      topDiagnosis=result;
+    })
   })
+  
 
-  Promise.all([prom1,prom2]).then(result => {
+  Promise.all([prom1,prom2,prom3]).then(result => {
     console.log("HI"+topDiagnosis[0]);
     if(user.role == "Nurse"){
       res.render('disease-surveillance', {
@@ -698,5 +701,6 @@ router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 router.post('/loadPrevData', studentController.loadPrevData);
+router.post('/getDiseaseDemographics', studentController.getDiseaseDemographics);
 
 module.exports = router;

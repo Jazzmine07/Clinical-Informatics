@@ -295,7 +295,7 @@
                         </div> 
                     </div>
                     <div class="row">
-                        <div class="col-9">
+                        {{!-- <div class="col-9">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
@@ -306,8 +306,21 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level and Gender</h6>
+                                </div>
+                                <div class="card-body" >
+                                    <div class="chart-bar">
+                                        <canvas id="myBarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
 
                     <!-- Content Row -->
 
@@ -652,7 +665,7 @@
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
-    <script src="public/js/demo/chart-bar-demo.js"></script>
+    <script src="public/js/demo/chart-bar-disease.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

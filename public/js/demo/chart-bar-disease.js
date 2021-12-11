@@ -27,19 +27,27 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-// Bar Chart Example
-var ctx = document.getElementById("myBarChart");
-var myBarChart = new Chart(ctx, {
+var glc = document.getElementById("myBarChart");
+var gradeLevelChart = new Chart(glc, {
   type: 'bar',
   data: {
-    labels: ["Abdominal Pain", "Dizziness", "Diarrhea", "Cough", "Allergy"],
-    datasets: [{
-      label: "Top Complaint",
+    labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
+    datasets: [
+      {
+      label: "Male",
       backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: [11, 8, 6, 6, 2],
-    }],
+      hoverBackgroundColor: "#0d6efd",
+      borderColor: "#0d6efd",
+      data: [11, 2, 6, 6, 9, 3],
+    },
+    {
+      label: "Female",
+      backgroundColor: "#e74a3b",
+      hoverBackgroundColor: "#d52a1a",
+      borderColor: "#d52a1a",
+      data: [8, 2, 7, 1, 1, 7],
+    }
+  ],
   },
   options: {
     maintainAspectRatio: false,
@@ -54,7 +62,7 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'month'
+          unit: 'Grade Level'
         },
         gridLines: {
           display: false,
@@ -87,7 +95,7 @@ var myBarChart = new Chart(ctx, {
       }],
     },
     legend: {
-      display: false
+      display: true
     },
     tooltips: {
       titleMarginBottom: 10,
@@ -104,7 +112,7 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + number_format(tooltipItem.yLabel);
+          return datasetLabel + ": " + number_format(tooltipItem.yLabel);
         }
       }
     },

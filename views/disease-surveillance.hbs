@@ -682,11 +682,10 @@
 
             var disease =  $('#disease').find(":selected").text();
             console.log(disease);
-            genderGradeChart();
 
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
                 
-                //genderGradeChart();
+               genderGradeChart(data);
 
             });
         }
@@ -720,7 +719,7 @@
         return s.join(dec);
         }
 
-        function genderGradeChart(){
+        function genderGradeChart(data){
             var glc = document.getElementById("myBarChart");
             var gradeLevelChart = new Chart(glc, {
             type: 'bar',
@@ -732,14 +731,14 @@
                 backgroundColor: "#4e73df",
                 hoverBackgroundColor: "#0d6efd",
                 borderColor: "#0d6efd",
-                data: [11, 2, 6, 6, 9, 3],
+                data: [data[0].male, data[1].male, data[2].male, data[3].male, data[4].male, data[5].male],
                 },
                 {
                 label: "Female",
                 backgroundColor: "#e74a3b",
                 hoverBackgroundColor: "#d52a1a",
                 borderColor: "#d52a1a",
-                data: [8, 2, 7, 1, 1, 7],
+                data: [data[0].female, data[1].female, data[2].female, data[3].female, data[4].female, data[5].female],
                 }
             ],
             },

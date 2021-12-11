@@ -3627,8 +3627,6 @@ exports.getDiseaseDemographics=function(req,res){
         }
         //temp2 which is date filtered is further filtered by disease chosen
         for(i=0;i<temp2.length;i++){
-            console.log("temp2 diagnosis"+temp2[i].diagnosis);
-            console.log("disease:"+disease)
             if(temp2[i].diagnosis==disease){
                 temp3.push(temp2[i]);
             }
@@ -3701,14 +3699,10 @@ exports.getDiseaseDemographics=function(req,res){
         // console.log(temp2);
         // console.log(temp3);
         // console.log(studentInfo);
-        // console.log(chartData);
-        
-
-
-
+        console.log(chartData);
+        res.send(chartData);
     })
     
-
     
 }
 

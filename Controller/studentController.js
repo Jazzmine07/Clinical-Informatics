@@ -753,7 +753,7 @@ exports.loadPrevData=function(req,res){
     res.send(data);
     
 }
-
+//function gets the APE schedules 
 exports.getAllApeSched=function(){
     //gets all the schedule created for the APE
     var database = firebase.database();
@@ -819,7 +819,6 @@ exports.getAllApeSched=function(){
     })
     return promise;
 }
-
 
 //computes BMI status of the child
 exports.getBmiStatus=function(req,res){
@@ -3363,7 +3362,6 @@ exports.getBMI = function(req, res){
 
 
 //HERE ARE THE FUNCTIONS FOR DISEASE SURVEILLANCE
-
 //function returns an array that contains the clinic visit(visitDate, id, diagnosis)
 exports.getDiseaseSurveillanceData=function(){
     var database = firebase.database();
@@ -3438,7 +3436,6 @@ exports.getTopDisease=function(vcArray){
                     if(vcWeek[j].concern==temp[i].diagnosis){ 
                         vcWeek[j].count=vcWeek[j].count+1;
                         alreadyAdded=1;
-                        console.log("Already has record so just added")
                     }
                 }
                 if(alreadyAdded!=1){
@@ -3446,7 +3443,6 @@ exports.getTopDisease=function(vcArray){
                         concern: temp[i].diagnosis,
                         count:1
                     })
-                    console.log("Added to array");
                 }
             }
         }
@@ -3457,7 +3453,6 @@ exports.getTopDisease=function(vcArray){
     for(i=0;i<temp.length;i++){
         parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
-        console.log("Current Month:"+currDate.getMonth());
         alreadyAdded=0;
         if(dbDate.getMonth()==currDate.getMonth() && dbDate.getFullYear()==currDate.getFullYear()){
             if(vcMonth==null){ //if empty auto add
@@ -3471,7 +3466,6 @@ exports.getTopDisease=function(vcArray){
                     if(vcMonth[j].concern==temp[i].diagnosis){ 
                         vcMonth[j].count=vcMonth[j].count+1;
                         alreadyAdded=1;
-                        console.log("Already has record so just added")
                     }
                 }
                 if(alreadyAdded!=1){
@@ -3479,16 +3473,11 @@ exports.getTopDisease=function(vcArray){
                         concern: temp[i].diagnosis,
                         count:1
                     })
-                    console.log("Added to array");
                 }
             }
         }
 
     }
-    
-
-    console.log("vcWeek:");
-    console.log(vcWeek);
 
     //finding top Disease/s for the week
     if(vcWeek.length>=0){
@@ -3533,6 +3522,7 @@ exports.getTopDisease=function(vcArray){
         }
     }
 
+    //finding top Disease/s for the month
     if(vcMonth.length>=0){
         for(i=0;i<vcMonth.length;i++){
             vCount=vcMonth[i].count;
@@ -3565,6 +3555,7 @@ exports.getTopDisease=function(vcArray){
             }
         }
     }
+    //appending all top disease of the month
     if(monthTopDisease!=null){
         for(i=0;i<monthTopDisease.length;i++){
             stringMonthTopDisease =stringMonthTopDisease +monthTopDisease[i].concern;
@@ -3576,15 +3567,13 @@ exports.getTopDisease=function(vcArray){
     strings.push(stringWeekTopDisease);
     strings.push(stringMonthTopDisease);
     
-    
-    console.log(strings);
     resolve(strings);
 
     })
     return promise;
 
 }
-
+//function is used to get data for chart which is dependent on disease and date range
 exports.getDiseaseDemographics=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -3707,12 +3696,12 @@ exports.getDiseaseDemographics=function(req,res){
         }
 
 
-        console.log("ARRAYs");
-        console.log(temp);
-        console.log(temp2);
-        console.log(temp3);
-        console.log(studentInfo);
-        console.log(chartData);
+        // console.log("ARRAYs");
+        // console.log(temp);
+        // console.log(temp2);
+        // console.log(temp3);
+        // console.log(studentInfo);
+        // console.log(chartData);
         
 
 
@@ -3723,3 +3712,4 @@ exports.getDiseaseDemographics=function(req,res){
     
 }
 
+//DISEASE SURVEILLANCE FUNCTIONS END HERE

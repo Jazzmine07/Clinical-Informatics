@@ -3636,7 +3636,7 @@ exports.getDiseaseDemographics=function(req,res){
             }
     
         }
-        //temp2 which is date filtered is further filtered based on date
+        //temp2 which is date filtered is further filtered by disease chosen
         for(i=0;i<temp2.length;i++){
             console.log("temp2 diagnosis"+temp2[i].diagnosis);
             console.log("disease:"+disease)

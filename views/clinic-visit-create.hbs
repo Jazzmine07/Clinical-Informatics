@@ -37,6 +37,113 @@
         #studentDiv{
             display: none;
         }
+
+       
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single{
+            border-color: #1cc88a;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231cc88a' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e);
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+
+        .select2-container--default .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-right: 10px
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            padding-right: 0;
+            height: auto;
+            margin-top: -3px;
+        }
+
+        .select2-container .select2-selection--single {
+           margin-bottom: 8px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #6e707e;
+            line-height: 28px
+        }
+
+        
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 6px !important;
+            right: 1px;
+            width: 20px
+        }
     </style>
 
 </head>
@@ -603,11 +710,11 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
-                                        <select class="custom-select mb-2 is-valid" id="medicationVisit" name="medicationVisit">
+                                        <select class="form-control mb-2 is-valid select2" id="medicationVisit" name="medicationVisit">
                                             <option disabled="disabled" selected="true">Choose...</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="1">Paracetamol</option>
+                                            <option value="2">Bactidol</option>
+                                            <option value="3">Kremil-S</option>
                                         </select>
                                         <div id="validMedicaton" class="valid-feedback">Medication safe!</div>
                                         <div id="invalidMedicaton" class="invalid-feedback">Student has allergy with this drug</div>                                    
@@ -769,6 +876,8 @@
         $("#assignDiagnosis").select2({
         placeholder: "Select or type keywords"
         });
+        $("#medicationVisit").select2();
+        $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
     </script>
 
     <script>

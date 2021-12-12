@@ -236,24 +236,6 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   // })
 });
 
-// Get case-records page
-router.get('/case-records', (req, res) => {
-  console.log("Read case records successful!");
-
-  var users =  userController.getUsers();
-  users.then(function(result){
-    res.render('case-records', {
-      users: users
-    });
-  })
-
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('case-records', {
-  //     users: usersInfo
-  //   });
-  // })
-});
-
 // Get disease surveillance page
 router.get('/disease-surveillance', (req, res) => {
   console.log("Read disease surveillance successful!");
@@ -421,7 +403,7 @@ router.get('/health-assessment/schedule', (req, res) => {
 // Get communications page
 router.get('/communications', (req, res) => {
   console.log("Read communications successful!");
-  var users =  userController.getUsers();
+  var users =  userController.getUser();
   users.then(function(result){
     res.render('communications', {
       users: users
@@ -438,7 +420,7 @@ router.get('/communications', (req, res) => {
 // Get promotive care page
 router.get('/promotive-care', (req, res) => {
   console.log("Read promotive care successful!");
-  var users =  userController.getUsers();
+  var users =  userController.getUser();
   users.then(function(result){
     res.render('promotive-care', {
       users: users
@@ -455,7 +437,7 @@ router.get('/promotive-care', (req, res) => {
 // Get program form page
 router.get('/promotive-care/program-form', (req, res) => {
   console.log("Read program form successful!");
-  var users =  userController.getUsers();
+  var users =  userController.getUser();
   users.then(function(result){
     res.render('program-form', {
       users: users

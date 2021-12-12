@@ -51,7 +51,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="pointer-events: none; cursor: default;">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-user-md"></i>
                 </div>
@@ -70,16 +70,16 @@
             
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
-                <a class="nav-link" href="/index">
+                <a class="nav-link" href="/disease-surveillance">
                     <i class="fas fa-fw fa-virus"></i>
                     <span>Disease Surveillance</span></a>
             </li>
 
-            <!-- Nav Item - Case Records -->
+            <!-- Nav Item - Profile -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Case Records</span></a>
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Student Profile</span></a>
             </li>
 
             <!-- Nav Item - Clinic Visit -->
@@ -96,27 +96,7 @@
                     <span>Health Assessment</span></a>
             </li>
 
-            <!-- Nav Item - Communications -->
-            <li class="nav-item">
-                <a class="nav-link" href="/communications">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>Communications</span></a>
-            </li>
-
-            <!-- Nav Item - Promotive Care -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-child"></i>
-                    <span>Promotive Care</span></a>
-            </li>
-
-            <!-- Nav Item - Performance Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-star"></i>
-                    <span>Performance Assessment</span></a>
-            </li>
-
+            {{#if isNurse}}
             <!-- Nav Item - Inventory -->
             <li class="nav-item">
                 <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -140,12 +120,27 @@
                     </li>
                 </ul>
             </li>
+            {{/if}}
 
-            <!-- Nav Item - Profile -->
+            <!-- Nav Item - Promotive Care -->
             <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Student Profile</span></a>
+                <a class="nav-link" href="/promotive-care">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
+            </li>
+
+            <!-- Nav Item - Performance Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/performance-assessment">
+                    <i class="fas fa-fw fa-star"></i>
+                    <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
             </li>
 
             <!-- Divider -->

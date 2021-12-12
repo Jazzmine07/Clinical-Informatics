@@ -546,10 +546,9 @@
             $.post("/updateSupplyInventory", {supplyID: supplyID, amount: amount}, function(data){
                 /* TO DO: 
                     -- lagay ng success message na updated yung value 
-                    -- update view
                 */
                 console.log(data);
-                $('#qty').html(data);    // not working >u<
+                $('#qty').html(data);
             });
             
         }

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const userController = require('../Controller/userController');
+const studentInfoController = require('../Controller/studentInfoController');
 const visitController = require('../Controller/visitController');
 const studentController = require('../Controller/studentController');
 const inventoryController = require('../Controller/inventoryController');
@@ -639,7 +640,7 @@ router.get('/profile', (req, res) => {
 
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.post('/getStudentRecord', visitController.getStudent);
+router.post('/getStudentRecord', studentInfoController.getStudentInfo);
 router.post('/getLastVisit', visitController.getLastVisit);
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);

@@ -3140,7 +3140,7 @@ exports.getTopDisease=function(vcArray){
         for(i=0;i<weekTopDisease.length;i++){
             stringWeekTopDisease =stringWeekTopDisease +weekTopDisease[i].concern;
             if(i!=weekTopDisease.length-1){
-                stringWeekTopDisease=stringWeekTopDisease+"\n";
+                stringWeekTopDisease=stringWeekTopDisease+",";
             }
         }
     }
@@ -3183,7 +3183,7 @@ exports.getTopDisease=function(vcArray){
         for(i=0;i<monthTopDisease.length;i++){
             stringMonthTopDisease =stringMonthTopDisease +monthTopDisease[i].concern;
             if(i!=weekTopDisease.length-1){
-                stringMonthTopDisease=stringMonthTopDisease+"\n";
+                stringMonthTopDisease=stringMonthTopDisease+",";
             }
         }
     }          
@@ -3330,3 +3330,13 @@ exports.getDiseaseDemographics=function(req,res){
 }
 
 //DISEASE SURVEILLANCE FUNCTIONS END HERE
+
+
+exports.loadStudentProfile=function(req,res){
+
+
+
+
+
+    
+}

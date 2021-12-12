@@ -264,17 +264,17 @@ router.get('/case-records', (req, res) => {
 router.get('/disease-surveillance', (req, res) => {
   console.log("Read disease surveillance successful!");
   var prom1,prom2,prom3,user,topDiagnosis;
-  prom1 =  userController.getUsers();
+  prom1 =  userController.getUser();
   prom1.then(function(result){
-      user = result
-  })
+      user = result;
+  });
   prom2= studentController.getDiseaseSurveillanceData();
   prom2.then(function(result){
     prom3 = studentController.getTopDisease(result);
     prom3.then(function(result){
       topDiagnosis=result;
-    })
-  })
+    });
+  });
   
 
   Promise.all([prom1,prom2,prom3]).then(result => {

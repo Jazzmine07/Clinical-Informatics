@@ -151,11 +151,6 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                        <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" id="idNum" placeholder="Search for ...">
-                                <div class="input-group-append"><button class="btn btn-primary py-0" type="button" onclick="searchStudent()"><i class="fas fa-search"></i></button></div>
-                            </div>
-                        </form>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" aria-labelledby="searchDropdown">
@@ -270,6 +265,12 @@
             </div>
             </nav>
             <div class="container-fluid">
+                <div class="col-12 mb-4">
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="idNum" placeholder="Search for ...">
+                        <div class="input-group-append"><button class="btn btn-primary py-0" type="button" onclick="searchStudent()"><i class="fas fa-search"></i></button></div>
+                    </div>
+                </div>
                 <div class="row mb-3">
                     <div class="col-lg-12">
                         <div class="card mb-3">
@@ -370,19 +371,23 @@
                                         </div>
                                     </div>
                                     <div class="form-row mb-2">
-                                        <div class="col">
+                                        <div class="col-2">
                                             <div class="font-weight-bold">Age</span></div>
                                             <div class="font-weight-normal" id="age">8 years old</span></div>                                        
                                         </div>
-                                        <div class="col">
+                                        <div class="col-2">
                                             <div class="font-weight-bold">Sex</span></div>
                                             <div class="font-weight-normal"id="sex">Male</span></div>                                        
                                         </div>
-                                        <div class="col">
+                                        <div class="col-2">
+                                            <div class="font-weight-bold">BMI</span></div>
+                                            <div class="font-weight-normal">18.3<span class="ml-2 badge badge-success">normal</span></div>                                        
+                                        </div>
+                                        <div class="col-2">
                                             <div class="font-weight-bold">Weight</span></div>
                                             <div class="font-weight-normal" id="weight">40kg<span class="ml-2 badge badge-success">normal</span></div>                                        
                                         </div>
-                                        <div class="col">
+                                        <div class="col-2">
                                             <div class="font-weight-bold">Height</span></div>
                                             <div class="font-weight-normal" id="height">1.59m<span class="ml-2 badge badge-danger">below normal</span></div>                                        
                                         </div>

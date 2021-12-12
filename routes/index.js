@@ -189,8 +189,6 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
     nurse = result[1];
     clinician = result[2];
     form = result[3];
-    console.log("form in index");
-    console.log(form);
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {

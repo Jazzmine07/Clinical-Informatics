@@ -405,7 +405,7 @@ exports.getClinicVisitForm = function(req){
     var formRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers");
     var medication = [], temp = [], details;
-    var childSnapshotData, fname, lname;
+    var childSnapshotData, fname, lname, dFname, dLname, mFname, mLname;
     var medicationAssigned, diagnosisAssigned, bothAssigned;
 
     var promise = new Promise((resolve, reject)=>{
@@ -443,7 +443,9 @@ exports.getClinicVisitForm = function(req){
                 respirationRate: snapshotData.respirationRate,
                 visitReason: snapshotData.visitReason,
                 treatment: snapshotData.treatment,
+                diagnosisAssigned: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
+                medicationAssigned: snapshotData.medicationAssigned,
                 //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
                 //medication: medication,
                 status: snapshotData.status,
@@ -454,30 +456,41 @@ exports.getClinicVisitForm = function(req){
                 await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
                     fname = userSnapshot.child('firstName').val();
                     lname = userSnapshot.child('lastName').val();
-                    details = {
-                        formId: temp[0].formId,
-                        idNum: temp[0].idNum,
-                        studentName: temp[0].studentName,
-                        grade: temp[0].grade,
-                        section: temp[0].section,
-                        visitDate: temp[0].visitDate,
-                        attendingNurse: fname + " " + lname,
-                        timeIn: temp[0].timeIn,
-                        timeOut: temp[0].timeOut,
-                        weight: temp[0].weight,
-                        height: temp[0].height,
-                        bodyTemp: temp[0].bodyTemp,
-                        systolicBP: temp[0].systolicBP,
-                        diastolicBP: temp[0].diastolicBP,
-                        pulseRate: temp[0].pulseRate,
-                        respirationRate: temp[0].respirationRate,
-                        visitReason: temp[0].visitReason,
-                        treatment: temp[0].treatment,
-                        diagnosis: temp[0].diagnosis,
-                        status: temp[0].status,
-                        notes: temp[0].notes
-                    }
                 });   
+                await userRef.child(temp[0].diagnosisAssigned).once('value', (diagnosis) => {
+                    dFname = diagnosis.child('firstName').val();
+                    dLname = diagnosis.child('lastName').val();
+                });
+                await userRef.child(temp[0].medicationAssigned).once('value', (medication) => {
+                    mFname = medication.child('firstName').val();
+                    mLname = medication.child('lastName').val();
+                });
+
+                details = {
+                    formId: temp[0].formId,
+                    idNum: temp[0].idNum,
+                    studentName: temp[0].studentName,
+                    grade: temp[0].grade,
+                    section: temp[0].section,
+                    visitDate: temp[0].visitDate,
+                    attendingNurse: fname + " " + lname,
+                    timeIn: temp[0].timeIn,
+                    timeOut: temp[0].timeOut,
+                    weight: temp[0].weight,
+                    height: temp[0].height,
+                    bodyTemp: temp[0].bodyTemp,
+                    systolicBP: temp[0].systolicBP,
+                    diastolicBP: temp[0].diastolicBP,
+                    pulseRate: temp[0].pulseRate,
+                    respirationRate: temp[0].respirationRate,
+                    visitReason: temp[0].visitReason,
+                    treatment: temp[0].treatment,
+                    diagnosisAssigned: dFname + " " + dLname,
+                    diagnosis: temp[0].diagnosis,
+                    medicationAssigned: mFname + " " + mLname,
+                    status: temp[0].status,
+                    notes: temp[0].notes
+                }
                 resolve(details);
             }
         })

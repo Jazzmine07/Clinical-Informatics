@@ -543,12 +543,28 @@
                             </div>
                         </div>
                     </div>
+
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
+                            <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
+                            <input type="text" class="form-control" id="diagnosisAssigned" value="{{form.diagnosisAssigned}}" disabled="disabled">
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row col-12">
+                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- Medication -->
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6> 
                             <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
+                            <input type="text" class="form-control" id="medicationAssigned" value="{{form.medicationAssigned}}" disabled="disabled">
                             {{!-- <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1"> --}}
                             </select> 
                         </div>
@@ -605,22 +621,6 @@
                             </table>
                         </div>
                     </div>
-
-                    {{!-- {{else}} --}}
-                    {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
-                            <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row col-12">
-                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                <textarea type="text" class="form-control mb-2" id="diagnosis" name="diagnosis" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    {{!-- {{/if}} --}}
 
                     <!-- More -->
                     <div class="card shadow mb-2">

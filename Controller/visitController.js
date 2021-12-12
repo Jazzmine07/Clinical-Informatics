@@ -4,29 +4,30 @@ exports.getStudent = function(req, res){
     var id = req.body.studentID;
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
-    var studentInfo;
+    var snapshotData, studentInfo;
 
     studentRef.on('value', (snapshot) => {
         if(snapshot.exists()){
+            snapshotData = snapshot.exportVal();
             studentInfo = {
-                firstName: snapshot.child('firstName').val(),
-                middleName: snapshot.child('middleName').val(),
-                lastName: snapshot.child('lastName').val(),
-                grade: snapshot.child('grade').val(),
-                section: snapshot.child('section').val(),
-                studentType: snapshot.child('studentType').val(),
-                birthday: snapshot.child('birthday').val(),
-                //nationailty: snapshot.child('nationality').val(),
-                //religion: snapshot.child('religion').val(),
-                age: snapshot.child('age').val(),
-                sex: snapshot.child('sex').val(),
-                address: snapshot.child('address').val(),
-                fatherName: snapshot.child('fatherName').val(),
-                fatherEmail: snapshot.child('fatherEmail').val(),
-                fatherContact: snapshot.child('fatherContact').val(),
-                motherName: snapshot.child('motherName').val(),
-                motherEmail: snapshot.child('motherEmail').val(),
-                motherContact: snapshot.child('motherContact').val(),
+                firstName: snapshotData.firstName,
+                middleName: snapshotData.middleName,
+                lastName: snapshotData.lastName,
+                grade: snapshotData.grade,
+                section: snapshotData.section,
+                studentType: snapshotData.studentType,
+                birthday: snapshotData.birthday,
+                //nationailty: snapshotData.nationality,
+                //religion: snapshotData.religion,
+                age: snapshotData.age,
+                sex: snapshotData.sex,
+                address: snapshotData.address,
+                fatherName: snapshotData.fatherName,
+                fatherEmail: snapshotData.fatherEmail,
+                fatherContact: snapshotData.fatherContact,
+                motherName: snapshotData.motherName,
+                motherEmail: snapshotData.motherEmail,
+                motherContact: snapshotData.motherContact,
             }
             res.send(studentInfo);
         } else {
@@ -312,6 +313,8 @@ exports.getLastVisit = function(req, res){
                 console.log()
                 res.send(details);
             }
+        } else {
+            res.send(details);
         }
     })  
 }
@@ -401,7 +404,7 @@ exports.getClinicVisitForm = function(req){
     var database = firebase.database();
     var formRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers");
-    var medication = [], details = [];
+    var medication = [], temp = [], details;
     var childSnapshotData, fname, lname;
     var medicationAssigned, diagnosisAssigned, bothAssigned;
 
@@ -421,20 +424,14 @@ exports.getClinicVisitForm = function(req){
             //         }
             //     })
             // })
-            console.log("1");
-            await userRef.child(snapshotData.attendingNurse).on('value', (userSnapshot) => {
-                fname = userSnapshot.child('firstName').val();
-                lname = userSnapshot.child('lastName').val(); 
-            })
-            console.log("2");
-            details = {
+            temp.push({
                 formId: formId,
                 idNum: snapshotData.id,
                 studentName: snapshotData.studentName,
                 grade: snapshotData.grade,
                 section: snapshotData.section,
                 visitDate: snapshotData.visitDate,
-                attendingNurse: fname + " " + lname,
+                attendingNurse: snapshotData.attendingNurse,
                 timeIn: snapshotData.timeIn,
                 timeOut: snapshotData.timeOut,
                 weight: snapshotData.weight,
@@ -451,10 +448,38 @@ exports.getClinicVisitForm = function(req){
                 //medication: medication,
                 status: snapshotData.status,
                 notes: snapshotData.notes,
+            })
+
+            if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
+                await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    details = {
+                        formId: temp[0].formId,
+                        idNum: temp[0].idNum,
+                        studentName: temp[0].studentName,
+                        grade: temp[0].grade,
+                        section: temp[0].section,
+                        visitDate: temp[0].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        timeIn: temp[0].timeIn,
+                        timeOut: temp[0].timeOut,
+                        weight: temp[0].weight,
+                        height: temp[0].height,
+                        bodyTemp: temp[0].bodyTemp,
+                        systolicBP: temp[0].systolicBP,
+                        diastolicBP: temp[0].diastolicBP,
+                        pulseRate: temp[0].pulseRate,
+                        respirationRate: temp[0].respirationRate,
+                        visitReason: temp[0].visitReason,
+                        treatment: temp[0].treatment,
+                        diagnosis: temp[0].diagnosis,
+                        status: temp[0].status,
+                        notes: temp[0].notes
+                    }
+                });   
+                resolve(details);
             }
-            console.log("details in controller");
-            console.log(details);
-            resolve(details);
         })
     })
     return promise;

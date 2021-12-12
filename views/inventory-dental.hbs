@@ -412,6 +412,7 @@
                                             <th>Unit</th>
                                             <th>Purchase Date</th>
                                             <th>Expiry Date</th>
+                                            <th colspan="2">Update Inventory</th>
                                         </tr>
                                     </thead>
                                     {{!-- <tfoot>
@@ -429,10 +430,15 @@
                                             <tr>
                                                 <td>{{batchNum}}</td>
                                                 <td>{{dental}}</td>
-                                                <td>{{qty}}</td>
+                                                <td id="qty">{{qty}}</td>
                                                 <td>{{unit}}</td>
                                                 <td>{{formatDate purchDate}}</td>
                                                 <td>{{formatDate expDate}}</td>
+                                                <td style="width: 70px !important; padding-right:0px">
+                                                    <input id="dentalID" type="hidden" value="{{dentalID}}">
+                                                    <input placeholder="Update inventory..." type="number" id="amount" min="0">
+                                                </td>
+                                                <td><button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="updateInventory()">Update</button></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>
@@ -533,7 +539,19 @@
         });
         }
     </script>
-
+    <script>
+        function updateInventory() {
+            var dentalID = document.getElementById("dentalID").value;
+            var amount = document.getElementById("amount").value;
+            $.post("/updateDentalInventory", {dentalID: dentalID, amount: amount}, function(data){
+                /* TO DO: 
+                    -- lagay ng success message na updated yung value 
+                */
+                console.log(data);
+                $('#qty').html(data);
+            });
+        }
+    </script>
 </body>
 
 </html>

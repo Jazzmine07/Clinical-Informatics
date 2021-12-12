@@ -430,7 +430,7 @@
                                             <tr>
                                                 <td>{{batchNum}}</td>
                                                 <td>{{med}}</td>
-                                                <td>{{qty}}</td>
+                                                <td id="qty">{{qty}}</td>
                                                 <td>{{unit}}</td>
                                                 <td>{{formatDate purchDate}}</td>
                                                 <td>{{formatDate expDate}}</td>
@@ -546,10 +546,9 @@
             $.post("/updateMedicineInventory", {medicineID: medicineID, amount: amount}, function(data){
                 /* TO DO: 
                     -- lagay ng success message na updated yung value 
-                    -- update view
                 */
                 console.log(data);
-                $('#amount').html(data);    // not working >u<
+                $('#qty').text(data);
             });
         }
     </script>

@@ -19,10 +19,9 @@ exports.addMedicineInventory = function(req, res){
         };
         inventoryRef.push(medicines);
     }
-    
     // needed as ajax was used to send data
     res.status(200).send();
-}
+};
 
 exports.getMedicineInventory = function(){
     var childSnapshotData, inventory = [];
@@ -37,6 +36,7 @@ exports.getMedicineInventory = function(){
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         inventory.push({
+                            medicineID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
                             med: childSnapshotData.medicine,
                             qty: parseInt(childSnapshotData.quantity),
@@ -55,7 +55,7 @@ exports.getMedicineInventory = function(){
         })
     });
     return promise;
-}
+};
 
 exports.getMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
@@ -98,7 +98,15 @@ exports.getMedicines = function(){
         })
     });
     return promise;
-}
+};
+
+exports.updateMedicineInventory = function(req, res){
+    var medicineID = req.body.medicineID;
+    var amount = req.body.amount;
+    var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
+    inventoryRef.set(amount);
+    res.status(200).send(amount);
+};
 
 exports.addSupplyInventory = function(req, res){
     var suppliesArray = req.body.supplies;
@@ -122,7 +130,7 @@ exports.addSupplyInventory = function(req, res){
     
     // needed as ajax was used to send data
     res.status(200).send();
-}
+};
 
 exports.getSupplyInventory = function(){
     var childSnapshotData, inventory = [];
@@ -137,6 +145,7 @@ exports.getSupplyInventory = function(){
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         inventory.push({
+                            supplyID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
                             supply: childSnapshotData.supply,
                             qty: parseInt(childSnapshotData.quantity),
@@ -155,7 +164,7 @@ exports.getSupplyInventory = function(){
         })
     });
     return promise;
-}
+};
 
 exports.getSupplies = function(){
     var childSnapshotData, i, temp = [], filtered = [];
@@ -198,7 +207,15 @@ exports.getSupplies = function(){
         })
     });
     return promise;
-}
+};
+
+exports.updateSupplyInventory = function(req, res){
+    var supplyID = req.body.supplyID;
+    var amount = req.body.amount;
+    var inventoryRef = firebase.database().ref("supplyInventory/" + supplyID + "/quantity");
+    inventoryRef.set(amount);
+    res.status(200).send(amount);
+};
 
 exports.addDentalInventory = function(req, res){
     var dentalArray = req.body.dentalArray;
@@ -222,7 +239,7 @@ exports.addDentalInventory = function(req, res){
     
     // needed as ajax was used to send data
     res.status(200).send();
-}
+};
 
 exports.getDentalInventory = function(){
     var childSnapshotData, inventory = [];
@@ -237,6 +254,7 @@ exports.getDentalInventory = function(){
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         inventory.push({
+                            dentalID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
                             dental: childSnapshotData.dental,
                             qty: parseInt(childSnapshotData.quantity),
@@ -255,7 +273,7 @@ exports.getDentalInventory = function(){
         })
     });
     return promise;
-}
+};
 
 exports.getDentals = function(){
     var childSnapshotData, i, temp = [], filtered = [];
@@ -298,4 +316,12 @@ exports.getDentals = function(){
         })
     });
     return promise;
-}
+};
+
+exports.updateDentalInventory = function(req, res){
+    var dentalID = req.body.dentalID;
+    var amount = req.body.amount;
+    var inventoryRef = firebase.database().ref("dentalInventory/" + dentalID + "/quantity");
+    inventoryRef.set(amount);
+    res.status(200).send(amount);
+};

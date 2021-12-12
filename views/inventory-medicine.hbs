@@ -412,6 +412,7 @@
                                             <th>Unit</th>
                                             <th>Purchase Date</th>
                                             <th>Expiry Date</th>
+                                            <th colspan="2">Update Inventory</th>
                                         </tr>
                                     </thead>
                                     {{!-- <tfoot>
@@ -433,6 +434,11 @@
                                                 <td>{{unit}}</td>
                                                 <td>{{formatDate purchDate}}</td>
                                                 <td>{{formatDate expDate}}</td>
+                                                <td style="width: 70px !important; padding-right:0px">
+                                                    <input id="medicineID" type="hidden" value="{{medicineID}}">
+                                                    <input placeholder="Update inventory..." type="number" id="amount" min="0">
+                                                </td>
+                                                <td><button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="updateInventory()">Update</button></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>
@@ -523,17 +529,30 @@
 
         for (i = 0; i < collapsible.length; i++) {
             collapsible[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-            content.style.maxHeight = null;
-            } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-            } 
-        });
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } 
+            });
         }
     </script>
-
+    <script>
+        function updateInventory() {
+            var medicineID = document.getElementById("medicineID").value;
+            var amount = document.getElementById("amount").value;
+            $.post("/updateMedicineInventory", {medicineID: medicineID, amount: amount}, function(data){
+                /* TO DO: 
+                    -- lagay ng success message na updated yung value 
+                    -- update view
+                */
+                console.log(data);
+                $('#amount').html(data);    // not working >u<
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -156,9 +156,9 @@ exports.editClinicVisit = function(req, res){
     var { userKey , formId, 
         studentId, studentName , studentGrade, studentSection, visitDate, timeStamp, timeIn, timeOut, nurse, 
         bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
-        medicationAssign, prescribedBy, medicationList, purposeList, amountList, intervalList, startMedList, endMedList,
-        diagnosisAssign, diagnosis, notes, status } = req.body;
-    var i, formKey, notifKey;
+        medicationAssigned, prescribedBy, medicationList, purposeList, amountList, intervalList, startMedList, endMedList,
+        diagnosisAssigned, diagnosis, notes, status } = req.body;
+    var i,formKey;
     
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
@@ -177,16 +177,13 @@ exports.editClinicVisit = function(req, res){
         diastolicBP: diastolicBP,
         pulseRate: pulseRate,
         respirationRate: respirationRate,   
-
         visitReason: complaint,
         treatment: treatment,
-
-        medicationAssigned: medicationAssign,
+        diagnosisAssigned: diagnosisAssigned,
+        diagnosis: diagnosis,
+        medicationAssigned: medicationAssigned,
         //medicationPrescribed: prescribedBy,
         medication: "", // array of medications
-
-        diagnosisAssigned: diagnosisAssign,
-        diagnosis: diagnosis,
         status: status,
         notes: notes,
     };
@@ -205,18 +202,17 @@ exports.editClinicVisit = function(req, res){
     //     };
     //     //database.ref('clinicVisit/"+ formId + '/medication').update(medication);
     // }
-
     var formRef = database.ref("assignedForms/"+ userKey);
     formRef.orderByChild("formId").equalTo(formId).on('value', (snapshot) => { 
         snapshot.forEach(function(childSnapshot) {
             formKey = childSnapshot.key;
         });
     })
-    
+
     database.ref("assignedForms/"+ userKey + "/" + formKey).remove();
     database.ref("notifications/"+ userKey + "/" + formId).remove();
     
-    res.redirect('/clinic-visit');
+    res.status(200).send();
 }
 
 exports.getLastVisit = function(req, res){
@@ -381,14 +377,14 @@ exports.getAssignedForms = (req, res) => {
                     await userRef.child(temp[i].assignedBy).once('value',(userSnapshot) => {
                         fname = userSnapshot.child('firstName').val();
                         lname = userSnapshot.child('lastName').val();
-                        forms.push({
-                            task: temp[i].task,
-                            description: temp[i].description,
-                            formId: temp[i].formId,
-                            assignedBy: fname + " " + lname,
-                            dateAssigned: temp[i].dateAssigned
-                        });
                     });  
+                    forms.push({
+                        task: temp[i].task,
+                        description: temp[i].description,
+                        formId: temp[i].formId,
+                        assignedBy: fname + " " + lname,
+                        dateAssigned: temp[i].dateAssigned
+                    });
                 }
                 resolve(forms);
             } else {
@@ -431,7 +427,8 @@ exports.getClinicVisitForm = function(req){
                 grade: snapshotData.grade,
                 section: snapshotData.section,
                 visitDate: snapshotData.visitDate,
-                attendingNurse: snapshotData.attendingNurse,
+                nurseKey: snapshotData.attendingNurse,
+                attendingNurse: "",
                 timeIn: snapshotData.timeIn,
                 timeOut: snapshotData.timeOut,
                 weight: snapshotData.weight,
@@ -443,9 +440,9 @@ exports.getClinicVisitForm = function(req){
                 respirationRate: snapshotData.respirationRate,
                 visitReason: snapshotData.visitReason,
                 treatment: snapshotData.treatment,
-                diagnosisAssigned: snapshotData.diagnosisAssigned,
+                diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
-                medicationAssigned: snapshotData.medicationAssigned,
+                medicationAssignedKey: snapshotData.medicationAssigned,
                 //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
                 //medication: medication,
                 status: snapshotData.status,
@@ -453,15 +450,15 @@ exports.getClinicVisitForm = function(req){
             })
 
             if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
-                await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
+                await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
                     fname = userSnapshot.child('firstName').val();
                     lname = userSnapshot.child('lastName').val();
                 });   
-                await userRef.child(temp[0].diagnosisAssigned).once('value', (diagnosis) => {
+                await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
                     dFname = diagnosis.child('firstName').val();
                     dLname = diagnosis.child('lastName').val();
                 });
-                await userRef.child(temp[0].medicationAssigned).once('value', (medication) => {
+                await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
                     mFname = medication.child('firstName').val();
                     mLname = medication.child('lastName').val();
                 });
@@ -473,6 +470,7 @@ exports.getClinicVisitForm = function(req){
                     grade: temp[0].grade,
                     section: temp[0].section,
                     visitDate: temp[0].visitDate,
+                    nurseKey: temp[0].nurseKey,
                     attendingNurse: fname + " " + lname,
                     timeIn: temp[0].timeIn,
                     timeOut: temp[0].timeOut,
@@ -485,8 +483,10 @@ exports.getClinicVisitForm = function(req){
                     respirationRate: temp[0].respirationRate,
                     visitReason: temp[0].visitReason,
                     treatment: temp[0].treatment,
+                    diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                     diagnosisAssigned: dFname + " " + dLname,
                     diagnosis: temp[0].diagnosis,
+                    medicationAssignedKey: temp[0].medicationAssignedKey,
                     medicationAssigned: mFname + " " + mLname,
                     status: temp[0].status,
                     notes: temp[0].notes

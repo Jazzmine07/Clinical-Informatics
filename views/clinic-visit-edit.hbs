@@ -438,45 +438,45 @@
                                 <input id="formID" type="hidden" value="{{form.formId}}">
                                 <div class="col-4">
                                     <label class="col-form-label" for="studentID">Student ID Number</label>
-                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId" value="{{form.idNum}}">
+                                    <input type="text" class="form-control mb-2" id="studentID" disabled="disabled" value="{{form.idNum}}">
                                 </div>
                                 <div class="col-8">
                                     <label class="col-form-label" for="studentName">Student Name</label>
-                                    <input type="text" class="form-control mb-2" id="studentName" value="{{form.studentName}}">
+                                    <input type="text" class="form-control mb-2" id="studentName" disabled="disabled" value="{{form.studentName}}">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
                                 <div class="col-6">
                                     <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <input type="text" class="form-control mb-2" id="studentGrade" value="{{form.grade}}">
+                                    <input type="text" class="form-control mb-2" id="studentGrade" disabled="disabled" value="{{form.grade}}">
                                 </div>
                                 <div class="col-6">
                                     <label for="studentSec" class="col-form-label">Section</label>
-                                    <input type="text" class="form-control mb-2" id="studentSection" value="{{form.section}}">
+                                    <input type="text" class="form-control mb-2" id="studentSection" disabled="disabled" value="{{form.section}}">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                    <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" value="{{form.visitDate}}">
+                                    <input type="date" class="form-control mb-2" id="visitDate" disabled="disabled" value="{{form.visitDate}}">
                                 </div>
                                 <div class="col-4">
                                     <label for="clinicIn" class="col-form-label">Time In</label>
-                                    <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn" value="{{form.timeIn}}">
+                                    <input type="time" class="form-control mb-2" id="clinicIn" disabled="disabled" value="{{form.timeIn}}">
                                 </div>
                                 <div class="col-4">
                                     <label for="clinicOut" class="col-form-label">Time Out</label>
-                                    <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut" value="{{form.timeOut}}">
+                                    <input type="time" class="form-control mb-2" id="clinicOut" disabled="disabled" value="{{form.timeOut}}">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="clinicianVisit">Attending Nurse</label> 
-                                    <input type="hidden" class="form-control mb-2" id="attendingNurse" name="attendingNurse" value="{{form.nurseKey}}">
-                                    <input type="text" class="form-control mb-2" value="{{form.attendingNurse}}">
+                                    <input type="hidden" class="form-control mb-2" id="attendingNurse" value="{{form.nurseKey}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.attendingNurse}}">
                                 </div>   
                             </div>
 
@@ -485,7 +485,7 @@
                                     <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                     <div class="input-group mb-2">                                        
                                         
-                                        <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" value="{{form.bodyTemp}}">                                        
+                                        <input type="number" class="form-control" id="bodyTemp" disabled="disabled" value="{{form.bodyTemp}}">                                        
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon1">°C</span>
                                         </div>
@@ -496,7 +496,7 @@
                                     <div class="input-group mb-2">                                        
                                     
                                     <label class="col-form-label">Systolic BP</label>
-                                    <input type="number" class="form-control" id="systolicBP" min="0" value="{{form.systolicBP}}">
+                                    <input type="number" class="form-control" id="systolicBP" min="0" disabled="disabled" value="{{form.systolicBP}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
@@ -505,7 +505,7 @@
                                     <div class="input-group mb-2">                                        
                                     
                                     <label class="col-form-label">Diastolic BP</label>
-                                    <input type="number" class="form-control" id="diastolicBP" min="0" value="{{form.diastolicBP}}">
+                                    <input type="number" class="form-control" id="diastolicBP" min="0" disabled="disabled" value="{{form.diastolicBP}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
@@ -515,7 +515,7 @@
                                     <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                     <div class="input-group mb-2">                                        
                                         
-                                    <input type="number" class="form-control" id="pulseRate" name="pulseRate" value="{{form.pulseRate}}">
+                                    <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon3">beats/min</span>
                                         </div>
@@ -525,7 +525,7 @@
                                     <label for="respRate" class="col-form-label">Respiration Rate</label>
                                     <div class="input-group mb-2">                                        
                                         
-                                    <input type="number" class="form-control" id="respRate" name="respRate" value="{{form.respirationRate}}">
+                                    <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                         </div>
@@ -535,11 +535,11 @@
 
                             <div class="form-row col-12">
                                 <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3">{{form.visitReason}}</textarea>
+                                <textarea type="text" class="form-control mb-2" id="complaintVisit" disabled="disabled" rows="3">{{form.visitReason}}</textarea>
                             </div>
                             <div class="form-row col-12">
                                 <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3">{{form.treatment}}</textarea>
+                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3">{{form.treatment}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -549,7 +549,8 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Diagnosis</h6>
                             <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
-                            <input type="text" class="form-control" id="diagnosisAssigned" value="{{form.diagnosisAssigned}}" disabled="disabled">
+                            <input type="hidden" class="form-control mb-2" id="diagnosisAssigned" value="{{form.diagnosisAssignedKey}}">
+                            <input type="text" class="form-control" value="{{form.diagnosisAssigned}}" disabled="disabled">
                         </div>
                         <div class="card-body">
                             <div class="form-row col-12">
@@ -564,7 +565,8 @@
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6> 
                             <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
-                            <input type="text" class="form-control" id="medicationAssigned" value="{{form.medicationAssigned}}" disabled="disabled">
+                            <input type="hidden" class="form-control" id="medicationAssigned" value="{{form.medicationAssignedKey}}">
+                            <input type="text" class="form-control" value="{{form.medicationAssigned}}" disabled="disabled">
                             {{!-- <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1"> --}}
                             </select> 
                         </div>
@@ -928,17 +930,16 @@
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            //var selectMedicationAssign = document.getElementById("assignMedication");
-            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
-
+            var diagnosisAssigned = $('#diagnosisAssigned').val();
+            var diagnosis =  $('#diagnosis').val(); 
+            console.log(diagnosis);
+            var medicationAssigned = $('#medicationAssigned').val();
             //var selectPrescribedBy = document.getElementById("prescribedBy");
             //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
 
             //var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
             //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
             
-            var diagnosis =  $('#diagnosis').val(); 
-            console.log(diagnosis);
 
             var status =  $('#status').val();
             console.log(status);
@@ -974,8 +975,9 @@
                     respirationRate: rr,
                     complaint: complaint,
                     treatment: treatment,                    
-                    
-                    //medicationAssign: selectedMedicationAssign,
+                    diagnosisAssigned: diagnosisAssigned,
+                    diagnosis: diagnosis,
+                    medicationAssigned: medicationAssigned,
                     //prescribedBy: selectedPrescribedBy,
                     //medicineList: medicineList,
                     //purposeList: purposeList, 
@@ -983,10 +985,6 @@
                     //intervalList: intervalList,
                     //startMed: startMed,
                     //endMed: endMed,
-
-                    //diagnosisAssign: selectedDaignosisAssign,
-                    diagnosis: diagnosis,
-
                     status: status,
                     notes: notes,
 

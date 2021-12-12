@@ -166,7 +166,7 @@ router.get('/clinic-visit/create', (req, res) => {
 
 // Get clinic visit edit page
 router.get('/clinic-visit/edit/:id', (req, res) => {
-  console.log("Read create clinic visit edit successful!");
+  console.log("Read clinic visit edit successful!");
   var prom1, prom2, prom3, prom4, prom5;
   var user, nurse, clinician, users, form;
 

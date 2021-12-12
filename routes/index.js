@@ -172,7 +172,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
 
   prom1 = userController.getUser();
   prom2 = userController.getNurse();
-  prom3= userController.getClinician();
+  prom3 = userController.getClinician();
   // prom3.then(function(result){
   //   clinician=result;
   //   console.log("Promise3 in clinic visit create:" + result);
@@ -182,16 +182,16 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   //   users=result;
   //   console.log("Promise4 in clinic visit create :"+ result);
   // })
-  prom5 = visitController.getClinicVisitForm()
-  prom5.then(function(result){
-    form=result
-    console.log("Promise4 in clinic visit create :"+ result);
-  })
+  prom5 = visitController.getClinicVisitForm(req);
 
-  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom5]).then(result => {
     user = result[0];
     nurse = result[1];
-    clinician  =result[2];
+    clinician = result[2];
+    form = result[3];
+    console.log("form in index");
+    console.log(form);
+
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
         user: user,

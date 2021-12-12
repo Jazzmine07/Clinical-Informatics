@@ -230,8 +230,6 @@ exports.getLastVisit = function(req, res){
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                console.log("childSnapshotData");
-                console.log(childSnapshotData);
                 temp.push({
                     idNum: childSnapshotData.id,
                     studentName: childSnapshotData.studentName,
@@ -349,8 +347,6 @@ exports.getClinicVisits = function(){
 
 exports.getAssignedForms = (req, res) => {
     var user = req;
-    console.log("user sa controller");
-    console.log(user);
     var database = firebase.database();
     var formsRef = database.ref("assignedForms/"+user);
     var userRef = database.ref("clinicUsers");
@@ -394,16 +390,18 @@ exports.getAssignedForms = (req, res) => {
     return promise;
 }
 
-exports.getClinicVisitForm = function(){
+exports.getClinicVisitForm = function(req){
     var formId = req.params.id;
     var database = firebase.database();
     var formRef = database.ref("clinicVisit/"+formId);
+    var userRef = database.ref("clinicUsers");
     var medication = [], details = [];
-    var childSnapshotData, nurse, fname, lname;
+    var childSnapshotData, fname, lname;
     var medicationAssigned, diagnosisAssigned, bothAssigned;
 
-    var promise = new Promise((resolve,reject)=>{
-        formRef.on('value', (snapshot) => {
+    var promise = new Promise((resolve, reject)=>{
+        formRef.on('value', async (snapshot) => {
+            snapshotData = snapshot.exportVal();
             // snapshot.child("medication").on('value', (childSnapshot) => {
             //     childSnapshot.forEach(function(data){
             //         childSnapshotData = data.exportVal();
@@ -417,37 +415,37 @@ exports.getClinicVisitForm = function(){
             //         }
             //     })
             // })
-            nurse = snapshot.child("attendingNurse").val();
-            database.ref("clinicUsers/"+nurse).on('value', (userSnapshot) => {
+            await userRef.child(snapshotData.attendingNurse).on('value', (userSnapshot) => {
                 fname = userSnapshot.child('firstName').val();
                 lname = userSnapshot.child('lastName').val();
+                details = {
+                    formId: formId,
+                    idNum: snapshotData.id,
+                    studentName: snapshotData.studentName,
+                    grade: snapshotData.grade,
+                    section: snapshotData.section,
+                    visitDate: snapshotData.visitDate,
+                    attendingNurse: fname + " " + lname,
+                    timeIn: snapshotData.timeIn,
+                    timeOut: snapshotData.timeOut,
+                    weight: snapshotData.weight,
+                    height: snapshotData.height,
+                    bodyTemp: snapshotData.bodyTemp,
+                    systolicBP: snapshotData.systolicBP,
+                    diastolicBP: snapshotData.diastolicBP,
+                    pulseRate: snapshotData.pulseRate,
+                    respirationRate: snapshotData.respirationRate,
+                    visitReason: snapshotData.visitReason,
+                    treatment: snapshotData.treatment,
+                    diagnosis: snapshotData.diagnosis,
+                    //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
+                    //medication: medication,
+                    status: snapshotData.status,
+                    notes: snapshotData.notes,
+                }
             })
-            
-            details = {
-                formId: formId,
-                idNum: snapshot.child("id").val(),
-                studentName: snapshot.child("studentName").val(),
-                studentGrade: snapshot.child("grade").val(),
-                studentSection: snapshot.child("section").val(),
-                visitDate: snapshot.child("visitDate").val(),
-                timeIn: snapshot.child("timeIn").val(),
-                timeOut: snapshot.child("timeOut").val(),
-                nurseKey: nurse,
-                attendingNurse: fname + " " + lname,
-                bodyTemp: snapshot.child("bodyTemp").val(),
-                bloodPressure: snapshot.child("bloodPressure").val(),
-                pulseRate: snapshot.child("pulseRate").val(),
-                respirationRate: snapshot.child("respirationRate").val(),
-                visitReason: snapshot.child("visitReason").val(),
-                treatment: snapshot.child("treatment").val(),
-    
-                //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
-                //medication: medication,
-                diagnosis: snapshot.child("diagnosis").val(),
-                status: snapshot.child("status").val(),
-                notes: snapshot.child("notes").val(),
-    
-            }
+            console.log("details in controller");
+            console.log(details);
             resolve(details);
         })
     })

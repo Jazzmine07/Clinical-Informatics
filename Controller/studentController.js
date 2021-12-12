@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 var TAG = "studentController.js";
 
 exports.getStudent = function(req, res){
-    var id = req.body.studentVisit;
+    var id = req.body.idNum;
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var studentInfo;
@@ -20,8 +20,8 @@ exports.getStudent = function(req, res){
                 section: snapshot.child('section').val(),
                 studentType: snapshot.child('studentType').val(),
                 birthday: snapshot.child('birthday').val(),
-                //nationailty: snapshot.child('nationality').val(),
-                //religion: snapshot.child('religion').val(),
+                nationailty: snapshot.child('nationality').val(),
+                religion: snapshot.child('religion').val(),
                 age: snapshot.child('age').val(),
                 sex: snapshot.child('sex').val(),
                 address: snapshot.child('address').val(),
@@ -31,6 +31,14 @@ exports.getStudent = function(req, res){
                 motherName: snapshot.child('motherName').val(),
                 motherEmail: snapshot.child('motherEmail').val(),
                 motherContact: snapshot.child('motherContact').val(),
+                physicianName: snapshot.child('pediaName').val(),
+                physicianEmail: snapshot.child('pediaEmail').val(),
+                physicianContact: snapshot.child('pediaContact').val(),
+                dentistName: snapshot.child('dentistName').val(),
+                dentistEmail: snapshot.child('dentistEmail').val(),
+                dentistContact: snapshot.child('dentistContact').val(),
+                hospitalName: snapshot.child('preferredHospital').val(),
+                hospitalAddress: snapshot.child('hospitalAddress').val()
             }
             res.send(studentInfo);
         } else {
@@ -3517,7 +3525,7 @@ exports.getTopDisease=function(vcArray){
         for(i=0;i<weekTopDisease.length;i++){
             stringWeekTopDisease =stringWeekTopDisease +weekTopDisease[i].concern;
             if(i!=weekTopDisease.length-1){
-                stringWeekTopDisease=stringWeekTopDisease+"\n";
+                stringWeekTopDisease=stringWeekTopDisease+",";
             }
         }
     }
@@ -3560,7 +3568,7 @@ exports.getTopDisease=function(vcArray){
         for(i=0;i<monthTopDisease.length;i++){
             stringMonthTopDisease =stringMonthTopDisease +monthTopDisease[i].concern;
             if(i!=weekTopDisease.length-1){
-                stringMonthTopDisease=stringMonthTopDisease+"\n";
+                stringMonthTopDisease=stringMonthTopDisease+",";
             }
         }
     }          
@@ -3707,3 +3715,13 @@ exports.getDiseaseDemographics=function(req,res){
 }
 
 //DISEASE SURVEILLANCE FUNCTIONS END HERE
+
+
+exports.loadStudentProfile=function(req,res){
+
+
+
+
+
+    
+}

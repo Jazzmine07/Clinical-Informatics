@@ -218,16 +218,15 @@ exports.editClinicVisit = function(req, res){
 
 exports.getLastVisit = function(req, res){
     var student = req.body.studentID;
-    console.log("student id in visit controller");
-    console.log(student);
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
+    var userRef = database.ref("clinicUsers");
     var temp = [], details;
     var childSnapshotData, i;
 
     clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
         if(snapshot.exists()){
-            await snapshot.forEach(function(childSnapshot){
+            snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
                 console.log("childSnapshotData");
                 console.log(childSnapshotData);
@@ -247,26 +246,29 @@ exports.getLastVisit = function(req, res){
                     diagnosis: childSnapshotData.diagnosis
                 })
             })
-            console.log("temp length");
-            console.log(temp.length);
+            
             if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
                 res.send(temp);
             } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
-                details = {
-                    idNum: temp[temp.length-1].idNum,
-                    studentName: temp[temp.length-1].studentName,
-                    grade: temp[temp.length-1].grade,
-                    section: temp[temp.length-1].section,
-                    visitDate: temp[temp.length-1].visitDate,
-                    attendingNurse: temp[temp.length-1].attendingNurse,
-                    bodyTemp: temp[temp.length-1].bodyTemp,
-                    bloodPressure: temp[temp.length-1].bloodPressure,
-                    pulseRate: temp[temp.length-1].pulseRate,
-                    respirationRate: temp[temp.length-1].respirationRate,
-                    visitReason: temp[temp.length-1].visitReason,
-                    treatment: temp[temp.length-1].treatment,
-                    diagnosis: temp[temp.length-1].diagnosis
-                }
+                await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    details = {
+                        idNum: temp[temp.length-1].idNum,
+                        studentName: temp[temp.length-1].studentName,
+                        grade: temp[temp.length-1].grade,
+                        section: temp[temp.length-1].section,
+                        visitDate: temp[temp.length-1].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        bodyTemp: temp[temp.length-1].bodyTemp,
+                        bloodPressure: temp[temp.length-1].bloodPressure,
+                        pulseRate: temp[temp.length-1].pulseRate,
+                        respirationRate: temp[temp.length-1].respirationRate,
+                        visitReason: temp[temp.length-1].visitReason,
+                        treatment: temp[temp.length-1].treatment,
+                        diagnosis: temp[temp.length-1].diagnosis
+                    }
+                });   
                 console.log()
                 res.send(details);
             }
@@ -315,8 +317,6 @@ exports.getAssignedForms = (req, res) => {
     console.log("user sa controller");
     console.log(user);
     var database = firebase.database();
-    var databaseRef = database.ref();
-    var formsReference = database.ref("assignedForms");
     var formsRef = database.ref("assignedForms/"+user);
     var userRef = database.ref("clinicUsers");
     var fname, lname, i;

@@ -260,9 +260,9 @@ router.get('/disease-surveillance', (req, res) => {
   prom1.then(function(result){
       user = result;
   });
-  prom2= studentController.getDiseaseSurveillanceData();
+  prom2= surveillanceController.getDiseaseSurveillanceData();
   prom2.then(function(result){
-    prom3 = studentController.getTopDisease(result);
+    prom3 = surveillanceController.getTopDisease(result);
     prom3.then(function(result){
       topDiagnosis=result;
     });
@@ -656,6 +656,6 @@ router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/updateDentalInventory', inventoryController.updateDentalInventory);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 router.post('/loadPrevData', studentController.loadPrevData);
-router.post('/getDiseaseDemographics', studentController.getDiseaseDemographics);
+router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
 
 module.exports = router;

@@ -95,7 +95,6 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   Promise.all([promise1, promise2]).then( result => {
     user = result[0];
     record = result[1];
-    console.log("before promise 3");
     promise3 = visitController.getAssignedForms(user.key);
     promise3.then(function(forms){
       formId = forms;
@@ -172,16 +171,8 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   var user, nurse, clinician, users, form;
 
   prom1 = userController.getUser();
-  prom1.then(function(result){
-    console.log("Promise1 in clinic visit create: " + result.key);
-    user=result;
-  });
-  // prom2= userController.getNurse();
-  // prom2.then(function(result){
-  //   nurse=result;
-  //   console.log("Promise2 in clinic visit create: " + result);
-  // });  
-  // prom3= userController.getClinician();
+  prom2 = userController.getNurse();
+  prom3= userController.getClinician();
   // prom3.then(function(result){
   //   clinician=result;
   //   console.log("Promise3 in clinic visit create:" + result);
@@ -197,7 +188,10 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
     console.log("Promise4 in clinic visit create :"+ result);
   })
 
-  Promise.all([prom1,prom2,prom3,prom4,prom5]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
+    user = result[0];
+    nurse = result[1];
+    clinician  =result[2];
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
         user: user,
@@ -498,7 +492,7 @@ router.get('/inventory-medicine', (req, res) => {
       });
     }
   }).catch(error => {
-    console.log('Errorin medicine inventory');
+    console.log('Error in medicine inventory');
     console.log(error.messgae);
   });
 });

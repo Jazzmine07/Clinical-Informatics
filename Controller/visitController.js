@@ -40,7 +40,7 @@ exports.getStudent = function(req, res){
 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, nurse, 
-        bodyTemp, bloodPressure, pulseRate, respirationRate, complaint, treatment,
+        bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
         medicationAssign, prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
         diagnosisAssign, diagnosis, notes, status } = req.body;
 
@@ -62,6 +62,8 @@ exports.addClinicVisit = function(req, res){
         attendingNurse: nurse,
         bodyTemp: bodyTemp,
         bloodPressure: bloodPressure,
+        systolicBP: systolicBP,
+        diastolicBP: diastolicBP,
         pulseRate: pulseRate,
         respirationRate: respirationRate,   
 
@@ -237,8 +239,13 @@ exports.getLastVisit = function(req, res){
                     section: childSnapshotData.section,
                     visitDate: childSnapshotData.visitDate,
                     attendingNurse: childSnapshotData.attendingNurse,
+                    timeIn: childSnapshotData.timeIn,
+                    timeOut: childSnapshotData.timeOut,
+                    weight: childSnapshotData.weight,
+                    height: childSnapshotData.height,
                     bodyTemp: childSnapshotData.bodyTemp,
-                    bloodPressure: childSnapshotData.bloodPressure,
+                    systolicBP: childSnapshotData.systolicBP,
+                    diastolicBP: childSnapshotData.diastolicBP,
                     pulseRate: childSnapshotData.pulseRate,
                     respirationRate: childSnapshotData.respirationRate,
                     visitReason: childSnapshotData.visitReason,
@@ -248,7 +255,31 @@ exports.getLastVisit = function(req, res){
             })
             
             if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
-                res.send(temp);
+                await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    details = {
+                        idNum: temp[0].idNum,
+                        studentName: temp[0].studentName,
+                        grade: temp[0].grade,
+                        section: temp[0].section,
+                        visitDate: temp[0].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        timeIn: temp[0].timeIn,
+                        timeOut: temp[0].timeOut,
+                        weight: temp[0].weight,
+                        height: temp[0].height,
+                        bodyTemp: temp[0].bodyTemp,
+                        systolicBP: temp[0].systolicBP,
+                        diastolicBP: temp[0].diastolicBP,
+                        pulseRate: temp[0].pulseRate,
+                        respirationRate: temp[0].respirationRate,
+                        visitReason: temp[0].visitReason,
+                        treatment: temp[0].treatment,
+                        diagnosis: temp[0].diagnosis
+                    }
+                });   
+                res.send(details);
             } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
                 await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
                     fname = userSnapshot.child('firstName').val();
@@ -260,8 +291,13 @@ exports.getLastVisit = function(req, res){
                         section: temp[temp.length-1].section,
                         visitDate: temp[temp.length-1].visitDate,
                         attendingNurse: fname + " " + lname,
+                        timeIn: temp[temp.length-1].timeIn,
+                        timeOut: temp[temp.length-1].timeOut,
+                        weight: temp[temp.length-1].weight,
+                        height: temp[temp.length-1].height,
                         bodyTemp: temp[temp.length-1].bodyTemp,
-                        bloodPressure: temp[temp.length-1].bloodPressure,
+                        systolicBP: temp[temp.length-1].systolicBP,
+                        diastolicBP: temp[temp.length-1].diastolicBP,
                         pulseRate: temp[temp.length-1].pulseRate,
                         respirationRate: temp[temp.length-1].respirationRate,
                         visitReason: temp[temp.length-1].visitReason,
@@ -273,8 +309,7 @@ exports.getLastVisit = function(req, res){
                 res.send(details);
             }
         }
-    })
-    
+    })  
 }
 
 exports.getClinicVisits = function(){

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const userController = require('../Controller/userController');
+const visitController = require('../Controller/visitController');
 const studentController = require('../Controller/studentController');
 const inventoryController = require('../Controller/inventoryController');
 const notificationController = require('../Controller/notificationController');
@@ -88,25 +89,16 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   var promise1, promise2, promise3;
   var user, formId, record;
-  console.log("before promise 1");
   promise1 = userController.getUser();
-  console.log("after promise 1");
-  promise2 = studentController.getClinicVisits();
+  promise2 = visitController.getClinicVisits();
 
-  Promise.all([promise1, promise2]).then(async result => {
+  Promise.all([promise1, promise2]).then( result => {
     user = result[0];
     record = result[1];
-    //formId = result[2];
     console.log("before promise 3");
-    promise3 = studentController.getAssignedForms(user.key);
-    await promise3.then(function(forms){
-      console.log("after promise3 in index");
+    promise3 = visitController.getAssignedForms(user.key);
+    promise3.then(function(forms){
       formId = forms;
-      console.log("forms in index");
-      console.log(formId);
-      // console.log("forms in index");
-      // console.log(formId);
-      
       if(user.role == "Nurse"){
         res.render('clinic-visit', {
           isNurse: true,
@@ -132,32 +124,24 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
+  var prom1, prom2, prom3, prom4;
+  var user, nurse, clinician, users;
 
-  var prom1,prom2,prom3,prom4,user,nurse,clinician,users;
-
-  prom1 =userController.getUser();
+  prom1 = userController.getUser();
   prom1.then(function(result){
-    console.log("Promise1 in clinic visit create: " + result.key);
-    user=result;
-    prom4= userController.assignTo(result.key);
+    prom4 = userController.assignTo(result.key);
     prom4.then(function(result){
-      users=result;
-      console.log("Promise4 in clinic visit create :"+ result);
+      users = result;
     })
-
   });
-  prom2= userController.getNurse();
-  prom2.then(function(result){
-    nurse=result;
-    console.log("Promise2 in clinic visit create: " + result);
-  });  
-  prom3= userController.getClinician();
-  prom3.then(function(result){
-    clinician=result;
-    console.log("Promise3 in clinic visit create:" + result);
-  })
+  prom2 = userController.getNurse(); 
+  prom3 = userController.getClinician();
   
-  Promise.all([prom1,prom2,prom3,prom4]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4]).then(result => {
+    user = result[0];
+    nurse = result[1];
+    clinician = result[2];
+
     if(user.role == "Nurse"){
       res.render('clinic-visit-create', {
         user: user,
@@ -179,40 +163,15 @@ router.get('/clinic-visit/create', (req, res) => {
     console.log('Error in clinic visit create');
     console.log(error.message);
   });
-  
-  // userController.getUser(req, user => {
-  //   userController.getNurse(req, nurse => {
-  //     userController.getClinician(req, clinician => {
-  //       userController.assignTo(user.key, users => {
-  //         if(user.role == "Nurse"){
-  //           res.render('clinic-visit-create', {
-  //             user: user,
-  //             isNurse: true,
-  //             nurse: nurse,
-  //             clinician: clinician,
-  //             users: users
-  //           });
-  //         } else {
-  //           res.render('clinic-visit-create', {
-  //             user: user, 
-  //             isNurse: false,
-  //             nurse: nurse,
-  //             clinician: clinician,
-  //             users: users
-  //           });
-  //         }
-  //       })
-  //     })
-  //   })
-  // })
 });
 
 // Get clinic visit edit page
 router.get('/clinic-visit/edit/:id', (req, res) => {
   console.log("Read create clinic visit edit successful!");
-  var prom1,prom2,prom3,prom4,prom5,user,nurse,clinician,users,form;
+  var prom1, prom2, prom3, prom4, prom5;
+  var user, nurse, clinician, users, form;
 
-  prom1 =userController.getUser();
+  prom1 = userController.getUser();
   prom1.then(function(result){
     console.log("Promise1 in clinic visit create: " + result.key);
     user=result;
@@ -232,7 +191,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   //   users=result;
   //   console.log("Promise4 in clinic visit create :"+ result);
   // })
-  prom5=studentController.getClinicVisitForm()
+  prom5 = visitController.getClinicVisitForm()
   prom5.then(function(result){
     form=result
     console.log("Promise4 in clinic visit create :"+ result);
@@ -361,7 +320,7 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
     user=result;
   });
 
-  prom2= studentController.getClinicVisits();
+  prom2= visitController.getClinicVisits();
   prom2.then(function(result){
     console.log("Promise2 in health assessment: " + result);
     records=result;
@@ -403,7 +362,7 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   });
 
   // userController.getUser(req, user => {
-  //     studentController.getClinicVisits(req, records => {
+  //     visitController.getClinicVisits(req, records => {
   //       studentController.getSections(req, sections => {
   //         console.log("clinicVisits index", records);
   //         console.log("sections:", sections);
@@ -687,9 +646,10 @@ router.get('/profile', (req, res) => {
 
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.post('/getStudentRecord', studentController.getStudent);
-router.post('/addClinicVisit', studentController.addClinicVisit);
-router.post('/editClinicVisit', studentController.editClinicVisit);
+router.post('/getStudentRecord', visitController.getStudent);
+router.post('/getLastVisit', visitController.getLastVisit);
+router.post('/addClinicVisit', visitController.addClinicVisit);
+router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);

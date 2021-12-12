@@ -4,7 +4,7 @@ const urlencoder = bodyParser.urlencoded({
   extended: false
 })
 
-exports.login = function(req, res){
+exports.login = (req, res) => {
   var email = req.body.email;
   var pass = req.body.password;
   var database = firebase.database();
@@ -164,7 +164,7 @@ exports.getUser = function(){
   var database = firebase.database();
   var userInfo;
   
-  var promise = new Promise((resolve,reject) => {
+  var promise = new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         var uid = user.uid;
@@ -177,7 +177,7 @@ exports.getUser = function(){
             lastName: snapshot.child('lastName').val(),
             role: snapshot.child('role').val()
           })      
-          resolve (userInfo); 
+          resolve(userInfo); 
         })
       }
       // else{
@@ -185,8 +185,8 @@ exports.getUser = function(){
       // }
     });
   })
-
   return promise;
+
   //  await firebase.auth().onAuthStateChanged(async (user) => {
   //   if (user) {
   //     var uid = user.uid;

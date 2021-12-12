@@ -895,7 +895,7 @@
         function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
             
-            $.post("/getStudentRecord", {studentVisit: typedID}, function(data){
+            $.post("/getStudentRecord", {studentID: typedID}, function(data){
                 //if(typedID.isEmpty()){
                     // TO DO: display error message if walang ininput na id number si user
                 //}
@@ -977,6 +977,12 @@
                     //$('#visitDate').value(date);                 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
+            });
+
+            $.post("/getLastVisit", {studentID: typedID}, function(details){
+                /* TO DO: display the details of the last visit */
+                console.log("details of student last visit");
+                console.log(details);
             });
         }
     </script>

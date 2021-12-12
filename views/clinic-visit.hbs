@@ -445,11 +445,14 @@
                         </div>
                     </div>
 
-                    <div class="card shadow mb-2" id="assignedClinic">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6></div>
+                    <!-- DataTales Assigned Task -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="bg-primary" style="color: white;">Task</th>
@@ -469,11 +472,11 @@
                                         {{/each}}
                                     </tbody>
                                 </table>
-                            </div>                             
+                            </div>
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
+                    <!-- DataTales Clinic Visits -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Clinic Visits</h6>
@@ -849,11 +852,14 @@
                         </div>
                     {{/if}}
 
-                    <div class="card shadow mb-2" id="assignedClinic">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6></div>
+                    <!-- DataTales Assigned Task -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="bg-primary" style="color: white;">Task</th>
@@ -865,16 +871,15 @@
                                     <tbody>
                                         {{#each forms}}
                                         <tr>
-                                            {{!-- <td>{{formId}}</td> --}}
-                                            <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
-                                            <td id="clinicianDesc" value="{{description}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
-                                            <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
-                                            <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate dateAssigned}}</a></td>
+                                            <td>{{task}}</td>
+                                            <td>{{description}}</td>
+                                            <td>{{assignedBy}}</td>
+                                            <td>{{formatDate dateAssigned}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
-                            </div>                             
+                            </div>
                         </div>
                     </div>
                 </div>

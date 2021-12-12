@@ -4,6 +4,7 @@ const visitController = require('../Controller/visitController');
 const studentController = require('../Controller/studentController');
 const inventoryController = require('../Controller/inventoryController');
 const notificationController = require('../Controller/notificationController');
+const surveillanceController = require('../Controller/surveillanceController');
 const { loggedIn } = require('../Controller/userController');
 var expressHbs =  require('handlebars');
 

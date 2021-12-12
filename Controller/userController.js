@@ -134,16 +134,19 @@ exports.login = (req, res) => {
 
 // check if user is logged in 
 exports.loggedIn = (req, res, next) => {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) { // user is signed in 
-      return next()
-    } else {
-      res.render('login',{
-        error: true,
-        error_msg: "Please log in!"
-      });
-    }
+  var promise = new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) { // user is signed in 
+        next()
+      } else {
+        res.render('login',{
+          error: true,
+          error_msg: "Please log in!"
+        });
+      }
+    });
   });
+  return promise;
 };
 
 exports.logout = (req, res) => {

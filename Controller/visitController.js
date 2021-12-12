@@ -248,7 +248,9 @@ exports.getLastVisit = function(req, res){
                     respirationRate: childSnapshotData.respirationRate,
                     visitReason: childSnapshotData.visitReason,
                     treatment: childSnapshotData.treatment,
-                    diagnosis: childSnapshotData.diagnosis
+                    diagnosis: childSnapshotData.diagnosis,
+                    status: childSnapshotData.status,
+                    notes: childSnapshotData.notes,
                 })
             })
             
@@ -274,7 +276,9 @@ exports.getLastVisit = function(req, res){
                         respirationRate: temp[0].respirationRate,
                         visitReason: temp[0].visitReason,
                         treatment: temp[0].treatment,
-                        diagnosis: temp[0].diagnosis
+                        diagnosis: temp[0].diagnosis,
+                        status: temp[0].status,
+                        notes: temp[0].notes
                     }
                 });   
                 res.send(details);
@@ -300,7 +304,9 @@ exports.getLastVisit = function(req, res){
                         respirationRate: temp[temp.length-1].respirationRate,
                         visitReason: temp[temp.length-1].visitReason,
                         treatment: temp[temp.length-1].treatment,
-                        diagnosis: temp[temp.length-1].diagnosis
+                        diagnosis: temp[temp.length-1].diagnosis,
+                        status: temp[temp.length-1].status,
+                        notes: temp[temp.length-1].notes
                     }
                 });   
                 console.log()
@@ -415,35 +421,37 @@ exports.getClinicVisitForm = function(req){
             //         }
             //     })
             // })
+            console.log("1");
             await userRef.child(snapshotData.attendingNurse).on('value', (userSnapshot) => {
                 fname = userSnapshot.child('firstName').val();
-                lname = userSnapshot.child('lastName').val();
-                details = {
-                    formId: formId,
-                    idNum: snapshotData.id,
-                    studentName: snapshotData.studentName,
-                    grade: snapshotData.grade,
-                    section: snapshotData.section,
-                    visitDate: snapshotData.visitDate,
-                    attendingNurse: fname + " " + lname,
-                    timeIn: snapshotData.timeIn,
-                    timeOut: snapshotData.timeOut,
-                    weight: snapshotData.weight,
-                    height: snapshotData.height,
-                    bodyTemp: snapshotData.bodyTemp,
-                    systolicBP: snapshotData.systolicBP,
-                    diastolicBP: snapshotData.diastolicBP,
-                    pulseRate: snapshotData.pulseRate,
-                    respirationRate: snapshotData.respirationRate,
-                    visitReason: snapshotData.visitReason,
-                    treatment: snapshotData.treatment,
-                    diagnosis: snapshotData.diagnosis,
-                    //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
-                    //medication: medication,
-                    status: snapshotData.status,
-                    notes: snapshotData.notes,
-                }
+                lname = userSnapshot.child('lastName').val(); 
             })
+            console.log("2");
+            details = {
+                formId: formId,
+                idNum: snapshotData.id,
+                studentName: snapshotData.studentName,
+                grade: snapshotData.grade,
+                section: snapshotData.section,
+                visitDate: snapshotData.visitDate,
+                attendingNurse: fname + " " + lname,
+                timeIn: snapshotData.timeIn,
+                timeOut: snapshotData.timeOut,
+                weight: snapshotData.weight,
+                height: snapshotData.height,
+                bodyTemp: snapshotData.bodyTemp,
+                systolicBP: snapshotData.systolicBP,
+                diastolicBP: snapshotData.diastolicBP,
+                pulseRate: snapshotData.pulseRate,
+                respirationRate: snapshotData.respirationRate,
+                visitReason: snapshotData.visitReason,
+                treatment: snapshotData.treatment,
+                diagnosis: snapshotData.diagnosis,
+                //medicationPrescribed: snapshot.child("medicationPrescribed").val(),
+                //medication: medication,
+                status: snapshotData.status,
+                notes: snapshotData.notes,
+            }
             console.log("details in controller");
             console.log(details);
             resolve(details);

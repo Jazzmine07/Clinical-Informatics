@@ -91,8 +91,7 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
-                    console.log("medicines in controller");
-                    console.log(filtered);
+                    
                     resolve(filtered);
                 })
             } else {

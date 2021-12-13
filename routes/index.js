@@ -540,7 +540,7 @@ router.post('/getStudentRecord', studentInfoController.getStudentInfo);
 router.post('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
-router.post('/getAllowedMedication', studentInfoController.getAllowedMedication);
+router.post('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.post('/getLastVisit', visitController.getLastVisit);
 
 router.post('/addClinicVisit', visitController.addClinicVisit);

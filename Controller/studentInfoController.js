@@ -50,7 +50,7 @@ exports.getStudentInfo = function(req, res){
     })
 };
 
-exports.getAllowedMedication = function(req, res){
+exports.getNotAllowedMedication = function(req, res){
     var id = req.body.studentID;
     var database = firebase.database();
     var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
@@ -66,6 +66,8 @@ exports.getAllowedMedication = function(req, res){
                     })
                 }
             })
+            console.log("not allowed medications")
+            console.log(notAllowed);
             res.status(200).send(notAllowed);
         } else {
             res.send({

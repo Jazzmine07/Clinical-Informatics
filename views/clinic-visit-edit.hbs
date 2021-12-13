@@ -522,7 +522,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="clinicOut" class="col-form-label">Time Out</label>
-                                    <input type="time" class="form-control mb-2" id="clinicOut" disabled="disabled" value="{{form.timeOut}}">
+                                    <input type="time" class="form-control mb-2" id="clinicOut">
                                 </div>
                             </div>
 
@@ -618,9 +618,9 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6> 
-                            <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
+                            {{!-- <label class="col-form-label p-2 mr-1" for="assign">Assigned To</label>
                             <input type="hidden" class="form-control" id="medicationAssigned" value="{{form.medicationAssignedKey}}">
-                            <input type="text" class="form-control" value="{{form.medicationAssigned}}" disabled="disabled">
+                            <input type="text" class="form-control" value="{{form.medicationAssigned}}" disabled="disabled"> --}}
                             {{!-- <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder" tabindex="-1"> --}}
                             </select> 
                         </div>
@@ -1031,7 +1031,7 @@
                     treatment: treatment,                    
                     diagnosisAssigned: diagnosisAssigned,
                     diagnosis: diagnosis,
-                    medicationAssigned: medicationAssigned,
+                    //medicationAssigned: medicationAssigned,
                     //prescribedBy: selectedPrescribedBy,
                     //medicineList: medicineList,
                     //purposeList: purposeList, 

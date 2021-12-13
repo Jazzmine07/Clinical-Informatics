@@ -2577,18 +2577,18 @@
                     document.getElementById('lastVisit').style.display = "none";
             });
 
-            $.post("/getAllowedMedication", {studentID: typedID}, function(allowedMedicines){
+            $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
-                console.log("allowedMedicines of student");
-                console.log(allowedMedicines);
+                console.log("not allowed medications of student");
+                console.log(notAllowedMedicines);
                 var i;
-                for(i = 0; i < allowedMedicines.length; i++){
-                    if(allowedMedicines[i].medicine == "paracetamol"){
+                //for(i = 0; i < notAllowedMedicines.length; i++){
+                    //if(notAllowedMedicines[i].medicine == "paracetamol"){
                         /* 
                             TO DO: kapag ni select si paracetamol allowed siya
                         */
-                    }
-                }
+                    //}
+                //}
             });
         }
     </script>

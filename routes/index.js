@@ -254,6 +254,54 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   });
 });
 
+// Get clinic medication page
+router.get('/clinic-visit/medication', (req, res) => {
+  console.log("Read medication clinic visit successful!");
+  var prom1, prom2, prom3, prom4, prom5;
+  var user, nurse, clinician, users, medicines;
+
+  prom1 = userController.getUser();
+  prom1.then(function(result){
+    prom4 = userController.assignTo(result.key);
+    prom4.then(function(result){
+      users = result;
+    })
+  });
+  prom2 = userController.getNurse(); 
+  prom3 = userController.getClinician();
+  prom5 = inventoryController.getMedicines();
+  
+  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
+    user = result[0];
+    nurse = result[1];
+    clinician = result[2];
+    medicines = result[4];
+
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-medication', {
+        user: user,
+        isNurse: true,
+        nurse: nurse,
+        clinician: clinician,
+        users: users,
+        medicines: medicines
+      });
+    } else {
+      res.render('clinic-visit-medication', {
+        user: user, 
+        isNurse: false,
+        nurse: nurse,
+        clinician: clinician,
+        users: users,
+        medicines: medicines
+      });
+    }
+  }).catch(error => {
+    console.log('Error in clinic visit medication');
+    console.log(error.message);
+  });
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");

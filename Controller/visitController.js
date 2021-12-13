@@ -1,118 +1,160 @@
 const firebase = require('../firebase');
 
+exports.getDashboard = function(req, res){
+    var database = firebase.database();
+    var clinicVisitRef = database.ref("clinicVisit"); 
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var visitCount = 0, observation = 0, hospitalized = 0; sentHome = 0;
+    var childSnapshotData, dashboard; 
+    console.log("date");
+    console.log(date);
+
+    var promise = new Promise((resolve, reject) => {
+        clinicVisitRef.orderByChild("visitDate").equalTo(date).on('value', (snapshot) => { 
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshotData = childSnapshot.exportVal();
+                console.log
+                visitCount++;
+                if(childSnapshotData.status == "Under Observation"){
+                    observation++;
+                } else if(childSnapshotData.status == "Hospitalized"){
+                    hospitalized++;
+                } else if(childSnapshotData.status == "Sent Home"){
+                    sentHome++;
+                }
+            });
+            dashboard = {
+                visitCount: visitCount,
+                observationCount: observation,
+                hospitalizedCount: hospitalized,
+                sentHomeCount: sentHome
+            }
+            resolve(dashboard);
+        })
+    })
+    return promise;
+};
+
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, nurse, 
-        weight, height, bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
-        medicationAssign, prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
+        weight, weightStatus, height, heightStatus, bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
+        prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
         diagnosisAssign, diagnosis, notes, status } = req.body;
+        console.log("clinic visit controller");
+        console.log(weight);
+        console.log(weightStatus);
+        console.log(height);
+        console.log(heightStatus);
 
-    var i, key;
-    var time = Math.round(+new Date()/1000);
+    // var i, key;
+    // var time = Math.round(+new Date()/1000);
 
-    var database = firebase.database();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var studentRef = database.ref("studentInfo/"+ studentId);
+    // var database = firebase.database();
+    // var clinicVisitRef = database.ref("clinicVisit");
+    // var studentRef = database.ref("studentInfo/"+ studentId);
 
-    var record = {
-        id: studentId, 
-        studentName: studentName,
-        grade: studentGrade,
-        section: studentSection,
-        visitDate: visitDate,
-        timestamp: time,
-        timeIn: timeIn,
-        timeout: timeOut,
-        attendingNurse: nurse,
-        weight: weight,
-        height: height,
-        bodyTemp: bodyTemp,
-        bloodPressure: bloodPressure,
-        systolicBP: systolicBP,
-        diastolicBP: diastolicBP,
-        pulseRate: pulseRate,
-        respirationRate: respirationRate,   
+    // var record = {
+    //     id: studentId, 
+    //     studentName: studentName,
+    //     grade: studentGrade,
+    //     section: studentSection,
+    //     visitDate: visitDate,
+    //     timestamp: time,
+    //     timeIn: timeIn,
+    //     timeout: timeOut,
+    //     attendingNurse: nurse,
+    //     weight: weight,
+    //     weightStatus: weightStatus,
+    //     height: height,
+    //     heightStatus: heightStatus,
+    //     bodyTemp: bodyTemp,
+    //     systolicBP: systolicBP,
+    //     diastolicBP: diastolicBP,
+    //     pulseRate: pulseRate,
+    //     respirationRate: respirationRate,   
 
-        visitReason: complaint,
-        treatment: treatment,
+    //     visitReason: complaint,
+    //     treatment: treatment,
 
-        medicationAssigned: medicationAssign,
-        // medicationPrescribed: prescribedBy,
-        medication: "", // array of medications
+    //     //medicationAssigned: medicationAssign,
+    //     // medicationPrescribed: prescribedBy,
+    //     medication: "", // array of medications
 
-        diagnosisAssigned: diagnosisAssign,
-        diagnosis: diagnosis,
-        status: status,
-        notes: notes,
-    };
+    //     diagnosisAssigned: diagnosisAssign,
+    //     diagnosis: diagnosis,
+    //     status: status,
+    //     notes: notes,
+    // };
 
-    key = clinicVisitRef.push(record).key;
-    studentRef.child('weight').set(weight);
-    studentRef.child('height').set(height);
+    // key = clinicVisitRef.push(record).key;
+    // studentRef.child('weight').set(weight);
+    // studentRef.child('height').set(height);
 
-    // for(i = 0; i < medicineList.length; i++){
-    //     // left side is the field name in firebase
-    //     medication = {
-    //         medicines: medicineList[i],
-    //         purpose: purposeList[i],
-    //         amount: amountList[i],
-    //         interval: intervalList[i],
-    //         startDate: startMedList[i],
-    //         endDate: endMedList[i]
-    //     };
-    //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
+    // // for(i = 0; i < medicineList.length; i++){
+    // //     // left side is the field name in firebase
+    // //     medication = {
+    // //         medicines: medicineList[i],
+    // //         purpose: purposeList[i],
+    // //         amount: amountList[i],
+    // //         interval: intervalList[i],
+    // //         startDate: startMedList[i],
+    // //         endDate: endMedList[i]
+    // //     };
+    // //     //database.ref('clinicVisit/' + key + '/medication').push(medication);
+    // // }
+
+    // //var assignMedication = database.ref("assignedForms/"+medicationAssign);
+    // var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+
+    // // var medicationForm = {
+    // //     task: "Clinic Visit",
+    // //     description: "Medication",
+    // //     formId: key,
+    // //     assignedBy: nurse,
+    // //     dateAssigned: visitDate,
+    // //     timestamp: time
+    // // }
+
+    // var diagnosisForm = {
+    //     task: "Clinic Visit",
+    //     description: "Diagnosis",
+    //     formId: key,
+    //     assignedBy: nurse,
+    //     dateAssigned: visitDate,
+    //     timestamp: time
     // }
 
-    var assignMedication = database.ref("assignedForms/"+medicationAssign);
-    var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+    // // var assignBoth = {
+    // //     task: "Clinic Visit",
+    // //     description: "Diagnosis & Medication",
+    // //     formId: key,
+    // //     assignedBy: nurse,
+    // //     dateAssigned: visitDate,
+    // //     timestamp: time
+    // // }
 
-    var medicationForm = {
-        task: "Clinic Visit",
-        description: "Medication",
-        formId: key,
-        assignedBy: nurse,
-        dateAssigned: visitDate,
-        timestamp: time
-    }
+    // //var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
+    // var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
 
-    var diagnosisForm = {
-        task: "Clinic Visit",
-        description: "Diagnosis",
-        formId: key,
-        assignedBy: nurse,
-        dateAssigned: visitDate,
-        timestamp: time
-    }
+    // var notif = {
+    //     type: "form",
+    //     formId: key,
+    //     message: "You have been assigned to a new form!",
+    //     date: visitDate,
+    //     timestamp: time,
+    //     seen: false
+    // }
 
-    var assignBoth = {
-        task: "Clinic Visit",
-        description: "Diagnosis & Medication",
-        formId: key,
-        assignedBy: nurse,
-        dateAssigned: visitDate,
-        timestamp: time
-    }
-
-    var userMedNotification = database.ref("notifications/"+medicationAssign+"/"+key);
-    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
-
-    var notif = {
-        type: "form",
-        formId: key,
-        message: "You have been assigned to a new form!",
-        date: visitDate,
-        timestamp: time,
-        seen: false
-    }
-
-    if(medicationAssign == diagnosisAssign){
-        assignMedication.push(assignBoth);
-        userMedNotification.set(notif);
-    } else {
-        assignMedication.push(medicationForm);
-        assignDiagnosis.push(diagnosisForm);
-        userMedNotification.set(notif);
-        userDiagnosisNotification.set(notif);
-    }
+    // // if(medicationAssign == diagnosisAssign){
+    // //     assignMedication.push(assignBoth);
+    // //     userMedNotification.set(notif);
+    // // } else {
+    //     //assignMedication.push(medicationForm);
+    //     assignDiagnosis.push(diagnosisForm);
+    //     //userMedNotification.set(notif);
+    //     userDiagnosisNotification.set(notif);
+    //}
     
     // needed as ajax was used to send data
     res.status(200).send();
@@ -317,7 +359,7 @@ exports.getLastVisit = function(req, res){
                         notes: temp[0].notes
                     }
                 });   
-                res.send(details);
+                res.status(200).send(details);
             } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
                 await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
                     fname = userSnapshot.child('firstName').val();
@@ -345,7 +387,6 @@ exports.getLastVisit = function(req, res){
                         notes: temp[temp.length-1].notes
                     }
                 });   
-                console.log()
                 res.status(200).send(details);
             }
         } else {
@@ -362,7 +403,7 @@ exports.getClinicVisits = function(){
     var visits =[];
     var childSnapshotData;
 
-    var promise = new Promise((resolve,reject) => {
+    var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("clinicVisit")){
                 query.on('value', (childSnapshot) => {

@@ -125,15 +125,18 @@ router.get('/disease-surveillance', (req, res) => {
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
-  var promise1, promise2, promise3;
-  var user, formId, record;
+  var promise1, promise2, promise3, promise4;
+  var user, formId, record, dashboard;
   promise1 = userController.getUser();
   promise2 = visitController.getClinicVisits();
+  promise4 = visitController.getDashboard();
 
-  Promise.all([promise1, promise2]).then( result => {
+  Promise.all([promise1, promise2, promise4]).then( result => {
     user = result[0];
     record = result[1];
+    dashboard = result[2];
     promise3 = visitController.getAssignedForms(user.key);
+
     promise3.then(function(forms){
       formId = forms;
       if(user.role == "Nurse"){
@@ -142,6 +145,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
           user: user,
           forms: formId,
           clinicVisits: record,
+          dashboard: dashboard
         });
       }
       else {

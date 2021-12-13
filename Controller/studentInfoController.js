@@ -66,8 +66,6 @@ exports.getAllowedMedication = function(req, res){
                     })
                 }
             })
-            console.log("notAllowed");
-            console.log(notAllowed);
             res.status(200).send(notAllowed);
         } else {
             res.send({

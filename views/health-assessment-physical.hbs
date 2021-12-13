@@ -824,6 +824,15 @@
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
             document.getElementById("studentSection").value=sec;
+            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
+                document.getElementById("studentGrade").value="One";
+            }
+            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
+                document.getElementById("studentGrade").value="Two";
+            }
+            
+
+
             $('#studentID').val(array[i]);
 
             if(i<array.length-1){
@@ -868,9 +877,9 @@
                         //document.getElementById("age").value=data.currAge;
                         //document.getElementById("dope").value=data.currDope;//change to Date
                         //document.getElementById("clinicianAPE").value=data.currClinician;
-                        document.getElementById("bodyTemp").value=data.currTemp;
                         //document.getElementById("systolic").value=data.currSys;
                         //document.getElementById("diastolic").value=data.currDia;
+                        document.getElementById("bodyTemp").value=data.currTemp;
                         document.getElementById("pulseRate").value=data.currPr
                         document.getElementById("respRate").value=data.currRr;
                         document.getElementById("skinFind").value=data.currSf;
@@ -883,6 +892,8 @@
                         document.getElementById("osGlasses").value=data.currOsGlasses;
                         document.getElementById("complaintAPE").value=data.currComplaints;
                         document.getElementById("assessAPE").value=data.currReco;
+
+
                         //document.getElementById("BmiStatus").innerHTML=data.currBmiStatus;
                         //document.getElementById("bodyTemp").value=data.temp;
                         //paki-change sa backend

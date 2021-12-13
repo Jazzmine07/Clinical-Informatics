@@ -863,9 +863,9 @@
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
                                         <select class="form-control mb-2 is-valid select2" id="medicationVisit" name="medicationVisit">
                                             <option disabled="disabled" selected="true">Choose...</option>
-                                            <option value="1">Paracetamol</option>
-                                            <option value="2">Bactidol</option>
-                                            <option value="3">Kremil-S</option>
+                                            {{#each medicines}}
+                                                <option value="{{med}}">{{med}}</option>   
+                                            {{/each}} 
                                         </select>
                                         <div id="validMedicaton" class="valid-feedback">Medication safe!</div>
                                         <div id="invalidMedicaton" class="invalid-feedback">Student has allergy with this drug</div>                                    
@@ -2447,7 +2447,7 @@
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+                    document.getElementById('errorDiv').style.display = "block";  
                     document.getElementById('lastVisit').style.display = "none";
                     document.getElementById("clinicVisitForm").reset();
 
@@ -2457,7 +2457,7 @@
                     //console.log(data.error_msg);
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
                     document.getElementById('studentDiv').style.display = "none";                     
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
+                    document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
                 } 
@@ -2584,8 +2584,20 @@
                 }
                 else
                     document.getElementById('lastVisit').style.display = "none";
- 
+            });
 
+            $.post("/getAllowedMedication", {studentID: typedID}, function(allowedMedicines){
+                /* TO DO: checker for the allowed medication */
+                console.log("allowedMedicines of student");
+                console.log(allowedMedicines);
+                var i;
+                for(i = 0; i < allowedMedicines.length; i++){
+                    if(allowedMedicines[i].medicine == "paracetamol"){
+                        /* 
+                            TO DO: kapag ni select si paracetamol allowed siya
+                        */
+                    }
+                }
             });
         }
     </script>

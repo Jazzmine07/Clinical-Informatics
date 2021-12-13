@@ -422,22 +422,17 @@
                                     <tbody>
                                         {{#each inventory}}
                                             <tr>
-                                                <td>{{batchNum}}</td>
-                                                <td>{{med}}</td>
-                                                <td id="qty">{{qty}}</td>
-                                                <td>{{unit}}</td>
-                                                <td>{{formatDate purchDate}}</td>
-                                                <td>{{formatDate expDate}}</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input id="{{medicineID}}" type="hidden" value="{{medicineID}}">
-                                                        <input class="form-control" placeholder="Update inventory..." type="number" id="amount" min="0">
-                                                        <div class="input-group-append">
-                                                            <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="updateInventory('{{medicineID}}')">Update</button>
-                                                        </div>
-                                                    </div>
+                                                <td>{{details.batchNum}}</td>
+                                                <td>{{details.med}}</td>
+                                                <td id="qty">{{details.qty}}</td>
+                                                <td>{{details.unit}}</td>
+                                                <td>{{formatDate details.purchDate}}</td>
+                                                <td>{{formatDate details.expDate}}</td>
+                                                <td style="width: 70px !important; padding-right:0px">
+                                                    <input id="medicineID" type="hidden" value="{{details.medicineID}}">
+                                                    <input placeholder="Update inventory..." type="number" id="amount" min="0">
                                                 </td>
-                                                {{!-- <td style="width: 70px !important; padding-right:0px"></td> --}}
+                                                <td><button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="updateInventory()">Update</button></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

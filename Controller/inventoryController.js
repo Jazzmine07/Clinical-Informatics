@@ -24,7 +24,7 @@ exports.addMedicineInventory = function(req, res){
 };
 
 exports.getMedicineInventory = function(){
-    var childSnapshotData, inventory = [];
+    var childSnapshotData, inventory = [], details;
     var database = firebase.database();
     var databaseRef = database.ref();
     var inventoryRef = database.ref("medicineInventory");
@@ -35,7 +35,9 @@ exports.getMedicineInventory = function(){
                 inventoryRef.on('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        inventory.push({
+                        
+                        //console.log(childSnapshot.exportVal());
+                        details = {
                             medicineID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
                             med: childSnapshotData.medicine,
@@ -43,7 +45,10 @@ exports.getMedicineInventory = function(){
                             unit: childSnapshotData.unit,
                             purchDate: childSnapshotData.purchDate,
                             expDate: childSnapshotData.expDate
-                        })
+                        };
+                        inventory.push({
+                            details: details
+                        });
                     })
                     console.log("medicine inventory in controller");
                     console.log(inventory);

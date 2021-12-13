@@ -49,3 +49,61 @@ exports.getStudentInfo = function(req, res){
         }
     })
 };
+
+exports.getAllowedMedication = function(req, res){
+    var id = req.body.studentID;
+    var database = firebase.database();
+    var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
+    var childSnapshotData, allowedMedicines = [];
+
+    medicineRef.on('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                if(childSnapshotData.isAllowed == true){
+                    allowedMedicines.push({
+                        medicine: childSnapshot.key
+                    })
+                }
+            })
+            console.log("allowed");
+            console.log(allowedMedicines);
+            res.status(200).send(allowedMedicines);
+        } else {
+            res.send({
+                msg: "No medication restriction."
+            })
+        }
+    })
+};
+
+exports.getBMI = function(req, res){
+    var id = req.body.idNum;
+    var database = firebase.database();
+    var historyRef = database.ref("studentHealthHistory/"+ id + "/ape");
+    var studentInfo = [];
+
+    historyRef.on('value', (snapshot) => {
+        if(snapshot.exists()){
+            var test = snapshot.exportVal();
+            console.log("snasphot exportval");
+            console.log(test);
+            
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                studentInfo.push({ 
+                    schoolYear: childSnapshot.key,  // getting parent key
+                    bmi: childSnapshotData.bmi,
+                    weight: childSnapshotData.weight,
+                    height: childSnapshotData.height
+                })  
+            })
+            res.send(studentInfo);
+        } else {
+            res.send({
+                error: true,
+                error_msg: "No student with that id number!"
+            })
+        }
+    })
+}

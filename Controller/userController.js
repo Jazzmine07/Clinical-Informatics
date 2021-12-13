@@ -292,7 +292,6 @@ exports.getClinician = function(){
 // This function is to get all users except the current user's
 exports.assignTo = function(req){
   var user = req;
-  console.log("user in controller"+user);
   var database = firebase.database();
   var clinicUsers = database.ref('clinicUsers');
   var usersObject = [];

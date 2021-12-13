@@ -2951,39 +2951,3 @@ exports.getBmiStatus=function(req,res){
         res.send(bmiStatus);
     }
 }
-
-exports.getBMI = function(req, res){
-    var id = req.body.idNum;
-    var database = firebase.database();
-    var historyRef = database.ref("studentHealthHistory/"+ id + "/ape");
-    var studentInfo = [];
-
-    historyRef.on('value', (snapshot) => {
-        if(snapshot.exists()){
-            var test = snapshot.exportVal();
-            console.log("snasphot exportval");
-            console.log(test);
-            
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                studentInfo.push({ 
-                    schoolYear: childSnapshot.key,  // getting parent key
-                    bmi: childSnapshotData.bmi,
-                    weight: childSnapshotData.weight,
-                    height: childSnapshotData.height
-                })  
-            })
-            res.send(studentInfo);
-        } else {
-            res.send({
-                error: true,
-                error_msg: "No student with that id number!"
-            })
-        }
-    })
-}
-
-
-
-
-

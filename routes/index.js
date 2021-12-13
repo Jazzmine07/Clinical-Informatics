@@ -125,8 +125,8 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
-  var prom1, prom2, prom3, prom4;
-  var user, nurse, clinician, users;
+  var prom1, prom2, prom3, prom4, prom5;
+  var user, nurse, clinician, users, medicines;
 
   prom1 = userController.getUser();
   prom1.then(function(result){
@@ -137,11 +137,13 @@ router.get('/clinic-visit/create', (req, res) => {
   });
   prom2 = userController.getNurse(); 
   prom3 = userController.getClinician();
+  prom5 = inventoryController.getMedicines();
   
-  Promise.all([prom1, prom2, prom3, prom4]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
     user = result[0];
     nurse = result[1];
     clinician = result[2];
+    medicines = result[4];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-create', {
@@ -149,7 +151,8 @@ router.get('/clinic-visit/create', (req, res) => {
         isNurse: true,
         nurse: nurse,
         clinician: clinician,
-        users: users
+        users: users,
+        medicines: medicines
       });
     } else {
       res.render('clinic-visit-create', {
@@ -157,7 +160,8 @@ router.get('/clinic-visit/create', (req, res) => {
         isNurse: false,
         nurse: nurse,
         clinician: clinician,
-        users: users
+        users: users,
+        medicines: medicines
       });
     }
   }).catch(error => {
@@ -612,7 +616,7 @@ router.get('/inventory-dental/add', (req, res) => {
 });
 
 // Get bmi info
-router.post('/getBMI', studentController.getBMI);
+router.post('/getBMI', studentInfoController.getBMI);
 
 // Get profile page
 router.get('/profile', (req, res) => {
@@ -623,6 +627,7 @@ router.get('/profile', (req, res) => {
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/getStudentRecord', studentInfoController.getStudentInfo);
+router.post('/getAllowedMedication', studentInfoController.getAllowedMedication);
 router.post('/getLastVisit', visitController.getLastVisit);
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);

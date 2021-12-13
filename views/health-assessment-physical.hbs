@@ -461,6 +461,10 @@
                                     <div class="font-weight-bold">BMI</span></div>
                                     <div class="font-weight-normal" id="lpeBMI"></span></div>                                        
                                 </div>
+                                <div class="col-5">
+                                    <div class="font-weight-bold">BMI Status</span></div>
+                                    <div class="font-weight-normal" id="lpeBMIStatus"></span></div>                                        
+                                </div>
                             </div>
                             <div class="form-row mb-2">
                                 <div class="col-6">
@@ -820,6 +824,27 @@
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
             document.getElementById("studentSection").value=sec;
+            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
+                document.getElementById("studentGrade").value="One";
+            }
+            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
+                document.getElementById("studentGrade").value="Two";
+            }
+            else if(document.getElementById("studentSection").value=="Respect"||document.getElementById("studentSection").value=="Courtesy"||document.getElementById("studentSection").value=="Trust"||document.getElementById("studentSection").value=="Kindness"||document.getElementById("studentSection").value=="Piety"||document.getElementById("studentSection").value=="Prayerfulness"){
+                 document.getElementById("studentGrade").value="Three";
+            }
+            else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
+                 document.getElementById("studentGrade").value="Four";
+            }         
+            else if(document.getElementById("studentSection").value=="Trustwortiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
+                 document.getElementById("studentGrade").value="Five";
+            }
+            else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
+                 document.getElementById("studentGrade").value="Six";
+            }
+            
+
+
             $('#studentID').val(array[i]);
 
             if(i<array.length-1){
@@ -857,6 +882,31 @@
                         document.getElementById("studentName").value=data.name;                            
                         document.getElementById("dob").value=data.birthday;
                         document.getElementById("gender").value=data.sex;
+
+                        //document.getElementById("medProb").value=data.medProb;
+                        //document.getElementById("allergies").value=data.allergies;
+                        
+                        //document.getElementById("age").value=data.currAge;
+                        //document.getElementById("dope").value=data.currDope;//change to Date
+                        //document.getElementById("clinicianAPE").value=data.currClinician;
+                        //document.getElementById("systolic").value=data.currSys;
+                        //document.getElementById("diastolic").value=data.currDia;
+                        document.getElementById("bodyTemp").value=data.currTemp;
+                        document.getElementById("pulseRate").value=data.currPr
+                        document.getElementById("respRate").value=data.currRr;
+                        document.getElementById("skinFind").value=data.currSf;
+                        document.getElementById("weight").value=data.currWeight;
+                        document.getElementById("height").value=data.currHeight;
+                        document.getElementById("bmi").value=data.currBmi;
+                        document.getElementById("odVision").value=data.currOdVision;
+                        document.getElementById("osVision").value=data.currOsVision;
+                        document.getElementById("odGlasses").value=data.currOdGlasses;
+                        document.getElementById("osGlasses").value=data.currOsGlasses;
+                        document.getElementById("complaintAPE").value=data.currComplaints;
+                        document.getElementById("assessAPE").value=data.currReco;
+
+
+                        //document.getElementById("BmiStatus").innerHTML=data.currBmiStatus;
                         //document.getElementById("bodyTemp").value=data.temp;
                         //paki-change sa backend
                         //document.getElementById("bloodPressure").value=data.bp;
@@ -865,21 +915,26 @@
                         //document.getElementById("systolic").value=data.bp;
                         //document.getElementById("diastolic").value=data.bp;
 
-                        document.getElementById("lpePR").innerHTML=data.pr;
-                        document.getElementById("lpeRR").innerHTML=data.rr;
-                        document.getElementById("lpeSF").innerHTML=data.sf;
-                        document.getElementById("weight").value=data.weight;
-                        document.getElementById("height").value=data.height;
-                        document.getElementById("bmi").value=data.bmi;
-                        document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
-                        document.getElementById("lpeODV").innerHTML=data.odVision;
-                        document.getElementById("lpeOSG").innerHTML=data.osVision;
-                        document.getElementById("lpeODG").innerHTML=data.odGlasses;
-                        document.getElementById("lpeOSG").innerHTML=data.osGlasses;
-                        document.getElementById("medProb").value=data.medProb;
-                        document.getElementById("allergies").value=data.allergies;
-                        document.getElementById("lpeProblems").innerHTML=data.complaints;
-                        document.getElementById("lpeAssess").innerHTML=data.reco;
+                        //load prev Data
+                        document.getElementById("lpeSY").innerHTML=data.prevSy;
+                        document.getElementById("lpePR").innerHTML=data.prevPr;
+                        document.getElementById("lpeRR").innerHTML=data.prevBr;
+                        document.getElementById("lpeSF").innerHTML=data.prevSf;
+                        document.getElementById("lpeWeight").innerHTML=data.prevWeight;
+                        document.getElementById("lpeHeight").innerHTML=data.prevHeight;
+                        document.getElementById("lpeBMI").innerHTML=data.prevBmi;
+                        document.getElementById("lpeODV").innerHTML=data.prevOdVision;
+                        document.getElementById("lpeOSV").innerHTML=data.prevOsVision;
+                        document.getElementById("lpeODG").innerHTML=data.prevOdGlasses;
+                        document.getElementById("lpeOSG").innerHTML=data.prevOsGlasses;
+                        document.getElementById("lpeProblems").innerHTML=data.prevComplaints;
+                        document.getElementById("lpeAssess").innerHTML=data.prevReco;
+                        document.getElementById("lpeBMIStatus").innerHTML=data.prevBmiStatus;
+                        document.getElementById("lpeDate").innerHTML=data.prevDope;
+                        document.getElementById("lpeDoctor").innerHTML=data.prevClinician;
+                        document.getElementById("lpeBT").innerHTML=data.prevTemp;
+                        document.getElementById("lpeBP").innerHTML=data.prevSys +"/"+ data.prevDia;
+
 
                     }  
                 });

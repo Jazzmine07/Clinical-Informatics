@@ -301,17 +301,13 @@ exports.loadPrevData=function(req,res){
     console.log("Start and End:"+start+" and "+end);
     var prevYear= start+"-"+end;
     
+    var ape=[],curr=[];
     var database = firebase.database();
     var studentInfoRef= database.ref("studentInfo/"+id);
     var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ape");
     console.log("Previous Year:"+ prevYear);
     var name,bday,sex;
-    var temp="",bp="",pr="",rr="",sf="",weight="",height="",bmi="",bmiStatus="",od="",os="",odGlasses="",osGlasses="";
-    var medProb="",allergies="",complaints="",reco="";
     
-    console.log("Path1: " + studentInfoRef);
-    console.log("Path2: " + studentHealthHistoryRef);
-
     studentInfoRef.on('value', (snapshot) =>{
             var childValues = snapshot.exportVal();
             console.log("DATA Path1: " + childValues);
@@ -322,57 +318,132 @@ exports.loadPrevData=function(req,res){
             studentHealthHistoryRef.on('value', (snapshot) =>{
                 snapshot.forEach(function(childSnapshot){
                     console.log(childSnapshot.key);
-                    console.log(prevYear);
-                    if(childSnapshot.key==prevYear){
-                        var childValues = childSnapshot.exportVal();
-                        temp = childValues.temp;
-                        bp= childValues.bp;
-                        pr= childValues.pr;
-                        rr= childValues.rr;
-                        sf=childValues.sf;
-                        weight = childValues.weight;
-                        height= childValues.height;
-                        bmi = childValues.bmi;
-                        bmiStatus = childValues.bmiStatus;
-                        od= childValues.odVision;
-                        os= childValues.osVision;
-                        odGlasses = childValues.odGlasses;
-                        osGlasses= childValues.osGlasses;
-                        medProb= childValues.medProb;
-                        allergies= childValues.allergies;
-                        complaints= childValues.concern;
-                        reco= childValues.assess;
+                    var childValues = childSnapshot.exportVal();
+                    ape.push({
+                        sy:childSnapshot.key,
+                        dope:childValues.apeDate,
+                        doctor:childValues.clinician,
+                        systolic:childValues.systolic,
+                        diastolic:childValues.diastolic,
+                        temp: childValues.temp,
+                        bp: childValues.bp,
+                        pr: childValues.pr,
+                        rr: childValues.rr,
+                        sf:childValues.sf,
+                        weight: childValues.weight,
+                        height: childValues.height,
+                        bmi: childValues.bmi,
+                        bmiStatus: childValues.bmiStatus,
+                        od: childValues.odVision,
+                        os: childValues.osVision,
+                        odGlasses: childValues.odGlasses,
+                        osGlasses: childValues.osGlasses,
+                        medProb: childValues.medProb,
+                        allergies: childValues.allergies,
+                        complaints: childValues.concern,
+                        reco: childValues.assess
+                    });
+                    if(childSnapshot.key==currSY){
+                        curr[0]={
+                            sy:childSnapshot.key,
+                            dope:childValues.apeDate,
+                            doctor:childValues.clinician,
+                            systolic:childValues.systolic,
+                            diastolic:childValues.diastolic,
+                            temp: childValues.temp,
+                            bp: childValues.bp,
+                            pr: childValues.pr,
+                            rr: childValues.rr,
+                            sf:childValues.sf,
+                            weight: childValues.weight,
+                            height: childValues.height,
+                            bmi: childValues.bmi,
+                            bmiStatus: childValues.bmiStatus,
+                            od: childValues.odVision,
+                            os: childValues.osVision,
+                            odGlasses: childValues.odGlasses,
+                            osGlasses: childValues.osGlasses,
+                            medProb: childValues.medProb,
+                            allergies: childValues.allergies,
+                            complaints: childValues.concern,
+                            reco: childValues.assess
+                        };
                     }
+                    
+                    
                 });
             });
         });
     
+    var lastApe;
+    var i=1;
+    while(lastApe==null){
+        if(currSY==ape[ape.length-i].sy){
+            i++;
+        }
+        else{
+            lastApe=i;
+            break;
+        }
+    }
+
     console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
-    console.log(temp);
+    console.log(ape);
+    console.log(curr);
     var data={
         name:name,
         birthday:bday,
         sex:sex,
-        temp:temp,
-        bp:bp,
-        pr:pr,
-        rr:rr,
-        sf:sf,
-        weight:weight,
-        height: height,
-        bmi:bmi,
-        bmiStatus:bmiStatus,
-        odVision:od,
-        osVision:os,
-        odGlasses:odGlasses,
-        osGlasses:osGlasses,
-        medProb:medProb,
-        allergies:allergies,
-        complaints:complaints,
-        reco:reco
+
+        prevSy:ape[lastApe].sy,
+        prevTemp:ape[lastApe].temp,
+        prevBp:ape[lastApe].bp,
+        prevPr:ape[lastApe].pr,
+        prevRr:ape[lastApe].rr,
+        prevSf:ape[lastApe].sf,
+        prevWeight:ape[lastApe].weight,
+        prevHeight: ape[lastApe].height,
+        prevBmi:ape[lastApe].bmi,
+        prevBmiStatus:ape[lastApe].bmiStatus,
+        prevOdVision:ape[lastApe].od,
+        prevOsVision:ape[lastApe].os,
+        prevOdGlasses:ape[lastApe].odGlasses,
+        prevOsGlasses:ape[lastApe].osGlasses,
+        medProb:ape[lastApe].medProb,
+        allergies:ape[lastApe].allergies,
+        prevComplaints:ape[lastApe].complaints,
+        prevReco:ape[lastApe].reco,
+        prevDope:ape[lastApe].dope,
+        prevClinician:ape[lastApe].doctor,
+        prevSys:ape[lastApe].systolic,
+        prevDia:ape[lastApe].diastolic,
+                        
+        
+        currSy:curr[0].sy,
+        currTemp:curr[0].temp,
+        currBp:curr[0].bp,
+        currPr:curr[0].pr,
+        currRr:curr[0].rr,
+        currSf:curr[0].sf,
+        currWeight:curr[0].weight,
+        currHeight:curr[0].height,
+        currBmi:curr[0].bmi,
+        currBmiStatus:curr[0].bmiStatus,
+        currvOdVision:curr[0].od,
+        currOsVision:curr[0].os,
+        currOdGlasses:curr[0].odGlasses,
+        currOsGlasses:curr[0].osGlasses,
+        currMedProb:curr[0].medProb,
+        currAllergies:curr[0].allergies,
+        currComplaints:curr[0].complaints,
+        currReco:curr[0].reco,
+        currDope:curr[0].dope,
+        currClinician:curr[0].doctor,
+        currSys:curr[0].systolic,
+        currDia:curr[0].diastolic,
     };
     console.log("Inside"+data.name);
-    console.log("Inside"+data.temp);
+
     res.send(data);
     
 }

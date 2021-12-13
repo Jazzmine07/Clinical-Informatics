@@ -54,21 +54,21 @@ exports.getAllowedMedication = function(req, res){
     var id = req.body.studentID;
     var database = firebase.database();
     var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
-    var childSnapshotData, allowedMedicines = [];
+    var childSnapshotData, notAllowed = [];
 
     medicineRef.on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                if(childSnapshotData.isAllowed == true){
-                    allowedMedicines.push({
+                if(childSnapshotData.isAllowed == false){
+                    notAllowed.push({
                         medicine: childSnapshot.key
                     })
                 }
             })
-            console.log("allowed");
-            console.log(allowedMedicines);
-            res.status(200).send(allowedMedicines);
+            console.log("notAllowed");
+            console.log(notAllowed);
+            res.status(200).send(notAllowed);
         } else {
             res.send({
                 msg: "No medication restriction."

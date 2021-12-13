@@ -40,25 +40,25 @@ exports.login = (req, res) => {
   // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02').set(parentInfo); // adding other fields
 
   // var personalInfo = {
-  //   firstName: 'Ava',
-  //   middleName: 'Lopez',
-  //   lastName: 'Torres',
-  //   studentType: 'old',
+  //   firstName: 'Julius',
+  //   middleName: 'Mauricio',
+  //   lastName: 'Ilagan',
+  //   studentType: 'New',
   //   grade: '1',
-  //   section: 'truthfulness',
-  //   birthday: '2014-12-29', // yyyy-mm-dd
+  //   section: 'Truthfulness',
+  //   birthday: '2016-07-01', // yyyy-mm-dd
   //   age: '7',
-  //   sex: 'Female',
+  //   sex: 'Male',
   //   address: 'Metro Manila',
-  //   motherName: 'Chloe Torres',
-  //   motherEmail: 'chloe_torres@gmail.com',
-  //   fatherName: 'Antonio Torres',
-  //   fatherEmail: 'antonio_torres@gmail.com',
-  //   guardianName: 'Chloe Torres',
-  //   guardianEmail: 'chloe_torres@gmail.com',
+  //   motherName: 'Zoe Ilagan',
+  //   motherEmail: 'zoe_ilagan@gmail.com',
+  //   fatherName: 'Shoto Ilagan',
+  //   fatherEmail: 'shoto_ilagan@gmail.com',
+  //   guardianName: 'Zoe Ilagan',
+  //   guardianEmail: 'zoe_ilagan@gmail.com',
   // }
-  // database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
-  // database.ref('studentInfo/' + studentAccount.idNum).set(personalInfo); // adding other fields
+  //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
+  //database.ref('studentInfo/' + 409068).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   if(email == "" && pass == ""){
@@ -180,35 +180,14 @@ exports.getUser = function(){
             lastName: snapshot.child('lastName').val(),
             role: snapshot.child('role').val()
           })      
+          console.log("userInfo in controller");
+          console.log(userInfo);
           resolve(userInfo); 
         })
       }
-      // else{
-      //   reject(Error("Why? :'("))
-      // }
     });
   })
   return promise;
-
-  //  await firebase.auth().onAuthStateChanged(async (user) => {
-  //   if (user) {
-  //     var uid = user.uid;
-  //     var userRef = database.ref("clinicUsers/"+uid);
-      
-      
-  //     await userRef.on('value', (snapshot) => { 
-  //       userInfo = ({
-  //         key: snapshot.key,
-  //         firstName: snapshot.child('firstName').val(),
-  //         lastName: snapshot.child('lastName').val(),
-  //         role: snapshot.child('role').val()
-  //       })      
-  //       console.log("userInfo sa controller");      
-  //       console.log(userInfo);
-  //       return userInfo; // the initial repsonse
-  //     })
-  //   }
-  // });
 }
 
 // This function gets all the clinic users

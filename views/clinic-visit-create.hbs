@@ -178,18 +178,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="/disease-surveillance">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
+            <!-- Nav Item - Clinic Visit -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/clinic-visit">
+                    <i class="fas fa-fw fa-medkit"></i>
+                    <span>Clinic Visit</span></a>
             </li>
 
             <!-- Nav Item - Profile -->
@@ -199,13 +192,6 @@
                     <span>Student Profile</span></a>
             </li>
 
-            <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/clinic-visit">
-                    <i class="fas fa-fw fa-medkit"></i>
-                    <span>Clinic Visit</span></a>
-            </li>
-
             <!-- Nav Item - Health Assessment -->
             <li class="nav-item">
                 <a class="nav-link" href="/health-assessment">
@@ -213,7 +199,6 @@
                     <span>Health Assessment</span></a>
             </li>
 
-            {{#if isNurse}}
             <!-- Nav Item - Inventory -->
             <li class="nav-item">
                 <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -237,7 +222,6 @@
                     </li>
                 </ul>
             </li>
-            {{/if}}
 
             <!-- Nav Item - Promotive Care -->
             <li class="nav-item">
@@ -839,12 +823,12 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
+                            {{!-- <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
                             <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
                                 {{#each users}}
                                     <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                 {{/each}}
-                            </select> 
+                            </select>  --}}
                         </div>
                         <div class="card-body">
                                 <div class="form-row align-items-center">
@@ -1032,9 +1016,9 @@
     </script>
 
     <script>
+        var weightStatus;
         $("#weight").change(function(){
-            var weightStatus;
-            var weight =  $('#weight').val(); 
+            var weight =  $('#weight').val();  
             console.log(weight);
             console.log("weight clicked");
 
@@ -1066,8 +1050,9 @@
 
         });
 
+        var heightStatus;
+        
         $("#height").change(function(){
-            var heightStatus;
             var height =  $('#height').val(); 
             console.log(height);
             console.log("height clicked");
@@ -2425,6 +2410,13 @@
                 }
             });
         });
+        
+        function getHeightWeight(){
+            return {
+                heightStatus: heightStatus,
+                weightStatus: weightStatus
+            };
+        }
 
         function openDiv(event, card) {
             var i, menu, button;
@@ -2580,24 +2572,23 @@
                     $('#lvStatus').html(details.status);
 
                     document.getElementById('lastVisit').style.display = "block";
-
                 }
                 else
                     document.getElementById('lastVisit').style.display = "none";
             });
 
-            $.post("/getAllowedMedication", {studentID: typedID}, function(allowedMedicines){
+            $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
-                console.log("allowedMedicines of student");
-                console.log(allowedMedicines);
+                console.log("not allowed medications of student");
+                console.log(notAllowedMedicines);
                 var i;
-                for(i = 0; i < allowedMedicines.length; i++){
-                    if(allowedMedicines[i].medicine == "paracetamol"){
+                //for(i = 0; i < notAllowedMedicines.length; i++){
+                    //if(notAllowedMedicines[i].medicine == "paracetamol"){
                         /* 
                             TO DO: kapag ni select si paracetamol allowed siya
                         */
-                    }
-                }
+                    //}
+                //}
             });
         }
     </script>
@@ -2658,6 +2649,10 @@
         });
 
         $('#saveBtn').click(function(){
+            var heightWeightStatus = getHeightWeight();
+            var height = $('#height').val();
+            var weight = $('#weight').val();   
+
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
             //console.log(newArray);       
@@ -2729,8 +2724,8 @@
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            var selectMedicationAssign = document.getElementById("assignMedication");
-            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+            //var selectMedicationAssign = document.getElementById("assignMedication");
+            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
 
             var selectPrescribedBy = document.getElementById("prescribedBy");
             //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
@@ -2748,7 +2743,6 @@
             console.log(notes);
 
             /* TO DO: Add checkers for fields if empty */
-
             $.ajax({
                 url: '/addClinicVisit',
                 method: 'POST',
@@ -2761,6 +2755,10 @@
                     timeIn: timeIn,
                     timeOut: timeOut,
                     nurse: nurse, // attending nurse 
+                    weight: weight,
+                    weightStatus: heightWeightStatus.weightStatus,
+                    height: height,
+                    heightStatus: heightWeightStatus.heightStatus,
                     bodyTemp: bodyTemp,
                     systolicBP: systolic,
                     diastolicBP: diastolic,
@@ -2769,7 +2767,7 @@
                     complaint: complaint,
                     treatment: treatment,                    
                     
-                    medicationAssign: selectedMedicationAssign,
+                    //medicationAssign: selectedMedicationAssign,
                     //prescribedBy: selectedPrescribedBy,
                     //medicineList: medicineList,
                     //purposeList: purposeList, 
@@ -2790,6 +2788,7 @@
                     window.location.href = "/clinic-visit";
                 }
             });
+            
         });
     });
     </script>

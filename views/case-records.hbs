@@ -73,75 +73,129 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
-            </li>
+            {{#if isNurse}}
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
 
-            <!-- Nav Item - Case Records -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/case-records">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Case Records</span></a>
-            </li>
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
 
-            <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item">
-                <a class="nav-link" href="/clinic-visit">
-                    <i class="fas fa-fw fa-medkit"></i>
-                    <span>Clinic Visit</span></a>
-            </li>
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
 
-            <!-- Nav Item - Health Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-stethoscope"></i>
-                    <span>Health Assessment</span></a>
-            </li>
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
 
-            <!-- Nav Item - Communications -->
-            <li class="nav-item">
-                <a class="nav-link" href="/communications">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>Communications</span></a>
-            </li>
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
 
-            <!-- Nav Item - Promotive Care -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-child"></i>
-                    <span>Promotive Care</span></a>
-            </li>
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
 
-            <!-- Nav Item - Performance Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-star"></i>
-                    <span>Performance Assessment</span></a>
-            </li>
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{else}}
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                
+                <!-- Nav Item - Disease Surveillance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/disease-surveillance">
+                        <i class="fas fa-fw fa-virus"></i>
+                        <span>Disease Surveillance</span></a>
+                </li>
 
-            <!-- Nav Item - Inventory -->
-            <li class="nav-item">
-                <a class="nav-link" href="/inventory">
-                    <i class="fas fa-fw fa-tablets"></i>
-                    <span>Inventory</span></a>
-            </li>
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
 
-            <!-- Nav Item - Profile -->
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Profile</span></a>
-            </li>
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{/if}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

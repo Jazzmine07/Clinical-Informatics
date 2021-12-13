@@ -86,18 +86,57 @@ router.get('/dashboard', (req, res) => {
   });
 });
 
+// Get disease surveillance page
+router.get('/disease-surveillance', (req, res) => {
+  console.log("Read disease surveillance successful!");
+  var prom1 ,prom2, prom3 ,user, topDiagnosis;
+
+  prom1 =  userController.getUser();
+  prom2= surveillanceController.getDiseaseSurveillanceData();
+  prom2.then(function(result){
+    prom3 = surveillanceController.getTopDisease(result);
+    prom3.then(function(result){
+      topDiagnosis=result;
+    });
+  });
+  
+  Promise.all([prom1, prom2, prom3]).then(result => {
+    console.log("HI"+topDiagnosis[0]);
+    user = result[0];
+    if(user.role == "Nurse"){
+      res.render('disease-surveillance', {
+        user: user,
+        topDiagnosisWeek: topDiagnosis[0],
+        topDiagnosisMonth: topDiagnosis[1]
+      });
+    } else {
+      res.render('disease-surveillance', {
+        user: user,
+        topDiagnosisWeek: topDiagnosis[0],
+        topDiagnosisMonth: topDiagnosis[1]
+      });
+    }
+  }).catch(error => {
+    console.log('Error in disease surveillance');
+    console.log(error.message);
+  });
+});
+
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
-  var promise1, promise2, promise3;
-  var user, formId, record;
+  var promise1, promise2, promise3, promise4;
+  var user, formId, record, dashboard;
   promise1 = userController.getUser();
   promise2 = visitController.getClinicVisits();
+  promise4 = visitController.getDashboard();
 
-  Promise.all([promise1, promise2]).then( result => {
+  Promise.all([promise1, promise2, promise4]).then( result => {
     user = result[0];
     record = result[1];
+    dashboard = result[2];
     promise3 = visitController.getAssignedForms(user.key);
+
     promise3.then(function(forms){
       formId = forms;
       if(user.role == "Nurse"){
@@ -106,6 +145,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
           user: user,
           forms: formId,
           clinicVisits: record,
+          dashboard: dashboard
         });
       }
       else {
@@ -212,81 +252,33 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
   }).catch(error => {
     console.log('An Error Occured');
   });
- 
-
-  // userController.getUser(req, user => {
-  // //   userController.getNurse(req, nurse => {
-  // //     userController.getClinician(req, clinician => {
-  // //       userController.getUsers(req, users => {
-  //   studentController.getClinicVisitForm(req, form => {
-  //           if(user.role == "Nurse"){
-  //             res.render('clinic-visit-edit', {
-  //               user: user,
-  //               isNurse: true,
-  //               form: form
-  //             });
-  //           } else {
-  //             res.render('clinic-visit-edit', {
-  //               user: user, 
-  //               isNurse: false,
-  //               form: form
-  //             });
-  //           }
-  //   })
-          
-  // //      })
-  // //     })
-  // //   })
-  // })
-});
-
-// Get disease surveillance page
-router.get('/disease-surveillance', (req, res) => {
-  console.log("Read disease surveillance successful!");
-  var prom1,prom2,prom3,user,topDiagnosis;
-  prom1 =  userController.getUser();
-  prom1.then(function(result){
-      user = result;
-  });
-  prom2= surveillanceController.getDiseaseSurveillanceData();
-  prom2.then(function(result){
-    prom3 = surveillanceController.getTopDisease(result);
-    prom3.then(function(result){
-      topDiagnosis=result;
-    });
-  });
-  
-
-  Promise.all([prom1,prom2,prom3]).then(result => {
-    console.log("HI"+topDiagnosis[0]);
-    if(user.role == "Nurse"){
-      res.render('disease-surveillance', {
-        user: user,
-        topDiagnosisWeek: topDiagnosis[0],
-        topDiagnosisMonth: topDiagnosis[1]
-      });
-    } else {
-      res.render('disease-surveillance', {
-        user: user,
-        topDiagnosisWeek: topDiagnosis[0],
-        topDiagnosisMonth: topDiagnosis[1]
-      });
-    }
-  }).catch(error => {
-    console.log('An Error Occured');
-  });
-
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('disease-surveillance', {
-  //     users: usersInfo
-  //   });
-  // })
 });
 
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");
-  res.render('profile');
+  var promise1, promise2;
+  var user;
+  promise1 = userController.getUser();
+
+  Promise.all([promise1]).then(result => {
+    user = result[0];
+    if(user.role == "Nurse"){
+      res.render('profile', {
+        isNurse: true,
+        user: user,
+      });
+    }
+    else {
+      res.render('profile', {
+        isNurse: false,
+        user: user,
+      });
+    }
+  }).catch(error => {
+    console.log('Error in student profile!');
+    console.log(error.message);
+  });
 });
 
 // Get health assessment page
@@ -294,37 +286,18 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
   var prom1,prom2,prom3,prom4,user,records,sections,schedule;
 
-  prom1 =userController.getUser();
-  prom1.then(function(result){
-    console.log("Promise1 in health assessment: " + result.key);
-    user=result;
-  });
+  prom1 = userController.getUser();
+  prom2 = studentController.getSections();
+  prom3 = studentController.getAllApeSched();
 
-  prom2= visitController.getClinicVisits();
-  prom2.then(function(result){
-    console.log("Promise2 in health assessment: " + result);
-    records=result;
-  }); 
-
-  prom3= studentController.getSections();
-  prom3.then(function(result){
-    console.log("Promise3 in health assessment:" + result);
-    sections=result;
-  })
-  prom4= studentController.getAllApeSched();
-  console.log("Promise 4");
-  console.log(prom4);
-  prom4.then(function(result){
-    console.log("Promise4 in health assessment:" + result);
-    schedule=result;
-  })
-
-  Promise.all([prom1,prom2,prom3,prom4]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
+    user = result[0];
+    sections = result[1];
+    schedule = result[2];
     if(user.role == "Nurse"){
       res.render('health-assessment', {
         user: user,
         isNurse: true,
-        clinicVisits: records,
         sections: sections,
         schedule: schedule
       });
@@ -332,40 +305,14 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
       res.render('health-assessment', {
         user: user, 
         isNurse: false,
-        clinicVisits: records,
         sections: sections,
         schedule: schedule
       });
     }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in health assessment');
+    console.log(error.message);
   });
-
-  // userController.getUser(req, user => {
-  //     visitController.getClinicVisits(req, records => {
-  //       studentController.getSections(req, sections => {
-  //         console.log("clinicVisits index", records);
-  //         console.log("sections:", sections);
-  //         userController.getUser(req, user => {
-  //         if(user.role == "Nurse"){
-  //           res.render('health-assessment', {
-  //             user: user,
-  //             isNurse: true,
-  //             clinicVisits: records,
-  //             sections: sections
-  //           });
-  //         } else {
-  //           res.render('health-assessment', {
-  //             user: user, 
-  //             isNurse: false,
-  //             clinicVisits: records,
-  //             sections: sections
-  //           });
-  //         }
-  //       })
-  //     })
-  //   })
-  // });
 });
 
 // Get physical exam page
@@ -378,13 +325,6 @@ router.get('/health-assessment/physical', (req, res) => {
       user: result
     });
   })
-  
-  
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('health-assessment-physical', {
-  //     users: usersInfo
-  //   });
-  // })
 });
 
 // Get health assessment schedule page
@@ -396,63 +336,6 @@ router.get('/health-assessment/schedule', (req, res) => {
       user: result
     })
   });
-  
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('health-assessment-schedule', {
-  //     users: usersInfo
-  //   });
-  // })
-});
-
-// Get communications page
-router.get('/communications', (req, res) => {
-  console.log("Read communications successful!");
-  var users =  userController.getUser();
-  users.then(function(result){
-    res.render('communications', {
-      users: users
-    });
-  })
-  
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('communications', {
-  //     users: usersInfo
-  //   });
-  // })
-});
-
-// Get promotive care page
-router.get('/promotive-care', (req, res) => {
-  console.log("Read promotive care successful!");
-  var users =  userController.getUser();
-  users.then(function(result){
-    res.render('promotive-care', {
-      users: users
-    });
-  })
-  
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('promotive-care', {
-  //     users: usersInfo
-  //   });
-  // })
-});
-
-// Get program form page
-router.get('/promotive-care/program-form', (req, res) => {
-  console.log("Read program form successful!");
-  var users =  userController.getUser();
-  users.then(function(result){
-    res.render('program-form', {
-      users: users
-    });
-  })
-  
-  // userController.getUsers(req, usersInfo => {
-  //   res.render('program-form', {
-  //     users: usersInfo
-  //   });
-  // })
 });
 
 // Get medicine inventory page
@@ -615,36 +498,67 @@ router.get('/inventory-dental/add', (req, res) => {
   })   
 });
 
-// Get bmi info
-router.post('/getBMI', studentInfoController.getBMI);
-
-// Get profile page
-router.get('/profile', (req, res) => {
-  console.log("Read profile successful!");
-  res.render('profile');
+// Get promotive care page
+router.get('/promotive-care', (req, res) => {
+  console.log("Read promotive care successful!");
+  var users =  userController.getUser();
+  users.then(function(result){
+    res.render('promotive-care', {
+      users: users
+    });
+  })
 });
 
+// Get program form page
+router.get('/promotive-care/program-form', (req, res) => {
+  console.log("Read program form successful!");
+  var users =  userController.getUser();
+  users.then(function(result){
+    res.render('program-form', {
+      users: users
+    });
+  })
+});
+
+// Get communications page
+router.get('/communications', (req, res) => {
+  console.log("Read communications successful!");
+  var users =  userController.getUser();
+  users.then(function(result){
+    res.render('communications', {
+      users: users
+    });
+  })
+});
+
+// Get bmi info
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
+
+router.post('/updateNotif', notificationController.updateNotifications);
 router.post('/getStudentRecord', studentInfoController.getStudentInfo);
-router.post('/getAllowedMedication', studentInfoController.getAllowedMedication);
+router.post('/getBMI', studentInfoController.getBMI);
+router.post('/getBmiStatus', studentController.getBmiStatus);
+
+router.post('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.post('/getLastVisit', visitController.getLastVisit);
+
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);
-router.post('/updateNotif', notificationController.updateNotifications);
+
 router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);
+router.post('/loadPrevData', studentController.loadPrevData);
+router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
+
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/updateDentalInventory', inventoryController.updateDentalInventory);
-router.post('/getBmiStatus', studentController.getBmiStatus);
-router.post('/loadPrevData', studentController.loadPrevData);
-router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
 
 module.exports = router;

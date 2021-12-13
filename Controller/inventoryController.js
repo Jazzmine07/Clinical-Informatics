@@ -50,8 +50,6 @@ exports.getMedicineInventory = function(){
                             details: details
                         });
                     })
-                    console.log("medicine inventory in controller");
-                    console.log(inventory);
                     resolve(inventory);
                 })
             } else {
@@ -93,8 +91,7 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
-                    console.log("medicines in controller");
-                    console.log(filtered);
+                    
                     resolve(filtered);
                 })
             } else {

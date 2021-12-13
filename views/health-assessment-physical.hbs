@@ -61,87 +61,129 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="/disease-surveillance">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
-            </li>
-
-            <!-- Nav Item - Profile -->
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Student Profile</span></a>
-            </li>
-
-            <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item">
-                <a class="nav-link" href="/clinic-visit">
-                    <i class="fas fa-fw fa-medkit"></i>
-                    <span>Clinic Visit</span></a>
-            </li>
-
-            <!-- Nav Item - Health Assessment -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/health-assessment">
-                    <i class="fas fa-fw fa-stethoscope"></i>
-                    <span>Health Assessment</span></a>
-            </li>
-
             {{#if isNurse}}
-            <!-- Nav Item - Inventory -->
-            <li class="nav-item">
-                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fas fa-fw fa-archive"></i>
-                    <span>Inventory</span></a>
-                <ul class="collapse list-unstyled" id="inventory">
-                    <li>
-                        <a class="nav-link" href="/inventory-medicine">
-                            <i class="fas fa-fw fa-tablets"></i>
-                            <span>Medicine</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/inventory-supply">
-                            <i class="fas fa-fw fa-pump-medical"></i>
-                            <span>Supply</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/inventory-dental">
-                            <i class="fas fa-fw fa-tooth"></i>
-                            <span>Dental</span></a>
-                    </li>
-                </ul>
-            </li>
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{else}}
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                
+                <!-- Nav Item - Disease Surveillance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/disease-surveillance">
+                        <i class="fas fa-fw fa-virus"></i>
+                        <span>Disease Surveillance</span></a>
+                </li>
+
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
             {{/if}}
-
-            <!-- Nav Item - Promotive Care -->
-            <li class="nav-item">
-                <a class="nav-link" href="/promotive-care">
-                    <i class="fas fa-fw fa-child"></i>
-                    <span>Promotive Care</span></a>
-            </li>
-
-            <!-- Nav Item - Performance Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="/performance-assessment">
-                    <i class="fas fa-fw fa-star"></i>
-                    <span>Performance Assessment</span></a>
-            </li>
-
-            <!-- Nav Item - Communications -->
-            <li class="nav-item">
-                <a class="nav-link" href="/communications">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>Communications</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -418,6 +460,10 @@
                                 <div class="col-5">
                                     <div class="font-weight-bold">BMI</span></div>
                                     <div class="font-weight-normal" id="lpeBMI"></span></div>                                        
+                                </div>
+                                <div class="col-5">
+                                    <div class="font-weight-bold">BMI Status</span></div>
+                                    <div class="font-weight-normal" id="lpeBMIStatus"></span></div>                                        
                                 </div>
                             </div>
                             <div class="form-row mb-2">
@@ -778,6 +824,27 @@
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
             document.getElementById("studentSection").value=sec;
+            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
+                document.getElementById("studentGrade").value="One";
+            }
+            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
+                document.getElementById("studentGrade").value="Two";
+            }
+            else if(document.getElementById("studentSection").value=="Respect"||document.getElementById("studentSection").value=="Courtesy"||document.getElementById("studentSection").value=="Trust"||document.getElementById("studentSection").value=="Kindness"||document.getElementById("studentSection").value=="Piety"||document.getElementById("studentSection").value=="Prayerfulness"){
+                 document.getElementById("studentGrade").value="Three";
+            }
+            else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
+                 document.getElementById("studentGrade").value="Four";
+            }         
+            else if(document.getElementById("studentSection").value=="Trustwortiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
+                 document.getElementById("studentGrade").value="Five";
+            }
+            else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
+                 document.getElementById("studentGrade").value="Six";
+            }
+            
+
+
             $('#studentID').val(array[i]);
 
             if(i<array.length-1){
@@ -815,6 +882,31 @@
                         document.getElementById("studentName").value=data.name;                            
                         document.getElementById("dob").value=data.birthday;
                         document.getElementById("gender").value=data.sex;
+
+                        //document.getElementById("medProb").value=data.medProb;
+                        //document.getElementById("allergies").value=data.allergies;
+                        
+                        //document.getElementById("age").value=data.currAge;
+                        //document.getElementById("dope").value=data.currDope;//change to Date
+                        //document.getElementById("clinicianAPE").value=data.currClinician;
+                        //document.getElementById("systolic").value=data.currSys;
+                        //document.getElementById("diastolic").value=data.currDia;
+                        document.getElementById("bodyTemp").value=data.currTemp;
+                        document.getElementById("pulseRate").value=data.currPr
+                        document.getElementById("respRate").value=data.currRr;
+                        document.getElementById("skinFind").value=data.currSf;
+                        document.getElementById("weight").value=data.currWeight;
+                        document.getElementById("height").value=data.currHeight;
+                        document.getElementById("bmi").value=data.currBmi;
+                        document.getElementById("odVision").value=data.currOdVision;
+                        document.getElementById("osVision").value=data.currOsVision;
+                        document.getElementById("odGlasses").value=data.currOdGlasses;
+                        document.getElementById("osGlasses").value=data.currOsGlasses;
+                        document.getElementById("complaintAPE").value=data.currComplaints;
+                        document.getElementById("assessAPE").value=data.currReco;
+
+
+                        //document.getElementById("BmiStatus").innerHTML=data.currBmiStatus;
                         //document.getElementById("bodyTemp").value=data.temp;
                         //paki-change sa backend
                         //document.getElementById("bloodPressure").value=data.bp;
@@ -823,21 +915,26 @@
                         //document.getElementById("systolic").value=data.bp;
                         //document.getElementById("diastolic").value=data.bp;
 
-                        document.getElementById("lpePR").innerHTML=data.pr;
-                        document.getElementById("lpeRR").innerHTML=data.rr;
-                        document.getElementById("lpeSF").innerHTML=data.sf;
-                        document.getElementById("weight").value=data.weight;
-                        document.getElementById("height").value=data.height;
-                        document.getElementById("bmi").value=data.bmi;
-                        document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
-                        document.getElementById("lpeODV").innerHTML=data.odVision;
-                        document.getElementById("lpeOSG").innerHTML=data.osVision;
-                        document.getElementById("lpeODG").innerHTML=data.odGlasses;
-                        document.getElementById("lpeOSG").innerHTML=data.osGlasses;
-                        document.getElementById("medProb").value=data.medProb;
-                        document.getElementById("allergies").value=data.allergies;
-                        document.getElementById("lpeProblems").innerHTML=data.complaints;
-                        document.getElementById("lpeAssess").innerHTML=data.reco;
+                        //load prev Data
+                        document.getElementById("lpeSY").innerHTML=data.prevSy;
+                        document.getElementById("lpePR").innerHTML=data.prevPr;
+                        document.getElementById("lpeRR").innerHTML=data.prevBr;
+                        document.getElementById("lpeSF").innerHTML=data.prevSf;
+                        document.getElementById("lpeWeight").innerHTML=data.prevWeight;
+                        document.getElementById("lpeHeight").innerHTML=data.prevHeight;
+                        document.getElementById("lpeBMI").innerHTML=data.prevBmi;
+                        document.getElementById("lpeODV").innerHTML=data.prevOdVision;
+                        document.getElementById("lpeOSV").innerHTML=data.prevOsVision;
+                        document.getElementById("lpeODG").innerHTML=data.prevOdGlasses;
+                        document.getElementById("lpeOSG").innerHTML=data.prevOsGlasses;
+                        document.getElementById("lpeProblems").innerHTML=data.prevComplaints;
+                        document.getElementById("lpeAssess").innerHTML=data.prevReco;
+                        document.getElementById("lpeBMIStatus").innerHTML=data.prevBmiStatus;
+                        document.getElementById("lpeDate").innerHTML=data.prevDope;
+                        document.getElementById("lpeDoctor").innerHTML=data.prevClinician;
+                        document.getElementById("lpeBT").innerHTML=data.prevTemp;
+                        document.getElementById("lpeBP").innerHTML=data.prevSys +"/"+ data.prevDia;
+
 
                     }  
                 });

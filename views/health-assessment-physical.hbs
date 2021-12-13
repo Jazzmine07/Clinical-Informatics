@@ -802,7 +802,13 @@
                         document.getElementById("dob").value=data.birthday;
                         document.getElementById("gender").value=data.sex;
                         document.getElementById("bodyTemp").value=data.temp;
-                        document.getElementById("bloodPressure").value=data.bp;
+                        //paki-change sa backend
+                        //document.getElementById("bloodPressure").value=data.bp;
+
+                        //uncomment me pag nabago na sa back
+                        //document.getElementById("systolic").value=data.bp;
+                        //document.getElementById("diastolic").value=data.bp;
+
                         document.getElementById("pulseRate").value=data.pr;
                         document.getElementById("respRate").value=data.rr;
                         document.getElementById("skinFind").value=data.sf;
@@ -1012,10 +1018,15 @@
                     bodyTemp="";
                 }console.log(bodyTemp);
 
-                var bp =  $('#bloodPressure').val(); 
-                if(bp==null){
-                    bp="";
-                }console.log(bp);
+                var systolic =  $('#systolic').val(); 
+                if(systolic==null){
+                    systolic="";
+                }console.log(systolic);
+
+                var diastolic =  $('#diastolic').val(); 
+                if(diastolic==null){
+                    diastolic="";
+                }console.log(diastolic);
 
                 var pr =  $('#pulseRate').val(); 
                 if(pr==null){
@@ -1115,7 +1126,11 @@
                         //timeStamp: forSortDate,
                         clinician: clinician,
                         bodyTemp: bodyTemp,
-                        bp: bp,
+                        //bp: bp,
+
+                        //uncomment if nabago na sa backend
+                        //systolic: systolic,
+                        //diastolic: diastolic,
                         pr: pr,
                         rr: rr,
                         skinFindings: sf,

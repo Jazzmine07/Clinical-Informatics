@@ -367,6 +367,92 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Physical Exam Form</h1>
                     </div>
+                    <div class="card shadow mb-2" id="lastAPE">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Physical Assessment</h6></div>
+                        <div class="card-body">
+                            <div class="form-row mb-2">
+                                <div class="col-2">
+                                    <div class="font-weight-bold">School Year</span></div>
+                                    <div class="font-weight-normal" id="lpeSY"></span></div>                                        
+                                </div>
+                                <div class="col-2">
+                                    <div class="font-weight-bold">Date of Examination</span></div>
+                                    <div class="font-weight-normal" id="lpeDate"></span></div>                                        
+                                </div>
+                                <div class="col-5">
+                                    <div class="font-weight-bold">Attending Clinician</span></div>
+                                    <div class="font-weight-normal" id="lpeDoctor"></span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-2">
+                                    <div class="font-weight-bold">Body Temperature</span></div>
+                                    <div class="font-weight-normal" id="lpeBT">38 °C</span></div>                                        
+                                </div>
+                                <div class="col-2">
+                                    <div class="font-weight-bold">Blood Pressure</span></div>
+                                    <div class="font-weight-normal" id="lpeBP">-</span></div>                                        
+                                </div>
+                                <div class="col-2">
+                                    <div class="font-weight-bold">Pulse Rate</span></div>
+                                    <div class="font-weight-normal" id="lpePR">-</span></div>                                        
+                                </div>
+                                <div class="col-2">
+                                    <div class="font-weight-bold">Respiration Rate</span></div>
+                                    <div class="font-weight-normal" id="lpeRR">-</span></div>                                        
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Skin Findings</span></div>
+                                    <div class="font-weight-normal" id="lpeSF">-</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-6">
+                                    <div class="font-weight-bold">Vision</span></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="font-weight-bold">with Glasses</span></div>
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">od<span class="ml-1 font-weight-normal" id="lpeODV">50</span></div>
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">os<span class="ml-1 font-weight-normal" id="lpeOSV">50</span></div>
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">od<span class="ml-1 font-weight-normal" id="lpeODG">50</span></div>
+                                    <div class="font-weight-normal" id="lpeODG"></span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">os<span class="ml-1 font-weight-normal" id="lpeOSG">50</span></div>
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Problems/Complaints/Abnormal Findings</span></div>
+                                    <div class="font-weight-normal" id="lpeProblems"></span></div>                                        
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>   
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Assessment/Recommendation</span></div>
+                                    <div class="font-weight-normal" id="lpeAssess"></span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="lpeNPE" checked>
+                                        <label class="form-check-label" for="flexCheckChecked">Essentially Normal P.E.</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
@@ -385,14 +471,14 @@
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
                                       <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-5">
                                         <label class="col-form-label" for="studentName">Student Name</label>
                                         <input type="text" class="form-control mb-2" id="studentName" name="studentName">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="studentGrade" class="col-form-label">Grade</label>
                                         <select class="custom-select mb-2" id="studentGrade">
                                             <option selected>Choose...</option>
@@ -404,7 +490,7 @@
                                             <option value="6">Six</option>
                                         </select>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         <label for="studentSection" class="col-form-label">Section</label>
                                         <input type="text" class="form-control mb-2" id="studentSection">
                                     </div>
@@ -415,22 +501,22 @@
                                         <label for="dob" class="col-form-label">Date of Birth</label>
                                         <input type="date" class="form-control mb-2" id="dob">
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <label for="gender" class="col-form-label">Gender</label>
                                         <input type="name" class="form-control mb-2" id="gender">
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <label for="age" class="col-form-label">Age</label>
                                         <input type="number" class="form-control mb-2" id="age">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="dope" class="col-form-label">Date of Examination</label>
                                         <input type="date" class="form-control mb-2" id="dope">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-5">
                                       <label class="col-form-label" for="clinicianAPE">Attending Clinician</label>
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
                                             <option selected>Choose...</option>
@@ -452,11 +538,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-3">
                                         <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="bloodPressure" name="bloodPressure">
+                                        <div class="input-group mb-2">                               
+                                            <input type="number" class="form-control" id="systolic" placeholder="Systolic">
+                                            <input type="number" class="form-control" id="diastolic" placeholder="Diastolic">         
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">mmHg</span>
                                             </div>
@@ -489,7 +575,7 @@
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <label for="Weight" class="col-form-label">Weight</label>
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="weight" step="0.01">
@@ -499,17 +585,17 @@
                                         </div>
                                     </div>
                                 
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <label for="height" class="col-form-label">Height</label>
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="height" step="0.01">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">m</span>
+                                                <span class="input-group-text" id="basic-addon4">cm</span>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <label for="bmi" class="col-form-label">BMI</label>
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="bmi" step="0.01">
@@ -521,7 +607,7 @@
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="odVision" class="ml-1 col-form-label">Vision</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -530,7 +616,7 @@
                                                 <input type="text" class="form-control" id="odVision">
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="osVision" class="ml-1 col-form-label" style="color: white;">.</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -539,7 +625,7 @@
                                                 <input type="text" class="form-control" id="osVision">
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="odGlasses" class="ml-1 col-form-label">with Glasses</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -548,7 +634,7 @@
                                                 <input type="text" class="form-control" id="odGlasses">
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label for="osGlasses" class="ml-1 col-form-label" style="color: white;">.</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -570,14 +656,20 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row col-12">
-                                    <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                        <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
+                                        <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
+                                    </div>    
                                 </div>
-                                <div class="form-row col-12">
-                                    <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
-                                    <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="3"></textarea>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-12">
+                                        <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
+                                        <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="3"></textarea>
+                                    </div>    
                                 </div>
+            
                                 <div class="form-check ml-2 mt-2">
                                     <input class="form-check-input" type="checkbox" value="" id="normalPE">
                                     <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>

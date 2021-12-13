@@ -815,7 +815,7 @@
                         document.getElementById("studentName").value=data.name;                            
                         document.getElementById("dob").value=data.birthday;
                         document.getElementById("gender").value=data.sex;
-                        document.getElementById("bodyTemp").value=data.temp;
+                        //document.getElementById("bodyTemp").value=data.temp;
                         //paki-change sa backend
                         //document.getElementById("bloodPressure").value=data.bp;
 
@@ -823,21 +823,21 @@
                         //document.getElementById("systolic").value=data.bp;
                         //document.getElementById("diastolic").value=data.bp;
 
-                        document.getElementById("pulseRate").value=data.pr;
-                        document.getElementById("respRate").value=data.rr;
-                        document.getElementById("skinFind").value=data.sf;
+                        document.getElementById("lpePR").innerHTML=data.pr;
+                        document.getElementById("lpeRR").innerHTML=data.rr;
+                        document.getElementById("lpeSF").innerHTML=data.sf;
                         document.getElementById("weight").value=data.weight;
                         document.getElementById("height").value=data.height;
                         document.getElementById("bmi").value=data.bmi;
                         document.getElementById("bmiStatus").innerHTML=data.bmiStatus;
-                        document.getElementById("odVision").value=data.odVision;
-                        document.getElementById("osVision").value=data.osVision;
-                        document.getElementById("odGlasses").value=data.odGlasses;
-                        document.getElementById("osGlasses").value=data.osGlasses;
+                        document.getElementById("lpeODV").innerHTML=data.odVision;
+                        document.getElementById("lpeOSG").innerHTML=data.osVision;
+                        document.getElementById("lpeODG").innerHTML=data.odGlasses;
+                        document.getElementById("lpeOSG").innerHTML=data.osGlasses;
                         document.getElementById("medProb").value=data.medProb;
                         document.getElementById("allergies").value=data.allergies;
-                        document.getElementById("complaintAPE").value=data.complaints;
-                        document.getElementById("assessAPE").value=data.reco;
+                        document.getElementById("lpeProblems").innerHTML=data.complaints;
+                        document.getElementById("lpeAssess").innerHTML=data.reco;
 
                     }  
                 });

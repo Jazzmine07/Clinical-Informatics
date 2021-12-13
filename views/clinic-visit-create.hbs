@@ -793,11 +793,11 @@
 
                     {{!-- {{else}} --}}
                     {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollHere">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
                             <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
-                            <select id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
+                            <select class="is-invalid" id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
                                 {{#each clinician}}
                                     <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                 {{/each}}
@@ -805,7 +805,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-12 mb-4">
+                                <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Diagnosis</label>
                                     <input list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis"/>                                       
                                     <datalist id="diagnosisList">
@@ -821,18 +821,19 @@
                     
                     <!-- Medication -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3 d-sm-flex">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>
+                        {{!-- <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            {{!-- <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
+                             label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
                             <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
                                 {{#each users}}
                                     <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                 {{/each}}
-                            </select>  --}}
-                        </div>
+                            </select>
+                        </div> --}}
                         <div class="card-body">
                                 <div class="form-row align-items-center">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                       <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                       <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
                                           <option disabled="disabled" selected="true">Choose...</option>
@@ -843,44 +844,59 @@
                                     </div>   
                                 </div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                       <label class="col-form-label" for="medicationVisit">Medication</label>
-                                        <select class="form-control mb-2 is-valid select2" id="medicationVisit" name="medicationVisit">
+                                        <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                             <option disabled="disabled" selected="true">Choose...</option>
                                             {{#each medicines}}
                                                 <option value="{{med}}">{{med}}</option>   
                                             {{/each}} 
-                                        </select>
-                                        <div id="validMedicaton" class="valid-feedback">Medication safe!</div>
-                                        <div id="invalidMedicaton" class="invalid-feedback">Student has allergy with this drug</div>                                    
+                                        </select>                                                                   
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-3">
                                         <label class="col-form-label" for="amountMed">Amount</label>
-                                        <input type="text" class="form-control mb-2 is-invalid" id="amountMed" name="amountMed">
-                                        <div id="validAmount" class="valid-feedback">Dosage safe!</div>
-                                        <div id="invalidAmount" class="invalid-feedback">Dosage too high!</div>
+                                        <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
+                                        <div id="validAmount" class="valid-feedback"></div>
+                                        <div id="invalidAmount" class="invalid-feedback"></div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-4">
+                                        <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
+                                        <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
                                         <label class="col-form-label" for="purposeVisit">Purpose</label>
                                         <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-3">
                                         <label class="col-form-label" for="intervalMed">Interval</label>
                                         <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
                                     </div>
                                 </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                <div class="form-row d-flex align-items-center">
+                                    <div class="col-2 align-items-center">
                                         <label class="col-form-label" for="startMed">Start Date</label>
                                         <input type="date" class="form-control mb-2" id="startMed" name="startMed">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-2 align-items-center">
                                         <label class="col-form-label" for="endMed">End Date</label>
                                         <input type="date" class="form-control mb-2" id="endMed" name="endMed">
                                     </div>
+                                    <div class="col-2" style="margin-right: -115px;">
+                                        <div class="form-check align-items-center" style="padding-top: 35px;">
+                                            <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
+                                            <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
+                                        </div>
+                                    </div>
+                                    <div id="takenDiv" class="col-2 align-items-center" style="display:none">
+                                        <label class="col-form-label" for="timeTaken">Time</label>
+                                        <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
+                                    </div> 
                                 </div>
+                                
                                 <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
                                 <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
                             
@@ -895,7 +911,7 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-12">
+                                <div class="col-3">
                                     <label class="col-form-label" for="status">Status</label>
                                     <select class="custom-select mb-2" id="status" name="status">
                                         <option disabled="disabled" selected="true">Choose...</option>
@@ -1016,6 +1032,18 @@
     </script>
 
     <script>
+        function takenClicked() {
+            var checkBox = document.getElementById("takenClinic");
+            var div = document.getElementById("takenDiv");
+
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+
         var weightStatus;
         $("#weight").change(function(){
             var weight =  $('#weight').val();  
@@ -2577,23 +2605,43 @@
                     document.getElementById('lastVisit').style.display = "none";
             });
 
+            
+        }
+    </script>
+    <script type='text/javascript'>
+    $(document).ready(function() {
+        $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+
+        $("#medicationVisit").change(function(){
+            console.log("clicked med visit!!");
+            var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var typedID = document.getElementById("studentID").value;
+            console.log(selectedMedication);
+            console.log(typedID);
+
             $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
                 console.log("not allowed medications of student");
                 console.log(notAllowedMedicines);
                 var i;
-                //for(i = 0; i < notAllowedMedicines.length; i++){
-                    //if(notAllowedMedicines[i].medicine == "paracetamol"){
-                        /* 
-                            TO DO: kapag ni select si paracetamol allowed siya
-                        */
-                    //}
-                //}
+                for(i = 0; i < notAllowedMedicines.length; i++){                    
+                    if(selectedMedication == notAllowedMedicines[i].medicine){
+                        $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
+                        document.getElementById('validMedicaton').style.display = "none";
+                        document.getElementById('invalidMedicaton').style.display = "block";
+                        $('#invalidMedicaton').html('Medication not allowed');            
+                    }
+                    else{
+                        $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                        document.getElementById('invalidMedicaton').style.display = "none";
+                        document.getElementById('validMedicaton').style.display = "block";
+                        $('#validMedicaton').html('Medication allowed');    
+                    }
+
+                }
             });
-        }
-    </script>
-    <script type='text/javascript'>
-    $(document).ready(function() {
+        });
+
         var medicationsArray = [];
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
@@ -2604,8 +2652,7 @@
         var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
 
         $('#addMedication').click(function(){
-            var selectedMedication = document.getElementById("medicationVisit").value;
-            //var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
@@ -2627,6 +2674,7 @@
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
+            
         });
 
         var removeIDs = [];
@@ -2730,8 +2778,7 @@
             var selectPrescribedBy = document.getElementById("prescribedBy");
             //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
 
-            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            
             
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
@@ -2742,7 +2789,20 @@
             var notes =  $('#notes').val(); 
             console.log(notes);
 
+            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+
             /* TO DO: Add checkers for fields if empty */
+            if($('#assignDiagnosis').find('option:selected').length == 0){
+                $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
+                $('html, body').animate({
+                    scrollTop: $("#scrollHere").offset().top
+                }, 1000);
+            }
+            else{
+                $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+                var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            }
+
             $.ajax({
                 url: '/addClinicVisit',
                 method: 'POST',
@@ -2787,7 +2847,7 @@
                     console.log("success in ajax!");
                     window.location.href = "/clinic-visit";
                 }
-            });
+            });       
             
         });
     });

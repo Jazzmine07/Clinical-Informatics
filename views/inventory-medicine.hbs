@@ -421,18 +421,21 @@
                                     </tfoot> --}}
                                     <tbody>
                                         {{#each inventory}}
-                                            <tr>
+                                            <tr id="{{details.medicineID}}">
                                                 <td>{{details.batchNum}}</td>
                                                 <td>{{details.med}}</td>
-                                                <td id="qty">{{details.qty}}</td>
+                                                <td>{{details.qty}}</td>
                                                 <td>{{details.unit}}</td>
                                                 <td>{{formatDate details.purchDate}}</td>
                                                 <td>{{formatDate details.expDate}}</td>
-                                                <td style="width: 70px !important; padding-right:0px">
-                                                    <input id="medicineID" type="hidden" value="{{details.medicineID}}">
-                                                    <input placeholder="Update inventory..." type="number" id="amount" min="0">
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="Update inventory..." type="number" name="amount" min="0">
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important">Update</button>
+                                                        </div>
+                                                    </div>
                                                 </td>
-                                                <td><button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="updateInventory()">Update</button></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>
@@ -534,25 +537,31 @@
         }
     </script>
     <script>
-        function updateInventory(id) {
-            console.log("id ko to");
-            console.log(id);
+        $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
+            var row = $(this).closest('tr');
+            //var index =row.index();
+            var qtyCell = row.find('td').eq(2);
+            var qty = row.find('td').eq(2).text();
+            console.log('TR qty cell: ' + row.find('td').eq(2).text());
+            
+            var val = $(this).closest('td');
+            var amount = val.find("input").val();
+            console.log('TR amt cell: ' + val.find("input").val());
 
-            var medicineID = document.getElementById(id).value;
-            //var amount = document.getElementById("amount").value;
-            /* TO DO: 
-                -- lagay error message if negative value amount
-                -- lagay ng success message na updated yung value 
-            */
-            //if(amount < 0){
-              //  $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Enter a valid amount!.'); //not working
-            //} else {
-              //  $.post("/updateMedicineInventory", {medicineID: medicineID, amount: amount}, function(data){
-             //       console.log(data);
-               //     $('#qty').text(data);
-              //  });
-            //}
-        }
+            var medicineID = $(this).closest('tr').attr('id');
+
+            console.log("id " + medicineID);
+    
+            if(amount < 0){
+                val.find("input").addClass('is-invalid');
+            } 
+            else if(amount >= 0){
+                val.find("input").removeClass('is-invalid');
+                val.find("input").addClass('is-valid');
+                qtyCell.text(amount);
+                $.post("/updateMedicineInventory", {medicineID: medicineID, amount: amount});
+            }
+        });
     </script>
 </body>
 

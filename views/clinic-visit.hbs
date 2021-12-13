@@ -50,32 +50,18 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="/disease-surveillance">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
-            </li>
-
-            <!-- Nav Item - Profile -->
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Student Profile</span></a>
-            </li>
-
             <!-- Nav Item - Clinic Visit -->
             <li class="nav-item active">
                 <a class="nav-link" href="/clinic-visit">
                     <i class="fas fa-fw fa-medkit"></i>
                     <span>Clinic Visit</span></a>
+            </li>
+
+             <!-- Nav Item - Profile -->
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Student Profile</span></a>
             </li>
 
             <!-- Nav Item - Health Assessment -->
@@ -85,7 +71,6 @@
                     <span>Health Assessment</span></a>
             </li>
 
-            {{#if isNurse}}
             <!-- Nav Item - Inventory -->
             <li class="nav-item">
                 <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -109,7 +94,6 @@
                     </li>
                 </ul>
             </li>
-            {{/if}}
 
             <!-- Nav Item - Promotive Care -->
             <li class="nav-item">
@@ -360,6 +344,7 @@
                         <a href="/clinic-visit/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-plus-circle mx-1 text-white-50"></i> Create</a>
                     </div>
+
                     {{#if success}}
                         <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
                             <i class="fa fa-exclamation-circle"></i>
@@ -477,26 +462,16 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="clinicVisitTable" width="100%" cellspacing="0">
-                                    <thead>
+                                    <thead class="thead-light">
                                         <tr>
-                                            <th>Student</th>
-                                            <th>Complaint/Reason for Visit</th>
-                                            <th>Visit Date</th>
-                                            <th>Time In</th>
-                                            <th>Time Out</th>
-                                            <th>Status</th>
+                                            <th class="bg-primary" style="color: white;">Student</th>
+                                            <th class="bg-primary" style="color: white;">Complaint/Reason for Visit</th>
+                                            <th class="bg-primary" style="color: white;">Visit Date</th>
+                                            <th class="bg-primary" style="color: white;">Time In</th>
+                                            <th class="bg-primary" style="color: white;">Time Out</th>
+                                            <th class="bg-primary" style="color: white;">Status</th>
                                         </tr>
                                     </thead>
-                                    {{!-- <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot> --}}
                                     <tbody>
                                         {{#each clinicVisits}}
                                             <tr class='clickable-row'>
@@ -554,16 +529,9 @@
             
             <!-- Nav Item - Disease Surveillance -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/disease-surveillance">
                     <i class="fas fa-fw fa-virus"></i>
                     <span>Disease Surveillance</span></a>
-            </li>
-
-            <!-- Nav Item - Case Records -->
-            <li class="nav-item">
-                <a class="nav-link" href="case-records.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Case Records</span></a>
             </li>
 
             <!-- Nav Item - Clinic Visit -->
@@ -573,6 +541,13 @@
                     <span>Clinic Visit</span></a>
             </li>
 
+            <!-- Nav Item - Profile -->
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Student Profile</span></a>
+            </li>
+
             <!-- Nav Item - Health Assessment -->
             <li class="nav-item">
                 <a class="nav-link" href="/health-assessment">
@@ -580,32 +555,25 @@
                     <span>Health Assessment</span></a>
             </li>
 
-            <!-- Nav Item - Communications -->
-            <li class="nav-item">
-                <a class="nav-link" href="/communications">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>Communications</span></a>
-            </li>
-
             <!-- Nav Item - Promotive Care -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/promotive-care">
                     <i class="fas fa-fw fa-child"></i>
                     <span>Promotive Care</span></a>
             </li>
 
             <!-- Nav Item - Performance Assessment -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/performance-assessment">
                     <i class="fas fa-fw fa-star"></i>
                     <span>Performance Assessment</span></a>
             </li>
 
-            <!-- Nav Item - Profile -->
+            <!-- Nav Item - Communications -->
             <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Student Profile</span></a>
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
             </li>
 
             <!-- Divider -->
@@ -913,12 +881,12 @@
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <form method="post" action="/logout">
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary" type="submit">Logout</a>
-                    </div>
-                </form>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form method="post" action="/logout">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -178,18 +178,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="/disease-surveillance">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
+            <!-- Nav Item - Clinic Visit -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/clinic-visit">
+                    <i class="fas fa-fw fa-medkit"></i>
+                    <span>Clinic Visit</span></a>
             </li>
 
             <!-- Nav Item - Profile -->
@@ -199,13 +192,6 @@
                     <span>Student Profile</span></a>
             </li>
 
-            <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/clinic-visit">
-                    <i class="fas fa-fw fa-medkit"></i>
-                    <span>Clinic Visit</span></a>
-            </li>
-
             <!-- Nav Item - Health Assessment -->
             <li class="nav-item">
                 <a class="nav-link" href="/health-assessment">
@@ -213,7 +199,6 @@
                     <span>Health Assessment</span></a>
             </li>
 
-            {{#if isNurse}}
             <!-- Nav Item - Inventory -->
             <li class="nav-item">
                 <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -237,7 +222,6 @@
                     </li>
                 </ul>
             </li>
-            {{/if}}
 
             <!-- Nav Item - Promotive Care -->
             <li class="nav-item">

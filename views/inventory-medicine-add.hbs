@@ -452,7 +452,7 @@
                                     </div>
                                 </div>
                                 
-                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medicine</a>                                
+                                <a class="btn btn-link"  id="addMedicine"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medicine</a>                                
                                 <table class="table" id="dynamic_field">  
 
                                 </table>
@@ -470,7 +470,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; IsKlinika 2021</span>
                     </div>
                 </div>
             </footer>
@@ -538,13 +538,13 @@
     <script>
         var medicationsArray = [];
 
-        function addMedication(medication, batchNum, quantity, unit, purchDate, expDate) {
+        function addMedicine(medication, batchNum, quantity, unit, purchDate, expDate) {
             medicationsArray.push({medication: medication, batchNum: batchNum, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
         }
 
         var i = 0;  
 
-        $('#addMedication').click(function(){
+        $('#addMedicine').click(function(){
             var medication = document.getElementById("medication").value;
             var batchNum = document.getElementById("batchNum").value;
             var quantity = document.getElementById("quantity").value;
@@ -560,7 +560,7 @@
             console.log(purchDate);
             console.log(expDate);
 
-            addMedication(medication, batchNum, quantity, selectedUnit, purchDate, expDate);
+            addMedicine(medication, batchNum, quantity, selectedUnit, purchDate, expDate);
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + batchNum +'"></input></td><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             

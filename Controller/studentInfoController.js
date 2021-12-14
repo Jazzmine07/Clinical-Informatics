@@ -54,7 +54,7 @@ exports.getNotAllowedMedication = function(req, res){
     var id = req.body.studentID;
     var database = firebase.database();
     var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
-    var childSnapshotData, notAllowed = [];
+    var childSnapshotData, temp = [],notAllowed = [];
 
     medicineRef.on('value', (snapshot) => {
         if(snapshot.exists()){

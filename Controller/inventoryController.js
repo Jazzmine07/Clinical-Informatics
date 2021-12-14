@@ -1,23 +1,37 @@
 const firebase = require('../firebase');
 
-exports.addMedicineInventory = function(req, res){
+exports.addMedicineInventory = async function(req, res){
     var medicationsArray = req.body.meds;
     var i, medicines;
+    var snapshotData;
     //var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
+    var rootRef = database.ref();
     var inventoryRef = database.ref("medicineInventory");
-
+    var qty;
+    /* TO DO: fix add inventory in existing inventory */
     for(i = 0; i < medicationsArray.length; i++){
-        medicines = {
-            batchNum: medicationsArray[i].batchNum,
-            medicine: medicationsArray[i].medication,
-            quantity: medicationsArray[i].quantity,
-            unit: medicationsArray[i].unit,
-            purchDate: medicationsArray[i].purchDate,
-            expDate: medicationsArray[i].expDate
-        };
-        inventoryRef.push(medicines);
+        console.log(medicationsArray[i].medication);
+        //await rootRef.child("medicineInventory").orderByChild("medicine").equalTo(medicationsArray[i].medication).once('value', (snapshot) => {
+            //snapshotData = snapshot.exportVal();
+            //console.log(snapshotData);
+            //if(snapshotData.batchNum == parseInt(medicationsArray[i].batchNum)){
+            //    qty = snapshotData.quantity + medicationsArray[i].quantity;
+            //    snapshotData.quantity.set(qty);
+            //} else {
+                medicines = {
+                    batchNum: parseInt(medicationsArray[i].batchNum),
+                    medicine: medicationsArray[i].medication,
+                    quantity: medicationsArray[i].quantity,
+                    unit: medicationsArray[i].unit,
+                    purchDate: medicationsArray[i].purchDate,
+                    expDate: medicationsArray[i].expDate
+                };
+        
+                inventoryRef.push(medicines);
+            //}
+        //})
     }
     // needed as ajax was used to send data
     res.status(200).send();
@@ -91,7 +105,6 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
-                    
                     resolve(filtered);
                 })
             } else {
@@ -103,12 +116,89 @@ exports.getMedicines = function(){
 };
 
 exports.updateMedicineInventory = function(req, res){
-    var medicineID = req.body.medicineID;
-    var amount = req.body.amount;
+    var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate } = req.body;
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var used = parseInt(qty) - parseInt(amount);
+
+    var database = firebase.database();
+    var usedInventoryRef = database.ref("usedMedicine");
+
     var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
-    inventoryRef.set(amount);
+    inventoryRef.set(amount);   // update inventory
+
+    var usedInventory = {
+        medicineID: medicineID,
+        batchNum: batchNum,
+        medicineName: medicineName,
+        usedInventory: used,
+        unit: unit,
+        purchDate: purchDate,
+        expDate: expDate,
+        date: date
+    };
+    usedInventoryRef.push(usedInventory);
+
     res.status(200).send(amount);
 };
+
+exports.getUsedMedicine = function(){
+    var childSnapshotData, i, temp = [], filtered = [], currInventory;
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("usedMedicine");
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("usedMedicine")){
+                inventoryRef.on('value', async (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            medicineID: childSnapshotData.medicineID,
+                            batchNum: childSnapshotData.batchNum,
+                            medicineName: childSnapshotData.medicineName,
+                            usedInventory: childSnapshotData.usedInventory,
+                            unit: childSnapshotData.unit,
+                            purchDate: childSnapshotData.purchDate,
+                            expDate: childSnapshotData.expDate
+                        })
+                    })
+
+                    await temp.forEach(inventory => {
+                        var found = false;
+                        databaseRef.child("medicineInventory").child(inventory.medicineID).on('value', (snapshot) => {
+                            currInventory = snapshot.child("quantity").val();
+                            for(i = 0; i < filtered.length; i++){
+                                if(inventory.batchNum == filtered[i].batchNum && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and batch number
+                                    found = true;
+                                    filtered[i].usedInventory += inventory.usedInventory;
+                                    break;
+                                } 
+                            }
+                            if(!found){
+                                filtered.push({
+                                    medicineID: inventory.medicineID,
+                                    batchNum: inventory.batchNum,
+                                    medicineName: inventory.medicineName,
+                                    currInventory: currInventory,
+                                    usedInventory: inventory.usedInventory,
+                                    unit: inventory.unit,
+                                    purchDate: inventory.purchDate,
+                                    expDate: inventory.expDate
+                                })
+                            }    
+                        })
+                    })
+                    resolve(filtered);
+                })
+            } else {
+                resolve(filtered);
+            }
+        })
+    });
+    return promise;
+}
 
 exports.addSupplyInventory = function(req, res){
     var suppliesArray = req.body.supplies;

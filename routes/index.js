@@ -372,7 +372,10 @@ router.get('/health-assessment/physical', (req, res) => {
     res.render('health-assessment-physical', {
       user: result
     });
-  })
+  }).catch(error => {
+    console.log('Error in health assessment physical');
+    console.log(error.message);
+  });
 });
 
 // Get health assessment schedule page
@@ -600,6 +603,7 @@ router.post('/getPercentageChart', studentController.getAPEPercentage);
 router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/loadPrevData', studentController.loadPrevData);
+router.post('/addWeightHeight',studentController.addWeightHeight);
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);

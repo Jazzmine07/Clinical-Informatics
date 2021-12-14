@@ -4,17 +4,40 @@ const bodyParser = require('body-parser');
 
 var TAG = "studentController.js";
 
+exports.addWeightHeight=function(req,res){
+    console.log("ADD WEIGHT HEIGHT");
+    var id= req.body.studentId;
+    var weight = req.body.weight;
+    var height = req.body.height;
+    var bmi= req.body.bmi;
+    var bmiStatus=req.body.bmiStatus;
+
+    var database = firebase.database();
+    var studentInfoRef=database.ref("studentInfo/"+id);
+    console.log("ref:"+studentInfoRef);
+
+    // studentInfoRef.child('weight').set(weight);
+    // studentInfoRef.child('height').set(height);
+    // studentInfoRef.child('bmi').set(bmi);
+    // studentInfoRef.child('bmiStatis').set(bmiStatus);
+
+    res.status(200).send();
+};
+
 exports.addAPE = function(req, res){
     //adds new APE of student with the current school year as the key
+    var clicked=req.body.clicked;
     var schoolYear= req.body.schoolYear;
     var age= req.body.age;
-    var sectionTop= req.body.section;
+    var sectionTop=req.body.sectionTop;
+    var section= req.body.section;
     var id= req.body.studentId;
     var name = req.body.studentName;
     var apeDate = req.body.visitDate;
     var clinician = req.body.clinician;
     var temp= req.body.bodyTemp;
-    var bp = req.body.bp;
+    var systolic = req.body.systolic;
+    var diastolic = req.body.diastolic;
     var pr = req.body.pr;
     var rr = req.body.rr;
     var sf = req.body.skinFindings;
@@ -33,22 +56,24 @@ exports.addAPE = function(req, res){
     var bmiStatus= req.body.bmiStatus;
     console.log(bmiStatus);
 
-    console.log("section(1):" + sectionTop);
+    console.log("section(1):" + section);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
     var schedRef=database.ref("apeSchedule");
+    var studentInfoRef=database.ref("studentInfo/"+id);
 
-    if(!sectionTop ==undefined && !sectionTop == null){
+    console.log("sectionTop");
+    console.log(sectionTop);
+    if(!sectionTop==""){
         schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
-            if(snapshot.exists()){
-                snapshot.forEach(function(childSnapshot){
+            snapshot.forEach(function(childSnapshot){
                     childSnapshot.ref.remove();
-                    console.log("deleted");
+                    console.log("addAPE deleted section schedule");
                 })
-            }
         })
     }
+
 
     var record = {
         schoolYear:schoolYear,
@@ -58,7 +83,8 @@ exports.addAPE = function(req, res){
         apeDate: apeDate,
         clinician: clinician,
         temp: temp,
-        bp: bp,
+        systolic:systolic,
+        diastolic:diastolic,
         pr: pr,
         rr: rr,
         sf: sf,
@@ -77,16 +103,27 @@ exports.addAPE = function(req, res){
         // normal: normal
     }
 
+    console.log("APE ref:"+apeRef);
+    console.log("studentRef"+studentInfoRef);
+    console.log("record:");
+    console.log(record);
+    console.log(record.odVision);
+    console.log(record.weight);
+    console.log(record.height);
 
-    console.log(schoolYear);
-    apeRef.child(schoolYear).set(record);
+    if(clicked=="save"){
+        apeRef.child(schoolYear).set(record);
+        console.log("Saved");
+    }
+    studentInfoRef.child('weight').set(weight);
+    studentInfoRef.child('height').set(height);
+    studentInfoRef.child('bmi').set(bmi);
+    studentInfoRef.child('bmiStatis').set(bmiStatus);
+    
     // key = apeRef.push(record).key;
     
-    res.send({
-        success: true,
-        success_msg: "Record added!"
-    });
-}
+    res.status(200).send();
+};
 
 exports.getSectionStudents = function(req, res){
     var schoolYear= req.body.schoolYear;
@@ -104,10 +141,7 @@ exports.getSectionStudents = function(req, res){
         studentRef.orderByChild("section").equalTo(section).on('value', (snapshot) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
-                    console.log("looking for section:" + section);
-                    console.log("Key: "+childSnapshot.key);
-                    console.log("Section: "+childSnapshot.child("section").val());
-                    console.log("Id Number: "+childSnapshot.child("idNum").val());
+                    
                     students.push(childSnapshot.key);
                 })
                 console.log("Students in "+ section +":"+students);
@@ -123,7 +157,7 @@ exports.getSectionStudents = function(req, res){
         res.send(students);
     }
     
-}
+};
 
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
@@ -294,6 +328,7 @@ exports.addSchedule=function(req,res){
 }
 
 exports.loadPrevData=function(req,res){
+    console.log("LOAD FUNCTION");
     var currSY= req.body.schoolYear;
     var id= req.body.id;
     var start=parseInt(currSY.substr(0,4))-1;
@@ -374,23 +409,135 @@ exports.loadPrevData=function(req,res){
                 });
             });
         });
+      
     
     var lastApe;
     var i=1;
-    while(lastApe==null){
-        if(currSY==ape[ape.length-i].sy){
-            i++;
-        }
-        else{
-            lastApe=i;
-            break;
+    if(ape!=null){
+        console.log("hello");
+        while(lastApe==null){
+            if(currSY==ape[ape.length-i].sy){
+                i++;
+                if(ape.length==1){
+                    lastApe=1;
+                    ape.push({
+                        sy:"",
+                        dope:"",
+                        doctor:"",
+                        systolic:"",
+                        diastolic:"",
+                        temp: "",
+                        bp: "",
+                        pr:"",
+                        rr: "",
+                        sf:"",
+                        weight: "",
+                        height: "",
+                        bmi: "",
+                        bmiStatus: "",
+                        od: "",
+                        os: "",
+                        odGlasses:"",
+                        osGlasses: "",
+                        medProb: "",
+                        allergies: "",
+                        complaints: "",
+                        reco: ""
+                    });
+                    break;
+                }
+            }
+            else{
+                lastApe=i;
+                    break;
+            }
         }
     }
+    if(ape==null){
+        console.log("empty ape");
+        lastApe=0;
+        ape.push({
+            sy:"",
+            dope:"",
+            doctor:"",
+            systolic:"",
+            diastolic:"",
+            temp: "",
+            bp: "",
+            pr:"",
+            rr: "",
+            sf:"",
+            weight: "",
+            height: "",
+            bmi: "",
+            bmiStatus: "",
+            od: "",
+            os: "",
+            odGlasses:"",
+            osGlasses: "",
+            medProb: "",
+            allergies: "",
+            complaints: "",
+            reco: ""
+        });
 
+        curr.push({
+            sy:"",
+            dope:"",
+            doctor:"",
+            systolic:"",
+            diastolic:"",
+            temp: "",
+            bp: "",
+            pr:"",
+            rr: "",
+            sf:"",
+            weight: "",
+            height: "",
+            bmi: "",
+            bmiStatus: "",
+            od: "",
+            os: "",
+            odGlasses:"",
+            osGlasses: "",
+            medProb: "",
+            allergies: "",
+            complaints: "",
+            reco: ""
+        });
+    }
+    if(curr==null){
+        console.log("empty curr");
+        curr.push({
+            sy:"",
+            dope:"",
+            doctor:"",
+            systolic:"",
+            diastolic:"",
+            temp: "",
+            bp: "",
+            pr:"",
+            rr: "",
+            sf:"",
+            weight: "",
+            height: "",
+            bmi: "",
+            bmiStatus: "",
+            od: "",
+            os: "",
+            odGlasses:"",
+            osGlasses: "",
+            medProb: "",
+            allergies: "",
+            complaints: "",
+            reco: ""
+        });
+    }
+    
     console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
     console.log(ape);
     console.log(curr);
-    var data={
+    var record={
         name:name,
         birthday:bday,
         sex:sex,
@@ -418,7 +565,6 @@ exports.loadPrevData=function(req,res){
         prevSys:ape[lastApe].systolic,
         prevDia:ape[lastApe].diastolic,
                         
-        
         currSy:curr[0].sy,
         currTemp:curr[0].temp,
         currBp:curr[0].bp,
@@ -429,7 +575,7 @@ exports.loadPrevData=function(req,res){
         currHeight:curr[0].height,
         currBmi:curr[0].bmi,
         currBmiStatus:curr[0].bmiStatus,
-        currvOdVision:curr[0].od,
+        currOdVision:curr[0].od,
         currOsVision:curr[0].os,
         currOdGlasses:curr[0].odGlasses,
         currOsGlasses:curr[0].osGlasses,
@@ -442,9 +588,146 @@ exports.loadPrevData=function(req,res){
         currSys:curr[0].systolic,
         currDia:curr[0].diastolic,
     };
-    console.log("Inside"+data.name);
+    if(record.name==undefined){
+        record.name="";
+    }
+    if(record.birthday==undefined){
+        record.birthday="";
+    }
+    if(record.sex==undefined){
+        record.sex="";
+    }
+    if(record.prevSy==undefined){
+        record.prevSy="";
+    }
+    if(record.prevTemp==undefined){
+        record.prevTemp="";
+    }
+    if(record.prevBp==undefined){
+        record.prevBp="";
+    }
+    if(record.prevPr==undefined){
+        record.prevPr="";
+    }
+    if(record.prevRr==undefined){
+        record.prevRr="";
+    }
+    if(record.prevSf==undefined){
+        record.prevSf="";
+    }
+    if(record.prevWeight==undefined){
+        record.prevWeight="";
+    }
+    if(record.prevHeight==undefined){
+        record.prevHeight="";
+    }
+    if(record.prevBmi==undefined){
+        record.prevBmi="";
+    }
+    if(record.prevBmiStatus==undefined){
+        record.prevBmiStatus="";
+    }
+    if(record.prevOdVision==undefined){
+        record.prevOdVision="";
+    }
+    if(record.prevOsVision==undefined){
+        record.prevOsVision="";
+    }
+    if(record.prevOdGlasses==undefined){
+        record.prevOdGlasses="";
+    }
+    if(record.prevOsGlasses==undefined){
+        record.prevOsGlasses="";
+    }
+    if(record.medProb==undefined){
+        record.medProb="";
+    }
+    if(record.allergies==undefined){
+        record.allergies="";
+    }
+    if(record.prevComplaints==undefined){
+        record.prevComplaints="";
+    }
+    if(record.prevReco==undefined){
+        record.prevReco="";
+    }
+    if(record.prevClinician==undefined){
+        record.prevClinician="";
+    }
+    if(record.prevDope==undefined){
+        record.prevDope="";
+    }
+    if(record.prevSys==undefined){
+        record.prevSys="";
+    }
+    if(record.prevDia==undefined){
+        record.prevDia="";
+    }
+    if(record.currSy==undefined){
+        record.currSy="";
+    }
+    if(record.currTemp==undefined){
+        record.currTemp="";
+    }
+    if(record.currBp==undefined){
+        record.currBp="";
+    }
+    if(record.currPr==undefined){
+        record.currPr="";
+    }
+    if(record.currSf==undefined){
+        record.currSf="";
+    }
+    if(record.currWeight==undefined){
+        record.currWeight="";
+    }
+    if(record.currHeight==undefined){
+        record.currHeight="";
+    }
+    if(record.currBmi==undefined){
+        record.currBmi="";
+    }
+    if(record.currBmiStatus==undefined){
+        record.currBmiStatus="";
+    }
+    if(record.currOdVision==undefined){
+        record.currBp="";
+    }
+    if(record.currOsVision==undefined){
+        record.currOsVision="";
+    }
+    if(record.currOdGlasses==undefined){
+        record.currOdGlasses="";
+    }
+    if(record.currOsGlasses==undefined){
+        record.currOsGlasses="";
+    }
+    if(record.currMedProb==undefined){
+        record.currMedProb="";
+    }
+    if(record.currAllergies==undefined){
+        record.currAllergies="";
+    }
+    if(record.currComplaints=undefined){
+        record.currComplaints="";
+    }
+    if(record.currReco==undefined){
+        record.currBp="";
+    }
+    if(record.currDope==undefined){
+        record.currDope="";
+    }
+    if(record.currClinician==undefined){
+        record.currClinician="";
+    }
+    if(record.currSys=undefined){
+        record.currSys="";
+    }
+    if(record.currDia==undefined){
+        record.currDia="";
+    }
 
-    res.send(data);
+    res.send(record);
     
 }
 //function gets the APE schedules 

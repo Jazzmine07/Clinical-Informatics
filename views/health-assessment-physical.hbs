@@ -886,6 +886,7 @@
                         //document.getElementById("medProb").value=data.medProb;
                         //document.getElementById("allergies").value=data.allergies;
                         
+                        
                         //document.getElementById("age").value=data.currAge;
                         //document.getElementById("dope").value=data.currDope;//change to Date
                         //document.getElementById("clinicianAPE").value=data.currClinician;
@@ -1014,22 +1015,22 @@
                     var bmiVal=$('#bmi').val();
 
                     $.ajax({
-                    url: '/getBmiStatus',
-                    method: 'POST',
-                    data: {
-                        id:sId,
-                        dob:dob,
-                        age:a,
-                        sex:g,
-                        dateAPE:apeDate,
-                        bmi:bmiVal
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        computedBmiStatus=data;
-                        document.getElementById("bmiStatus").innerHTML = data;
-                    }
-                });
+                        url: '/getBmiStatus',
+                        method: 'POST',
+                        data: {
+                            id:sId,
+                            dob:dob,
+                            age:a,
+                            sex:g,
+                            dateAPE:apeDate,
+                            bmi:bmiVal
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            computedBmiStatus=data;
+                            document.getElementById("bmiStatus").innerHTML = data;
+                        }
+                    });
 
                 }
             });
@@ -1044,15 +1045,52 @@
                 window.location.href = "/health-assessment/physical";
             });
 
-            
-            
+        
+   
+        });
+    </script>
+ 
+    <script type='text/javascript'>
+        $(document).ready(function() {
+            var schoolYear=localStorage.getItem("schoolYear");
+            var sec=localStorage.getItem("section");
+            var id = localStorage.getItem("id");
+            var i = localStorage.getItem("sectionStudentIndex");
+            var computedBmiStatus;
+            var array=[];
+            var link;
+            array=JSON.parse(localStorage.myArray)
+            if(i<array.length-1){
+                //document.getElementById("skipBtn").style.display="hidden";
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+            }
+            else if(i=>array.length){
+                document.getElementById("saveButtonText").innerHTML="Save";  
+                link="/health-assessment";
+            }
+
             $("#skipBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
                 localStorage.setItem("section",sec);
                 localStorage.setItem("id",id);
                 localStorage.setItem("sectionStudentIndex", parseInt(i+1));
+                var array=[];
+                var link;
+                array=JSON.parse(localStorage.myArray)
+                var sy=schoolYear;
+
+                if(i<array.length-1){
+                //document.getElementById("skipBtn").style.display="hidden";
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+                }
+                else if(i=>array.length){
+                    document.getElementById("saveButtonText").innerHTML="Save";  
+                    link="/health-assessment";
+                }
                 window.location.href = link;
-            });
+            })
 
             $("#saveBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
@@ -1061,6 +1099,17 @@
                 localStorage.setItem("sectionStudentIndex", parseInt(i+1));
                 console.log("save:"+i);
                 console.log("clicked?");
+
+                if(i<array.length-1){
+                //document.getElementById("skipBtn").style.display="hidden";
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+                }
+                else if(i=>array.length){
+                    document.getElementById("saveButtonText").innerHTML="Save";  
+                    link="/health-assessment";
+                }
+
 
                 var sy=schoolYear;
                 if(sy==null){
@@ -1091,6 +1140,11 @@
                     studentGrade="";
                 }
                 console.log(studentGrade);
+
+                var sectionTop = $('#sectionTop').innerHTML;
+                if(sectionTop==null){
+                    sectionTop="";
+                }
                 
                 var studentSection = $('#studentSection').val(); 
                 if(studentSection==null){
@@ -1123,7 +1177,7 @@
                 }
                 console.log(clinician);
 
-                 //vital signs
+                    //vital signs
                 var bodyTemp =  $('#bodyTemp').val(); 
                 if(bodyTemp==null){
                     bodyTemp="";
@@ -1224,11 +1278,16 @@
 
                 var normalPE =  $('#normalPE').val(); 
                 console.log(normalPE); 
+                computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
                 console.log("BMISTATUS"+computedBmiStatus); 
-                
-                $.post('addAPE',{
+                $.ajax({
+                    url: '/addAPE',
+                    method: 'POST',
+                    data: {
+                        clicked:"save",
                         bmiStatus:computedBmiStatus,
                         section:  studentSection,
+                        sectionTop:sectionTop,
                         age:age,
                         schoolYear:sy,
                         studentId: id,
@@ -1237,11 +1296,8 @@
                         //timeStamp: forSortDate,
                         clinician: clinician,
                         bodyTemp: bodyTemp,
-                        //bp: bp,
-
-                        //uncomment if nabago na sa backend
-                        //systolic: systolic,
-                        //diastolic: diastolic,
+                        systolic: systolic,
+                        diastolic: diastolic,
                         pr: pr,
                         rr: rr,
                         skinFindings: sf,
@@ -1257,16 +1313,24 @@
                         concern: complaintAPE,
                         assess: assessAPE,
                         normal: normalPE,
-                    
-                    }, function(data){
+                    },
+                    success: function(data) {
+                        console.log("Bonjour");
+                        console.log(link);
                         window.location.href = link;
-                    })
-            
+                    }  
+                });
+
                 
 
-            });    
+            
+            }); 
         });
     </script>
+    
+
+
+
 </body>
 
 </html>

@@ -166,13 +166,13 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
   var prom1, prom2, prom3, prom4, prom5;
-  var user, nurse, clinician, users, medicines;
+  var user, nurse, clinician, prescribed, medicines;
 
   prom1 = userController.getUser();
   prom1.then(function(result){
-    prom4 = userController.assignTo(result.key);
+    prom4 = userController.getPrescribedBy(result.key);
     prom4.then(function(result){
-      users = result;
+      prescribed = result;
     })
   });
   prom2 = userController.getNurse(); 
@@ -191,7 +191,7 @@ router.get('/clinic-visit/create', (req, res) => {
         isNurse: true,
         nurse: nurse,
         clinician: clinician,
-        users: users,
+        prescribed: prescribed,
         medicines: medicines
       });
     } else {
@@ -282,18 +282,12 @@ router.get('/clinic-visit/medication', (req, res) => {
         user: user,
         isNurse: true,
         nurse: nurse,
-        clinician: clinician,
-        users: users,
         medicines: medicines
       });
     } else {
       res.render('clinic-visit-medication', {
         user: user, 
         isNurse: false,
-        nurse: nurse,
-        clinician: clinician,
-        users: users,
-        medicines: medicines
       });
     }
   }).catch(error => {
@@ -392,13 +386,16 @@ router.get('/health-assessment/schedule', (req, res) => {
 // Get medicine inventory page
 router.get('/inventory-medicine', (req, res) => {
   console.log("Read medicine inventory successful!");
-  var prom1, prom2, user, inventory;
+  var prom1, prom2, prom3;
+  var user, inventory, usedMedicine;
   prom1 = userController.getUser();
   prom2 = inventoryController.getMedicineInventory();
+  prom3 = inventoryController.getUsedMedicine();
 
-  Promise.all([prom1, prom2]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     inventory = result[1];
+    usedMedicine = result[2];
     if(user.role == "Nurse"){
       res.render('inventory-medicine', {
         user: user,
@@ -409,6 +406,7 @@ router.get('/inventory-medicine', (req, res) => {
       res.render('inventory-medicine', {
         user: user, 
         isNurse: false,
+        usedMedicine: usedMedicine
       });
     }
   }).catch(error => {

@@ -837,7 +837,7 @@
                                       <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                       <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
                                           <option disabled="disabled" selected="true">Choose...</option>
-                                        {{#each users}}
+                                        {{#each prescribed}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
                                       </select>  
@@ -956,7 +956,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; IsKlinika 2021</span>
                     </div>
                 </div>
             </footer>
@@ -2609,28 +2609,28 @@
             
         }
     </script>
-    <script type='text/javascript'>
-    $(document).ready(function() {
+    <script>
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
-
         $("#medicationVisit").change(function(){
             console.log("clicked med visit!!");
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var typedID = document.getElementById("studentID").value;
-            console.log(selectedMedication);
-            console.log(typedID);
+            var lowerCase = selectedMedication.toLowerCase();
+            console.log(lowerCase);
 
             $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
                 console.log("not allowed medications of student");
                 console.log(notAllowedMedicines);
                 var i;
-                for(i = 0; i < notAllowedMedicines.length; i++){                    
-                    if(selectedMedication == notAllowedMedicines[i].medicine){
+                for(i = 0; i < notAllowedMedicines.length; i++){           
+                    console.log(lowerCase.includes(notAllowedMedicines[i].medicine));
+                    if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
                         $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
                         document.getElementById('validMedicaton').style.display = "none";
                         document.getElementById('invalidMedicaton').style.display = "block";
-                        $('#invalidMedicaton').html('Medication not allowed');            
+                        $('#invalidMedicaton').html('Medication not allowed');       
+                        break;     
                     }
                     else{
                         $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
@@ -2673,7 +2673,9 @@
             });  
             
         });
-
+    </script>
+    <script type='text/javascript'>
+    $(document).ready(function() {
         var medicationsArray = [];
         var intakeArray = [];
 

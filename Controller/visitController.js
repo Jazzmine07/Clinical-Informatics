@@ -7,8 +7,6 @@ exports.getDashboard = function(req, res){
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var visitCount = 0, observation = 0, hospitalized = 0; sentHome = 0;
     var childSnapshotData, dashboard; 
-    console.log("date");
-    console.log(date);
 
     var promise = new Promise((resolve, reject) => {
         clinicVisitRef.orderByChild("visitDate").equalTo(date).on('value', (snapshot) => { 
@@ -41,11 +39,6 @@ exports.addClinicVisit = function(req, res){
         weight, weightStatus, height, heightStatus, bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
         prescribedBy, medicineList, purposeList, amountList, intervalList, startMedList, endMedList,
         diagnosisAssign, diagnosis, notes, status } = req.body;
-        console.log("clinic visit controller");
-        console.log(weight);
-        console.log(weightStatus);
-        console.log(height);
-        console.log(heightStatus);
 
     var i, key;
     var time = Math.round(+new Date()/1000);
@@ -78,7 +71,7 @@ exports.addClinicVisit = function(req, res){
         treatment: treatment,
 
         //medicationAssigned: medicationAssign,
-        // medicationPrescribed: prescribedBy,
+        medicationPrescribed: prescribedBy,
         medication: "", // array of medications
 
         diagnosisAssigned: diagnosisAssign,

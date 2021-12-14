@@ -180,8 +180,6 @@ exports.getUser = function(){
             lastName: snapshot.child('lastName').val(),
             role: snapshot.child('role').val()
           })      
-          console.log("userInfo in controller");
-          console.log(userInfo);
           resolve(userInfo); 
         })
       }
@@ -197,7 +195,7 @@ exports.getUsers = function(){
   var usersObject = [];
   var key, childSnapshotData;
 
-  var promise = new Promise((resolve,reject)=>{
+  var promise = new Promise((resolve,  reject)=>{
     clinicUsers.on('value', (snapshot) => {
       snapshot.forEach(function(childSnapshot){
         key = childSnapshot.key;                        // Getting primary keys of users
@@ -225,11 +223,11 @@ exports.getNurse = function(){
   var usersObject = [];
   var key, childSnapshotData;
 
-  var promise = new Promise((resolve,reject)=>{
+  var promise = new Promise((resolve, reject)=>{
     clinicUsers.child("clinicUsers").orderByChild("role").equalTo("Nurse").on('value', (snapshot) => {
       snapshot.forEach(function(childSnapshot){
-        key = childSnapshot.key;                        // Getting primary keys of users
-        childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+        key = childSnapshot.key;                        
+        childSnapshotData = childSnapshot.exportVal(); 
         usersObject.push({
           key: key,
           firstName: childSnapshotData.firstName,
@@ -250,11 +248,11 @@ exports.getClinician = function(){
   var usersObject = [];
   var key, childSnapshotData;
 
-  var promise = new Promise((resolve,reject)=>{
+  var promise = new Promise((resolve, reject)=>{
     clinicUsers.child("clinicUsers").orderByChild("role").equalTo("Clinician").on('value', (snapshot) => {
       snapshot.forEach(function(childSnapshot){
-        key = childSnapshot.key;                        // Getting primary keys of users
-        childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+        key = childSnapshot.key;                        
+        childSnapshotData = childSnapshot.exportVal();
         usersObject.push({
           key: key,
           firstName: childSnapshotData.firstName,
@@ -279,8 +277,8 @@ exports.assignTo = function(req){
   var promise= new Promise((resolve, reject)=>{
     clinicUsers.on('value', (snapshot) => {
       snapshot.forEach(function(childSnapshot){
-        key = childSnapshot.key;                        // Getting primary keys of users
-        childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+        key = childSnapshot.key;                        
+        childSnapshotData = childSnapshot.exportVal();
         if(user != key){
           usersObject.push({
             key: key,
@@ -292,5 +290,46 @@ exports.assignTo = function(req){
       resolve(usersObject);
     })
   })
+  return promise;
+}
+
+// This function is to get all doctors and current nurse
+exports.getPrescribedBy = function(req){
+  var user = req;
+  var database = firebase.database();
+  var clinicUsers = database.ref();
+  var usersObject = [], temp = [];
+  var key, childSnapshotData;
+
+  var promise = new Promise((resolve, reject) => {
+    clinicUsers.child("clinicUsers").orderByChild("role").equalTo("Clinician").on('value', (snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        key = childSnapshot.key;                        
+        childSnapshotData = childSnapshot.exportVal();
+        usersObject.push({
+          key: key,
+          firstName: childSnapshotData.firstName,
+          lastName: childSnapshotData.lastName,
+        })
+      })
+    }) 
+
+    clinicUsers.child("clinicUsers").on('value', (snapshot) => {
+      snapshot.forEach(function(childSnapshot){
+        key = childSnapshot.key;                        
+        childSnapshotData = childSnapshot.exportVal(); 
+        if(user == key){
+          usersObject.push({
+            key: key,
+            firstName: childSnapshotData.firstName,
+            lastName: childSnapshotData.lastName,
+          })
+        }
+      })
+    })
+
+    resolve(usersObject);
+  })
+
   return promise;
 }

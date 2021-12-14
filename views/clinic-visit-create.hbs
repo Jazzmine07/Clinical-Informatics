@@ -854,16 +854,18 @@
                                         </select>                                                                   
                                     </div>
                                     <div class="col-3">
-                                        <label class="col-form-label" for="amountMed">Amount</label>
+                                        <label class="col-form-label" for="amountMed">Dose</label>
                                         <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
-                                        <div id="validAmount" class="valid-feedback"></div>
-                                        <div id="invalidAmount" class="invalid-feedback"></div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
                                         <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
+                                    </div>
+                                    <div>
+                                        <div id="validAmount" class="valid-feedback font-weight-bold"></div>
+                                        <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
@@ -1036,7 +1038,6 @@
             var checkBox = document.getElementById("takenClinic");
             var div = document.getElementById("takenDiv");
 
-            // If the checkbox is checked, display the output text
             if (checkBox.checked == true){
                 div.style.display = "block";
             } else {
@@ -2640,12 +2641,48 @@
 
                 }
             });
+
+            var dose = document.getElementById("amountMed").value;  
+            var weight = document.getElementById("weight").value;   
+
+            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+                
+                var x; //could be weight or age
+
+                if(!weight == null){
+                    console.log("weight: " + weight);
+                    x = Number(weight);
+                }
+                else if(!data.weight == null){
+                    console.log("data.weight: " + data.weight);
+                    x = Number(data.weight);
+                }
+                else{
+                    x = 1;
+                } 
+
+                console.log("testing weight... " + (x * 25));
+                
+                //checking of dose
+                if(selectedMedication == "Paracetamol Suspension 250mg/5mL"){
+                    if(!x == 1){
+                        x * 10
+                    } 
+
+            }
+            });  
+            
         });
 
         var medicationsArray = [];
+        var intakeArray = [];
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
+        }
+
+        function addIntakeHistory(medication, amount, time, taken) {
+            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
         }
 
         var i = 0;  
@@ -2658,6 +2695,15 @@
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
             var endMed = document.getElementById("endMed").value;
+
+            var checkBox = document.getElementById("takenClinic");
+
+            
+            var time =  $('#timeTaken').val();
+            console.log(time);
+            addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
+            
+
 
             /* TO DO: Add checkers for fields if empty */
             //medicineList.push(selectedMedication);
@@ -2688,11 +2734,20 @@
         });  
 
         $("#assignDiagnosis").change(function(){
+            document.getElementById("prescribedBy").disabled = false;
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
-            console.log("itlog " + selectedDaignosisAssign);
-            if(!selectedDaignosisAssign == null || !selectedDaignosisAssign == "" || !selectedDaignosisAssign == undefined){
-                document.getElementById("prescribedBy").value=selectedDaignosisAssign;
+            var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            console.log(selectedDiagnosisAssign);
+
+            var length = $(this).find('option:selected').length;
+            console.log(length);
+
+            if(!selectedDiagnosisAssign == null || !selectedDiagnosisAssign == "" || !selectedDiagnosisAssign == undefined){
+                document.getElementById("prescribedBy").value=selectedDiagnosisAssign;
+                document.getElementById("prescribedBy").disabled = true;
+            }
+            else if(length == 0){
+                document.getElementById("prescribedBy").disabled = false;
             }
         });
 
@@ -2708,23 +2763,33 @@
             newArray.sort();
             //console.log(newArray);
 
-            //for (var j = newArray.length -1; j >= 0; j--){
-            //    medicationsArray.splice(newArray[j],1);
-            //    medicineList.splice(newArray[j], 1);
-            //    purposeList.splice(newArray[j], 1);
-            //    amountList.splice(newArray[j], 1);
-            //    intervalList.splice(newArray[j], 1);
-            //    startMedList.splice(newArray[j], 1);
-            //    endMedList.splice(newArray[j], 1);
-            //}
+            for (var j = newArray.length -1; j >= 0; j--){
+                medicationsArray.splice(newArray[j],1);
+                intakeArray.splice(newArray[j],1);
+            }
 
-            //console.log(medicationsArray);   
-            //console.log(medicineList);              
-            //console.log(purposeList);              
-            //console.log(amountList);              
-            //console.log(intervalList);              
-            //console.log(startMedList);              
-            //console.log(endMedList);              
+            var removeIntakeIDs = [];
+
+            for(var k = 0; k < intakeArray.length; k++){
+                if(intakeArray[k].taken === false){
+                    console.log("removing false intake...");
+                    removeIntakeIDs.push(k);
+                    console.log(intakeArray[k]);
+                }
+            }
+
+            const convertID = arr => arr.map(Number);
+            var newIntakeArray = toNumbers(removeIntakeIDs);
+            //console.log(newArray);       
+
+            newIntakeArray.sort();
+
+            for (var l = newIntakeArray.length -1; l >= 0; l--){
+                intakeArray.splice(newIntakeArray[l],1);
+            }
+
+            console.log(medicationsArray);
+            console.log(intakeArray);              
 
             var id = $('#studentID').val();
             console.log(id);
@@ -2776,79 +2841,102 @@
             //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
 
             var selectPrescribedBy = document.getElementById("prescribedBy");
-            //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-
-            
-            
-            var diagnosis =  $('#diagnosis').val(); 
-            console.log(diagnosis);
+            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+            console.log(selectedPrescribedBy);
 
             var status =  $('#status').find(":selected").text();
-            console.log(status);
+            //console.log(status);
 
             var notes =  $('#notes').val(); 
             console.log(notes);
 
+            var isDisabled = $('#prescribedBy').prop('disabled');
+            console.log("disabled? " +  isDisabled);
+            console.log("disabled? " +  !isDisabled);
+
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
 
-            /* TO DO: Add checkers for fields if empty */
-            if($('#assignDiagnosis').find('option:selected').length == 0){
-                $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
-                $('html, body').animate({
-                    scrollTop: $("#scrollHere").offset().top
-                }, 1000);
+            var proceed = false;
+
+            if(!isDisabled && $('#assignDiagnosis').find('option:selected').length == 0){
+                console.log("1st if???")
+                if(selectedPrescribedBy == null || selectedPrescribedBy == "" || selectedPrescribedBy == undefined || selectedPrescribedBy == "Choose..."){
+                    $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
+                    $('html, body').animate({
+                        scrollTop: $("#scrollHere").offset().top
+                    }, 1000);
+                    proceed = false;
+                    console.log("1st if");
+                }
+                else if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
+                    var selectedDiagnosisAssign = "";
+                    var diagnosis =  $('#diagnosis').val(""); 
+                    proceed = true;
+                    
+                    console.log("pasok ulit 2nd if");
+                    console.log(selectedDiagnosisAssign);
+                    console.log(diagnosis);
+                }
             }
-            else{
+            else if(isDisabled){
                 $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
                 var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+                var diagnosis =  $('#diagnosis').val(); 
+                proceed = true;
+               
+                console.log("3rd if");
+                console.log(selectedDiagnosisAssign);
+                console.log(diagnosis);
             }
 
-            $.ajax({
-                url: '/addClinicVisit',
-                method: 'POST',
-                data: {
-                    studentId: id,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
-                    visitDate: visitDate,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    nurse: nurse, // attending nurse 
-                    weight: weight,
-                    weightStatus: heightWeightStatus.weightStatus,
-                    height: height,
-                    heightStatus: heightWeightStatus.heightStatus,
-                    bodyTemp: bodyTemp,
-                    systolicBP: systolic,
-                    diastolicBP: diastolic,
-                    pulseRate: pr,
-                    respirationRate: rr,
-                    complaint: complaint,
-                    treatment: treatment,                    
-                    
-                    //medicationAssign: selectedMedicationAssign,
-                    //prescribedBy: selectedPrescribedBy,
-                    //medicineList: medicineList,
-                    //purposeList: purposeList, 
-                    //amountList: amountList,
-                    //intervalList: intervalList,
-                    //startMedList: startMed,
-                    //endMedList: endMed,
+            /* TO DO: Add checkers for fields if empty */
+            if(proceed){
+                $.ajax({
+                    url: '/addClinicVisit',
+                    method: 'POST',
+                    data: {
+                        studentId: id,
+                        studentName: studentName,
+                        studentGrade: studentGrade,
+                        studentSection: studentSection,
+                        visitDate: visitDate,
+                        timeIn: timeIn,
+                        timeOut: timeOut,
+                        nurse: nurse, // attending nurse 
+                        weight: weight,
+                        weightStatus: heightWeightStatus.weightStatus,
+                        height: height,
+                        heightStatus: heightWeightStatus.heightStatus,
+                        bodyTemp: bodyTemp,
+                        systolicBP: systolic,
+                        diastolicBP: diastolic,
+                        pulseRate: pr,
+                        respirationRate: rr,
+                        complaint: complaint,
+                        treatment: treatment,                    
+                        
+                        //medicationAssign: selectedMedicationAssign,
+                        //prescribedBy: selectedPrescribedBy,
+                        //medicineList: medicineList,
+                        //purposeList: purposeList, 
+                        //amountList: amountList,
+                        //intervalList: intervalList,
+                        //startMedList: startMed,
+                        //endMedList: endMed,
 
-                    diagnosisAssign: selectedDaignosisAssign,
-                    diagnosis: diagnosis,
+                        diagnosisAssign: selectedDiagnosisAssign,
+                        diagnosis: diagnosis,
 
-                    notes: notes,
-                    status: status,
+                        notes: notes,
+                        status: status,
 
-                },
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/clinic-visit";
-                }
-            });       
-            
+                    },
+                    success: function(data) {
+                        console.log("success in ajax!");
+                        window.location.href = "/clinic-visit";
+                    }
+                });       
+            }            
         });
     });
     </script>

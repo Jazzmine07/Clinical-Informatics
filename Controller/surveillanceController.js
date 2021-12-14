@@ -50,15 +50,8 @@ exports.getTopDisease=function(vcArray){
     var weekAgo=new Date(today.setDate(today.getDate() - 7));
     var i,j,vCount;
 
-    console.log("Inside getTopDisease");
-    console.log(temp);
 
-    var promise = new Promise((resolve,reject) => {
-                  
-    console.log("temp array");
-    console.log(temp);
-
-    //getting only the clinic visits in the last week
+    //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
         parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
@@ -85,9 +78,7 @@ exports.getTopDisease=function(vcArray){
                 }
             }
         }
-
     }
-
     //getting only the clinic visits current month
     for(i=0;i<temp.length;i++){
         parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
@@ -128,10 +119,18 @@ exports.getTopDisease=function(vcArray){
                         while(weekTopDisease.length > 0) {
                             weekTopDisease.pop();
                         }
-                        weekTopDisease.push(vcWeek[i]);
+                        console.log(vcWeek[i].concern);
+                        weekTopDisease.push({
+                            concern:vcWeek[i].concern,
+                            count:vcWeek[i].count
+                        });
                     }
                     else if(vCount==weekTopDisease[0].count){
-                        weekTopDisease.push(vcWeek[i]);
+                        console.log(vcWeek[i].concern);
+                        weekTopDisease.push({
+                            concern:vcWeek[i].concern,
+                            count:vcWeek[i].count
+                        });
                     }
                 }
                 else{ //has only 1 at the moment
@@ -139,15 +138,25 @@ exports.getTopDisease=function(vcArray){
                         while(weekTopDisease.length > 0) {
                             weekTopDisease.pop();
                         }
-                        weekTopDisease.push(vcWeek[i]);
+                        console.log(vcWeek[i].concern);
+                        weekTopDisease.push({
+                            concern:vcWeek[i].concern,
+                            count:vcWeek[i].count
+                        });
                     }
                     else if(vCount==weekTopDisease[0].count){
-                        weekTopDisease.push(vcWeek[i]);
+                        weekTopDisease.push({
+                            concern:vcWeek[i].concern,
+                            count:vcWeek[i].count
+                        });
                     }
                 }
             }
             else{
-                weekTopDisease.push(vcWeek[i]);
+                weekTopDisease.push({
+                    concern:vcWeek[i].concern,
+                    count:vcWeek[i].count
+                });
             }
         }
     }
@@ -202,14 +211,14 @@ exports.getTopDisease=function(vcArray){
                 stringMonthTopDisease=stringMonthTopDisease+",";
             }
         }
-    }          
+    }     
+    
     strings.push(stringWeekTopDisease);
     strings.push(stringMonthTopDisease);
-    
-    resolve(strings);
-
-    })
-    return promise;
+    console.log("STRINGS of top disease");
+    console.log(strings);
+        
+    return strings;
 
 }
 //function is used to get data for chart which is dependent on disease and date range
@@ -235,7 +244,6 @@ exports.getDiseaseDemographics=function(req,res){
     var startSplit,endSplit, startDate,endDate;
     
     databaseRef.once('value', (snapshot) => {
-
         //this gets the clinicVisit data into the temp array
         if(snapshot.hasChild("clinicVisit")){
             query.on('value', (childSnapshot) => {

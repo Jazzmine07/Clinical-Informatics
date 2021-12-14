@@ -1045,31 +1045,6 @@
                 window.location.href = "/health-assessment/physical";
             });
 
-        
-   
-        });
-    </script>
- 
-    <script type='text/javascript'>
-        $(document).ready(function() {
-            var schoolYear=localStorage.getItem("schoolYear");
-            var sec=localStorage.getItem("section");
-            var id = localStorage.getItem("id");
-            var i = localStorage.getItem("sectionStudentIndex");
-            var computedBmiStatus;
-            var array=[];
-            var link;
-            array=JSON.parse(localStorage.myArray)
-            if(i<array.length-1){
-                //document.getElementById("skipBtn").style.display="hidden";
-                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                link="/health-assessment/physical";
-            }
-            else if(i=>array.length){
-                document.getElementById("saveButtonText").innerHTML="Save";  
-                link="/health-assessment";
-            }
-
             $("#skipBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
                 localStorage.setItem("section",sec);
@@ -1091,6 +1066,30 @@
                 }
                 window.location.href = link;
             })
+        
+   
+        });
+    </script>
+ 
+    <script>
+        $(document).ready(function() {
+            var schoolYear=localStorage.getItem("schoolYear");
+            var sec=localStorage.getItem("section");
+            var id = localStorage.getItem("id");
+            var i = localStorage.getItem("sectionStudentIndex");
+            var computedBmiStatus;
+            var array=[];
+            var link;
+            array=JSON.parse(localStorage.myArray)
+            if(i<array.length-1){
+                //document.getElementById("skipBtn").style.display="hidden";
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+            }
+            else if(i=>array.length){
+                document.getElementById("saveButtonText").innerHTML="Save";  
+                link="/health-assessment";
+            }
 
             $("#saveBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
@@ -1316,6 +1315,7 @@
                     },
                     success: function(data) {
                         console.log("Bonjour");
+                        console.log(data);
                         console.log(link);
                         window.location.href = link;
                     }  

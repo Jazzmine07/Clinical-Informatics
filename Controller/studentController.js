@@ -19,7 +19,7 @@ exports.addWeightHeight=function(req,res){
     // studentInfoRef.child('weight').set(weight);
     // studentInfoRef.child('height').set(height);
     // studentInfoRef.child('bmi').set(bmi);
-    // studentInfoRef.child('bmiStatis').set(bmiStatus);
+    // studentInfoRef.child('bmiStatus').set(bmiStatus);
 
     res.status(200).send();
 };
@@ -114,11 +114,12 @@ exports.addAPE = function(req, res){
     if(clicked=="save"){
         apeRef.child(schoolYear).set(record);
         console.log("Saved");
+        // studentInfoRef.child('weight').set(weight);
+        // studentInfoRef.child('height').set(height);
+        // studentInfoRef.child('bmi').set(bmi);
+        // studentInfoRef.child('bmiStatus').set(bmiStatus);
     }
-    studentInfoRef.child('weight').set(weight);
-    studentInfoRef.child('height').set(height);
-    studentInfoRef.child('bmi').set(bmi);
-    studentInfoRef.child('bmiStatis').set(bmiStatus);
+    
     
     // key = apeRef.push(record).key;
     

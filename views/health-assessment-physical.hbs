@@ -1049,6 +1049,7 @@
    
         });
     </script>
+ 
     <script type='text/javascript'>
         $(document).ready(function() {
             var schoolYear=localStorage.getItem("schoolYear");
@@ -1088,217 +1089,8 @@
                     document.getElementById("saveButtonText").innerHTML="Save";  
                     link="/health-assessment";
                 }
-                
-
-                if(sy==null){
-                    sy="";
-                }
-                var sectionHeader=sec;
-                if(sectionHeader==null){
-                    sectionHeader="";
-                }
-                console.log(sectionHeader);
-
-                var id = $('#studentID').val();
-                if(id==null){
-                    id="";
-                }
-                console.log(id);
-                
-                var studentName = $('#studentName').val(); 
-                if(studentName==null){
-                    studentName="";
-                }
-                console.log(studentName);
-
-                var studentGrade = $('#studentGrade').val(); 
-                if(studentGrade==null){
-                    studentGrade="";
-                }
-                console.log(studentGrade);
-
-                var sectionTop = $('#sectionTop').text();
-                if(sectionTop==null){
-                    sectionTop="";
-                }
-                
-                var studentSection = $('#studentSection').val(); 
-                if(studentSection==null){
-                    studentSection="";
-                }
-                console.log(studentSection);
-                
-                var dob = $('#dob').val(); 
-                console.log(dob);
-
-                var age = $('#age').val(); 
-                console.log(age);
-
-                var gender = $('#gender').val(); 
-                if(gender ==null){
-                    gender="";
-                }
-                console.log(gender); 
-
-                var dateAPE =  $('#dope').val(); 
-                if(dateAPE==null){
-                    dateAPE="";
-                }
-                console.log(dope);
-                
-                //var selectClinician =  $('#clinician').val();
-                var clinician =  $('#clinicianAPE').find(":selected").val();   
-                if(clinician==null){
-                    cllinician="";
-                }
-                console.log(clinician);
-
-                    //vital signs
-                var bodyTemp =  $('#bodyTemp').val(); 
-                if(bodyTemp==null){
-                    bodyTemp="";
-                }console.log(bodyTemp);
-
-                var systolic =  $('#systolic').val(); 
-                if(systolic==null){
-                    systolic="";
-                }console.log(systolic);
-
-                var diastolic =  $('#diastolic').val(); 
-                if(diastolic==null){
-                    diastolic="";
-                }console.log(diastolic);
-
-                var pr =  $('#pulseRate').val(); 
-                if(pr==null){
-                    pr="";
-                }
-                console.log(pr);
-
-                var rr =  $('#respRate').val(); 
-                if(rr==null){
-                    rr="";
-                }
-                console.log(rr);
-
-                var sf =  $('#skinFind').val(); 
-                if(sf==null){
-                    sf="";
-                }
-                console.log(sf);
-
-                var weight =  $('#weight').val(); 
-                if(weight==null){
-                    weight="";
-                }
-                console.log(weight);
-
-                var height =  $('#height').val(); 
-                if(height==null){
-                    height="";
-                }
-                console.log(height);
-
-                var bmi =  $('#bmi').val(); 
-                if(bmi==null){
-                    bmi="";
-                }
-                console.log(bmi);
-
-                //vision
-                var odVision =  $('#odVision').val(); 
-                if(odVision==null){
-                    odVision="";
-                }
-                console.log(odVision);
-
-                var osVision =  $('#osVision').val(); 
-                if(osVision==null){
-                    osVision="";
-                }
-                console.log(osVision);
-
-                var odGlasses =  $('#odGlasses').val(); 
-                if(odGlasses==null){
-                    odGlasses="";
-                }console.log(odGlasses);
-
-                var osGlasses =  $('#osGlasses').val(); 
-                if(osGlasses==null){
-                    osGlasses="";
-                }
-                console.log(osGlasses);
-
-                var medProb =  $('#medProb').val(); 
-                if(medProb==null){
-                    medProb="";
-                }console.log(medProb);
-
-                var allergies =  $('#allergies').val(); 
-                if(allergies==null){
-                    allergies="";
-                }
-                console.log(allergies);
-
-                var complaintAPE =  $('#complaintAPE').val(); 
-                if(complaintAPE==null){
-                    complaintAPE="";
-                }
-                console.log(complaintAPE);
-
-                var assessAPE =  $('#assessAPE').val(); 
-                if(assessAPE==null){
-                    assessAPE="";
-                }
-                console.log(assessAPE);
-
-                var normalPE =  $('#normalPE').val(); 
-                console.log(normalPE); 
-                computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
-                console.log("BMISTATUS"+computedBmiStatus); 
-                console.log(sectionTop);
-                $.ajax({
-                    url: '/addAPE',
-                    method: 'POST',
-                    data: {
-                        clicked:"skip",
-                        bmiStatus:computedBmiStatus,
-                        section:  studentSection,
-                        sectionTop:sectionTop,
-                        age:age,
-                        schoolYear:sy,
-                        studentId: id,
-                        studentName: studentName,
-                        visitDate: dateAPE,
-                        //timeStamp: forSortDate,
-                        clinician: clinician,
-                        bodyTemp: bodyTemp,
-                        systolic: systolic,
-                        diastolic: diastolic,
-                        pr: pr,
-                        rr: rr,
-                        skinFindings: sf,
-                        weight: weight,
-                        height: height,
-                        bmi: bmi,
-                        odVision: odVision,
-                        osVision: osVision,
-                        odGlasses: odGlasses,
-                        osGlasses: osGlasses,
-                        medProb: medProb,
-                        allergies: allergies,
-                        concern: complaintAPE,
-                        assess: assessAPE,
-                        normal: normalPE,
-                    },
-                    success: function(data) {
-                        console.log("Bonjour");
-                        window.location.href = link;
-                    }  
-                });
-
-
-            });
+                window.location.href = link;
+            })
 
             $("#saveBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
@@ -1307,6 +1099,17 @@
                 localStorage.setItem("sectionStudentIndex", parseInt(i+1));
                 console.log("save:"+i);
                 console.log("clicked?");
+
+                if(i<array.length-1){
+                //document.getElementById("skipBtn").style.display="hidden";
+                document.getElementById("saveButtonText").innerHTML="Save | Next Student";
+                link="/health-assessment/physical";
+                }
+                else if(i=>array.length){
+                    document.getElementById("saveButtonText").innerHTML="Save";  
+                    link="/health-assessment";
+                }
+
 
                 var sy=schoolYear;
                 if(sy==null){
@@ -1513,27 +1316,18 @@
                     },
                     success: function(data) {
                         console.log("Bonjour");
-                    }  
-                });
-                $.ajax({
-                    url: '/addWeightHeight',
-                    method: 'POST',
-                    data: {
-                        bmiStatus:computedBmiStatus,
-                        studentId: id,
-                        weight: weight,
-                        height: height,
-                        bmi: bmi
-                    },
-                    success: function(data) {
-                        console.log("Finally");
+                        console.log(link);
                         window.location.href = link;
                     }  
                 });
+
+                
+
             
             }); 
         });
     </script>
+    
 
 
 

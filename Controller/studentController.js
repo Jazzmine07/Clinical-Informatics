@@ -115,6 +115,10 @@ exports.addAPE = function(req, res){
         apeRef.child(schoolYear).set(record);
         console.log("Saved");
     }
+    studentInfoRef.child('weight').set(weight);
+    studentInfoRef.child('height').set(height);
+    studentInfoRef.child('bmi').set(bmi);
+    studentInfoRef.child('bmiStatis').set(bmiStatus);
     
     // key = apeRef.push(record).key;
     

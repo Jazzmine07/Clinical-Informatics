@@ -344,7 +344,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Complaints or Reason for Visit</h6>
                                 </div>
-                                <div class="card-body" >
+                                <div class="card-body" style="width: 650px; length: 7500px" >
                                     <div class="chart-bar">
                                         <canvas id="complaintsChart"></canvas>
                                     </div>
@@ -403,20 +403,6 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Monthly Symptoms</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -433,37 +419,13 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Clinic Visits Based on Visit Type</h6>
                                 </div>
-                                <!-- Card Body -->
+
+                                <!-- Pie Chart -->
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                                    <div class="chart-pie pt-6 pb-2">
+                                        <canvas id="pieChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -711,6 +673,7 @@
                             'rgba(255, 206, 86, 1)',
                         ],
                         borderWidth: 3,
+                        categoryPercentage: 0.2
                     }]
                 },
                 plugins: [ChartDataLabels],
@@ -723,18 +686,20 @@
                             anchor: 'end',
                             align: 'right',
                             offset: 10,
-                            formatter: Math.round,
                             font: {
                                 weight: 'bold'
                             }
+                        }, 
+                        legend: {
+                            display: false
                         }
                     },
                     layout: {   // layout ng entire chart
                         padding: {
-                            left: 30,
+                            left: 25,
                             right: 25,
                             top: 0,
-                            bottom: 25
+                            bottom: 0
                         }
                     },
                 }
@@ -794,7 +759,7 @@
                             font: {
                                 size: 25   // font size of the labels
                             },
-                        }
+                        },
                     },
                     scales: {
                         x: {
@@ -823,9 +788,59 @@
                             }
                         },
                     },
-                    //legend: {
-                    //    display: false
-                    //}
+                }
+            });
+            
+            var pieChart = document.getElementById("pieChart");
+            var pieChart = new Chart(pieChart, {  // pie chart
+                type: 'pie',
+                data: {
+                    labels: ["Consultation", "Emergency", "Intramurals", "Family Day"],
+                    datasets: [{
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
+                        data: [54, 2, 17, 7],
+                    }],
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 0,
+                            bottom: 0,
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'center',
+                            offset: 55,
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: "#000000",
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => {
+                                    sum += data;
+                                });
+                                let percentage = (value*100 / sum).toFixed(2)+"%";
+                                return percentage;
+                            },
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        }
+                    }
                 }
             });
     </script>

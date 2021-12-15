@@ -18,3 +18,15 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('#dentalTable').DataTable();
 });
+
+$(document).ready(function() {
+  $('#onGoingTable').DataTable();
+});
+
+$(document).ready(function() {
+  $('#upcomingTable').DataTable();
+});
+
+$(document).ready(function() {
+  $('#pastTable').DataTable();
+});

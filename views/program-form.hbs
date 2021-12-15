@@ -38,6 +38,129 @@
         #studentDiv{
             display: none;
         }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #4e73df;
+            border-color: white !important; 
+            color: white;
+            border-radius: 4px;
+            cursor: default;
+            float: left;
+            margin-right: 5px;
+            margin-top: 5px;
+            padding: 0 5px;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border: solid #aaa 1px;
+            outline: 0;
+        }
+
+        .select2-container--default .select2-selection--multiple,
+        .select2-selection .select2-selection--multiple {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 6px 6px 6px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container--default .select2-selection--multiple,
+        .select2-selection .select2-selection--multiple {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 6px 6px 6px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .select2-container--default .select2-selection--multiple,
+        .select2-selection .select2-selection--multiple{
+            border-color: #1cc88a;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231cc88a' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e);
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+
+        .select2-container--default .select2-selection--multiple {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 6px 6px 6px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--multiple {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 6px 6px 6px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            padding-right: 10px
+        }
+
+        .select2-container .select2-selection--multiple .select2-selection__rendered {
+            padding-left: 0;
+            padding-right: 0;
+            height: auto;
+            margin-top: -8px;
+        }
+
+        .select2-container .select2-selection--multiple {
+           margin-bottom: 8px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            color: #6e707e;
+            line-height: 28px
+        }
+
+    
     </style>
 
 </head>
@@ -440,18 +563,13 @@
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. YYYY - YYYY</h6>                           
-                            
-                            <button type="button" class="btn btn-primary btn-sm mr-2 mx-1"><i
-                                class="fas fa-download mr-2 text-white-50"></i>Load Old Record</button>
-                            <button type="button" class="btn btn-primary btn-sm mx-1 ">Skip<i
-                                class="fas fa-forward ml-2 text-white-50"></i></button>
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Program Details</h6>                           
                         </div>
                         <div class="card-body">
                             <form class="user">
                                 <div class="form-row align-items-center">
-                                    <div class="col-12">
+                                    <div class="col-8">
                                       <label class="col-form-label" for="progName">Name of Program</label>
                                       <input type="text" class="form-control mb-2" id="progName" name="progName">
                                     </div>
@@ -466,36 +584,60 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
-                                      <label class="col-form-label" for="population">Population of Interest</label>
-                                      <select id="population" class="form-control mb-2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
-                                        <option>Grade 1</option>
-                                        <option>All</option>
+                                      <label class="col-form-label" for="objectives">Program Objectives</label>
+                                      <textarea type="text" class="form-control mb-2" id="objectives" name="objectives" rows="4" placeholder="List your objectives here"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                      <label class="col-form-label" for="population">Success Indicators</label>
+                                      <select id="indicator" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
+                                        <option>Attendance</option>
+                                        <option>Change in weight</option>
+                                        <option>Change in height</option>
+                                        <option>BMI</option>
                                     </select>
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col">
+                                    <div class="col-6">
+                                      <label class="col-form-label" for="population">Population of Interest</label>
+                                      <select id="population" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
+                                        <option>Grade 1</option>
+                                        <option>All</option>
+                                        <option>Underweight</option>
+                                        <option>Overweight</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
                                         <label for="progStart" class="col-form-label">Start Date</label>
                                         <input type="date" class="form-control mb-2" id="progStart">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <label for="progEnd" class="col-form-label">End Date</label>
                                         <input type="date" class="form-control mb-2" id="progEnd">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                       <label class="col-form-label" for="location">Location</label>
                                       <input type="text" class="form-control mb-2" id="location" name="location">
                                     </div>
                                 </div>
 
-                                <nav class="d-flex justify-content-end">
-                                    <a href="#" aria-label="Next"><span aria-hidden="true">Name of Next Student &raquo;</span>
-                                </nav>
+                                <div class="d-flex justify-content-end mt-4 col-12">
+                                    <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
+                                    <a href="/promotive-care" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
+                                </div>
+
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -573,9 +715,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>
+        $("#indicator").select2({
+        placeholder: "Select or type keywords"
+        });
+
         $("#population").select2({
         placeholder: "Select or type keywords"
         });
+
+        $(".select2-selection .select2-selection--multiple").css("border", "1px solid #aaa");
     </script>
 </body>
 

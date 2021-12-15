@@ -443,7 +443,7 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modalHA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    {{!-- <div class="modal fade" id="modalHA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document" style="margin-top: 100px;">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -490,9 +490,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="modal fade" id="modalSched" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    {{!-- <div class="modal fade" id="modalSched" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document" style="margin-top: 100px;">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -539,7 +539,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
 
@@ -596,80 +596,45 @@
                     </div>
 
                     <!-- Basic Card Example -->
-                    <div class="card shadow mb-2 divmenu" id="haSched">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Schedule</h6></div>
-                        <div class="card-body">
-                            {{#each clinicVisits}}
-                                <!-- Card Header - Accordion -->
-                            {{!-- <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate purchaseDate}}</button> --}}
-                            <a class="d-block card-header py-3 collapsible" data-toggle="collapse" data-target="content" role="button" aria-expanded="false" aria-controls="content">
-                                <h6 class="m-0 font-weight-bold text-primary">Grade - Section</span></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="content">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Student</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{#each visitDetails}}
-                                            <tr>
-                                                <td>{{studentName}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
-                                            </tr>
-                                            {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            {{/each}}
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Schedule</h6>
                         </div>
-                    </div>
-
-                    <!-- Basic Card Example -->
-                    <div class="card shadow mb-2 divmenu" id="haList">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Physical Exam</h6></div>
                         <div class="card-body">
-                            {{#each clinicVisits}}
-                                <!-- Card Header - Accordion -->
-                            {{!-- <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate purchaseDate}}</button> --}}
-                            <a class="d-block card-header py-3 collapsible" data-toggle="collapse" data-target="content" role="button" aria-expanded="false" aria-controls="content">
-                                <h6 class="m-0 font-weight-bold text-primary">Grade - Section</span></h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="content">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Student</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {{#each visitDetails}}
-                                            <tr>
-                                                <td>{{studentName}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
-                                            </tr>
-                                            {{/each}}
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="onGoingTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Grade and Section</th>
+                                            <th class="bg-primary" style="color: white;">Date of Schedule</th>
+                                            <th class="bg-primary" style="color: white;">No. of Students</th>
+                                            <th class="bg-primary" style="color: white;">Time</th>
+                                            {{!-- <th>Time Out</th>
+                                            <th>Status</th> --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{#each schedule}}
+                                        <tr>
+                                            <td>Grade {{grade}}-{{section}}</td>
+                                            <td>{{formatDate examDate}}</td>
+                                            <td>{{numStudents}}</td>
+                                            <td>{{time}}</td>
+                                        </tr>
+                                    {{/each}}
+                                    </tbody>
+                                    {{!-- <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> --}}
+                                </table>
                             </div>
-                            {{/each}}
                         </div>
                     </div>
 
@@ -738,6 +703,14 @@
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
     <script src="public/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/datatables-demo.js"></script>
+
     <script>
         var collapsible = document.getElementsByClassName("collapsible");
         var i;

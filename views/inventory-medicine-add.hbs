@@ -406,11 +406,13 @@
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Inventory Details</h6></div>
                             <div class="card-body">
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-2">
                                         <label for="batchNum" class="col-form-label">Batch Number</label>
                                         <input type="number" class="form-control mb-2" id="batchNum" placeholder="ex. 1, 2">
                                     </div>
-                                    <div class="col-6">
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-4">
                                         <label for="medication" class="col-form-label">Medication</label>
                                         <div class="input-group mb-2">
                                             <span class="input-group-prepend">
@@ -418,7 +420,7 @@
                                                 <i class="fa fa-search"></i>
                                                 </div>
                                             </span>
-                                            <input list="medications" class="form-control border-left-1 border" id="medication" placeholder="Create or select medication (ex. Paracetamol Tablet 250mg)"/>                                       
+                                            <input list="medications" class="form-control border-left-1 border" id="medication" placeholder="ex. Paracetamol"/>                                       
                                         </div>
                                         <datalist id="medications">
                                             {{#each medicines}}
@@ -426,31 +428,48 @@
                                             {{/each}} 
                                         </datalist> 
                                     </div>
+                                    <div class="col-2">
+                                        <label class="col-form-label" for="dosageForm">Dosage Form</label>
+                                        <input list="dosageFormList" class="form-control mb-2" id="dosageForm" name="dosageForm" placeholder="ex. Syrup"/>                                       
+                                        <datalist id="dosageFormList">
+                                            <option value="Tablet"></option>
+                                            <option value="Drops"></option>
+                                            <option value="Syrup"></option>
+                                            <option value="Suspension"></option>
+                                            <option value="Oral drops"></option>
+                                            <option value="Chewable tablet"></option>
+                                            <option value="Nebules"></option>
+                                            <option value="Solution for Injection"></option>
+                                            <option value="Sachet"></option>
+                                        </datalist>
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="strength" class="col-form-label">Strength</label>
+                                        <input type="text" class="form-control mb-2" id="strength" placeholder="ex. 250mg/5ml">
+                                    </div>
                                 </div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-2">
                                         <label for="quantity" class="col-form-label">Quantity</label>
                                         <input type="number" class="form-control mb-2" id="quantity" placeholder="ex. 500, 1000">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-2">
                                         <label for="unit" class="col-form-label">Unit</label>
                                         <select class="custom-select mb-2 form-control" id="unit" name="unit">
                                             <option>Bottle</option>
                                             <option>Pieces</option> 
                                         </select> 
                                     </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
+                                    <div class="col-2">
                                         <label for="purchDate" class="col-form-label">Purchase Date</label>
                                         <input type="date" class="form-control mb-2" id="purchDate" name="purchDate">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-2">
                                         <label for="expDate" class="col-form-label">Expiry Date</label>
                                         <input type="date" class="form-control mb-2" id="expDate" name="expDate">
                                     </div>
                                 </div>
+
                                 
                                 <a class="btn btn-link"  id="addMedicine"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medicine</a>                                
                                 <table class="table" id="dynamic_field">  
@@ -538,8 +557,8 @@
     <script>
         var medicationsArray = [];
 
-        function addMedicine(medication, batchNum, quantity, unit, purchDate, expDate) {
-            medicationsArray.push({medication: medication, batchNum: batchNum, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
+        function addMedicine(medication, dosageForm, strength, batchNum, quantity, unit, purchDate, expDate) {
+            medicationsArray.push({medication: medication, dosageForm: dosageForm, strength: strength, batchNum: batchNum, quantity: quantity, unit: unit, purchDate: purchDate, expDate: expDate});
         }
 
         var i = 0;  
@@ -547,6 +566,8 @@
         $('#addMedicine').click(function(){
             var medication = document.getElementById("medication").value;
             var batchNum = document.getElementById("batchNum").value;
+            var dosageForm = document.getElementById("dosageForm").value;
+            var strength = document.getElementById("strength").value;
             var quantity = document.getElementById("quantity").value;
             var unit = document.getElementById("unit");
             var selectedUnit = unit.options[unit.selectedIndex].value;
@@ -560,9 +581,9 @@
             console.log(purchDate);
             console.log(expDate);
 
-            addMedicine(medication, batchNum, quantity, selectedUnit, purchDate, expDate);
+            addMedicine(medication, dosageForm, strength, batchNum, quantity, selectedUnit, purchDate, expDate);
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + batchNum +'"></input></td><td><input disabled="disabled" class="form-control" placeholder="' + medication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + batchNum +'"></input></td><td><input disabled="disabled" class="form-control" placeholder="' + medication + " " + dosageForm + " " + strength + '"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             
             i++;
         });

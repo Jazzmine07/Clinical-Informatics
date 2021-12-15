@@ -45,25 +45,25 @@ router.get('/dashboard', (req, res) => {
   prom1.then(function(result){
     user = result;
   })
-  prom2 = notificationController.getNotifications();
-  prom2.then(function(result){
-    notifs = result;
-  });
+  // prom2 = notificationController.getNotifications();
+  // prom2.then(function(result){
+  //   notifs = result;
+  // });
 
   Promise.all([prom1,prom2]).then(result => {
     var i, count = 0, newNotifs;
     
-    for(i = 0; i < notifs.length; i++){
-      if(notifs[i].seen == false){
-        count++; 
-      }
-    }
+    // for(i = 0; i < notifs.length; i++){
+    //   if(notifs[i].seen == false){
+    //     count++; 
+    //   }
+    // }
 
-    if(count != 0){
-      newNotifs = true;
-    } else {
-      newNotifs = false;
-    }
+    // if(count != 0){
+    //   newNotifs = true;
+    // } else {
+    //   newNotifs = false;
+    // }
 
     if(user.role == "Nurse"){
       // dashboard for nurse to be fixed
@@ -75,9 +75,9 @@ router.get('/dashboard', (req, res) => {
     else {
       res.render('dashboard', { // nagsesend ng another response
         user: user,
-        notification: notifs,
-        count: count,
-        newNotifs: newNotifs
+        //notification: notifs,
+        //count: count,
+        //newNotifs: newNotifs
       })
     }
   }).catch(error => {

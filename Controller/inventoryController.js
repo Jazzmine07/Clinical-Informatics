@@ -4,7 +4,6 @@ exports.addMedicineInventory = async function(req, res){
     var medicationsArray = req.body.meds;
     var i, medicines;
     var snapshotData;
-    //var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
     var rootRef = database.ref();
@@ -22,8 +21,11 @@ exports.addMedicineInventory = async function(req, res){
             //} else {
                 medicines = {
                     batchNum: parseInt(medicationsArray[i].batchNum),
-                    medicine: medicationsArray[i].medication,
-                    quantity: medicationsArray[i].quantity,
+                    medicine: medicationsArray[i].medication + " " + medicationsArray[i].dosageForm + " " + medicationsArray[i].strength,
+                    name: medicationsArray[i].medication,
+                    dosageForm: medicationsArray[i].dosageForm,
+                    strength: medicationsArray[i].strength,
+                    quantity: parseInt(medicationsArray[i].quantity),
                     unit: medicationsArray[i].unit,
                     purchDate: medicationsArray[i].purchDate,
                     expDate: medicationsArray[i].expDate

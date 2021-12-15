@@ -460,10 +460,8 @@
 
     <!-- Page level plugins -->
     <script src="public/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="public/js/demo/chart-area-demo.js"></script>
-    <script src="public/js/demo/chart-pie-demo.js"></script>
+    {{!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -538,6 +536,7 @@
                         data: [data[0].female, data[1].female, data[2].female, data[3].female, data[4].female, data[5].female],
                     }],
                 },
+                //plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -581,6 +580,7 @@
                                     size: 15,   // font size of the labels
                                 },
                                 color: "rgba(255, 99, 132, 1)",
+                                stepSize: 15,
                             }
                         }
                     }

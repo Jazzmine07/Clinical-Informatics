@@ -574,15 +574,8 @@
             var purchDate = document.getElementById("purchDate").value;
             var expDate = document.getElementById("expDate").value;
 
-            console.log(medication);
-            console.log(batchNum);
-            console.log(quantity);
-            console.log(selectedUnit);
-            console.log(purchDate);
-            console.log(expDate);
-
             addMedicine(medication, dosageForm, strength, batchNum, quantity, selectedUnit, purchDate, expDate);
-
+            console.log(medicationsArray);
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + batchNum +'"></input></td><td><input disabled="disabled" class="form-control" placeholder="' + medication + " " + dosageForm + " " + strength + '"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + quantity + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ selectedUnit +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ purchDate +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ expDate +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             
             i++;

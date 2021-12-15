@@ -54,6 +54,10 @@ exports.addAPE = function(req, res){
     var assess = req.body.assess;
     var normal = req.body.normal;
     var bmiStatus= req.body.bmiStatus;
+    var w=weight;
+    var h=weight;
+    var b=bmi;
+    var bs= bmiStatus;
     console.log(bmiStatus);
 
     console.log("section(1):" + section);
@@ -114,12 +118,11 @@ exports.addAPE = function(req, res){
     if(clicked=="save"){
         apeRef.child(schoolYear).set(record);
         console.log("Saved");
-        // studentInfoRef.child('weight').set(weight);
-        // studentInfoRef.child('height').set(height);
-        // studentInfoRef.child('bmi').set(bmi);
-        // studentInfoRef.child('bmiStatus').set(bmiStatus);
+        // studentInfoRef.child('weight').set(w);
+        // studentInfoRef.child('height').set(h);
+        // studentInfoRef.child('bmi').set(b);
+        // studentInfoRef.child('bmiStatus').set(bs);
     }
-    
     
     // key = apeRef.push(record).key;
     

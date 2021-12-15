@@ -597,6 +597,7 @@ router.post('/addSchedule', studentController.addSchedule);
 router.post('/loadPrevData', studentController.loadPrevData);
 router.post('/addWeightHeight',studentController.addWeightHeight);
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
+router.post('/getDiseasesCountDashboard', surveillanceController.getDiseasesCount);
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);

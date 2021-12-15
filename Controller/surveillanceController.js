@@ -357,6 +357,7 @@ exports.getDiseaseDemographics=function(req,res){
 
 //used for Dashboard to get disease count in certain time period
 exports.getDiseasesCount=function(req,res){
+    console.log("enters")
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");

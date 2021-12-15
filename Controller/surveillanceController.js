@@ -160,16 +160,6 @@ exports.getTopDisease=function(vcArray){
             }
         }
     }
-    //appending all top disease of the week
-    if(weekTopDisease!=null){
-        for(i=0;i<weekTopDisease.length;i++){
-            stringWeekTopDisease =stringWeekTopDisease +weekTopDisease[i].concern;
-            if(i!=weekTopDisease.length-1){
-                stringWeekTopDisease=stringWeekTopDisease+",";
-            }
-        }
-    }
-
     //finding top Disease/s for the month
     if(vcMonth.length>=0){
         for(i=0;i<vcMonth.length;i++){
@@ -200,6 +190,16 @@ exports.getTopDisease=function(vcArray){
             }
             else{
                 monthTopDisease.push(vcMonth[i]);
+            }
+        }
+    }
+
+    //appending all top disease of the week
+    if(weekTopDisease!=null){
+        for(i=0;i<weekTopDisease.length;i++){
+            stringWeekTopDisease =stringWeekTopDisease +weekTopDisease[i].concern;
+            if(i!=weekTopDisease.length-1){
+                stringWeekTopDisease=stringWeekTopDisease+",";
             }
         }
     }
@@ -352,5 +352,88 @@ exports.getDiseaseDemographics=function(req,res){
     
     
 }
-
 //DISEASE SURVEILLANCE FUNCTIONS END HERE
+
+
+//used for Dashboard to get disease count in certain time period
+exports.getDiseasesCount=function(req,res){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var studentInfoRef = database.ref("studentInfo");
+    var query = clinicVisitRef.orderByChild("timeStamp");
+
+    var temp=[],temp2=[],temp3=[];
+    var childSnapshotData, csData;
+    var i,j,alreadyAdded;
+    var studentInfo=[],sex, grade;
+    var start=req.body.startDate;
+    var end=req.body.endDate;
+    var chartData=[
+        
+    ];
+
+    var startSplit,endSplit, startDate,endDate;
+    databaseRef.once('value', (snapshot) => {
+        //this gets the clinicVisit data into the temp array
+        if(snapshot.hasChild("clinicVisit")){
+            query.on('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        diagnosis:childSnapshotData.diagnosis,
+                        visitDate:childSnapshotData.visitDate,
+                        id:childSnapshotData.id
+                    })
+                })
+                
+            })
+        }
+        //temp where data is filtered by date and gets the count of each disease
+        for(i=0;i<temp.length;i++){
+            parts=temp[i].visitDate.split('-');
+            startSplit= start.split('-');
+            endSplit = end.split('-');
+            dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+            startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
+            endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
+
+            if(dbDate<=endDate && dbDate>=startDate){
+                // temp2.push(temp[i]);
+                if(temp2==null){ //if empty auto add
+                    temp2.push({
+                        concern: temp[i].diagnosis,
+                        count:1
+                    })
+                }
+                else{ //if not empty
+                    for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
+                        if(temp2[j].concern==temp[i].diagnosis){ 
+                            temp2[j].count=temp2[j].count+1;
+                            alreadyAdded=1;
+                        }
+                    }
+                    if(alreadyAdded!=1){
+                        temp2.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        })
+                    }
+                }
+            }
+    
+        }
+
+        console.log("getDiseaseCount array");
+        console.log(temp2);
+        res.send(temp2);
+
+
+
+    })
+    
+    
+}
+
+
+

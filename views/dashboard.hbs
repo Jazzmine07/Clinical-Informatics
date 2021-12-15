@@ -346,7 +346,7 @@
                                 </div>
                                 <div class="card-body" >
                                     <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
+                                        <canvas id="diseaseCountChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -706,9 +706,9 @@
             var disease =  $('#disease').find(":selected").text();
             console.log(disease);
 
-            $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
-                
-               genderGradeChart(data);
+            $.post("/getDiseasesCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
+                console.log(data)
+                diseaseCountChart(data);
 
             });
         }
@@ -744,24 +744,28 @@
 
         //STARTING FROM HERE BIE PABAGO CHART INTO HORIZONTAL BAR CHART 
 
-        function genderGradeChart(data){
-            var glc = document.getElementById("myBarChart");
+        function diseaseCountChart(data){
+            var glc = document.getElementById("diseaseCountChart");
+
+            var labels=[],dataCount=[];
+            var i;
+            for(i=0;i<data.length;i++){
+                labels.push(data[i].concern);
+                dataCount.push(data[i].count);
+            }
+            console.log(labels);
+            console.log(dataCount);
+
             var gradeLevelChart = new Chart(glc, {
                 type: 'bar',
                 data: {
-                    labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
+                    labels: labels,
                     datasets: [{
-                        label: "Male",
+                        label: "Disease Count",
                         backgroundColor: "#4e73df",
                         hoverBackgroundColor: "#0d6efd",
                         borderColor: "#0d6efd",
-                        data: [data[0].male, data[1].male, data[2].male, data[3].male, data[4].male, data[5].male],
-                    }, {
-                        label: "Female",
-                        backgroundColor: "#e74a3b",
-                        hoverBackgroundColor: "#d52a1a",
-                        borderColor: "#d52a1a",
-                        data: [data[0].female, data[1].female, data[2].female, data[3].female, data[4].female, data[5].female],
+                        data: dataCount,
                     }],
                 },
                 options: {

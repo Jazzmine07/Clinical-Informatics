@@ -678,7 +678,7 @@
                     labels.push(data[i].concern);
                     dataCount.push(data[i].count);
                 }
-                
+                symptomsCountChart();
                 showSymptoms(labels,dataCount);
                 checker=true;
             });
@@ -734,7 +734,6 @@
                 });   
         }
 
-            //diseaseCountChart(data)
         function symptomsCountChart() {
 
             var monthlySymptoms = document.getElementById("monthlySymptoms");

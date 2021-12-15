@@ -369,9 +369,7 @@ exports.getDiseasesCount=function(req,res){
     var studentInfo=[],sex, grade;
     var start=req.body.startDate;
     var end=req.body.endDate;
-    var chartData=[
-        
-    ];
+    var from = req.body.from;
 
     var startSplit,endSplit, startDate,endDate;
     databaseRef.once('value', (snapshot) => {
@@ -381,7 +379,7 @@ exports.getDiseasesCount=function(req,res){
                 childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();
                     temp.push({
-                        diagnosis:childSnapshotData.diagnosis,
+                        visitReason:childSnapshotData.visitReason,
                         visitDate:childSnapshotData.visitDate,
                         id:childSnapshotData.id
                     })
@@ -389,6 +387,8 @@ exports.getDiseasesCount=function(req,res){
                 
             })
         }
+        console.log("temp:");
+        console.log(temp);
         //temp where data is filtered by date and gets the count of each disease
         for(i=0;i<temp.length;i++){
             parts=temp[i].visitDate.split('-');
@@ -397,25 +397,26 @@ exports.getDiseasesCount=function(req,res){
             dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
             startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
             endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
-
+            alreadyAdded=0;
             if(dbDate<=endDate && dbDate>=startDate){
                 // temp2.push(temp[i]);
                 if(temp2==null){ //if empty auto add
                     temp2.push({
-                        concern: temp[i].diagnosis,
+                        concern: temp[i].visitReason,
                         count:1
                     })
                 }
                 else{ //if not empty
                     for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
-                        if(temp2[j].concern==temp[i].diagnosis){ 
+                        if(temp2[j].concern==temp[i].visitReason){ 
                             temp2[j].count=temp2[j].count+1;
                             alreadyAdded=1;
                         }
                     }
                     if(alreadyAdded!=1){
+                        console.log("Goes and adds")
                         temp2.push({
-                            concern: temp[i].diagnosis,
+                            concern: temp[i].visitReason,
                             count:1
                         })
                     }
@@ -426,9 +427,13 @@ exports.getDiseasesCount=function(req,res){
 
         console.log("getDiseaseCount array");
         console.log(temp2);
-        res.send(temp2);
-
-
+        if(from=="dashboard"){
+            res.send(temp2);
+        }
+        else{
+            return temp2;
+        }
+        
 
     })
     

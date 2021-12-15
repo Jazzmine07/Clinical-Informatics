@@ -1,0 +1,155 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20211216.005725.17988.0.001.json",
+    "dumpEventTime": "2021-12-16T00:57:25Z",
+    "dumpEventTimeStamp": "1639587445827",
+    "processId": 17988,
+    "cwd": "C:\\Users\\Sofia Cuevas\\Desktop\\CAPSTONE\\Clinical-Informatics",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "app.js"
+    ],
+    "nodejsVersion": "v12.16.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.16.1",
+      "v8": "7.8.279.23-node.31",
+      "uv": "1.34.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.4",
+      "http_parser": "2.9.3",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.16.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.19042",
+    "osVersion": "Windows 10 Home Single Language",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1238062,
+        "nice": 0,
+        "sys": 1200390,
+        "idle": 13476265,
+        "irq": 283265
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1196546,
+        "nice": 0,
+        "sys": 500343,
+        "idle": 14217453,
+        "irq": 15718
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1876562,
+        "nice": 0,
+        "sys": 809765,
+        "idle": 13228015,
+        "irq": 12828
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1184078,
+        "nice": 0,
+        "sys": 461578,
+        "idle": 14268671,
+        "irq": 7640
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1700875,
+        "nice": 0,
+        "sys": 783468,
+        "idle": 13429984,
+        "irq": 12296
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 881875,
+        "nice": 0,
+        "sys": 462859,
+        "idle": 14569593,
+        "irq": 7359
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1593640,
+        "nice": 0,
+        "sys": 823265,
+        "idle": 13497421,
+        "irq": 11078
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz",
+        "speed": 1800,
+        "user": 1200859,
+        "nice": 0,
+        "sys": 552250,
+        "idle": 14161218,
+        "irq": 8421
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet 3",
+        "internal": false,
+        "mac": "0a:00:27:00:00:13",
+        "address": "fe80::ad40:6ef2:22b6:e6cd",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 19
+      },
+      {
+        "name": "Ethernet 3",
+        "internal": false,
+        "mac": "0a:00:27:00:00:13",
+        "address": "192.168.56.1",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "04:ea:56:cc:0c:b8",
+        "address": "fe80::c2c:8db:b50:f96c",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 9
+      },
+      {
+        "name": "Wi-Fi",
+        "internal": false,
+        "mac": "04:ea:56:cc:0c:b8",
+        "address": "192.168.254.104",
+        "netmask": "255.255.25

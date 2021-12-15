@@ -75,9 +75,9 @@ router.get('/dashboard', (req, res) => {
     else {
       res.render('dashboard', { // nagsesend ng another response
         user: user,
-        //notification: notifs,
-        //count: count,
-        //newNotifs: newNotifs
+        notification: notifs,
+        count: count,
+        newNotifs: newNotifs
       })
     }
   }).catch(error => {

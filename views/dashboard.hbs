@@ -692,55 +692,87 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
-        var complaintsChart = document.getElementById("complaintsChart");
-            var horizontalChart = new Chart(complaintsChart, {
-                type: 'bar',
-                data: {
-                    labels: ["Headache", "Fever", "Colds", "Nausea"], // x-axis
-                    datasets: [{
-                        label: "Complaints",
-                        data: [44, 61, 46, 32],
-                        backgroundColor: [  // background color of the thing
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                        ],
-                        borderWidth: 3,
-                    }]
-                },
-                plugins: [ChartDataLabels],
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    barThickness: 25,
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'right',
-                            offset: 10,
-                            formatter: Math.round,
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    layout: {   // layout ng entire chart
-                        padding: {
-                            left: 30,
-                            right: 25,
-                            top: 0,
-                            bottom: 25
-                        }
-                    },
+        
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            console.log("START " + start.format('YYYY-MM-DD'));
+            console.log("END " + end.format('YYYY-MM-DD'));
+
+            symptomsCountChart(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+
+            $.post("/getDiseasesCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
+                console.log(data)
+                var i;
+                var labels=[],dataCount=[];
+                for(i=0;i<data.length;i++){
+                    labels.push(data[i].concern);
+                    dataCount.push(data[i].count);
                 }
+
+                var complaintsChart = document.getElementById("complaintsChart");
+                var horizontalChart = new Chart(complaintsChart, {
+                    type: 'bar',
+                    data: {
+                        labels: labels, // x-axis
+                        datasets: [{
+                            label: "Complaints",
+                            data: dataCount,
+                            backgroundColor: [  // background color of the thing
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                            ],
+                            borderWidth: 3,
+                        }],
+                    },
+                    plugins: [ChartDataLabels],
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        barThickness: 25,
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'right',
+                                offset: 10,
+                                formatter: Math.round,
+                                font: {
+                                    weight: 'bold'
+                                },
+                            },
+                        },
+                        layout: {   // layout ng entire chart
+                            padding: {
+                                left: 30,
+                                right: 25,
+                                top: 0,
+                                bottom: 25
+                            },
+                        },
+                    },
+                });   
             });
 
-        var monthlySymptoms = document.getElementById("monthlySymptoms");
+           
+        }
+
+        
+
+            //diseaseCountChart(data)
+        function symptomsCountChart(start, end) {
+
+            var monthlySymptoms = document.getElementById("monthlySymptoms");
             var myLineChart = new Chart(monthlySymptoms, {  // line chart
                 type: 'bar',
                 data: {
@@ -778,7 +810,7 @@
                             right: 25,
                             top: 0,
                             bottom: 25
-                        }
+                        },
                     },
                     plugins: {
                         datalabels: {
@@ -786,7 +818,7 @@
                             align: 'top',
                             font: {
                                 weight: 'bold'
-                            }
+                            },
                         },
                         title: {
                             display: true,
@@ -794,7 +826,7 @@
                             font: {
                                 size: 25   // font size of the labels
                             },
-                        }
+                        },
                     },
                     scales: {
                         x: {
@@ -809,8 +841,8 @@
                             ticks: {
                                 font: {
                                     size: 15   // font size of the labels
-                                }
-                            }
+                                },
+                            },
                         },
                         y: {
                             min: 0,
@@ -820,14 +852,31 @@
                                 },
                                 ///color: "rgba(255, 99, 132, 1)",
                                 stepSize: 10
-                            }
+                            },
                         },
                     },
                     //legend: {
                     //    display: false
                     //}
-                }
+                },
             });
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start,end);
+    });
     </script>
 
 </body>

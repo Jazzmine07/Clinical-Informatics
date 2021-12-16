@@ -58,10 +58,12 @@ exports.getTopDisease=function(vcArray){
         alreadyAdded=0;
         if(dbDate<=currDate && dbDate>=weekAgo){
             if(vcWeek==null){ //if empty auto add
-                vcWeek.push({
-                    concern: temp[i].diagnosis,
-                    count:1
-                })
+                if(temp[i].diagnosis!=""){
+                    vcWeek.push({
+                        concern: temp[i].diagnosis,
+                        count:1
+                    })
+                }
             }
             else{ //if not empty
                 for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
@@ -71,10 +73,12 @@ exports.getTopDisease=function(vcArray){
                     }
                 }
                 if(alreadyAdded!=1){
-                    vcWeek.push({
-                        concern: temp[i].diagnosis,
-                        count:1
-                    })
+                    if(temp[i].diagnosis!=""){
+                        vcWeek.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        })
+                    }
                 }
             }
         }
@@ -86,10 +90,12 @@ exports.getTopDisease=function(vcArray){
         alreadyAdded=0;
         if(dbDate.getMonth()==currDate.getMonth() && dbDate.getFullYear()==currDate.getFullYear()){
             if(vcMonth==null){ //if empty auto add
-                vcMonth.push({
-                    concern: temp[i].diagnosis,
-                    count:1
-                })
+                if(temp[i].diagnosis!=""){
+                    vcMonth.push({
+                        concern: temp[i].diagnosis,
+                        count:1
+                    })
+                }
             }
             else{ //if not empty
                 for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
@@ -99,10 +105,12 @@ exports.getTopDisease=function(vcArray){
                     }
                 }
                 if(alreadyAdded!=1){
-                    vcMonth.push({
-                        concern: temp[i].diagnosis,
-                        count:1
-                    })
+                    if(temp[i].diagnosis!=""){
+                        vcMonth.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        })
+                    }
                 }
             }
         }
@@ -367,7 +375,6 @@ exports.getDiseasesCount=function(req,res){
     var temp=[],temp2=[],temp3=[];
     var childSnapshotData, csData;
     var i,j,alreadyAdded;
-    var studentInfo=[],sex, grade;
     var start=req.body.startDate;
     var end=req.body.endDate;
     var from = req.body.from;
@@ -415,7 +422,6 @@ exports.getDiseasesCount=function(req,res){
                         }
                     }
                     if(alreadyAdded!=1){
-                        console.log("Goes and adds")
                         temp2.push({
                             concern: temp[i].visitReason,
                             count:1
@@ -426,6 +432,10 @@ exports.getDiseasesCount=function(req,res){
     
         }
 
+
+
+
+        //temp2 = only symptoms in a certain date range
         console.log("getDiseaseCount array");
         console.log(temp2);
         if(from=="dashboard"){

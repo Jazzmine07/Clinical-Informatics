@@ -89,10 +89,7 @@ exports.getMedicines = function(){
                     await childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
-                            medicine: childSnapshotData.medicine,
-                            name: childSnapshotData.name,
-                            dosageForm: childSnapshotData.dosageForm,
-                            strength: childSnapshotData.strength,
+                            medicine: childSnapshotData.medicine
                         })
                     })
 
@@ -106,10 +103,7 @@ exports.getMedicines = function(){
                         }
                         if(!found){
                             filtered.push({
-                                medicine: med.medicine,
-                                name: med.name,
-                                dosageForm: med.dosageForm,
-                                strength: med.strength
+                                medicine: med.medicine
                             })
                         }    
                     })
@@ -123,6 +117,52 @@ exports.getMedicines = function(){
         })
     });
     return promise;
+};
+
+exports.getMedicineDetails = function(req, res){
+    var childSnapshotData, i, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("medicineInventory")){
+            inventoryRef.on('value',async (childSnapshot) => {
+                await childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicine: childSnapshotData.medicine,
+                        name: childSnapshotData.name,
+                        dosageForm: childSnapshotData.dosageForm,
+                        strength: childSnapshotData.strength,
+                    })
+                })
+
+                await temp.forEach(med => {
+                    var found = false;
+                    for(i = 0; i < filtered.length; i++){
+                        if(med.medicine == filtered[i].medicine){   // filters if same medicine name
+                            found = true;
+                            break;
+                        } 
+                    }
+                    if(!found){
+                        filtered.push({
+                            medicine: med.medicine,
+                            name: med.name,
+                            dosageForm: med.dosageForm,
+                            strength: med.strength
+                        })
+                    }    
+                })
+                console.log("laman ng medicine details");
+                console.log(filtered);
+                res.status(200).send(filtered);
+            })
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
 };
 
 exports.updateMedicineInventory = function(req, res){

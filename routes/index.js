@@ -598,6 +598,7 @@ router.post('/getDiseasesCountDashboard', surveillanceController.getDiseasesCoun
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
+router.post('/getMedicineDetails', inventoryController.getMedicineDetails);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

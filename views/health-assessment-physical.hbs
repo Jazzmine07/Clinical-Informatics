@@ -602,7 +602,7 @@
                                         <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                         <div class="input-group mb-2">                                        
                                             
-                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" step="0.01">                                        
+                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" min="0" step="0.1">                                        
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1">°C</span>
                                             </div>
@@ -611,8 +611,8 @@
                                     <div class="col-3">
                                         <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
                                         <div class="input-group mb-2">                               
-                                            <input type="number" class="form-control" id="systolic" placeholder="Systolic">
-                                            <input type="number" class="form-control" id="diastolic" placeholder="Diastolic">         
+                                            <input type="number" class="form-control" id="systolic" placeholder="Systolic" min="0">
+                                            <input type="number" class="form-control" id="diastolic" placeholder="Diastolic" min="0">         
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">mmHg</span>
                                             </div>
@@ -622,9 +622,9 @@
                                         <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                         <div class="input-group mb-2">                                        
                                             
-                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate">
+                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate" min="0">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                                <span class="input-group-text" id="basic-addon3" min="0">beats/min</span>
                                             </div>
                                         </div>
                                     </div>
@@ -634,7 +634,7 @@
                                             
                                         <input type="number" class="form-control" id="respRate" name="respRate">
                                             <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                                <span class="input-group-text" id="basic-addon4" min="0">breaths/min</span>
                                             </div>
                                         </div>
                                     </div>
@@ -648,7 +648,7 @@
                                     <div class="col-2">
                                         <label for="Weight" class="col-form-label">Weight</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="weight" step="0.01">
+                                        <input type="number" class="form-control" id="weight" step="0.1">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon4">kg</span>
                                             </div>
@@ -658,7 +658,7 @@
                                     <div class="col-2">
                                         <label for="height" class="col-form-label">Height</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="height" step="0.01">
+                                        <input type="number" class="form-control" id="height" step="0.1">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon4">cm</span>
                                             </div>

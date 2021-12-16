@@ -5,8 +5,7 @@ exports.getStudentInfo = function(req, res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
-    console.log("id sa get STudent info");
-    console.log(id);
+
     studentRef.on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshotData = snapshot.exportVal();
@@ -72,9 +71,7 @@ exports.getNotAllowedMedication = function(req, res){
             console.log(notAllowed);
             res.status(200).send(notAllowed);
         } else {
-            res.send({
-                msg: "No medication restriction."
-            })
+            res.status(200).send(notAllowed);
         }
     })
 };

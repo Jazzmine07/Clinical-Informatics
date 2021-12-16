@@ -71,10 +71,13 @@ exports.addAPE = function(req, res){
     console.log(sectionTop);
     if(!sectionTop==""){
         schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+            if(snapshot.exists){
+                console.log("section found");
+            }
             snapshot.forEach(function(childSnapshot){
-                    childSnapshot.ref.remove();
-                    console.log("addAPE deleted section schedule");
-                })
+                childSnapshot.ref.remove();
+                console.log("addAPE deleted section schedule");
+            })
         })
     }
 
@@ -303,16 +306,21 @@ exports.addSchedule=function(req,res){
     var schedule=[];
     schedule = req.body.schedules;
     var i;
+
+    // console.log("SCHEDULES TO BE ADDED:");
+    // console.log(schedule)
     
 
     for(i=0;i<schedule.length;i++){
+        console.log("SCHEDULES TO BE ADDED:");
+        console.log(schedule)
         var currSec= schedule[i].section;
         var count=0;
         schedRef.on('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var child = childSnapshot.exportVal();
                 // console.log("Child:"+child.section);
-                //console.log("Section: "+ currSec);
+                // console.log("Section: "+ currSec);
                 if(child.section == currSec){
                     console.log("Has a schedule already");
                     count=count+1;

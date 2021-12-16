@@ -1373,9 +1373,9 @@
             var typedID = document.getElementById("idNum").value;
             console.log(typedID);
             
-            $.post("/getStudentRecord", {idNum: typedID}, function(data){
+            $.post("/getStudentRecord", {studentID: typedID}, function(data){
                 console.log(data);
-                //document.getElementById("studentFullName").innerHTML=data.firstName+" "+data.middleName[0] + ". "+ data.lastName
+                document.getElementById("studentFullName").innerHTML=data.firstName+" "+data.middleName[0] + ". "+ data.lastName
                 document.getElementById("gradeSection").innerHTML=data.grade + " - " + data.section;
                 document.getElementById("studentId").innerHTML=typedID;
                 document.getElementById("studentStatus").innerHTML=data.studentType + " Student";
@@ -1387,8 +1387,8 @@
                 document.getElementById("religion").innerHTML=data.religion;
                 document.getElementById("age").innerHTML=data.age;
                 document.getElementById("sex").innerHTML=data.sex;
-                //document.getElementById("weight").value=data.lastName;
-                //document.getElementById("height").value=data.lastName;
+                document.getElementById("weight").value=data.lastName;
+                document.getElementById("height").value=data.lastName;
                 document.getElementById("address").innerHTML=data.address;
                 document.getElementById("fatherName").innerHTML=data.fatherName;
                 document.getElementById("fatherEmail").innerHTML=data.fatherEmail;

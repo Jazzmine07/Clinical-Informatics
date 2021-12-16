@@ -660,7 +660,7 @@
             var start = moment().subtract(29, 'days');
             var end = moment();
             var checker=false;
-            var horizontalChart;
+            var horizontalChart, visitTypeChart, genderSymptomChart;
         function cb(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             console.log("START " + start.format('YYYY-MM-DD'));
@@ -670,6 +670,9 @@
                 if(checker){
                     console.log("checker");
                     horizontalChart.destroy();
+                    genderSymptomChart.destroy();
+                    genderSymptomChart.destroy();
+                    visitTypeChart.destroy();
                 }
                 console.log(data)
                 var i;
@@ -678,8 +681,10 @@
                     labels.push(data[i].concern);
                     dataCount.push(data[i].count);
                 }
-                symptomsCountChart();
+                
                 showSymptoms(labels,dataCount);
+                symptomsCountChart();
+                clinicVisitTypeChart();
                 checker=true;
             });
         }
@@ -739,7 +744,7 @@
 
         function symptomsCountChart() {
             var monthlySymptoms = document.getElementById("monthlySymptoms");
-            var genderSymptomChart = new Chart(monthlySymptoms, {  // line chart
+            genderSymptomChart = new Chart(monthlySymptoms, {  // line chart
                 type: 'bar',
                 data: {
                     labels: ["Headache", "Fever", "Colds"], // x-axis
@@ -824,12 +829,13 @@
                     //legend: {
                     //    display: false
                     //}
-                },
-                
+                }, 
             });
-            
+        }
+
+        function clinicVisitTypeChart(){
             var pieChart = document.getElementById("pieChart");
-            var pieChart = new Chart(pieChart, {  // pie chart
+            visitTypeChart = new Chart(pieChart, {  // pie chart
                 type: 'pie',
                 data: {
                     labels: ["Consultation", "Emergency", "Intramurals", "Family Day"],

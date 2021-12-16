@@ -339,6 +339,7 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
         totalNumStudents:apeSchedule[i].numStudents,
         apeDate:apeSchedule[i].apeDate,
         apeTime:apeSchedule[i].apeTime,
+        apeSeen:apeSchedule[i].apeSeen,
         adeDate:adeSchedule[i].adeDate,
         adeTime:adeSchedule[i].adeTime
       });

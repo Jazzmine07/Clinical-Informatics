@@ -119,16 +119,6 @@ exports.addAPE = function(req, res){
                         schedRef.child(childSnapshot.key).child("status").set("Accomplished");
                     })
                 }
-                // else{
-                //     console.log("No Schedule at all");
-                //     var today= new Date();
-                //     schedRef.push({
-                //         date: today, 
-                //         time: " ", 
-                //         section: sectionTop, 
-                //         status: "Accomplished"
-                //    })
-                // }
             })
         }
     }
@@ -429,6 +419,71 @@ exports.getADEPercentage = function(req, res){
 
 
 }
+
+exports.getAPEStudentSection = function(req,res){
+    var schoolYear= req.body.schoolYear;
+    var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
+    var p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
+    //t# - total of grade #;
+    //c#- total of grade # that got APE
+    //p# - percentage of c#/t#
+
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+    var healthHistory = database.ref("studentHealthHistory");
+    var apeSchedRef= database.ref("apeSchedule");
+
+    //Commented area is used to find the number of students who got APE already
+    studentRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            // lines 522,532,544,554,564,574 is used to check what grade the student belongs to
+            // lines 525,536,547,557,567.577 is used to look for the file of the ape of student
+            // lines 527-528,538-539,549-550,559-560,569-570.579-580 is used to look through all the ape of the student and check if they have for the specified year
+            if(childSnapshot.child("grade").val()=="1"){
+                t1=t1+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c1=c1+1;
+                        }
+                    })
+                });
+            }
+            
+        })
+        //computes for the percentage
+        p1=c1/t1;
+        p2=c2/t2;
+        p3=c3/t3;
+        p4=c4/t4;
+        p5=c5/t5;
+        p6=c6/t6;
+    
+        var data={
+            p1:p1,
+            p2:p2,
+            p3:p3,
+            p4:p4,
+            p5:p5,
+            p6:p6,
+            t1:t1,
+            t2:t2,
+            t3:t3,
+            t4:t4,
+            t5:t5,
+            t6:t6,
+            c1:c1,
+            c2:c2,
+            c3:c3,
+            c4:c4,
+            c5:c5,
+            c6:c6
+        };
+        res.send(data);
+    })   
+      
+}
+
 
 exports.getSections=function(req,res){
     var database = firebase.database();
@@ -934,18 +989,31 @@ exports.loadPrevData=function(req,res){
 //function gets the APE schedules 
 exports.getAllApeSched=function(){
     //gets all the schedule created for the APE
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    //var month=1;
+    //var currYear=2021;
+    if(month>=6){
+        var sy= currYear +"-"+ (currYear+1) ;
+    }
+    else{
+        var sy= (currYear-1) +"-"+ (currYear) ;
+    }
+
     var database = firebase.database();
     var apeSchedRef= database.ref("apeSchedule");
     var studentRef = database.ref("studentInfo");
+    var healthHistory= database.ref("studentHealthHistory");
     var schedule=[];
     
     var promise = new Promise((resolve,reject)=>{
         apeSchedRef.once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
-                var grade;
-                var students=[];
-                var numStudents;
+                var grade, done=false;
+                var students=[], studentsAccom=[];
+                var numStudents,i;
                 console.log("Sections"+childValues.section);
                 if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
                     grade="1";
@@ -965,30 +1033,50 @@ exports.getAllApeSched=function(){
                 else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
                     grade="6";
                 }
-    
+                
+                //get total student count in a section
                 studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
                     if(ss.exists()){
                         ss.forEach(function(cs){
-                            // console.log("looking for section:" + childValues.section);
-                            // console.log("Key: "+cs.key);
-                            // console.log("Section: "+cs.child("section").val());
-                            // console.log("Id Number: "+cs.child("idNum").val());
-                            students.push(cs.key);
+                            var values= cs.exportVal();
+                            console.log("Section inside"+values.section);
+                            students.push({
+                                key: cs.key,
+                                section:values.section
+                            });
                         })
                         console.log("Students in "+ childValues.section +":"+students.length);
                     }
                 });
-                
-    
-                record={
-                    grade:grade,
-                    section:childValues.section,
-                    numStudents:students.length,
-                    apeDate:childValues.date,
-                    apeTime:childValues.time,
+                console.log(students);
+
+                if(done==false){
+                    for(i=0;i<students.length;i++){
+                        healthHistory.child(students[i].key).child("ape").on('value',(ss)=>{
+                            ss.forEach(function(cs){
+                                console.log("Hello");
+                                console.log(cs.key);
+                                if(cs.key.toString() == sy){
+                                    studentsAccom.push(cs.key);
+                                }
+                            })
+                        });
+                    };
+                    done=true;
                 }
-                //console.log(record);
-                schedule.push(record);
+
+                if(done==true){
+                    record={
+                        grade:grade,
+                        section:childValues.section,
+                        numStudents:students.length,
+                        apeDate:childValues.date,
+                        apeTime:childValues.time,
+                        apeSeen:studentsAccom.length
+                    }
+                    //console.log(record);
+                    schedule.push(record);
+                }
     
             }) 
             console.log("Schedule size:" + schedule.length);

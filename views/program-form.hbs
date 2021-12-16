@@ -591,8 +591,8 @@
                                     </div>
                                 </div>
 
-                                <a class="btn btn-link" id="addIndicator"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Section</a>
-                                <table class="table" id="dynamic_field">  
+                                <a class="btn btn-link" id="addIndicator"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Indicator</a>
+                                <table class="table col-6" id="dynamic_field">  
 
                                 </table>
 
@@ -609,11 +609,11 @@
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <label for="progStart" class="col-form-label">Start Date</label>
                                         <input type="date" class="form-control mb-2" id="progStart">
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <label for="progEnd" class="col-form-label">End Date</label>
                                         <input type="date" class="form-control mb-2" id="progEnd">
                                     </div>
@@ -715,6 +715,72 @@
         });
 
         $(".select2-selection .select2-selection--multiple").css("border", "1px solid #aaa");
+
+        var i = 0;
+
+        var indicatorArray = [];
+
+        function addIndicator(indicator, value) {
+            indicatorArray.push({indicator: indicator, value: value});
+        }
+
+        $('#addIndicator').click(function(){
+            var indicator = document.getElementById("indicator").value;
+            var value = document.getElementById("value").value
+        
+            addIndicator(indicator, value);
+            
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + indicator +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + value + '"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            i++;
+
+            console.log("add lang...");
+            console.log(indicatorArray);
+        });
+
+        var removeIDs = [];
+
+        $(document).on('click', '.btn_remove', function(){  
+            var button_id = $(this).attr("id");
+            console.log("removing..." + button_id);  
+            removeIDs.push(button_id);
+            $('#row'+button_id+'').remove();  
+        }); 
+
+        $('#saveBtn').click(function(){
+            var progName = document.getElementById("progName").value;
+            var description = document.getElementById("description").value
+            var objectives = document.getElementById("objectives").value; 
+            var progStart = document.getElementById("progStart").value;
+            var progEnd = document.getElementById("progEnd").value
+            var location = document.getElementById("location").value;
+            var population = $("#population").val();  
+
+            const toNumbers = arr => arr.map(Number);
+            var newArray = toNumbers(removeIDs);
+            //console.log(newArray);       
+
+            newArray.sort();
+            //console.log(newArray);
+
+            for (var j = newArray.length -1; j >= 0; j--){
+                indicatorArray.splice(newArray[j], 1);
+            }
+
+            console.log(indicatorArray); 
+            console.log(progName);
+            console.log(description); 
+            console.log(objectives);
+            console.log(progStart); 
+            console.log(progEnd);
+            console.log(location); 
+            console.log(population);
+            alert("Selected value is: "+ population);
+            
+
+            
+
+
+        });
 
         
     </script>

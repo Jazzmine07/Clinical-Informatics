@@ -554,11 +554,10 @@
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
                                 </div>
-                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
+                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv"></div>
                             </form>
                         </div>
                     </div>
-                </div>
 
                 <div class="card shadow mb-2" id="studentDiv">
                     <div class="card-body">
@@ -797,13 +796,13 @@
                                     <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-row align-items-center">
-                            <div class="col-12">
-                                <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
+                       
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -833,22 +832,22 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
                 {{!-- {{/if}} --}}
                     
-                <!-- Medication -->
-                <div class="card shadow mb-2">
-                    <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>
-                    {{!-- <div class="card-header py-3 d-sm-flex">
-                        <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
-                        <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
-                            {{#each users}}
-                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                            {{/each}}
-                        </select>
-                    </div> --}}
-                    <div class="card-body">
+                    <!-- Medication -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>
+                        {{!-- <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
+                                label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
+                            <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
+                                {{#each users}}
+                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                {{/each}}
+                            </select>
+                        </div> --}}
+                        <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-6">
                                     <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
@@ -919,12 +918,12 @@
                             <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
                             <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
                         
-                        <!-- <div id="container"></div> -->
-                        <table class="table" id="dynamic_field">  
+                            <!-- <div id="container"></div> -->
+                            <table class="table" id="dynamic_field">  
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
                     <!-- More -->
                     <div class="card shadow mb-2">
@@ -946,46 +945,13 @@
                                     <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
                                 </div>    
                             </div>
-                            {{!-- <div class="form-row align-items-center">
-                                <div class="col-12">
-                                    <label class="col-form-label" for="status">Status</label>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option selected>Choose...</option>
-                                        <option value="Discharged">Discharged</option>
-                                        <option value="Under Observation">Under Observation</option>
-                                        <option value="Hospitalized">Hospitalized</option>
-                                        <option value="Sent Home">Sent Home</option>
-                                    </select>  
-                                </div>                                  
-                            </div> --}}
                             <div class="d-flex justify-content-end mt-4 col-12">
                                 <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
                                 <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
                             </div>
                         </div>
-                        <div class="form-row align-items-center">
-                            <div class="col-12">
-                                <label class="col-form-label" for="notes">Notes/Recommendations</label>
-                                <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
-                            </div>    
-                        </div>
-                        {{!-- <div class="form-row align-items-center">
-                            <div class="col-12">
-                                <label class="col-form-label" for="status">Status</label>
-                                <select class="custom-select" id="status" name="status">
-                                    <option selected>Choose...</option>
-                                    <option value="Discharged">Discharged</option>
-                                    <option value="Under Observation">Under Observation</option>
-                                    <option value="Hospitalized">Hospitalized</option>
-                                    <option value="Sent Home">Sent Home</option>
-                                </select>  
-                            </div>                                  
-                        </div> --}}
-                        <div class="d-flex justify-content-end mt-4 col-12">
-                            <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
-                            <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
-                        </div>
                     </div>
+
                 </div>
             </div>
             <!-- End of Main Content -->
@@ -1082,7 +1048,7 @@
                 div.style.display = "none";
             }
         }
-
+        
         var weightStatus;
         $("#weight").change(function(){
             var weight =  $('#weight').val();  
@@ -2647,7 +2613,21 @@
         }
     </script>
     <script>
+        var weight;
+
+        $("#studentID").change(function(){
+            var typedID = document.getElementById("studentID").value;
+
+            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+                weight = data.weight;
+                console.log(weight);
+                console.log("^eto weight ko");
+            });
+            
+        });
+
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+        
         $("#medicationVisit").change(function(){
             console.log("clicked med visit!!");
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
@@ -2687,38 +2667,33 @@
             });
 
             var dose = document.getElementById("amountMed").value;  
-            var weight = document.getElementById("weight").value;   
+            var curWeight = document.getElementById("weight").value;   
 
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+            $.post("/getMedicineDetails", function(data){
                 
                 var x; //could be weight or age
 
-                if(!weight == null){
-                    console.log("weight: " + weight);
-                    x = Number(weight);
+                if(!curWeight == null){
+                    console.log("weight: " + curWeight);
+                    x = curWeight;
                 }
-                else if(!data.weight == null){
-                    console.log("data.weight: " + data.weight);
-                    x = Number(data.weight);
+                else if(!weight == null){
+                    console.log("data.weight: " + weight);
+                    x = parseFloat(weight);
                 }
                 else{
                     x = 1;
                 } 
 
                 console.log("testing weight... " + (x * 25));
-                
+
                 //checking of dose
                 if(selectedMedication == "Paracetamol Syrup 250mg/5mL"){
                     if(!x == 1){
                         var start = x * 10;
-                        var end = x * 20;
-
-                        start = start * (250/5); 
-                        end = end * (250/5);
-
-                        var wbd = (start + end)/2; 
+                        var wbd = start * (250/5); 
+                        console.log("weight-based: " + wbd);                         
                     } 
-
             }
             });  
             

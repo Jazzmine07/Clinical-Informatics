@@ -50,6 +50,31 @@
             display: none;
         }
 
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #4e73df;
+            border-color: white !important; 
+            color: white;
+            border-radius: 4px;
+            cursor: default;
+            float: left;
+            margin-right: 5px;
+            margin-top: 5px;
+            padding: 0 5px;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border: solid #aaa 1px;
+            outline: 0;
+        }
+
         .select2-container--default .select2-selection--single,
         .select2-selection .select2-selection--single {
             display: block;
@@ -760,12 +785,17 @@
                             </div>
                         </div>
 
-                        <hr class="w-10 mb-2"></hr> 
-                
-                        <div class="form-row align-items-center">
-                            <div class="col-12">
-                                <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="3"></textarea>
+                            <hr class="w-10 mb-2"></hr> 
+                    
+                            <div class="form-row align-items-center">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="impression">Working Impression</label>
+                                    <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="form-row align-items-center">
@@ -777,28 +807,29 @@
                     </div>
                 </div>
 
-                {{!-- {{else}} --}}
-                {{!-- Diagnosis --}}
-                <div class="card shadow mb-2" id="scrollHere">
-                    <div class="card-header py-3 d-sm-flex">
-                        <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
-                        <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
-                        <select class="is-invalid" id="assignDiagnosis" name="assignDiagnosis" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
-                            {{#each clinician}}
-                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                            {{/each}}
-                        </select> 
-                    </div>
-                    <div class="card-body">
-                        <div class="form-row align-items-center">
-                            <div class="col-6 mb-4">
-                                <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                <input list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis"/>                                       
-                                <datalist id="diagnosisList">
-                                    {{#each clinician}}
-                                        <option value="{{lastName}}"></option>
-                                    {{/each}}                            
-                                </datalist>
+                    {{!-- {{else}} --}}
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2" id="scrollHere">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
+                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
+                            <select class="form-control mb-2 select2 populate placeholder" multiple="multiple" style="width: 300px; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="assignDiagnosis" name="assignDiagnosis">
+                                {{#each clinician}}
+                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                {{/each}}
+                            </select> 
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-6 mb-4">
+                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis"/>                                       
+                                    <datalist id="diagnosisList">
+                                        {{#each clinician}}
+                                            <option value="{{lastName}}"></option>
+                                        {{/each}}                            
+                                    </datalist>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -895,20 +926,41 @@
                     </div>
                 </div>
 
-                <!-- More -->
-                <div class="card shadow mb-2">
-                    <div class="card-body">
-                        <div class="form-row align-items-center">
-                            <div class="col-3">
-                                <label class="col-form-label" for="status">Status</label>
-                                <select class="custom-select mb-2" id="status" name="status">
-                                    <option disabled="disabled" selected="true">Choose...</option>
-                                    <option value="Treated">Treated</option>
-                                    <option value="Under Observation">Under Observation</option>
-                                    <option value="Hospitalized">Hospitalized</option>
-                                    <option value="Discharged">Discharged</option>
-                                    <option value="Sent Home">Sent Home</option>
-                                </select>                                    
+                    <!-- More -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-3">
+                                    <label class="col-form-label" for="status">Disposition</label>
+                                    <select class="custom-select mb-2" id="status" name="status">
+                                        <option disabled="disabled" selected="true">Choose...</option>
+                                        <option value="Sent Home">Sent Home</option>
+                                        <option value="Sent Home">Sent to Hospital</option>
+                                        <option value="Sent To Class">Sent To Class</option>                                   
+                                    </select>                                    
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="notes">Notes/Recommendations</label>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                </div>    
+                            </div>
+                            {{!-- <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="status">Status</label>
+                                    <select class="custom-select" id="status" name="status">
+                                        <option selected>Choose...</option>
+                                        <option value="Discharged">Discharged</option>
+                                        <option value="Under Observation">Under Observation</option>
+                                        <option value="Hospitalized">Hospitalized</option>
+                                        <option value="Sent Home">Sent Home</option>
+                                    </select>  
+                                </div>                                  
+                            </div> --}}
+                            <div class="d-flex justify-content-end mt-4 col-12">
+                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
+                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
                             </div>
                         </div>
                         <div class="form-row align-items-center">
@@ -2656,9 +2708,15 @@
                 console.log("testing weight... " + (x * 25));
                 
                 //checking of dose
-                if(selectedMedication == "Paracetamol Suspension 250mg/5mL"){
+                if(selectedMedication == "Paracetamol Syrup 250mg/5mL"){
                     if(!x == 1){
-                        x * 10
+                        var start = x * 10;
+                        var end = x * 20;
+
+                        start = start * (250/5); 
+                        end = end * (250/5);
+
+                        var wbd = (start + end)/2; 
                     } 
 
             }

@@ -879,7 +879,7 @@
                                     <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
                                     <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
                                 </div>
-                                <div>
+                                <div class="col-4">
                                     <div id="validAmount" class="valid-feedback font-weight-bold"></div>
                                     <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
                                 </div>
@@ -2613,15 +2613,18 @@
         }
     </script>
     <script>
-        var weight;
+        var weight, age;
 
         $("#studentID").change(function(){
             var typedID = document.getElementById("studentID").value;
 
             $.post("/getStudentRecord", {studentID: typedID}, function(data){
                 weight = data.weight;
+                age = data.age;
                 console.log(weight);
                 console.log("^eto weight ko");
+                console.log(age);
+                console.log("^eto age ko");
             });
             
         });
@@ -2630,6 +2633,8 @@
         
         $("#medicationVisit").change(function(){
             console.log("clicked med visit!!");
+            document.getElementById('validAmount').style.display = "none";
+            document.getElementById('invalidAmount').style.display = "none";
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var typedID = document.getElementById("studentID").value;
             var lowerCase = selectedMedication.toLowerCase();
@@ -2667,17 +2672,18 @@
             });
 
             var dose = document.getElementById("amountMed").value;  
-            var curWeight = document.getElementById("weight").value;   
+            var curWeight = document.getElementById("weight").value;
+            console.log("labas " + curWeight);   
 
             $.post("/getMedicineDetails", function(data){
-                
+                console.log("loob " + curWeight);
                 var x; //could be weight or age
 
-                if(!curWeight == null){
+                if(curWeight != null && curWeight != "" && curWeight != " " && curWeight != undefined){
                     console.log("weight: " + curWeight);
                     x = curWeight;
                 }
-                else if(!weight == null){
+                else if(weight != null && weight != ""){
                     console.log("data.weight: " + weight);
                     x = parseFloat(weight);
                 }
@@ -2686,15 +2692,182 @@
                 } 
 
                 console.log("testing weight... " + (x * 25));
+                console.log(selectedMedication);
 
                 //checking of dose
                 if(selectedMedication == "Paracetamol Syrup 250mg/5mL"){
-                    if(!x == 1){
+                    if(x != 1){
                         var start = x * 10;
-                        var wbd = start * (250/5); 
-                        console.log("weight-based: " + wbd);                         
+                        var wbd = start / (250/5); 
+                        console.log("weight-based: " + wbd);                          
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
                     } 
-            }
+                }
+                else if(selectedMedication == "Paracetamol Tablet 500mg"){
+                    if(x != 1){
+                        var start = x * 10;
+                        var wbd = start / 500; 
+                        console.log("weight-based: " + Math.round(wbd));
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }
+                    } 
+                }
+                else if(selectedMedication == "Ibuprofen Tablet 200mg"){
+                    if(x != 1){
+                        var start = x * 5;
+                        var wbd = start / 200; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }                        
+                    } 
+                }
+                else if(selectedMedication == "Mefenamic Acid Tablet 250mg"){
+                    if(x != 1){
+                        var start = x * 6.5;
+                        var wbd = start / 250; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }                        
+                    } 
+                }
+                else if(selectedMedication == "Mefenamic Acid Tablet 500mg"){
+                    if(x != 1){
+                        var start = x * 6.5;
+                        var wbd = start / 500; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }                        
+                    } 
+                }
+                else if(selectedMedication == "Loratidine Tablet 10mg"){
+                    if(parseInt(age) > 12){
+                        var wbd = 1; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }                        
+                    }
+                    else if(parseInt(age) <= 12){
+                        document.getElementById('validAmount').style.display = "none";
+                        document.getElementById('invalidAmount').style.display = "block";
+                        $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                    }
+                }
+                else if(selectedMedication == "Cetirizine Tablet 10mg"){
+                    if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                        var wbd = 1; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        if(Math.round(wbd) == 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        }
+                        else if(Math.round(wbd) > 1){
+                            $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        }                        
+                    }
+                    else if(parseInt(age) < 6){
+                        document.getElementById('validAmount').style.display = "none";
+                        document.getElementById('invalidAmount').style.display = "block";
+                        $('#invalidAmount').html('This medication is not recommeded for children below 6.');
+                    } 
+                }
+                else if(selectedMedication == "Cetirizine Syrup 5mg/5mL"){
+                    if(parseInt(age) <= 5 && parseInt(age) >= 2){
+                        var wbd = 5; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');
+                        
+                    }
+                    else if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                        var wbd = 10; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    } 
+                }
+                else if(selectedMedication == "Epinephrine Solution for Injection 1mg/mL"){
+                    if(parseInt(age) > 12){
+                        var wbd = 0.5; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    }
+                    else if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                        var wbd = 0.3; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                    }
+                    else if(parseInt(age) < 6){
+                        var wbd = 0.15; 
+                        console.log("weight-based: " + Math.round(wbd)); 
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    } 
+                }
+                else if(selectedMedication == "Salbutamol Syrup 2mg/5mL"){
+                    if(x != 1){
+                        var start = x * 0.15;
+                        var wbd = start / (2/5); 
+                        console.log("weight-based: " + Math.round(wbd));
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        
+                        $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(1) + 'mL');
+                        
+                    } 
+                }
+                else if(selectedMedication == "Salbutamol Nebules 2.5mg/2.5ml"){
+                    if(x != 1){
+                        var start = x * 0.15;
+                        var wbd = start / (2.5/2.55); 
+                        console.log("weight-based: " + Math.round(wbd));
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        
+                        $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(2) + 'mL');
+                    } 
+                }
             });  
             
         });

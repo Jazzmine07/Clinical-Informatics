@@ -31,13 +31,6 @@
             height: 30rem; 
             border: 1rem solid rgba(0,0,0,.1); 
         }
-
-        .content {
-            margin: 15px 15px 0px 15px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
     </style>
 </head>
 
@@ -643,20 +636,22 @@
                                 <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Health Assessment</h6></div>
                                 <div class="card-body">
                                         <!-- Card Header - Accordion -->
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                    <a href="#collapseDE" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                         <h6 class="m-0 font-weight-bold text-primary">Physical Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2021</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
-                                    <div class="content">
+                                    <div class="collapse" id="collapseDE">
                                         <div class="card-body">
                                         </div>
                                     </div>
 
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                    <a href="#collapseAS" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                         <h6 class="m-0 font-weight-bold text-primary">Dental Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2020</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
-                                    <div class="content">
+                                    <div class="collapse" id="collapseAS">
                                         <div class="card-body">
                                         </div>
                                     </div>
@@ -669,76 +664,120 @@
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
                             <div class="card-body">
                                     <!-- Card Header - Accordion -->
-                                <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                <a href="#collapseVD" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                     <h6 class="m-0 font-weight-bold text-primary">Fever<span class="float-right">10/18/2021</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="content" style="max-height: 100%;">
+                                <div class="collapse show" id="collapseVD">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Attending Nurse</span></div>
-                                                <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                                <div class="font-weight-normal">Rose Pangilinan</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Visit Date</span></div>
-                                                <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                                <div class="font-weight-normal">10/18/2021</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time In</span></div>
-                                                <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                                <div class="font-weight-normal">12:03 pm</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Time Out</span></div>
-                                                <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                                <div class="font-weight-normal">12:15 pm</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Body Temperature</span></div>
-                                                <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                                <div class="font-weight-normal">38 °C</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Blood Pressure</span></div>
-                                                <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                                <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Pulse Rate</span></div>
-                                                <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                                <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Respiration Rate</span></div>
-                                                <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                                <div class="font-weight-normal">-</span></div>                                        
                                             </div>
                                         </div>
                                         <div class="form-row mb-2">
-                                            <div class="col-3">
+                                            <div class="col">
                                                 <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                                <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                                <div class="font-weight-normal">Fever</span></div>                                        
                                             </div>
                                             <div class="col">
                                                 <div class="font-weight-bold">Treatment</span></div>
-                                                <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                                <div class="font-weight-normal">Give medication and observe in the clinic</span></div>                                        
                                             </div>
                                             <div class="col-3">
-                                                <div class="font-weight-bold">Disposition</span></div>
-                                                <div class="font-weight-normal" id="lvStatus">Sent Home</span></div> 
+                                                <div class="font-weight-bold">Status</span></div>
+                                                    <div class="btn-group">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sent Home
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <button class="dropdown-item" type="button">Discharged</button>
+                                                        <button class="dropdown-item" type="button">Under Observation</button>
+                                                        <button class="dropdown-item" type="button">Hospitalized</button>
+                                                        <button class="dropdown-item" type="button">Sent Home</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <hr class="w-10 mb-2"></hr>   
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Diagnosis</span></div>
-                                                <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                                <div class="font-weight-normal">Lack of Sleep</span></div>                                        
                                             </div>
                                         </div>
-                                        <hr class="w-10 mb-2"></hr>                                            
+                                        <hr class="w-10 mb-2"></hr>                                           
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Prescribed by</span></div>
+                                                <div class="font-weight-normal">Dr. Joseph Ayo</span></div>                                        
+                                            </div>
+                                        </div>                        
+                                        <div class="form-row mb-2">
+                                            <div class="col">
+                                                <div class="font-weight-bold">Medication</span></div>
+                                                <div class="font-weight-normal">Paracetamol</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Purpose</span></div>
+                                                <div class="font-weight-normal">For fever</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Amount</span></div>
+                                                <div class="font-weight-normal">500g</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Interval</span></div>
+                                                <div class="font-weight-normal">Every 4 - 6 hours</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">Start Date</span></div>
+                                                <div class="font-weight-normal">07/15/2021</span></div>                                        
+                                            </div>
+                                            <div class="col">
+                                                <div class="font-weight-bold">End Date</span></div>
+                                                <div class="font-weight-normal">07/18/2021</span></div>                                        
+                                            </div>
+                                        </div>
+                                        <hr class="w-10 mb-2"></hr>                                           
                                         <div class="form-row mb-2">
                                             <div class="col">
                                                 <div class="font-weight-bold">Notes/Recommendations</span></div>
-                                                <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                                <div class="font-weight-normal">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
                                             </div>
-                                        </div>                                  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -767,7 +806,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    {{!-- <thead>
+                                    <thead>
                                         <tr>
                                             <th>Vaccine</th>
                                             <th>1st Dose</th>
@@ -776,52 +815,39 @@
                                             <th>Booster 1</th>
                                             <th>Booster 2</th>
                                         </tr>
-                                    </thead> --}}
+                                    </thead>
                                     <tbody>
                                         <tr>
                                             <td>Hepatitis A</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>  
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                         </tr>
                                         <tr>
                                             <td>Hepatitis B</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td>
-                                            <td class="text-center">-</td>
-                                            <td class="text-center">-</td>   
-                                            <td class="text-center">-</td>   
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>   
                                         </tr>
                                         <tr>
                                             <td>Measles, Mumps, Rubella (MMR)</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td>   
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                         </tr>
                                         <tr>
-                                            <td rowspan="2" style="vertical-align : middle;">Influenza</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td> 
-                                              
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td> 
+                                            <td>Influenza</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
+                                            <td>12/10/2014</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -834,11 +860,12 @@
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Past Medical History</h6></div>
                             <div class="card-body">
                                     <!-- Card Header - Accordion -->
-                                <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                <a href="#collapseDG" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                     <h6 class="m-0 font-weight-bold text-primary">Dengue<span class="float-right">3/18/2021</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="content" style="max-height: 100%;">
+                                <div class="collapse show" id="collapseDG">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
                                             <div class="col">
@@ -868,7 +895,7 @@
                                                 <div class="font-weight-normal">Medication taken and admitted in the hospital</span></div>                                        
                                             </div>
                                             <div class="col">
-                                                <div class="font-weight-bold">Has maintenance medications?</span></div>
+                                                <div class="font-weight-bold">Has medications?</span></div>
                                                 <div class="font-weight-normal">None</span></div>                                        
                                             </div>
                                             <div class="col">
@@ -885,11 +912,12 @@
                                     </div>
                                 </div>
 
-                                <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                <a href="#collapseAS" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                     <h6 class="m-0 font-weight-bold text-primary">Asthma<span class="float-right">7/15/2020</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
-                                <div class="content" style="max-height: 100%;">
+                                <div class="collapse show" id="collapseAS">
                                     <div class="card-body">
                                         <div class="form-row mb-2">
                                             <div class="col">
@@ -919,7 +947,7 @@
                                                 <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
                                             </div>
                                             <div class="col">
-                                                <div class="font-weight-bold">Has maintenance medications?</span></div>
+                                                <div class="font-weight-bold">Has medications?</span></div>
                                                 <div class="font-weight-normal">Yes</span></div>                                        
                                             </div>
                                             <div class="col">
@@ -999,51 +1027,7 @@
                             <div class="card shadow mb-2">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Intake History</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Medicine</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th class="text-center">Taken in Clinic</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Paracetamol Tablet 500mg</td>
-                                                <td>1</td>
-                                                <td>04/12/2021</td>
-                                                <td>12:03</td>
-                                                <td class="text-center"><input type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="card shadow mb-2">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Prescription History</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Medication History</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1252,11 +1236,12 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                    <a href="#collapseMC" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                         <h6 class="m-0 font-weight-bold text-primary">Chickenpox<span class="float-right">03/18/2020</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
-                                    <div class="content">
+                                    <div class="collapse" id="collapseMC">
                                         <div class="card-body">
                                             <div>BLOB</div>
                                         </div>
@@ -1284,11 +1269,12 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                    <a href="#collapseLR" class="d-block card-header py-3" data-toggle="collapse"
+                                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
                                         <h6 class="m-0 font-weight-bold text-primary">Blood Test - Diabetes<span class="float-right">03/18/2020</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
-                                    <div class="content">
+                                    <div class="collapse" id="collapseLR">
                                         <div class="card-body">
                                             <div>BLOB</div>
                                         </div>
@@ -1341,30 +1327,6 @@
             document.getElementById(card).style.display = "block";
             event.currentTarget.className += " active";
         }
-
-        var collapsible = document.getElementsByClassName("collapsible");
-        console.log(collapsible);
-        var j;
-
-        for (j = 0; j < collapsible.length; j++) {
-            console.log("PASOK LOOP");
-            
-            collapsible[j].addEventListener("click", function() {
-                
-            this.classList.toggle("active");
-
-            var content = this.nextElementSibling;
-
-            if (content.style.maxHeight){
-                content.style.maxHeight = null;
-            } 
-            else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } 
-            });
-        }
-
-        
     </script>
     <script>
         var schoolYear = [];
@@ -1374,7 +1336,6 @@
             console.log(typedID);
             
             $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log(data);
                 document.getElementById("studentFullName").innerHTML=data.firstName+" "+data.middleName[0] + ". "+ data.lastName
                 document.getElementById("gradeSection").innerHTML=data.grade + " - " + data.section;
                 document.getElementById("studentId").innerHTML=typedID;

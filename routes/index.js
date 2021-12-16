@@ -22,6 +22,10 @@ expressHbs.registerHelper('ifEquals', function(arg1, options) {
   return options.inverse(this);
 });
 
+expressHbs.registerHelper('concat', function(num) {
+    return "Grade " + num;
+});
+
 router.get('/', (req, res) => {
   res.redirect('/login');
 });

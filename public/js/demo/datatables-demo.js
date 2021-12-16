@@ -4,6 +4,10 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#HATable').DataTable();
+});
+
+$(document).ready(function() {
   $('#clinicVisitTable').DataTable();
 });
 

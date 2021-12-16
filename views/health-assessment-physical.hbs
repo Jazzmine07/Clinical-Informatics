@@ -683,7 +683,21 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">od</span>
                                             </div>
-                                                <input type="text" class="form-control" id="odVision">
+                                            <select class="form-control custom-select" id="odVision">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option value="20/20">20/20</option>
+                                                <option value="20/40">20/40</option>
+                                                <option value="20/60">20/60</option>
+                                                <option value="20/80">20/80</option>
+                                                <option value="20/100">20/100</option>
+                                                <option value="20/120">20/120</option>
+                                                <option value="20/140">20/140</option>
+                                                <option value="20/160">20/160</option>
+                                                <option value="20/180">20/180</option>
+                                                <option value="20/200">20/200</option>
+                                                <option value="20/220">20/220</option>
+                                                <option value="20/240">20/240</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-2">
@@ -692,7 +706,21 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">os</span>
                                             </div>
-                                                <input type="text" class="form-control" id="osVision">
+                                            <select class="form-control custom-select" id="osVision">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option value="20/20">20/20</option>
+                                                <option value="20/40">20/40</option>
+                                                <option value="20/60">20/60</option>
+                                                <option value="20/80">20/80</option>
+                                                <option value="20/100">20/100</option>
+                                                <option value="20/120">20/120</option>
+                                                <option value="20/140">20/140</option>
+                                                <option value="20/160">20/160</option>
+                                                <option value="20/180">20/180</option>
+                                                <option value="20/200">20/200</option>
+                                                <option value="20/220">20/220</option>
+                                                <option value="20/240">20/240</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-2">
@@ -701,7 +729,21 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">od</span>
                                             </div>
-                                                <input type="text" class="form-control" id="odGlasses">
+                                            <select class="form-control custom-select" id="odGlasses">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option value="20/20">20/20</option>
+                                                <option value="20/40">20/40</option>
+                                                <option value="20/60">20/60</option>
+                                                <option value="20/80">20/80</option>
+                                                <option value="20/100">20/100</option>
+                                                <option value="20/120">20/120</option>
+                                                <option value="20/140">20/140</option>
+                                                <option value="20/160">20/160</option>
+                                                <option value="20/180">20/180</option>
+                                                <option value="20/200">20/200</option>
+                                                <option value="20/220">20/220</option>
+                                                <option value="20/240">20/240</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-2">
@@ -710,7 +752,21 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">os</span>
                                             </div>
-                                                <input type="text" class="form-control" id="osGlasses">
+                                            <select class="form-control custom-select" id="osGlasses">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option value="20/20">20/20</option>
+                                                <option value="20/40">20/40</option>
+                                                <option value="20/60">20/60</option>
+                                                <option value="20/80">20/80</option>
+                                                <option value="20/100">20/100</option>
+                                                <option value="20/120">20/120</option>
+                                                <option value="20/140">20/140</option>
+                                                <option value="20/160">20/160</option>
+                                                <option value="20/180">20/180</option>
+                                                <option value="20/200">20/200</option>
+                                                <option value="20/220">20/220</option>
+                                                <option value="20/240">20/240</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -1239,24 +1295,24 @@
                 console.log(bmi);
 
                 //vision
-                var odVision =  $('#odVision').val(); 
+                var odVision =  $('#odVision').find(":selected").val();   
                 if(odVision==null){
                     odVision="";
                 }
                 console.log(odVision);
 
-                var osVision =  $('#osVision').val(); 
+                var osVision =  $('#osVision').find(":selected").val();   
                 if(osVision==null){
                     osVision="";
                 }
                 console.log(osVision);
 
-                var odGlasses =  $('#odGlasses').val(); 
+                var odGlasses =  $('#odGlasses').find(":selected").val();   
                 if(odGlasses==null){
                     odGlasses="";
                 }console.log(odGlasses);
 
-                var osGlasses =  $('#osGlasses').val(); 
+                var osGlasses =  $('#osGlasses').find(":selected").val();   
                 if(osGlasses==null){
                     osGlasses="";
                 }

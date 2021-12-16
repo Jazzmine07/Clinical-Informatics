@@ -251,25 +251,17 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
 // Get clinic medication page
 router.get('/clinic-visit/medication', (req, res) => {
   console.log("Read medication clinic visit successful!");
-  var prom1, prom2, prom3, prom4, prom5;
-  var user, nurse, clinician, users, medicines;
+  var prom1, prom2, prom3;
+  var user, nurse, medicines;
 
   prom1 = userController.getUser();
-  prom1.then(function(result){
-    prom4 = userController.assignTo(result.key);
-    prom4.then(function(result){
-      users = result;
-    })
-  });
   prom2 = userController.getNurse(); 
-  prom3 = userController.getClinician();
-  prom5 = inventoryController.getMedicines();
+  prom3 = inventoryController.getMedicines();
   
-  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     nurse = result[1];
-    clinician = result[2];
-    medicines = result[4];
+    medicines = result[2];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-medication', {
@@ -588,6 +580,7 @@ router.post('/getLastVisit', visitController.getLastVisit);
 
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
+router.post('/addMedicationIntake', visitController.addMedicationIntake);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getPercentageChart', studentController.getAPEPercentage);

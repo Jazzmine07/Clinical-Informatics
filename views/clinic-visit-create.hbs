@@ -2608,22 +2608,29 @@
                 console.log("not allowed medications of student");
                 console.log(notAllowedMedicines);
                 var i;
-                for(i = 0; i < notAllowedMedicines.length; i++){           
-                    console.log(lowerCase.includes(notAllowedMedicines[i].medicine));
-                    if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
-                        $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
-                        document.getElementById('validMedicaton').style.display = "none";
-                        document.getElementById('invalidMedicaton').style.display = "block";
-                        $('#invalidMedicaton').html('Medication not allowed');       
-                        break;     
+                if(notAllowedMedicines.length == 0){
+                    // if not allowed medicines is empty, allow all medications
+                    $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                    document.getElementById('invalidMedicaton').style.display = "none";
+                    document.getElementById('validMedicaton').style.display = "block";
+                    $('#validMedicaton').html('Medication allowed'); 
+                } else{
+                    for(i = 0; i < notAllowedMedicines.length; i++){           
+                        console.log(lowerCase.includes(notAllowedMedicines[i].medicine));
+                        if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
+                            $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
+                            document.getElementById('validMedicaton').style.display = "none";
+                            document.getElementById('invalidMedicaton').style.display = "block";
+                            $('#invalidMedicaton').html('Medication not allowed');       
+                            break;     
+                        }
+                        else{
+                            $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                            document.getElementById('invalidMedicaton').style.display = "none";
+                            document.getElementById('validMedicaton').style.display = "block";
+                            $('#validMedicaton').html('Medication allowed');    
+                        }
                     }
-                    else{
-                        $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
-                        document.getElementById('invalidMedicaton').style.display = "none";
-                        document.getElementById('validMedicaton').style.display = "block";
-                        $('#validMedicaton').html('Medication allowed');    
-                    }
-
                 }
             });
 

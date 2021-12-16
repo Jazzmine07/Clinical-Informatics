@@ -569,4 +569,41 @@ exports.getClinicVisitForm = function(req){
         })
     })
     return promise;
-}
+};
+
+exports.addMedicationIntake = function(req, res){
+    var { studentId, studentName , studentGrade, studentSection, 
+        visitDate, timeIn, timeOut, nurse, medicationsArray } = req.body;
+
+    var i, key;
+    var time = Math.round(+new Date()/1000);
+
+    var database = firebase.database();
+    var intakeRef = database.ref("intakeHistory");
+
+    var record = {
+        id: studentId, 
+        studentName: studentName,
+        grade: studentGrade,
+        section: studentSection,
+        visitDate: visitDate,
+        timestamp: time,
+        timeIn: timeIn,
+        timeout: timeOut,
+        attendingNurse: nurse,
+        medications: "", // array of medications
+    };
+
+    key = intakeRef.push(record).key;
+
+    for(i = 0; i < medicationsArray.length; i++){
+        medication = {
+            medicine: medicationsArray[i].medication,
+            amount: medicationsArray[i].amount,
+            date: medicationsArray[i].date,
+            time: medicationsArray[i].time
+        };
+        database.ref('intakeHistory/' + key + '/medications').push(medication);
+    }
+    res.status(200).send();
+};

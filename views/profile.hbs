@@ -1336,7 +1336,6 @@
             console.log(typedID);
             
             $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log(data);
                 document.getElementById("studentFullName").innerHTML=data.firstName+" "+data.middleName[0] + ". "+ data.lastName
                 document.getElementById("gradeSection").innerHTML=data.grade + " - " + data.section;
                 document.getElementById("studentId").innerHTML=typedID;

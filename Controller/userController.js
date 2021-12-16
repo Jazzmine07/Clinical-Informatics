@@ -40,25 +40,25 @@ exports.login = (req, res) => {
   // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02').set(parentInfo); // adding other fields
 
   // var personalInfo = {
-  //   firstName: 'Julius',
-  //   middleName: 'Mauricio',
-  //   lastName: 'Ilagan',
+  //   firstName: 'Harry',
+  //   middleName: 'English',
+  //   lastName: 'Potter',
   //   studentType: 'New',
   //   grade: '1',
-  //   section: 'Truthfulness',
-  //   birthday: '2016-07-01', // yyyy-mm-dd
-  //   age: '7',
+  //   section: 'Meekness',
+  //   birthday: '2013-07-01', // yyyy-mm-dd
+  //   age: '8',
   //   sex: 'Male',
   //   address: 'Metro Manila',
-  //   motherName: 'Zoe Ilagan',
-  //   motherEmail: 'zoe_ilagan@gmail.com',
-  //   fatherName: 'Shoto Ilagan',
-  //   fatherEmail: 'shoto_ilagan@gmail.com',
-  //   guardianName: 'Zoe Ilagan',
-  //   guardianEmail: 'zoe_ilagan@gmail.com',
+  //   motherName: 'Lily Potter',
+  //   motherEmail: 'lily_potter@gmail.com',
+  //   fatherName: 'James Potter',
+  //   fatherEmail: 'james_potter@gmail.com',
+  //   guardianName: 'Lily Potter',
+  //   guardianEmail: 'lily_potter@gmail.com',
   // }
-  //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
-  //database.ref('studentInfo/' + 409068).set(personalInfo); // adding other fields
+  // //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
+  // database.ref('studentInfo/' + 116383).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   if(email == "" && pass == ""){

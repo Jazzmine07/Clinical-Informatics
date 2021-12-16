@@ -574,24 +574,28 @@
         var schedulePEArray = [];
         var scheduleDEArray = [];
 
-        function addPESchedule(date, time, section) {
-            schedulePEArray.push({date: date, time: time, section: section});
+        function addPESchedule(date, time, section, status) {
+            schedulePEArray.push({date: date, time: time, section: section, status: status});
         }
 
-        function addDESchedule(date, time, section) {
-            scheduleDEArray.push({date: date, time: time, section: section});
+        function addDESchedule(date, time, section,status) {
+            scheduleDEArray.push({date: date, time: time, section: section, status: status});
         }
 
         $('#addSchedule').click(function(){
+            //physical exam
             var dope = document.getElementById("dope").value;
             var tope = document.getElementById("tope").value
+            var statpe= "Not Accomplished";
+            //dental exam
             var dode = document.getElementById("dode").value;
             var tode = document.getElementById("tode").value
+            var statde= "Not Accomplished";
             var section = document.getElementById("sectionPE").value;            
             //var section = document.getElementById("sections").innerHTML;
 
-            addPESchedule(dope, tope, section);
-            addDESchedule(dode, tode, section);
+            addPESchedule(dope, tope, section,statpe);
+            addDESchedule(dode, tode, section,statde);
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + section +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + dope + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ tope +'"></td><td><input class="form-control" disabled="disabled" placeholder="' + dode + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ tode +'"></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
@@ -653,6 +657,7 @@
                     window.location.href = "/health-assessment";
                 }
             });
+            
 
 
         });

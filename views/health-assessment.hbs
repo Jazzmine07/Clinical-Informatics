@@ -629,19 +629,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         {{#each schedule}}
-                                            <tr>
+                                        <tr>
                                                 <td>{{concat grade}}</td>
                                                 <td>{{section}}</td>
-                                                <td>{{numStudents}}</td>
-                                                <td>{{formatDate examDate}}</td>                                               
-                                                <td>{{time}}</td>
-                                                <td>{{numStudents}}</td>
-                                                <td>{{formatDate examDate}}</td>                                               
-                                                <td>{{time}}</td>
-                                                <td>{{numStudents}}</td>
-                                            </tr>
+                                                <td>{{totalNumStudents}}</td>
+                                                <td>{{formatDate apeDate}}</td>                                               
+                                                <td>{{apeTime}}</td>
+                                                <td>{{totalNumStudents}}</td> 
+                                                <td>{{formatDate adeDate}}</td>                                               
+                                                <td>{{adeTime}}</td>
+                                                <td>{{totalNumStudents}}</td>
                                         {{/each}}
+                                        </tr>
+                                        
                                     </tbody>
                                     {{!-- <tfoot>
                                         <tr>
@@ -769,7 +771,7 @@
         console.log(sy);
         document.getElementById("schoolYear").value=sy;
 
-        $.post("/getPercentageChart",{schoolYear:sy}, function(data){
+        $.post("/getApePercentageChart",{schoolYear:sy}, function(data){
             var p1=data.p1 * 100 +"%";
             var p2=data.p2 * 100 +"%";
             var p3=data.p3 * 100 +"%";
@@ -777,12 +779,12 @@
             var p5=data.p5 * 100 +"%";
             var p6=data.p6 * 100 +"%";
             
-            $('#percent1').html("(" + data.c1 + "/" + data.t1 + ") - " + p1);
-            $('#percent2').html("(" + data.c2 + "/" + data.t2 + ") - " + p2);
-            $('#percent3').html("(" + data.c3 + "/" + data.t3 + ") - " + p3);
-            $('#percent4').html("(" + data.c4 + "/" + data.t4 + ") - " + p4);
-            $('#percent5').html("(" + data.c5 + "/" + data.t5 + ") - " + p5);
-            $('#percent6').html("(" + data.c6 + "/" + data.t6 + ") - " + p6);
+            $('#percent1').html("(" + data.c1 + "/ 6 )");
+            $('#percent2').html("(" + data.c2 + "/ 6 )");
+            $('#percent3').html("(" + data.c3 + "/ 6 )");
+            $('#percent4').html("(" + data.c4 + "/ 6 )");
+            $('#percent5').html("(" + data.c5 + "/ 6 )");
+            $('#percent6').html("(" + data.c6 + "/ 6 )");
             
             document.getElementById("g1prog").style.width= p1;
             document.getElementById("g2prog").style.width= p2;
@@ -790,6 +792,29 @@
             document.getElementById("g4prog").style.width= p4;
             document.getElementById("g5prog").style.width= p5;
             document.getElementById("g6prog").style.width= p6;
+            
+        });
+        $.post("/getAdePercentageChart",{schoolYear:sy}, function(data){
+            var p1=data.p1 * 100 +"%";
+            var p2=data.p2 * 100 +"%";
+            var p3=data.p3 * 100 +"%";
+            var p4=data.p4 * 100 +"%";
+            var p5=data.p5 * 100 +"%";
+            var p6=data.p6 * 100 +"%";
+            
+            $('#percent1').html("(" + data.c1 + "/ 6 )");
+            $('#percent2').html("(" + data.c2 + "/ 6 )");
+            $('#percent3').html("(" + data.c3 + "/ 6 )");
+            $('#percent4').html("(" + data.c4 + "/ 6 )");
+            $('#percent5').html("(" + data.c5 + "/ 6 )");
+            $('#percent6').html("(" + data.c6 + "/ 6 )");
+            
+            document.getElementById("g1dental").style.width= p1;
+            document.getElementById("g2dental").style.width= p2;
+            document.getElementById("g3dental").style.width= p3;
+            document.getElementById("g4dental").style.width= p4;
+            document.getElementById("g5dental").style.width= p5;
+            document.getElementById("g6dental").style.width= p6;
             
         });
 

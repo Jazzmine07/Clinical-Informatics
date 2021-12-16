@@ -321,24 +321,42 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   prom1 = userController.getUser();
   prom2 = studentController.getSections();
   prom3 = studentController.getAllApeSched();
+  prom4 = studentController.getAllAdeSched();
 
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  Promise.all([prom1, prom2, prom3,prom4]).then(result => {
     user = result[0];
     sections = result[1];
-    schedule = result[2];
+    apeSchedule = result[2];
+    adeSchedule = result[3];
+    var i,schedule=[];
+    console.log("APE and ADE")
+    for(i=0;i<apeSchedule.length;i++){
+      console.log(apeSchedule[i]);
+      console.log(adeSchedule[i]);
+      schedule.push({
+        grade:apeSchedule[i].grade,
+        section:apeSchedule[i].section,
+        totalNumStudents:apeSchedule[i].numStudents,
+        apeDate:apeSchedule[i].apeDate,
+        apeTime:apeSchedule[i].apeTime,
+        adeDate:adeSchedule[i].adeDate,
+        adeTime:adeSchedule[i].adeTime
+      });
+    }
+    
     if(user.role == "Nurse"){
       res.render('health-assessment', {
         user: user,
         isNurse: true,
         sections: sections,
-        schedule: schedule
+        schedule:schedule
       });
     } else {
       res.render('health-assessment', {
         user: user, 
         isNurse: false,
         sections: sections,
-        schedule: schedule
+        schedule:schedule
       });
     }
   }).catch(error => {
@@ -587,7 +605,8 @@ router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addMedicationIntake', visitController.addMedicationIntake);
 router.post('/addAPE', studentController.addAPE); 
 router.post('/getSectionStudents',studentController.getSectionStudents);
-router.post('/getPercentageChart', studentController.getAPEPercentage);
+router.post('/getApePercentageChart', studentController.getAPEPercentage);
+router.post('/getAdePercentageChart', studentController.getADEPercentage);
 
 router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);

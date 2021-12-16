@@ -5,7 +5,8 @@ exports.getStudentInfo = function(req, res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
-
+    console.log("id sa get STudent info");
+    console.log(id);
     studentRef.on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshotData = snapshot.exportVal();

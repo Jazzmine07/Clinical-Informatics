@@ -451,105 +451,180 @@
                     {{!-- {{#if isNurse}} --}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                         <div class="card-body">
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label class="col-form-label" for="studentID">Student ID Number</label>
-                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId">
-                                </div>
-                                <div class="col-5">
-                                    <label class="col-form-label" for="studentName">Student Name</label>
-                                    <input type="text" class="form-control mb-2" id="studentName">
-                                </div>
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <select class="custom-select mb-2" id="studentGrade">
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                        <option value="6">Six</option>
-                                    </select>
-                                </div>
-                                <div class="col-5">
-                                    <label for="studentSec" class="col-form-label">Section</label>
-                                    <input type="text" class="form-control mb-2" id="studentSection">
-                                </div>
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                    <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
-                                </div>
-                                <div class="col-5">
-                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                    <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                        {{#each nurse}}
-                                            <option value="{{firstName}} {{lastName}}"> {{firstName}} {{lastName}}</option>
-                                        {{/each}}
-                                    </select>  
-                                </div>                                 
-                            </div>
-
-                            <div class="form-row align-items-center">
-                                <div class="col-2">
-                                    <label for="clinicIn" class="col-form-label">Time In</label>
-                                    <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
-                                </div>
-                                <div class="col-2">
-                                    <label for="clinicOut" class="col-form-label">Time Out</label>
-                                    <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
-                                </div>  
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Medication -->
-                    <div class="card shadow mb-2">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>                     
-                        <div class="card-body">
-                                <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                      <label class="col-form-label" for="medicationVisit">Medication</label>
-                                        <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
-                                            <option disabled="disabled" selected="true">Choose...</option>
-                                            {{#each medicines}}
-                                                <option value="{{medicine}}">{{medicine}}</option>   
-                                            {{/each}} 
-                                        </select>                                                                   
-                                    </div>
-                                    <div class="col-3">
-                                        <label class="col-form-label" for="amountMed">Amount</label>
-                                        <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
-                                        <div id="validAmount" class="valid-feedback"></div>
-                                        <div id="invalidAmount" class="invalid-feedback"></div>
-                                    </div>
-                                    <div id="takenDiv" class="col-2 align-items-center">
-                                        <label class="col-form-label" for="timeTaken">Time</label>
-                                        <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
+                            <form class="user">
+                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
                                 </div>
-                                
-                                <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
-                                <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
-                            
-                            <!-- <div id="container"></div> -->
-                            <table class="table" id="dynamic_field">  
-
-                            </table>
-                            <div class="d-flex justify-content-end mt-4 col-12">
-                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
-                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
-                            </div>
+                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
+                            </form>
                         </div>
                     </div>
                 </div>
+                <div class="card shadow mb-2" id="studentDiv">
+                    <div class="card-body">
+                            <!-- Card Header - Accordion -->
+                        <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseCV">
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <div class="row mb-3">
+                                        <div class="col-lg-12">
+                                            <div class="card mb-3">
+                                                <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
+                                                <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
+                                                    <img id="studentPic"  class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                                    <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
+                                                        <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
+                                                        <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
+                                                        <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
+                                                        <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
+                                                <label class="btn btn-primary active">
+                                                <input class="categorybtn active" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'uploads')"> Uploads
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- END OF STUDENT PROFILE --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow mb-2">
+                    <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
+                    <div class="card-body">
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
+                                <label class="col-form-label" for="studentID">Student ID Number</label>
+                                <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                            </div>
+                            <div class="col-5">
+                                <label class="col-form-label" for="studentName">Student Name</label>
+                                <input type="text" class="form-control mb-2" id="studentName">
+                            </div>
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
+                                <label for="studentGrd" class="col-form-label">Grade</label>
+                                <select class="custom-select mb-2" id="studentGrade">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                    <option value="4">Four</option>
+                                    <option value="5">Five</option>
+                                    <option value="6">Six</option>
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <label for="studentSec" class="col-form-label">Section</label>
+                                <input type="text" class="form-control mb-2" id="studentSection">
+                            </div>
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
+                                <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
+                            </div>
+                            <div class="col-5">
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                    {{#each nurse}}
+                                        <option value="{{firstName}} {{lastName}}"> {{firstName}} {{lastName}}</option>
+                                    {{/each}}
+                                </select>  
+                            </div>                                 
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-2">
+                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
+                            </div>
+                            <div class="col-2">
+                                <label for="clinicOut" class="col-form-label">Time Out</label>
+                                <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medication -->
+                <div class="card shadow mb-2">
+                    <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>                     
+                    <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="medicationVisit">Medication</label>
+                                    <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
+                                        <option disabled="disabled" selected="true">Choose...</option>
+                                        {{#each medicines}}
+                                            <option value="{{medicine}}">{{medicine}}</option>   
+                                        {{/each}} 
+                                    </select>                                                                   
+                                </div>
+                                <div class="col-3">
+                                    <label class="col-form-label" for="amountMed">Amount</label>
+                                    <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
+                                    <div id="validAmount" class="valid-feedback"></div>
+                                    <div id="invalidAmount" class="invalid-feedback"></div>
+                                </div>
+                                <div id="takenDiv" class="col-2 align-items-center">
+                                    <label class="col-form-label" for="timeTaken">Time</label>
+                                    <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
+                                </div>
+                            </div>
+                            
+                            <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
+                            <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
+                        
+                        <!-- <div id="container"></div> -->
+                        <table class="table" id="dynamic_field">  
+
+                        </table>
+                        <div class="d-flex justify-content-end mt-4 col-12">
+                            <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
+                            <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -624,6 +699,104 @@
     <script>
         $("#medicationVisit").select2();
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
+    </script>
+    <script>
+        function searchProfile(){
+            var typedID = document.getElementById("studentVisit").value;
+            
+            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+                //if(typedID.isEmpty()){
+                    // TO DO: display error message if walang ininput na id number si user
+                //}
+                if(!typedID && !typedID.value){
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    document.getElementById('errorDiv').style.display = "block";  
+                    document.getElementById('lastVisit').style.display = "none";
+                    document.getElementById("clinicVisitForm").reset();
+
+                }
+                else if(data.firstName == null){ // if data is null so meaning no student with that id number
+                    //console.log(data);
+                    //console.log(data.error_msg);
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                    document.getElementById('studentDiv').style.display = "none";                     
+                    document.getElementById('errorDiv').style.display = "block";
+                    document.getElementById('lastVisit').style.display = "none";                   
+                    document.getElementById("clinicVisitForm").reset();
+                } 
+                else {
+                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
+                    $('#headerNameCollapse').html(typedID);
+                    // Header
+                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#idHeaderVisit').html(typedID);
+                    //$('#studentTypeHeader').html(data.studentType + " Student");
+
+                    // personal info
+                    $('#visitLastName').html(data.lastName);
+                    $('#visitFirstName').html(data.firstName);
+                    $('#visitMiddleName').html(data.middleName);
+
+                    if(data.grade && data.section)
+                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                        
+                    if(data.studentType)
+                        if(data.studentType == "old" || data.studentType == "Old")
+                            $('#studentTypeHeader').html("Old Student");
+                        else if(data.studentType == "new" || data.studentType == "New")
+                            $('#studentTypeHeader').html("New Student");    
+                    
+                    console.log("Student data...");
+                    console.log(data);
+
+                    if(data.sex == "Female")
+                        document.getElementById("studentPic").src = "public/img/female.svg";
+                    else if (data.sex == "Male")
+                        document.getElementById("studentPic").src = "public/img/male.svg";
+
+                    $('#visitBirthday').html(data.birthday);
+                    //$('#visitNationality').html(data.nationality);
+                    //$('#visitReligion').html(data.religion);
+                    $('#visitAge').html(data.age + " years old");
+                    $('#visitSex').html(data.sex);
+                    $('#visitAddress').html(data.address);
+
+                    // contacts
+                    if(data.fatherName)
+                        $('#visitFN').html(data.fatherName);
+                    
+                    if(data.fatherEmail)
+                        $('#visitFE').html(data.fatherEmail);
+
+                    if(data.fatherContact)
+                        $('#visitFC').html(data.fatherContact);
+
+                    if(data.motherName) 
+                        $('#visitMN').html(data.motherName);
+
+                    if(data.motherEmail)    
+                        $('#visitME').html(data.motherEmail);
+
+                    if(data.motherContact)    
+                        $('#visitMC').html(data.motherContact);
+
+
+                    //var today = new Date();
+                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+                    //auto-fill form
+                    $('#studentID').val(typedID);
+                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
+                    if(data.grade)
+                        $('#studentGrade').val(data.grade);
+                    if(data.section)
+                        $('#studentSection').val(data.section);
+                    //$('#visitDate').value(date);                 
+                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                }
+            });
+        }
     </script>
     <script type='text/javascript'>
     $(document).ready(function() {

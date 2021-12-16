@@ -409,10 +409,12 @@ exports.getDiseasesCount=function(req,res){
             if(dbDate<=endDate && dbDate>=startDate){
                 // temp2.push(temp[i]);
                 if(temp2==null){ //if empty auto add
-                    temp2.push({
-                        concern: temp[i].visitReason,
-                        count:1
-                    })
+                    if(temp[i].visitReason!=""){
+                        temp2.push({
+                            concern: temp[i].visitReason,
+                            count:1
+                        })
+                    }
                 }
                 else{ //if not empty
                     for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
@@ -422,18 +424,17 @@ exports.getDiseasesCount=function(req,res){
                         }
                     }
                     if(alreadyAdded!=1){
-                        temp2.push({
-                            concern: temp[i].visitReason,
-                            count:1
-                        })
+                        if(temp[i].visitReason!=""){
+                            temp2.push({
+                                concern: temp[i].visitReason,
+                                count:1
+                            })
+                        }
                     }
                 }
             }
     
         }
-
-
-
 
         //temp2 = only symptoms in a certain date range
         console.log("getDiseaseCount array");

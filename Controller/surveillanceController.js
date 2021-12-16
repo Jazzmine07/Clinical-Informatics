@@ -67,7 +67,7 @@ exports.getTopDisease=function(vcArray){
             }
             else{ //if not empty
                 for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
-                    if(vcWeek[j].concern==temp[i].diagnosis){ 
+                    if(vcWeek[j].concern.toLowerCase()==temp[i].diagnosis.toLowerCase()){ 
                         vcWeek[j].count=vcWeek[j].count+1;
                         alreadyAdded=1;
                     }
@@ -99,7 +99,7 @@ exports.getTopDisease=function(vcArray){
             }
             else{ //if not empty
                 for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
-                    if(vcMonth[j].concern==temp[i].diagnosis){ 
+                    if(vcMonth[j].concern.toLowerCase()==temp[i].diagnosis.toLowerCase()){ 
                         vcMonth[j].count=vcMonth[j].count+1;
                         alreadyAdded=1;
                     }
@@ -282,7 +282,7 @@ exports.getDiseaseDemographics=function(req,res){
         }
         //temp2 which is date filtered is further filtered by disease chosen
         for(i=0;i<temp2.length;i++){
-            if(temp2[i].diagnosis==disease){
+            if(temp2[i].diagnosis.toLowerCase()==disease.toLowerCase()){
                 temp3.push(temp2[i]);
             }
         }
@@ -418,7 +418,7 @@ exports.getDiseasesCount=function(req,res){
                 }
                 else{ //if not empty
                     for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
-                        if(temp2[j].concern==temp[i].visitReason){ 
+                        if(temp2[j].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
                             temp2[j].count=temp2[j].count+1;
                             alreadyAdded=1;
                         }

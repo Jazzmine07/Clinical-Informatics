@@ -89,24 +89,32 @@ exports.getMedicines = function(){
                     await childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
-                            med: childSnapshotData.medicine,
+                            medicine: childSnapshotData.medicine,
+                            name: childSnapshotData.name,
+                            dosageForm: childSnapshotData.dosageForm,
+                            strength: childSnapshotData.strength,
                         })
                     })
 
-                    await temp.forEach(medicine => {
+                    await temp.forEach(med => {
                         var found = false;
                         for(i = 0; i < filtered.length; i++){
-                            if(medicine.med == filtered[i].med){   // filters if same medicine name
+                            if(med.medicine == filtered[i].medicine){   // filters if same medicine name
                                 found = true;
                                 break;
                             } 
                         }
                         if(!found){
                             filtered.push({
-                                med: medicine.med,
+                                medicine: med.medicine,
+                                name: med.name,
+                                dosageForm: med.dosageForm,
+                                strength: med.strength
                             })
                         }    
                     })
+                    console.log("laman ng medicines");
+                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {

@@ -21,6 +21,7 @@ exports.getStudentInfo = function(req, res){
                 religion: snapshotData.religion,
                 age: snapshotData.age,
                 sex: snapshotData.sex,
+                weight: snapshotData.weight,
                 address: snapshotData.address,
                 fatherName: snapshotData.fatherName,
                 fatherEmail: snapshotData.fatherEmail,
@@ -106,4 +107,4 @@ exports.getBMI = function(req, res){
             })
         }
     })
-}
+};

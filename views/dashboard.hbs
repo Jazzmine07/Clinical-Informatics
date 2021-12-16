@@ -721,6 +721,9 @@
                                     weight: 'bold'
                                 },
                             },
+                            legend: {
+                                display: false
+                            },
                         },
                         layout: {   // layout ng entire chart
                             padding: {
@@ -735,7 +738,6 @@
         }
 
         function symptomsCountChart() {
-
             var monthlySymptoms = document.getElementById("monthlySymptoms");
             var genderSymptomChart = new Chart(monthlySymptoms, {  // line chart
                 type: 'bar',

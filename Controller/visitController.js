@@ -599,11 +599,11 @@ exports.addMedicationIntake = function(req, res){
     for(i = 0; i < medicationsArray.length; i++){
         medication = {
             medicine: medicationsArray[i].medication,
-            amount: medicationsArray[i].amount,
-            date: medicationsArray[i].date,
+            amount: parseInt(medicationsArray[i].amount),
             time: medicationsArray[i].time
         };
         database.ref('intakeHistory/' + key + '/medications').push(medication);
     }
+    
     res.status(200).send();
 };

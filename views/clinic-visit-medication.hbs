@@ -530,10 +530,6 @@
                                         <div id="validAmount" class="valid-feedback"></div>
                                         <div id="invalidAmount" class="invalid-feedback"></div>
                                     </div>
-                                    <div class="col-2 align-items-center">
-                                        <label class="col-form-label" for="dateTaken">Date</label>
-                                        <input type="date" class="form-control mb-2" id="dateTaken" name="dateTaken">
-                                    </div>
                                     <div id="takenDiv" class="col-2 align-items-center">
                                         <label class="col-form-label" for="timeTaken">Time</label>
                                         <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
@@ -665,8 +661,8 @@
 
         var medicationsArray = [];
 
-        function addMedication(meds, amount, date, time) {
-            medicationsArray.push({medication: meds, amount: amount, date: date, time: time});
+        function addMedication(meds, amount, time) {
+            medicationsArray.push({medication: meds, amount: amount, time: time});
         }
 
         var i = 0;  
@@ -674,23 +670,13 @@
         $('#addMedication').click(function(){
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var amount = document.getElementById("amountMed").value;
-            var dateTaken = document.getElementById("dateTaken").value;
             var timeTaken = document.getElementById("timeTaken").value;
 
             /* TO DO: Add checkers for fields if empty */
-            //medicineList.push(selectedMedication);
-            //purposeList.push(purpose);
-            //amountList.push(amount);
-            //intervalList.push(interval);
-            //startMedList.push(startMed);
-            //endMedList.push(endMed);
 
-            //console.log("push? "+ startMed);
-            //console.log("push? "+ endMed);
+            addMedication(selectedMedication, amount, timeTaken);
 
-            addMedication(selectedMedication, amount, dateTaken, timeTaken);
-
-            $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ dateTaken +'"></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ timeTaken +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ timeTaken +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
         });
 

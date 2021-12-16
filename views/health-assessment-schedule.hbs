@@ -38,6 +38,8 @@
         #studentDiv{
             display: none;
         }
+
+        
     </style>
 
 </head>
@@ -434,25 +436,15 @@
                         </div> --}}
                         <div class="card-body">
                             <form class="user" method="post" action="/addAPE">
-                                <div class="form-row align-items-center">
-                                    <div class="col-4">
+                                <div class="form-row align-items-center mb-3">
+                                    <div class="col-2">
                                       <label class="col-form-label" for="schoolYear">Enter School Year</label>                                        
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-2">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">S.Y.</span>
                                             </div>
                                             <input type="text" class="form-control" id="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-4">
-                                        <label for="dope" class="col-form-label">Date of Examination</label>
-                                        <input type="date" class="form-control mb-2" id="dope">
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="tope" class="col-form-label">Time of Examination</label>
-                                        <input type="time" class="form-control mb-2" id="tope">
                                     </div>
                                     <div class="col-4">
                                         <label for="sectionPE" class="col-form-label">Section</label>
@@ -462,6 +454,34 @@
                                                 <option value='{{section}}'> </option>
                                             {{/each}}                             
                                         </datalist>  
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-1">
+                                        <label for="dope" class="col-form-label font-weight-bold" style="padding-top: 40px; padding-left: 15px;">Physical Exam</label>
+                                    </div>
+                                    
+                                    <div class="col-2">
+                                        <label for="dope" class="col-form-label">Date of Examination</label>
+                                        <input type="date" class="form-control mb-2" id="dope">
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="tope" class="col-form-label">Time of Examination</label>
+                                        <input type="time" class="form-control mb-2" id="tope">
+                                    </div>
+                                </div>
+                                 <div class="form-row align-items-center mb-4">
+                                    <div class="col-1">
+                                        <label for="dope" class="col-form-label font-weight-bold" style="padding-top: 40px; padding-left: 20px;">Dental Exam</label>
+                                    </div>
+                                    
+                                    <div class="col-2">
+                                        <label for="dope" class="col-form-label">Date of Examination</label>
+                                        <input type="date" class="form-control mb-2" id="dode">
+                                    </div>
+                                    <div class="col-2">
+                                        <label for="tope" class="col-form-label">Time of Examination</label>
+                                        <input type="time" class="form-control mb-2" id="tode">
                                     </div>
                                 </div>
                                 <a class="btn btn-link" id="addSchedule"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Section</a>
@@ -551,22 +571,34 @@
     <script>
         var i = 0;
 
-        var scheduleArray = [];
+        var schedulePEArray = [];
+        var scheduleDEArray = [];
 
-        function addSchedule(date, time, section) {
-            scheduleArray.push({date: date, time: time, section: section});
+        function addPESchedule(date, time, section) {
+            schedulePEArray.push({date: date, time: time, section: section});
+        }
+
+        function addDESchedule(date, time, section) {
+            scheduleDEArray.push({date: date, time: time, section: section});
         }
 
         $('#addSchedule').click(function(){
             var dope = document.getElementById("dope").value;
             var tope = document.getElementById("tope").value
+            var dode = document.getElementById("dode").value;
+            var tode = document.getElementById("tode").value
             var section = document.getElementById("sectionPE").value;            
             //var section = document.getElementById("sections").innerHTML;
 
-            addSchedule(dope, tope, section);
+            addPESchedule(dope, tope, section);
+            addDESchedule(dode, tode, section);
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + dope +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + tope + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ section +'"></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + section +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + dope + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ tope +'"></td><td><input class="form-control" disabled="disabled" placeholder="' + dode + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ tode +'"></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
+
+            console.log("add lang...");
+            console.log(schedulePEArray);
+            console.log(scheduleDEArray);
 
         });
 
@@ -577,34 +609,50 @@
             console.log("removing..." + button_id);  
             removeIDs.push(button_id);
             $('#row'+button_id+'').remove(); 
-            scheduleArray.splice(index, 1);
-            console.log(scheduleArray);           
+                    
             
         }); 
 
         $('#saveBtn').click(function(){
             var dope = document.getElementById("dope").value;
             var tope = document.getElementById("tope").value
-            var section = document.getElementById("sectionPE").value;   
-            scheduleArray.push({date: dope, time: tope, section: section});
+            var section = document.getElementById("sectionPE").value;  
 
-            if (scheduleArray === undefined || scheduleArray.length == 0) {
+            const toNumbers = arr => arr.map(Number);
+            var newArray = toNumbers(removeIDs);
+            //console.log(newArray);       
+
+            newArray.sort();
+            //console.log(newArray);
+
+            for (var j = newArray.length -1; j >= 0; j--){
+                schedulePEArray.splice(newArray[j], 1);
+                scheduleDEArray.splice(newArray[j], 1);
+            }
+
+            console.log(schedulePEArray); 
+            console.log(scheduleDEArray); 
+            
+            //schedulePEArray.push({date: dope, time: tope, section: section});
+
+            if (schedulePEArray === undefined || schedulePEArray.length == 0) {
                 console.log("No items");
             }
             else{
-                console.log("Sched" + scheduleArray);
+                console.log("Sched" + schedulePEArray);
             }
-             $.ajax({
-                    url: '/addSchedule',
-                    method: 'POST',
-                    data: {
-                        schedules:scheduleArray
-                    },
-                    success: function(data) {
-                        console.log("added");
-                        window.location.href = "/health-assessment";
-                    }
-                });
+            $.ajax({
+                url: '/addSchedule',
+                method: 'POST',
+                data: {
+                    schedules:schedulePEArray,
+                    dentals:scheduleDEArray
+                },
+                success: function(data) {
+                    console.log("added");
+                    window.location.href = "/health-assessment";
+                }
+            });
 
 
         });

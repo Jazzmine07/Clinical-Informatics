@@ -576,16 +576,25 @@
                                 </div>
 
                                 <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                      <label class="col-form-label" for="population">Success Indicators</label>
-                                      <select id="indicator" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
-                                        <option>Attendance</option>
-                                        <option>Change in weight</option>
-                                        <option>Change in height</option>
-                                        <option>BMI</option>
-                                    </select>
+                                    <div class="col-3">
+                                        <label class="col-form-label" for="indicator">Success Indicators</label>
+                                        <input list="indicatorsList" class="form-control mb-2" id="indicator" name="indicator" placeholder="ex. Attendance"/>                                       
+                                        <datalist id="indicatorsList">
+                                            <option value="Attendance"></option>
+                                            <option value="Evaluation Results"></option>                                                                    
+                                        </datalist>  
+                                    </div>
+
+                                    <div class="col-3">
+                                      <label class="col-form-label" for="value">Value</label>
+                                      <input type="text" class="form-control mb-2" id="value" name="value"  placeholder="ex. at least 80% attended">
                                     </div>
                                 </div>
+
+                                <a class="btn btn-link" id="addIndicator"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Section</a>
+                                <table class="table" id="dynamic_field">  
+
+                                </table>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
@@ -701,15 +710,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>
-        $("#indicator").select2({
-        placeholder: "Select or type keywords"
-        });
-
         $("#population").select2({
         placeholder: "Select or type keywords"
         });
 
         $(".select2-selection .select2-selection--multiple").css("border", "1px solid #aaa");
+
+        
     </script>
 </body>
 

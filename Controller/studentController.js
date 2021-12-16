@@ -420,71 +420,6 @@ exports.getADEPercentage = function(req, res){
 
 }
 
-exports.getAPEStudentSection = function(req,res){
-    var schoolYear= req.body.schoolYear;
-    var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
-    var p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
-    //t# - total of grade #;
-    //c#- total of grade # that got APE
-    //p# - percentage of c#/t#
-
-    var database = firebase.database();
-    var studentRef = database.ref("studentInfo");
-    var healthHistory = database.ref("studentHealthHistory");
-    var apeSchedRef= database.ref("apeSchedule");
-
-    //Commented area is used to find the number of students who got APE already
-    studentRef.on('value', (snapshot) =>{
-        snapshot.forEach(function(childSnapshot){
-            // lines 522,532,544,554,564,574 is used to check what grade the student belongs to
-            // lines 525,536,547,557,567.577 is used to look for the file of the ape of student
-            // lines 527-528,538-539,549-550,559-560,569-570.579-580 is used to look through all the ape of the student and check if they have for the specified year
-            if(childSnapshot.child("grade").val()=="1"){
-                t1=t1+1;
-                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
-                    ss.forEach(function(cs){
-                        if(cs.key.toString() == schoolYear){
-                            c1=c1+1;
-                        }
-                    })
-                });
-            }
-            
-        })
-        //computes for the percentage
-        p1=c1/t1;
-        p2=c2/t2;
-        p3=c3/t3;
-        p4=c4/t4;
-        p5=c5/t5;
-        p6=c6/t6;
-    
-        var data={
-            p1:p1,
-            p2:p2,
-            p3:p3,
-            p4:p4,
-            p5:p5,
-            p6:p6,
-            t1:t1,
-            t2:t2,
-            t3:t3,
-            t4:t4,
-            t5:t5,
-            t6:t6,
-            c1:c1,
-            c2:c2,
-            c3:c3,
-            c4:c4,
-            c5:c5,
-            c6:c6
-        };
-        res.send(data);
-    })   
-      
-}
-
-
 exports.getSections=function(req,res){
     var database = firebase.database();
     var sectionRef= database.ref("sections");
@@ -1104,13 +1039,46 @@ exports.getAllAdeSched=function(){
                 var students=[];
                 var numStudents;
 
-    
-                record={
-                    adeDate:childValues.date,
-                    adeTime:childValues.time,
+                studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                    if(ss.exists()){
+                        ss.forEach(function(cs){
+                            var values= cs.exportVal();
+                            console.log("Section inside"+values.section);
+                            students.push({
+                                key: cs.key,
+                                section:values.section
+                            });
+                        })
+                        console.log("Students in "+ childValues.section +":"+students.length);
+                    }
+                });
+                console.log(students);
+
+                if(done==false){
+                    for(i=0;i<students.length;i++){
+                        healthHistory.child(students[i].key).child("ape").on('value',(ss)=>{
+                            ss.forEach(function(cs){
+                                console.log("Hello");
+                                console.log(cs.key);
+                                if(cs.key.toString() == sy){
+                                    studentsAccom.push(cs.key);
+                                }
+                            })
+                        });
+                    };
+                    done=true;
                 }
-                //console.log(record);
-                schedule.push(record);
+
+                if(done==true){
+                    record={
+                        adeDate:childValues.date,
+                        adeTime:childValues.time,
+                        adeSeen:studentsAccom.length
+                    }
+                    //console.log(record);
+                    schedule.push(record);
+                }
+                
     
             }) 
             console.log("Schedule size:" + schedule.length);

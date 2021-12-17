@@ -848,7 +848,88 @@
                             </select>
                         </div> --}}
                         <div class="card-body">
-                            <div class="form-row align-items-center">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
+                                            <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                            {{#each prescribed}}
+                                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                            {{/each}}
+                                            </select>  
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="medicationVisit">Medication</label>
+                                            <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                {{#each medicines}}
+                                                    <option value="{{name}}">{{medicine}}</option>   
+                                                {{/each}} 
+                                            </select>                                                                   
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="amountMed">Dose</label>
+                                            <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
+                                            <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
+                                        </div>
+                                        <div class="col-5">
+                                            <div id="validAmount" class="valid-feedback font-weight-bold"></div>
+                                            <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                            <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="intervalMed">Interval</label>
+                                            <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 align-items-center">
+                                            <label class="col-form-label" for="startMed">Start Date</label>
+                                            <input type="date" class="form-control mb-2" id="startMed" name="startMed">
+                                        </div>
+                                        <div class="col-3 align-items-center">
+                                            <label class="col-form-label" for="endMed">End Date</label>
+                                            <input type="date" class="form-control mb-2" id="endMed" name="endMed">
+                                        </div>
+                                        <div class="col-3" style="margin-right: -115px;">
+                                            <div class="form-check align-items-center" style="padding-top: 35px;">
+                                                <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
+                                                <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
+                                            </div>
+                                        </div>
+                                        <div id="takenDiv" class="col-3 align-items-center" style="display:none">
+                                            <label class="col-form-label" for="timeTaken">Time</label>
+                                            <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="well">
+                                        
+                                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
+                                                <i class="fa fa-exclamation-circle"></i>
+                                                <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
+                                            </div>                               
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {{!-- <div class="form-row align-items-center">
                                 <div class="col-6">
                                     <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                     <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
@@ -858,6 +939,12 @@
                                     {{/each}}
                                     </select>  
                                 </div>   
+                                <div class="col-5" rowspan="2">
+                                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
+                                        <i class="fa fa-exclamation-circle"></i>
+                                        <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
+                                    </div>                               
+                                </div>
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-4">
@@ -913,7 +1000,7 @@
                                     <label class="col-form-label" for="timeTaken">Time</label>
                                     <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
                                 </div> 
-                            </div>
+                            </div> --}}
                             
                             <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
                             <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
@@ -2636,6 +2723,7 @@
             document.getElementById('validAmount').style.display = "none";
             document.getElementById('invalidAmount').style.display = "none";
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var medicationTxt = $('#medicationVisit').find('option:selected').text();
             var typedID = document.getElementById("studentID").value;
             var lowerCase = selectedMedication.toLowerCase();
             console.log(lowerCase);
@@ -2695,7 +2783,7 @@
                 console.log(selectedMedication);
 
                 //checking of dose
-                if(selectedMedication == "Paracetamol Syrup 250mg/5mL"){
+                if(medicationTxt == "Paracetamol Syrup 250mg/5mL"){
                     if(x != 1){
                         var start = x * 10;
                         var wbd = start / (250/5); 
@@ -2705,7 +2793,7 @@
                         $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
                     } 
                 }
-                else if(selectedMedication == "Paracetamol Tablet 500mg"){
+                else if(medicationTxt == "Paracetamol Tablet 500mg"){
                     if(x != 1){
                         var start = x * 10;
                         var wbd = start / 500; 
@@ -2720,7 +2808,7 @@
                         }
                     } 
                 }
-                else if(selectedMedication == "Ibuprofen Tablet 200mg"){
+                else if(medicationTxt == "Ibuprofen Tablet 200mg"){
                     if(x != 1){
                         var start = x * 5;
                         var wbd = start / 200; 
@@ -2735,7 +2823,7 @@
                         }                        
                     } 
                 }
-                else if(selectedMedication == "Mefenamic Acid Tablet 250mg"){
+                else if(medicationTxt == "Mefenamic Acid Tablet 250mg"){
                     if(x != 1){
                         var start = x * 6.5;
                         var wbd = start / 250; 
@@ -2750,7 +2838,7 @@
                         }                        
                     } 
                 }
-                else if(selectedMedication == "Mefenamic Acid Tablet 500mg"){
+                else if(medicationTxt == "Mefenamic Acid Tablet 500mg"){
                     if(x != 1){
                         var start = x * 6.5;
                         var wbd = start / 500; 
@@ -2765,7 +2853,7 @@
                         }                        
                     } 
                 }
-                else if(selectedMedication == "Loratidine Tablet 10mg"){
+                else if(medicationTxt == "Loratidine Tablet 10mg"){
                     if(parseInt(age) > 12){
                         var wbd = 1; 
                         console.log("weight-based: " + Math.round(wbd)); 
@@ -2784,7 +2872,7 @@
                         $('#invalidAmount').html('This medication is not recommeded for children below 12.');
                     }
                 }
-                else if(selectedMedication == "Cetirizine Tablet 10mg"){
+                else if(medicationTxt == "Cetirizine Tablet 10mg"){
                     if(parseInt(age) <= 12 && parseInt(age) >= 6){
                         var wbd = 1; 
                         console.log("weight-based: " + Math.round(wbd)); 
@@ -2803,7 +2891,7 @@
                         $('#invalidAmount').html('This medication is not recommeded for children below 6.');
                     } 
                 }
-                else if(selectedMedication == "Cetirizine Syrup 5mg/5mL"){
+                else if(medicationTxt == "Cetirizine Syrup 5mg/5mL"){
                     if(parseInt(age) <= 5 && parseInt(age) >= 2){
                         var wbd = 5; 
                         console.log("weight-based: " + Math.round(wbd)); 
@@ -2822,7 +2910,7 @@
                         $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
                     } 
                 }
-                else if(selectedMedication == "Epinephrine Solution for Injection 1mg/mL"){
+                else if(medicationTxt == "Epinephrine Solution for Injection 1mg/mL"){
                     if(parseInt(age) > 12){
                         var wbd = 0.5; 
                         console.log("weight-based: " + Math.round(wbd)); 
@@ -2845,7 +2933,7 @@
                         $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
                     } 
                 }
-                else if(selectedMedication == "Salbutamol Syrup 2mg/5mL"){
+                else if(medicationTxt == "Salbutamol Syrup 2mg/5mL"){
                     if(x != 1){
                         var start = x * 0.15;
                         var wbd = start / (2/5); 
@@ -2857,7 +2945,7 @@
                         
                     } 
                 }
-                else if(selectedMedication == "Salbutamol Nebules 2.5mg/2.5ml"){
+                else if(medicationTxt == "Salbutamol Nebules 2.5mg/2.5ml"){
                     if(x != 1){
                         var start = x * 0.15;
                         var wbd = start / (2.5/2.55); 
@@ -2901,6 +2989,18 @@
                     })
                 })
             })
+            
+            var tempDescArray = descArray.toString();
+            tempDescArray = tempDescArray.split(",");
+
+            for (let i = 0; i < descArray.length; i++) {
+            tempDescArray[i] = descArray[i] + "<br><br>";
+            }
+
+            tempDescArray = tempDescArray.join("");
+            console.log(tempDescArray)
+
+            document.getElementById("errorMed").innerHTML = tempDescArray;
         }
 
         async function getID(medicine){

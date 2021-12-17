@@ -577,6 +577,17 @@ router.get('/promotive-care/program-form', (req, res) => {
   })
 });
 
+// Get performance assessment  page
+router.get('/performance-assessment', (req, res) => {
+  console.log("Read performance assessment successful!");
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('performance-assessment', { 
+      user: result
+    })
+  });
+});
+
 // Get communications page
 router.get('/communications', (req, res) => {
   console.log("Read communications successful!");

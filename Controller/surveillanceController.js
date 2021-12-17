@@ -222,7 +222,9 @@ exports.getTopDisease=function(vcArray){
     }     
     
     strings.push(stringWeekTopDisease);
+    strings.push(weekTopDisease[0].count);
     strings.push(stringMonthTopDisease);
+    strings.push(monthTopDisease[0].count)
     console.log("STRINGS of top disease");
     console.log(strings);
         
@@ -245,9 +247,14 @@ exports.getDiseaseDemographics=function(req,res){
     console.log("DISEASE from frontend:"+disease);
     var start=req.body.startDate;
     var end=req.body.endDate;
-    var chartData=[
-        {male:0, female:0},{male:0, female:0},{male:0, female:0},{male:0, female:0},{male:0, female:0},{male:0, female:0}
-    ];
+    var chartData=[{
+        Truthfulness:0,Sincerity:0, Honesty:0, Faithfulness:0, Humility:0, Politeness:0, 
+        Simplicity:0, Charity:0, Helpfulness:0, Gratefulness:0, Gratitude:0, Meekness:0, 
+        Courtesy:0, Respect:0, Trust:0, Kindness:0, Piety:0, Prayerfullness:0, 
+        Fidelity:0, Equality:0, Harmony:0, Unity:0, Piety:0, Solidarity:0, 
+        Trustworthiness:0,Reliability:0, Dependability:0, Responsibility:0, Serenity:0, Flexibility:0, 
+        SelfDiscipline:0, SelfGiving:0, Abnegation:0, Integrity:0, Patience:0, Perseverance:0
+    }];
 
     var startSplit,endSplit, startDate,endDate;
     
@@ -324,26 +331,49 @@ exports.getDiseaseDemographics=function(req,res){
             }
         }
 
+
+        //ADD Grade 3-6 pa
         //combining to get chart data
         for(i=0;i<temp3.length;i++){
             for(j=0;j<studentInfo.length;j++){
                 if(temp3[i].id==studentInfo[j].id){
-                    if(studentInfo[j].grade==1){
-                        if(studentInfo[j].sex=="male"||studentInfo[j].sex=="Male"){//grade  1 and male
-                            chartData[0].male=chartData[0].male+1;
-                        }
-                        else if(studentInfo[j].sex=="female"||studentInfo[j].sex=="Female"){ //grade 1 and female
-                            chartData[0].female=chartData[0].female+1;
-                        }
+                    if(studentInfo[j].section=="Truthfulness"){
+                        chartData[0].Truthfulness=chartData[0].Truthfulness+1;
                     }
-                    if(studentInfo[j].grade==2){
-                        if(studentInfo[j].sex=="male"||studentInfo[j].sex=="Male"){//grade  1 and male
-                            chartData[1].male=chartData[1].male+1;
-                        }
-                        else if(studentInfo[j].sex=="female"||studentInfo[j].sex=="Female"){ //grade 1 and female
-                            chartData[1].female=chartData[1].female+1;
-                        }
+                    else if(studentInfo[j].section=="Sincerity"){
+                        chartData[0].Sincerity=chartData[0].Sincerity+1;
                     }
+                    else if(studentInfo[j].section=="Honesty"){
+                        chartData[0].Honesty=chartData[0].Honesty+1;
+                    }
+                    else if(studentInfo[j].section=="Faithfulness"){
+                        chartData[0].Faithfulness=chartData[0].Faithfulness+1;
+                    }
+                    else if(studentInfo[j].section=="Humility"){
+                        chartData[0].Humility=chartData[0].Humility+1;
+                    }
+                    else if(studentInfo[j].section=="Politeness"){
+                        chartData[0].Politeness=chartData[0].Politeness+1;
+                    }
+                    if(studentInfo[j].section=="Simplicity"){
+                        chartData[0].Simplicity=chartData[0].Simplicity+1
+                    }
+                    else if(studentInfo[j].section=="Charity"){
+                        chartData[0].Charity=chartData[0].Charity+1
+                    }
+                    else if(studentInfo[j].section=="Helpfulness"){
+                        chartData[0].Helpfulness=chartData[0].Helpfulness+1
+                    }
+                    else if(studentInfo[j].section=="Gratefulness"){
+                        chartData[0].Gratefulness=chartData[0].Gratefulness+1
+                    }
+                    else if(studentInfo[j].section=="Gratitude"){
+                        chartData[0].Gratitude=chartData[0].Gratitude+1
+                    }
+                    else if(studentInfo[j].section=="Meekness"){
+                        chartData[0].Meekness=chartData[0].Meekness+1
+                    }
+                
                 }
             }
         }
@@ -363,6 +393,8 @@ exports.getDiseaseDemographics=function(req,res){
 //DISEASE SURVEILLANCE FUNCTIONS END HERE
 
 
+
+//USED IN THE DASHBOARD CHARTS
 //used for Dashboard to get disease count in certain time period
 exports.getVisitReasonCount=function(req,res){
     console.log("enters")
@@ -455,7 +487,6 @@ exports.getVisitReasonCount=function(req,res){
     
     
 }
-
 exports.getVRCountByGradeInMonth=function(req,res){
     console.log("enters")
     var database = firebase.database();

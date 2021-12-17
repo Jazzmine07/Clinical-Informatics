@@ -341,7 +341,8 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
         apeTime:apeSchedule[i].apeTime,
         apeSeen:apeSchedule[i].apeSeen,
         adeDate:adeSchedule[i].adeDate,
-        adeTime:adeSchedule[i].adeTime
+        adeTime:adeSchedule[i].adeTime,
+        adeSeen:adeSchedule[i].adeSeen
       });
     }
     

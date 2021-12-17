@@ -865,7 +865,7 @@
                                     <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                         <option disabled="disabled" selected="true">Choose...</option>
                                         {{#each medicines}}
-                                            <option value="{{medicine}}">{{medicine}}</option>   
+                                            <option value="{{name}}">{{medicine}}</option>   
                                         {{/each}} 
                                     </select>                                                                   
                                 </div>
@@ -2875,7 +2875,52 @@
     <script type='text/javascript'>
     $(document).ready(function() {
         var medicationsArray = [];
+        var namesArray = [];
         var intakeArray = [];
+        var i; ids = [], tempIds = [];
+        var list;
+        var descArray = [];
+        var found = false;
+
+        async function getInteraction(){
+            descArray = [];
+            list = ids.toString().replace(/,/g, "+");
+            console.log("LISTTTTT");
+            console.log(list);
+            // example: https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis=3992+435+161
+            // variable format: 3992+435+161
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis="+list);
+            const data = await response.json();
+            
+            console.log("pumasok sa get interaction");
+            //console.log(data.fullInteractionTypeGroup);
+            data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
+                interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
+                    //console.log(fullInteractionType.interactionPair);
+                    fullInteractionType.interactionPair.forEach(function(description){
+                        descArray.push(description.description);
+                    })
+                })
+            })
+            return descArray;
+        }
+
+        async function getID(medicine){
+            ids = [];
+            console.log("pumasok sa getID function");
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/rxcui.json?name="+medicine+"&srclist=DRUGBANK");
+            const data = await response.json();
+            ids.push(data.idGroup.rxnormId);
+            tempIds.push(data.idGroup.rxnormId);
+            console.log("length ng ids");
+            console.log(ids.length);
+            if(ids.length == medicationsArray.length){
+                getInteraction();
+                //ids= [];
+                //console.log(getInteraction());
+            }
+            //return data.idGroup.rxnormId;  //example: 3992 this is woring
+        }
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
@@ -2898,13 +2943,10 @@
 
             var checkBox = document.getElementById("takenClinic");
 
-            
             var time =  $('#timeTaken').val();
             console.log(time);
             addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
             
-
-
             /* TO DO: Add checkers for fields if empty */
             //medicineList.push(selectedMedication);
             //purposeList.push(purpose);
@@ -2917,10 +2959,22 @@
             //console.log("push? "+ endMed);
 
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
-
+            namesArray = [];
+            for(i = 0; i < medicationsArray.length; i++){
+                namesArray.push(medicationsArray[i].medication);
+            }
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
-            
+            if(namesArray.length >= 2){
+                for(i = 0; i < medicationsArray.length; i++){
+                    //console.log("GET IDSSS");
+                    //console.log(medicationsArray[i].medication);
+                    getID(medicationsArray[i].medication);    // medications as string (ex: Paracetamol, albuterol) it should return ids: 161, 435
+                    //console.log("AFTER PUSHINGGG");
+                    //console.log(ids);
+                }
+                
+            }
         });
 
         var removeIDs = [];

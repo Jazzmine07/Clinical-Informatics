@@ -37,12 +37,10 @@ router.get('/login', (req, res) => {
 });
 
 //router.get('/getNotification', notificationController.js.getNotifications);
-
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   console.log("Read dashboard successful!");
   var prom1,prom2,user,notifs;
-
   var prom1 =  userController.getUser();
   //studentController.getNotifications(user.key, notifs => {
   

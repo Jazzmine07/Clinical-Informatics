@@ -89,7 +89,8 @@ exports.getMedicines = function(){
                     await childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
-                            medicine: childSnapshotData.medicine
+                            medicine: childSnapshotData.medicine,
+                            name: childSnapshotData.name
                         })
                     })
 
@@ -103,7 +104,8 @@ exports.getMedicines = function(){
                         }
                         if(!found){
                             filtered.push({
-                                medicine: med.medicine
+                                medicine: med.medicine,
+                                name: med.name
                             })
                         }    
                     })

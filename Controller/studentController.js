@@ -527,400 +527,426 @@ exports.loadPrevData=function(req,res){
     console.log("Start and End:"+start+" and "+end);
     var prevYear= start+"-"+end;
     
-    var ape=[],curr=[];
+    var ape=[],curr=[],done=false;
     var database = firebase.database();
     var studentInfoRef= database.ref("studentInfo/"+id);
     var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ape");
     console.log("Previous Year:"+ prevYear);
-    var name,bday,sex;
+    var studentInfo;
+    //var name,bday,sex;
     
-    studentInfoRef.on('value', (snapshot) =>{
-            var childValues = snapshot.exportVal();
-            console.log("DATA Path1: " + childValues);
-            name=childValues.firstName +" "+ childValues.lastName;
-            bday=childValues.birthday;
-            sex=childValues.sex;
-            
-            studentHealthHistoryRef.on('value', (snapshot) =>{
-                snapshot.forEach(function(childSnapshot){
-                    console.log(childSnapshot.key);
-                    var childValues = childSnapshot.exportVal();
-                    ape.push({
-                        sy:childSnapshot.key,
-                        dope:childValues.apeDate,
-                        doctor:childValues.clinician,
-                        systolic:childValues.systolic,
-                        diastolic:childValues.diastolic,
-                        temp: childValues.temp,
-                        bp: childValues.bp,
-                        pr: childValues.pr,
-                        rr: childValues.rr,
-                        sf:childValues.sf,
-                        weight: childValues.weight,
-                        height: childValues.height,
-                        bmi: childValues.bmi,
-                        bmiStatus: childValues.bmiStatus,
-                        od: childValues.odVision,
-                        os: childValues.osVision,
-                        odGlasses: childValues.odGlasses,
-                        osGlasses: childValues.osGlasses,
-                        medProb: childValues.medProb,
-                        allergies: childValues.allergies,
-                        complaints: childValues.concern,
-                        reco: childValues.assess
-                    });
-                    if(childSnapshot.key==currSY){
-                        curr[0]={
-                            sy:childSnapshot.key,
-                            dope:childValues.apeDate,
-                            doctor:childValues.clinician,
-                            systolic:childValues.systolic,
-                            diastolic:childValues.diastolic,
-                            temp: childValues.temp,
-                            bp: childValues.bp,
-                            pr: childValues.pr,
-                            rr: childValues.rr,
-                            sf:childValues.sf,
-                            weight: childValues.weight,
-                            height: childValues.height,
-                            bmi: childValues.bmi,
-                            bmiStatus: childValues.bmiStatus,
-                            od: childValues.odVision,
-                            os: childValues.osVision,
-                            odGlasses: childValues.odGlasses,
-                            osGlasses: childValues.osGlasses,
-                            medProb: childValues.medProb,
-                            allergies: childValues.allergies,
-                            complaints: childValues.concern,
-                            reco: childValues.assess
-                        };
-                    }
-                    
-                    
-                });
+    studentHealthHistoryRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            console.log(childSnapshot.key);
+            var childValues = childSnapshot.exportVal();
+            ape.push({
+                sy:childSnapshot.key,
+                dope:childValues.apeDate,
+                doctor:childValues.clinician,
+                systolic:childValues.systolic,
+                diastolic:childValues.diastolic,
+                temp: childValues.temp,
+                bp: childValues.bp,
+                pr: childValues.pr,
+                rr: childValues.rr,
+                sf:childValues.sf,
+                weight: childValues.weight,
+                height: childValues.height,
+                bmi: childValues.bmi,
+                bmiStatus: childValues.bmiStatus,
+                od: childValues.odVision,
+                os: childValues.osVision,
+                odGlasses: childValues.odGlasses,
+                osGlasses: childValues.osGlasses,
+                medProb: childValues.medProb,
+                allergies: childValues.allergies,
+                complaints: childValues.concern,
+                reco: childValues.assess
             });
+            if(childSnapshot.key==currSY){
+                curr[0]={
+                    sy:childSnapshot.key,
+                    dope:childValues.apeDate,
+                    doctor:childValues.clinician,
+                    systolic:childValues.systolic,
+                    diastolic:childValues.diastolic,
+                    temp: childValues.temp,
+                    bp: childValues.bp,
+                    pr: childValues.pr,
+                    rr: childValues.rr,
+                    sf:childValues.sf,
+                    weight: childValues.weight,
+                    height: childValues.height,
+                    bmi: childValues.bmi,
+                    bmiStatus: childValues.bmiStatus,
+                    od: childValues.odVision,
+                    os: childValues.osVision,
+                    odGlasses: childValues.odGlasses,
+                    osGlasses: childValues.osGlasses,
+                    medProb: childValues.medProb,
+                    allergies: childValues.allergies,
+                    complaints: childValues.concern,
+                    reco: childValues.assess
+                };
+            }
         });
-      
-    
-    var lastApe;
-    var i=1;
-    if(ape!=null){
-        console.log("hello");
-        while(lastApe==null){
-            if(currSY==ape[ape.length-i].sy){
-                i++;
-                if(ape.length==1){
-                    lastApe=1;
-                    ape.push({
-                        sy:"",
-                        dope:"",
-                        doctor:"",
-                        systolic:"",
-                        diastolic:"",
-                        temp: "",
-                        bp: "",
-                        pr:"",
-                        rr: "",
-                        sf:"",
-                        weight: "",
-                        height: "",
-                        bmi: "",
-                        bmiStatus: "",
-                        od: "",
-                        os: "",
-                        odGlasses:"",
-                        osGlasses: "",
-                        medProb: "",
-                        allergies: "",
-                        complaints: "",
-                        reco: ""
-                    });
-                    break;
+        // studentInfo= loadStudentData(id);
+        // console.log("StudentInfo:");
+        // console.log(studentInfo);
+
+        var lastApe;
+        var i=1;
+        if(ape!=null){
+            console.log("hello");
+            console.log(ape);
+            console.log(curr);
+            while(lastApe==null){
+                console.log("THIS IS INSIDE LOOP lastAPE");
+                console.log(ape[ape.length-i].sy);
+                if(currSY==ape[ape.length-i].sy){
+                    i++;
+                    if(ape.length==1){
+                        lastApe=1;
+                        ape.push({
+                            sy:"",
+                            dope:"",
+                            doctor:"",
+                            systolic:"",
+                            diastolic:"",
+                            temp: "",
+                            bp: "",
+                            pr:"",
+                            rr: "",
+                            sf:"",
+                            weight: "",
+                            height: "",
+                            bmi: "",
+                            bmiStatus: "",
+                            od: "",
+                            os: "",
+                            odGlasses:"",
+                            osGlasses: "",
+                            medProb: "",
+                            allergies: "",
+                            complaints: "",
+                            reco: ""
+                        });
+                        break;
+                    }
+                }
+                else{
+                    lastApe=i;
+                        break;
                 }
             }
-            else{
-                lastApe=i;
-                    break;
-            }
         }
-    }
-    if(ape==null){
-        console.log("empty ape");
-        lastApe=0;
-        ape.push({
-            sy:"",
-            dope:"",
-            doctor:"",
-            systolic:"",
-            diastolic:"",
-            temp: "",
-            bp: "",
-            pr:"",
-            rr: "",
-            sf:"",
-            weight: "",
-            height: "",
-            bmi: "",
-            bmiStatus: "",
-            od: "",
-            os: "",
-            odGlasses:"",
-            osGlasses: "",
-            medProb: "",
-            allergies: "",
-            complaints: "",
-            reco: ""
-        });
+        if(ape==null){
+            console.log("empty ape");
+            lastApe=0;
+            ape.push({
+                sy:"",
+                dope:"",
+                doctor:"",
+                systolic:"",
+                diastolic:"",
+                temp: "",
+                bp: "",
+                pr:"",
+                rr: "",
+                sf:"",
+                weight: "",
+                height: "",
+                bmi: "",
+                bmiStatus: "",
+                od: "",
+                os: "",
+                odGlasses:"",
+                osGlasses: "",
+                medProb: "",
+                allergies: "",
+                complaints: "",
+                reco: ""
+            });
 
-        curr.push({
-            sy:"",
-            dope:"",
-            doctor:"",
-            systolic:"",
-            diastolic:"",
-            temp: "",
-            bp: "",
-            pr:"",
-            rr: "",
-            sf:"",
-            weight: "",
-            height: "",
-            bmi: "",
-            bmiStatus: "",
-            od: "",
-            os: "",
-            odGlasses:"",
-            osGlasses: "",
-            medProb: "",
-            allergies: "",
-            complaints: "",
-            reco: ""
+            curr.push({
+                sy:"",
+                dope:"",
+                doctor:"",
+                systolic:"",
+                diastolic:"",
+                temp: "",
+                bp: "",
+                pr:"",
+                rr: "",
+                sf:"",
+                weight: "",
+                height: "",
+                bmi: "",
+                bmiStatus: "",
+                od: "",
+                os: "",
+                odGlasses:"",
+                osGlasses: "",
+                medProb: "",
+                allergies: "",
+                complaints: "",
+                reco: ""
+            });
+        }
+        if(curr==null){
+            console.log("empty curr");
+            curr.push({
+                sy:"",
+                dope:"",
+                doctor:"",
+                systolic:"",
+                diastolic:"",
+                temp: "",
+                bp: "",
+                pr:"",
+                rr: "",
+                sf:"",
+                weight: "",
+                height: "",
+                bmi: "",
+                bmiStatus: "",
+                od: "",
+                os: "",
+                odGlasses:"",
+                osGlasses: "",
+                medProb: "",
+                allergies: "",
+                complaints: "",
+                reco: ""
+            });
+        }
+        
+        //console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
+        console.log(ape);
+        console.log(curr);
+        var record={
+            // name:studentInfo.name,
+            // birthday:studentInfo.bday,
+            // sex:studentInfo.sex,
+
+            prevSy:ape[lastApe].sy,
+            prevTemp:ape[lastApe].temp,
+            prevBp:ape[lastApe].bp,
+            prevPr:ape[lastApe].pr,
+            prevRr:ape[lastApe].rr,
+            prevSf:ape[lastApe].sf,
+            prevWeight:ape[lastApe].weight,
+            prevHeight: ape[lastApe].height,
+            prevBmi:ape[lastApe].bmi,
+            prevBmiStatus:ape[lastApe].bmiStatus,
+            prevOdVision:ape[lastApe].od,
+            prevOsVision:ape[lastApe].os,
+            prevOdGlasses:ape[lastApe].odGlasses,
+            prevOsGlasses:ape[lastApe].osGlasses,
+            medProb:ape[lastApe].medProb,
+            allergies:ape[lastApe].allergies,
+            prevComplaints:ape[lastApe].complaints,
+            prevReco:ape[lastApe].reco,
+            prevDope:ape[lastApe].dope,
+            prevClinician:ape[lastApe].doctor,
+            prevSys:ape[lastApe].systolic,
+            prevDia:ape[lastApe].diastolic,
+                            
+            currSy:curr[0].sy,
+            currTemp:curr[0].temp,
+            currBp:curr[0].bp,
+            currPr:curr[0].pr,
+            currRr:curr[0].rr,
+            currSf:curr[0].sf,
+            currWeight:curr[0].weight,
+            currHeight:curr[0].height,
+            currBmi:curr[0].bmi,
+            currBmiStatus:curr[0].bmiStatus,
+            currOdVision:curr[0].od,
+            currOsVision:curr[0].os,
+            currOdGlasses:curr[0].odGlasses,
+            currOsGlasses:curr[0].osGlasses,
+            currMedProb:curr[0].medProb,
+            currAllergies:curr[0].allergies,
+            currComplaints:curr[0].complaints,
+            currReco:curr[0].reco,
+            currDope:curr[0].dope,
+            currClinician:curr[0].doctor,
+            currSys:curr[0].systolic,
+            currDia:curr[0].diastolic,
+        };
+        // if(record.name==undefined){
+        //     record.name="";
+        // }
+        // if(record.birthday==undefined){
+        //     record.birthday="";
+        // }
+        // if(record.sex==undefined){
+        //     record.sex="";
+        //}
+        if(record.prevSy==undefined){
+            record.prevSy="";
+        }
+        if(record.prevTemp==undefined){
+            record.prevTemp="";
+        }
+        if(record.prevBp==undefined){
+            record.prevBp="";
+        }
+        if(record.prevPr==undefined){
+            record.prevPr="";
+        }
+        if(record.prevRr==undefined){
+            record.prevRr="";
+        }
+        if(record.prevSf==undefined){
+            record.prevSf="";
+        }
+        if(record.prevWeight==undefined){
+            record.prevWeight="";
+        }
+        if(record.prevHeight==undefined){
+            record.prevHeight="";
+        }
+        if(record.prevBmi==undefined){
+            record.prevBmi="";
+        }
+        if(record.prevBmiStatus==undefined){
+            record.prevBmiStatus="";
+        }
+        if(record.prevOdVision==undefined){
+            record.prevOdVision="";
+        }
+        if(record.prevOsVision==undefined){
+            record.prevOsVision="";
+        }
+        if(record.prevOdGlasses==undefined){
+            record.prevOdGlasses="";
+        }
+        if(record.prevOsGlasses==undefined){
+            record.prevOsGlasses="";
+        }
+        if(record.medProb==undefined){
+            record.medProb="";
+        }
+        if(record.allergies==undefined){
+            record.allergies="";
+        }
+        if(record.prevComplaints==undefined){
+            record.prevComplaints="";
+        }
+        if(record.prevReco==undefined){
+            record.prevReco="";
+        }
+        if(record.prevClinician==undefined){
+            record.prevClinician="";
+        }
+        if(record.prevDope==undefined){
+            record.prevDope="";
+        }
+        if(record.prevSys==undefined){
+            record.prevSys="";
+        }
+        if(record.prevDia==undefined){
+            record.prevDia="";
+        }
+        if(record.currSy==undefined){
+            record.currSy="";
+        }
+        if(record.currTemp==undefined){
+            record.currTemp="";
+        }
+        if(record.currBp==undefined){
+            record.currBp="";
+        }
+        if(record.currPr==undefined){
+            record.currPr="";
+        }
+        if(record.currSf==undefined){
+            record.currSf="";
+        }
+        if(record.currWeight==undefined){
+            record.currWeight="";
+        }
+        if(record.currHeight==undefined){
+            record.currHeight="";
+        }
+        if(record.currBmi==undefined){
+            record.currBmi="";
+        }
+        if(record.currBmiStatus==undefined){
+            record.currBmiStatus="";
+        }
+        if(record.currOdVision==undefined){
+            record.currBp="";
+        }
+        if(record.currOsVision==undefined){
+            record.currOsVision="";
+        }
+        if(record.currOdGlasses==undefined){
+            record.currOdGlasses="";
+        }
+        if(record.currOsGlasses==undefined){
+            record.currOsGlasses="";
+        }
+        if(record.currMedProb==undefined){
+            record.currMedProb="";
+        }
+        if(record.currAllergies==undefined){
+            record.currAllergies="";
+        }
+        if(record.currComplaints=undefined){
+            record.currComplaints="";
+        }
+        if(record.currReco==undefined){
+            record.currBp="";
+        }
+        if(record.currDope==undefined){
+            record.currDope="";
+        }
+        if(record.currClinician==undefined){
+            record.currClinician="";
+        }
+        if(record.currSys=undefined){
+            record.currSys="";
+        }
+        if(record.currDia==undefined){
+            record.currDia="";
+        }
+
+        res.send(record);
         });
-    }
-    if(curr==null){
-        console.log("empty curr");
-        curr.push({
-            sy:"",
-            dope:"",
-            doctor:"",
-            systolic:"",
-            diastolic:"",
-            temp: "",
-            bp: "",
-            pr:"",
-            rr: "",
-            sf:"",
-            weight: "",
-            height: "",
-            bmi: "",
-            bmiStatus: "",
-            od: "",
-            os: "",
-            odGlasses:"",
-            osGlasses: "",
-            medProb: "",
-            allergies: "",
-            complaints: "",
-            reco: ""
-        });
-    }
     
-    console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
-    console.log(ape);
-    console.log(curr);
-    var record={
-        name:name,
-        birthday:bday,
-        sex:sex,
 
-        prevSy:ape[lastApe].sy,
-        prevTemp:ape[lastApe].temp,
-        prevBp:ape[lastApe].bp,
-        prevPr:ape[lastApe].pr,
-        prevRr:ape[lastApe].rr,
-        prevSf:ape[lastApe].sf,
-        prevWeight:ape[lastApe].weight,
-        prevHeight: ape[lastApe].height,
-        prevBmi:ape[lastApe].bmi,
-        prevBmiStatus:ape[lastApe].bmiStatus,
-        prevOdVision:ape[lastApe].od,
-        prevOsVision:ape[lastApe].os,
-        prevOdGlasses:ape[lastApe].odGlasses,
-        prevOsGlasses:ape[lastApe].osGlasses,
-        medProb:ape[lastApe].medProb,
-        allergies:ape[lastApe].allergies,
-        prevComplaints:ape[lastApe].complaints,
-        prevReco:ape[lastApe].reco,
-        prevDope:ape[lastApe].dope,
-        prevClinician:ape[lastApe].doctor,
-        prevSys:ape[lastApe].systolic,
-        prevDia:ape[lastApe].diastolic,
-                        
-        currSy:curr[0].sy,
-        currTemp:curr[0].temp,
-        currBp:curr[0].bp,
-        currPr:curr[0].pr,
-        currRr:curr[0].rr,
-        currSf:curr[0].sf,
-        currWeight:curr[0].weight,
-        currHeight:curr[0].height,
-        currBmi:curr[0].bmi,
-        currBmiStatus:curr[0].bmiStatus,
-        currOdVision:curr[0].od,
-        currOsVision:curr[0].os,
-        currOdGlasses:curr[0].odGlasses,
-        currOsGlasses:curr[0].osGlasses,
-        currMedProb:curr[0].medProb,
-        currAllergies:curr[0].allergies,
-        currComplaints:curr[0].complaints,
-        currReco:curr[0].reco,
-        currDope:curr[0].dope,
-        currClinician:curr[0].doctor,
-        currSys:curr[0].systolic,
-        currDia:curr[0].diastolic,
-    };
-    if(record.name==undefined){
-        record.name="";
-    }
-    if(record.birthday==undefined){
-        record.birthday="";
-    }
-    if(record.sex==undefined){
-        record.sex="";
-    }
-    if(record.prevSy==undefined){
-        record.prevSy="";
-    }
-    if(record.prevTemp==undefined){
-        record.prevTemp="";
-    }
-    if(record.prevBp==undefined){
-        record.prevBp="";
-    }
-    if(record.prevPr==undefined){
-        record.prevPr="";
-    }
-    if(record.prevRr==undefined){
-        record.prevRr="";
-    }
-    if(record.prevSf==undefined){
-        record.prevSf="";
-    }
-    if(record.prevWeight==undefined){
-        record.prevWeight="";
-    }
-    if(record.prevHeight==undefined){
-        record.prevHeight="";
-    }
-    if(record.prevBmi==undefined){
-        record.prevBmi="";
-    }
-    if(record.prevBmiStatus==undefined){
-        record.prevBmiStatus="";
-    }
-    if(record.prevOdVision==undefined){
-        record.prevOdVision="";
-    }
-    if(record.prevOsVision==undefined){
-        record.prevOsVision="";
-    }
-    if(record.prevOdGlasses==undefined){
-        record.prevOdGlasses="";
-    }
-    if(record.prevOsGlasses==undefined){
-        record.prevOsGlasses="";
-    }
-    if(record.medProb==undefined){
-        record.medProb="";
-    }
-    if(record.allergies==undefined){
-        record.allergies="";
-    }
-    if(record.prevComplaints==undefined){
-        record.prevComplaints="";
-    }
-    if(record.prevReco==undefined){
-        record.prevReco="";
-    }
-    if(record.prevClinician==undefined){
-        record.prevClinician="";
-    }
-    if(record.prevDope==undefined){
-        record.prevDope="";
-    }
-    if(record.prevSys==undefined){
-        record.prevSys="";
-    }
-    if(record.prevDia==undefined){
-        record.prevDia="";
-    }
-    if(record.currSy==undefined){
-        record.currSy="";
-    }
-    if(record.currTemp==undefined){
-        record.currTemp="";
-    }
-    if(record.currBp==undefined){
-        record.currBp="";
-    }
-    if(record.currPr==undefined){
-        record.currPr="";
-    }
-    if(record.currSf==undefined){
-        record.currSf="";
-    }
-    if(record.currWeight==undefined){
-        record.currWeight="";
-    }
-    if(record.currHeight==undefined){
-        record.currHeight="";
-    }
-    if(record.currBmi==undefined){
-        record.currBmi="";
-    }
-    if(record.currBmiStatus==undefined){
-        record.currBmiStatus="";
-    }
-    if(record.currOdVision==undefined){
-        record.currBp="";
-    }
-    if(record.currOsVision==undefined){
-        record.currOsVision="";
-    }
-    if(record.currOdGlasses==undefined){
-        record.currOdGlasses="";
-    }
-    if(record.currOsGlasses==undefined){
-        record.currOsGlasses="";
-    }
-    if(record.currMedProb==undefined){
-        record.currMedProb="";
-    }
-    if(record.currAllergies==undefined){
-        record.currAllergies="";
-    }
-    if(record.currComplaints=undefined){
-        record.currComplaints="";
-    }
-    if(record.currReco==undefined){
-        record.currBp="";
-    }
-    if(record.currDope==undefined){
-        record.currDope="";
-    }
-    if(record.currClinician==undefined){
-        record.currClinician="";
-    }
-    if(record.currSys=undefined){
-        record.currSys="";
-    }
-    if(record.currDia==undefined){
-        record.currDia="";
-    }
-
-    res.send(record);
+      
+    
+    
     
 }
+
+loadStudentData= function (id){
+    var database = firebase.database();
+    var studentInfoRef= database.ref("studentInfo/"+id);
+    var name,bday,sex,record;
+
+    studentInfoRef.on('value', (snapshot) =>{
+        var childValues = snapshot.exportVal();
+        console.log("DATA Path1: " + childValues);
+        name=childValues.firstName +" "+ childValues.lastName;
+        bday=childValues.birthday;
+        sex=childValues.sex;
+        record={
+            name:name,
+            bday:bday,
+            sex:sex
+        }
+        console.log("IN loadStudentData:");
+        
+    })
+    console.log(record);
+    return record;
+}
+
 //function gets the APE schedules 
 exports.getAllApeSched=function(){
     //gets all the schedule created for the APE

@@ -103,13 +103,17 @@ router.get('/disease-surveillance', (req, res) => {
       res.render('disease-surveillance', {
         user: user,
         topDiagnosisWeek: prom3[0],
-        topDiagnosisMonth: prom3[1]
+        topDiagnosisWeekCount: prom3[1],
+        topDiagnosisMonth: prom3[2],
+        topDiagnosisMonthCount: prom3[3]
       });
     } else {
       res.render('disease-surveillance', {
         user: user,
         topDiagnosisWeek: prom3[0],
-        topDiagnosisMonth: prom3[1]
+        topDiagnosisWeekCount: prom3[1],
+        topDiagnosisMonth: prom3[2],
+        topDiagnosisMonthCount: prom3[3]
       });
     }
   }).catch(error => {

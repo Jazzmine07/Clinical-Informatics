@@ -323,7 +323,7 @@
                                             <div class="col mr-2">
                                                 <div class="h6 font-weight-bold text-primary mb-1">
                                                     Top Disease for The Week</div>
-                                                <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisWeek}}<span class="float-right">count</span></div>
+                                                <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisWeek}}<span class="float-right"> - {{topDiagnosisWeekCount}}</span></div>
                                             </div>
                                         </div>
                                         </div>
@@ -340,7 +340,7 @@
                                         <div class="col mr-2">
                                             <div class="h6 font-weight-bold text-primary mb-1">
                                                 Top Disease for The Month</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisMonth}} <span class="float-right">count</span></div>
+                                            <div class="h2 mb-0 font-weight-bold text-gray-800">{{topDiagnosisMonth}} <span class="float-right"> - {{topDiagnosisMonthCount}}</span></div>
                                         </div>
                                         
                                         <div class="col-auto">
@@ -479,7 +479,7 @@
 
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
                 
-               genderGradeChart(data);
+               sectionGradeChart(data);
 
             });
         }
@@ -606,6 +606,99 @@
                     }
                 },
             });            
+        }
+        function sectionGradeChart(data) {
+            console.log(data);
+            var glc = document.getElementById("myBarChart");
+            var gradeLevelChart = new Chart(glc, {
+                type: 'bar',
+                data: { //add Grade 3 to 6 sections
+                    labels: ["Truthfulness", "Sincerity", "Honesty", "Faithfulness", "Humility", "Politeness", 
+                            "Simplicity", "Charity", "Helpfulness", "Gratefulness", "Gratitude", "Meekness",],
+                    datasets: [{
+                        label: "Count",
+                        backgroundColor: "#4e73df",
+                        hoverBackgroundColor: "#0d6efd",
+                        borderColor: "#0d6efd",
+                        //data: [data[0].Truthfulness,data[0].Sincerity,data[0].Honesty,data[0].Faithfulness,data[0].Humility,data[0].Politeness,data[0].Simplicity,data[0].Charity,data[0].Helpfulness,data[0].Gratefulness,data[0].Gratitude,data[0].Meekness],
+                        data:["5","8","7","10","2","7","9","2","12","1","4","8"],
+                    }],
+                },
+                //plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'School Year',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            },
+                            barThickness: 50,
+                            maxBarThickness: 50,
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Weight in kg',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                                color: "rgba(255, 99, 132, 1)",
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15,   // font size of the labels
+                                },
+                                color: "rgba(255, 99, 132, 1)",
+                                stepSize: 15,
+                            }
+                        }
+                    }
+                
+                },
+                legend: {
+                display: true
+                },
+                tooltips: {
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ": " + number_format(tooltipItem.yLabel);
+                        }
+                    }
+                },
+            });   
+
+
         }
 
         $('#reportrange').daterangepicker({

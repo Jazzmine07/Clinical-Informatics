@@ -364,7 +364,7 @@ exports.getDiseaseDemographics=function(req,res){
 
 
 //used for Dashboard to get disease count in certain time period
-exports.getDiseasesCount=function(req,res){
+exports.getVisitReasonCount=function(req,res){
     console.log("enters")
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -372,7 +372,8 @@ exports.getDiseasesCount=function(req,res){
     var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
-    var temp=[],temp2=[],temp3=[];
+    var temp=[],temp2=[];
+    //var temp3=[], g1=0,g2=0,g3=0,g4=0,g5=0,g6=0;
     var childSnapshotData, csData;
     var i,j,alreadyAdded;
     var start=req.body.startDate;
@@ -389,7 +390,8 @@ exports.getDiseasesCount=function(req,res){
                     temp.push({
                         visitReason:childSnapshotData.visitReason,
                         visitDate:childSnapshotData.visitDate,
-                        id:childSnapshotData.id
+                        id:childSnapshotData.id,
+                        grade:childSnapshotData.grade
                     })
                 })
                 
@@ -436,6 +438,8 @@ exports.getDiseasesCount=function(req,res){
     
         }
 
+
+
         //temp2 = only symptoms in a certain date range
         console.log("getDiseaseCount array");
         console.log(temp2);
@@ -451,6 +455,254 @@ exports.getDiseasesCount=function(req,res){
     
     
 }
+
+exports.getVRCountByGradeInMonth=function(req,res){
+    console.log("enters")
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var studentInfoRef = database.ref("studentInfo");
+    var query = clinicVisitRef.orderByChild("timeStamp");
+
+    var temp=[],temp2=[];
+    var temp3=[];
+    var childSnapshotData, csData;
+    var i,j,k,alreadyAddedTemp2,alreadyAddedTemp3;
+    var today= new Date();
+    var curr=today.toString();
+    var monthToday = today.getMonth();
+    var from = req.body.from;
+
+    databaseRef.once('value', (snapshot) => {
+        //this gets the clinicVisit data into the temp array
+        if(snapshot.hasChild("clinicVisit")){
+            query.on('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        visitReason:childSnapshotData.visitReason,
+                        visitDate:childSnapshotData.visitDate,
+                        id:childSnapshotData.id,
+                        grade:childSnapshotData.grade
+                    })
+                })
+                
+            })
+        }
+        console.log("temp:");
+        console.log(temp);
+        //temp where data is filtered by date and gets the count of each disease
+        for(i=0;i<temp.length;i++){
+            partsDb=temp[i].visitDate.split('-');
+            
+            alreadyAddedTemp2=0;
+            alreadyAddedTemp3=0;
+            if(partsDb[1]-1 == monthToday){
+                // temp2.push(temp[i]);
+                if(temp3==null){ //if empty auto add
+                    if(temp[i].visitReason!=""){
+                        // temp2.push({
+                        //     concern: temp[i].visitReason,
+                        //     count:1
+                        // })
+
+                        if(temp[i].grade=="1"){
+                           temp3.push({
+                               concern: temp[i].visitReason,
+                               g1:1,
+                               g2:0,
+                               g3:0,
+                               g4:0,
+                               g5:0,
+                               g6:0
+                           })
+                        }
+                        else if(temp[i].grade=="2"){
+                            temp3.push({
+                                concern: temp[i].visitReason,
+                                g1:0,
+                                g2:1,
+                                g3:0,
+                                g4:0,
+                                g5:0,
+                                g6:0
+                            })
+                        } 
+                        if(temp[i].grade=="3"){
+                            temp3.push({
+                                concern: temp[i].visitReason,
+                                g1:0,
+                                g2:0,
+                                g3:1,
+                                g4:0,
+                                g5:0,
+                                g6:0
+                            })
+                        }
+                        if(temp[i].grade=="4"){
+                            temp3.push({
+                                concern: temp[i].visitReason,
+                                g1:0,
+                                g2:0,
+                                g3:0,
+                                g4:1,
+                                g5:0,
+                                g6:0
+                            })
+                        }
+                        if(temp[i].grade=="5"){
+                            temp3.push({
+                                concern: temp[i].visitReason,
+                                g1:0,
+                                g2:0,
+                                g3:0,
+                                g4:0,
+                                g5:1,
+                                g6:0
+                            })
+                        }
+                        if(temp[i].grade=="6"){
+                            temp3.push({
+                                concern: temp[i].visitReason,
+                                g1:0,
+                                g2:0,
+                                g3:0,
+                                g4:0,
+                                g5:0,
+                                g6:1
+                            })
+                        }
+                    }
+                }
+                else{ //if not empty
+
+                    for(k=0;k<temp3.length;k++){
+                        if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
+                            if(temp[i].grade=="1"){
+                                temp3[k].g1=temp3[k].g1+1;
+                            }
+                            else if(temp[i].grade=="2"){
+                                temp3[k].g2=temp3[k].g2+1;
+                            }
+                            else if(temp[i].grade=="3"){
+                                temp3[k].g3=temp3[k].g3+1;
+                            }
+                            else if(temp[i].grade=="4"){
+                                temp3[k].g4=temp3[k].g4+1;
+                            }
+                            else if(temp[i].grade=="5"){
+                                temp3[k].g5=temp3[k].g5+1;
+                            }
+                            else if(temp[i].grade=="6"){
+                                temp3[k].g6=temp3[k].g6+1;
+                            }                        
+                            alreadyAddedTemp3=1;
+                        }
+                    }
+                    if(alreadyAddedTemp3!=1){
+                        if(temp[i].visitReason!=""){    
+                            if(temp[i].grade=="1"){
+                               temp3.push({
+                                   concern: temp[i].visitReason,
+                                   g1:1,
+                                   g2:0,
+                                   g3:0,
+                                   g4:0,
+                                   g5:0,
+                                   g6:0
+                               })
+                            }
+                            else if(temp[i].grade=="2"){
+                                temp3.push({
+                                    concern: temp[i].visitReason,
+                                    g1:0,
+                                    g2:1,
+                                    g3:0,
+                                    g4:0,
+                                    g5:0,
+                                    g6:0
+                                })
+                            } 
+                            if(temp[i].grade=="3"){
+                                temp3.push({
+                                    concern: temp[i].visitReason,
+                                    g1:0,
+                                    g2:0,
+                                    g3:1,
+                                    g4:0,
+                                    g5:0,
+                                    g6:0
+                                })
+                            }
+                            if(temp[i].grade=="4"){
+                                temp3.push({
+                                    concern: temp[i].visitReason,
+                                    g1:0,
+                                    g2:0,
+                                    g3:0,
+                                    g4:1,
+                                    g5:0,
+                                    g6:0
+                                })
+                            }
+                            if(temp[i].grade=="5"){
+                                temp3.push({
+                                    concern: temp[i].visitReason,
+                                    g1:0,
+                                    g2:0,
+                                    g3:0,
+                                    g4:0,
+                                    g5:1,
+                                    g6:0
+                                })
+                            }
+                            if(temp[i].grade=="6"){
+                                temp3.push({
+                                    concern: temp[i].visitReason,
+                                    g1:0,
+                                    g2:0,
+                                    g3:0,
+                                    g4:0,
+                                    g5:0,
+                                    g6:1
+                                })
+                            }
+                        }
+                    }
+
+                    // for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
+                    //     if(temp2[j].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
+                    //         temp2[j].count=temp2[j].count+1;
+                    //         alreadyAddedTemp2=1;
+                    //     }
+                    // }
+                    // if(alreadyAddedTemp2!=1){
+                    //     if(temp[i].visitReason!=""){
+                    //         temp2.push({
+                    //             concern: temp[i].visitReason,
+                    //             grade:temp[i].grade,
+                    //             count:1
+                    //         })
+                    //     }
+                    // }
+
+                }
+            }
+        }
+
+        console.log("getDiseaseCount array");
+        console.log(temp3);
+        if(from=="dashboard"){
+            res.send(temp3);
+        }
+        else{
+            return temp3;
+        }
+
+    })
+    
+}
+
 
 
 

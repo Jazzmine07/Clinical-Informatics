@@ -1025,18 +1025,31 @@ exports.getAllApeSched=function(){
 
 //function gets the ADE schedules
 exports.getAllAdeSched=function(){
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    //var month=1;
+    //var currYear=2021;
+    if(month>=6){
+        var sy= currYear +"-"+ (currYear+1) ;
+    }
+    else{
+        var sy= (currYear-1) +"-"+ (currYear) ;
+    }
     //gets all the schedule created for the APE
     var database = firebase.database();
     var adeSchedRef= database.ref("dentalSchedule");
     var studentRef = database.ref("studentInfo");
+    var healthHistory= database.ref("studentHealthHistory");
     var schedule=[];
+    var done=false;
     
     var promise = new Promise((resolve,reject)=>{
         adeSchedRef.once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
                 var grade;
-                var students=[];
+                var students=[],studentsAccom=[];
                 var numStudents;
 
                 studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {

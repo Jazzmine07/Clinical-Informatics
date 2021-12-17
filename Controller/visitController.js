@@ -607,3 +607,4 @@ exports.addMedicationIntake = function(req, res){
     
     res.status(200).send();
 };
+

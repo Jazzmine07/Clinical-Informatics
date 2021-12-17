@@ -645,18 +645,17 @@
     <script type="text/javascript">
             var start = moment().subtract(29, 'days');
             var end = moment();
-            var checker=false;
+            var checker1=false, checker2=false;
             var horizontalChart, visitTypeChart, genderSymptomChart;
         function cb(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             console.log("START " + start.format('YYYY-MM-DD'));
             console.log("END " + end.format('YYYY-MM-DD'));
             
-            $.post("/getDiseasesCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
-                if(checker){
+            $.post("/getVisitReasonCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
+                if(checker1){
                     console.log("checker");
                     horizontalChart.destroy();
-                    genderSymptomChart.destroy();
                     genderSymptomChart.destroy();
                     visitTypeChart.destroy();
                 }
@@ -669,10 +668,34 @@
                 }
                 
                 showSymptoms(labels,dataCount);
-                symptomsCountChart();
-                clinicVisitTypeChart();
-                checker=true;
+                checker1=true;
             });
+
+            $.post("/getVRGradeMonthlyCountDashboard",{from:"dashboard"}, function(data){
+                if(checker2){
+                    console.log("checker");
+                    genderSymptomChart.destroy();
+                    visitTypeChart.destroy();
+                }
+                console.log(data)
+                var i;
+                var labels=[],dataCountG1=[],dataCountG2=[],dataCountG3=[],dataCountG4=[],dataCountG5=[],dataCountG6=[];
+                for(i=0;i<data.length;i++){
+                    labels.push(data[i].concern);
+                    dataCountG1.push(data[i].g1);
+                    dataCountG2.push(data[i].g2);
+                    dataCountG3.push(data[i].g3);
+                    dataCountG4.push(data[i].g4);
+                    dataCountG5.push(data[i].g5);
+                    dataCountG6.push(data[i].g6);
+                }
+                console.log(labels);
+                
+                symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6);
+                clinicVisitTypeChart()
+                checker2=true;
+            });
+
         }
 
         function showSymptoms(labels,dataCount){                
@@ -728,34 +751,78 @@
                 });   
         }
 
-        function symptomsCountChart() {
+        function symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6) {
             var monthlySymptoms = document.getElementById("monthlySymptoms");
-            genderSymptomChart = new Chart(monthlySymptoms, {  // line chart
+            var stackedBarChart = new Chart(monthlySymptoms, {
                 type: 'bar',
                 data: {
-                    labels: ["Headache", "Fever", "Colds"], // x-axis
+                    labels: labels, // x-axis
                     datasets: [{
-                        label: "Male",
-                        //yAxisID: 'y',                                     // this will set if line is curve or straight
-                        borderColor: "rgb(54, 162, 235)",               // border color of the line and legend border
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",         // legend background color
-                        //pointBorderColor: "rgba(255, 99, 132, 1)",          // color of points
-                        //pointBackgroundColor: "rgba(255, 99, 132, 1)",      // background color of points
+                        label: "Grade 1",
+                        //lineTension: 0,                                     // this will set if line is curve or straight
+                        //borderColor: 'rgb(255,0,0)',               // border color of the line and legend border
+                        backgroundColor: "red",         // legend background color
+                        //pointBorderColor: "rgb(255,0,0)",          // color of points
+                        //pointBackgroundColor: "rgb(255,0,0)",      // background color of points
                         //pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
                         //pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
                         //pointRadius: 3,
-                        data: [23, 26, 29],   // values of the point
+                        data: dataCountG1,   // values of the point
                     }, {
-                        label: "Female",
-                        //yAxisID: 'y',                                     // this will set if line is curve or straight
-                        //borderColor: "rgb(255, 99, 132)",               // border color of the line and legend border
-                        backgroundColor: "rgba(255, 99, 132, 0.2)",         // legend background color
-                        //pointBorderColor: "rgba(255, 99, 132, 1)",          // color of points
-                        //pointBackgroundColor: "rgba(255, 99, 132, 1)",      // background color of points
-                        //pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
-                        //pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
+                        label: "Grade 2",
+                        //lineTension: 0,
+                        //borderColor: "	rgb(255,165,0)",
+                        backgroundColor: "rgb(255,165,0)",
+                        //pointBorderColor: "rgb(255,165,0)",
+                        //pointBackgroundColor: "rgb(255,165,0)",
+                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
                         //pointRadius: 3,
-                        data: [21, 35, 17],   // values of the point
+                        data: dataCountG2,
+                    }, {
+                        label: "Grade 3",
+                        //lineTension: 0,
+                        //borderColor: "rgb(255,255,0)",
+                        backgroundColor: "rgb(255,255,0)",
+                        //pointBorderColor: "rgb(255,255,0)",
+                        //pointBackgroundColor: "rgb(255,255,0)",
+                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        //pointRadius: 3,
+                        data: dataCountG3,
+                    }, {
+                        label: "Grade 4",
+                        //lineTension: 0,
+                        //borderColor: "rgb(0,128,0)",
+                        backgroundColor: "#32CD32",
+                        //pointBorderColor: "rgb(0,128,0)",
+                        //pointBackgroundColor: "rgb(0,128,0)",
+                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        //pointRadius: 3,
+                        data: dataCountG4,
+                    }, {
+                        label: "Grade 5",
+                        //lineTension: 0,
+                        //borderColor: "rgb(0,0,255)",
+                        backgroundColor: "#00FFFF",
+                        //pointBorderColor: "rgb(0,0,255)",
+                        //pointBackgroundColor: "rgb(0,0,255)",
+                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        //pointRadius: 3,
+                        data: dataCountG5,
+                    }, {
+                        label: "Grade 6",
+                        //lineTension: 0,
+                        //borderColor: "rgb(127, 0, 255)",
+                        backgroundColor: "#FFC0CB",
+                        //pointBorderColor: "rgb(127, 0, 255)",
+                        //pointBackgroundColor: "rgb(127, 0, 255)",
+                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        //pointRadius: 3,
+                        data: dataCountG6,
                     }],
                 },
                 plugins: [ChartDataLabels],
@@ -767,23 +834,24 @@
                             right: 25,
                             top: 0,
                             bottom: 25
-                        },
+                        }
                     },
                     plugins: {
                         datalabels: {
-                            anchor: 'end',
-                            align: 'top',
+                            anchor: 'center',
+                            align: 'center',
                             font: {
                                 weight: 'bold'
                             },
+                            color: "#000000",
                         },
                         title: {
                             display: true,
-                            text: 'Monthly Symptoms by Gender',
+                            text: 'Symptoms of this Month',
                             font: {
                                 size: 25   // font size of the labels
                             },
-                        },
+                        }
                     },
                     scales: {
                         x: {
@@ -799,24 +867,32 @@
                                 font: {
                                     size: 15   // font size of the labels
                                 },
+                                
                             },
+                            stacked: true,
                         },
                         y: {
-                            min: 0,
+                            title: {
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                                //color: "rgba(255, 99, 132, 1)",
+                            },
                             ticks: {
                                 font: {
                                     size: 15,   // font size of the labels
                                 },
-                                ///color: "rgba(255, 99, 132, 1)",
-                                stepSize: 10
+                                //color: "rgba(255, 99, 132, 1)",
                             },
+                            stacked: true,
                         },
                     },
                     //legend: {
                     //    display: false
                     //}
-                }, 
-            });
+                }
+            })
         }
 
         function clinicVisitTypeChart(){

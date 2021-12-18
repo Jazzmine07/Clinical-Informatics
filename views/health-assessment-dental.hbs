@@ -21,23 +21,35 @@
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        .div[class*="divmenu"]:first-of-type {
-            display: block;
+        table  {
+            table-layout: fixed;
         }
 
-        .divmenu {
-            display: none;
-            border-top: none;
+        table td {
+        position: relative;
+        padding: 0px !important;
         }
 
-        .pdfobject-container { 
-            height: 30rem; 
-            border: 1rem solid rgba(0,0,0,.1); 
+        td {
+        position: relative;
+        padding: 5px !important;
         }
 
-        #studentDiv{
-            display: none;
+        table td input {
+        position: relative;
+        display: block;
+        top:0;
+        left:0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        border: none;
+        padding: 10px;
+        box-sizing: border-box;
+        color: #6e707e;
+        text-align: center;
         }
+
     </style>
 
 </head>
@@ -417,115 +429,11 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Physical Exam Form</h1>
-                    </div>
-                    <div class="card shadow mb-2" id="lastAPE">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Physical Assessment</h6></div>
-                        <div class="card-body">
-                            <div class="form-row mb-2">
-                                <div class="col-2">
-                                    <div class="font-weight-bold">School Year</span></div>
-                                    <div class="font-weight-normal" id="lpeSY"></span></div>                                        
-                                </div>
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Date of Examination</span></div>
-                                    <div class="font-weight-normal" id="lpeDate"></span></div>                                        
-                                </div>
-                                <div class="col-5">
-                                    <div class="font-weight-bold">Attending Clinician</span></div>
-                                    <div class="font-weight-normal" id="lpeDoctor"></span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Body Temperature</span></div>
-                                    <div class="font-weight-normal" id="lpeBT">38 °C</span></div>                                        
-                                </div>
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Blood Pressure</span></div>
-                                    <div class="font-weight-normal" id="lpeBP">-</span></div>                                        
-                                </div>
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Pulse Rate</span></div>
-                                    <div class="font-weight-normal" id="lpePR">-</span></div>                                        
-                                </div>
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Respiration Rate</span></div>
-                                    <div class="font-weight-normal" id="lpeRR">-</span></div>                                        
-                                </div>
-                                <div class="col-3">
-                                    <div class="font-weight-bold">Skin Findings</span></div>
-                                    <div class="font-weight-normal" id="lpeSF">-</span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Weight</span></div>
-                                    <div class="font-weight-normal" id="lpeWeight"></span></div>                                        
-                                </div>
-                                <div class="col-2">
-                                    <div class="font-weight-bold">Height</span></div>
-                                    <div class="font-weight-normal" id="lpeHeight"></span></div>                                        
-                                </div>
-                                <div class="col-5">
-                                    <div class="font-weight-bold">BMI</span></div>
-                                    <div class="font-weight-normal" id="lpeBMI"></span></div>                                        
-                                </div>
-                                <div class="col-5">
-                                    <div class="font-weight-bold">BMI Status</span></div>
-                                    <div class="font-weight-normal" id="lpeBMIStatus"></span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-6">
-                                    <div class="font-weight-bold">Vision</span></div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="font-weight-bold">with Glasses</span></div>
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">od<span class="ml-1 font-weight-normal" id="lpeODV">50</span></div>
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">os<span class="ml-1 font-weight-normal" id="lpeOSV">50</span></div>
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">od<span class="ml-1 font-weight-normal" id="lpeODG">50</span></div>
-                                    <div class="font-weight-normal" id="lpeODG"></span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">os<span class="ml-1 font-weight-normal" id="lpeOSG">50</span></div>
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Problems/Complaints/Abnormal Findings</span></div>
-                                    <div class="font-weight-normal" id="lpeProblems"></span></div>                                        
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>   
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Assessment/Recommendation</span></div>
-                                    <div class="font-weight-normal" id="lpeAssess"></span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="lpeNPE" checked>
-                                        <label class="form-check-label" for="flexCheckChecked">Essentially Normal P.E.</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h1 class="h3 mb-0 text-gray-800">Dental Exam Form</h1>
                     </div>
 
                     <!-- Basic Card Example -->
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-3">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">S.Y. <span id="schoolYear"></span>  |  <span id="sectionTop"></span></h6>                           
                             
@@ -587,7 +495,7 @@
                                         <input type="date" class="form-control mb-2" id="dope">
                                     </div>
                                     <div class="col-5">
-                                      <label class="col-form-label" for="clinicianAPE">Examining Physician</label>
+                                      <label class="col-form-label" for="clinicianAPE">Examining Dentist</label>
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
                                             <option selected>Choose...</option>
                                             {{#each users}}
@@ -597,219 +505,488 @@
                                     </div>   
                                 </div>
 
-                                <div class="form-row align-items-center">
-                                    <div class="col-2">
-                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                            <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" min="0" step="0.1">                                        
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon1">°C</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
-                                        <div class="input-group mb-2">                               
-                                            <input type="number" class="form-control" id="systolic" placeholder="Systolic" min="0">
-                                            <input type="number" class="form-control" id="diastolic" placeholder="Diastolic" min="0">         
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon2">mmHg</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="pulseRate" name="pulseRate" min="0">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon3" min="0">beats/min</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="respRate" class="col-form-label">Respiration Rate</label>
-                                        <div class="input-group mb-2">                                        
-                                            
-                                        <input type="number" class="form-control" id="respRate" name="respRate">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4" min="0">breaths/min</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="skinFind" class="col-form-label">Skin Findings</label>
-                                        <input type="name" class="form-control mb-2" id="skinFind" name="skinFind">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-2">
-                                        <label for="Weight" class="col-form-label">Weight</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="weight" step="0.1">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">kg</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-2">
-                                        <label for="height" class="col-form-label">Height</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="height" step="0.1">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon4">cm</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-3">
-                                        <label for="bmi" class="col-form-label">BMI</label>
-                                        <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="bmi" step="0.01">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="bmiStatus">-</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-2">
-                                        <label for="odVision" class="ml-1 col-form-label">Vision</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">od</span>
-                                            </div>
-                                            <select class="form-control custom-select" id="odVision">
-                                                <option disabled="disabled" selected="true">Choose...</option>
-                                                <option value="20/20">20/20</option>
-                                                <option value="20/40">20/40</option>
-                                                <option value="20/60">20/60</option>
-                                                <option value="20/80">20/80</option>
-                                                <option value="20/100">20/100</option>
-                                                <option value="20/120">20/120</option>
-                                                <option value="20/140">20/140</option>
-                                                <option value="20/160">20/160</option>
-                                                <option value="20/180">20/180</option>
-                                                <option value="20/200">20/200</option>
-                                                <option value="20/220">20/220</option>
-                                                <option value="20/240">20/240</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="osVision" class="ml-1 col-form-label" style="color: white;">.</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">os</span>
-                                            </div>
-                                            <select class="form-control custom-select" id="osVision">
-                                                <option disabled="disabled" selected="true">Choose...</option>
-                                                <option value="20/20">20/20</option>
-                                                <option value="20/40">20/40</option>
-                                                <option value="20/60">20/60</option>
-                                                <option value="20/80">20/80</option>
-                                                <option value="20/100">20/100</option>
-                                                <option value="20/120">20/120</option>
-                                                <option value="20/140">20/140</option>
-                                                <option value="20/160">20/160</option>
-                                                <option value="20/180">20/180</option>
-                                                <option value="20/200">20/200</option>
-                                                <option value="20/220">20/220</option>
-                                                <option value="20/240">20/240</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="odGlasses" class="ml-1 col-form-label">with Glasses</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">od</span>
-                                            </div>
-                                            <select class="form-control custom-select" id="odGlasses">
-                                                <option disabled="disabled" selected="true">Choose...</option>
-                                                <option value="20/20">20/20</option>
-                                                <option value="20/40">20/40</option>
-                                                <option value="20/60">20/60</option>
-                                                <option value="20/80">20/80</option>
-                                                <option value="20/100">20/100</option>
-                                                <option value="20/120">20/120</option>
-                                                <option value="20/140">20/140</option>
-                                                <option value="20/160">20/160</option>
-                                                <option value="20/180">20/180</option>
-                                                <option value="20/200">20/200</option>
-                                                <option value="20/220">20/220</option>
-                                                <option value="20/240">20/240</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="osGlasses" class="ml-1 col-form-label" style="color: white;">.</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">os</span>
-                                            </div>
-                                            <select class="form-control custom-select" id="osGlasses">
-                                                <option disabled="disabled" selected="true">Choose...</option>
-                                                <option value="20/20">20/20</option>
-                                                <option value="20/40">20/40</option>
-                                                <option value="20/60">20/60</option>
-                                                <option value="20/80">20/80</option>
-                                                <option value="20/100">20/100</option>
-                                                <option value="20/120">20/120</option>
-                                                <option value="20/140">20/140</option>
-                                                <option value="20/160">20/160</option>
-                                                <option value="20/180">20/180</option>
-                                                <option value="20/200">20/200</option>
-                                                <option value="20/220">20/220</option>
-                                                <option value="20/240">20/240</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-6">
-                                        <label for="medProb" class="col-form-label">Medical Problems</label>
-                                        <input type="name" class="form-control mb-2" id="medProb" name="medProb">
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="allergies" class="col-form-label">Allergies</label>
-                                        <input type="name" class="form-control mb-2" id="allergies" name="allergies">
-                                    </div>
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-12">
-                                        <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
-                                        <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
-                                    </div>    
-                                </div>
-
-                                <div class="form-row align-items-center">
-                                    <div class="col-12">
-                                        <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
-                                        <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="3"></textarea>
-                                    </div>    
-                                </div>
-            
-                                <div class="form-check ml-2 mt-2">
-                                    <input class="form-check-input" type="checkbox" value="" id="normalPE">
-                                    <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
-                                </div>
-
-                                <div class="d-flex justify-content-end mt-4 col-12">
+                        
+                                {{!-- <div class="d-flex justify-content-end mt-4 col-12">
                                     <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
                                         <span id="saveButtonText"></span><i class="ml-2 fas fa-arrow-right text-white-50"></i>
                                     </button>                                    
-                                </div>
-                        </form>
+                                </div> --}}
+                            </form>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-8">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card shadow mb-3">
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Dental Chart</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <img src="public/img/chart.png" alt="Responsive image" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card shadow mb-3">
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Legend: Condition</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-row align-items-center">
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">/</th>
+                                                        <td>caries free</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">D</th>
+                                                        <td>dental caries indicated for filling</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">\</th>
+                                                        <td>caries indicated for extraction</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">R</th>
+                                                        <td>root fragment</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">M</th>
+                                                        <td>missing due to caries</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">Mo</th>
+                                                        <td>missing due to other causes</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">—</th>
+                                                        <td>no sign of likely emergence</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">U</th>
+                                                        <td>unerupted tooth</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">M</th>
+                                                        <td>metal crown</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">AB</th>
+                                                        <td>abutment</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">P</th>
+                                                        <td>pontic</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">PJC</th>
+                                                        <td>jacket crown</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Legend: Operation</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-row align-items-center">
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">*A</th>
+                                                        <td>amalgam filling</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">CF</th>
+                                                        <td>composite filling</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 50px; padding: 0px !important; text-align: center;">X</th>
+                                                        <td>extracted due to other causes</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-8 col-lg-8" style="padding-left: 0px;">
+                            <div class="well">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Details</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <tfoot>
+                                                    <tr style="text-align: center;">
+                                                        <th colspan="2" style="border: none; width: 50px; color: white;">H</th>
+                                                        <th style="width: 50px;">E</th>
+                                                        <th style="width: 50px;">D</th>
+                                                        <th style="width: 50px;">C</th>
+                                                        <th style="width: 50px;">B</th>
+                                                        <th style="width: 50px;">A</th>
+                                                        <th style="width: 50px;">A</th>
+                                                        <th style="width: 50px;">B</th>
+                                                        <th style="width: 50px;">C</th>
+                                                        <th style="width: 50px;">D</th>
+                                                        <th style="width: 50px;">E</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr>
+                                                        <th colspan="2" style="border: none;">Operation</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" style="border: none;">Condition</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr style="text-align: center;">
+                                                        <th colspan="12">Upper</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="text-align: center; border: none;">Right</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <th style="text-align: center; border: none;">Left</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <tfoot>
+                                                    <tr style="text-align: center;">
+                                                        <th style="width: 50px;">8</th>
+                                                        <th style="width: 50px;">7</th>
+                                                        <th style="width: 50px;">6</th>
+                                                        <th style="width: 50px;">5</th>
+                                                        <th style="width: 50px;">4</th>
+                                                        <th style="width: 50px;">3</th>
+                                                        <th style="width: 50px;">2</th>
+                                                        <th style="width: 50px;">1</th>
+                                                        <th style="width: 50px;">1</th>
+                                                        <th style="width: 50px;">2</th>
+                                                        <th style="width: 50px;">3</th>
+                                                        <th style="width: 50px;">4</th>
+                                                        <th style="width: 50px;">5</th>
+                                                        <th style="width: 50px;">6</th>
+                                                        <th style="width: 50px;">7</th>
+                                                        <th style="width: 50px;">8</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">                                          
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr style="text-align: center;">
+                                                        <th style="width: 50px;">8</th>
+                                                        <th style="width: 50px;">7</th>
+                                                        <th style="width: 50px;">6</th>
+                                                        <th style="width: 50px;">5</th>
+                                                        <th style="width: 50px;">4</th>
+                                                        <th style="width: 50px;">3</th>
+                                                        <th style="width: 50px;">2</th>
+                                                        <th style="width: 50px;">1</th>
+                                                        <th style="width: 50px;">1</th>
+                                                        <th style="width: 50px;">2</th>
+                                                        <th style="width: 50px;">3</th>
+                                                        <th style="width: 50px;">4</th>
+                                                        <th style="width: 50px;">5</th>
+                                                        <th style="width: 50px;">6</th>
+                                                        <th style="width: 50px;">7</th>
+                                                        <th style="width: 50px;">8</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <tfoot>
+                                                    <tr style="text-align: center;">
+                                                        <th colspan="12">Lower</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="text-align: center; border: none;">Right</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <th style="text-align: center; border: none;">Left</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr style="text-align: center;">
+                                                        <th colspan="2" style="border: none; width: 100px; color: white;">H</th>
+                                                        <th style="width: 50px;">E</th>
+                                                        <th style="width: 50px;">D</th>
+                                                        <th style="width: 50px;">C</th>
+                                                        <th style="width: 50px;">B</th>
+                                                        <th style="width: 50px;">A</th>
+                                                        <th style="width: 50px;">A</th>
+                                                        <th style="width: 50px;">B</th>
+                                                        <th style="width: 50px;">C</th>
+                                                        <th style="width: 50px;">D</th>
+                                                        <th style="width: 50px;">E</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th colspan="2" style="border: none;">Operation</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" style="border: none;">Condition</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>       
+                                        <div class="form-row align-items-center">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="1" style="color: white;">Presence of Calculus</th>
+                                                        <th style="text-align: center;">Yes</th>
+                                                        <th style="text-align: center;">No</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th colspan="1">Presence of Calculus</th>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Inflammation of Gingiva</th>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Presence of Periodontal Pocket</th>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Presence of Dento Facial Anomaly</th>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                
+                
 
             </div>
             <!-- End of Main Content -->
@@ -909,8 +1086,6 @@
                 $('#studentGrade').val("6");
             }
             
-
-
             $('#studentID').val(array[i]);
 
             if(i<array.length-1){
@@ -930,81 +1105,6 @@
                 document.getElementById("prevBtn").style.display="block";
             }
             
-            console.log("before:"+i);  
-            console.log(id);
-            idInput=$('#studentID').val();
-            console.log("Id:" + idInput);
-            $.ajax({
-                    url: '/loadPrevData',
-                    method: 'POST',
-                    data: {
-                        schoolYear:schoolYear,
-                        id:idInput
-                    },
-                    success: function(data) {
-                        console.log("HELLO DATA:");
-                        console.log(data.name);
-                        
-                        document.getElementById("studentName").value=data.name;                            
-                        document.getElementById("dob").value=data.birthday;
-                        document.getElementById("gender").value=data.sex;
-
-                        //document.getElementById("medProb").value=data.medProb;
-                        //document.getElementById("allergies").value=data.allergies;
-                        
-                        
-                        //document.getElementById("age").value=data.currAge;
-                        //document.getElementById("dope").value=data.currDope;//change to Date
-                        //document.getElementById("clinicianAPE").value=data.currClinician;
-                        //document.getElementById("systolic").value=data.currSys;
-                        //document.getElementById("diastolic").value=data.currDia;
-                        document.getElementById("bodyTemp").value=data.currTemp;
-                        document.getElementById("pulseRate").value=data.currPr
-                        document.getElementById("respRate").value=data.currRr;
-                        document.getElementById("skinFind").value=data.currSf;
-                        document.getElementById("weight").value=data.currWeight;
-                        document.getElementById("height").value=data.currHeight;
-                        document.getElementById("bmi").value=data.currBmi;
-                        document.getElementById("odVision").value=data.currOdVision;
-                        document.getElementById("osVision").value=data.currOsVision;
-                        document.getElementById("odGlasses").value=data.currOdGlasses;
-                        document.getElementById("osGlasses").value=data.currOsGlasses;
-                        document.getElementById("complaintAPE").value=data.currComplaints;
-                        document.getElementById("assessAPE").value=data.currReco;
-
-
-                        //document.getElementById("BmiStatus").innerHTML=data.currBmiStatus;
-                        //document.getElementById("bodyTemp").value=data.temp;
-                        //paki-change sa backend
-                        //document.getElementById("bloodPressure").value=data.bp;
-
-                        //uncomment me pag nabago na sa back
-                        //document.getElementById("systolic").value=data.bp;
-                        //document.getElementById("diastolic").value=data.bp;
-
-                        //load prev Data
-                        document.getElementById("lpeSY").innerHTML=data.prevSy;
-                        document.getElementById("lpePR").innerHTML=data.prevPr;
-                        document.getElementById("lpeRR").innerHTML=data.prevBr;
-                        document.getElementById("lpeSF").innerHTML=data.prevSf;
-                        document.getElementById("lpeWeight").innerHTML=data.prevWeight;
-                        document.getElementById("lpeHeight").innerHTML=data.prevHeight;
-                        document.getElementById("lpeBMI").innerHTML=data.prevBmi;
-                        document.getElementById("lpeODV").innerHTML=data.prevOdVision;
-                        document.getElementById("lpeOSV").innerHTML=data.prevOsVision;
-                        document.getElementById("lpeODG").innerHTML=data.prevOdGlasses;
-                        document.getElementById("lpeOSG").innerHTML=data.prevOsGlasses;
-                        document.getElementById("lpeProblems").innerHTML=data.prevComplaints;
-                        document.getElementById("lpeAssess").innerHTML=data.prevReco;
-                        document.getElementById("lpeBMIStatus").innerHTML=data.prevBmiStatus;
-                        document.getElementById("lpeDate").innerHTML=data.prevDope;
-                        document.getElementById("lpeDoctor").innerHTML=data.prevClinician;
-                        document.getElementById("lpeBT").innerHTML=data.prevTemp;
-                        document.getElementById("lpeBP").innerHTML=data.prevSys +"/"+ data.prevDia;
-
-
-                    }  
-            });
             
             $("#dope").change(function(){
                 var bDate = new Date(document.getElementById("dob").value);
@@ -1027,79 +1127,6 @@
                 }
                 document.getElementById("age").value=ageYear;
             })
-    
-            $("#weight").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                console.log(h);
-                if(!h==null || !h==""){
-                    var b= w/(h*h);
-                    var sId = $('#studentID').val();
-                    var dob = $('#dob').val(); 
-                    var a = $('#age').val(); 
-                    var g = $('#gender').val(); 
-                    var apeDate =  $('#dope').val(); 
-                    document.getElementById("bmi").value=b.toFixed(2);
-                    var bmiVal=$('#bmi').val();
-
-                    $.ajax({
-                    url: '/getBmiStatus',
-                    method: 'POST',
-                    data: {
-                        id:sId,
-                        dob:dob,
-                        age:a,
-                        sex:g,
-                        dateAPE:apeDate,
-                        bmi:bmiVal
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        computedBmiStatus=data;
-                        document.getElementById("bmiStatus").innerHTML = data;
-                    }
-                });
-
-
-                    //$.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
-                    //   console.log(data)
-                    //})
-                }
-            });
-            $("#height").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                console.log(w);
-                if(!w==null || !w==""){
-                    var b= w/(h*h);
-                    var sId = $('#studentID').val();
-                    var dob = $('#dob').val(); 
-                    var a = $('#age').val(); 
-                    var g = $('#gender').val(); 
-                    var apeDate =  $('#dope').val(); 
-                    document.getElementById("bmi").value=b.toFixed(2);
-                    var bmiVal=$('#bmi').val();
-
-                    $.ajax({
-                        url: '/getBmiStatus',
-                        method: 'POST',
-                        data: {
-                            id:sId,
-                            dob:dob,
-                            age:a,
-                            sex:g,
-                            dateAPE:apeDate,
-                            bmi:bmiVal
-                        },
-                        success: function(data) {
-                            console.log(data);
-                            computedBmiStatus=data;
-                            document.getElementById("bmiStatus").innerHTML = data;
-                        }
-                    });
-
-                }
-            });
 
             $("#prevBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);

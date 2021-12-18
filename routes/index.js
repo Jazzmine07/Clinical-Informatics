@@ -288,6 +288,17 @@ router.get('/clinic-visit/medication', (req, res) => {
   });
 });
 
+// Get clinic incidence page
+router.get('/clinic-visit/incidence', (req, res) => {
+  console.log("Read clinic visit incidence successful!");
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('clinic-visit-incidence', { 
+      user: result
+    })
+  });
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");
@@ -380,6 +391,21 @@ router.get('/health-assessment/physical', (req, res) => {
     });
   }).catch(error => {
     console.log('Error in health assessment physical');
+    console.log(error.message);
+  });
+});
+
+// Get physical exam page
+router.get('/health-assessment/dental', (req, res) => {
+  console.log("Read dental exam successful!");
+  
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('health-assessment-dental', {
+      user: result
+    });
+  }).catch(error => {
+    console.log('Error in health assessment dental');
     console.log(error.message);
   });
 });

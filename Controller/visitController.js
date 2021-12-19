@@ -280,9 +280,7 @@ exports.getStudentVisits = function(req, res){
                     })
                 }); 
             }
-            console.log()
             res.status(200).send(details);
-         
         } else {
             res.status(200).send(details);
         }
@@ -295,7 +293,7 @@ exports.getLastVisit = function(req, res){
     var clinicVisitRef = database.ref("clinicVisit");
     var userRef = database.ref("clinicUsers");
     var temp = [], details;
-    var childSnapshotData, i;
+    var childSnapshotData;
 
     clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
         if(snapshot.exists()){

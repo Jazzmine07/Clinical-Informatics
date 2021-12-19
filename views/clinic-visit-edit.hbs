@@ -889,6 +889,11 @@
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
+
+            $.post("/getVisits", {studentID: typedID}, function(data){
+                console.log("visit details of a specfic student");
+                console.log(data);
+            });
         }
     </script>
     <script type='text/javascript'>

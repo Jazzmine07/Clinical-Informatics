@@ -2705,7 +2705,10 @@
                     document.getElementById('lastVisit').style.display = "none";
             });
 
-            
+            $.post("/getVisits", {studentID: typedID}, function(data){
+                console.log("visit details of a specfic student");
+                console.log(data);
+            });
         }
     </script>
     <script>

@@ -627,6 +627,41 @@
                     <div class="card-body">
                         <div class="form-row align-items-center">
                             <div class="col-4">
+                                <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
+                            </div>
+                            <div class="col-5">
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                    {{#each nurse}}
+                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                    {{/each}}
+                                </select>  
+                            </div>                                 
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-2">
+                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
+                            </div>
+                            <div class="col-2">
+                                <label for="clinicOut" class="col-form-label">Time Out</label>
+                                <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
+                            </div>  
+                            <div class="col-3">
+                                <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
+                                <select class="custom-select mb-2" id="clinicType" name="clinicType">
+                                    <option value="consultation">Consultation</option>
+                                    <option value="emergency">Emergency</option>
+                                    <option value="intramurals">Intramurals</option>
+                                    <option value="famDay">Family Day</option>
+                                </select>
+                            </div>  
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
                                 <label class="col-form-label" for="studentID">Student ID Number</label>
                                 <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                             </div>
@@ -652,32 +687,6 @@
                                 <label for="studentSec" class="col-form-label">Section</label>
                                 <input type="text" class="form-control mb-2" id="studentSection">
                             </div>
-                        </div>
-
-                        <div class="form-row align-items-center">
-                            <div class="col-4">
-                                <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
-                            </div>
-                            <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                    {{#each nurse}}
-                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                    {{/each}}
-                                </select>  
-                            </div>                                 
-                        </div>
-
-                        <div class="form-row align-items-center">
-                            <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In</label>
-                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
-                            </div>
-                            <div class="col-2">
-                                <label for="clinicOut" class="col-form-label">Time Out</label>
-                                <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
-                            </div>  
                         </div>
 
                         <hr class="w-10 mb-2"></hr> 
@@ -3160,6 +3169,9 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
+            var clinicType =  $('#clinicType').find(":selected").val();   
+            console.log(clinicType);
+
             var nurse =  $('#attendingNurse').find(":selected").val();   
             console.log(nurse);
             
@@ -3181,6 +3193,9 @@
 
             var complaint =  $('#complaintVisit').val(); 
             console.log(complaint);
+
+            var impression =  $('#impression').val(); 
+            console.log(impression);
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
@@ -3250,6 +3265,7 @@
                         visitDate: visitDate,
                         timeIn: timeIn,
                         timeOut: timeOut,
+                        clinicType: clinicType,
                         nurse: nurse, // attending nurse 
                         weight: weight,
                         weightStatus: heightWeightStatus.weightStatus,
@@ -3261,8 +3277,8 @@
                         pulseRate: pr,
                         respirationRate: rr,
                         complaint: complaint,
+                        impression: impression,
                         treatment: treatment,                    
-                        
                         //medicationAssign: selectedMedicationAssign,
                         //prescribedBy: selectedPrescribedBy,
                         //medicineList: medicineList,

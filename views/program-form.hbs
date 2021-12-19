@@ -369,7 +369,7 @@
                 </li>
 
                 <!-- Nav Item - Health Assessment -->
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/health-assessment">
                         <i class="fas fa-fw fa-stethoscope"></i>
                         <span>Health Assessment</span></a>
@@ -723,6 +723,7 @@
                                     <div class="col-4">
                                         <label for="disease" class="col-form-label">Disease</label>
                                         <select class="custom-select mb-2" id="disease">
+                                            <option disabled="disabled" selected="true">Choose...</option>
                                             <option value="hfmd">Hand-Foot-Mouth Disease</option>
                                         </select>
                                     </div>
@@ -869,18 +870,26 @@
             $('#row'+button_id+'').remove();  
         }); 
 
+        var disease;
+
         $('#population').change(function(){
             var population = $("#population").val(); 
             
             for(i = 0; i < population.length; i++){
                 if(population[i] == "w/Disease"){
                     document.getElementById('diseaseDiv').style.display = "block";
+                    console.log("dito dapat");
                 }
                 else{
                     document.getElementById('diseaseDiv').style.display = "none";
+                    disease = "";
                 }
             }
 
+        });
+
+        $('#disease').change(function(){
+            disease = $("#disease").find('option:selected').val(); 
         });
 
         $('#saveBtn').click(function(){
@@ -891,8 +900,8 @@
             var progStart = document.getElementById("progStart").value;
             var progEnd = document.getElementById("progEnd").value
             var location = document.getElementById("location").value;
-            var population = $("#population").val();  
-
+            var population = $("#population").val();
+ 
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
             //console.log(newArray);       
@@ -905,7 +914,7 @@
             }
 
             console.log(progType);
-            console.log(indicatorArray); 
+            //console.log(indicatorArray); 
             console.log(progName);
             console.log(description); 
             console.log(objectives);
@@ -913,11 +922,8 @@
             console.log(progEnd);
             console.log(location); 
             console.log(population);
+            console.log(disease);
             alert("Selected value is: "+ population);
-            
-
-            
-
 
         });
 

@@ -466,8 +466,8 @@
 
                             <div class="form-row align-items-center">
                                 <div class="col-5">
-                                    <label class="col-form-label" for="clinicianVisit">Report by</label>
-                                    <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                    <label class="col-form-label" for="reportBy">Report by</label>
+                                    <select class="custom-select mb-2" id="reportBy" name="reportBy">
                                         {{#each prescribed}}
                                             <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                         {{/each}}
@@ -689,8 +689,17 @@
 
         $('#saveBtn').click(function(){
         
-            var id = $('#studentID').val();
-            console.log(id);
+            var incidentDate = $('#incidentDate').val(); 
+            console.log(incidentDate);
+
+            var incidentTime = $('#incidentTime').val(); 
+            console.log(incidentTime);
+            
+            var nurse =  $('#reportBy').find(":selected").val();   
+            console.log(nurse);
+
+            var studentID = $('#studentID').val();
+            console.log(studentID);
             
             var studentName = $('#studentName').val(); 
             console.log(studentName);
@@ -701,11 +710,42 @@
             var studentSection = $('#studentSection').val(); 
             console.log(studentSection);
 
-            var nurse =  $('#attendingNurse').find(":selected").val();   
-            console.log(nurse);
+            var description = $('#description').val();
+            console.log(description);
+            
+            var consequences = $('#consequences').val(); 
+            console.log(consequences);
 
-            /* TO DO: Add checkers for fields if empty */
-            console.log(medicationsArray);
+            var action = $('#action').val(); 
+            console.log(action);
+                
+            var care = $('#care').val(); 
+            console.log(care);
+
+            var notes = $('#notes').val(); 
+            console.log(notes);
+
+            var admin1 = document.getElementById("admin1").checked; 
+            console.log(admin1); 
+            
+            var admin2 = document.getElementById("admin2").checked;
+            console.log(admin2);
+
+            var pres1 = document.getElementById("pres1").checked;
+            console.log(pres1);
+
+            var pres2 = document.getElementById("pres2").checked;
+            console.log(pres2);
+
+            var pres3 = document.getElementById("pres3").checked; 
+            console.log(pres3);
+
+            var supply1 = document.getElementById("supply1").checked;
+            console.log(supply1); 
+            
+            var supply2 = document.getElementById("supply2").checked;
+            console.log(supply2);
+
             //AJAX HERE
                  
         });

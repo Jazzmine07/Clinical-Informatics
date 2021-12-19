@@ -106,3 +106,67 @@ exports.getBMI = function(req, res){
         }
     })
 };
+
+exports.getStudentVisits = function(req, res){
+    var id = req.body.studentID;
+    var database = firebase.database();
+    var visitRef = database.ref("clinicVisit");
+    var userRef = database.ref("clinicUsers");
+    var i, childSnapshotData, temp = [], visits = [];
+
+    visitRef.orderByChild("id").equalTo(id).on('value', async (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                temp.push({
+                    visitDate: childSnapshotData.visitDate,
+                    attendingNurse: childSnapshotData.attendingNurse,
+                    timeIn: childSnapshotData.timeIn,
+                    timeOut: childSnapshotData.timeOut,
+                    weight: childSnapshotData.weight,
+                    height: childSnapshotData.height,
+                    bodyTemp: childSnapshotData.bodyTemp,
+                    systolicBP: childSnapshotData.systolicBP,
+                    diastolicBP: childSnapshotData.diastolicBP,
+                    pulseRate: childSnapshotData.pulseRate,
+                    respirationRate: childSnapshotData.respirationRate,
+                    visitReason: childSnapshotData.visitReason,
+                    treatment: childSnapshotData.treatment,
+                    diagnosis: childSnapshotData.diagnosis,
+                    status: childSnapshotData.status,
+                    notes: childSnapshotData.notes,
+                });
+            });
+
+            for(i = 0; i < temp.length; i++){
+                await userRef.child(temp[i].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    visits.push({
+                        visitDate: temp[i].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        timeIn: temp[i].timeIn,
+                        timeOut: temp[i].timeOut,
+                        weight: temp[i].weight,
+                        height: temp[i].height,
+                        bodyTemp: temp[i].bodyTemp,
+                        systolicBP: temp[i].systolicBP,
+                        diastolicBP: temp[i].diastolicBP,
+                        pulseRate: temp[i].pulseRate,
+                        respirationRate: temp[i].respirationRate,
+                        visitReason: temp[i].visitReason,
+                        treatment: temp[i].treatment,
+                        diagnosis: temp[i].diagnosis,
+                        status: temp[i].status,
+                        notes: temp[i].notes
+                    })
+                });  
+            }
+            console.log("student visits");
+            console.log(visits);
+            res.status(200).send(visits);
+        } else {
+            res.status(200).send(visits);
+        }
+    })
+};

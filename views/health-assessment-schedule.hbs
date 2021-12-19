@@ -21,25 +21,33 @@
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        .div[class*="divmenu"]:first-of-type {
-            display: block;
+        table  {
+            table-layout: fixed;
         }
 
-        .divmenu {
-            display: none;
-            border-top: none;
+        table td input{
+        position: relative;
+        padding: 0px !important;
         }
 
-        .pdfobject-container { 
-            height: 30rem; 
-            border: 1rem solid rgba(0,0,0,.1); 
+        input:focus{
+        outline: none;
         }
 
-        #studentDiv{
-            display: none;
+        table td input {
+        position: relative;
+        display: block;
+        top:0;
+        left:0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        border: none;
+        padding: 10px;
+        box-sizing: border-box;
+        color: #6e707e;
+        text-align: center;
         }
-
-        
     </style>
 
 </head>
@@ -487,6 +495,279 @@
                                 <a class="btn btn-link" id="addSchedule"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Section</a>
                                 <table class="table" id="dynamic_field">  
 
+                                </table>
+
+                                <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th class="bg-light">Grade Level</th>
+                                            <th class="bg-light">Section</th>
+                                            <th class="bg-light">Date of Physical Exam</th>
+                                            <th class="bg-light">Time of Physical Exam</th>
+                                            <th class="bg-light">Date of Dental Exam</th>
+                                            <th class="bg-light">Time of Dental Exam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                        
+                                        <tr>
+                                            <td rowspan="6">Grade 1</td>
+                                            <td>Faithfulness</td>
+                                            <td><input type="date" id="faithPEDate"></td>
+                                            <td><input type="time" id="faithPETime"></td>
+                                            <td><input type="date" id="faithDEDate"></td>
+                                            <td><input type="time" id="faithDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Honesty</td>
+                                            <td><input type="date" id="honestyPEDate"></td>
+                                            <td><input type="time" id="honestyPETime"></td>
+                                            <td><input type="date" id="honestyDEDate"></td>
+                                            <td><input type="time" id="honestyDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Humility</td>
+                                            <td><input type="date" id="humilityPEDate"></td>
+                                            <td><input type="time" id="humilityPETime"></td>
+                                            <td><input type="date" id="humilityDEDate"></td>
+                                            <td><input type="time" id="humilityDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Politeness</td>
+                                            <td><input type="date" id="politePEDate"></td>
+                                            <td><input type="time" id="politePETime"></td>
+                                            <td><input type="date" id="politeDEDate"></td>
+                                            <td><input type="time" id="politeDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Sincerity</td>
+                                            <td><input type="date" id="sincerePEDate"></td>
+                                            <td><input type="time" id="sincerePETime"></td>
+                                            <td><input type="date" id="sincereDEDate"></td>
+                                            <td><input type="time" id="sincereDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Truthfulness</td>
+                                            <td><input type="date" id="truthPEDate"></td>
+                                            <td><input type="time" id="truthPETime"></td>
+                                            <td><input type="date" id="truthDEDate"></td>
+                                            <td><input type="time" id="truthDETime"></td>                                                                                         
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="6">Grade 2</td>
+                                            <td>Charity</td>
+                                            <td><input type="date" id="charityPEDate"></td>
+                                            <td><input type="time" id="charityPETime"></td>
+                                            <td><input type="date" id="charityDEDate"></td>
+                                            <td><input type="time" id="charityDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Gratefulness</td>
+                                            <td><input type="date" id="gratefulPEDate"></td>
+                                            <td><input type="time" id="gratefulPETime"></td>
+                                            <td><input type="date" id="gratefulDEDate"></td>
+                                            <td><input type="time" id="gratefulDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Gratitude</td>
+                                            <td><input type="date" id="gratitudePEDate"></td>
+                                            <td><input type="time" id="gratitudePETime"></td>
+                                            <td><input type="date" id="gratitudeDEDate"></td>
+                                            <td><input type="time" id="gratitudeDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Helpfulness</td>
+                                            <td><input type="date" id="helpfulPEDate"></td>
+                                            <td><input type="time" id="helpfulPETime"></td>
+                                            <td><input type="date" id="helpfulDEDate"></td>
+                                            <td><input type="time" id="helpfulDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Meekness</td>
+                                            <td><input type="date" id="meekPEDate"></td>
+                                            <td><input type="time" id="meekPETime"></td>
+                                            <td><input type="date" id="meekDEDate"></td>
+                                            <td><input type="time" id="meekDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Simplicity</td>
+                                            <td><input type="date" id="simplePEDate"></td>
+                                            <td><input type="time" id="simplePETime"></td>
+                                            <td><input type="date" id="simpleDEDate"></td>
+                                            <td><input type="time" id="simpleDETime"></td>                                                                                         
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="6">Grade 3</td>
+                                            <td>Courtesy</td>
+                                            <td><input type="date" id="courtPEDate"></td>
+                                            <td><input type="time" id="courtPETime"></td>
+                                            <td><input type="date" id="courtDEDate"></td>
+                                            <td><input type="time" id="courtDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Kindness</td>
+                                            <td><input type="date" id="kindPEDate"></td>
+                                            <td><input type="time" id="kindPETime"></td>
+                                            <td><input type="date" id="kindDEDate"></td>
+                                            <td><input type="time" id="kindDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Piety</td>
+                                            <td><input type="date" id="pietyPEDate"></td>
+                                            <td><input type="time" id="pietyPETime"></td>
+                                            <td><input type="date" id="pietyDEDate"></td>
+                                            <td><input type="time" id="pietyDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Prayerfulness</td>
+                                            <td><input type="date" id="prayerPEDate"></td>
+                                            <td><input type="time" id="prayerPETime"></td>
+                                            <td><input type="date" id="prayerDEDate"></td>
+                                            <td><input type="time" id="prayerDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Respect</td>
+                                            <td><input type="date" id="respectPEDate"></td>
+                                            <td><input type="time" id="respectPETime"></td>
+                                            <td><input type="date" id="respectDEDate"></td>
+                                            <td><input type="time" id="respectDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Trust</td>
+                                            <td><input type="date" id="trustPEDate"></td>
+                                            <td><input type="time" id="trustPETime"></td>
+                                            <td><input type="date" id="trustDEDate"></td>
+                                            <td><input type="time" id="trustDETime"></td>                                                                                         
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="6">Grade 4</td>
+                                            <td>Equality</td>
+                                            <td><input type="date" id="equalPEDate"></td>
+                                            <td><input type="time" id="equalPETime"></td>
+                                            <td><input type="date" id="equalDEDate"></td>
+                                            <td><input type="time" id="equalDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Fidelity</td>
+                                            <td><input type="date" id="fidelityPEDate"></td>
+                                            <td><input type="time" id="fidelityPETime"></td>
+                                            <td><input type="date" id="fidelityDEDate"></td>
+                                            <td><input type="time" id="fidelityDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Harmony</td>
+                                            <td><input type="date" id="harmonyPEDate"></td>
+                                            <td><input type="time" id="harmonyPETime"></td>
+                                            <td><input type="date" id="harmonyDEDate"></td>
+                                            <td><input type="time" id="harmonyDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Purity</td>
+                                            <td><input type="date" id="purityPEDate"></td>
+                                            <td><input type="time" id="purityPETime"></td>
+                                            <td><input type="date" id="purityDEDate"></td>
+                                            <td><input type="time" id="purityDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Solidarity</td>
+                                            <td><input type="date" id="solidPEDate"></td>
+                                            <td><input type="time" id="solidPETime"></td>
+                                            <td><input type="date" id="solidDEDate"></td>
+                                            <td><input type="time" id="solidDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Unity</td>
+                                            <td><input type="date" id="unityPEDate"></td>
+                                            <td><input type="time" id="unityPETime"></td>
+                                            <td><input type="date" id="unityDEDate"></td>
+                                            <td><input type="time" id="unityDETime"></td>                                                                                         
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="6">Grade 5</td>
+                                            <td>Dependability</td>
+                                            <td><input type="date" id="dependPEDate"></td>
+                                            <td><input type="time" id="dependPETime"></td>
+                                            <td><input type="date" id="dependDEDate"></td>
+                                            <td><input type="time" id="dependDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Flexibility</td>
+                                            <td><input type="date" id="flexPEDate"></td>
+                                            <td><input type="time" id="flexPETime"></td>
+                                            <td><input type="date" id="flexDEDate"></td>
+                                            <td><input type="time" id="flexDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Reliability</td>
+                                            <td><input type="date" id="relyPEDate"></td>
+                                            <td><input type="time" id="relyPETime"></td>
+                                            <td><input type="date" id="relyDEDate"></td>
+                                            <td><input type="time" id="relyDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Responsibility</td>
+                                            <td><input type="date" id="responsiblePEDate"></td>
+                                            <td><input type="time" id="responsiblePETime"></td>
+                                            <td><input type="date" id="responsibleDEDate"></td>
+                                            <td><input type="time" id="responsibleDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Serenity</td>
+                                            <td><input type="date" id="serenePEDate"></td>
+                                            <td><input type="time" id="serenePETime"></td>
+                                            <td><input type="date" id="sereneDEDate"></td>
+                                            <td><input type="time" id="sereneDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Trustworthiness</td>
+                                            <td><input type="date" id="trustworthyPEDate"></td>
+                                            <td><input type="time" id="trustworthyPETime"></td>
+                                            <td><input type="date" id="trustworthyDEDate"></td>
+                                            <td><input type="time" id="trustworthyDETime"></td>                                                                                         
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="6">Grade 6</td>
+                                            <td>Abnegation</td>
+                                            <td><input type="date" id="abnegatePEDate"></td>
+                                            <td><input type="time" id="abnegatePETime"></td>
+                                            <td><input type="date" id="abnegateDEDate"></td>
+                                            <td><input type="time" id="abnegateDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Integrity</td>
+                                            <td><input type="date" id="integrityPEDate"></td>
+                                            <td><input type="time" id="integrityPETime"></td>
+                                            <td><input type="date" id="integrityDEDate"></td>
+                                            <td><input type="time" id="integrityDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Patience</td>
+                                            <td><input type="date" id="patiencePEDate"></td>
+                                            <td><input type="time" id="patiencePETime"></td>
+                                            <td><input type="date" id="patienceDEDate"></td>
+                                            <td><input type="time" id="patienceDETime"></td>                                                                                       
+                                        </tr>
+                                        <tr>
+                                            <td>Perseverance</td>
+                                            <td><input type="date" id="perseverePEDate"></td>
+                                            <td><input type="time" id="perseverePETime"></td>
+                                            <td><input type="date" id="persevereDEDate"></td>
+                                            <td><input type="time" id="persevereDETime"></td>                                                                                 
+                                        </tr>
+                                        <tr>
+                                            <td>Self-discipline</td>
+                                            <td><input type="date" id="disciplinePEDate"></td>
+                                            <td><input type="time" id="disciplinePETime"></td>
+                                            <td><input type="date" id="disciplineDEDate"></td>
+                                            <td><input type="time" id="disciplineDETime"></td>                                                                                        
+                                        </tr>
+                                        <tr>
+                                            <td>Self-giving</td>
+                                            <td><input type="date" id="givingPEDate"></td>
+                                            <td><input type="time" id="givingPETime"></td>
+                                            <td><input type="date" id="givingDEDate"></td>
+                                            <td><input type="time" id="givingDETime"></td>                                                                                         
+                                        </tr>                                                                                
+                                    </tbody>
                                 </table>
                                 <div class="d-flex justify-content-end mt-4 col-12">
                                     <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    

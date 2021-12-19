@@ -442,7 +442,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="createHA">
                                     <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalHA">Physical Exam</a>
-                                    <a class="dropdown-item" href="/health-assessment/dental">Dental Exam</a>
+                                    <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalDE">Dental Exam</a>
                                 </div>
                             </div>
                         </div>
@@ -492,7 +492,7 @@
                                                 <input list="students" class="form-control py-2 border-left-1 border" id="studentPE" placeholder="Search student"/>                                       
                                             </div>
                                             <datalist id="students">
-                                                <option value="Christine Nahuli">                                
+                                                <option value="100000">Christine Nahuli</option>                                
                                             </datalist>
 
                                         </div>                                    
@@ -500,6 +500,64 @@
                                     <div class="modal-footer">
                                         <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
                                         <button type="submit" id="searchBtn" class="btn btn-success">Proceed</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalDE" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Dental Exam</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form  method="post" action="/getSectionStudents">
+                                        <label for="schoolYearDE">Enter School Year</label>                                        
+                                        <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="schoolYearDE" name="schoolYearDE" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sectionDE">Conduct ADE by a Section</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="sections" class="form-control py-2 border-left-1 border" id="sectionDE" placeholder="Search by grade or section"/>                                       
+                                            </div>
+                                            <datalist id="sections">
+                                                {{#each sections}}
+                                                    <option value='{{section}}'> </option>
+                                                {{/each}}                             
+                                            </datalist>  
+                                            <h6 id="or" class="h6 text-gray"><span>OR</span></h6>
+                                            <label for="studentDE">Conduct ADE for a Student</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="students" class="form-control py-2 border-left-1 border" id="studentDE" placeholder="Search student"/>                                       
+                                            </div>
+                                            <datalist id="students">
+                                                <option value="100000">Christine Nahuli</option>                                
+                                            </datalist>
+
+                                        </div>                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                        <button type="submit" id="searchDEBtn" class="btn btn-success">Proceed</a>
                                     </div>
                                 </form>
                             </div>
@@ -770,6 +828,7 @@
         }
         console.log(sy);
         document.getElementById("schoolYear").value=sy;
+        document.getElementById("schoolYearDE").value=sy;
 
         $.post("/getApePercentageChart",{schoolYear:sy}, function(data){
             var p1=data.p1 * 100 +"%";
@@ -848,6 +907,41 @@
                         console.log(data[0]);
                         localStorage.myArray = JSON.stringify(data);
                         window.location.href = "/health-assessment/physical";
+                    }
+                });
+            
+            });
+
+            $("#searchDEBtn").click(function(){
+                console.log("clicked?");
+                                                
+                var schoolYear = $('#schoolYearDE').val();
+                console.log(schoolYear);
+                
+                var section = $('#sectionDE').val(); 
+                console.log(section);
+
+                var id = $('#studentDE').val(); 
+                console.log(name);
+
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",section);
+                localStorage.setItem("id",id);
+                localStorage.setItem("sectionStudentIndex", 0);
+
+                $.ajax({
+                    url: '/getSectionStudents',
+                    method: 'POST',
+                    data: {
+                        section: section,
+                        schoolYear: schoolYear,
+                        studentId: id
+                        //timeStamp: forSortDate,
+                    },
+                    success: function(data) {
+                        console.log(data[0]);
+                        localStorage.myArray = JSON.stringify(data);
+                        window.location.href = "/health-assessment/dental";
                     }
                 });
             

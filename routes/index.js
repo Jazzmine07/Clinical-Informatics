@@ -97,23 +97,23 @@ router.get('/disease-surveillance', (req, res) => {
   prom2= surveillanceController.getDiseaseSurveillanceData();
   
   Promise.all([prom1, prom2]).then(result => {
-    prom3=surveillanceController.getTopDisease(result[1])
+    //prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
     if(user.role == "Nurse"){
       res.render('disease-surveillance', {
         user: user,
-        topDiagnosisWeek: prom3[0],
-        topDiagnosisWeekCount: prom3[1],
-        topDiagnosisMonth: prom3[2],
-        topDiagnosisMonthCount: prom3[3]
+        // topDiagnosisWeek: prom3[0],
+        // topDiagnosisWeekCount: prom3[1],
+        // topDiagnosisMonth: prom3[2],
+        // topDiagnosisMonthCount: prom3[3]
       });
     } else {
       res.render('disease-surveillance', {
         user: user,
-        topDiagnosisWeek: prom3[0],
-        topDiagnosisWeekCount: prom3[1],
-        topDiagnosisMonth: prom3[2],
-        topDiagnosisMonthCount: prom3[3]
+        // topDiagnosisWeek: prom3[0],
+        // topDiagnosisWeekCount: prom3[1],
+        // topDiagnosisMonth: prom3[2],
+        // topDiagnosisMonthCount: prom3[3]
       });
     }
   }).catch(error => {

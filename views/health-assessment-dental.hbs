@@ -426,7 +426,7 @@
                 <!-- /.container-fluid -->
 
                 <div class="container-fluid">
-
+                    <form class="user" method="post" action="/addAPE">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dental Exam Form</h1>
@@ -443,7 +443,6 @@
                                 class="fas fa-forward ml-2 text-white-50"></i></button>
                         </div>
                         <div class="card-body">
-                            <form class="user" method="post" action="/addAPE">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
@@ -458,7 +457,7 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <label for="studentGrade" class="col-form-label">Grade</label>
-                                        <select class="form-control mb-2" id="studentGrade">
+                                        <select class="custom-select form-control mb-2" id="studentGrade">
                                             <option disabled="disabled" selected="true">Choose...</option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
@@ -504,14 +503,6 @@
                                         </select>
                                     </div>   
                                 </div>
-
-                        
-                                {{!-- <div class="d-flex justify-content-end mt-4 col-12">
-                                    <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
-                                        <span id="saveButtonText"></span><i class="ml-2 fas fa-arrow-right text-white-50"></i>
-                                    </button>                                    
-                                </div> --}}
-                            </form>
                         </div>
                     </div>
                     <div class="row">
@@ -949,7 +940,7 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th colspan="1" style="color: white;">Presence of Calculus</th>
+                                                        <th colspan="1" style="color: white;">.</th>
                                                         <th style="text-align: center;">Yes</th>
                                                         <th style="text-align: center;">No</th>
                                                     </tr>
@@ -957,37 +948,89 @@
                                                 <tbody>
                                                     <tr>
                                                         <th colspan="1">Presence of Calculus</th>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusYes"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusNo"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Inflammation of Gingiva</th>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaYes"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaNo"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Presence of Periodontal Pocket</th>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketYes"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketNo"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Presence of Dento Facial Anomaly</th>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault1"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="flexRadioDefault" id="flexRadioDefault2"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyYes"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyNo"></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1" style="color: white;">.</th>
+                                                        <th style="text-align: center;">T</th>
+                                                        <th style="text-align: center;">P</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Number of Teeth Present</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Caries Free Teeth</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Caries Indicated for Filling</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Caries Indicated for Extraction</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Root Fragment</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Lost due to Caries</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Filled or Restored</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Totals</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="1">Fluoride Therapy</th>
+                                                        <td><input type="text"></td>
+                                                        <td><input type="text"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>                            
+                                        </div> 
+                                        <div class="d-flex justify-content-end mt-4 col-12">
+                                            <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
+                                                <span id="saveButtonText"></span><i class="ml-2 fas fa-arrow-right text-white-50"></i>
+                                            </button>                                    
+                                        </div>                           
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
-
-                
-                
-
             </div>
             <!-- End of Main Content -->
 

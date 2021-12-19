@@ -21,24 +21,7 @@
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        .div[class*="divmenu"]:first-of-type {
-            display: block;
-        }
-
-        .divmenu {
-            display: none;
-            border-top: none;
-        }
-
-        .pdfobject-container { 
-            height: 30rem; 
-            border: 1rem solid rgba(0,0,0,.1); 
-        }
-
-        #studentDiv{
-            display: none;
-        }
-
+        
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
             color: white;
             cursor: pointer;
@@ -160,6 +143,112 @@
             line-height: 28px
         }
 
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single{
+            border-color: #1cc88a;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231cc88a' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e);
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+
+        .select2-container--default .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-right: 10px
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            padding-right: 0;
+            height: auto;
+            margin-top: -3px;
+        }
+
+        .select2-container .select2-selection--single {
+           margin-bottom: 8px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #6e707e;
+            line-height: 28px
+        }
+
+        
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 6px !important;
+            right: 1px;
+            width: 20px
+        }
+
     
     </style>
 
@@ -200,7 +289,7 @@
                 </li>
 
                 <!-- Nav Item - Health Assessment -->
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/health-assessment">
                         <i class="fas fa-fw fa-stethoscope"></i>
                         <span>Health Assessment</span></a>
@@ -231,7 +320,7 @@
                 </li>
 
                 <!-- Nav Item - Promotive Care -->
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/promotive-care">
                         <i class="fas fa-fw fa-child"></i>
                         <span>Promotive Care</span></a>
@@ -507,7 +596,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
                                 <img class="img-profile rounded-circle"
                                     src="public/img/undraw_profile.svg">
                             </a>
@@ -544,7 +633,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Health Program Form</h1>
+                        <h1 class="h3 mb-0 text-gray-800">School Health Program Form</h1>
                     </div>
 
                     <!-- Basic Card Example -->
@@ -555,12 +644,26 @@
                         <div class="card-body">
                             <form class="user">
                                 <div class="form-row align-items-center">
-                                    <div class="col-8">
-                                      <label class="col-form-label" for="progName">Name of Program</label>
-                                      <input type="text" class="form-control mb-2" id="progName" name="progName">
+                                    <div class="col-4">
+                                        <label class="col-form-label" for="progType">Type of Program</label>
+                                        <select class="form-control mb-2 select2" id="progType" name="progType">
+                                            <option disabled="disabled" selected="true">Choose...</option>                   
+                                                <option value="sbfp">School-Based Feeding Program (SBFP)</option>
+                                                <option value="wins">Water, Sanitation, and Hygiene (WASH) in Schools (WinS)</option>
+                                                <option value="pacp">Pest and Animal Control Program (PACP)</option> 
+                                                <option value="ersf">Evaluation and Repair of School Facilities</option>
+                                                <option value="efsq">Evaluation of Food Safety and Quality</option>
+                                                <option value="efsq">Education/Awareness/Skill-based Program</option>
+                                                <option value="efsq">Weight Management Program</option>   
+                                        </select>                                                                   
                                     </div>
                                 </div>
-                                
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <label for="progName" class="col-form-label">Name of Program</label>
+                                        <input type="text" class="form-control mb-2" id="progName">
+                                    </div>
+                                </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="description">Program Description</label>
@@ -571,11 +674,11 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                       <label class="col-form-label" for="objectives">Program Objectives</label>
-                                      <textarea type="text" class="form-control mb-2" id="objectives" name="objectives" rows="4" placeholder="List your objectives here"></textarea>
+                                      <textarea type="text" class="form-control mb-2" id="objectives" name="objectives" rows="6" placeholder="List your objectives here"></textarea>
                                     </div>
                                 </div>
 
-                                <div class="form-row align-items-center">
+                                {{!-- <div class="form-row align-items-center">
                                     <div class="col-3">
                                         <label class="col-form-label" for="indicator">Success Indicators</label>
                                         <input list="indicatorsList" class="form-control mb-2" id="indicator" name="indicator" placeholder="ex. Attendance"/>                                       
@@ -594,17 +697,34 @@
                                 <a class="btn btn-link" id="addIndicator"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add More Indicator</a>
                                 <table class="table col-6" id="dynamic_field">  
 
-                                </table>
+                                </table> --}}
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
                                       <label class="col-form-label" for="population">Population of Interest</label>
-                                      <select id="population" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
-                                        <option>Grade 1</option>
-                                        <option>All</option>
-                                        <option>Underweight</option>
-                                        <option>Overweight</option>
-                                    </select>
+                                        <select id="population" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
+                                            <option value="all">All Grade Levels</option>
+                                            <option value="g1">Grade 1</option>
+                                            <option value="g2">Grade 2</option>
+                                            <option value="g3">Grade 3</option>
+                                            <option value="g4">Grade 4</option>
+                                            <option value="g5">Grade 5</option>
+                                            <option value="g6">Grade 6</option>
+                                            <option value="underweight">Underweight</option>
+                                            <option value="overweight">Overweight</option>
+                                            <option value="obese">Obese</option>
+                                            <option value="w/Needs">Students w/ Special Needs</option>
+                                            <option  value="w/Disease">Students w/ Particular Kind of Disease</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="diseaseDiv" class="form-row align-items-center" style="display: none;">
+                                    <div class="col-4">
+                                        <label for="disease" class="col-form-label">Disease</label>
+                                        <select class="custom-select mb-2" id="disease">
+                                            <option value="hfmd">Hand-Foot-Mouth Disease</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -713,6 +833,9 @@
         $("#population").select2({
         placeholder: "Select or type keywords"
         });
+        
+        $("#progType").select2();
+        $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
 
         $(".select2-selection .select2-selection--multiple").css("border", "1px solid #aaa");
 
@@ -746,7 +869,22 @@
             $('#row'+button_id+'').remove();  
         }); 
 
+        $('#population').change(function(){
+            var population = $("#population").val(); 
+            
+            for(i = 0; i < population.length; i++){
+                if(population[i] == "w/Disease"){
+                    document.getElementById('diseaseDiv').style.display = "block";
+                }
+                else{
+                    document.getElementById('diseaseDiv').style.display = "none";
+                }
+            }
+
+        });
+
         $('#saveBtn').click(function(){
+            var progType = $('#progType').find('option:selected').val();
             var progName = document.getElementById("progName").value;
             var description = document.getElementById("description").value
             var objectives = document.getElementById("objectives").value; 
@@ -766,6 +904,7 @@
                 indicatorArray.splice(newArray[j], 1);
             }
 
+            console.log(progType);
             console.log(indicatorArray); 
             console.log(progName);
             console.log(description); 

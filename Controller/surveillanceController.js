@@ -41,8 +41,8 @@ exports.getTopDisease=function(vcArray){
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timeStamp");
     var temp=vcArray, strings=[];
-    var vcWeek=[], weekTopDisease=[], topWeekCount=[], topWeekConcern=[]; // variables for top disease week
-    var vcMonth=[], monthTopDisease=[], topMonthCount=[], topMonthConcern=[]; // variables for top disease month
+    var vcWeek=[], weekTopDisease=[], topWeekCount=[], topWeekConcern=[], stringWeek=""; // variables for top disease week
+    var vcMonth=[], monthTopDisease=[], topMonthCount=[], topMonthConcern=[], stringMonth=""; // variables for top disease month
     var childSnapshotData;
     var parts, dbDate,alreadyAdded;
     var currDate =  new Date();
@@ -83,6 +83,7 @@ exports.getTopDisease=function(vcArray){
             }
         }
     }
+    
     //getting only the clinic visits current month
     for(i=0;i<temp.length;i++){
         parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
@@ -116,40 +117,41 @@ exports.getTopDisease=function(vcArray){
         }
 
     }
-
     // sorting the vcWeek and Month from highest count to lowest
     if(vcWeek.length>0){
         console.log("FIND ORDER OF WEEK TOP DISEASE");
         weekTopDisease= vcWeek.reverse(function (x, y) {
             return x.count- y.count;
         });
-        console.log(weekTopDisease);
     }
     if(vcMonth.length>0){
         console.log("FIND ORDER OF MONTH TOP DISEASE");
         monthTopDisease= vcMonth.reverse(function (x, y) {
             return x.count- y.count;
         });
-        console.log(monthTopDisease);
     }
+
 
     if(weekTopDisease!=null){
         size= weekTopDisease.length;
         if(size < 3){
             for(i=0;i<weekTopDisease.length;i++){
-                topWeekConcern.push(weekTopDisease[i]);
-                topWeekCount.push(weekTopDisease[i].count);
+                // topWeekConcern.push(weekTopDisease[i].concern);
+                // topWeekCount.push(weekTopDisease[i].count);
+                stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n" ;
             }    
         }
         else if(size>3){
             for(i=0;i<3;i++){
-                topWeekConcern.push(weekTopDisease[i]);
-                topWeekCount.push(weekTopDisease[i].count);
+                // topWeekConcern.push(weekTopDisease[i].concern);
+                // topWeekCount.push(weekTopDisease[i].count);
+                stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n";
             } 
             for(i=3;i<size;i++){
                 if(weekTopDisease[i-1].count == weekTopDisease[i].count){
-                    topWeekConcern.push(weekTopDisease[i]);
-                    topWeekCount.push(weekTopDisease[i].count);
+                    // topWeekConcern.push(weekTopDisease[i].concern);
+                    // topWeekCount.push(weekTopDisease[i].count);
+                    stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n";
                 }
                 else{
                     break;
@@ -161,19 +163,22 @@ exports.getTopDisease=function(vcArray){
         size= monthTopDisease.length;
         if(size < 3){
             for(i=0;i<monthTopDisease.length;i++){
-                topMonthConcern.push(monthTopDisease[i]);
-                topMonthCount.push(monthTopDisease[i].count);
+                // topMonthConcern.push(monthTopDisease[i].concern);
+                // topMonthCount.push(monthTopDisease[i].count);
+                stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
             }    
         }
         else if(size>=3){
             for(i=0;i<3;i++){
-                topMonthConcern.push(monthTopDisease[i]);
-                topMonthCount.push(monthTopDisease[i].count);
+                // topMonthConcern.push(monthTopDisease[i].concern);
+                // topMonthCount.push(monthTopDisease[i].count);
+                stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
             } 
             for(i=3;i<size;i++){
                 if(monthTopDisease[i-1].count == monthTopDisease[i].count){
-                    topMonthConcern.push(monthTopDisease[i]);
-                    topMonthCount.push(monthTopDisease[i].count);
+                    // topMonthConcern.push(monthTopDisease[i].concern);
+                    // topMonthCount.push(monthTopDisease[i].count);
+                    stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
                 }
                 else{
                     break;
@@ -183,11 +188,12 @@ exports.getTopDisease=function(vcArray){
     }
     //appending all top disease of the week
     
+    console.log(stringMonth);
+    console.log(stringWeek);
     
-    strings.push(topWeekConcern);
-    strings.push(topWeekCount);
-    strings.push(topMonthConcern);
-    strings.push(topMonthCount)
+    
+    strings.push(stringWeek);
+    strings.push(stringMonth);
     console.log("STRINGS of top disease");
     console.log(strings);
         

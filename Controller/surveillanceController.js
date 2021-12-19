@@ -247,14 +247,14 @@ exports.getDiseaseDemographics=function(req,res){
     console.log("DISEASE from frontend:"+disease);
     var start=req.body.startDate;
     var end=req.body.endDate;
-    var chartData=[{
-        Truthfulness:0,Sincerity:0, Honesty:0, Faithfulness:0, Humility:0, Politeness:0, 
-        Simplicity:0, Charity:0, Helpfulness:0, Gratefulness:0, Gratitude:0, Meekness:0, 
-        Courtesy:0, Respect:0, Trust:0, Kindness:0, Piety:0, Prayerfullness:0, 
-        Fidelity:0, Equality:0, Harmony:0, Unity:0, Piety:0, Solidarity:0, 
-        Trustworthiness:0,Reliability:0, Dependability:0, Responsibility:0, Serenity:0, Flexibility:0, 
-        SelfDiscipline:0, SelfGiving:0, Abnegation:0, Integrity:0, Patience:0, Perseverance:0
-    }];
+    var chartData=[];
+    var g1=[{section:"Truthfulness", count:0},{section:"Sincerity", count:0}, {section:"Honesty", count:0}, {section:"Faithfulness", count:0}, {section:"Humility", count:0}, {section:"Politeness", count:0}];
+    var g2=[{section:"Simplicity", count:0}, {section:"Charity", count:0}, {section:"Helpfulness", count:0}, {section:"Gratefulness", count:0}, {section:"Gratitude", count:0}, {section:"Meekness", count:0}];
+    var g3=[{section:"Respect", count:0}, {section:"Courtesy", count:0}, {section:"Trust:", count:0}, {section:"Kindness", count:0}, {section:"Piety", count:0}, {section:"Prayerfullness", count:0}];
+    var g4=[{section:"Unity", count:0}, {section:"Purity", count:0}, {section:"Fidelity", count:0}, {section:"Equality", count:0}, {section:"Harmony", count:0}, {section:"Solidarity", count:0}];
+    var g5=[{section:"Trustworthiness", count:0}, {section:"Reliability", count:0}, {section:"Dependability", count:0}, {section:"Responsibility", count:0}, {section:"Serenity", count:0}, {section:"Flexibility:", count:0} ];
+    var g6=[{section:"Self-Discipline", count:0}, {section:"Abnegation", count:0}, {section:"Self-Giving", count:0}, {section:"Integrity", count:0}, {section:"Perseverance", count:0}, {section:"Patience", count:0}];
+
 
     var startSplit,endSplit, startDate,endDate;
     
@@ -267,7 +267,9 @@ exports.getDiseaseDemographics=function(req,res){
                     temp.push({
                         diagnosis:childSnapshotData.diagnosis,
                         visitDate:childSnapshotData.visitDate,
-                        id:childSnapshotData.id
+                        id:childSnapshotData.id,
+                        grade: childSnapshotData.grade,
+                        section: childSnapshotData.section
                     })
                 })
                 
@@ -295,90 +297,165 @@ exports.getDiseaseDemographics=function(req,res){
         }
 
         //get data from studentInfo based on temp3
-        if(snapshot.hasChild("studentInfo")){
-            for(i=0;i<temp3.length;i++){               
-                studentInfoRef.child(temp3[i].id).on('value', (childSnapshot) => {
-                    alreadyAdded=0;
-                    if(studentInfo.length<=0){
-                        alreadyAdded=1;
-                        studentInfo.push({
-                            id:childSnapshot.key,
-                            sex:childSnapshot.child("sex").val(),
-                            grade:childSnapshot.child("grade").val(),
-                            section:childSnapshot.child("section").val()
-                        })
-                    }
-                    else{
-                        for(j=0;j<studentInfo.length;j++){
-                            if(childSnapshot.key==studentInfo[j].id){
-                                alreadyAdded=1;
-                            }
-                            else{
-                                if(alreadyAdded==0){
-                                    studentInfo.push({
-                                        id:childSnapshot.key,
-                                        sex:childSnapshot.child("sex").val(),
-                                        grade:childSnapshot.child("grade").val(),
-                                        section:childSnapshot.child("section").val()
-                                    })  
-                                    alreadyAdded=1;
-                                }
-                            }
-                        }
-                    } 
+        // if(snapshot.hasChild("studentInfo")){
+        //     for(i=0;i<temp3.length;i++){               
+        //         studentInfoRef.child(temp3[i].id).on('value', (childSnapshot) => {
+        //             alreadyAdded=0;
+        //             if(studentInfo.length<=0){
+        //                 alreadyAdded=1;
+        //                 studentInfo.push({
+        //                     id:childSnapshot.key,
+        //                     sex:childSnapshot.child("sex").val(),
+        //                     grade:childSnapshot.child("grade").val(),
+        //                     section:childSnapshot.child("section").val()
+        //                 })
+        //             }
+        //             else{
+        //                 for(j=0;j<studentInfo.length;j++){
+        //                     if(childSnapshot.key==studentInfo[j].id){
+        //                         alreadyAdded=1;
+        //                     }
+        //                     else{
+        //                         if(alreadyAdded==0){
+        //                             studentInfo.push({
+        //                                 id:childSnapshot.key,
+        //                                 sex:childSnapshot.child("sex").val(),
+        //                                 grade:childSnapshot.child("grade").val(),
+        //                                 section:childSnapshot.child("section").val()
+        //                             })  
+        //                             alreadyAdded=1;
+        //                         }
+        //                     }
+        //                 }
+        //             } 
                                        
-                })
-            }
-        }
+        //         })
+        //     }
+        // }
 
 
         //ADD Grade 3-6 pa
         //combining to get chart data
         for(i=0;i<temp3.length;i++){
-            for(j=0;j<studentInfo.length;j++){
-                if(temp3[i].id==studentInfo[j].id){
-                    if(studentInfo[j].section=="Truthfulness"){
-                        chartData[0].Truthfulness=chartData[0].Truthfulness+1;
-                    }
-                    else if(studentInfo[j].section=="Sincerity"){
-                        chartData[0].Sincerity=chartData[0].Sincerity+1;
-                    }
-                    else if(studentInfo[j].section=="Honesty"){
-                        chartData[0].Honesty=chartData[0].Honesty+1;
-                    }
-                    else if(studentInfo[j].section=="Faithfulness"){
-                        chartData[0].Faithfulness=chartData[0].Faithfulness+1;
-                    }
-                    else if(studentInfo[j].section=="Humility"){
-                        chartData[0].Humility=chartData[0].Humility+1;
-                    }
-                    else if(studentInfo[j].section=="Politeness"){
-                        chartData[0].Politeness=chartData[0].Politeness+1;
-                    }
-                    if(studentInfo[j].section=="Simplicity"){
-                        chartData[0].Simplicity=chartData[0].Simplicity+1
-                    }
-                    else if(studentInfo[j].section=="Charity"){
-                        chartData[0].Charity=chartData[0].Charity+1
-                    }
-                    else if(studentInfo[j].section=="Helpfulness"){
-                        chartData[0].Helpfulness=chartData[0].Helpfulness+1
-                    }
-                    else if(studentInfo[j].section=="Gratefulness"){
-                        chartData[0].Gratefulness=chartData[0].Gratefulness+1
-                    }
-                    else if(studentInfo[j].section=="Gratitude"){
-                        chartData[0].Gratitude=chartData[0].Gratitude+1
-                    }
-                    else if(studentInfo[j].section=="Meekness"){
-                        chartData[0].Meekness=chartData[0].Meekness+1
-                    }
-                
-                }
+
+            if(temp3[i].section == "Truthfulness"){
+                g1[0].count=g1[0].count+1; 
+            }                
+            else if(temp3[i].section=="Sincerity"){
+                g1[1].count=g1[1].count+1;
             }
+            else if(temp3[i].section=="Honesty"){
+                g1[2].count=g1[2].count+1;
+            }
+            else if(temp3[i].section=="Faithfulness"){
+                g1[3].count=g1[3].count+1;
+            }
+            else if(temp3[i].section=="Humility"){
+                g1[4].count=g1[4].count+1;
+            }
+            else if(temp3[i].section=="Politeness"){
+                g1[5].count=g1[5].count+1;
+            }
+            else if(temp3[i].section=="Simplicity"){
+                g2[0].count=g2[0].count+1;
+            }
+            else if(temp3[i].section=="Charity"){
+                g2[1].count=g2[1].count+1;
+            }
+            else if(temp3[i].section=="Helpfulness"){
+                g2[2].count=g2[2].count+1;
+            }
+            else if(temp3[i].section=="Gratefulness"){
+                g2[3].count=g2[3].count+1;
+            }
+            else if(temp3[i].section=="Gratitude"){
+                g2[4].count=g2[4].count+1;
+            }
+            else if(temp3[i].section=="Meekness"){
+                g2[5].count=g2[5].count+1;
+            }
+            else if(temp3[i].section=="Respect"){
+                g3[0].count=g3[0].count+1;
+            }
+            else if(temp3[i].section=="Courtesy"){
+                g3[1].count=g3[1].count+1;
+            }
+            else if(temp3[i].section=="Trust"){
+                g3[2].count=g3[2].count+1;
+            }
+            else if(temp3[i].section=="Kindness"){
+                g3[3].count=g3[3].count+1;
+            }
+            else if(temp3[i].section=="Piety"){
+                g3[4].count=g3[4].count+1;
+            }
+            else if(temp3[i].section=="Prayerfulness"){
+                g3[5].count=g3[5].count+1;
+            }
+            else if(temp3[i].section=="Unity"){
+                g4[0].count=g4[0].count+1;
+            }
+            else if(temp3[i].section=="Purity"){
+                g4[1].count=g4[1].count+1;
+            }
+            else if(temp3[i].section=="Fidelity"){
+                g4[2].count=g4[2].count+1;
+            }
+            else if(temp3[i].section=="Equality"){
+                g4[3].count=g4[3].count+1;
+            }
+            else if(temp3[i].section=="Harmony"){
+                g4[4].count=g4[4].count+1;
+            }
+            else if(temp3[i].section=="Solidarity"){
+                g4[5].count=g4[5].count+1;
+            }
+            else if(temp3[i].section=="Trustworthiness"){
+                g5[0].count=g5[0].count+1;
+            }
+            else if(temp3[i].section=="Reliability"){
+                g5[1].count=g5[1].count+1;
+            }
+            else if(temp3[i].section=="Dependability"){
+                g5[2].count=g5[2].count+1;
+            }
+            else if(temp3[i].section=="Responsibility"){
+                g5[3].count=g5[3].count+1;
+            }
+            else if(temp3[i].section=="Serenity"){
+                g5[4].count=g5[4].count+1;
+            }
+            else if(temp3[i].section=="Flexibility"){
+                g5[5].count=g5[5].count+1;
+            }
+            else if(temp3[i].section=="Self-Discipline"){
+                g6[0].count=g6[0].count+1;
+            }
+            else if(temp3[i].section=="Abnegation"){
+                g6[1].count=g6[1].count+1;
+            }
+            else if(temp3[i].section=="Self-Giving"){
+                g6[2].count=g6[2].count+1;
+            }
+            else if(temp3[i].section=="Integrity"){
+                g6[3].count=g6[3].count+1;
+            }
+            else if(temp3[i].section=="Perseverance"){
+                g6[4].count=g6[4].count+1;
+            }
+            else if(temp3[i].section=="Patience"){
+                g6[5].count=g6[5].count+1;
+            }
+                
         }
 
-
+        chartData.push( {grade1:g1},{grade2:g2},{grade3:g3},{grade4:g4},{grade5:g5}, {grade6:g6} );
+    //    chartData.push(g1);
+    //    chartData.push(g2);
+    //    chartData.push(g3);
+    //    chartData.push(g4);
+    //    chartData.push(g5);
+    //    chartData.push(g6);
         // console.log("ARRAYs");
         // console.log(temp);
         // console.log(temp2);
@@ -470,8 +547,6 @@ exports.getVisitReasonCount=function(req,res){
     
         }
 
-
-
         //temp2 = only symptoms in a certain date range
         console.log("getDiseaseCount array");
         console.log(temp2);
@@ -481,8 +556,7 @@ exports.getVisitReasonCount=function(req,res){
         else{
             return temp2;
         }
-        
-
+    
     })
     
     

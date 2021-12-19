@@ -383,7 +383,7 @@
                         <div class="col-xl-12 col-lg-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level and Gender</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
                                 </div>
                                 <div class="card-body" >
                                     <div class="chart-bar">
@@ -478,7 +478,6 @@
             console.log(disease);
 
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
-                
                sectionGradeChart(data);
 
             });
@@ -512,7 +511,7 @@
         }
         return s.join(dec);
         }
-
+        //remove this eventuallt
         function genderGradeChart(data){
             var glc = document.getElementById("myBarChart");
             var gradeLevelChart = new Chart(glc, {
@@ -607,23 +606,116 @@
                 },
             });            
         }
+        //Search specific Disease chart
         function sectionGradeChart(data) {
             console.log(data);
-            var glc = document.getElementById("myBarChart");
-            var gradeLevelChart = new Chart(glc, {
+            var i,j;
+
+            var gradeName=["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"];
+            var g1Count=0, g2Count=0,g3Count=0, g4Count=0,g5Count=0, g6Count=0;
+            var g1Sections=[],g2Sections=[],g3Sections=[],g4Sections=[],g5Sections=[],g6Sections=[];
+            var g1SectionCount=[],g2SectionCount=[],g3SectionCount=[],g4SectionCount=[],g5SectionCount=[],g6SectionCount=[];
+                for(i=0;i<6;i++){
+                    //getting total count for each grade level
+                    g1Count=g1Count+data[0].grade1[i].count;
+                    g2Count=g2Count+data[1].grade2[i].count;
+                    g3Count=g3Count+data[2].grade3[i].count;
+                    g4Count=g4Count+data[3].grade4[i].count;
+                    g5Count=g5Count+data[4].grade5[i].count;
+                    g6Count=g6Count+data[5].grade6[i].count;
+                    //getting section names for labels 
+                    g1Sections.push(data[0].grade1[i].section);
+                    g2Sections.push(data[1].grade2[i].section);
+                    g3Sections.push(data[2].grade3[i].section);
+                    g4Sections.push(data[3].grade4[i].section);
+                    g5Sections.push(data[4].grade5[i].section);
+                    g6Sections.push(data[5].grade6[i].section);
+                    //grouping the counts for each section
+                    g1SectionCount.push(data[0].grade1[i].count);
+                    g2SectionCount.push(data[1].grade2[i].count);
+                    g3SectionCount.push(data[2].grade3[i].count);
+                    g4SectionCount.push(data[3].grade4[i].count);
+                    g5SectionCount.push(data[4].grade5[i].count);
+                    g6SectionCount.push(data[5].grade6[i].count);
+
+
+                }
+            
+
+            var data={
+                labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
+                datasets: [{
+                    label: "Grade Levels",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:[g1Count,g2Count,g3Count,g4Count,g5Count,g6Count],
+                }],
+            }
+            var grade1Sections={
+                labels: g1Sections,
+                datasets: [{
+                    label: "Grade 1",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g1SectionCount,
+                }],
+            } 
+            var grade2Sections={
+                labels: g2Sections,
+                datasets: [{
+                    label: "Grade 2",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g2SectionCount,
+                }],
+            } 
+            var grade3Sections={
+                labels: g3Sections,
+                datasets: [{
+                    label: "Grade 3",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g3SectionCount,
+                }],
+            } 
+            var grade4Sections={
+                labels: g4Sections,
+                datasets: [{
+                    label: "Grade 4",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g4SectionCount,
+                }],
+            } 
+            var grade5Sections={
+                labels: g5Sections,
+                datasets: [{
+                    label: "Grade 5",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g5SectionCount,
+                }],
+            } 
+            var grade6Sections={
+                labels: g6Sections,
+                datasets: [{
+                    label: "Grade 6",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:g6SectionCount,
+                }],
+            }           
+
+            var config={
                 type: 'bar',
-                data: { //add Grade 3 to 6 sections
-                    labels: ["Truthfulness", "Sincerity", "Honesty", "Faithfulness", "Humility", "Politeness", 
-                            "Simplicity", "Charity", "Helpfulness", "Gratefulness", "Gratitude", "Meekness",],
-                    datasets: [{
-                        label: "Count",
-                        backgroundColor: "#4e73df",
-                        hoverBackgroundColor: "#0d6efd",
-                        borderColor: "#0d6efd",
-                        //data: [data[0].Truthfulness,data[0].Sincerity,data[0].Honesty,data[0].Faithfulness,data[0].Humility,data[0].Politeness,data[0].Simplicity,data[0].Charity,data[0].Helpfulness,data[0].Gratefulness,data[0].Gratitude,data[0].Meekness],
-                        data:["5","8","7","10","2","7","9","2","12","1","4","8"],
-                    }],
-                },
+                data,
                 //plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
@@ -673,33 +765,51 @@
                         }
                     }
                 
-                },
-                legend: {
-                display: true
-                },
-                tooltips: {
-                    titleMarginBottom: 10,
-                    titleFontColor: '#6e707e',
-                    titleFontSize: 14,
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: false,
-                    caretPadding: 10,
-                    callbacks: {
-                        label: function(tooltipItem, chart) {
-                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                        return datasetLabel + ": " + number_format(tooltipItem.yLabel);
+                }
+            }
+
+            var glc = document.getElementById("myBarChart");
+            var gradeLevelChart = new Chart(glc, config);   
+
+            function clickHandler(click){
+                const points= gradeLevelChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                if(points.length){
+                    var firstPoint= points[0];
+                    console.log(points[0]);
+                    console.log(firstPoint._index);
+                    if(gradeLevelChart.config.data.datasets[0].label=="Grade Levels"){
+                        if(firstPoint._index === 0){
+                            gradeLevelChart.config.data = grade1Sections;
+                        }
+                        else if(firstPoint._index === 1){
+                            gradeLevelChart.config.data = grade2Sections;
+                        }
+                        else if(firstPoint._index === 2){
+                            gradeLevelChart.config.data = grade3Sections;
+                        }
+                        else if(firstPoint._index === 3){
+                            gradeLevelChart.config.data = grade4Sections;
+                        }
+                        else if(firstPoint._index === 4){
+                            gradeLevelChart.config.data = grade5Sections;
+                        }
+                        else if(firstPoint._index === 5){
+                            gradeLevelChart.config.data = grade6Sections;
                         }
                     }
-                },
-            });   
+                    else{
+                        gradeLevelChart.config.data = data;   
+                    }
+                    
+                    gradeLevelChart.update();
+                }
+            }
 
-
+            glc.onclick=clickHandler;
         }
+
+        
+
 
         $('#reportrange').daterangepicker({
             startDate: start,

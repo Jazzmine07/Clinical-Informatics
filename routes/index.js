@@ -641,6 +641,8 @@ router.post('/getBmiStatus', studentController.getBmiStatus);
 router.post('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.post('/getVisits', studentInfoController.getStudentVisits);
 router.post('/getLastVisit', visitController.getLastVisit);
+router.post('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+
 
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);

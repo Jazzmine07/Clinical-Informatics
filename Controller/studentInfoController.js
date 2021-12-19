@@ -170,3 +170,43 @@ exports.getStudentVisits = function(req, res){
         }
     })
 };
+
+exports.getStudentIntakeHistory = function(req, res){
+    var id = req.body.studentID;
+    var database = firebase.database();
+    var historyRef = database.ref("intakeHistory");
+    var userRef = database.ref("clinicUsers");
+    var i, childSnapshotData, temp = [], history = [], medications = [];
+
+    historyRef.orderByChild("id").equalTo(id).on('value', async (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                childSnapshot.child("medications").forEach(function(innerChild){
+                    innerChildData = innerChild.exportVal();
+                    console.log("innerchild");
+                    console.log(innerChildData);
+                    medications.push({
+                        medicine: innerChildData.medicine,
+                        amount: innerChildData.amount,
+                        time: innerChildData.time
+                    })
+                })
+                
+                history.push({
+                    visitDate: childSnapshotData.visitDate,
+                    attendingNurse: childSnapshotData.attendingNurse,
+                    timeIn: childSnapshotData.timeIn,
+                    timeOut: childSnapshotData.timeOut,
+                    medications: medications
+                });
+            });
+
+            console.log("student intake history");
+            console.log(history);
+            res.status(200).send(history);
+        } else {
+            res.status(200).send(history);
+        }
+    })
+};

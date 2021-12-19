@@ -2709,6 +2709,11 @@
                 console.log("visit details of a specfic student");
                 console.log(data);
             });
+
+            $.post("/getIntakeHistory", {studentID: typedID}, function(data){
+                console.log("medicine intake history of a specfic student");
+                console.log(data);
+            });
         }
     </script>
     <script>

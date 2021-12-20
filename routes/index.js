@@ -196,10 +196,6 @@ router.get('/clinic-visit/create', (req, res) => {
       res.render('clinic-visit-create', {
         user: user, 
         isNurse: false,
-        nurse: nurse,
-        clinician: clinician,
-        users: users,
-        medicines: medicines
       });
     }
   }).catch(error => {
@@ -211,44 +207,37 @@ router.get('/clinic-visit/create', (req, res) => {
 // Get clinic visit edit page
 router.get('/clinic-visit/edit/:id', (req, res) => {
   console.log("Read clinic visit edit successful!");
-  var prom1, prom2, prom3, prom4, prom5;
-  var user, nurse, clinician, users, form;
+  var prom1, prom2, prom3, prom4;
+  var user, nurse, medicines, form;
 
   prom1 = userController.getUser();
   prom2 = userController.getNurse();
-  prom3 = userController.getClinician();
-  // prom3.then(function(result){
-  //   clinician=result;
-  //   console.log("Promise3 in clinic visit create:" + result);
-  // })
-  // prom4= userController.assignTo(result.key);
-  // prom4.then(function(result){
-  //   users=result;
-  //   console.log("Promise4 in clinic visit create :"+ result);
-  // })
-  prom5 = visitController.getClinicVisitForm(req);
+  prom3 = inventoryController.getMedicines();
+  prom4 = visitController.getClinicVisitForm(req);
 
-  Promise.all([prom1, prom2, prom3, prom5]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4]).then(result => {
     user = result[0];
     nurse = result[1];
-    clinician = result[2];
+    medicines = result[2];
     form = result[3];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
         user: user,
         isNurse: true,
-        form: form
       });
     } else {
       res.render('clinic-visit-edit', {
         user: user, 
         isNurse: false,
-        form: form
+        nurse: nurse,
+        form: form,
+        medicines: medicines
       });
     }
   }).catch(error => {
-    console.log('An Error Occured');
+    console.log('Error in loading clinic visit edit form');
+    console.log(error.message);
   });
 });
 

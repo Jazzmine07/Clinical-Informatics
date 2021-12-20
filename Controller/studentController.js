@@ -65,7 +65,7 @@ exports.addAPE = function(req, res){
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
     var schedRef=database.ref("apeSchedule");
-    var studentInfoRef=database.ref("studentInfo");
+    var studentInfoRef=database.ref("studentInfo/"+id);
 
     var record = {
         schoolYear:schoolYear,
@@ -121,6 +121,13 @@ exports.addAPE = function(req, res){
                 }
             })
         }
+
+        //studentInfoRef.child("weight").set(weight);
+        //studentInfoRef.child("height").set(height);
+        // studentInfoRef.child("bmi").set(bmi);
+        // studentInfoRef.child("bmiStatus").set(bmiStatus);
+
+
     }
     
     res.status(200).send();
@@ -590,9 +597,9 @@ exports.loadPrevData=function(req,res){
                 };
             }
         });
-        // studentInfo= loadStudentData(id);
-        // console.log("StudentInfo:");
-        // console.log(studentInfo);
+        studentInfo= loadStudentData(id);
+        console.log("StudentInfo:");
+        console.log(studentInfo);
 
         var lastApe;
         var i=1;
@@ -725,9 +732,9 @@ exports.loadPrevData=function(req,res){
         console.log(ape);
         console.log(curr);
         var record={
-            // name:studentInfo.name,
-            // birthday:studentInfo.bday,
-            // sex:studentInfo.sex,
+            name:studentInfo.name,
+            birthday:studentInfo.bday,
+            sex:studentInfo.sex,
 
             prevSy:ape[lastApe].sy,
             prevTemp:ape[lastApe].temp,
@@ -775,15 +782,15 @@ exports.loadPrevData=function(req,res){
             currSys:curr[0].systolic,
             currDia:curr[0].diastolic,
         };
-        // if(record.name==undefined){
-        //     record.name="";
-        // }
-        // if(record.birthday==undefined){
-        //     record.birthday="";
-        // }
-        // if(record.sex==undefined){
-        //     record.sex="";
-        //}
+        if(record.name==undefined){
+            record.name="";
+        }
+        if(record.birthday==undefined){
+            record.birthday="";
+        }
+        if(record.sex==undefined){
+            record.sex="";
+        }
         if(record.prevSy==undefined){
             record.prevSy="";
         }

@@ -97,6 +97,7 @@ router.get('/disease-surveillance', (req, res) => {
   prom2= surveillanceController.getDiseaseSurveillanceData();
   
   Promise.all([prom1, prom2]).then(result => {
+    console.log("PROMISES ARE FULFILLED");
     prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
     if(user.role == "Nurse"){

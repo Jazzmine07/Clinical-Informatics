@@ -651,25 +651,7 @@
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             console.log("START " + start.format('YYYY-MM-DD'));
             console.log("END " + end.format('YYYY-MM-DD'));
-            
-            $.post("/getVisitReasonCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
-                if(checker1){
-                    console.log("checker");
-                    horizontalChart.destroy();
-                    genderSymptomChart.destroy();
-                    visitTypeChart.destroy();
-                }
-                console.log(data)
-                var i;
-                var labels=[],dataCount=[];
-                for(i=0;i<data.length;i++){
-                    labels.push(data[i].concern);
-                    dataCount.push(data[i].count);
-                }
-                
-                showSymptoms(labels,dataCount);
-                checker1=true;
-            });
+
 
             $.post("/getVRGradeMonthlyCountDashboard",{from:"dashboard"}, function(data){
                 if(checker2){
@@ -698,7 +680,7 @@
 
         }
 
-        function showSymptoms(labels,dataCount){                
+        function showSymptoms(labels,dataCount){               
                 var complaintsChart = document.getElementById("complaintsChart");
                 horizontalChart = new Chart(complaintsChart, {
                     type: 'bar',

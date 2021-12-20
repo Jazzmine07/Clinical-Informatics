@@ -337,15 +337,7 @@
                         </div>        
                     </div>
 
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
-
                     <div class="row">
-
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -467,12 +459,12 @@
                                     <tbody>
                                         {{#each clinicVisits}}
                                             <tr>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{studentName}}</a></td>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{complaint}}</a></td>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate visitDate}}</a></td>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{timeIn}}</a></td>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{timeOut}}</a></td>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{status}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{studentName}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{complaint}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{formatDate visitDate}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{timeIn}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{timeOut}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{status}}</a></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

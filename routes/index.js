@@ -160,6 +160,39 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   });
 });
 
+// Get clinic visit view page
+router.get('/clinic-visit/view/:id', (req, res) => {
+  console.log("Read clinic visit view successful!");
+  var prom1, prom2;
+  var user, form;
+
+  prom1 = userController.getUser();
+  prom2 = visitController.getClinicVisitForm(req);
+
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    console.log("user in view");
+    console.log(user);
+    form = result[1];
+
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-view', {
+        user: user,
+        isNurse: true,
+        form: form,
+      });
+    } else{
+      res.render('clinic-visit-view', {
+        user: user,
+        isNurse: false
+      });
+    }
+  }).catch(error => {
+    console.log('Error in loading clinic visit view form');
+    console.log(error.message);
+  });
+});
+
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
@@ -371,14 +404,26 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
 // Get physical exam page
 router.get('/health-assessment/physical', (req, res) => {
   console.log("Read physical exam successful!");
-  
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('health-assessment-physical', {
-      user: result
-    });
+  var prom1;
+  var user;
+
+  prom1 =  userController.getUser();
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    if(user.role == "Nurse"){
+      res.render('health-assessment-physical', {
+        isNurse: true,
+        user: user,
+      });
+    }
+    else {
+      res.render('health-assessment-physical', {
+        isNurse: false,
+        user: user,
+      });
+    }
   }).catch(error => {
-    console.log('Error in health assessment physical');
+    console.log('Error in health assessment physical!');
     console.log(error.message);
   });
 });
@@ -386,14 +431,26 @@ router.get('/health-assessment/physical', (req, res) => {
 // Get physical exam page
 router.get('/health-assessment/dental', (req, res) => {
   console.log("Read dental exam successful!");
-  
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('health-assessment-dental', {
-      user: result
-    });
+  var prom1;
+  var user;
+
+  prom1 =  userController.getUser();
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    if(user.role == "Nurse"){
+      res.render('health-assessment-dental', {
+        isNurse: true,
+        user: user,
+      });
+    }
+    else {
+      res.render('health-assessment-dental', {
+        isNurse: false,
+        user: user,
+      });
+    }
   }).catch(error => {
-    console.log('Error in health assessment dental');
+    console.log('Error in health assessment dental!');
     console.log(error.message);
   });
 });
@@ -401,11 +458,24 @@ router.get('/health-assessment/dental', (req, res) => {
 // Get health assessment schedule page
 router.get('/health-assessment/schedule', (req, res) => {
   console.log("Read health assessment schedule successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('health-assessment-schedule', { 
-      user: result
-    })
+  prom1 =  userController.getUser();
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    if(user.role == "Nurse"){
+      res.render('health-assessment-schedule', {
+        isNurse: true,
+        user: user,
+      });
+    }
+    else {
+      res.render('health-assessment-schedule', {
+        isNurse: false,
+        user: user,
+      });
+    }
+  }).catch(error => {
+    console.log('Error in health assessment schedule!');
+    console.log(error.message);
   });
 });
 

@@ -369,7 +369,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Under Observation Today</div>
+                                                Sent to Class Today</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboard.classCount}}</div>
                                         </div>
                                         <div class="col-auto">
@@ -415,7 +415,7 @@
                         </div>
                     </div>
 
-                    {{!-- <!-- DataTales Assigned Task -->
+                    <!-- DataTales Assigned Task -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6>
@@ -444,7 +444,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <!-- DataTales Clinic Visits -->
                     <div class="card shadow mb-4">
@@ -466,13 +466,13 @@
                                     </thead>
                                     <tbody>
                                         {{#each clinicVisits}}
-                                            <tr class='clickable-row'>
-                                                <td>{{studentName}}</td>
-                                                <td>{{complaint}}</td>
-                                                <td>{{formatDate visitDate}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
+                                            <tr>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{studentName}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{complaint}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate visitDate}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{timeIn}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{timeOut}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{status}}</a></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

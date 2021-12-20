@@ -492,7 +492,203 @@
                         </div>
                     </div>
 
-                    {{!-- {{#if isNurse}} --}}
+                    {{#if isNurse}}
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <input id="userKey" type="hidden" value="{{user.key}}">
+                                <input id="formID" type="hidden" value="{{form.formId}}">
+                                <div class="col-4">
+                                    <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                    <input type="date" class="form-control mb-2" id="visitDate" disabled="disabled" value="{{form.visitDate}}">
+                                </div>
+                                <div class="col-5">
+                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label> 
+                                    <input type="hidden" class="form-control mb-2" id="attendingNurse" value="{{form.nurseKey}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.attendingNurse}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2">
+                                    <label for="clinicIn" class="col-form-label">Time In</label>
+                                    <input type="time" class="form-control mb-2" id="clinicIn" disabled="disabled" value="{{form.timeIn}}">
+                                </div>
+                                <div class="col-2">
+                                    <label for="clinicOut" class="col-form-label">Time Out</label>
+                                    <input type="time" class="form-control mb-2" id="clinicOut" disabled="disabled" value="{{form.timeOut}}">
+                                </div>
+                                <div class="col-5">
+                                    <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.clinicType}}">
+                                </div>  
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                    <input type="text" class="form-control mb-2" id="studentID" disabled="disabled" value="{{form.id}}">
+                                </div>
+                                <div class="col-5">
+                                    <label class="col-form-label" for="studentName">Student Name</label>
+                                    <input type="text" class="form-control mb-2" id="studentName" disabled="disabled" value="{{form.studentName}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label for="studentGrd" class="col-form-label">Grade</label>
+                                    <input type="text" class="form-control mb-2" id="studentGrade" disabled="disabled" value="{{form.grade}}">
+                                </div>
+                                <div class="col-5">
+                                    <label for="studentSec" class="col-form-label">Section</label>
+                                    <input type="text" class="form-control mb-2" id="studentSection" disabled="disabled" value="{{form.section}}">
+                                </div>
+                            </div>
+
+                            <hr class="w-10 mb-2"></hr> 
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2 mb-2">
+                                    <label for="Weight" class="col-form-label">Weight</label>
+                                    <div class="input-group">                                           
+                                        <input type="number" class="form-control" id="weight" disabled="disabled" value="{{form.weight}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">kg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 mb-2">
+                                    <label for="height" class="col-form-label">Height</label>
+                                    <div class="input-group">                                           
+                                    <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">cm</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 mb-2">
+                                    <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                    <div class="input-group">                                        
+                                        <input type="number" class="form-control" id="bodyTemp" disabled="disabled" value="{{form.bodyTemp}}">                                        
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon1">°C</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                    <div class="input-group">                               
+                                        <input type="number" class="form-control" id="systolic" disabled="disabled" value="{{form.systolicBP}}">
+                                        <input type="number" class="form-control" id="diastolic" disabled="disabled" value="{{form.diastolicBP}}">         
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-2">
+                                    <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                    <div class="input-group mb-2">                                                                            
+                                    <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                    <div class="input-group mb-2">                                        
+                                    <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="w-10 mb-2"></hr> 
+
+                            <div class="form-row align-items-center">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" disabled="disabled" rows="6">{{form.visitReason}}</textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="impression">Working Impression</label>
+                                    <textarea type="text" class="form-control mb-2" id="impression" disabled="disabled" rows="6">{{form.impression}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" disabled="disabled" rows="3">{{form.treatment}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-6 mb-4">
+                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" value="{{form.diagnosis}}" disabled="disabled">                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Medication -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="prescribedBy">Prescribed by</label>
+                                            <input type="text" class="form-control" id="prescribedBy" name="prescribedBy" disabled="disabled" value="{{form.prescribedBy}}">
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="medicationVisit">Medication</label>
+                                            {{!-- display list of medication given --}}                                                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="status">Disposition</label>
+                                    <input type="text" class="custom-select mb-2" id="status" name="status" disabled="disabled" value="{{form.status}}">
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="notes">Notes/Recommendations</label>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" disabled="disabled" rows="3">{{form.notes}}</textarea>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
@@ -767,7 +963,9 @@
                             </div>
                         </div>
                     </div>
+                    {{/if}}
                 </div>
+                
             <!-- End of Main Content -->
 
             <!-- Footer -->

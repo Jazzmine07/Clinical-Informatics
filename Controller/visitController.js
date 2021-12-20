@@ -36,8 +36,9 @@ exports.getDashboard = function(req, res){
 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, clinicType, nurse, 
-        weight, weightStatus, height, heightStatus, bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, impression, treatment,
-        diagnosisAssign, diagnosis, prescribedBy, medicationsArray, notes, status } = req.body;
+        weight, weightStatus, height, heightStatus, bodyTemp, bodyTempStatus, systolicBP, systolicStatus, diastolicBP, diastolicStatus, 
+        pulseRate, pulseRateStatus, respirationRate, respRateStatus, complaint, impression, treatment,
+        diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
     var i, key;
     var time = Math.round(+new Date()/1000);
@@ -63,10 +64,15 @@ exports.addClinicVisit = function(req, res){
         height: height,
         heightStatus: heightStatus,
         bodyTemp: bodyTemp,
+        bodyTempStatus: bodyTempStatus,
         systolicBP: systolicBP,
+        systolicStatus: systolicStatus,
         diastolicBP: diastolicBP,
+        diastolicStatus: diastolicStatus,
         pulseRate: pulseRate,
+        pulseRateStatus: pulseRateStatus,
         respirationRate: respirationRate,   
+        respRateStatus: respRateStatus,
 
         visitReason: complaint,
         impression: impression,
@@ -99,31 +105,56 @@ exports.addClinicVisit = function(req, res){
         database.ref('clinicVisit/' + key + '/medication').push(medication);
     }
 
-    if(diagnosisAssign != ""){
-        console.log("pumasok ba dito?")
-        var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
-        var diagnosisForm = {
-            task: "Clinic Visit",
-            description: "Diagnosis & Prescription",
-            formId: key,
-            assignedBy: nurse,
-            dateAssigned: visitDate,
-            timestamp: time
-        }
-
-        var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
-        var notif = {
-            type: "form",
-            formId: key,
-            message: "You have been assigned to a new form!",
-            date: visitDate,
+    // if intake array is not empty!
+    if(intakeArray.length != 0){
+        var intakeHistory = {
+            id: studentId, 
+            studentName: studentName,
+            grade: studentGrade,
+            section: studentSection,
+            visitDate: visitDate,
             timestamp: time,
-            seen: false
+            timeIn: timeIn,
+            timeout: timeOut,
+            attendingNurse: nurse,
+            medications: "", // array of medications
         }
+    
+        var intakeRef = database.ref("intakeHistory");
+        var historyKey = intakeRef.push(intakeHistory).key;
 
-        assignDiagnosis.push(diagnosisForm);
-        userDiagnosisNotification.push(notif);
+        for(i = 0; i < intakeArray.length; i++){
+            history = {
+                medicine: medicationsArray[i].medication,
+                amount: parseInt(medicationsArray[i].amount),
+                time: medicationsArray[i].time
+            };
+            database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+        }
     }
+
+    var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+    var diagnosisForm = {
+        task: "Clinic Visit",
+        description: "Diagnosis & Prescription",
+        formId: key,
+        assignedBy: nurse,
+        dateAssigned: visitDate,
+        timestamp: time
+    }
+
+    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+    var notif = {
+        type: "form",
+        formId: key,
+        message: "You have been assigned to a new form!",
+        date: visitDate,
+        timestamp: time,
+        seen: false
+    }
+
+    assignDiagnosis.push(diagnosisForm);
+    userDiagnosisNotification.push(notif);
    
     // needed as ajax was used to send data
     res.status(200).send();
@@ -389,13 +420,14 @@ exports.getClinicVisits = function(){
                     childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
                         childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
                         
-                        visits.push({ // contains all data (not grouped by date)
-                          studentName: childSnapshotData.studentName,
-                          complaint: childSnapshotData.visitReason,
-                          timeIn: childSnapshotData.timeIn,
-                          timeOut: childSnapshotData.timeOut,
-                          status: childSnapshotData.status,
-                          visitDate: childSnapshotData.visitDate
+                        visits.push({
+                            formId: innerChildSnapshot.key,
+                            studentName: childSnapshotData.studentName,
+                            complaint: childSnapshotData.visitReason,
+                            timeIn: childSnapshotData.timeIn,
+                            timeOut: childSnapshotData.timeOut,
+                            status: childSnapshotData.status,
+                            visitDate: childSnapshotData.visitDate
                         })         
                     })
                     resolve(visits);
@@ -510,6 +542,8 @@ exports.getClinicVisitForm = function(req){
                 diagnosis: snapshotData.diagnosis,
 
                 prescribedBy: snapshotData.prescribedBy,
+                status: snapshotData.status,
+                notes: snapshotData.notes
             })
 
             if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati

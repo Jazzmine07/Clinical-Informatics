@@ -713,7 +713,7 @@
                             <div class="col-2 mb-2">
                                 <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                 <div class="input-group">                                        
-                                    <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                    <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" step="0.1">                                        
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon1">°C</span>
                                     </div>
@@ -1174,7 +1174,6 @@
         });
 
         var heightStatus;
-        
         $("#height").change(function(){
             var height =  $('#height').val(); 
             console.log(height);
@@ -1404,8 +1403,8 @@
             });
         });
 
+        var bodyTempStatus;
         $("#bodyTemp").change(function(){
-            var bodyTempStatus;
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
             console.log("bodyTemp clicked");
@@ -1460,9 +1459,9 @@
             }
 
         });
-
+        
+        var systolicStatus;
         $("#systolic").change(function(){
-            var systolicStatus;
             var systolic =  $('#systolic').val(); 
             console.log(systolic);
             console.log("systolic clicked");
@@ -1912,8 +1911,8 @@
             });
         });
 
+        var diastolicStatus;
         $("#diastolic").change(function(){
-            var diastolicStatus;
             var diastolic =  $('#diastolic').val(); 
             console.log(diastolic);
             console.log("diastolic clicked");
@@ -2362,8 +2361,8 @@
             });
         });
 
+        var pulseRateStatus;
         $("#pulseRate").change(function(){
-            var pulseRateStatus;
             var pulseRate =  $('#pulseRate').val(); 
             console.log(pulseRate);
             console.log("pulseRate clicked");
@@ -2448,8 +2447,8 @@
             });
         });
 
+        var respRateStatus;
         $("#respRate").change(function(){
-            var respRateStatus;
             var respRate =  $('#respRate').val(); 
             console.log(respRate);
             console.log("respRate clicked");
@@ -2534,10 +2533,15 @@
             });
         });
         
-        function getHeightWeight(){
+        function getStatus(){
             return {
                 heightStatus: heightStatus,
-                weightStatus: weightStatus
+                weightStatus: weightStatus,
+                bodyTempStatus: bodyTempStatus,
+                systolicStatus: systolicStatus,
+                diastolicStatus: diastolicStatus,
+                pulseRateStatus: pulseRateStatus,
+                respRateStatus: respRateStatus,
             };
         }
 
@@ -3029,18 +3033,30 @@
         }
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
-            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
+            medicationsArray.push({
+                medication: meds, 
+                purpose: purpose, 
+                amount: amount, 
+                interval: interval, 
+                startMed: startMed, 
+                endMed: endMed
+            });
         }
 
         function addIntakeHistory(medication, amount, time, taken) {
-            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+            intakeArray.push({
+                medication: medication, 
+                amount: amount, 
+                time: time, 
+                taken: taken
+            });
         }
 
         var i = 0;  
         var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
 
         $('#addMedication').click(function(){
-            var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var selectedMedication = $('#medicationVisit').find('option:selected').text();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
@@ -3112,7 +3128,7 @@
         });
 
         $('#saveBtn').click(function(){
-            var heightWeightStatus = getHeightWeight();
+            var status = getStatus();
             var height = $('#height').val();
             var weight = $('#weight').val();   
 
@@ -3270,15 +3286,22 @@
                         timeOut: timeOut,
                         clinicType: clinicType,
                         nurse: nurse, // attending nurse 
+
                         weight: weight,
-                        weightStatus: heightWeightStatus.weightStatus,
+                        weightStatus: status.weightStatus,
                         height: height,
-                        heightStatus: heightWeightStatus.heightStatus,
+                        heightStatus: status.heightStatus,
                         bodyTemp: bodyTemp,
+                        bodyTempStatus: status.bodyTempStatus,
                         systolicBP: systolic,
+                        systolicStatus: status.systolicStatus,
                         diastolicBP: diastolic,
+                        diastolicStatus: status.diastolicStatus,
                         pulseRate: pr,
+                        pulseRateStatus: status.pulseRateStatus,
                         respirationRate: rr,
+                        respRateStatus: status.respRateStatus,
+
                         complaint: complaint,
                         impression: impression,
                         treatment: treatment,               
@@ -3289,6 +3312,7 @@
                         //medicationAssign: selectedMedicationAssign,
                         prescribedBy: selectedPrescribedBy,
                         medicationsArray: medicationsArray,
+                        intakeArray: intakeArray,
 
                         notes: notes,
                         status: status,

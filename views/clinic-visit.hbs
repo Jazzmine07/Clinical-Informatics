@@ -337,15 +337,7 @@
                         </div>        
                     </div>
 
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
-
                     <div class="row">
-
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -369,8 +361,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Under Observation Today</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboard.observationCount}}</div>
+                                                Sent to Class Today</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboard.classCount}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-bed fa-2x text-gray-300"></i>
@@ -415,7 +407,7 @@
                         </div>
                     </div>
 
-                    {{!-- <!-- DataTales Assigned Task -->
+                    <!-- DataTales Assigned Task -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Assigned Tasks</h6>
@@ -444,7 +436,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <!-- DataTales Clinic Visits -->
                     <div class="card shadow mb-4">
@@ -466,13 +458,13 @@
                                     </thead>
                                     <tbody>
                                         {{#each clinicVisits}}
-                                            <tr class='clickable-row'>
-                                                <td>{{studentName}}</td>
-                                                <td>{{complaint}}</td>
-                                                <td>{{formatDate visitDate}}</td>
-                                                <td>{{timeIn}}</td>
-                                                <td>{{timeOut}}</td>
-                                                <td>{{status}}</td>
+                                            <tr>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{studentName}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{complaint}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{formatDate visitDate}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{timeIn}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{timeOut}}</a></td>
+                                                <td><a href="/clinic-visit/view/{{formId}}">{{status}}</a></td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

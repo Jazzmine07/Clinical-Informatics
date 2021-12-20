@@ -649,13 +649,13 @@
                                 <label for="clinicOut" class="col-form-label">Time Out</label>
                                 <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                             </div>  
-                            <div class="col-3">
+                            <div class="col-5">
                                 <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
                                 <select class="custom-select mb-2" id="clinicType" name="clinicType">
-                                    <option value="consultation">Consultation</option>
-                                    <option value="emergency">Emergency</option>
-                                    <option value="intramurals">Intramurals</option>
-                                    <option value="famDay">Family Day</option>
+                                    <option value="Consultation">Consultation</option>
+                                    <option value="Emergency">Emergency</option>
+                                    <option value="Intramurals">Intramurals</option>
+                                    <option value="Family Day">Family Day</option>
                                 </select>
                             </div>  
                         </div>
@@ -701,7 +701,6 @@
                                     </div>
                                 </div>
                             </div>
-                        
                             <div class="col-2 mb-2">
                                 <label for="height" class="col-form-label">Height</label>
                                 <div class="input-group">                                           
@@ -714,7 +713,7 @@
                             <div class="col-2 mb-2">
                                 <label for="bodyTemp" class="col-form-label">Body Temperature</label>
                                 <div class="input-group">                                        
-                                    <input type="number" class="form-control" id="bodyTemp" name="bodyTemp">                                        
+                                    <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" step="0.1">                                        
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon1">°C</span>
                                     </div>
@@ -831,7 +830,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis"/>                                       
+                                    <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis">                                       
                                     <datalist id="diagnosisList">
                                         {{#each clinician}}
                                             <option value="{{lastName}}"></option>
@@ -846,10 +845,12 @@
                     
                     <!-- Medication -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Medication</h6>
+                        </div>
                         {{!-- <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                                label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
+                            <label class="col-form-label p-2 mr-1" for="assign">Assign To</label>
                             <select id="assignMedication" name="assignMedication" multiple="multiple" style="width: 300px; display: none;" class="populate placeholder form-control" tabindex="-1">
                                 {{#each users}}
                                     <option value="{{key}}"> {{firstName}} {{lastName}}</option>
@@ -928,12 +929,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="well">
-                                        
-                                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
-                                                <i class="fa fa-exclamation-circle"></i>
-                                                <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                            </div>                               
-                                        
+                                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
+                                        </div>                               
                                     </div>
                                 </div>
                             </div>
@@ -1025,12 +1024,12 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <label class="col-form-label" for="status">Disposition</label>
                                     <select class="custom-select mb-2" id="status" name="status">
                                         <option disabled="disabled" selected="true">Choose...</option>
                                         <option value="Sent Home">Sent Home</option>
-                                        <option value="Sent Home">Sent to Hospital</option>
+                                        <option value="Hospitalized">Sent to Hospital</option>
                                         <option value="Sent To Class">Sent To Class</option>                                   
                                     </select>                                    
                                 </div>
@@ -1122,12 +1121,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>
-        $("#assignMedication").select2({
-        placeholder: "Select or type keywords"
-        });
-
         $("#assignDiagnosis").select2({
-        placeholder: "Select or type keywords"
+        placeholder: " Select or type keywords"
         });
         $("#medicationVisit").select2();
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
@@ -1179,7 +1174,6 @@
         });
 
         var heightStatus;
-        
         $("#height").change(function(){
             var height =  $('#height').val(); 
             console.log(height);
@@ -1409,8 +1403,8 @@
             });
         });
 
+        var bodyTempStatus;
         $("#bodyTemp").change(function(){
-            var bodyTempStatus;
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
             console.log("bodyTemp clicked");
@@ -1465,9 +1459,9 @@
             }
 
         });
-
+        
+        var systolicStatus;
         $("#systolic").change(function(){
-            var systolicStatus;
             var systolic =  $('#systolic').val(); 
             console.log(systolic);
             console.log("systolic clicked");
@@ -1917,8 +1911,8 @@
             });
         });
 
+        var diastolicStatus;
         $("#diastolic").change(function(){
-            var diastolicStatus;
             var diastolic =  $('#diastolic').val(); 
             console.log(diastolic);
             console.log("diastolic clicked");
@@ -2367,8 +2361,8 @@
             });
         });
 
+        var pulseRateStatus;
         $("#pulseRate").change(function(){
-            var pulseRateStatus;
             var pulseRate =  $('#pulseRate').val(); 
             console.log(pulseRate);
             console.log("pulseRate clicked");
@@ -2453,8 +2447,8 @@
             });
         });
 
+        var respRateStatus;
         $("#respRate").change(function(){
-            var respRateStatus;
             var respRate =  $('#respRate').val(); 
             console.log(respRate);
             console.log("respRate clicked");
@@ -2539,10 +2533,15 @@
             });
         });
         
-        function getHeightWeight(){
+        function getStatus(){
             return {
                 heightStatus: heightStatus,
-                weightStatus: weightStatus
+                weightStatus: weightStatus,
+                bodyTempStatus: bodyTempStatus,
+                systolicStatus: systolicStatus,
+                diastolicStatus: diastolicStatus,
+                pulseRateStatus: pulseRateStatus,
+                respRateStatus: respRateStatus,
             };
         }
 
@@ -3034,18 +3033,30 @@
         }
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
-            medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
+            medicationsArray.push({
+                medication: meds, 
+                purpose: purpose, 
+                amount: amount, 
+                interval: interval, 
+                startMed: startMed, 
+                endMed: endMed
+            });
         }
 
         function addIntakeHistory(medication, amount, time, taken) {
-            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+            intakeArray.push({
+                medication: medication, 
+                amount: amount, 
+                time: time, 
+                taken: taken
+            });
         }
 
         var i = 0;  
         var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
 
         $('#addMedication').click(function(){
-            var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var selectedMedication = $('#medicationVisit').find('option:selected').text();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
@@ -3117,7 +3128,7 @@
         });
 
         $('#saveBtn').click(function(){
-            var heightWeightStatus = getHeightWeight();
+            var status = getStatus();
             var height = $('#height').val();
             var weight = $('#weight').val();   
 
@@ -3275,33 +3286,36 @@
                         timeOut: timeOut,
                         clinicType: clinicType,
                         nurse: nurse, // attending nurse 
+
                         weight: weight,
-                        weightStatus: heightWeightStatus.weightStatus,
+                        weightStatus: status.weightStatus,
                         height: height,
-                        heightStatus: heightWeightStatus.heightStatus,
+                        heightStatus: status.heightStatus,
                         bodyTemp: bodyTemp,
+                        bodyTempStatus: status.bodyTempStatus,
                         systolicBP: systolic,
+                        systolicStatus: status.systolicStatus,
                         diastolicBP: diastolic,
+                        diastolicStatus: status.diastolicStatus,
                         pulseRate: pr,
+                        pulseRateStatus: status.pulseRateStatus,
                         respirationRate: rr,
+                        respRateStatus: status.respRateStatus,
+
                         complaint: complaint,
                         impression: impression,
-                        treatment: treatment,                    
-                        //medicationAssign: selectedMedicationAssign,
-                        //prescribedBy: selectedPrescribedBy,
-                        //medicineList: medicineList,
-                        //purposeList: purposeList, 
-                        //amountList: amountList,
-                        //intervalList: intervalList,
-                        //startMedList: startMed,
-                        //endMedList: endMed,
+                        treatment: treatment,               
 
                         diagnosisAssign: selectedDiagnosisAssign,
                         diagnosis: diagnosis,
 
+                        //medicationAssign: selectedMedicationAssign,
+                        prescribedBy: selectedPrescribedBy,
+                        medicationsArray: medicationsArray,
+                        intakeArray: intakeArray,
+
                         notes: notes,
                         status: status,
-
                     },
                     success: function(data) {
                         console.log("success in ajax!");

@@ -60,23 +60,9 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-                
-                <!-- Nav Item - Disease Surveillance -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/disease-surveillance">
-                        <i class="fas fa-fw fa-virus"></i>
-                        <span>Disease Surveillance</span></a>
-                </li>
-
                 <!-- Nav Item - Clinic Visit -->
-                <li class="nav-item">
-                    <a class="nav-link active" href="/clinic-visit">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/clinic-visit">
                         <i class="fas fa-fw fa-medkit"></i>
                         <span>Clinic Visit</span></a>
                 </li>
@@ -449,7 +435,7 @@
                                 </div>
                                 <div class="col-2">
                                     <label for="clinicOut" class="col-form-label">Time Out</label>
-                                    <input type="time" class="form-control mb-2" id="clinicOut">
+                                    <input type="time" class="form-control mb-2" id="clinicOut" disabled="disabled" value="{{form.timeOut}}">
                                 </div>
                                 <div class="col-5">
                                     <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
@@ -556,7 +542,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3">{{form.treatment}}</textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" disabled="disabled" rows="3">{{form.treatment}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -566,15 +552,12 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>
-                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assigned To</label>
-                            <input type="hidden" class="form-control mb-2" id="diagnosisAssigned" value="{{form.diagnosisAssignedKey}}">
-                            <input type="text" class="form-control" value="{{form.diagnosisAssigned}}" disabled="disabled">
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis">                                       
+                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" value="{{form.diagnosis}}" disabled="disabled">                                       
                                 </div>
                             </div>
                         </div>
@@ -584,12 +567,6 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assignMedication">Assign To</label>
-                            <select class="form-control mb-2 select2 populate placeholder" multiple="multiple" style="width: 300px; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="assignMedication" name="assignMedication">
-                                {{#each nurse}}
-                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                {{/each}}
-                            </select> 
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -603,72 +580,11 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="col-form-label" for="medicationVisit">Medication</label>
-                                            <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
-                                                <option disabled="disabled" selected="true">Choose...</option>
-                                                {{#each medicines}}
-                                                    <option value="{{name}}">{{medicine}}</option>   
-                                                {{/each}} 
-                                            </select>                                                                   
+                                            {{!-- display list of medication given --}}                                                                
                                         </div>
-                                        <div class="col-5">
-                                            <label class="col-form-label" for="amountMed">Dose</label>
-                                            <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
-                                            <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
-                                        </div>
-                                        <div class="col-5">
-                                            <div id="validAmount" class="valid-feedback font-weight-bold"></div>
-                                            <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                            <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
-                                        </div>
-                                        <div class="col-5">
-                                            <label class="col-form-label" for="intervalMed">Interval</label>
-                                            <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3 align-items-center">
-                                            <label class="col-form-label" for="startMed">Start Date</label>
-                                            <input type="date" class="form-control mb-2" id="startMed" name="startMed">
-                                        </div>
-                                        <div class="col-3 align-items-center">
-                                            <label class="col-form-label" for="endMed">End Date</label>
-                                            <input type="date" class="form-control mb-2" id="endMed" name="endMed">
-                                        </div>
-                                        <div class="col-3" style="margin-right: -115px;">
-                                            <div class="form-check align-items-center" style="padding-top: 35px;">
-                                                <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
-                                                <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
-                                            </div>
-                                        </div>
-                                        <div id="takenDiv" class="col-3 align-items-center" style="display:none">
-                                            <label class="col-form-label" for="timeTaken">Time</label>
-                                            <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="well">
-                                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
-                                            <i class="fa fa-exclamation-circle"></i>
-                                            <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                        </div>                               
                                     </div>
                                 </div>
                             </div>
-                            <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
-                            <table class="table" id="dynamic_field">  
-
-                            </table>
                         </div>
                     </div>
 
@@ -678,27 +594,19 @@
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label class="col-form-label" for="status">Disposition</label>
-                                    <select class="custom-select mb-2" id="status" name="status">
-                                        <option disabled="disabled" selected="true">Choose...</option>
-                                        <option value="Sent Home">Sent Home</option>
-                                        <option value="Hospitalized">Sent to Hospital</option>
-                                        <option value="Sent To Class">Sent To Class</option>                                   
-                                    </select>  
+                                    <input type="text" class="custom-select mb-2" id="status" name="status" disabled="disabled" value="{{form.status}}">
                                 </div>
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="notes">Notes/Recommendations</label>
-                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" disabled="disabled" rows="3">{{form.notes}}</textarea>
                                 </div>    
-                            </div>
-                            <div class="d-flex justify-content-end mt-4 col-12">
-                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
-                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
                             </div>
                         </div>
                     </div>
                 </div>
+                
             <!-- End of Main Content -->
 
             <!-- Footer -->

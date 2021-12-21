@@ -848,6 +848,7 @@
                 dataCount.push(data[0].arr[i].count); // dataCount array are the counts for each concern
             }
             var temp,temp2,temp3;
+            var filteredData=[];
             //console.log(labels);
             //console.log(dataCount);
         
@@ -942,7 +943,7 @@
             var symptomChart = new Chart(complaints, config);   
 
             function clickHandlerSC(click){
-            
+                console.log(data[1].arr2);
                 const points= symptomChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
                 if(points.length){
                     var firstPoint= points[0];
@@ -971,6 +972,7 @@
                                         temp[4].count=temp[4].count+1;
                                     else if(data[1].arr2[i].grade == "6")
                                         temp[5].count=temp[5].count+1;
+                                    filteredData.push(data[1].arr2[i]);
                                 }
                             }
                             console.log(temp);
@@ -997,6 +999,7 @@
                                         temp[4].count=temp[4].count+1;
                                     else if(data[1].arr2[i].grade == "6")
                                         temp[5].count=temp[5].count+1;
+                                    filteredData.push(data[1].arr2[i]);
                                 }
                             }
                             console.log(temp);
@@ -1010,6 +1013,8 @@
                         
                     }
                     else if(symptomChart.config.data.datasets[0].label=="Grade Level Symptom Count"){
+                        console.log("FILTERED DATA");
+                        console.log(filteredData);
                         temp2=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
                         for(i=0;i<6;i++){
                             sLabels.pop();
@@ -1023,19 +1028,19 @@
                             sLabels.push("Faithfulness");
                             sLabels.push("Humility");
                             sLabels.push("Politeness");
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Truthfulness")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "1"){
+                                    if(filteredData[i].section == "Truthfulness")
                                     temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Sincerity")
+                                    else if(filteredData[i].section == "Sincerity")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Honesty")
+                                    else if(filteredData[i].section == "Honesty")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Faithfulness")
+                                    else if(filteredData[i].section == "Faithfulness")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Humility")
+                                    else if(filteredData[i].section == "Humility")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Politeness")
+                                    else if(filteredData[i].section == "Politeness")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }
@@ -1047,19 +1052,19 @@
                             sLabels.push("Gratefulness");
                             sLabels.push("Gratitude");
                             sLabels.push("Meekness");
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Simplicity")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "2"){
+                                    if(filteredData[i].section == "Simplicity")
                                         temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Charity")
+                                    else if(filteredData[i].section == "Charity")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Helpfulness")
+                                    else if(filteredData[i].section == "Helpfulness")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Gratefulness")
+                                    else if(filteredData[i].section == "Gratefulness")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Gratitude")
+                                    else if(filteredData[i].section == "Gratitude")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Meekness")
+                                    else if(filteredData[i].section == "Meekness")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }
@@ -1071,19 +1076,19 @@
                             sLabels.push("Kindness");
                             sLabels.push("Piety");
                             sLabels.push("Prayerfulness");
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Respect")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "3"){
+                                    if(filteredData[i].section == "Respect")
                                         temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Courtesy")
+                                    else if(filteredData[i].section == "Courtesy")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Trust")
+                                    else if(filteredData[i].section == "Trust")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Kindness")
+                                    else if(filteredData[i].section == "Kindness")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Piety")
+                                    else if(filteredData[i].section == "Piety")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Prayerfulness")
+                                    else if(filteredData[i].section == "Prayerfulness")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }
@@ -1096,19 +1101,19 @@
                             sLabels.push("Harmony");
                             sLabels.push("Solidarity");
                             
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Unity")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "4"){
+                                    if(filteredData[i].section == "Unity")
                                         temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Purity")
+                                    else if(filteredData[i].section == "Purity")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Fidelity")
+                                    else if(filteredData[i].section == "Fidelity")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Equality")
+                                    else if(filteredData[i].section == "Equality")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Harmony")
+                                    else if(filteredData[i].section == "Harmony")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Solidarity")
+                                    else if(filteredData[i].section == "Solidarity")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }
@@ -1121,19 +1126,19 @@
                             sLabels.push("Serenity");
                             sLabels.push("Flexibility");
             
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Trustworthiness")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "5"){
+                                    if(filteredData[i].section == "Trustworthiness")
                                         temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Reliability")
+                                    else if(filteredData[i].section == "Reliability")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Dependability")
+                                    else if(filteredData[i].section == "Dependability")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Responsibility")
+                                    else if(filteredData[i].section == "Responsibility")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Serenity")
+                                    else if(filteredData[i].section == "Serenity")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Flexibility")
+                                    else if(filteredData[i].section == "Flexibility")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }
@@ -1146,19 +1151,19 @@
                             sLabels.push("Perseverance");
                             sLabels.push("Patience");
                             
-                            for(i=0;i<data[1].arr2.length;i++){
-                                if(con == data[1].arr2[i].visitReason){
-                                    if(data[1].arr2[i].section == "Self-Discipline")
+                            for(i=0;i<filteredData.length;i++){
+                                if(filteredData[i].grade == "6"){
+                                    if(filteredData[i].section == "Self-Discipline")
                                         temp2[0].count=temp2[0].count+1;
-                                    else if(data[1].arr2[i].section == "Abnegation")
+                                    else if(filteredData[i].section == "Abnegation")
                                         temp2[1].count=temp2[1].count+1;
-                                    else if(data[1].arr2[i].section == "Self-Giving")
+                                    else if(filteredData[i].section == "Self-Giving")
                                         temp2[2].count=temp2[2].count+1;
-                                    else if(data[1].arr2[i].grade == "Integrity")
+                                    else if(filteredData[i].section == "Integrity")
                                         temp2[3].count=temp2[3].count+1;
-                                    else if(data[1].arr2[i].grade == "Perseverance")
+                                    else if(filteredData[i].section == "Perseverance")
                                         temp2[4].count=temp2[4].count+1;
-                                    else if(data[1].arr2[i].grade == "Patience")
+                                    else if(filteredData[i].section == "Patience")
                                         temp2[5].count=temp2[5].count+1;
                                 }
                             }

@@ -693,8 +693,10 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 router.post('/updateNotif', notificationController.updateNotifications);
-router.post('/getStudentRecord', studentInfoController.getStudentInfo);
-router.post('/getBMI', studentInfoController.getBMI);
+router.get('/getStudentRecord', studentInfoController.getStudentInfo);
+router.get('/getVisits', visitController.getStudentVisits);
+router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
 router.get('/getVisitDetails', visitController.getVisitDetails);

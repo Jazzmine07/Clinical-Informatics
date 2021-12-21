@@ -1,7 +1,7 @@
 const firebase = require('../firebase');
 
 exports.getStudentInfo = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
@@ -21,6 +21,7 @@ exports.getStudentInfo = function(req, res){
                 religion: snapshotData.religion,
                 age: snapshotData.age,
                 sex: snapshotData.sex,
+                height: snapshotData.height,
                 weight: snapshotData.weight,
                 address: snapshotData.address,
                 fatherName: snapshotData.fatherName,
@@ -77,7 +78,7 @@ exports.getNotAllowedMedication = function(req, res){
 };
 
 exports.getBMI = function(req, res){
-    var id = req.body.idNum;
+    var id = req.query.studentID;
     var database = firebase.database();
     var historyRef = database.ref("studentHealthHistory/"+ id + "/ape");
     var studentInfo = [];
@@ -172,7 +173,7 @@ exports.getStudentVisits = function(req, res){
 };
 
 exports.getStudentIntakeHistory = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
     var database = firebase.database();
     var historyRef = database.ref("intakeHistory");
     var userRef = database.ref("clinicUsers");

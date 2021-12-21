@@ -405,6 +405,7 @@ exports.getStudentVisits = function(req, res){
 //     })  
 // };
 
+// This function is called in clinic-visit-create
 exports.getVisitDetails = function(req, res){
     var student = req.query.studentID;
     var database = firebase.database();

@@ -324,19 +324,6 @@
                     
 
                     <div class="row">
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Complaints or Reason for Visit</h6>
-                                </div>
-                                <div class="card-body" style="width: 650px; length: 7500px" >
-                                    <div class="chart-bar">
-                                        <canvas id="complaintsChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="col-xl-4 col-lg-12">
                             <div class="card shadow mb-4">
@@ -678,59 +665,6 @@
                 checker2=true;
             });
 
-        }
-
-        function showSymptoms(labels,dataCount){               
-                var complaintsChart = document.getElementById("complaintsChart");
-                horizontalChart = new Chart(complaintsChart, {
-                    type: 'bar',
-                    data: {
-                        labels: labels, // x-axis
-                        datasets: [{
-                            label: "Complaints",
-                            data: dataCount,
-                            backgroundColor: [  // background color of the thing
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                            ],
-                            borderWidth: 3,
-                        }],
-                    },
-                    plugins: [ChartDataLabels],
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        barThickness: 25,
-                        plugins: {
-                            datalabels: {
-                                anchor: 'end',
-                                align: 'right',
-                                offset: 10,
-                                formatter: Math.round,
-                                font: {
-                                    weight: 'bold'
-                                },
-                            },
-                            legend: {
-                                display: false
-                            },
-                        },
-                        layout: {   // layout ng entire chart
-                            padding: {
-                                left: 30,
-                                right: 25,
-                                top: 0,
-                                bottom: 25
-                            },
-                        },
-                    },
-                });   
         }
 
         function symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6) {

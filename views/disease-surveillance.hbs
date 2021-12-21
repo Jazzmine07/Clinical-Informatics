@@ -396,6 +396,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
+                                </div>
+                                <div class="card-body" >
+                                    <div class="chart-bar">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                             <!-- Area Chart -->
@@ -411,7 +423,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xl-8 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Reason for Visit</h6>
+                                </div>
+                                <div class="card-body" style="width: 650px; length: 7500px" >
+                                    <div class="chart-bar">
+                                        <canvas id="complaintsPieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+                    
 
                     <!-- Content Row -->
                 </div>
@@ -495,24 +522,12 @@
 
             var disease =  $('#disease').find(":selected").text();
             console.log(disease);
-            
 
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
-               console.log("HEAVEN")
-               sectionGradeChart(data);
+               showDiseaseChart(data);
             });
             $.post("/getVisitReasonCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
-                //if(checker1){
-                //    console.log("checker");
-                //    horizontalChart.destroy();
-                //    genderSymptomChart.destroy();
-                //    visitTypeChart.destroy();
-                //}
-                //console.log(data)
-                //console.log(data[0])
-                //console.log(data[1])
                 showSymptomChart(data);
-                //checker1=true;
             });
         }
         // Set new default font family and font color to mimic Bootstrap's default styling
@@ -639,7 +654,7 @@
             });            
         }
         //Search specific Disease chart
-        function sectionGradeChart(data) {
+        function showDiseaseChart(data) {
             console.log(data);
             var i,j;
 
@@ -797,9 +812,27 @@
                 
                 }
             }
+            var config2={
+                type: 'pie',
+                data,
+                //plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },                
+                }
+            }
 
             var glc = document.getElementById("myBarChart");
             var gradeLevelChart = new Chart(glc, config);   
+            var glc2 = document.getElementById("myPieChart");
+            var gradeLevelPieChart = new Chart(glc2, config2);   
 
             function clickHandler(click){
                 const points= gradeLevelChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
@@ -807,37 +840,46 @@
                     var firstPoint= points[0];
                     console.log(points[0]);
                     console.log(firstPoint._index);
-                    if(gradeLevelChart.config.data.datasets[0].label=="Grade Levels"){
+                    if(gradeLevelChart.config.data.datasets[0].label=="Grade Levels"|| gradeLevelPieChart.config.data.datasets[0].label=="Grade Levels"){
                         if(firstPoint._index === 0){
                             gradeLevelChart.config.data = grade1Sections;
+                            gradeLevelPieChart.config.data = grade1Count;
                         }
                         else if(firstPoint._index === 1){
                             gradeLevelChart.config.data = grade2Sections;
+                            gradeLevelPieChart.config.data = grade2Count;
                         }
                         else if(firstPoint._index === 2){
                             gradeLevelChart.config.data = grade3Sections;
+                            gradeLevelPieChart.config.data = grade3Count;
                         }
                         else if(firstPoint._index === 3){
                             gradeLevelChart.config.data = grade4Sections;
+                            gradeLevelPieChart.config.data = grade4Count;
                         }
                         else if(firstPoint._index === 4){
                             gradeLevelChart.config.data = grade5Sections;
+                            gradeLevelPieChart.config.data = grade5Count;
                         }
                         else if(firstPoint._index === 5){
                             gradeLevelChart.config.data = grade6Sections;
+                            gradeLevelPieChart.config.data = grade6Count;
                         }
                     }
                     else{
-                        gradeLevelChart.config.data = data;   
+                        gradeLevelChart.config.data = data;  
+                        gradeLevelPieChart.config.data = data;   
                     }
                     
                     gradeLevelChart.update();
+                    gradeLevelPieChart.update();
                 }
             }
 
             glc.onclick=clickHandler;
+            glc2.onclick=clickHandler;
         }
-
+        //Show Symptoms Count (whole, grade level view, each section for grade levvel)
         function showSymptomChart(data) {
             console.log(data);
             var i,j;
@@ -858,7 +900,12 @@
                 labels: labels,
                 datasets: [{
                     label: "Symptom Count",
-                    backgroundColor: "#4e73df",
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                    ],
                     hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data:dataCount,
@@ -868,7 +915,12 @@
                 labels: gradeName,
                 datasets: [{
                     label: "Grade Level Symptom Count",
-                    backgroundColor: "#4e73df",
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
                     hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data:gDataCount,
@@ -878,10 +930,16 @@
                 labels: sLabels,
                 datasets: [{
                     label: "Section Symptom Count",
-                    backgroundColor: "#4e73df",
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                    ],
                     hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data: sDataCount,
+                    
                 }],
             };
 
@@ -938,9 +996,27 @@
                 
                 }
             }
-
+            var configPie={
+                type: 'pie',
+                data:symptomsCount,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                
+                }
+            }            
+            
             var complaints = document.getElementById("complaintsChart");
-            var symptomChart = new Chart(complaints, config);   
+            var symptomChart = new Chart(complaints, config); 
+            var complaints2 = document.getElementById("complaintsPieChart");
+            var symptomPieChart = new Chart(complaints2, configPie);   
 
             function clickHandlerSC(click){
                 console.log(data[1].arr2);
@@ -952,7 +1028,7 @@
                     console.log(data[1].arr2.length);
                     var con = data[0].arr[firstPoint._index].concern;
                     
-                    if(symptomChart.config.data.datasets[0].label=="Symptom Count"){
+                    if(symptomChart.config.data.datasets[0].label=="Symptom Count" || symptomPieChart.config.data.datasets[0].label=="Symptom Count"){
                         temp=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
                         console.log(data[0].arr[firstPoint._index].concern);
                         
@@ -982,6 +1058,7 @@
                             console.log("gDataCount");     
                             console.log(gDataCount);
                             symptomChart.config.data = gradeCount;
+                            symptomPieChart.config.data = gradeCount;
                         }
                         else{
                             for(i=0;i<data[1].arr2.length;i++){
@@ -1009,6 +1086,7 @@
                             console.log("gDataCount");     
                             console.log(gDataCount);
                             symptomChart.config.data = gradeCount;
+                            symptomPieChart.config.data = gradeCount;
                         }
                         
                     }
@@ -1176,6 +1254,7 @@
                         console.log(sDataCount);
                         
                         symptomChart.config.data = sectionCount;
+                        symptomPieChart.config.data = sectionCount;
 
 
                     }
@@ -1185,10 +1264,12 @@
                     }
                     
                     symptomChart.update();
+                    symptomPieChart.update();
                 }
             }
 
             complaints.onclick=clickHandlerSC;
+            complaints2.onclick=clickHandlerSC;
         }            
 
 

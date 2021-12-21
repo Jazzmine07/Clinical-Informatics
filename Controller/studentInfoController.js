@@ -53,20 +53,19 @@ exports.getStudentInfo = function(req, res){
 };
 
 exports.getNotAllowedMedication = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
     var database = firebase.database();
     var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
-    var childSnapshotData, temp = [],notAllowed = [];
+    var childSnapshotData, notAllowed = [];
 
     medicineRef.on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                if(childSnapshotData.isAllowed == false){
-                    notAllowed.push({
-                        medicine: childSnapshot.key
-                    })
-                }
+                notAllowed.push({
+                    medicine: childSnapshot.key,
+                    isAllowed: childSnapshotData.isAllowed
+                })
             })
             console.log("not allowed medications")
             console.log(notAllowed);
@@ -187,20 +186,16 @@ exports.getStudentIntakeHistory = function(req, res){
                     innerChildData = innerChild.exportVal();
                     console.log("innerchild");
                     console.log(innerChildData);
-                    medications.push({
+                    history.push({
                         medicine: innerChildData.medicine,
                         amount: innerChildData.amount,
-                        time: innerChildData.time
+                        time: innerChildData.time,
+                        visitDate: childSnapshotData.visitDate,
+                        attendingNurse: childSnapshotData.attendingNurse,
+                        timeIn: childSnapshotData.timeIn,
+                        timeOut: childSnapshotData.timeOut,
                     })
                 })
-                
-                history.push({
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.attendingNurse,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    medications: medications
-                });
             });
 
             console.log("student intake history");

@@ -696,6 +696,7 @@ router.post('/updateNotif', notificationController.updateNotifications);
 router.get('/getStudentRecord', studentInfoController.getStudentInfo);
 router.get('/getVisits', visitController.getStudentVisits);
 router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 

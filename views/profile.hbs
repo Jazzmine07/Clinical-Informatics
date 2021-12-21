@@ -1419,7 +1419,7 @@
         var schoolYear = [];
         var BMI = [], weight = [], height = [];
         var checker = false;
-        
+
         function searchStudent() {
             var typedID = document.getElementById("idNum").value;
             console.log(typedID);
@@ -1518,13 +1518,18 @@
                 checker = true;
             });
 
-            $.get("/getVisits", {studentID: typedID}, function(data){
-                console.log("visit details of a specfic student");
+            $.get("/getNotAllowedMedication", {studentID: typedID}, function(data){
+                console.log("not allowed medication of a specfic student");
                 console.log(data);
             });
 
             $.get("/getIntakeHistory", {studentID: typedID}, function(data){
                 console.log("medicine intake history of a specfic student");
+                console.log(data);
+            });
+
+            $.get("/getVisits", {studentID: typedID}, function(data){
+                console.log("visit details of a specfic student");
                 console.log(data);
             });
         }

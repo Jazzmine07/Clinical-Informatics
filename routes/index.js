@@ -697,10 +697,7 @@ router.post('/getStudentRecord', studentInfoController.getStudentInfo);
 router.post('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
-router.post('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
-router.post('/getVisits', studentInfoController.getStudentVisits);
-router.post('/getLastVisit', visitController.getLastVisit);
-router.post('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getVisitDetails', visitController.getVisitDetails);
 
 
 router.post('/addClinicVisit', visitController.addClinicVisit);
@@ -721,7 +718,6 @@ router.post('/getVRGradeMonthlyCountDashboard', surveillanceController.getVRCoun
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
-router.post('/getMedicineDetails', inventoryController.getMedicineDetails);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

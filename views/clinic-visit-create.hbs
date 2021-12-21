@@ -1181,226 +1181,224 @@
 
             var typedID = document.getElementById("studentID").value;
 
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("age");
-                console.log(data.age);
-                if(data.age == "5"){
-                    if(height >= 104 && height <= 120){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 104){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 120){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+            console.log("age updated");
+            console.log(age);
+            if(age == "5"){
+                if(height >= 104 && height <= 120){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
                 }
-                else if(data.age == "6"){
-                    if(height >= 111 && height <= 127){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 111){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 127){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height < 104){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
                 }
-                else if(data.age == "7"){
-                    if(height >= 116 && height <= 134){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 116){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 134){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height > 120){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
                 }
-                else if(data.age == "8"){
-                    if(height >= 120 && height <= 140){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 120){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 140){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+            }
+            else if(age == "6"){
+                if(height >= 111 && height <= 127){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
                 }
-                else if(data.age == "9"){
-                    if(height >= 125 && height <= 145){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 125){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 145){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height < 111){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
                 }
-                else if(data.age == "10"){
-                    if(height >= 130 && height <= 151){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 130){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 151){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height > 127){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
                 }
-                else if(data.age == "11"){
-                    if(height >= 135 && height <= 157){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 135){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 157){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+            }
+            else if(age == "7"){
+                if(height >= 116 && height <= 134){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
                 }
-                else if(data.age == "12"){
-                    if(height >= 141 && height <= 164){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 141){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 164){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height < 116){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
                 }
-                else if(data.age == "13"){
-                    if(height >= 147 && height <= 172){
-                        $("#height").removeClass("is-invalid");
-                        $("#height").addClass("is-valid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "block";
-                        heightStatus = "Normal";
-                    }
-                    else if(height < 147){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "block";
-                        document.getElementById('aboveHeight').style.display = "none";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Below Normal";
-                    }
-                    else if(height > 172){
-                        $("#height").addClass("is-invalid");
-                        document.getElementById('belowHeight').style.display = "none";
-                        document.getElementById('aboveHeight').style.display = "block";
-                        document.getElementById('normalHeight').style.display = "none";
-                        heightStatus = "Above Normal";
-                    }
+                else if(height > 134){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
                 }
-            });
+            }
+            else if(age == "8"){
+                if(height >= 120 && height <= 140){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 120){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 140){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
+            else if(age == "9"){
+                if(height >= 125 && height <= 145){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 125){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 145){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
+            else if(age == "10"){
+                if(height >= 130 && height <= 151){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 130){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 151){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
+            else if(age == "11"){
+                if(height >= 135 && height <= 157){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 135){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 157){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
+            else if(age == "12"){
+                if(height >= 141 && height <= 164){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 141){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 164){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
+            else if(age == "13"){
+                if(height >= 147 && height <= 172){
+                    $("#height").removeClass("is-invalid");
+                    $("#height").addClass("is-valid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "block";
+                    heightStatus = "Normal";
+                }
+                else if(height < 147){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "block";
+                    document.getElementById('aboveHeight').style.display = "none";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Below Normal";
+                }
+                else if(height > 172){
+                    $("#height").addClass("is-invalid");
+                    document.getElementById('belowHeight').style.display = "none";
+                    document.getElementById('aboveHeight').style.display = "block";
+                    document.getElementById('normalHeight').style.display = "none";
+                    heightStatus = "Above Normal";
+                }
+            }
         });
 
         var bodyTempStatus;
@@ -1468,447 +1466,444 @@
 
             var typedID = document.getElementById("studentID").value;
 
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("age");
-                console.log(data.age);
-                if(data.sex == "Male"){
-                    if(data.age == "5"){
-                        if(systolic >= 94 && systolic <= 110){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 94){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 110){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+            console.log("age");
+            console.log(age);
+            if(sex == "Male"){
+                if(age == "5"){
+                    if(systolic >= 94 && systolic <= 110){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
                     }
-                    else if(data.age == "6"){
-                        if(systolic >= 90 && systolic <= 109){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 90){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 109){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+                    else if(systolic < 94){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
                     }
-                    else if(data.age == "7"){
-                        if(systolic >= 91 && systolic <= 111){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 91){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 111){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "8"){
-                        if(systolic >= 93 && systolic <= 113){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 93){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 113){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "9"){
-                        if(systolic >= 94 && systolic <= 115){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 94){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 115){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "10"){
-                        if(systolic >= 96 && systolic <= 117){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 96){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 117){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "11"){
-                        if(systolic >= 98 && systolic <= 119){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 98){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 119){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "12"){
-                        if(systolic >= 100 && systolic <= 121){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 100){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 121){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "13"){
-                        if(systolic >= 102 && systolic <= 124){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 102){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 124){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+                    else if(systolic > 110){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
                     }
                 }
-                else if(data.sex == "Female"){
-                    if(data.age == "5"){
-                        if(systolic >= 93 && systolic <= 110){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 93){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 110){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+                else if(age == "6"){
+                    if(systolic >= 90 && systolic <= 109){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
                     }
-                    else if(data.age == "6"){
-                        if(systolic >= 91 && systolic <= 108){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 91){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 108){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+                    else if(systolic < 90){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
                     }
-                    else if(data.age == "7"){
-                        if(systolic >= 92 && systolic <= 110){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 92){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 110){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
+                    else if(systolic > 109){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
                     }
-                    else if(data.age == "8"){
-                        if(systolic >= 94 && systolic <= 112){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 94){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 112){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "9"){
-                        if(systolic >= 95 && systolic <= 114){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 95){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 114){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "10"){
-                        if(systolic >= 97 && systolic <= 116){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 97){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 116){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "11"){
-                        if(systolic >= 99 && systolic <= 118){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 99){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 118){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "12"){
-                        if(systolic >= 100 && systolic <= 120){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 100){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 120){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "13"){
-                        if(systolic >= 102 && systolic <= 121){
-                            $("#systolic").removeClass("is-invalid");
-                            $("#systolic").addClass("is-valid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "block";
-                            systolicStatus = "Normal";
-                        }
-                        else if(systolic < 102){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "block";
-                            document.getElementById('aboveSystolic').style.display = "none";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Below Normal";
-                        }
-                        else if(systolic > 121){
-                            $("#systolic").addClass("is-invalid");
-                            document.getElementById('belowSystolic').style.display = "none";
-                            document.getElementById('aboveSystolic').style.display = "block";
-                            document.getElementById('normalSystolic').style.display = "none";
-                            systolicStatus = "Above Normal";
-                        }
-                    }                    
                 }
-
-            });
+                else if(age == "7"){
+                    if(systolic >= 91 && systolic <= 111){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 91){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 111){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "8"){
+                    if(systolic >= 93 && systolic <= 113){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 93){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 113){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "9"){
+                    if(systolic >= 94 && systolic <= 115){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 94){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 115){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "10"){
+                    if(systolic >= 96 && systolic <= 117){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 96){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 117){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "11"){
+                    if(systolic >= 98 && systolic <= 119){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 98){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 119){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "12"){
+                    if(systolic >= 100 && systolic <= 121){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 100){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 121){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "13"){
+                    if(systolic >= 102 && systolic <= 124){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 102){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 124){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+            }
+            else if(sex == "Female"){
+                if(age == "5"){
+                    if(systolic >= 93 && systolic <= 110){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 93){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 110){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "6"){
+                    if(systolic >= 91 && systolic <= 108){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 91){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 108){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "7"){
+                    if(systolic >= 92 && systolic <= 110){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 92){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 110){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "8"){
+                    if(systolic >= 94 && systolic <= 112){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 94){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 112){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "9"){
+                    if(systolic >= 95 && systolic <= 114){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 95){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 114){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "10"){
+                    if(systolic >= 97 && systolic <= 116){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 97){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 116){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "11"){
+                    if(systolic >= 99 && systolic <= 118){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 99){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 118){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "12"){
+                    if(systolic >= 100 && systolic <= 120){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 100){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 120){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "13"){
+                    if(systolic >= 102 && systolic <= 121){
+                        $("#systolic").removeClass("is-invalid");
+                        $("#systolic").addClass("is-valid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "block";
+                        systolicStatus = "Normal";
+                    }
+                    else if(systolic < 102){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "block";
+                        document.getElementById('aboveSystolic').style.display = "none";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Below Normal";
+                    }
+                    else if(systolic > 121){
+                        $("#systolic").addClass("is-invalid");
+                        document.getElementById('belowSystolic').style.display = "none";
+                        document.getElementById('aboveSystolic').style.display = "block";
+                        document.getElementById('normalSystolic').style.display = "none";
+                        systolicStatus = "Above Normal";
+                    }
+                }                    
+            }
         });
 
         var diastolicStatus;
@@ -1919,446 +1914,444 @@
 
             var typedID = document.getElementById("studentID").value;
 
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("age");
-                console.log(data.age);
-                if(data.sex == "Male"){
-                    if(data.age == "5"){
-                        if(diastolic >= 53 && diastolic <= 67){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 53){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 67){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+            console.log("age");
+            console.log(age);
+            if(sex == "Male"){
+                if(age == "5"){
+                    if(diastolic >= 53 && diastolic <= 67){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
                     }
-                    else if(data.age == "6"){
-                        if(diastolic >= 59 && diastolic <= 73){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 59){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 73){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+                    else if(diastolic < 53){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
                     }
-                    else if(data.age == "7"){
-                        if(diastolic >= 60 && diastolic <= 74){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 60){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 74){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+                    else if(diastolic > 67){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
                     }
-                    else if(data.age == "8"){
-                        if(diastolic >= 60 && diastolic <= 75){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 60){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 75){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "9"){
-                        if(diastolic >= 61 && diastolic <= 75){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 61){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 75){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "10"){
-                        if(diastolic >= 62 && diastolic <= 76){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 62){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 76){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "11"){
-                        if(diastolic >= 62 && diastolic <= 77){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 62){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 77){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "12"){
-                        if(diastolic >= 63 && diastolic <= 78){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 63){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 78){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "13"){
-                        if(diastolic >= 64 && diastolic <= 80){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 64){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 80){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }                    
                 }
-                else if(data.sex == "Female"){ 
-                    if(data.age == "5"){
-                        if(diastolic >= 55 && diastolic <= 70){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 55){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 70){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+                else if(age == "6"){
+                    if(diastolic >= 59 && diastolic <= 73){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
                     }
-                    else if(data.age == "6"){
-                        if(diastolic >= 59 && diastolic <= 73){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 59){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 73){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+                    else if(diastolic < 59){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
                     }
-                    else if(data.age == "7"){
-                        if(diastolic >= 60 && diastolic <= 74){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 60){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 74){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
+                    else if(diastolic > 73){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
                     }
-                    else if(data.age == "8"){
-                        if(diastolic >= 60 && diastolic <= 75){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 60){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 75){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "9"){
-                        if(diastolic >= 61 && diastolic <= 76){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 61){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 76){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "10"){
-                        if(diastolic >= 62 && diastolic <= 77){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 62){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 77){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "11"){
-                        if(diastolic >= 63 && diastolic <= 78){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 63){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 78){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "12"){
-                        if(diastolic >= 64 && diastolic <= 78){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 64){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 78){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }
-                    else if(data.age == "13"){
-                        if(diastolic >= 64 && diastolic <= 79){
-                            $("#diastolic").removeClass("is-invalid");
-                            $("#diastolic").addClass("is-valid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "block";
-                            diastolicStatus = "Normal";
-                        }
-                        else if(diastolic < 64){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "block";
-                            document.getElementById('aboveDiastolic').style.display = "none";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Below Normal";
-                        }
-                        else if(diastolic > 79){
-                            $("#diastolic").addClass("is-invalid");
-                            document.getElementById('belowDiastolic').style.display = "none";
-                            document.getElementById('aboveDiastolic').style.display = "block";
-                            document.getElementById('normalDiastolic').style.display = "none";
-                            diastolicStatus = "Above Normal";
-                        }
-                    }          
                 }
-            });
+                else if(age == "7"){
+                    if(diastolic >= 60 && diastolic <= 74){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 60){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 74){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "8"){
+                    if(diastolic >= 60 && diastolic <= 75){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 60){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 75){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "9"){
+                    if(diastolic >= 61 && diastolic <= 75){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 61){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 75){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "10"){
+                    if(diastolic >= 62 && diastolic <= 76){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 62){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 76){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "11"){
+                    if(diastolic >= 62 && diastolic <= 77){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 62){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 77){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "12"){
+                    if(diastolic >= 63 && diastolic <= 78){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 63){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 78){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "13"){
+                    if(diastolic >= 64 && diastolic <= 80){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 64){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 80){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }                    
+            }
+            else if(sex == "Female"){ 
+                if(age == "5"){
+                    if(diastolic >= 55 && diastolic <= 70){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 55){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 70){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "6"){
+                    if(diastolic >= 59 && diastolic <= 73){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 59){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 73){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "7"){
+                    if(diastolic >= 60 && diastolic <= 74){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 60){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 74){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "8"){
+                    if(diastolic >= 60 && diastolic <= 75){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 60){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 75){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "9"){
+                    if(diastolic >= 61 && diastolic <= 76){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 61){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 76){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "10"){
+                    if(diastolic >= 62 && diastolic <= 77){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 62){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 77){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "11"){
+                    if(diastolic >= 63 && diastolic <= 78){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 63){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 78){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "12"){
+                    if(diastolic >= 64 && diastolic <= 78){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 64){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 78){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }
+                else if(age == "13"){
+                    if(diastolic >= 64 && diastolic <= 79){
+                        $("#diastolic").removeClass("is-invalid");
+                        $("#diastolic").addClass("is-valid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "block";
+                        diastolicStatus = "Normal";
+                    }
+                    else if(diastolic < 64){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "block";
+                        document.getElementById('aboveDiastolic').style.display = "none";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Below Normal";
+                    }
+                    else if(diastolic > 79){
+                        $("#diastolic").addClass("is-invalid");
+                        document.getElementById('belowDiastolic').style.display = "none";
+                        document.getElementById('aboveDiastolic').style.display = "block";
+                        document.getElementById('normalDiastolic').style.display = "none";
+                        diastolicStatus = "Above Normal";
+                    }
+                }          
+            }
         });
 
         var pulseRateStatus;
@@ -2369,82 +2362,80 @@
 
             var typedID = document.getElementById("studentID").value;
 
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("age");
-                console.log(data.age);
-                if(data.age == "5"){
-                    if(pulseRate >= 70 && pulseRate <= 130){
-                        $("#pulseRate").removeClass("is-invalid");
-                        $("#pulseRate").addClass("is-valid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "block";
-                        pulseRateStatus = "Normal";
-                    }
-                    else if(pulseRate < 70){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "block";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Below Normal";
-                    }
-                    else if(pulseRate > 130){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "block";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Above Normal";
-                    }
+            console.log("age");
+            console.log(age);
+            if(age == "5"){
+                if(pulseRate >= 70 && pulseRate <= 130){
+                    $("#pulseRate").removeClass("is-invalid");
+                    $("#pulseRate").addClass("is-valid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "block";
+                    pulseRateStatus = "Normal";
                 }
-                else if(data.age == "6" || data.age == "7" || data.age == "8" || data.age == "9" || data.age == "10" || data.age == "11" || data.age == "12"){
-                    if(pulseRate >= 65 && pulseRate <= 120){
-                        $("#pulseRate").removeClass("is-invalid");
-                        $("#pulseRate").addClass("is-valid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "block";
-                        pulseRateStatus = "Normal";
-                    }
-                    else if(pulseRate < 65){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "block";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Below Normal";
-                    }
-                    else if(pulseRate > 120){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "block";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Above Normal";
-                    }
+                else if(pulseRate < 70){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "block";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Below Normal";
                 }
-                else if(data.age == "13"){
-                    if(pulseRate >= 55 && pulseRate <= 90){
-                        $("#pulseRate").removeClass("is-invalid");
-                        $("#pulseRate").addClass("is-valid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "block";
-                        pulseRateStatus = "Normal";
-                    }
-                    else if(pulseRate < 55){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "block";
-                        document.getElementById('abovePulseRate').style.display = "none";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Below Normal";
-                    }
-                    else if(pulseRate > 90){
-                        $("#pulseRate").addClass("is-invalid");
-                        document.getElementById('belowPulseRate').style.display = "none";
-                        document.getElementById('abovePulseRate').style.display = "block";
-                        document.getElementById('normalPulseRate').style.display = "none";
-                        pulseRateStatus = "Above Normal";
-                    }
+                else if(pulseRate > 130){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "block";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Above Normal";
                 }
-            });
+            }
+            else if(age == "6" || age == "7" || age == "8" || age == "9" || age == "10" || age == "11" || age == "12"){
+                if(pulseRate >= 65 && pulseRate <= 120){
+                    $("#pulseRate").removeClass("is-invalid");
+                    $("#pulseRate").addClass("is-valid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "block";
+                    pulseRateStatus = "Normal";
+                }
+                else if(pulseRate < 65){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "block";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Below Normal";
+                }
+                else if(pulseRate > 120){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "block";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Above Normal";
+                }
+            }
+            else if(age == "13"){
+                if(pulseRate >= 55 && pulseRate <= 90){
+                    $("#pulseRate").removeClass("is-invalid");
+                    $("#pulseRate").addClass("is-valid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "block";
+                    pulseRateStatus = "Normal";
+                }
+                else if(pulseRate < 55){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "block";
+                    document.getElementById('abovePulseRate').style.display = "none";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Below Normal";
+                }
+                else if(pulseRate > 90){
+                    $("#pulseRate").addClass("is-invalid");
+                    document.getElementById('belowPulseRate').style.display = "none";
+                    document.getElementById('abovePulseRate').style.display = "block";
+                    document.getElementById('normalPulseRate').style.display = "none";
+                    pulseRateStatus = "Above Normal";
+                }
+            }
         });
 
         var respRateStatus;
@@ -2453,84 +2444,81 @@
             console.log(respRate);
             console.log("respRate clicked");
 
-            var typedID = document.getElementById("studentID").value;
-
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("age");
-                console.log(data.age);
-                if(data.age == "5"){
-                    if(respRate >= 20 && respRate <= 34){
-                        $("#respRate").removeClass("is-invalid");
-                        $("#respRate").addClass("is-valid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "block";
-                        respRateStatus = "Normal";
-                    }
-                    else if(respRate < 20){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "block";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Below Normal";
-                    }
-                    else if(respRate > 34){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "block";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Above Normal";
-                    }
+            var typedID = document.getElementById("studentID").value
+            console.log("age");
+            console.log(age);
+            if(age == "5"){
+                if(respRate >= 20 && respRate <= 34){
+                    $("#respRate").removeClass("is-invalid");
+                    $("#respRate").addClass("is-valid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "block";
+                    respRateStatus = "Normal";
                 }
-                else if(data.age == "6" || data.age == "7" || data.age == "8" || data.age == "9" || data.age == "10" || data.age == "11" || data.age == "12"){
-                    if(respRate >= 15 && respRate <= 30){
-                        $("#respRate").removeClass("is-invalid");
-                        $("#respRate").addClass("is-valid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "block";
-                        respRateStatus = "Normal";
-                    }
-                    else if(respRate < 15){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "block";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Below Normal";
-                    }
-                    else if(respRate > 30){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "block";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Above Normal";
-                    }
+                else if(respRate < 20){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "block";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Below Normal";
                 }
-                else if(data.age == "13"){
-                    if(respRate >= 12 && respRate <= 20){
-                        $("#respRate").removeClass("is-invalid");
-                        $("#respRate").addClass("is-valid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "block";
-                        respRateStatus = "Normal";
-                    }
-                    else if(respRate < 12){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "block";
-                        document.getElementById('aboveRespRate').style.display = "none";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Below Normal";
-                    }
-                    else if(respRate > 20){
-                        $("#respRate").addClass("is-invalid");
-                        document.getElementById('belowRespRate').style.display = "none";
-                        document.getElementById('aboveRespRate').style.display = "block";
-                        document.getElementById('normalRespRate').style.display = "none";
-                        respRateStatus = "Above Normal";
-                    }
+                else if(respRate > 34){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "block";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Above Normal";
                 }
-            });
+            }
+            else if(age == "6" || age == "7" || age == "8" || age == "9" || age == "10" || age == "11" || age == "12"){
+                if(respRate >= 15 && respRate <= 30){
+                    $("#respRate").removeClass("is-invalid");
+                    $("#respRate").addClass("is-valid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "block";
+                    respRateStatus = "Normal";
+                }
+                else if(respRate < 15){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "block";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Below Normal";
+                }
+                else if(respRate > 30){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "block";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Above Normal";
+                }
+            }
+            else if(age == "13"){
+                if(respRate >= 12 && respRate <= 20){
+                    $("#respRate").removeClass("is-invalid");
+                    $("#respRate").addClass("is-valid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "block";
+                    respRateStatus = "Normal";
+                }
+                else if(respRate < 12){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "block";
+                    document.getElementById('aboveRespRate').style.display = "none";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Below Normal";
+                }
+                else if(respRate > 20){
+                    $("#respRate").addClass("is-invalid");
+                    document.getElementById('belowRespRate').style.display = "none";
+                    document.getElementById('aboveRespRate').style.display = "block";
+                    document.getElementById('normalRespRate').style.display = "none";
+                    respRateStatus = "Above Normal";
+                }
+            }
         });
         
         function getStatus(){
@@ -2556,13 +2544,115 @@
             event.currentTarget.className += " active";
         }
 
+        var notAllowedMedicines = [], visits = [], intakeHistory = [];
+        var weight, height, age, sex;
         function searchProfile() {
+            notAllowedMedicines = [], visits = [], intakeHistory = [];
+            weight = "", height = "", age = "", sex = "";
             var typedID = document.getElementById("studentVisit").value;
-            
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
+
+            $.get("/getVisitDetails", {studentID: typedID}, function(details){
+                /* TO DO: display the details of the last visit */
+                console.log("all details needed for clinic-visit create");
+                console.log(details);
+
+                // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
+                var i;
+                for(i = 0; i < details.notAllowed.length; i++){
+                    notAllowedMedicines.push({
+                        medicine: details.notAllowed[i].medicine
+                    })
+                }
+
+                // --------------------------------- LIST OF CLINIC VISITS ------------------------------
+                for(i = 0; i < details.visits.length; i++){
+                    visits.push({
+                        visitDate: details.visits[i].visitDate,
+                        attendingNurse: details.visits[i].attendingNurse,
+                        timeIn: details.visits[i].timeIn,
+                        timeOut: details.visits[i].timeOut,
+                        weight: details.visits[i].weight,
+                        height: details.visits[i].height,
+                        bodyTemp: details.visits[i].bodyTemp,
+                        systolicBP: details.visits[i].systolicBP,
+                        diastolicBP: details.visits[i].diastolicBP,
+                        pulseRate: details.visits[i].pulseRate,
+                        respirationRate: details.visits[i].respirationRate,
+                        visitReason: details.visits[i].visitReason,
+                        treatment: details.visits[i].treatment,
+                        diagnosis: details.visits[i].diagnosis,
+                        status: details.visits[i].status,
+                        notes: details.visits[i].notes
+                    })
+                }
+                console.log("list of visists ni student");
+                console.log(visits);
+
+                // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
+                for(i = 0; i < details.intakeHistory.length; i++){
+                    intakeHistory.push({
+                        visitDate: details.intakeHistory[i].visitDate,
+                        attendingNurse: details.intakeHistory[i].attendingNurse,
+                        timeIn: details.intakeHistory[i].timeIn,
+                        timeOut: details.intakeHistory[i].timeOut,
+                        medications: details.intakeHistory[i].medications
+                    })
+                }
+                console.log("list of intakeHistory ni student");
+                console.log(intakeHistory);
+
+                // --------------------------------- LAST VISIT DETAILS ------------------------------
+                if(details){
+                    $('#lvDate').html(details.lastVisitDetails.visitDate);
+                    $('#lvTI').html(details.lastVisitDetails.timeIn);
+                    $('#lvTO').html(details.lastVisitDetails.timeOut);
+                    $('#lvNurse').html(details.lastVisitDetails.attendingNurse);
+
+                    if(details.lastVisitDetails.systolicBP == "" || !details.lastVisitDetails.systolicBP || details.lastVisitDetails.diastolicBP == "" || !details.lastVisitDetails.diastolicBP)
+                        $('#lvBP').html("-");
+                    else
+                        $('#lvBP').html(details.lastVisitDetails.systolicBP + "/" + details.lastVisitDetails.diastolicBP);
+                    
+                    if(details.lastVisitDetails.bodyTemp == "" || !details.lastVisitDetails.bodyTemp)
+                        $('#lvBT').html("-");
+                    else
+                        $('#lvBT').html(details.lastVisitDetails.bodyTemp + "°C");
+
+                    if(details.lastVisitDetails.pulseRate == "" || !details.lastVisitDetails.pulseRate)
+                        $('#lvPR').html("-");
+                    else
+                        $('#lvPR').html(details.lastVisitDetails.pulseRate);
+                    
+                    if(details.lastVisitDetails.respirationRate == "" || !details.lastVisitDetails.respirationRate)
+                        $('#lvRR').html("-");
+                    else
+                        $('#lvRR').html(details.lastVisitDetails.respirationRate);
+
+                    $('#lvReason').html(details.lastVisitDetails.visitReason);
+
+                    if(details.lastVisitDetails.treatment == "" || !details.lastVisitDetails.treatment)
+                        $('#lvTreatment').html("-");
+                    else
+                        $('#lvTreatment').html(details.lastVisitDetails.treatment);
+
+                    if(details.lastVisitDetails.diagnosis == "" || !details.lastVisitDetails.diagnosis)
+                        $('#lvDiagnosis').html("-");
+                    else
+                        $('#lvDiagnosis').html(details.lastVisitDetails.diagnosis);
+
+                    if(details.lastVisitDetails.notes == "" || !details.lastVisitDetails.notes)
+                        $('#lvNotes').html("-");
+                    else
+                        $('#lvNotes').html(details.lastVisitDetails.notes);
+
+                    $('#lvStatus').html(details.lastVisitDetails.status);
+
+                    document.getElementById('lastVisit').style.display = "block";
+                }
+                else
+                    document.getElementById('lastVisit').style.display = "none";
+
+                // --------------------------------- STUDENT PROFILE ------------------------------
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
@@ -2571,70 +2661,72 @@
                     document.getElementById("clinicVisitForm").reset();
 
                 }
-                else if(data.firstName == null){ // if data is null so meaning no student with that id number
+                else if(details.studentInfo.firstName == null){ // if data is null so meaning no student with that id number
                     //console.log(data);
                     //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.');
                     document.getElementById('studentDiv').style.display = "none";                     
                     document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
                 } 
                 else {
+                    weight = details.studentInfo.weight;
+                    height = details.studentInfo.height
+                    age = details.studentInfo.age;
+                    sex = details.studentInfo.sex;
                     document.getElementById('errorDiv').style.display = "none";   // hide error message 
                     $('#headerNameCollapse').html(typedID);
+
                     // Header
-                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#nameHeaderVisit').html(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
                     $('#idHeaderVisit').html(typedID);
                     //$('#studentTypeHeader').html(data.studentType + " Student");
 
                     // personal info
-                    $('#visitLastName').html(data.lastName);
-                    $('#visitFirstName').html(data.firstName);
-                    $('#visitMiddleName').html(data.middleName);
+                    $('#visitLastName').html(details.studentInfo.lastName);
+                    $('#visitFirstName').html(details.studentInfo.firstName);
+                    $('#visitMiddleName').html(details.studentInfo.middleName);
 
-                    if(data.grade && data.section)
-                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                    if(details.studentInfo.grade && details.studentInfo.section)
+                        $('#gradeSection').html("Grade " + details.studentInfo.grade + " - " + details.studentInfo.section);
                         
-                    if(data.studentType)
-                        if(data.studentType == "old" || data.studentType == "Old")
+                    if(details.studentInfo.studentType)
+                        if(details.studentInfo.studentType == "old" || details.studentInfo.studentType == "Old")
                             $('#studentTypeHeader').html("Old Student");
-                        else if(data.studentType == "new" || data.studentType == "New")
+                        else if(details.studentInfo.studentType == "new" || details.studentInfo.studentType == "New")
                             $('#studentTypeHeader').html("New Student");    
-                    
-                    console.log("Student data...");
-                    console.log(data);
 
-                    if(data.sex == "Female")
+                    if(details.studentInfo.sex == "Female")
                         document.getElementById("studentPic").src = "public/img/female.svg";
-                    else if (data.sex == "Male")
+                    else if (details.studentInfo.sex == "Male")
                         document.getElementById("studentPic").src = "public/img/male.svg";
 
-                    $('#visitBirthday').html(data.birthday);
-                    //$('#visitNationality').html(data.nationality);
-                    //$('#visitReligion').html(data.religion);
-                    $('#visitAge').html(data.age + " years old");
-                    $('#visitSex').html(data.sex);
-                    $('#visitAddress').html(data.address);
+                    $('#visitBirthday').html(details.studentInfo.birthday);
+                    //$('#visitNationality').html(details.studentInfo.nationality);
+                    //$('#visitReligion').html(details.studentInfo.religion);
+                    $('#visitAge').html(details.studentInfo.age + " years old");
+                    $('#visitSex').html(details.studentInfo.sex);
+                    $('#visitAddress').html(details.studentInfo.address);
 
                     // contacts
-                    if(data.fatherName)
-                        $('#visitFN').html(data.fatherName);
+                    if(details.studentInfo.fatherName)
+                        $('#visitFN').html(details.studentInfo.fatherName);
                     
-                    if(data.fatherEmail)
-                        $('#visitFE').html(data.fatherEmail);
+                    if(details.studentInfo.fatherEmail)
+                        $('#visitFE').html(details.studentInfo.fatherEmail);
 
-                    if(data.fatherContact)
-                        $('#visitFC').html(data.fatherContact);
+                    if(details.studentInfo.fatherContact)
+                        $('#visitFC').html(details.studentInfo.fatherContact);
 
-                    if(data.motherName) 
-                        $('#visitMN').html(data.motherName);
+                    if(details.studentInfo.motherName) 
+                        $('#visitMN').html(details.studentInfo.motherName);
 
-                    if(data.motherEmail)    
-                        $('#visitME').html(data.motherEmail);
+                    if(details.studentInfo.motherEmail)    
+                        $('#visitME').html(details.studentInfo.motherEmail);
 
-                    if(data.motherContact)    
-                        $('#visitMC').html(data.motherContact);
+                    if(details.studentInfo.motherContact)    
+                        $('#visitMC').html(details.studentInfo.motherContact);
 
 
                     //var today = new Date();
@@ -2642,94 +2734,25 @@
 
                     //auto-fill form
                     $('#studentID').val(typedID);
-                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
-                    if(data.grade)
-                        $('#studentGrade').val(data.grade);
-                    if(data.section)
-                        $('#studentSection').val(data.section);
+                    $('#studentName').val(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
+                    if(details.studentInfo.grade)
+                        $('#studentGrade').val(details.studentInfo.grade);
+                    if(details.studentInfo.section)
+                        $('#studentSection').val(details.studentInfo.section);
                     //$('#visitDate').value(date);                 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
-
-            $.post("/getLastVisit", {studentID: typedID}, function(details){
-                /* TO DO: display the details of the last visit */
-                console.log("details of student last visit");
-                console.log(details);
-
-                if(details){
-                    $('#lvDate').html(details.visitDate);
-                    $('#lvTI').html(details.timeIn);
-                    $('#lvNurse').html(details.attendingNurse);
-
-                    if(details.bloodPressure == "" || !details.bloodPressure)
-                        $('#lvBP').html("-");
-                    else
-                        $('#lvBP').html(details.bloodPressure);
-                    
-                    if(details.bodyTemp == "" || !details.bodyTemp)
-                        $('#lvBT').html("-");
-                    else
-                        $('#lvBT').html(details.bodyTemp);
-
-                    if(details.pulseRate == "" || !details.pulseRate)
-                        $('#lvPR').html("-");
-                    else
-                        $('#lvPR').html(details.pulseRate);
-                    
-                    if(details.respirationRate == "" || !details.respirationRate)
-                        $('#lvRR').html("-");
-                    else
-                        $('#lvRR').html(details.respirationRate);
-
-                    $('#lvReason').html(details.visitReason);
-
-                    if(details.treatment == "" || !details.treatment)
-                        $('#lvTreatment').html("-");
-                    else
-                        $('#lvTreatment').html(details.treatment);
-
-                    $('#lvDiagnosis').html(details.diagnosis);
-
-                    if(details.notes == "" || !details.notes)
-                        $('#lvNotes').html("-");
-                    else
-                        $('#lvNotes').html(details.notes);
-
-                    $('#lvStatus').html(details.status);
-
-                    document.getElementById('lastVisit').style.display = "block";
-                }
-                else
-                    document.getElementById('lastVisit').style.display = "none";
-            });
-
-            $.post("/getVisits", {studentID: typedID}, function(data){
-                console.log("visit details of a specfic student");
-                console.log(data);
-            });
-
-            $.post("/getIntakeHistory", {studentID: typedID}, function(data){
-                console.log("medicine intake history of a specfic student");
-                console.log(data);
-            });
         }
     </script>
     <script>
-        var weight, age;
 
         $("#studentID").change(function(){
             var typedID = document.getElementById("studentID").value;
-
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                weight = data.weight;
-                age = data.age;
-                console.log(weight);
-                console.log("^eto weight ko");
-                console.log(age);
-                console.log("^eto age ko");
-            });
-            
+            console.log(weight);
+            console.log("^eto weight ko");
+            console.log(age);
+            console.log("^eto age ko");
         });
 
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
@@ -2744,42 +2767,39 @@
             var lowerCase = selectedMedication.toLowerCase();
             console.log(lowerCase);
 
-            $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
-                /* TO DO: checker for the allowed medication */
-                console.log("not allowed medications of student");
-                console.log(notAllowedMedicines);
-                var i;
-                if(notAllowedMedicines.length == 0){
-                    // if not allowed medicines is empty, allow all medications
-                    $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
-                    document.getElementById('invalidMedicaton').style.display = "none";
-                    document.getElementById('validMedicaton').style.display = "block";
-                    $('#validMedicaton').html('Medication allowed'); 
-                } else{
-                    for(i = 0; i < notAllowedMedicines.length; i++){           
-                        console.log(lowerCase.includes(notAllowedMedicines[i].medicine));
-                        if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
-                            $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
-                            document.getElementById('validMedicaton').style.display = "none";
-                            document.getElementById('invalidMedicaton').style.display = "block";
-                            $('#invalidMedicaton').html('Medication not allowed');       
-                            break;     
-                        }
-                        else{
-                            $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
-                            document.getElementById('invalidMedicaton').style.display = "none";
-                            document.getElementById('validMedicaton').style.display = "block";
-                            $('#validMedicaton').html('Medication allowed');    
-                        }
+            /* TO DO: checker for the allowed medication */
+            console.log("not allowed medications of student updated nakukha ba laman");
+            console.log(notAllowedMedicines);
+            var i;
+            if(notAllowedMedicines.length == 0){
+                // if not allowed medicines is empty, allow all medications
+                $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                document.getElementById('invalidMedicaton').style.display = "none";
+                document.getElementById('validMedicaton').style.display = "block";
+                $('#validMedicaton').html('Medication allowed'); 
+            } else{
+                for(i = 0; i < notAllowedMedicines.length; i++){           
+                    console.log(lowerCase.includes(notAllowedMedicines[i].medicine));
+                    if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
+                        $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
+                        document.getElementById('validMedicaton').style.display = "none";
+                        document.getElementById('invalidMedicaton').style.display = "block";
+                        $('#invalidMedicaton').html('Medication not allowed');       
+                        break;     
+                    }
+                    else{
+                        $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                        document.getElementById('invalidMedicaton').style.display = "none";
+                        document.getElementById('validMedicaton').style.display = "block";
+                        $('#validMedicaton').html('Medication allowed');    
                     }
                 }
-            });
+            }
 
             var dose = document.getElementById("amountMed").value;  
             var curWeight = document.getElementById("weight").value;
             console.log("labas " + curWeight);   
 
-            $.post("/getMedicineDetails", function(data){
                 console.log("loob " + curWeight);
                 var x; //could be weight or age
 
@@ -2972,7 +2992,7 @@
                         $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(2) + 'mL');
                     } 
                 }
-            });  
+             
             
         });
     </script>

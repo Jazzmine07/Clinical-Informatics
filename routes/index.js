@@ -701,6 +701,7 @@ router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
 router.get('/getVisitDetails', visitController.getVisitDetails);
+router.get('/getLastVisit', visitController.getLastVisit);
 
 
 router.post('/addClinicVisit', visitController.addClinicVisit);

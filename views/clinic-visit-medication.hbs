@@ -704,7 +704,9 @@
         function searchProfile(){
             var typedID = document.getElementById("studentVisit").value;
             
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+            $.get("/getStudentRecord", {studentID: typedID}, function(data){
+                console.log("Student data...");
+                console.log(data);
                 //if(typedID.isEmpty()){
                     // TO DO: display error message if walang ininput na id number si user
                 //}
@@ -747,8 +749,7 @@
                         else if(data.studentType == "new" || data.studentType == "New")
                             $('#studentTypeHeader').html("New Student");    
                     
-                    console.log("Student data...");
-                    console.log(data);
+                    
 
                     if(data.sex == "Female")
                         document.getElementById("studentPic").src = "public/img/female.svg";
@@ -809,7 +810,7 @@
             console.log(selectedMedication);
             console.log(typedID);
 
-            $.post("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
+            $.get("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
                 console.log("not allowed medications of student");
                 console.log(notAllowedMedicines);

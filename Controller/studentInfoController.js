@@ -2,6 +2,8 @@ const firebase = require('../firebase');
 
 exports.getStudentInfo = function(req, res){
     var id = req.query.studentID;
+    console.log("id sa controller");
+    console.log(id);
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
@@ -44,7 +46,7 @@ exports.getStudentInfo = function(req, res){
             }
             res.status(200).send(studentInfo);
         } else {
-            res.send({
+            res.status(200).send({
                 error: true,
                 error_msg: "No student with that id number!"
             })

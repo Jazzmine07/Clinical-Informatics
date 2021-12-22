@@ -36,8 +36,9 @@ exports.getDashboard = function(req, res){
 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, clinicType, nurse, 
-        weight, weightStatus, height, heightStatus, bodyTemp, bodyTempStatus, systolicBP, systolicStatus, diastolicBP, diastolicStatus, 
-        pulseRate, pulseRateStatus, respirationRate, respRateStatus, complaint, impression, treatment,
+        weight, height, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
+        weightStatus, heightStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
+        complaint, impression, treatment, 
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
     var i, key;
@@ -45,69 +46,20 @@ exports.addClinicVisit = function(req, res){
 
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentRef = database.ref("studentInfo/"+ studentId);
+    var userRef = database.ref("clinicUsers");
+    
 
-    var record = {
-        id: studentId, 
-        studentName: studentName,
-        grade: studentGrade,
-        section: studentSection,
-        visitDate: visitDate,
-        timestamp: time,
-        timeIn: timeIn,
-        timeout: timeOut,
-        clinicType: clinicType,
-        attendingNurse: nurse,
+    try{
+        // var updateWeight = {
+        //     weight: weight
+        // };
+        // var updateHeight = {
+        //     height: height
+        // }
+        // database.ref("studentInfo/"+studentId).update(updateWeight);
+        // database.ref("studentInfo/"+studentId).update(updateHeight);
 
-        weight: weight,
-        weightStatus: weightStatus,
-        height: height,
-        heightStatus: heightStatus,
-        bodyTemp: bodyTemp,
-        bodyTempStatus: bodyTempStatus,
-        systolicBP: systolicBP,
-        systolicStatus: systolicStatus,
-        diastolicBP: diastolicBP,
-        diastolicStatus: diastolicStatus,
-        pulseRate: pulseRate,
-        pulseRateStatus: pulseRateStatus,
-        respirationRate: respirationRate,   
-        respRateStatus: respRateStatus,
-
-        visitReason: complaint,
-        impression: impression,
-        treatment: treatment,
-
-        diagnosisAssigned: diagnosisAssign,
-        diagnosis: diagnosis,
-
-        //medicationAssigned: medicationAssign,
-        prescribedBy: prescribedBy,
-        medications: "", // array of medications
-
-        status: status,
-        notes: notes,
-    };
-
-    key = clinicVisitRef.push(record).key;
-    studentRef.child('weight').set(weight);
-    studentRef.child('height').set(height);
-
-    for(i = 0; i < medicationsArray.length; i++){
-        medication = {
-            medicine: medicationsArray[i].medication,
-            purpose: medicationsArray[i].purpose,
-            amount: parseInt(medicationsArray[i].amount),
-            interval: medicationsArray[i].interval,
-            startMed: medicationsArray[i].startMed,
-            endMed: medicationsArray[i].endMed
-        };
-        database.ref('clinicVisit/' + key + '/medication').push(medication);
-    }
-
-    // if intake array is not empty!
-    if(intakeArray.length != 0){
-        var intakeHistory = {
+        var record = {
             id: studentId, 
             studentName: studentName,
             grade: studentGrade,
@@ -116,48 +68,118 @@ exports.addClinicVisit = function(req, res){
             timestamp: time,
             timeIn: timeIn,
             timeout: timeOut,
+            clinicType: clinicType,
             attendingNurse: nurse,
+    
+            weight: weight,
+            weightStatus: weightStatus,
+            height: height,
+            heightStatus: heightStatus,
+            bodyTemp: bodyTemp,
+            bodyTempStatus: bodyTempStatus,
+            systolicBP: systolicBP,
+            systolicStatus: systolicStatus,
+            diastolicBP: diastolicBP,
+            diastolicStatus: diastolicStatus,
+            pulseRate: pulseRate,
+            pulseRateStatus: pulseRateStatus,
+            respirationRate: respirationRate,   
+            respRateStatus: respRateStatus,
+    
+            visitReason: complaint,
+            impression: impression,
+            treatment: treatment,
+    
+            diagnosisAssigned: diagnosisAssign,
+            diagnosis: diagnosis,
+    
+            //medicationAssigned: medicationAssign,
+            prescribedBy: prescribedBy,
             medications: "", // array of medications
+    
+            status: status,
+            notes: notes,
+        };
+    
+        key = clinicVisitRef.push(record).key;        
+    
+        if(medicationsArray.length != 0 && medicationsArray != undefined){
+            for(i = 0; i < medicationsArray.length; i++){
+                medication = {
+                    medicine: medicationsArray[i].medication,
+                    purpose: medicationsArray[i].purpose,
+                    amount: parseInt(medicationsArray[i].amount),
+                    interval: medicationsArray[i].interval,
+                    startMed: medicationsArray[i].startMed,
+                    endMed: medicationsArray[i].endMed
+                };
+                database.ref('clinicVisit/' + key + '/medications').push(medication);
+            }
         }
     
-        var intakeRef = database.ref("intakeHistory");
-        var historyKey = intakeRef.push(intakeHistory).key;
-
-        for(i = 0; i < intakeArray.length; i++){
-            history = {
-                medicine: medicationsArray[i].medication,
-                amount: parseInt(medicationsArray[i].amount),
-                time: medicationsArray[i].time
-            };
-            database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+        // if intake array is not empty!
+        if(intakeArray.length != 0 && intakeArray != undefined){
+            userRef.child(nurse).once('value',(userSnapshot) => {
+                var fname = userSnapshot.child('firstName').val();
+                var lname = userSnapshot.child('lastName').val();
+                var intakeHistory = {
+                    attendingNurse: fname + " " + lname,
+                    grade: studentGrade,
+                    id: studentId, 
+                    medications: "", // array of medications
+                    section: studentSection,
+                    studentName: studentName,
+                    timeIn: timeIn,
+                    timeout: timeOut,
+                    timestamp: time,
+                    visitDate: visitDate,
+                }
+            
+                var intakeRef = database.ref("intakeHistory");
+                var historyKey = intakeRef.push(intakeHistory).key;
+                for(i = 0; i < intakeArray.length; i++){
+                    history = {
+                        medicine: intakeArray[i].medication,
+                        amount: parseInt(intakeArray[i].amount),
+                        time: intakeArray[i].time
+                    };
+                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                }
+            });
         }
-    }
+    
+        if(diagnosisAssign != ""){
+            var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
+            console.log("date assigned "+visitDate);
+            var diagnosisForm = {
+                task: "Clinic Visit",
+                description: "Diagnosis & Prescription",
+                formId: key,
+                assignedBy: nurse,
+                dateAssigned: visitDate,
+                timestamp: time
+            }
+    
+            var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+            var notif = {
+                type: "form",
+                formId: key,
+                message: "You have been assigned to a new form!",
+                date: visitDate,
+                timestamp: time,
+                seen: false
+            }
+    
+            assignDiagnosis.push(diagnosisForm);
+            userDiagnosisNotification.push(notif);
+        }
 
-    var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
-    var diagnosisForm = {
-        task: "Clinic Visit",
-        description: "Diagnosis & Prescription",
-        formId: key,
-        assignedBy: nurse,
-        dateAssigned: visitDate,
-        timestamp: time
+        // needed as ajax was used to send data
+        res.status(200).send();
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
     }
-
-    var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
-    var notif = {
-        type: "form",
-        formId: key,
-        message: "You have been assigned to a new form!",
-        date: visitDate,
-        timestamp: time,
-        seen: false
-    }
-
-    assignDiagnosis.push(diagnosisForm);
-    userDiagnosisNotification.push(notif);
-   
-    // needed as ajax was used to send data
-    res.status(200).send();
 };
 
 exports.editClinicVisit = function(req, res){
@@ -232,7 +254,8 @@ exports.editClinicVisit = function(req, res){
     database.ref("assignedForms/"+ userKey + "/" + formKey).remove();
     database.ref("notifications/"+ userKey + "/" + formId).remove();
     
-    res.status(200).send();
+    //res.status(200).send();
+
 };
 
 exports.getStudentVisits = function(req, res){
@@ -306,104 +329,104 @@ exports.getStudentVisits = function(req, res){
     })  
 };
 
-// exports.getLastVisit = function(req, res){
-//     var student = req.body.studentID;
-//     var database = firebase.database();
-//     var clinicVisitRef = database.ref("clinicVisit");
-//     var userRef = database.ref("clinicUsers");
-//     var temp = [], details;
-//     var childSnapshotData;
+exports.getLastVisit = function(req, res){
+    var student = req.query.studentID;
+    var database = firebase.database();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var userRef = database.ref("clinicUsers");
+    var temp = [], details;
+    var childSnapshotData;
 
-//     clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
-//         if(snapshot.exists()){
-//             snapshot.forEach(function(childSnapshot){
-//                 childSnapshotData = childSnapshot.exportVal();
-//                 temp.push({
-//                     idNum: childSnapshotData.id,
-//                     studentName: childSnapshotData.studentName,
-//                     grade: childSnapshotData.grade,
-//                     section: childSnapshotData.section,
-//                     visitDate: childSnapshotData.visitDate,
-//                     attendingNurse: childSnapshotData.attendingNurse,
-//                     timeIn: childSnapshotData.timeIn,
-//                     timeOut: childSnapshotData.timeOut,
-//                     weight: childSnapshotData.weight,
-//                     height: childSnapshotData.height,
-//                     bodyTemp: childSnapshotData.bodyTemp,
-//                     systolicBP: childSnapshotData.systolicBP,
-//                     diastolicBP: childSnapshotData.diastolicBP,
-//                     pulseRate: childSnapshotData.pulseRate,
-//                     respirationRate: childSnapshotData.respirationRate,
-//                     visitReason: childSnapshotData.visitReason,
-//                     treatment: childSnapshotData.treatment,
-//                     diagnosis: childSnapshotData.diagnosis,
-//                     status: childSnapshotData.status,
-//                     notes: childSnapshotData.notes,
-//                 })
-//             })
+    clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                temp.push({
+                    idNum: childSnapshotData.id,
+                    studentName: childSnapshotData.studentName,
+                    grade: childSnapshotData.grade,
+                    section: childSnapshotData.section,
+                    visitDate: childSnapshotData.visitDate,
+                    attendingNurse: childSnapshotData.attendingNurse,
+                    timeIn: childSnapshotData.timeIn,
+                    timeOut: childSnapshotData.timeOut,
+                    weight: childSnapshotData.weight,
+                    height: childSnapshotData.height,
+                    bodyTemp: childSnapshotData.bodyTemp,
+                    systolicBP: childSnapshotData.systolicBP,
+                    diastolicBP: childSnapshotData.diastolicBP,
+                    pulseRate: childSnapshotData.pulseRate,
+                    respirationRate: childSnapshotData.respirationRate,
+                    visitReason: childSnapshotData.visitReason,
+                    treatment: childSnapshotData.treatment,
+                    diagnosis: childSnapshotData.diagnosis,
+                    status: childSnapshotData.status,
+                    notes: childSnapshotData.notes,
+                })
+            })
             
-//             if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
-//                 await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
-//                     fname = userSnapshot.child('firstName').val();
-//                     lname = userSnapshot.child('lastName').val();
-//                     details = {
-//                         idNum: temp[0].idNum,
-//                         studentName: temp[0].studentName,
-//                         grade: temp[0].grade,
-//                         section: temp[0].section,
-//                         visitDate: temp[0].visitDate,
-//                         attendingNurse: fname + " " + lname,
-//                         timeIn: temp[0].timeIn,
-//                         timeOut: temp[0].timeOut,
-//                         weight: temp[0].weight,
-//                         height: temp[0].height,
-//                         bodyTemp: temp[0].bodyTemp,
-//                         systolicBP: temp[0].systolicBP,
-//                         diastolicBP: temp[0].diastolicBP,
-//                         pulseRate: temp[0].pulseRate,
-//                         respirationRate: temp[0].respirationRate,
-//                         visitReason: temp[0].visitReason,
-//                         treatment: temp[0].treatment,
-//                         diagnosis: temp[0].diagnosis,
-//                         status: temp[0].status,
-//                         notes: temp[0].notes
-//                     }
-//                 });   
-//                 res.status(200).send(details);
-//             } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
-//                 await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
-//                     fname = userSnapshot.child('firstName').val();
-//                     lname = userSnapshot.child('lastName').val();
-//                     details = {
-//                         idNum: temp[temp.length-1].idNum,
-//                         studentName: temp[temp.length-1].studentName,
-//                         grade: temp[temp.length-1].grade,
-//                         section: temp[temp.length-1].section,
-//                         visitDate: temp[temp.length-1].visitDate,
-//                         attendingNurse: fname + " " + lname,
-//                         timeIn: temp[temp.length-1].timeIn,
-//                         timeOut: temp[temp.length-1].timeOut,
-//                         weight: temp[temp.length-1].weight,
-//                         height: temp[temp.length-1].height,
-//                         bodyTemp: temp[temp.length-1].bodyTemp,
-//                         systolicBP: temp[temp.length-1].systolicBP,
-//                         diastolicBP: temp[temp.length-1].diastolicBP,
-//                         pulseRate: temp[temp.length-1].pulseRate,
-//                         respirationRate: temp[temp.length-1].respirationRate,
-//                         visitReason: temp[temp.length-1].visitReason,
-//                         treatment: temp[temp.length-1].treatment,
-//                         diagnosis: temp[temp.length-1].diagnosis,
-//                         status: temp[temp.length-1].status,
-//                         notes: temp[temp.length-1].notes
-//                     }
-//                 });   
-//                 res.status(200).send(details);
-//             }
-//         } else {
-//             res.status(200).send(details);
-//         }
-//     })  
-// };
+            if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
+                await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    details = {
+                        idNum: temp[0].idNum,
+                        studentName: temp[0].studentName,
+                        grade: temp[0].grade,
+                        section: temp[0].section,
+                        visitDate: temp[0].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        timeIn: temp[0].timeIn,
+                        timeOut: temp[0].timeOut,
+                        weight: temp[0].weight,
+                        height: temp[0].height,
+                        bodyTemp: temp[0].bodyTemp,
+                        systolicBP: temp[0].systolicBP,
+                        diastolicBP: temp[0].diastolicBP,
+                        pulseRate: temp[0].pulseRate,
+                        respirationRate: temp[0].respirationRate,
+                        visitReason: temp[0].visitReason,
+                        treatment: temp[0].treatment,
+                        diagnosis: temp[0].diagnosis,
+                        status: temp[0].status,
+                        notes: temp[0].notes
+                    }
+                });   
+                res.status(200).send(details);
+            } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
+                await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
+                    fname = userSnapshot.child('firstName').val();
+                    lname = userSnapshot.child('lastName').val();
+                    details = {
+                        idNum: temp[temp.length-1].idNum,
+                        studentName: temp[temp.length-1].studentName,
+                        grade: temp[temp.length-1].grade,
+                        section: temp[temp.length-1].section,
+                        visitDate: temp[temp.length-1].visitDate,
+                        attendingNurse: fname + " " + lname,
+                        timeIn: temp[temp.length-1].timeIn,
+                        timeOut: temp[temp.length-1].timeOut,
+                        weight: temp[temp.length-1].weight,
+                        height: temp[temp.length-1].height,
+                        bodyTemp: temp[temp.length-1].bodyTemp,
+                        systolicBP: temp[temp.length-1].systolicBP,
+                        diastolicBP: temp[temp.length-1].diastolicBP,
+                        pulseRate: temp[temp.length-1].pulseRate,
+                        respirationRate: temp[temp.length-1].respirationRate,
+                        visitReason: temp[temp.length-1].visitReason,
+                        treatment: temp[temp.length-1].treatment,
+                        diagnosis: temp[temp.length-1].diagnosis,
+                        status: temp[temp.length-1].status,
+                        notes: temp[temp.length-1].notes
+                    }
+                });   
+                res.status(200).send(details);
+            }
+        } else {
+            res.status(200).send(details);
+        }
+    })  
+};
 
 // This function is called in clinic-visit-create
 exports.getVisitDetails = function(req, res){
@@ -880,4 +903,3 @@ exports.addMedicationIntake = function(req, res){
     
     res.status(200).send();
 };
-

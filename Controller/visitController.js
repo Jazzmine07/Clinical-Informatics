@@ -236,7 +236,7 @@ exports.editClinicVisit = function(req, res){
 };
 
 exports.getStudentVisits = function(req, res){
-    var student = req.body.studentID;
+    var student = req.query.studentID;
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
     var userRef = database.ref("clinicUsers");
@@ -405,6 +405,7 @@ exports.getStudentVisits = function(req, res){
 //     })  
 // };
 
+// This function is called in clinic-visit-create
 exports.getVisitDetails = function(req, res){
     var student = req.query.studentID;
     var database = firebase.database();

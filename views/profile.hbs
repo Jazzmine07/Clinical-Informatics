@@ -1418,11 +1418,15 @@
     <script>
         var schoolYear = [];
         var BMI = [], weight = [], height = [];
+        var checker = false;
+
         function searchStudent() {
             var typedID = document.getElementById("idNum").value;
             console.log(typedID);
             
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
+            $.get("/getStudentRecord", {studentID: typedID}, function(data){
+                console.log("Student data...");
+                console.log(data);
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentInfoDiv').style.display = "none"; 
@@ -1448,9 +1452,6 @@
                             $('#studentStatus').html("Old Student");
                         else if(data.studentType == "new" || data.studentType == "New")
                             $('#studentStatus').html("New Student");    
-                    
-                    console.log("Student data...");
-                    console.log(data);
 
                     if(data.sex == "Female")
                         document.getElementById("studentPic").src = "public/img/female.svg";
@@ -1476,7 +1477,7 @@
                     document.getElementById("age").innerHTML=data.age;
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
-                    document.getElementById("height").value=data.height;
+                    document.getElementById("heightText").innerHTML=data.height;
                     document.getElementById("address").innerHTML=data.address;
                     document.getElementById("fatherName").innerHTML=data.fatherName;
                     document.getElementById("fatherEmail").innerHTML=data.fatherEmail;
@@ -1495,11 +1496,15 @@
                 }
             });
 
-            $.post("/getBMI", {idNum: typedID}, function(data){
+            if(checker){
+                whChart.destroy();
+                bmiLineChart.destroy();
+            } 
+
+            $.get("/getBMI", {studentID: typedID}, function(data){
+                console.log("BMI CHU CHU NI STUDENT");
+                console.log(data);
                 var i;
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
 
                 for(i = 0; i < data.length; i++){
                     schoolYear.push(data[i].schoolYear);
@@ -1507,24 +1512,32 @@
                     weight.push(parseFloat(data[i].weight));
                     height.push(parseFloat(data[i].height));
                 }
+                
                 weightHeightChart(schoolYear, weight, height);
                 bmiChart(schoolYear, BMI);
+                checker = true;
             });
 
-            $.post("/getVisits", {studentID: typedID}, function(data){
-                console.log("visit details of a specfic student");
+            $.get("/getNotAllowedMedication", {studentID: typedID}, function(data){
+                console.log("not allowed medication of a specfic student");
                 console.log(data);
             });
 
-            $.post("/getIntakeHistory", {studentID: typedID}, function(data){
+            $.get("/getIntakeHistory", {studentID: typedID}, function(data){
                 console.log("medicine intake history of a specfic student");
+                console.log(data);
+            });
+
+            $.get("/getVisits", {studentID: typedID}, function(data){
+                console.log("visit details of a specfic student");
                 console.log(data);
             });
         }
 
+        var whChart;
         function weightHeightChart(schoolYear, weight, height){
             var ctx = document.getElementById("weightHeightChart");
-            var myLineChart = new Chart(ctx, {  // line chart
+            whChart = new Chart(ctx, {  // line chart
                 type: 'line',
                 data: {
                     labels: schoolYear, // x-axis
@@ -1645,9 +1658,10 @@
             });
         }
 
+        var bmiLineChart; 
         function bmiChart(schoolYear, BMI){
             var ctx = document.getElementById("bmiChart");
-            var myLineChart = new Chart(ctx, {  // line chart
+            bmiLineChart = new Chart(ctx, {  // line chart
                 type: 'line',
                 data: {
                     labels: schoolYear, // x-axis

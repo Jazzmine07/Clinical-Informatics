@@ -8,7 +8,15 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-  $('#clinicVisitTable').DataTable();
+  $('#nurseAssignedTask').DataTable();
+});
+
+$(document).ready(function() {
+  $('#nurseClinicVisits').DataTable();
+});
+
+$(document).ready(function() {
+  $('#doctorAssignedTask').DataTable();
 });
 
 $(document).ready(function() {

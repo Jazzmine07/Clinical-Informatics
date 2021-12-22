@@ -483,7 +483,7 @@
                 <!-- /.container-fluid -->
 
                 <div class="container-fluid">
-                    <form class="user" method="post" action="/addAPE">
+                    
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dental Exam Form</h1>
@@ -1013,23 +1013,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <th colspan="1">Presence of Calculus</th>
-                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusYes"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusNo"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusYes" value="true"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="calculus" id="calculusNo" value="false"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Inflammation of Gingiva</th>
-                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaYes"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaNo"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaYes" value="true"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="gingiva" id="gingivaNo" value="false"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Presence of Periodontal Pocket</th>
-                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketYes"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketNo"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketYes" value="true"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="pocket" id="pocketNo" value="false"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1">Presence of Dento Facial Anomaly</th>
-                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyYes"></td>
-                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyNo"></th>
+                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyYes" value="true"></td>
+                                                        <th style="text-align: center;"><input type="radio" name="anomaly" id="anomalyNo" value="false"></th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="1" style="color: white;">.</th>
@@ -1094,7 +1094,6 @@
                             </div>
                         </div>
                     </div>
-                    </form>
                 </div>
             </div>
             <!-- End of Main Content -->
@@ -1183,6 +1182,7 @@
         }
 
         $(document).ready(function() {
+            var dentals = [];
             
             var schoolYear=localStorage.getItem("schoolYear");
             var sec=localStorage.getItem("section");
@@ -1221,11 +1221,11 @@
             if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                link="/health-assessment/physical";
+                //link="/health-assessment/physical";
             }
             else if(i=>array.length){
                 document.getElementById("saveButtonText").innerHTML="Save";  
-                link="/health-assessment";
+                //link="/health-assessment";
             }
 
             if(i == "0"){
@@ -1265,7 +1265,7 @@
                 localStorage.setItem("sectionStudentIndex", parseInt(i-1));
                 console.log("prev:"+i);
                 console.log("HI Prev");
-                window.location.href = "/health-assessment/physical";
+                //window.location.href = "/health-assessment/physical";
             });
 
             $("#myDropdown option").click(function(){
@@ -1275,7 +1275,7 @@
                 localStorage.setItem("sectionStudentIndex", parseInt(i-1));
                 console.log("prev:"+i);
                 console.log("HI Prev");
-                window.location.href = "/health-assessment/physical";
+                //window.location.href = "/health-assessment/physical";
             });
 
             $("#skipBtn").click(function(){
@@ -1291,21 +1291,21 @@
                 if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                link="/health-assessment/physical";
+                //link="/health-assessment/physical";
                 }
                 else if(i=>array.length){
                     document.getElementById("saveButtonText").innerHTML="Save";  
-                    link="/health-assessment";
+                    //link="/health-assessment";
                 }
-                window.location.href = link;
-            })
+                //window.location.href = link;
+
+                var inputs = $("td input");
+
+                for(var i = 0; i < inputs.length; i++){
+                    $(inputs[i]).val(dentals[i]);
+                }
+            });
         
-   
-        });
-    </script>
- 
-    <script>
-        $(document).ready(function() {
             var schoolYear=localStorage.getItem("schoolYear");
             var sec=localStorage.getItem("section");
             var id = localStorage.getItem("id");
@@ -1317,11 +1317,11 @@
             if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                link="/health-assessment/physical";
+                //link="/health-assessment/physical";
             }
             else if(i=>array.length){
                 document.getElementById("saveButtonText").innerHTML="Save";  
-                link="/health-assessment";
+                //link="/health-assessment";
             }
 
             $("#saveBtn").click(function(){
@@ -1335,13 +1335,12 @@
                 if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                link="/health-assessment/physical";
+                //link="/health-assessment/physical";
                 }
                 else if(i=>array.length){
                     document.getElementById("saveButtonText").innerHTML="Save";  
-                    link="/health-assessment";
+                   // link="/health-assessment";
                 }
-
 
                 var sy=schoolYear;
                 if(sy==null){
@@ -1400,7 +1399,7 @@
                 if(dateAPE==null){
                     dateAPE="";
                 }
-                console.log(dope);
+                console.log(dateAPE);
                 
                 //var selectClinician =  $('#clinician').val();
                 var clinician =  $('#clinicianAPE').find(":selected").val();   
@@ -1409,155 +1408,46 @@
                 }
                 console.log(clinician);
 
-                    //vital signs
-                var bodyTemp =  $('#bodyTemp').val(); 
-                if(bodyTemp==null){
-                    bodyTemp="";
-                }console.log(bodyTemp);
+                var calculus = document.querySelector('input[name="calculus"]:checked').value;
+                var gingiva = document.querySelector('input[name="gingiva"]:checked').value;
+                var pocket = document.querySelector('input[name="pocket"]:checked').value;
+                var anomaly = document.querySelector('input[name="anomaly"]:checked').value;
 
-                var systolic =  $('#systolic').val(); 
-                if(systolic==null){
-                    systolic="";
-                }console.log(systolic);
+                console.log(calculus + " " + gingiva + " " + pocket + " " + anomaly);
 
-                var diastolic =  $('#diastolic').val(); 
-                if(diastolic==null){
-                    diastolic="";
-                }console.log(diastolic);
+                var inputs = $("td input");
 
-                var pr =  $('#pulseRate').val(); 
-                if(pr==null){
-                    pr="";
+                console.log(inputs);
+                var name = 'input';
+
+                for(var i = 0; i < inputs.length; i++){
+                    var cur = $(inputs[i]).val();
+                    dentals[i] = cur;
+                    console.log(cur);
                 }
-                console.log(pr);
 
-                var rr =  $('#respRate').val(); 
-                if(rr==null){
-                    rr="";
-                }
-                console.log(rr);
-
-                var sf =  $('#skinFind').val(); 
-                if(sf==null){
-                    sf="";
-                }
-                console.log(sf);
-
-                var weight =  $('#weight').val(); 
-                if(weight==null){
-                    weight="";
-                }
-                console.log(weight);
-
-                var height =  $('#height').val(); 
-                if(height==null){
-                    height="";
-                }
-                console.log(height);
-
-                var bmi =  $('#bmi').val(); 
-                if(bmi==null){
-                    bmi="";
-                }
-                console.log(bmi);
-
-                //vision
-                var odVision =  $('#odVision').find(":selected").val();   
-                if(odVision==null){
-                    odVision="";
-                }
-                console.log(odVision);
-
-                var osVision =  $('#osVision').find(":selected").val();   
-                if(osVision==null){
-                    osVision="";
-                }
-                console.log(osVision);
-
-                var odGlasses =  $('#odGlasses').find(":selected").val();   
-                if(odGlasses==null){
-                    odGlasses="";
-                }console.log(odGlasses);
-
-                var osGlasses =  $('#osGlasses').find(":selected").val();   
-                if(osGlasses==null){
-                    osGlasses="";
-                }
-                console.log(osGlasses);
-
-                var medProb =  $('#medProb').val(); 
-                if(medProb==null){
-                    medProb="";
-                }console.log(medProb);
-
-                var allergies =  $('#allergies').val(); 
-                if(allergies==null){
-                    allergies="";
-                }
-                console.log(allergies);
-
-                var complaintAPE =  $('#complaintAPE').val(); 
-                if(complaintAPE==null){
-                    complaintAPE="";
-                }
-                console.log(complaintAPE);
-
-                var assessAPE =  $('#assessAPE').val(); 
-                if(assessAPE==null){
-                    assessAPE="";
-                }
-                console.log(assessAPE);
-
-                var normalPE =  $('#normalPE').val(); 
-                console.log(normalPE); 
-                computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
-                console.log("BMISTATUS"+computedBmiStatus); 
-                $.ajax({
-                    url: '/addAPE',
-                    method: 'POST',
-                    data: {
-                        clicked:"save",
-                        bmiStatus:computedBmiStatus,
-                        section:  studentSection,
-                        sectionTop:document.getElementById("sectionTop").innerHTML,
-                        age:age,
-                        schoolYear:sy,
-                        studentId: id,
-                        studentName: studentName,
-                        visitDate: dateAPE,
-                        //timeStamp: forSortDate,
-                        clinician: clinician,
-                        bodyTemp: bodyTemp,
-                        systolic: systolic,
-                        diastolic: diastolic,
-                        pr: pr,
-                        rr: rr,
-                        skinFindings: sf,
-                        weight: weight,
-                        height: height,
-                        bmi: bmi,
-                        odVision: odVision,
-                        osVision: osVision,
-                        odGlasses: odGlasses,
-                        osGlasses: osGlasses,
-                        medProb: medProb,
-                        allergies: allergies,
-                        concern: complaintAPE,
-                        assess: assessAPE,
-                        normal: normalPE,
-                    },
-                    success: function(data) {
-                        console.log("Bonjour");
-                        console.log(data);
-                        console.log(link);
-                        window.location.href = link;
-                    }  
-                });
-
+                resetForm();
                 
 
-            
             }); 
+
+            function resetForm() {
+                var inputs = $("td input");
+                for (var i = 0; i<inputs.length; i++) {
+                    switch (inputs[i].type) {
+                        // case 'hidden':
+                        case 'text':
+                            inputs[i].value = '';
+                            break;
+                        case 'radio':
+                        case 'checkbox':
+                            inputs[i].checked = false;   
+                    }
+                }
+            }
+
+
+
         });
     </script>
     

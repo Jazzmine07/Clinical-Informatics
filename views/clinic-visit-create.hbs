@@ -1140,6 +1140,63 @@
             }
         }
         
+        $("#studentID").change(function(){
+            var typedID = document.getElementById("studentID").value;
+
+            $.post("/getLastVisit", {studentID: typedID}, function(details){
+                /* TO DO: display the details of the last visit */
+                console.log("details of student last visit");
+                console.log(details);
+
+                if(details){
+                    $('#lvDate').html(details.visitDate);
+                    $('#lvTI').html(details.timeIn);
+                    $('#lvNurse').html(details.attendingNurse);
+
+                    if(details.bloodPressure == "" || !details.bloodPressure)
+                        $('#lvBP').html("-");
+                    else
+                        $('#lvBP').html(details.bloodPressure);
+                    
+                    if(details.bodyTemp == "" || !details.bodyTemp)
+                        $('#lvBT').html("-");
+                    else
+                        $('#lvBT').html(details.bodyTemp);
+
+                    if(details.pulseRate == "" || !details.pulseRate)
+                        $('#lvPR').html("-");
+                    else
+                        $('#lvPR').html(details.pulseRate);
+                    
+                    if(details.respirationRate == "" || !details.respirationRate)
+                        $('#lvRR').html("-");
+                    else
+                        $('#lvRR').html(details.respirationRate);
+
+                    $('#lvReason').html(details.visitReason);
+
+                    if(details.treatment == "" || !details.treatment)
+                        $('#lvTreatment').html("-");
+                    else
+                        $('#lvTreatment').html(details.treatment);
+
+                    $('#lvDiagnosis').html(details.diagnosis);
+
+                    if(details.notes == "" || !details.notes)
+                        $('#lvNotes').html("-");
+                    else
+                        $('#lvNotes').html(details.notes);
+
+                    $('#lvStatus').html(details.status);
+
+                    document.getElementById('lastVisit').style.display = "block";
+                }
+                else
+                    document.getElementById('lastVisit').style.display = "none";
+            });
+        });
+
+
         var weightStatus;
         $("#weight").change(function(){
             var weight =  $('#weight').val();  
@@ -3149,6 +3206,17 @@
 
         $('#saveBtn').click(function(){
             var status = getStatus();
+
+            var weightStatus = status.weightStatus;
+            var heightStatus = status.heightStatus;
+            var bodyTempStatus = status.bodyTempStatus;
+            var systolicStatus = status.systolicStatus;
+            var diastolicStatus = status.diastolicStatus;
+            var pulseRateStatus = status.pulseRateStatus;
+            var respRateStatus = status.respRateStatus;
+
+            console.log("eto mga status");
+            console.log(status);
             var height = $('#height').val();
             var weight = $('#weight').val();   
 
@@ -3257,27 +3325,26 @@
             console.log("disabled? " +  !isDisabled);
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+            
 
             var proceed = false;
 
             if(!isDisabled && $('#assignDiagnosis').find('option:selected').length == 0){
                 console.log("1st if???")
-                if(selectedPrescribedBy == null || selectedPrescribedBy == "" || selectedPrescribedBy == undefined || selectedPrescribedBy == "Choose..."){
-                    $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
-                    $('html, body').animate({
-                        scrollTop: $("#scrollHere").offset().top
-                    }, 1000);
-                    proceed = false;
-                    console.log("1st if");
-                }
-                else if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
+                //if(selectedPrescribedBy == null || selectedPrescribedBy == "" || selectedPrescribedBy == undefined || selectedPrescribedBy == "Choose..."){
+                  //  $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
+                    //$('html, body').animate({
+                 //       scrollTop: $("#scrollHere").offset().top
+                   // }, 1000);
+                   // proceed = false;
+                  //  console.log("1st if");
+                //}
+                if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
                     var selectedDiagnosisAssign = "";
-                    var diagnosis =  $('#diagnosis').val(""); 
                     proceed = true;
                     
                     console.log("pasok ulit 2nd if");
                     console.log(selectedDiagnosisAssign);
-                    console.log(diagnosis);
                 }
             }
             else if(isDisabled){
@@ -3308,26 +3375,25 @@
                         nurse: nurse, // attending nurse 
 
                         weight: weight,
-                        weightStatus: status.weightStatus,
+                        weightStatus: weightStatus,
                         height: height,
-                        heightStatus: status.heightStatus,
+                        heightStatus: heightStatus,
                         bodyTemp: bodyTemp,
-                        bodyTempStatus: status.bodyTempStatus,
+                        bodyTempStatus: bodyTempStatus,
                         systolicBP: systolic,
-                        systolicStatus: status.systolicStatus,
+                        systolicStatus: systolicStatus,
                         diastolicBP: diastolic,
-                        diastolicStatus: status.diastolicStatus,
+                        diastolicStatus: diastolicStatus,
                         pulseRate: pr,
-                        pulseRateStatus: status.pulseRateStatus,
+                        pulseRateStatus: pulseRateStatus,
                         respirationRate: rr,
-                        respRateStatus: status.respRateStatus,
+                        respRateStatus: respRateStatus,
 
                         complaint: complaint,
                         impression: impression,
                         treatment: treatment,               
 
                         diagnosisAssign: selectedDiagnosisAssign,
-                        diagnosis: diagnosis,
 
                         //medicationAssign: selectedMedicationAssign,
                         prescribedBy: selectedPrescribedBy,

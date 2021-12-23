@@ -122,12 +122,10 @@ exports.addAPE = function(req, res){
             })
         }
 
-        //studentInfoRef.child("weight").set(weight);
-        //studentInfoRef.child("height").set(height);
-        // studentInfoRef.child("bmi").set(bmi);
-        // studentInfoRef.child("bmiStatus").set(bmiStatus);
-
-
+        studentInfoRef.child("weight").set(weight);
+        studentInfoRef.child("height").set(height);
+        studentInfoRef.child("bmi").set(bmi);
+        studentInfoRef.child("bmiStatus").set(bmiStatus);
     }
     
     res.status(200).send();
@@ -146,7 +144,7 @@ exports.getSectionStudents = function(req, res){
         console.log(schoolYear);
         console.log(section);
         //looks for all the students in a specified section
-        studentRef.orderByChild("section").equalTo(section).on('value', (snapshot) => {
+        studentRef.orderByChild("section").equalTo(section).once('value', (snapshot) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
                     
@@ -164,7 +162,6 @@ exports.getSectionStudents = function(req, res){
         students.push(studentId);
         res.send(students);
     }
-    
 };
 
 exports.getAPEPercentage = function(req, res){
@@ -542,7 +539,7 @@ exports.loadPrevData=function(req,res){
     var studentInfo;
     //var name,bday,sex;
     
-    studentHealthHistoryRef.on('value', (snapshot) =>{
+    studentHealthHistoryRef.once('value', (snapshot) =>{
         snapshot.forEach(function(childSnapshot){
             console.log(childSnapshot.key);
             var childValues = childSnapshot.exportVal();
@@ -936,7 +933,7 @@ loadStudentData= function (id){
     var studentInfoRef= database.ref("studentInfo/"+id);
     var name,bday,sex,record;
 
-    studentInfoRef.on('value', (snapshot) =>{
+    studentInfoRef.once('value', (snapshot) =>{
         var childValues = snapshot.exportVal();
         console.log("DATA Path1: " + childValues);
         name=childValues.firstName +" "+ childValues.lastName;

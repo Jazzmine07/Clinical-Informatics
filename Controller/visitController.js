@@ -12,8 +12,9 @@ exports.getDashboard = function(req, res){
         clinicVisitRef.orderByChild("visitDate").equalTo(date).on('value', (snapshot) => { 
             snapshot.forEach(function(childSnapshot) {
                 childSnapshotData = childSnapshot.exportVal();
-                console.log
+                console.log(childSnapshot.key);
                 visitCount++;
+                console.log(visitCount);
                 if(childSnapshotData.status == "Sent To Class"){
                     sentClass++;
                 } else if(childSnapshotData.status == "Hospitalized"){
@@ -41,7 +42,7 @@ exports.addClinicVisit = function(req, res){
         complaint, impression, treatment, 
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
-    var i, key;
+    var i, formId;
     var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
@@ -49,15 +50,12 @@ exports.addClinicVisit = function(req, res){
     var userRef = database.ref("clinicUsers");
     
 
-    try{
-        var updateWeight = {
+    try {
+        var update = {
+            height: height,
             weight: weight
         };
-        var updateHeight = {
-            height: height
-        }
-        database.ref("studentInfo/"+studentId).update(updateWeight);
-        database.ref("studentInfo/"+studentId).update(updateHeight);
+        database.ref("studentInfo/"+studentId).update(update);
 
         var record = {
             id: studentId, 
@@ -67,7 +65,7 @@ exports.addClinicVisit = function(req, res){
             visitDate: visitDate,
             timestamp: time,
             timeIn: timeIn,
-            timeout: timeOut,
+            timeOut: timeOut,
             clinicType: clinicType,
             attendingNurse: nurse,
     
@@ -93,16 +91,13 @@ exports.addClinicVisit = function(req, res){
             diagnosisAssigned: diagnosisAssign,
             diagnosis: diagnosis,
     
-            //medicationAssigned: medicationAssign,
             prescribedBy: prescribedBy,
-            medications: "", // array of medications
     
             status: status,
             notes: notes,
         };
     
-        key = clinicVisitRef.push(record).key;        
-    
+        formId = clinicVisitRef.push(record).key;  
         if(medicationsArray != undefined){
             for(i = 0; i < medicationsArray.length; i++){
                 medication = {
@@ -113,7 +108,7 @@ exports.addClinicVisit = function(req, res){
                     startMed: medicationsArray[i].startMed,
                     endMed: medicationsArray[i].endMed
                 };
-                database.ref('clinicVisit/' + key + '/medications').push(medication);
+                database.ref('clinicVisit/' + formId + '/medications').push(medication);
             }
         }
     
@@ -130,7 +125,7 @@ exports.addClinicVisit = function(req, res){
                     section: studentSection,
                     studentName: studentName,
                     timeIn: timeIn,
-                    timeout: timeOut,
+                    timeOut: timeOut,
                     timestamp: time,
                     visitDate: visitDate,
                 }
@@ -149,29 +144,26 @@ exports.addClinicVisit = function(req, res){
         }
     
         if(diagnosisAssign != ""){
-            var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign);
-            console.log("date assigned "+visitDate);
+            var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign+"/"+formId);
             var diagnosisForm = {
                 task: "Clinic Visit",
                 description: "Diagnosis & Prescription",
-                formId: key,
                 assignedBy: nurse,
                 dateAssigned: visitDate,
                 timestamp: time
             }
     
-            var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+key);
+            var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+formId);
             var notif = {
                 type: "form",
-                formId: key,
                 message: "You have been assigned to a new form!",
                 date: visitDate,
                 timestamp: time,
                 seen: false
             }
     
-            assignDiagnosis.push(diagnosisForm);
-            userDiagnosisNotification.push(notif);
+            assignDiagnosis.set(diagnosisForm);
+            userDiagnosisNotification.set(notif);
         }
 
         // needed as ajax was used to send data
@@ -183,79 +175,353 @@ exports.addClinicVisit = function(req, res){
 };
 
 exports.editClinicVisit = function(req, res){
-    var { userKey , formId, 
-        studentId, studentName , studentGrade, studentSection, visitDate, timeStamp, timeIn, timeOut, nurse, 
-        bodyTemp, systolicBP, diastolicBP, pulseRate, respirationRate, complaint, treatment,
-        medicationAssigned, prescribedBy, medicationList, purposeList, amountList, intervalList, startMedList, endMedList,
-        diagnosisAssigned, diagnosis, notes, status } = req.body;
-    var i,formKey;
+    var { userKey , formId, studentId, studentName, studentGrade, studentSection, 
+        visitDate, timeIn, timeOut, diagnosis, 
+        medicationAssign, medicationAssigned, medicationsArray, intakeArray, status, notes } = req.body;
+    var i;
     
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
-    var record = {
-        id: studentId, 
-        studentName: studentName,
-        grade: studentGrade,
-        section: studentSection,
-        visitDate: visitDate,
-        timestamp: timeStamp,
-        timeIn: timeIn,
-        timeout: timeOut,
-        attendingNurse: nurse,
-        bodyTemp: bodyTemp,
-        systolicBP: systolicBP,
-        diastolicBP: diastolicBP,
-        pulseRate: pulseRate,
-        respirationRate: respirationRate,   
-        visitReason: complaint,
-        treatment: treatment,
-        diagnosisAssigned: diagnosisAssigned,
-        diagnosis: diagnosis,
-        ////medicationAssigned: medicationAssigned,
-        //medicationPrescribed: prescribedBy,
-        medication: "", // array of medications
-        status: status,
-        notes: notes,
-    };
+    var userRef = database.ref("clinicUsers/"+userKey);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = Math.round(+new Date()/1000);
 
-    clinicVisitRef.set(record);
+    userRef.once("value", (userSnapshot) => { 
+        var fname = userSnapshot.child('firstName').val();
+        var lname = userSnapshot.child('lastName').val();
+        if(userSnapshot.child("role").val() == "Clinician"){
+            console.log("pumasok sa clinician if");
+            if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
+                console.log("pumasok pag wlang medication assigned");
+                var record = {
+                    timeOut: timeOut,
+                    diagnosis: diagnosis,
+                    status: status,
+                    notes: notes,
+                };
 
-    // for(i = 0; i < medicationList.length; i++){
-    //     // left side is the field name in firebase
-    //     medication = {
-    //         medicines: medicationList[i],
-    //         purpose: purposeList[i],
-    //         amount: amountList[i],
-    //         interval: intervalList[i]
-    //         startDate: startMedList[i],
-    //         endDate: endMedList[i]
-    //     };
-    //     //database.ref('clinicVisit/"+ formId + '/medication').update(medication);
-    // }
+                clinicVisitRef.update(record);
 
-    //var assignMedication = database.ref("assignedForms/"+medicationAssign);
-    // var medicationForm = {
-    //     task: "Clinic Visit",
-    //     description: "Encode Medication",
-    //     formId: key,
-    //     assignedBy: clinician,
-    //     dateAssigned: visitDate,
-    //     timestamp: time
-    // }
-    //assignMedication.push(medicationForm);
+                for(i = 0; i < medicationsArray.length; i++){
+                    medication = {
+                        medicine: medicationsArray[i].medication,
+                        purpose: medicationsArray[i].purpose,
+                        amount: parseInt(medicationsArray[i].amount),
+                        interval: medicationsArray[i].interval,
+                        startMed: medicationsArray[i].startMed,
+                        endMed: medicationsArray[i].endMed
+                    };
+                    database.ref('clinicVisit/' + formId + '/medications').push(medication);
+                }
+
+                //if intake array is not empty!
+                if(intakeArray != undefined){
+                    var intakeHistory = {
+                        attendingClinician: fname + " " + lname,
+                        grade: studentGrade,
+                        id: studentId, 
+                        medications: "", // array of medications
+                        section: studentSection,
+                        studentName: studentName,
+                        timeIn: timeIn,
+                        timeOut: timeOut,
+                        timestamp: time,
+                        visitDate: visitDate,
+                    }
+                
+                    var intakeRef = database.ref("intakeHistory");
+                    var historyKey = intakeRef.push(intakeHistory).key;
+                    for(i = 0; i < intakeArray.length; i++){
+                        history = {
+                            medicine: intakeArray[i].medication,
+                            amount: parseInt(intakeArray[i].amount),
+                            time: intakeArray[i].time
+                        };
+                        database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                    }
+                }
+
+                // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
+                var formRef = database.ref("assignedForms/"+ userKey);
+                formRef.on('value', (snapshot) => { 
+                    snapshot.forEach(function(childSnapshot) {
+                        if(childSnapshot.key == formId){
+                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                            database.ref("notifications/"+ userKey + "/" + formId).remove();
+                        }
+                    });
+                })
+
+                res.status(200).send();
+            } else {
+                console.log("pumasok pag may medication assigned");
+                console.log("diagnosis inside edit controller");
+                console.log(diagnosis);
+                var record = {
+                    timeOut: timeOut,
+                    diagnosis: diagnosis,
+                    medicationAssigned: medicationAssign,
+                    medications: "", // array of medications
+                    status: status,
+                    notes: notes,
+                };
+
+                clinicVisitRef.update(record);
+
+                //-----------NOTIFICATION FOR NURSE---------------
+                var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
+                var medicationForm = {
+                    task: "Clinic Visit",
+                    description: "Encode Prescription",
+                    assignedBy: userKey,
+                    dateAssigned: date,
+                    timestamp: time
+                }
+
+                var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
+                var notif = {
+                    type: "form",
+                    message: "You have been assigned to a new form!",
+                    date: date,
+                    timestamp: time,
+                    seen: false
+                }
+
+                assignMedication.set(medicationForm);
+                userMedicationNotification.set(notif);
+                
+                // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
+                var formRef = database.ref("assignedForms/"+ userKey);
+                formRef.on('value', (snapshot) => { 
+                    snapshot.forEach(function(childSnapshot) {
+                        if(childSnapshot.key == formId){
+                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                            database.ref("notifications/"+ userKey + "/" + formId).remove();
+                        }
+                    });
+                })
+
+                res.status(200).send();
+            }
+        } else {    // nurse encoding medication section
+            console.log("pumasok sa nurse if");
+            var record = {
+                timeOut: timeOut,
+                status: status,
+            };
+        
+            clinicVisitRef.update(record);
+
+            for(i = 0; i < medicationsArray.length; i++){
+                medication = {
+                    medicine: medicationsArray[i].medication,
+                    purpose: medicationsArray[i].purpose,
+                    amount: parseInt(medicationsArray[i].amount),
+                    interval: medicationsArray[i].interval,
+                    startMed: medicationsArray[i].startMed,
+                    endMed: medicationsArray[i].endMed
+                };
+                database.ref('clinicVisit/' + formId + '/medications').push(medication);
+            }
+
+            //if intake array is not empty!
+            if(intakeArray != undefined){
+                var intakeHistory = {
+                    attendingNurse: fname + " " + lname,
+                    grade: studentGrade,
+                    id: studentId, 
+                    medications: "", // array of medications
+                    section: studentSection,
+                    studentName: studentName,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    timestamp: time,
+                    visitDate: visitDate,
+                }
+            
+                var intakeRef = database.ref("intakeHistory");
+                var historyKey = intakeRef.push(intakeHistory).key;
+                for(i = 0; i < intakeArray.length; i++){
+                    history = {
+                        medicine: intakeArray[i].medication,
+                        amount: parseInt(intakeArray[i].amount),
+                        time: intakeArray[i].time
+                    };
+                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                }
+            }
+
+            // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
+            var formRef = database.ref("assignedForms/"+ userKey);
+            formRef.on('value', (snapshot) => { 
+                snapshot.forEach(function(childSnapshot) {
+                    if(childSnapshot.key == formId){
+                        database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                        database.ref("notifications/"+ userKey + "/" + formId).remove();
+                    }
+                });
+            })
+
+            res.status(200).send();
+        }
+    });
+};
+
+exports.getAssignedForms = (req, res) => {
+    var user = req;
+    var database = firebase.database();
+    var formsRef = database.ref("assignedForms/"+user);
+    var userRef = database.ref("clinicUsers");
+    var fname, lname, i;
+    var temp =[], forms =[];
+    var childSnapshotData;
     
-    var formRef = database.ref("assignedForms/"+ userKey);
-    formRef.orderByChild("formId").equalTo(formId).on('value', (snapshot) => { 
-        snapshot.forEach(function(childSnapshot) {
-            formKey = childSnapshot.key;
-        });
+    var promise = new Promise((resolve, reject) => {
+        formsRef.orderByChild("timestamp").on('value', async (snapshot) => {
+            if(snapshot.exists()){
+                snapshot.forEach(function(childSnapshot){
+                    childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                    temp.push({
+                        task: childSnapshotData.task,
+                        description: childSnapshotData.description,
+                        formId: childSnapshot.key,
+                        assignedBy: childSnapshotData.assignedBy,
+                        dateAssigned: childSnapshotData.dateAssigned
+                    });
+                })
+
+                for(i = 0; i < temp.length; i++){
+                    await userRef.child(temp[i].assignedBy).once('value',(userSnapshot) => {
+                        fname = userSnapshot.child('firstName').val();
+                        lname = userSnapshot.child('lastName').val();
+                    });  
+                    forms.push({
+                        task: temp[i].task,
+                        description: temp[i].description,
+                        formId: temp[i].formId,
+                        assignedBy: fname + " " + lname,
+                        dateAssigned: temp[i].dateAssigned
+                    });
+                }
+                resolve(forms);
+            } else {
+                resolve(forms);
+            }
+        })
     })
+    return promise;
+};
 
-    database.ref("assignedForms/"+ userKey + "/" + formKey).remove();
-    database.ref("notifications/"+ userKey + "/" + formId).remove();
-    
-    //res.status(200).send();
+exports.getClinicVisitForm = function(req){
+    var formId = req.params.id;
+    var database = firebase.database();
+    var formRef = database.ref("clinicVisit/"+formId);
+    var userRef = database.ref("clinicUsers");
+    var temp = [], details;
+    var fname, lname, dFname, dLname, mFname, mLname;
 
+    var promise = new Promise((resolve, reject)=>{
+        formRef.on('value', async (snapshot) => {
+            snapshotData = snapshot.exportVal();
+            temp.push({
+                formId: formId,
+                id: snapshotData.id,
+                studentName: snapshotData.studentName,
+                grade: snapshotData.grade,
+                section: snapshotData.section,
+                visitDate: snapshotData.visitDate,
+                timeIn: snapshotData.timeIn,
+                clinicType: snapshotData.clinicType,
+                nurseKey: snapshotData.attendingNurse,
+                attendingNurse: "",
+                
+                weight: snapshotData.weight,
+                weightStatus: snapshotData.weightStatus,
+                height: snapshotData.height,
+                heightStatus: snapshotData.heightStatus,
+                bodyTemp: snapshotData.bodyTemp,
+                bodyTempStatus: snapshotData.bodyTempStatus,
+                systolicBP: snapshotData.systolicBP,
+                systolicStatus: snapshotData.systolicStatus,
+                diastolicBP: snapshotData.diastolicBP,
+                diastolicStatus: snapshotData.diastolicStatus,
+                pulseRate: snapshotData.pulseRate,
+                pulseRateStatus: snapshotData.pulseRateStatus,
+                respirationRate: snapshotData.respirationRate,   
+                respRateStatus: snapshotData.respRateStatus,
+
+                visitReason: snapshotData.visitReason,
+                impression: snapshotData.impression,
+                treatment: snapshotData.treatment,
+
+                diagnosisAssignedKey: snapshotData.diagnosisAssigned,
+                diagnosis: snapshotData.diagnosis,
+
+                prescribedBy: "",
+                medicationAssignedKey: snapshotData.medicationAssigned,
+                status: snapshotData.status,
+            })
+
+            await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
+                fname = userSnapshot.child('firstName').val();
+                lname = userSnapshot.child('lastName').val();
+            });   
+            await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
+                dFname = diagnosis.child('firstName').val();
+                dLname = diagnosis.child('lastName').val();
+            });
+            if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
+                await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
+                    mFname = medication.child('firstName').val();
+                    mLname = medication.child('lastName').val();
+                });
+            }
+        
+            details = {
+                formId: temp[0].formId,
+                id: temp[0].id,
+                studentName: temp[0].studentName,
+                grade: temp[0].grade,
+                section: temp[0].section,
+                visitDate: temp[0].visitDate,
+                nurseKey: temp[0].nurseKey,
+                attendingNurse: fname + " " + lname,
+                timeIn: temp[0].timeIn,
+                timeOut: temp[0].timeOut,
+                clinicType: temp[0].clinicType,
+                weight: temp[0].weight,
+                weightStatus: temp[0].weightStatus,
+                height: temp[0].height,
+                heightStatus: temp[0].heightStatus,
+                bodyTemp: temp[0].bodyTemp,
+                bodyTempStatus: temp[0].bodyTempStatus,
+                systolicBP: temp[0].systolicBP,
+                systolicStatus: temp[0].systolicStatus,
+                diastolicBP: temp[0].diastolicBP,
+                diastolicStatus: temp[0].diastolicStatus,
+                pulseRate: temp[0].pulseRate,
+                pulseRateStatus: temp[0].pulseRateStatus,
+                respirationRate: temp[0].respirationRate,
+                respRateStatus: temp[0].respRateStatus,
+                visitReason: temp[0].visitReason,
+                impression: temp[0].impression,
+                treatment: temp[0].treatment,
+                treatment: temp[0].treatment,
+                diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
+                diagnosisAssigned: dFname + " " + dLname,
+                diagnosis: temp[0].diagnosis,
+                prescribedBy: dFname + " " + dLname,
+                medicationAssignedKey: temp[0].medicationAssignedKey,
+                medicationAssigned: mFname + " " + mLname,
+                diagnosis: temp[0].diagnosis,
+                status: temp[0].status,
+                notes: temp[0].notes
+            }
+            resolve(details);
+        })
+    })
+    return promise;
 };
 
 exports.getStudentVisits = function(req, res){
@@ -561,8 +827,6 @@ exports.getVisitDetails = function(req, res){
                 childSnapshotData = childSnapshot.exportVal();
                 childSnapshot.child("medications").forEach(function(innerChild){
                     innerChildData = innerChild.exportVal();
-                    console.log("innerchild");
-                    console.log(innerChildData);
                     intakeMedications.push({
                         medicine: innerChildData.medicine,
                         amount: innerChildData.amount,
@@ -695,9 +959,8 @@ exports.getClinicVisits = function(){
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("clinicVisit")){
                 query.on('value', (childSnapshot) => {
-                    childSnapshot.forEach(function(innerChildSnapshot){                  // Getting primary keys of users
+                    childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                        
                         visits.push({
                             formId: innerChildSnapshot.key,
                             studentName: childSnapshotData.studentName,
@@ -713,154 +976,6 @@ exports.getClinicVisits = function(){
             }
             else {
                 resolve(visits);
-            }
-        })
-    })
-    return promise;
-};
-
-exports.getAssignedForms = (req, res) => {
-    var user = req;
-    var database = firebase.database();
-    var formsRef = database.ref("assignedForms/"+user);
-    var userRef = database.ref("clinicUsers");
-    var fname, lname, i;
-    var temp =[], forms =[];
-    var childSnapshotData;
-    
-    var promise = new Promise((resolve, reject) => {
-        formsRef.orderByChild("timestamp").on('value', async (snapshot) => {
-            if(snapshot.exists()){
-                snapshot.forEach(function(childSnapshot){
-                    childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                    temp.push({
-                        task: childSnapshotData.task,
-                        description: childSnapshotData.description,
-                        formId: childSnapshotData.formId,
-                        assignedBy: childSnapshotData.assignedBy,
-                        dateAssigned: childSnapshotData.dateAssigned
-                    });
-                })
-
-                for(i = 0; i < temp.length; i++){
-                    await userRef.child(temp[i].assignedBy).once('value',(userSnapshot) => {
-                        fname = userSnapshot.child('firstName').val();
-                        lname = userSnapshot.child('lastName').val();
-                    });  
-                    forms.push({
-                        task: temp[i].task,
-                        description: temp[i].description,
-                        formId: temp[i].formId,
-                        assignedBy: fname + " " + lname,
-                        dateAssigned: temp[i].dateAssigned
-                    });
-                }
-                resolve(forms);
-            } else {
-                resolve(forms);
-            }
-        })
-    })
-    return promise;
-};
-
-exports.getClinicVisitForm = function(req){
-    var formId = req.params.id;
-    var database = firebase.database();
-    var formRef = database.ref("clinicVisit/"+formId);
-    var userRef = database.ref("clinicUsers");
-    var medication = [], temp = [], details;
-    var childSnapshotData, fname, lname, dFname, dLname, mFname, mLname;
-    var medicationAssigned, diagnosisAssigned, bothAssigned;
-
-    var promise = new Promise((resolve, reject)=>{
-        formRef.on('value', async (snapshot) => {
-            snapshotData = snapshot.exportVal();
-            // snapshot.child("medication").on('value', (childSnapshot) => {
-            //     childSnapshot.forEach(function(data){
-            //         childSnapshotData = data.exportVal();
-            //         medication = {
-            //             medicines: childSnapshotData.medicines,
-            //             purpose: childSnapshotData.purpose,
-            //             amount: childSnapshotData.amount,
-            //             interval: childSnapshotData.interval,
-            //             startDate: childSnapshotData.startDate,
-            //             endDate: childSnapshotData.endDate,
-            //         }
-            //     })
-            // })
-            temp.push({
-                formId: formId,
-                id: snapshotData.id,
-                studentName: snapshotData.studentName,
-                grade: snapshotData.grade,
-                section: snapshotData.section,
-                visitDate: snapshotData.visitDate,
-                timeIn: snapshotData.timeIn,
-                timeOut: snapshotData.timeOut,
-                clinicType: snapshotData.clinicType,
-                nurseKey: snapshotData.attendingNurse,
-                attendingNurse: "",
-                
-                weight: snapshotData.weight,
-                weightStatus: snapshotData.weightStatus,
-                height: snapshotData.height,
-                heightStatus: snapshotData.heightStatus,
-                bodyTemp: snapshotData.bodyTemp,
-                systolicBP: snapshotData.systolicBP,
-                diastolicBP: snapshotData.diastolicBP,
-                pulseRate: snapshotData.pulseRate,
-                respirationRate: snapshotData.respirationRate,
-
-                visitReason: snapshotData.visitReason,
-                impression: snapshotData.impression,
-                treatment: snapshotData.treatment,
-
-                diagnosisAssignedKey: snapshotData.diagnosisAssigned,
-                diagnosis: snapshotData.diagnosis,
-
-                prescribedBy: snapshotData.prescribedBy,
-                status: snapshotData.status,
-                notes: snapshotData.notes
-            })
-
-            if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
-                await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
-                    fname = userSnapshot.child('firstName').val();
-                    lname = userSnapshot.child('lastName').val();
-                });   
-                await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
-                    dFname = diagnosis.child('firstName').val();
-                    dLname = diagnosis.child('lastName').val();
-                });
-
-                details = {
-                    formId: temp[0].formId,
-                    id: temp[0].id,
-                    studentName: temp[0].studentName,
-                    grade: temp[0].grade,
-                    section: temp[0].section,
-                    visitDate: temp[0].visitDate,
-                    nurseKey: temp[0].nurseKey,
-                    attendingNurse: fname + " " + lname,
-                    timeIn: temp[0].timeIn,
-                    timeOut: temp[0].timeOut,
-                    weight: temp[0].weight,
-                    height: temp[0].height,
-                    bodyTemp: temp[0].bodyTemp,
-                    systolicBP: temp[0].systolicBP,
-                    diastolicBP: temp[0].diastolicBP,
-                    pulseRate: temp[0].pulseRate,
-                    respirationRate: temp[0].respirationRate,
-                    visitReason: temp[0].visitReason,
-                    treatment: temp[0].treatment,
-                    diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
-                    diagnosisAssigned: dFname + " " + dLname,
-                    diagnosis: temp[0].diagnosis,
-                    status: temp[0].status,
-                    notes: temp[0].notes
-                }
-                resolve(details);
             }
         })
     })
@@ -885,7 +1000,7 @@ exports.addMedicationIntake = function(req, res){
         visitDate: visitDate,
         timestamp: time,
         timeIn: timeIn,
-        timeout: timeOut,
+        timeOut: timeOut,
         attendingNurse: nurse,
         medications: "", // array of medications
     };

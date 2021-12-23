@@ -28,21 +28,919 @@
             border-top: none;
         }
 
-
-        .pdfobject-container { 
-            height: 30rem; 
-            border: 1rem solid rgba(0,0,0,.1); 
-        }
-
         #studentDiv{
             display: none;
+        }
+
+        #lastVisit{
+            display: none;
+        }
+
+        .valid-feedback .status{
+            display: none;
+        }
+
+        .invalid-feedback .status{
+            display: none;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #4e73df;
+            border-color: white !important; 
+            color: white;
+            border-radius: 4px;
+            cursor: default;
+            float: left;
+            margin-right: 5px;
+            margin-top: 5px;
+            padding: 0 5px;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border: solid #aaa 1px;
+            outline: 0;
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single{
+            border-color: #1cc88a;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%231cc88a' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e);
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+
+        .select2-container--default .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 6px 36px 6px 12px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-right: 10px
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            padding-right: 0;
+            height: auto;
+            margin-top: -3px;
+        }
+
+        .select2-container .select2-selection--single {
+           margin-bottom: 8px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #6e707e;
+            line-height: 28px
+        }
+
+        
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 6px !important;
+            right: 1px;
+            width: 20px
         }
     </style>
 
 </head>
 
 <body id="page-top">
+    {{#if isNurse}}
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/clinic-visit" style="pointer-events: none; cursor: default;">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Clinic Visit -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/clinic-visit">
+                    <i class="fas fa-fw fa-medkit"></i>
+                    <span>Clinic Visit</span></a>
+            </li>
+
+             <!-- Nav Item - Profile -->
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Student Profile</span></a>
+            </li>
+
+            <!-- Nav Item - Health Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/health-assessment">
+                    <i class="fas fa-fw fa-stethoscope"></i>
+                    <span>Health Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Inventory</span></a>
+                <ul class="collapse list-unstyled" id="inventory">
+                    <li>
+                        <a class="nav-link" href="/inventory-medicine">
+                            <i class="fas fa-fw fa-tablets"></i>
+                            <span>Medicine</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-supply">
+                            <i class="fas fa-fw fa-pump-medical"></i>
+                            <span>Supply</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-dental">
+                            <i class="fas fa-fw fa-tooth"></i>
+                            <span>Dental</span></a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="/promotive-care">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
+            </li>
+
+            <!-- Nav Item - Performance Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/performance-assessment">
+                    <i class="fas fa-fw fa-star"></i>
+                    <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                
+                <!-- /.container-fluid -->
+
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1></div>
+                    <div class="card shadow mb-2" id="lastVisit">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
+                        <div class="card-body">
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Attending Nurse</span></div>
+                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Visit Date</span></div>
+                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time In</span></div>
+                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time Out</span></div>
+                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Body Temperature</span></div>
+                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Blood Pressure</span></div>
+                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Pulse Rate</span></div>
+                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Respiration Rate</span></div>
+                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Treatment</span></div>
+                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Status</span></div>
+                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>   
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Diagnosis</span></div>
+                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>                                            
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <form class="user">
+                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="card shadow mb-2" id="studentDiv">
+                        <div class="card-body">
+                                <!-- Card Header - Accordion -->
+                            <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
+                                role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                                <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
+                            </a>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse" id="collapseCV">
+                                <div class="card-body">
+                                    <div class="container-fluid">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-12">
+                                                <div class="card mb-3">
+                                                    <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
+                                                    <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
+                                                        <img id="studentPic"  class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                                        <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
+                                                            <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
+                                                            <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
+                                                            <h5 class="font-weight-normal ml-4" id="idHeaderVisit"></h5>
+                                                            <h5 class="font-weight-normal ml-4" id="studentTypeHeader"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
+                                                    <label class="btn btn-primary active">
+                                                    <input class="categorybtn active" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'clinicVisit')"> Clinic Visit
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medication')"> Medication
+                                                    </label>
+                                                    <label class="btn btn-primary">
+                                                    <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'uploads')"> Uploads
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- END OF STUDENT PROFILE --}}
+
+                    <!-- Basic Card Example -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <input id="userKey" type="hidden" value="{{user.key}}">
+                                <input id="formID" type="hidden" value="{{form.formId}}">
+                                <div class="col-4">
+                                    <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                    <input type="date" class="form-control mb-2" id="visitDate" disabled="disabled" value="{{form.visitDate}}">
+                                </div>
+                                <div class="col-5">
+                                    <label class="col-form-label" for="clinicianVisit">Attending Nurse</label> 
+                                    <input type="hidden" class="form-control mb-2" id="attendingNurse" value="{{form.nurseKey}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.attendingNurse}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2">
+                                    <label for="clinicIn" class="col-form-label">Time In</label>
+                                    <input type="time" class="form-control mb-2" id="clinicIn" disabled="disabled" value="{{form.timeIn}}">
+                                </div>
+                                <div class="col-2">
+                                    <label for="clinicOut" class="col-form-label">Time Out</label>
+                                    <input type="time" class="form-control mb-2" id="clinicOut">
+                                </div>
+                                <div class="col-5">
+                                    <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.clinicType}}">
+                                </div>  
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                    <input type="text" class="form-control mb-2" id="studentID" disabled="disabled" value="{{form.id}}">
+                                </div>
+                                <div class="col-5">
+                                    <label class="col-form-label" for="studentName">Student Name</label>
+                                    <input type="text" class="form-control mb-2" id="studentName" disabled="disabled" value="{{form.studentName}}">
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label for="studentGrd" class="col-form-label">Grade</label>
+                                    <input type="text" class="form-control mb-2" id="studentGrade" disabled="disabled" value="{{form.grade}}">
+                                </div>
+                                <div class="col-5">
+                                    <label for="studentSec" class="col-form-label">Section</label>
+                                    <input type="text" class="form-control mb-2" id="studentSection" disabled="disabled" value="{{form.section}}">
+                                </div>
+                            </div>
+
+                            <hr class="w-10 mb-2"></hr> 
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2 mb-2">
+                                    <label for="Weight" class="col-form-label">Weight</label>
+                                    <div class="input-group">                                           
+                                        <input type="number" class="form-control" id="weight" disabled="disabled" value="{{form.weight}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">kg</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-2 mb-2">
+                                    <label for="height" class="col-form-label">Height</label>
+                                    <div class="input-group">                                           
+                                        <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">cm</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-2 mb-2">
+                                    <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                    <div class="input-group">                                        
+                                        <input type="number" class="form-control" id="bodyTemp" disabled="disabled" value="{{form.bodyTemp}}">                                        
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon1">°C</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                    <div class="input-group">                               
+                                        <input type="number" class="form-control" id="systolic" disabled="disabled" value="{{form.systolicBP}}">
+                                        <input type="number" class="form-control" id="diastolic" disabled="disabled" value="{{form.diastolicBP}}">         
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">mmHg</span>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.weightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.heightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.bodyTempStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.systolicStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.diastolicStatus}}</div>
+                                </div>                             
+                            </div>
+                            
+                            <div class="form-row align-items-center">
+                                <div class="col-2">
+                                    <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                    <div class="input-group mb-2">                                                                            
+                                        <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon3">beats/min</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                    <div class="input-group mb-2">                                        
+                                        <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon4">breaths/min</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.pulseRateStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.respRateStatus}}</div>
+                                </div>                          
+                            </div>
+                            
+                            <hr class="w-10 mb-2"></hr> 
+
+                            <div class="form-row align-items-center">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" disabled="disabled" rows="6">{{form.visitReason}}</textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-form-label" for="impression">Working Impression</label>
+                                    <textarea type="text" class="form-control mb-2" id="impression" disabled="disabled" rows="6">{{form.impression}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" disabled="disabled" rows="3">{{form.treatment}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{!-- Diagnosis --}}
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>
+                            <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assigned To</label>
+                            <input type="hidden" class="form-control mb-2" id="diagnosisAssigned" value="{{form.diagnosisAssignedKey}}">
+                            <input type="text" class="form-control" value="{{form.diagnosisAssigned}}" disabled="disabled" style="width: 300px;">
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-6 mb-4">
+                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" disabled="disabled" value="{{form.diagnosis}}">                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Medication -->
+                    <div class="card shadow mb-2">
+                        <div class="card-header py-3 d-sm-flex">
+                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
+                            <label class="col-form-label p-2 mr-1" for="assignMedication">Assigned To</label>
+                            <input type="hidden" class="form-control mb-2" id="medicationAssigned" value="{{form.medicationAssignedKey}}">
+                            <input type="text" class="form-control" value="{{form.medicationAssigned}}" disabled="disabled" style="width: 300px;">
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="prescribedBy">Prescribed by</label>
+                                            <input type="text" class="form-control" id="prescribedBy" name="prescribedBy" disabled="disabled" value="{{form.prescribedBy}}">
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="medicationVisit">Medication</label>
+                                            <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
+                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                {{#each medicines}}
+                                                    <option value="{{name}}">{{medicine}}</option>   
+                                                {{/each}} 
+                                            </select>                                                                   
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="amountMed">Dose</label>
+                                            <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
+                                            <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
+                                        </div>
+                                        <div class="col-5">
+                                            <div id="validAmount" class="valid-feedback font-weight-bold"></div>
+                                            <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                            <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
+                                        </div>
+                                        <div class="col-5">
+                                            <label class="col-form-label" for="intervalMed">Interval</label>
+                                            <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 align-items-center">
+                                            <label class="col-form-label" for="startMed">Start Date</label>
+                                            <input type="date" class="form-control mb-2" id="startMed" name="startMed">
+                                        </div>
+                                        <div class="col-3 align-items-center">
+                                            <label class="col-form-label" for="endMed">End Date</label>
+                                            <input type="date" class="form-control mb-2" id="endMed" name="endMed">
+                                        </div>
+                                        <div class="col-3" style="margin-right: -115px;">
+                                            <div class="form-check align-items-center" style="padding-top: 35px;">
+                                                <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
+                                                <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
+                                            </div>
+                                        </div>
+                                        <div id="takenDiv" class="col-3 align-items-center" style="display:none">
+                                            <label class="col-form-label" for="timeTaken">Time</label>
+                                            <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="well">
+                                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
+                                        </div>                               
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
+                            <table class="table" id="dynamic_field">  
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- More -->
+                    <div class="card shadow mb-2">
+                        <div class="card-body">
+                            <div class="form-row align-items-center">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="status">Disposition</label>
+                                    <select class="custom-select mb-2" id="status" name="status">
+                                        <option disabled="disabled" selected="true">Choose...</option>
+                                        <option value="Under Observation">Under Observation</option>   
+                                        <option value="Sent Home">Sent Home</option>
+                                        <option value="Hospitalized">Sent to Hospital</option>
+                                        <option value="Sent To Class">Sent To Class</option>                                   
+                                    </select>  
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="notes">Notes/Recommendations</label>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                </div>    
+                            </div>
+                            <div class="d-flex justify-content-end mt-4 col-12">
+                                <button type="button" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="mr-1 fas fa-check text-white-50"></i>Save</button>                                    
+                                <a href="/clinic-visit" class="p-2 d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="mr-1 fas fa-times text-white-50"></i> Cancel</a>                                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; IsKlinika 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    {{else}}
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -448,7 +1346,7 @@
                                                 <div class="card mb-3">
                                                     <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
                                                     <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
-                                                        <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                                        <img id="studentPic"  class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
                                                         <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
                                                             <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
                                                             <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
@@ -488,10 +1386,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{!-- END OF STUDENT PROFILE --}}
                             </div>
                         </div>
                     </div>
+                    {{!-- END OF STUDENT PROFILE --}}
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
@@ -558,15 +1456,17 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">kg</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-2 mb-2">
                                     <label for="height" class="col-form-label">Height</label>
                                     <div class="input-group">                                           
-                                    <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
+                                        <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">cm</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-2 mb-2">
@@ -576,6 +1476,7 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon1">°C</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-3 mb-2">
@@ -586,28 +1487,59 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.weightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.heightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.bodyTempStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.systolicStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.diastolicStatus}}</div>
+                                </div>                             
+                            </div>
+                            
                             <div class="form-row align-items-center">
                                 <div class="col-2">
                                     <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                     <div class="input-group mb-2">                                                                            
-                                    <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
+                                        <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon3">beats/min</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <label for="respRate" class="col-form-label">Respiration Rate</label>
                                     <div class="input-group mb-2">                                        
-                                    <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
+                                        <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                         </div>
+                                        
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.pulseRateStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.respRateStatus}}</div>
+                                </div>                          
                             </div>
                             
                             <hr class="w-10 mb-2"></hr> 
@@ -637,7 +1569,7 @@
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>
                             <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assigned To</label>
                             <input type="hidden" class="form-control mb-2" id="diagnosisAssigned" value="{{form.diagnosisAssignedKey}}">
-                            <input type="text" class="form-control" value="{{form.diagnosisAssigned}}" disabled="disabled">
+                            <input type="text" class="form-control" value="{{form.diagnosisAssigned}}" disabled="disabled" style="width: 300px;">
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -785,6 +1717,7 @@
 
     </div>
     <!-- End of Page Wrapper -->
+    {{/if}}
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -1055,75 +1988,164 @@
                     if(details.studentInfo.motherContact)    
                         $('#visitMC').html(details.studentInfo.motherContact);
 
-
-                    //var today = new Date();
-                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-                    //auto-fill form
-                    $('#studentID').val(typedID);
-                    $('#studentName').val(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
-                    if(details.studentInfo.grade)
-                        $('#studentGrade').val(details.studentInfo.grade);
-                    if(details.studentInfo.section)
-                        $('#studentSection').val(details.studentInfo.section);
-                    //$('#visitDate').value(date);                 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
-
         }
-    </script>
-    <script type='text/javascript'>
-    $(document).ready(function() { 
+
+        function takenClicked() {
+            var checkBox = document.getElementById("takenClinic");
+            var div = document.getElementById("takenDiv");
+
+            if (checkBox.checked == true){
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+
         var medicationsArray = [];
+        var namesArray = [];
+        var intakeArray = [];
+        var ids = [];
+        var list;
+        var descArray = [];
+        var found = false;
+
+        async function getInteraction(){
+            descArray = [];
+            list = ids.toString().replace(/,/g, "+");
+        
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis="+list);
+            const data = await response.json();
+            
+            console.log("pumasok sa get interaction");
+            console.log(data);
+            if(data.fullInteractionTypeGroup != undefined){
+                data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
+                    interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
+                        fullInteractionType.interactionPair.forEach(function(description){
+                            descArray.push(description.description);
+                            console.log(descArray);
+                        })
+                    })
+                })
+                
+                var tempDescArray = descArray.toString();
+                tempDescArray = tempDescArray.split(",");
+
+                for (let i = 0; i < descArray.length; i++) {
+                tempDescArray[i] = descArray[i] + "<br><br>";
+                }
+
+                tempDescArray = tempDescArray.join("");
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
+            } else {
+                tempDescArray = "No drug-to-drug interaction found.";
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
+            }
+        }
+
+        async function getID(medicine){
+            ids = [];
+            console.log("pumasok sa getID function");
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/rxcui.json?name="+medicine+"&srclist=DRUGBANK");
+            const data = await response.json();
+            ids.push(data.idGroup.rxnormId);
+            console.log("length ng ids");
+            console.log(ids.length);
+            if(ids.length == medicationsArray.length){
+                getInteraction();
+            }
+        }
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
         }
 
-        var i = 1;  
-        var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
+        function addIntakeHistory(medication, amount, time, taken) {
+            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+        }
+
+        var i = 0;  
 
         $('#addMedication').click(function(){
-            var selectMedication = document.getElementById("medicationVisit");
-            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
             var endMed = document.getElementById("endMed").value;
 
-            /* TO DO: Add checkers for fields if empty */
-            medicineList.push(selectedMedication);
-            purposeList.push(purpose);
-            amountList.push(amount);
-            intervalList.push(interval);
-            startMedList.push(startMed);
-            endMedList.push(endMed);
+            var checkBox = document.getElementById("takenClinic");
 
-            console.log("push? "+ startMed);
-            console.log("push? "+ endMed);
+            var time =  $('#timeTaken').val();
+            console.log(time);
+            addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
 
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+            namesArray = [];
+            for(i = 0; i < medicationsArray.length; i++){
+                namesArray.push(medicationsArray[i].medication);
+            }
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
-
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ startMed +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ endMed +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            if(namesArray.length >= 2){
+                for(i = 0; i < medicationsArray.length; i++){
+                    console.log(medicationsArray[i].medication);
+                    getID(medicationsArray[i].medication);    
+                }
+            }
         });
+
+        var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            var index = button_id - 2; 
             console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
+            removeIDs.push(button_id);
+            $('#row'+button_id+'').remove(); 
+            console.log(removeIDs);    
+        });
 
-            medicineList.splice(index, 1);
-            purposeList.splice(index, 1);
-            amountList.splice(index, 1);
-            intervalList.splice(index, 1);
-            startMedList.splice(index, 1);
-            endMedList.splice(index, 1);
-            
-        });  
+        $("#assignMedication").change(function(){
+            document.getElementById("medicationVisit").disabled = false;
+            document.getElementById("amountMed").disabled = false;
+            document.getElementById("purposeVisit").disabled = false;
+            document.getElementById("intervalMed").disabled = false;
+            document.getElementById("startMed").disabled = false;
+            document.getElementById("endMed").disabled = false;
+            document.getElementById("takenClinic").disabled = false;
+            document.getElementById("addMedication").style.visibility = "visible";
+
+            var length = $(this).find('option:selected').length;
+            console.log(length);
+
+            if(length != 0){
+                document.getElementById("medicationVisit").disabled = true;
+                document.getElementById("amountMed").disabled = true;
+                document.getElementById("purposeVisit").disabled = true;
+                document.getElementById("intervalMed").disabled = true;
+                document.getElementById("startMed").disabled = true;
+                document.getElementById("endMed").disabled = true;
+                document.getElementById("takenClinic").disabled = true;
+                document.getElementById("addMedication").style.visibility = "hidden";
+            }
+            else if(length == 0){
+                document.getElementById("medicationVisit").disabled = false;
+                document.getElementById("amountMed").disabled = false;
+                document.getElementById("purposeVisit").disabled = false;
+                document.getElementById("intervalMed").disabled = false;
+                document.getElementById("startMed").disabled = false;
+                document.getElementById("endMed").disabled = false;
+                document.getElementById("takenClinic").disabled = false;
+                document.getElementById("addMedication").style.visibility = "visible";
+            }
+        });
 
         $("#saveBtn").click(function(){
             console.log("pindot");
@@ -1143,49 +2165,16 @@
             console.log(studentSection);
 
             var visitDate =  $('#visitDate').val(); 
-            var forSort = visitDate.split("-");
-            var forSortDate = forSort.join('');
             console.log(visitDate);
-            console.log(forSortDate);
-           
+
             var timeIn =  $('#clinicIn').val();
             console.log(timeIn);
 
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
-            var nurse =  $('#attendingNurse').val();   
-            console.log(nurse);
-            
-            //vital signs
-            var bodyTemp =  $('#bodyTemp').val(); 
-            console.log(bodyTemp);
-
-            var systolicBP =  $('#systolicBP').val(); 
-            var diastolicBP = $('#diastolicBP').val(); 
-
-            var pr =  $('#pulseRate').val(); 
-            console.log(pr);
-
-            var rr =  $('#respRate').val(); 
-            console.log(rr);
-
-            var complaint =  $('#complaintVisit').val(); 
-            console.log(complaint);
-
-            var treatment =  $('#treatmentVisit').val(); 
-            console.log(treatment);
-
-            var diagnosisAssigned = $('#diagnosisAssigned').val();
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
-            var medicationAssigned = $('#medicationAssigned').val();
-            //var selectPrescribedBy = document.getElementById("prescribedBy");
-            //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-
-            //var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
-            
 
             var status =  $('#status').val();
             console.log(status);
@@ -1193,11 +2182,26 @@
             var notes =  $('#notes').val(); 
             console.log(notes);
 
-            /* TO DO: Add checkers for fields if empty */
+            var medicationAssigned = $('#medicationAssigned').val();
 
-            //console.log("may laman? "+purposeList);
-            //console.log("may laman? "+amountList);
-            //console.log("may laman? "+intervalList);
+            var isDisabled = $('#amountMed').prop('disabled');
+            var selectMedicationAssign = document.getElementById("assignMedication");
+            var proceed = false;
+
+            if(!isDisabled && $('#assignMedication').find('option:selected').length == 0){               
+                var selectedMedicationAssign = "";
+                proceed = true;
+                console.log("2nd if");  
+                console.log(selectedMedicationAssign);             
+            }
+            else if(isDisabled){
+                $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+                var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+                proceed = true;
+               
+                console.log("3rd if");
+                console.log(selectedMedicationAssign); 
+            }
 
             $.ajax({
                 url: '/editClinicVisit',
@@ -1210,37 +2214,21 @@
                     studentGrade: studentGrade,
                     studentSection: studentSection,
                     visitDate: visitDate,
-                    timeStamp: forSortDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
-                    nurse: nurse, // attending nurse 
-                    bodyTemp: bodyTemp,
-                    systolicBP: systolicBP,
-                    diastolicBP: diastolicBP,
-                    pulseRate: pr,
-                    respirationRate: rr,
-                    complaint: complaint,
-                    treatment: treatment,                    
-                    diagnosisAssigned: diagnosisAssigned,
                     diagnosis: diagnosis,
-                    //medicationAssigned: medicationAssigned,
-                    //prescribedBy: selectedPrescribedBy,
-                    //medicineList: medicineList,
-                    //purposeList: purposeList, 
-                    //amountList: amountList,
-                    //intervalList: intervalList,
-                    //startMed: startMed,
-                    //endMed: endMed,
+                    medicationAssign: selectedMedicationAssign,
+                    medicationAssigned: medicationAssigned,
+                    medicationsArray: medicationsArray,
+                    intakeArray: intakeArray,
                     status: status,
                     notes: notes,
-
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";
                 }
             });
         });
-    });
     </script>
 </body>
 

@@ -109,8 +109,6 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
-                    console.log("laman ng medicines");
-                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {

@@ -142,9 +142,9 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
         res.render('clinic-visit', {
           isNurse: true,
           user: user,
+          dashboard: dashboard,
           forms: formId,
           clinicVisits: record,
-          dashboard: dashboard
         });
       }
       else {
@@ -172,8 +172,6 @@ router.get('/clinic-visit/view/:id', (req, res) => {
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
-    console.log("user in view");
-    console.log(user);
     form = result[1];
 
     if(user.role == "Nurse"){
@@ -260,6 +258,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
         user: user,
         isNurse: true,
         form: form,
+        medicines: medicines
       });
     } else {
       res.render('clinic-visit-edit', {

@@ -2,8 +2,6 @@ const firebase = require('../firebase');
 
 exports.getStudentInfo = function(req, res){
     var id = req.query.studentID;
-    console.log("id sa controller");
-    console.log(id);
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
@@ -69,8 +67,6 @@ exports.getNotAllowedMedication = function(req, res){
                     isAllowed: childSnapshotData.isAllowed
                 })
             })
-            console.log("not allowed medications")
-            console.log(notAllowed);
             res.status(200).send(notAllowed);
         } else {
             res.status(200).send(notAllowed);
@@ -101,10 +97,7 @@ exports.getBMI = function(req, res){
             })
             res.send(studentInfo);
         } else {
-            res.send({
-                error: true,
-                error_msg: "No student with that id number!"
-            })
+            res.send(studentInfo);
         }
     })
 };

@@ -448,7 +448,7 @@
                                                 <div class="card mb-3">
                                                     <div class="card-header py-3"><h6 class="text-primary font-weight-bold m-0">Student Information</h6></div>
                                                     <div class="card-body text-left shadow pl-5" style="display:inline-block !important; vertical-align:top !important;">
-                                                        <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
+                                                        <img id="studentPic"  class="img-profile rounded-circle" src="public/img/undraw_profile.svg" width="160" height="160">
                                                         <div class="ml-3 mb-3 mt-4" style="display:inline-block !important; vertical-align: middle !important">
                                                             <h4 class="font-weight-bold ml-4" id="nameHeaderVisit">Jhose Mhiguel D. De Asis</h4>
                                                             <h5 class="font-weight-normal ml-4" id="gradeSection"></h5>
@@ -488,10 +488,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{!-- END OF STUDENT PROFILE --}}
                             </div>
                         </div>
                     </div>
+                    {{!-- END OF STUDENT PROFILE --}}
 
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
@@ -558,15 +558,17 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">kg</span>
                                         </div>
+                                        {{form.weightStatus}}
                                     </div>
                                 </div>
                                 <div class="col-2 mb-2">
                                     <label for="height" class="col-form-label">Height</label>
                                     <div class="input-group">                                           
-                                    <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
+                                        <input type="number" class="form-control" id="height" disabled="disabled" value="{{form.height}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">cm</span>
                                         </div>
+                                        {{form.heightStatus}}
                                     </div>
                                 </div>
                                 <div class="col-2 mb-2">
@@ -576,6 +578,7 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon1">°C</span>
                                         </div>
+                                        {{form.bodyTempStatus}}
                                     </div>
                                 </div>
                                 <div class="col-3 mb-2">
@@ -586,26 +589,31 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
+                                        {{form.systolicStatus}}
+                                        {{form.diastolicStatus}}
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="form-row align-items-center">
                                 <div class="col-2">
                                     <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                     <div class="input-group mb-2">                                                                            
-                                    <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
+                                        <input type="number" class="form-control" id="pulseRate" disabled="disabled" value="{{form.pulseRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon3">beats/min</span>
                                         </div>
+                                        {{form.pulseRateStatus}}
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <label for="respRate" class="col-form-label">Respiration Rate</label>
                                     <div class="input-group mb-2">                                        
-                                    <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
+                                        <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                         </div>
+                                        {{form.respRateStatus}}
                                     </div>
                                 </div>
                             </div>
@@ -1055,75 +1063,168 @@
                     if(details.studentInfo.motherContact)    
                         $('#visitMC').html(details.studentInfo.motherContact);
 
-
-                    //var today = new Date();
-                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
-                    //auto-fill form
-                    $('#studentID').val(typedID);
-                    $('#studentName').val(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
-                    if(details.studentInfo.grade)
-                        $('#studentGrade').val(details.studentInfo.grade);
-                    if(details.studentInfo.section)
-                        $('#studentSection').val(details.studentInfo.section);
-                    //$('#visitDate').value(date);                 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
-
         }
-    </script>
-    <script type='text/javascript'>
-    $(document).ready(function() { 
+
+        function takenClicked() {
+            var checkBox = document.getElementById("takenClinic");
+            var div = document.getElementById("takenDiv");
+
+            if (checkBox.checked == true){
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+
         var medicationsArray = [];
+        var namesArray = [];
+        var intakeArray = [];
+        var ids = [];
+        var list;
+        var descArray = [];
+        var found = false;
+
+        async function getInteraction(){
+            descArray = [];
+            list = ids.toString().replace(/,/g, "+");
+        
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis="+list);
+            const data = await response.json();
+            
+            console.log("pumasok sa get interaction");
+            console.log(data);
+            if(data.fullInteractionTypeGroup != undefined){
+                data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
+                    interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
+                        fullInteractionType.interactionPair.forEach(function(description){
+                            descArray.push(description.description);
+                            console.log(descArray);
+                        })
+                    })
+                })
+                
+                var tempDescArray = descArray.toString();
+                tempDescArray = tempDescArray.split(",");
+
+                for (let i = 0; i < descArray.length; i++) {
+                tempDescArray[i] = descArray[i] + "<br><br>";
+                }
+
+                tempDescArray = tempDescArray.join("");
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
+            } else {
+                tempDescArray = "No drug-to-drug interaction.";
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
+            }
+        }
+
+        async function getID(medicine){
+            ids = [];
+            console.log("pumasok sa getID function");
+            const response = await fetch("https://rxnav.nlm.nih.gov/REST/rxcui.json?name="+medicine+"&srclist=DRUGBANK");
+            const data = await response.json();
+            ids.push(data.idGroup.rxnormId);
+            console.log("length ng ids");
+            console.log(ids.length);
+            if(ids.length == medicationsArray.length){
+                getInteraction();
+            }
+        }
 
         function addMedication(meds, purpose, amount, interval, startMed, endMed) {
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
         }
 
-        var i = 1;  
-        var medicineList = [], purposeList = [], amountList = [], intervalList = [], startMedList = [], endMedList = [];
+        function addIntakeHistory(medication, amount, time, taken) {
+            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+        }
+
+        var i = 0;  
 
         $('#addMedication').click(function(){
-            var selectMedication = document.getElementById("medicationVisit");
-            var selectedMedication = selectMedication.options[selectMedication.selectedIndex].value;
+            var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
             var endMed = document.getElementById("endMed").value;
 
-            /* TO DO: Add checkers for fields if empty */
-            medicineList.push(selectedMedication);
-            purposeList.push(purpose);
-            amountList.push(amount);
-            intervalList.push(interval);
-            startMedList.push(startMed);
-            endMedList.push(endMed);
+            var checkBox = document.getElementById("takenClinic");
 
-            console.log("push? "+ startMed);
-            console.log("push? "+ endMed);
+            var time =  $('#timeTaken').val();
+            console.log(time);
+            addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
 
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+            namesArray = [];
+            for(i = 0; i < medicationsArray.length; i++){
+                namesArray.push(medicationsArray[i].medication);
+            }
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
-
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="medicationVisit" name="medicationVisit" placeholder="' + selectedMedication +'"></input></td><td><input type="name" class="form-control" id="purposeVisit" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" type="name" class="form-control" id="amountMed" placeholder="'+ amount +'"></td><td><input disabled="disabled" type="name" class="form-control" id="intervalMed" placeholder="'+ interval +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ startMed +'" step="0.01"</input></td><td><input disabled="disabled" type="name" class="form-control" placeholder="'+ endMed +'" step="0.01"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            if(namesArray.length >= 2){
+                for(i = 0; i < medicationsArray.length; i++){
+                    console.log(medicationsArray[i].medication);
+                    getID(medicationsArray[i].medication);    
+                }
+            }
         });
+
+        var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            var index = button_id - 2; 
             console.log("removing..." + button_id);  
-            $('#row'+button_id+'').remove();  
+            removeIDs.push(button_id);
+            $('#row'+button_id+'').remove(); 
+            console.log(removeIDs);    
+        });
 
-            medicineList.splice(index, 1);
-            purposeList.splice(index, 1);
-            amountList.splice(index, 1);
-            intervalList.splice(index, 1);
-            startMedList.splice(index, 1);
-            endMedList.splice(index, 1);
-            
-        });  
+        $("#assignMedication").change(function(){
+            document.getElementById("medicationVisit").disabled = false;
+            document.getElementById("amountMed").disabled = false;
+            document.getElementById("purposeVisit").disabled = false;
+            document.getElementById("intervalMed").disabled = false;
+            document.getElementById("startMed").disabled = false;
+            document.getElementById("endMed").disabled = false;
+            document.getElementById("takenClinic").disabled = false;
+            document.getElementById("addMedication").style.visibility = "visible";
+
+            var selectMedicationAssign = document.getElementById("assignMedication");
+            var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+            console.log(selectedMedicationAssign);
+
+            var length = $(this).find('option:selected').length;
+            console.log(length);
+
+            if(!selectedMedicationAssign == null || !selectedMedicationAssign == "" || !selectedMedicationAssign == undefined){
+                document.getElementById("medicationVisit").disabled = true;
+                document.getElementById("amountMed").disabled = true;
+                document.getElementById("purposeVisit").disabled = true;
+                document.getElementById("intervalMed").disabled = true;
+                document.getElementById("startMed").disabled = true;
+                document.getElementById("endMed").disabled = true;
+                document.getElementById("takenClinic").disabled = true;
+                document.getElementById("addMedication").style.visibility = "hidden";
+            }
+            else if(length == 0){
+                document.getElementById("medicationVisit").disabled = false;
+                document.getElementById("amountMed").disabled = false;
+                document.getElementById("purposeVisit").disabled = false;
+                document.getElementById("intervalMed").disabled = false;
+                document.getElementById("startMed").disabled = false;
+                document.getElementById("endMed").disabled = false;
+                document.getElementById("takenClinic").disabled = false;
+                document.getElementById("addMedication").style.visibility = "visible";
+            }
+        });
 
         $("#saveBtn").click(function(){
             console.log("pindot");
@@ -1143,49 +1244,16 @@
             console.log(studentSection);
 
             var visitDate =  $('#visitDate').val(); 
-            var forSort = visitDate.split("-");
-            var forSortDate = forSort.join('');
             console.log(visitDate);
-            console.log(forSortDate);
-           
+
             var timeIn =  $('#clinicIn').val();
             console.log(timeIn);
 
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
-            var nurse =  $('#attendingNurse').val();   
-            console.log(nurse);
-            
-            //vital signs
-            var bodyTemp =  $('#bodyTemp').val(); 
-            console.log(bodyTemp);
-
-            var systolicBP =  $('#systolicBP').val(); 
-            var diastolicBP = $('#diastolicBP').val(); 
-
-            var pr =  $('#pulseRate').val(); 
-            console.log(pr);
-
-            var rr =  $('#respRate').val(); 
-            console.log(rr);
-
-            var complaint =  $('#complaintVisit').val(); 
-            console.log(complaint);
-
-            var treatment =  $('#treatmentVisit').val(); 
-            console.log(treatment);
-
-            var diagnosisAssigned = $('#diagnosisAssigned').val();
             var diagnosis =  $('#diagnosis').val(); 
             console.log(diagnosis);
-            var medicationAssigned = $('#medicationAssigned').val();
-            //var selectPrescribedBy = document.getElementById("prescribedBy");
-            //var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-
-            //var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            //var selectedDaignosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
-            
 
             var status =  $('#status').val();
             console.log(status);
@@ -1193,11 +1261,24 @@
             var notes =  $('#notes').val(); 
             console.log(notes);
 
-            /* TO DO: Add checkers for fields if empty */
+            var isDisabled = $('#medicationVisit').prop('disabled');
+            var selectMedicationAssign = document.getElementById("assignMedication");
+            var proceed = false;
 
-            //console.log("may laman? "+purposeList);
-            //console.log("may laman? "+amountList);
-            //console.log("may laman? "+intervalList);
+            if(!isDisabled && $('#assignMedication').find('option:selected').length == 0){
+                if(!selectedMedicationAssign == null || !selectedMedicationAssign == "" || !selectedMedicationAssign == undefined || !selectedMedicationAssign == "Choose..."){
+                    var selectedMedicationAssign = "";
+                    proceed = true;
+                    console.log("2nd if");
+                }
+            }
+            else if(isDisabled){
+                $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+                var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
+                proceed = true;
+               
+                console.log("3rd if");
+            }
 
             $.ajax({
                 url: '/editClinicVisit',
@@ -1210,37 +1291,20 @@
                     studentGrade: studentGrade,
                     studentSection: studentSection,
                     visitDate: visitDate,
-                    timeStamp: forSortDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
-                    nurse: nurse, // attending nurse 
-                    bodyTemp: bodyTemp,
-                    systolicBP: systolicBP,
-                    diastolicBP: diastolicBP,
-                    pulseRate: pr,
-                    respirationRate: rr,
-                    complaint: complaint,
-                    treatment: treatment,                    
-                    diagnosisAssigned: diagnosisAssigned,
                     diagnosis: diagnosis,
-                    //medicationAssigned: medicationAssigned,
-                    //prescribedBy: selectedPrescribedBy,
-                    //medicineList: medicineList,
-                    //purposeList: purposeList, 
-                    //amountList: amountList,
-                    //intervalList: intervalList,
-                    //startMed: startMed,
-                    //endMed: endMed,
+                    medicationAssign: selectedMedicationAssign,
+                    medicationsArray: medicationsArray,
+                    intakeArray: intakeArray,
                     status: status,
                     notes: notes,
-
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";
                 }
             });
         });
-    });
     </script>
 </body>
 

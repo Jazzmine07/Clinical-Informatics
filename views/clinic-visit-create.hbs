@@ -615,10 +615,10 @@
                                     </div>
                                 </div>
                             </div>
-                            {{!-- END OF STUDENT PROFILE --}}
                         </div>
                     </div>
                 </div>
+                {{!-- END OF STUDENT PROFILE --}}
 
                 {{!-- {{#if isNurse}} --}}
                 <!-- Basic Card Example -->
@@ -633,9 +633,7 @@
                             <div class="col-5">
                                 <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
                                 <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                    {{#each nurse}}
-                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                    {{/each}}
+                                    <option value="{{user.key}}"> {{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
                         </div>
@@ -3170,27 +3168,33 @@
             
             console.log("pumasok sa get interaction");
             //console.log(data.fullInteractionTypeGroup);
-            data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
-                interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
-                    //console.log(fullInteractionType.interactionPair);
-                    fullInteractionType.interactionPair.forEach(function(description){
-                        descArray.push(description.description);
-                        console.log(descArray);
+            if(data.fullInteractionTypeGroup != undefined){
+                data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
+                    interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
+                        fullInteractionType.interactionPair.forEach(function(description){
+                            descArray.push(description.description);
+                            console.log(descArray);
+                        })
                     })
                 })
-            })
-            
-            var tempDescArray = descArray.toString();
-            tempDescArray = tempDescArray.split(",");
+                
+                var tempDescArray = descArray.toString();
+                tempDescArray = tempDescArray.split(",");
 
-            for (let i = 0; i < descArray.length; i++) {
-            tempDescArray[i] = descArray[i] + "<br><br>";
+                for (let i = 0; i < descArray.length; i++) {
+                tempDescArray[i] = descArray[i] + "<br><br>";
+                }
+
+                tempDescArray = tempDescArray.join("");
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
+            } else {
+                tempDescArray = "No drug-to-drug interaction.";
+                console.log(tempDescArray)
+
+                document.getElementById("errorMed").innerHTML = tempDescArray;
             }
-
-            tempDescArray = tempDescArray.join("");
-            console.log(tempDescArray)
-
-            document.getElementById("errorMed").innerHTML = tempDescArray;
         }
 
         async function getID(medicine){
@@ -3301,12 +3305,6 @@
             var height = $('#height').val();
             var weight = $('#weight').val(); 
 
-            //var bodyTemp =  $('#bodyTemp').val();
-            //var systolic =  $('#systolic').val();
-            //var diastolic =  $('#diastolic').val();
-            //var pulseRate =  $('#pulseRate').val();
-            //var respRate =  $('#respRate').val();  
-
             var status = getHeightWeight();
 
             const toNumbers = arr => arr.map(Number);
@@ -3396,9 +3394,6 @@
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            //var selectMedicationAssign = document.getElementById("assignMedication");
-            //var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
-
             var selectPrescribedBy = document.getElementById("prescribedBy");
             var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
             console.log(selectedPrescribedBy);
@@ -3416,15 +3411,6 @@
             var proceed = false;
 
             if(!isDisabled && $('#assignDiagnosis').find('option:selected').length == 0){
-                //console.log("1st if???")
-                //if(selectedPrescribedBy == null || selectedPrescribedBy == "" || selectedPrescribedBy == undefined || selectedPrescribedBy == "Choose..."){
-                //    $('span.select2-selection.select2-selection--multiple').css('border-color', '#e74a3b');  
-                //    $('html, body').animate({
-                //        scrollTop: $("#scrollHere").offset().top
-                //    }, 1000);
-                //    proceed = false;
-                //    console.log("1st if");
-                //}
                 if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
                     var selectedDiagnosisAssign = "";
                     var diagnosis =  ""; 
@@ -3478,10 +3464,10 @@
                         impression: impression,
                         treatment: treatment,                    
                         prescribedBy: selectedPrescribedBy,
-                        medicationsArray: medicationsArray,
-                        intakeArray: intakeArray,
                         diagnosisAssign: selectedDiagnosisAssign,
                         diagnosis: diagnosis,
+                        medicationsArray: medicationsArray,
+                        intakeArray: intakeArray,
                         notes: notes,
                         status: status,
                     },

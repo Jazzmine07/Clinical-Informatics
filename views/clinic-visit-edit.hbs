@@ -347,6 +347,75 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Clinic Visit Form</h1></div>
+                    <div class="card shadow mb-2" id="lastVisit">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
+                        <div class="card-body">
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Attending Nurse</span></div>
+                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Visit Date</span></div>
+                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time In</span></div>
+                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time Out</span></div>
+                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Body Temperature</span></div>
+                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Blood Pressure</span></div>
+                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Pulse Rate</span></div>
+                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Respiration Rate</span></div>
+                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Treatment</span></div>
+                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Status</span></div>
+                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>   
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Diagnosis</span></div>
+                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>                                            
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <form class="user">
@@ -556,7 +625,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3">{{form.treatment}}</textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" disabled="disabled" rows="3">{{form.treatment}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -802,76 +871,189 @@
             event.currentTarget.className += " active";
         }
 
+        var notAllowedMedicines = [], visits = [], intakeHistory = [];
+        var weight, height, age, sex;
         function searchProfile() {
+            notAllowedMedicines = [], visits = [], intakeHistory = [];
+            weight = "", height = "", age = "", sex = "";
             var typedID = document.getElementById("studentVisit").value;
-            
-            $.post("/getStudentRecord", {studentID: typedID}, function(data){
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
+
+            $.get("/getVisitDetails", {studentID: typedID}, function(details){
+                /* TO DO: display the details of the last visit */
+                console.log("all details needed for clinic-visit create");
+                console.log(details);
+
+                // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
+                var i;
+                for(i = 0; i < details.notAllowed.length; i++){
+                    notAllowedMedicines.push({
+                        medicine: details.notAllowed[i].medicine
+                    })
+                }
+
+                // --------------------------------- LIST OF CLINIC VISITS ------------------------------
+                for(i = 0; i < details.visits.length; i++){
+                    visits.push({
+                        visitDate: details.visits[i].visitDate,
+                        attendingNurse: details.visits[i].attendingNurse,
+                        timeIn: details.visits[i].timeIn,
+                        timeOut: details.visits[i].timeOut,
+                        weight: details.visits[i].weight,
+                        height: details.visits[i].height,
+                        bodyTemp: details.visits[i].bodyTemp,
+                        systolicBP: details.visits[i].systolicBP,
+                        diastolicBP: details.visits[i].diastolicBP,
+                        pulseRate: details.visits[i].pulseRate,
+                        respirationRate: details.visits[i].respirationRate,
+                        visitReason: details.visits[i].visitReason,
+                        treatment: details.visits[i].treatment,
+                        diagnosis: details.visits[i].diagnosis,
+                        status: details.visits[i].status,
+                        notes: details.visits[i].notes
+                    })
+                }
+                console.log("list of visists ni student");
+                console.log(visits);
+
+                // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
+                for(i = 0; i < details.intakeHistory.length; i++){
+                    intakeHistory.push({
+                        visitDate: details.intakeHistory[i].visitDate,
+                        attendingNurse: details.intakeHistory[i].attendingNurse,
+                        timeIn: details.intakeHistory[i].timeIn,
+                        timeOut: details.intakeHistory[i].timeOut,
+                        medications: details.intakeHistory[i].medications
+                    })
+                }
+                console.log("list of intakeHistory ni student");
+                console.log(intakeHistory);
+
+                // --------------------------------- LAST VISIT DETAILS ------------------------------
+                if(details){
+                    $('#lvDate').html(details.lastVisitDetails.visitDate);
+                    $('#lvTI').html(details.lastVisitDetails.timeIn);
+                    $('#lvTO').html(details.lastVisitDetails.timeOut);
+                    $('#lvNurse').html(details.lastVisitDetails.attendingNurse);
+
+                    if(details.lastVisitDetails.systolicBP == "" || !details.lastVisitDetails.systolicBP || details.lastVisitDetails.diastolicBP == "" || !details.lastVisitDetails.diastolicBP)
+                        $('#lvBP').html("-");
+                    else
+                        $('#lvBP').html(details.lastVisitDetails.systolicBP + "/" + details.lastVisitDetails.diastolicBP);
+                    
+                    if(details.lastVisitDetails.bodyTemp == "" || !details.lastVisitDetails.bodyTemp)
+                        $('#lvBT').html("-");
+                    else
+                        $('#lvBT').html(details.lastVisitDetails.bodyTemp + "°C");
+
+                    if(details.lastVisitDetails.pulseRate == "" || !details.lastVisitDetails.pulseRate)
+                        $('#lvPR').html("-");
+                    else
+                        $('#lvPR').html(details.lastVisitDetails.pulseRate);
+                    
+                    if(details.lastVisitDetails.respirationRate == "" || !details.lastVisitDetails.respirationRate)
+                        $('#lvRR').html("-");
+                    else
+                        $('#lvRR').html(details.lastVisitDetails.respirationRate);
+
+                    $('#lvReason').html(details.lastVisitDetails.visitReason);
+
+                    if(details.lastVisitDetails.treatment == "" || !details.lastVisitDetails.treatment)
+                        $('#lvTreatment').html("-");
+                    else
+                        $('#lvTreatment').html(details.lastVisitDetails.treatment);
+
+                    if(details.lastVisitDetails.diagnosis == "" || !details.lastVisitDetails.diagnosis)
+                        $('#lvDiagnosis').html("-");
+                    else
+                        $('#lvDiagnosis').html(details.lastVisitDetails.diagnosis);
+
+                    if(details.lastVisitDetails.notes == "" || !details.lastVisitDetails.notes)
+                        $('#lvNotes').html("-");
+                    else
+                        $('#lvNotes').html(details.lastVisitDetails.notes);
+
+                    $('#lvStatus').html(details.lastVisitDetails.status);
+
+                    document.getElementById('lastVisit').style.display = "block";
+                }
+                else
+                    document.getElementById('lastVisit').style.display = "none";
+
+                // --------------------------------- STUDENT PROFILE ------------------------------
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-
+                    document.getElementById('errorDiv').style.display = "block";  
+                    document.getElementById('lastVisit').style.display = "none";
                     document.getElementById("clinicVisitForm").reset();
 
                 }
-                else if(data.firstName == null){ // if data is null so meaning no student with that id number
+                else if(details.studentInfo.firstName == null){ // if data is null so meaning no student with that id number
                     //console.log(data);
                     //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    
-                    document.getElementById('errorDiv').style.display = "block";   // hide display message (ayaw gumana i dunno how this works)
-                    
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.');
+                    document.getElementById('studentDiv').style.display = "none";                     
+                    document.getElementById('errorDiv').style.display = "block";
+                    document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
                 } 
                 else {
+                    weight = details.studentInfo.weight;
+                    height = details.studentInfo.height
+                    age = details.studentInfo.age;
+                    sex = details.studentInfo.sex;
                     document.getElementById('errorDiv').style.display = "none";   // hide error message 
                     $('#headerNameCollapse').html(typedID);
+
                     // Header
-                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#nameHeaderVisit').html(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
                     $('#idHeaderVisit').html(typedID);
                     //$('#studentTypeHeader').html(data.studentType + " Student");
 
                     // personal info
-                    $('#visitLastName').html(data.lastName);
-                    $('#visitFirstName').html(data.firstName);
-                    $('#visitMiddleName').html(data.middleName);
+                    $('#visitLastName').html(details.studentInfo.lastName);
+                    $('#visitFirstName').html(details.studentInfo.firstName);
+                    $('#visitMiddleName').html(details.studentInfo.middleName);
 
-                    if(data.grade && data.section)
-                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                    if(details.studentInfo.grade && details.studentInfo.section)
+                        $('#gradeSection').html("Grade " + details.studentInfo.grade + " - " + details.studentInfo.section);
                         
-                    if(data.studentType)
-                        $('#studentTypeHeader').html(data.studentType + " Student");    
+                    if(details.studentInfo.studentType)
+                        if(details.studentInfo.studentType == "old" || details.studentInfo.studentType == "Old")
+                            $('#studentTypeHeader').html("Old Student");
+                        else if(details.studentInfo.studentType == "new" || details.studentInfo.studentType == "New")
+                            $('#studentTypeHeader').html("New Student");    
 
-                    $('#visitBirthday').html(data.birthday);
-                    //$('#visitNationality').html(data.nationality);
-                    //$('#visitReligion').html(data.religion);
-                    $('#visitAge').html(data.age + " years old");
-                    $('#visitSex').html(data.sex);
-                    $('#visitAddress').html(data.address);
+                    if(details.studentInfo.sex == "Female")
+                        document.getElementById("studentPic").src = "public/img/female.svg";
+                    else if (details.studentInfo.sex == "Male")
+                        document.getElementById("studentPic").src = "public/img/male.svg";
+
+                    $('#visitBirthday').html(details.studentInfo.birthday);
+                    //$('#visitNationality').html(details.studentInfo.nationality);
+                    //$('#visitReligion').html(details.studentInfo.religion);
+                    $('#visitAge').html(details.studentInfo.age + " years old");
+                    $('#visitSex').html(details.studentInfo.sex);
+                    $('#visitAddress').html(details.studentInfo.address);
 
                     // contacts
-                    if(data.fatherName)
-                        $('#visitFN').html(data.fatherName);
+                    if(details.studentInfo.fatherName)
+                        $('#visitFN').html(details.studentInfo.fatherName);
                     
-                    if(data.fatherEmail)
-                        $('#visitFE').html(data.fatherEmail);
+                    if(details.studentInfo.fatherEmail)
+                        $('#visitFE').html(details.studentInfo.fatherEmail);
 
-                    if(data.fatherContact)
-                        $('#visitFC').html(data.fatherContact);
+                    if(details.studentInfo.fatherContact)
+                        $('#visitFC').html(details.studentInfo.fatherContact);
 
-                    if(data.motherName) 
-                        $('#visitMN').html(data.motherName);
+                    if(details.studentInfo.motherName) 
+                        $('#visitMN').html(details.studentInfo.motherName);
 
-                    if(data.motherEmail)    
-                        $('#visitME').html(data.motherEmail);
+                    if(details.studentInfo.motherEmail)    
+                        $('#visitME').html(details.studentInfo.motherEmail);
 
-                    if(data.motherContact)    
-                        $('#visitMC').html(data.motherContact);
+                    if(details.studentInfo.motherContact)    
+                        $('#visitMC').html(details.studentInfo.motherContact);
 
 
                     //var today = new Date();
@@ -879,25 +1061,16 @@
 
                     //auto-fill form
                     $('#studentID').val(typedID);
-                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
-                    if(data.grade)
-                        $('#studentGrade').val(data.grade);
-                    if(data.section)
-                        $('#studentSection').val(data.section);
+                    $('#studentName').val(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
+                    if(details.studentInfo.grade)
+                        $('#studentGrade').val(details.studentInfo.grade);
+                    if(details.studentInfo.section)
+                        $('#studentSection').val(details.studentInfo.section);
                     //$('#visitDate').value(date);                 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
 
-            $.post("/getVisits", {studentID: typedID}, function(data){
-                console.log("visit details of a specfic student");
-                console.log(data);
-            });
-
-            $.post("/getIntakeHistory", {studentID: typedID}, function(data){
-                console.log("medicine intake history of a specfic student");
-                console.log(data);
-            });
         }
     </script>
     <script type='text/javascript'>

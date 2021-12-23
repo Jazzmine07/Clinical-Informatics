@@ -693,14 +693,15 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 router.post('/updateNotif', notificationController.updateNotifications);
-router.post('/getStudentRecord', studentInfoController.getStudentInfo);
-router.post('/getBMI', studentInfoController.getBMI);
+router.get('/getStudentRecord', studentInfoController.getStudentInfo);
+router.get('/getVisits', visitController.getStudentVisits);
+router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
+router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 
-router.post('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
-router.post('/getVisits', studentInfoController.getStudentVisits);
-router.post('/getLastVisit', visitController.getLastVisit);
-router.post('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getVisitDetails', visitController.getVisitDetails);
+router.get('/getLastVisit', visitController.getLastVisit);
 
 
 router.post('/addClinicVisit', visitController.addClinicVisit);
@@ -722,7 +723,6 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
-router.post('/getMedicineDetails', inventoryController.getMedicineDetails);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

@@ -1,12 +1,14 @@
 const firebase = require('../firebase');
 
 exports.getStudentInfo = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
+    console.log("id sa controller");
+    console.log(id);
     var database = firebase.database();
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
 
-    studentRef.on('value', (snapshot) => {
+    studentRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshotData = snapshot.exportVal();
             studentInfo = {
@@ -21,6 +23,7 @@ exports.getStudentInfo = function(req, res){
                 religion: snapshotData.religion,
                 age: snapshotData.age,
                 sex: snapshotData.sex,
+                height: snapshotData.height,
                 weight: snapshotData.weight,
                 address: snapshotData.address,
                 fatherName: snapshotData.fatherName,
@@ -43,7 +46,7 @@ exports.getStudentInfo = function(req, res){
             }
             res.status(200).send(studentInfo);
         } else {
-            res.send({
+            res.status(200).send({
                 error: true,
                 error_msg: "No student with that id number!"
             })
@@ -52,20 +55,19 @@ exports.getStudentInfo = function(req, res){
 };
 
 exports.getNotAllowedMedication = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
     var database = firebase.database();
     var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
-    var childSnapshotData, temp = [],notAllowed = [];
+    var childSnapshotData, notAllowed = [];
 
     medicineRef.on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                if(childSnapshotData.isAllowed == false){
-                    notAllowed.push({
-                        medicine: childSnapshot.key
-                    })
-                }
+                notAllowed.push({
+                    medicine: childSnapshot.key,
+                    isAllowed: childSnapshotData.isAllowed
+                })
             })
             console.log("not allowed medications")
             console.log(notAllowed);
@@ -77,7 +79,7 @@ exports.getNotAllowedMedication = function(req, res){
 };
 
 exports.getBMI = function(req, res){
-    var id = req.body.idNum;
+    var id = req.query.studentID;
     var database = firebase.database();
     var historyRef = database.ref("studentHealthHistory/"+ id + "/ape");
     var studentInfo = [];
@@ -172,7 +174,7 @@ exports.getStudentVisits = function(req, res){
 };
 
 exports.getStudentIntakeHistory = function(req, res){
-    var id = req.body.studentID;
+    var id = req.query.studentID;
     var database = firebase.database();
     var historyRef = database.ref("intakeHistory");
     var userRef = database.ref("clinicUsers");
@@ -186,20 +188,16 @@ exports.getStudentIntakeHistory = function(req, res){
                     innerChildData = innerChild.exportVal();
                     console.log("innerchild");
                     console.log(innerChildData);
-                    medications.push({
+                    history.push({
                         medicine: innerChildData.medicine,
                         amount: innerChildData.amount,
-                        time: innerChildData.time
+                        time: innerChildData.time,
+                        visitDate: childSnapshotData.visitDate,
+                        attendingNurse: childSnapshotData.attendingNurse,
+                        timeIn: childSnapshotData.timeIn,
+                        timeOut: childSnapshotData.timeOut,
                     })
                 })
-                
-                history.push({
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.attendingNurse,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    medications: medications
-                });
             });
 
             console.log("student intake history");

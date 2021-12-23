@@ -44,6 +44,10 @@
             display: none;
         }
 
+        .select2-container--default.select2-container--disabled .select2-selection--single{
+            background-color: #eaecf4;
+        }
+
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
             color: white;
             cursor: pointer;
@@ -616,7 +620,7 @@
 
                 {{!-- {{#if isNurse}} --}}
                 <!-- Basic Card Example -->
-                <div class="card shadow mb-2">
+                <div class="card shadow mb-2" id="scrollVisit">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                     <div class="card-body">
                         <div class="form-row align-items-center">
@@ -809,7 +813,7 @@
 
                     {{!-- {{else}} --}}
                     {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2" id="scrollHere">
+                    <div class="card shadow mb-2" id="scrollDiagnosis">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>                           
                             <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assign To</label>
@@ -857,7 +861,7 @@
                                         <div class="col-6">
                                             <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                             <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
-                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option disabled="disabled" value="" selected="true">Choose...</option>
                                             {{#each prescribed}}
                                                 <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                             {{/each}}
@@ -868,7 +872,7 @@
                                         <div class="col-6">
                                             <label class="col-form-label" for="medicationVisit">Medication</label>
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
-                                                <option disabled="disabled" selected="true">Choose...</option>
+                                                <option disabled="disabled"  value="" selected="true">Choose...</option>
                                                 {{#each medicines}}
                                                     <option value="{{name}}">{{medicine}}</option>   
                                                 {{/each}} 
@@ -921,13 +925,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="well">
-                                        
-                                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
+                                    <div class="well" style="display: none;" id="errorMed">  
+                                        <div class="alert alert-danger" role="alert">
+                                            <p class="alert-heading">
                                                 <i class="fa fa-exclamation-circle"></i>
-                                                <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                            </div>                               
-                                        
+                                                <strong class="mx-1">Interaction found</strong>
+                                            </p>
+                                            <p id="interactionDiv"></p>
+                                        </div>                             
                                     </div>
                                 </div>
                             </div>
@@ -1022,7 +1027,6 @@
                                 <div class="col-4">
                                     <label class="col-form-label" for="status">Disposition</label>
                                     <select class="custom-select mb-2" id="status" name="status">
-                                        <option disabled="disabled" selected="true">Choose...</option>
                                         <option value="Under Observation">Under Observation</option>    
                                         <option value="Sent Home">Sent Home</option>
                                         <option value="Hospitalized">Sent to Hospital</option>
@@ -3150,6 +3154,7 @@
         var ids = [];
         var list;
         var descArray = [];
+        var tempDescArray = [];
         var found = false;
 
         async function getInteraction(){
@@ -3172,7 +3177,7 @@
                     })
                 })
                 
-                var tempDescArray = descArray.toString();
+                tempDescArray = descArray.toString();
                 tempDescArray = tempDescArray.split(",");
 
                 for (let i = 0; i < descArray.length; i++) {
@@ -3181,15 +3186,17 @@
 
                 tempDescArray = tempDescArray.join("");
                 console.log(tempDescArray)
-
-                document.getElementById("errorMed").innerHTML = tempDescArray;
+                document.getElementById("interactionDiv").innerHTML = tempDescArray;
+                document.getElementById("errorMed").style.display = "block";
             } else {
                 tempDescArray = "No drug-to-drug interaction found.";
-                console.log(tempDescArray)
-
-                document.getElementById("errorMed").innerHTML = tempDescArray;
+                console.log(tempDescArray);
+                document.getElementById("errorMed").style.display = "block";
+                document.getElementById("interactionDiv").innerHTML = tempDescArray;
             }
         }
+
+        var getMe;
 
         async function getID(medicine){
             ids = [];
@@ -3199,7 +3206,7 @@
             ids.push(data.idGroup.rxnormId);
             console.log("length ng ids");
             console.log(ids.length);
-            if(ids.length == medicationsArray.length){
+            if(ids.length == getMe.length){
                 getInteraction();
             }
         }
@@ -3233,13 +3240,31 @@
             for(i = 0; i < medicationsArray.length; i++){
                 namesArray.push(medicationsArray[i].medication);
             }
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control namesInteraction" placeholder="' + selectedMedication +'" value="'+ selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            
             i++;
-            if(namesArray.length >= 2){
-                for(i = 0; i < medicationsArray.length; i++){
-                    getID(medicationsArray[i].medication);    
+            
+            getMe = document.getElementsByClassName("namesInteraction");
+            console.log("get me........");
+            console.log(getMe);
+            console.log("length ni get me");
+            console.log(getMe.length);
+            
+            if(getMe.length >= 2) {
+                console.log("inside get me if");
+                for(i = 0; i < getMe.length; i++){
+                    console.log("inside get me for loop");
+                    getID(getMe[i].value);
+                    console.log(getMe[i].value);    
                 }
             }
+
+            //if(namesArray.length >= 2){
+            //    for(i = 0; i < medicationsArray.length; i++){
+            //        getID(medicationsArray[i].medication);    
+            //    }
+            //}
         });
 
         var removeIDs = [];
@@ -3249,7 +3274,9 @@
             console.log("removing..." + button_id);  
             removeIDs.push(button_id);
             $('#row'+button_id+'').remove(); 
-            console.log(removeIDs);    
+            console.log(removeIDs);  
+            tempDescArray = [];
+            document.getElementById("errorMed").style.display = "none";  
         });  
 
         $("#assignDiagnosis").change(function(){
@@ -3300,6 +3327,7 @@
             var weight = $('#weight').val(); 
 
             var status = getHeightWeight();
+            var proceed = true;
 
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
@@ -3334,25 +3362,103 @@
             }
 
             console.log(medicationsArray);
-            console.log(intakeArray);              
+            console.log(intakeArray); 
+
+            var selectPrescribedBy = document.getElementById("prescribedBy");
+            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+            console.log(selectedPrescribedBy);
+
+            var isDisabled = $('#prescribedBy').prop('disabled');
+
+            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
+
+            if(!isDisabled && $('#assignDiagnosis').find('option:selected').length == 0){
+                if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
+                    var selectedDiagnosisAssign = "";
+                    var diagnosis =  ""; 
+                    console.log("2nd if");
+                }
+            }
+            else if(isDisabled){
+                $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+                var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+                var diagnosis =  ""; 
+               
+                console.log("3rd if");
+                console.log(selectedDiagnosisAssign);
+                console.log(diagnosis);
+            }             
 
             var id = $('#studentID').val();
             console.log(id);
-            
+            if($('#studentID').val() == null || $('#studentID').val() == undefined || $('#studentID').val() == ""){
+                $("#studentID").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#studentID").removeClass("is-invalid");
+            }
+
             var studentName = $('#studentName').val(); 
             console.log(studentName);
 
+            if($('#studentName').val() == null || $('#studentName').val() == undefined || $('#studentName').val() == ""){
+                $("#studentName").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#studentName").removeClass("is-invalid");
+            }
+
             var studentGrade = $('#studentGrade').val(); 
             console.log(studentGrade);
+
+            if($('#studentGrade').val() == null || $('#studentGrade').val() == undefined || $('#studentGrade').val() == ""){
+                $("#studentGrade").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#studentGrade").removeClass("is-invalid");
+            }
                 
             var studentSection = $('#studentSection').val(); 
             console.log(studentSection);
 
+            if($('#studentSection').val() == null || $('#studentSection').val() == undefined || $('#studentSection').val() == ""){
+                $("#studentSection").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#studentSection").removeClass("is-invalid");
+            }
+
             var visitDate =  $('#visitDate').val(); 
             console.log(visitDate);
+
+            if($('#visitDate').val() == null || $('#visitDate').val() == undefined || $('#visitDate').val() == ""){
+                $("#visitDate").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#visitDate").removeClass("is-invalid");
+            }
            
             var timeIn =  $('#clinicIn').val();
             console.log(timeIn);
+
+            if($('#clinicIn').val() == null || $('#clinicIn').val() == undefined || $('#clinicIn').val() == ""){
+                $("#clinicIn").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#clinicIn").removeClass("is-invalid");
+            }  
 
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
@@ -3362,6 +3468,15 @@
 
             var nurse =  $('#attendingNurse').find(":selected").val();   
             console.log(nurse);
+
+            if($('#attendingNurse').find(":selected").val() == null || $('#attendingNurse').find(":selected").val() == undefined || $('#attendingNurse').find(":selected").val() == ""){
+                $("#attendingNurse").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#attendingNurse").removeClass("is-invalid");
+            }
             
             //vital signs
             var bodyTemp =  $('#bodyTemp').val(); 
@@ -3382,15 +3497,38 @@
             var complaint =  $('#complaintVisit').val(); 
             console.log(complaint);
 
+            if($('#complaintVisit').val() == null || $('#complaintVisit').val() == undefined || $('#complaintVisit').val() == ""){
+                $("#complaintVisit").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#complaintVisit").removeClass("is-invalid");
+            } 
+
             var impression =  $('#impression').val(); 
             console.log(impression);
+
+            if($('#impression').val() == null || $('#impression').val() == undefined || $('#impression').val() == ""){
+                $("#impression").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#impression").removeClass("is-invalid");
+            } 
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            var selectPrescribedBy = document.getElementById("prescribedBy");
-            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-            console.log(selectedPrescribedBy);
+            if($('#treatmentVisit').val() == null || $('#treatmentVisit').val() == undefined || $('#treatmentVisit').val() == ""){
+                $("#treatmentVisit").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#treatmentVisit").removeClass("is-invalid");
+            }
 
             var status =  $('#status').find(":selected").text();
             console.log(status);
@@ -3398,32 +3536,7 @@
             var notes =  $('#notes').val(); 
             console.log(notes);
 
-            var isDisabled = $('#prescribedBy').prop('disabled');
-
-            var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-
-            var proceed = false;
-
-            if(!isDisabled && $('#assignDiagnosis').find('option:selected').length == 0){
-                if(!selectedPrescribedBy == null || !selectedPrescribedBy == "" || !selectedPrescribedBy == undefined || !selectedPrescribedBy == "Choose..."){
-                    var selectedDiagnosisAssign = "";
-                    var diagnosis =  ""; 
-                    proceed = true;
-                    console.log("2nd if");
-                }
-            }
-            else if(isDisabled){
-                $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
-                var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
-                var diagnosis =  ""; 
-                proceed = true;
-               
-                console.log("3rd if");
-                console.log(selectedDiagnosisAssign);
-                console.log(diagnosis);
-            }
-
-            console.log("status befor ajax: "+status.weightStatus);
+            console.log("proceed.... " + proceed);
 
             /* TO DO: Add checkers for fields if empty */
             if(proceed){

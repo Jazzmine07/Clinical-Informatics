@@ -471,11 +471,13 @@ exports.getClinicVisitForm = function(req){
                 dFname = diagnosis.child('firstName').val();
                 dLname = diagnosis.child('lastName').val();
             });
-            await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
-                mFname = medication.child('firstName').val();
-                mLname = medication.child('lastName').val();
-            });
-
+            if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
+                await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
+                    mFname = medication.child('firstName').val();
+                    mLname = medication.child('lastName').val();
+                });
+            }
+        
             details = {
                 formId: temp[0].formId,
                 id: temp[0].id,

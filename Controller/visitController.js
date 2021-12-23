@@ -12,8 +12,9 @@ exports.getDashboard = function(req, res){
         clinicVisitRef.orderByChild("visitDate").equalTo(date).on('value', (snapshot) => { 
             snapshot.forEach(function(childSnapshot) {
                 childSnapshotData = childSnapshot.exportVal();
-                console.log
+                console.log(childSnapshot.key);
                 visitCount++;
+                console.log(visitCount);
                 if(childSnapshotData.status == "Sent To Class"){
                     sentClass++;
                 } else if(childSnapshotData.status == "Hospitalized"){
@@ -64,7 +65,7 @@ exports.addClinicVisit = function(req, res){
             visitDate: visitDate,
             timestamp: time,
             timeIn: timeIn,
-            timeout: timeOut,
+            timeOut: timeOut,
             clinicType: clinicType,
             attendingNurse: nurse,
     
@@ -124,7 +125,7 @@ exports.addClinicVisit = function(req, res){
                     section: studentSection,
                     studentName: studentName,
                     timeIn: timeIn,
-                    timeout: timeOut,
+                    timeOut: timeOut,
                     timestamp: time,
                     visitDate: visitDate,
                 }
@@ -176,7 +177,7 @@ exports.addClinicVisit = function(req, res){
 exports.editClinicVisit = function(req, res){
     var { userKey , formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, diagnosis, 
-        medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
+        medicationAssign, medicationAssigned, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
     
     var database = firebase.database();
@@ -186,8 +187,10 @@ exports.editClinicVisit = function(req, res){
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = Math.round(+new Date()/1000);
 
-    userRef.once("value", (snapshot) => { 
-        if(snapshot.child("role").val() == "Clinician"){
+    userRef.once("value", (userSnapshot) => { 
+        var fname = userSnapshot.child('firstName').val();
+        var lname = userSnapshot.child('lastName').val();
+        if(userSnapshot.child("role").val() == "Clinician"){
             console.log("pumasok sa clinician if");
             if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
                 console.log("pumasok pag wlang medication assigned");
@@ -214,33 +217,29 @@ exports.editClinicVisit = function(req, res){
 
                 //if intake array is not empty!
                 if(intakeArray != undefined){
-                    userRef.child(userKey).once('value',(userSnapshot) => {
-                        var fname = userSnapshot.child('firstName').val();
-                        var lname = userSnapshot.child('lastName').val();
-                        var intakeHistory = {
-                            attendingClinician: fname + " " + lname,
-                            grade: studentGrade,
-                            id: studentId, 
-                            medications: "", // array of medications
-                            section: studentSection,
-                            studentName: studentName,
-                            timeIn: timeIn,
-                            timeOut: timeOut,
-                            timestamp: time,
-                            visitDate: visitDate,
-                        }
-                    
-                        var intakeRef = database.ref("intakeHistory");
-                        var historyKey = intakeRef.push(intakeHistory).key;
-                        for(i = 0; i < intakeArray.length; i++){
-                            history = {
-                                medicine: intakeArray[i].medication,
-                                amount: parseInt(intakeArray[i].amount),
-                                time: intakeArray[i].time
-                            };
-                            database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-                        }
-                    });
+                    var intakeHistory = {
+                        attendingClinician: fname + " " + lname,
+                        grade: studentGrade,
+                        id: studentId, 
+                        medications: "", // array of medications
+                        section: studentSection,
+                        studentName: studentName,
+                        timeIn: timeIn,
+                        timeOut: timeOut,
+                        timestamp: time,
+                        visitDate: visitDate,
+                    }
+                
+                    var intakeRef = database.ref("intakeHistory");
+                    var historyKey = intakeRef.push(intakeHistory).key;
+                    for(i = 0; i < intakeArray.length; i++){
+                        history = {
+                            medicine: intakeArray[i].medication,
+                            amount: parseInt(intakeArray[i].amount),
+                            time: intakeArray[i].time
+                        };
+                        database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                    }
                 }
 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
@@ -306,13 +305,13 @@ exports.editClinicVisit = function(req, res){
                 res.status(200).send();
             }
         } else {    // nurse encoding medication section
+            console.log("pumasok sa nurse if");
             var record = {
-                timeout: timeOut,
-                medications: "", // array of medications
+                timeOut: timeOut,
                 status: status,
             };
         
-            clinicVisitRef.set(record);
+            clinicVisitRef.update(record);
 
             for(i = 0; i < medicationsArray.length; i++){
                 medication = {
@@ -328,33 +327,29 @@ exports.editClinicVisit = function(req, res){
 
             //if intake array is not empty!
             if(intakeArray != undefined){
-                userRef.child(userKey).once('value', (userSnapshot) => {
-                    var fname = userSnapshot.child('firstName').val();
-                    var lname = userSnapshot.child('lastName').val();
-                    var intakeHistory = {
-                        attendingNurse: fname + " " + lname,
-                        grade: studentGrade,
-                        id: studentId, 
-                        medications: "", // array of medications
-                        section: studentSection,
-                        studentName: studentName,
-                        timeIn: timeIn,
-                        timeout: timeOut,
-                        timestamp: time,
-                        visitDate: visitDate,
-                    }
-                
-                    var intakeRef = database.ref("intakeHistory");
-                    var historyKey = intakeRef.push(intakeHistory).key;
-                    for(i = 0; i < intakeArray.length; i++){
-                        history = {
-                            medicine: intakeArray[i].medication,
-                            amount: parseInt(intakeArray[i].amount),
-                            time: intakeArray[i].time
-                        };
-                        database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-                    }
-                });
+                var intakeHistory = {
+                    attendingNurse: fname + " " + lname,
+                    grade: studentGrade,
+                    id: studentId, 
+                    medications: "", // array of medications
+                    section: studentSection,
+                    studentName: studentName,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    timestamp: time,
+                    visitDate: visitDate,
+                }
+            
+                var intakeRef = database.ref("intakeHistory");
+                var historyKey = intakeRef.push(intakeHistory).key;
+                for(i = 0; i < intakeArray.length; i++){
+                    history = {
+                        medicine: intakeArray[i].medication,
+                        amount: parseInt(intakeArray[i].amount),
+                        time: intakeArray[i].time
+                    };
+                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                }
             }
 
             // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
@@ -424,7 +419,7 @@ exports.getClinicVisitForm = function(req){
     var formRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers");
     var temp = [], details;
-    var fname, lname, dFname, dLname;
+    var fname, lname, dFname, dLname, mFname, mLname;
 
     var promise = new Promise((resolve, reject)=>{
         formRef.on('value', async (snapshot) => {
@@ -464,6 +459,7 @@ exports.getClinicVisitForm = function(req){
                 diagnosis: snapshotData.diagnosis,
 
                 prescribedBy: "",
+                medicationAssignedKey: snapshotData.medicationAssigned,
                 status: snapshotData.status,
             })
 
@@ -474,6 +470,10 @@ exports.getClinicVisitForm = function(req){
             await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
                 dFname = diagnosis.child('firstName').val();
                 dLname = diagnosis.child('lastName').val();
+            });
+            await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
+                mFname = medication.child('firstName').val();
+                mLname = medication.child('lastName').val();
             });
 
             details = {
@@ -508,7 +508,10 @@ exports.getClinicVisitForm = function(req){
                 treatment: temp[0].treatment,
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
+                diagnosis: temp[0].diagnosis,
                 prescribedBy: dFname + " " + dLname,
+                medicationAssignedKey: temp[0].medicationAssignedKey,
+                medicationAssigned: mFname + " " + mLname,
                 diagnosis: temp[0].diagnosis,
                 status: temp[0].status,
                 notes: temp[0].notes
@@ -995,7 +998,7 @@ exports.addMedicationIntake = function(req, res){
         visitDate: visitDate,
         timestamp: time,
         timeIn: timeIn,
-        timeout: timeOut,
+        timeOut: timeOut,
         attendingNurse: nurse,
         medications: "", // array of medications
     };

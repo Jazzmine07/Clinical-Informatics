@@ -565,9 +565,7 @@
                             <div class="col-5">
                                 <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
                                 <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                    {{#each nurse}}
-                                        <option value="{{firstName}} {{lastName}}"> {{firstName}} {{lastName}}</option>
-                                    {{/each}}
+                                    <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
                         </div>

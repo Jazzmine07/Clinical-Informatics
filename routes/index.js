@@ -258,6 +258,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
         user: user,
         isNurse: true,
         form: form,
+        medicines: medicines
       });
     } else {
       res.render('clinic-visit-edit', {

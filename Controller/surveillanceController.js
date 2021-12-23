@@ -249,15 +249,17 @@ exports.getDiseaseDemographics=function(req,res){
         }
         //temp where data is filtered by date
         for(i=0;i<temp.length;i++){
-            parts=temp[i].visitDate.split('-');
-            startSplit= start.split('-');
-            endSplit = end.split('-');
-            dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
-            startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
-            endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
+            if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                parts=temp[i].visitDate.split('-');
+                startSplit= start.split('-');
+                endSplit = end.split('-');
+                dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+                startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
+                endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
 
-            if(dbDate<=endDate && dbDate>=startDate){
-                temp2.push(temp[i]);
+                if(dbDate<=endDate && dbDate>=startDate){
+                    temp2.push(temp[i]);
+                }
             }
     
         }
@@ -448,44 +450,47 @@ exports.getVisitReasonCount=function(req,res){
         
         //temp where data is filtered by date and gets the count of each disease
         for(i=0;i<temp.length;i++){
-            parts=temp[i].visitDate.split('-');
-            startSplit= start.split('-');
-            endSplit = end.split('-');
-            dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
-            startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
-            endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
-            alreadyAdded=0;
-            if(dbDate<=endDate && dbDate>=startDate){
-                // temp2.push(temp[i]);
-                temp3.push(temp[i]);
-                if(temp2==null){ //if empty auto add
-                    if(temp[i].visitReason!=""){
-                        temp2.push({
-                            concern: temp[i].visitReason,
-                            count:1
-                        })
-                        
-                    }
-                }
-                else{ //if not empty
-                    for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
-                        if(temp[i].visitReason!="" && temp2[j].concern!="" && temp[i].visitReason!=undefined && temp2[j].concern!=undefined){
-                            if(temp2[j].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
-                                temp2[j].count=temp2[j].count+1;
-                                alreadyAdded=1;
-                            }
-                        }
-                    }
-                    if(alreadyAdded!=1){
+            if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                parts=temp[i].visitDate.split('-');
+                startSplit= start.split('-');
+                endSplit = end.split('-');
+                dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+                startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
+                endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
+                alreadyAdded=0;
+                if(dbDate<=endDate && dbDate>=startDate){
+                    // temp2.push(temp[i]);
+                    temp3.push(temp[i]);
+                    if(temp2==null){ //if empty auto add
                         if(temp[i].visitReason!=""){
                             temp2.push({
                                 concern: temp[i].visitReason,
                                 count:1
                             })
+                            
+                        }
+                    }
+                    else{ //if not empty
+                        for(j=0;j<temp2.length;j++){ //this whole thing is used to check if it has a count
+                            if(temp[i].visitReason!="" && temp2[j].concern!="" && temp[i].visitReason!=undefined && temp2[j].concern!=undefined){
+                                if(temp2[j].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
+                                    temp2[j].count=temp2[j].count+1;
+                                    alreadyAdded=1;
+                                }
+                            }
+                        }
+                        if(alreadyAdded!=1){
+                            if(temp[i].visitReason!=""){
+                                temp2.push({
+                                    concern: temp[i].visitReason,
+                                    count:1
+                                })
+                            }
                         }
                     }
                 }
             }
+            
     
         }
 
@@ -544,8 +549,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
         console.log(temp);
         //temp where data is filtered by date and gets the count of each disease
         for(i=0;i<temp.length;i++){
-            partsDb=temp[i].visitDate.split('-');
-            
+            if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                partsDb=temp[i].visitDate.split('-');
             alreadyAddedTemp2=0;
             alreadyAddedTemp3=0;
             if(partsDb[1]-1 == monthToday){
@@ -728,6 +733,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
 
                 }
             }
+            }
+            
         }
 
         console.log("getDiseaseCount array");
@@ -779,17 +786,19 @@ exports.getDiseaseTrendCount= function(req,res){
         
         //temp where data is filtered by date
         for(i=0;i<temp.length;i++){
-            parts=temp[i].visitDate.split('-');
-            startSplit= start.split('-');
-            endSplit = end.split('-');
-            dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
-            startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
-            endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
-            alreadyAdded=0;
-            if(dbDate<=endDate && dbDate>=startDate){
-                if(temp[i].visitReason!=""){
-                    temp2.push(temp[i])
-                    
+            if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                parts=temp[i].visitDate.split('-');
+                startSplit= start.split('-');
+                endSplit = end.split('-');
+                dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+                startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
+                endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
+                alreadyAdded=0;
+                if(dbDate<=endDate && dbDate>=startDate){
+                    if(temp[i].visitReason!=""){
+                        temp2.push(temp[i])
+                        
+                    }
                 }
             }
         }

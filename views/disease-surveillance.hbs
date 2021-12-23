@@ -1313,7 +1313,7 @@
             while(date<=e){
                 dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-" +date.getDate());
                 date.setDate(date.getDate()+1);
-                filling.push(0);
+                filling.push(parseInt("0"));
             }
             console.log(dateLabels);
             
@@ -1357,8 +1357,14 @@
                     if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null && data[i].diagnosis!=undefined && dDataSet[j].diagnosis!=undefined){
                         if(data[i].diagnosis.toLowerCase() == dDataSet[j].diagnosis.toLowerCase()){
                             for(k=0;k<dateLabels.length;k++){
-                                if(data[i].visitDate==dateLabels[k]){
+                                if( (data[i].visitDate==dateLabels[k])){
+                                    console.log("TESTING")
+                                    console.log(data[i].diagnosis);
+                                    console.log(dDataSet[j].diagnosis);
+                                    console.log(dDataSet);
+                                    console.log(dDataSet[j].dates[k]);
                                     dDataSet[j].count[k]=dDataSet[j].count[k]+1;
+                                    
                                 }
                             }
                         }

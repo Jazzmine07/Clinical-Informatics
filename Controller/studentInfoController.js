@@ -8,7 +8,7 @@ exports.getStudentInfo = function(req, res){
     var studentRef = database.ref("studentInfo/"+ id);
     var snapshotData, studentInfo;
 
-    studentRef.on('value', (snapshot) => {
+    studentRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshotData = snapshot.exportVal();
             studentInfo = {

@@ -50,14 +50,14 @@ exports.addClinicVisit = function(req, res){
     
 
     try{
-        // var updateWeight = {
-        //     weight: weight
-        // };
-        // var updateHeight = {
-        //     height: height
-        // }
-        // database.ref("studentInfo/"+studentId).update(updateWeight);
-        // database.ref("studentInfo/"+studentId).update(updateHeight);
+        var updateWeight = {
+            weight: weight
+        };
+        var updateHeight = {
+            height: height
+        }
+        database.ref("studentInfo/"+studentId).update(updateWeight);
+        database.ref("studentInfo/"+studentId).update(updateHeight);
 
         var record = {
             id: studentId, 
@@ -103,7 +103,7 @@ exports.addClinicVisit = function(req, res){
     
         key = clinicVisitRef.push(record).key;        
     
-        if(medicationsArray.length != 0 && medicationsArray != undefined){
+        if(medicationsArray != undefined){
             for(i = 0; i < medicationsArray.length; i++){
                 medication = {
                     medicine: medicationsArray[i].medication,
@@ -118,7 +118,7 @@ exports.addClinicVisit = function(req, res){
         }
     
         // if intake array is not empty!
-        if(intakeArray.length != 0 && intakeArray != undefined){
+        if(intakeArray != undefined){
             userRef.child(nurse).once('value',(userSnapshot) => {
                 var fname = userSnapshot.child('firstName').val();
                 var lname = userSnapshot.child('lastName').val();
@@ -634,7 +634,7 @@ exports.getVisitDetails = function(req, res){
     //     }
     // })
 
-    studentRef.on('value', (snapshot) => {
+    studentRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshotData = snapshot.exportVal();
             studentInfo = {

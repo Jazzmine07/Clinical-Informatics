@@ -695,7 +695,7 @@
                             <div class="col-2 mb-2">
                                 <label for="Weight" class="col-form-label">Weight</label>
                                 <div class="input-group">                                           
-                                    <input type="number" class="form-control" id="weight" step="0.01">
+                                    <input type="number" class="form-control" id="weight" step="0.1">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon4">kg</span>
                                     </div>
@@ -705,7 +705,7 @@
                             <div class="col-2 mb-2">
                                 <label for="height" class="col-form-label">Height</label>
                                 <div class="input-group">                                           
-                                <input type="number" class="form-control" id="height" step="0.01">
+                                <input type="number" class="form-control" id="height" step="0.1">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon4">cm</span>
                                     </div>
@@ -723,8 +723,8 @@
                             <div class="col-3 mb-2">
                                 <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
                                 <div class="input-group">                               
-                                    <input type="number" class="form-control" id="systolic" placeholder="Systolic">
-                                    <input type="number" class="form-control" id="diastolic" placeholder="Diastolic">         
+                                    <input type="number" class="form-control" id="systolic" placeholder="Systolic" step="1" min="0">
+                                    <input type="number" class="form-control" id="diastolic" placeholder="Diastolic" step="1" min="0">         
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon2">mmHg</span>
                                     </div>
@@ -762,7 +762,7 @@
                             <div class="col-2">
                                 <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                 <div class="input-group mb-2">                                                                            
-                                <input type="number" class="form-control" id="pulseRate" name="pulseRate">
+                                <input type="number" class="form-control" id="pulseRate" name="pulseRate" step="1" min="0">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon3">beats/min</span>
                                     </div>
@@ -772,7 +772,7 @@
                                 <label for="respRate" class="col-form-label">Respiration Rate</label>
                                 <div class="input-group mb-2">                                        
                                     
-                                <input type="number" class="form-control" id="respRate" name="respRate">
+                                <input type="number" class="form-control" id="respRate" name="respRate" step="1" min="0">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                     </div>
@@ -2818,6 +2818,41 @@
                     $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
                 } 
             }
+            else if(medicationTxt == "Paracetamol Syrup 120mg/5mL"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / (120/5); 
+                    console.log("weight-based: " + wbd);                          
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Suspension 250mg/5mL"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / (250/5); 
+                    console.log("weight-based: " + wbd);                          
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Tablet 250mg"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / 250; 
+                    console.log("weight-based: " + Math.round(wbd));
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }
+                } 
+            }
             else if(medicationTxt == "Paracetamol Tablet 500mg"){
                 if(x != 1){
                     var start = x * 10;
@@ -2878,6 +2913,82 @@
                     }                        
                 } 
             }
+            else if(medicationTxt == "Neozep Non-Drowsy Tablet 10mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "Neozep Forte Tablet 10mg/2mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "No-Drowse Decolgen Tablet 25mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "Decolgen Forte Tablet 25mg/2mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
             else if(medicationTxt == "Loratidine Tablet 10mg"){
                 if(parseInt(age) > 12){
                     var wbd = 1; 
@@ -2885,17 +2996,40 @@
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
                     if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
                     }
                     else if(Math.round(wbd) > 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
                     }                        
                 }
                 else if(parseInt(age) <= 12){
                     document.getElementById('validAmount').style.display = "none";
                     document.getElementById('invalidAmount').style.display = "block";
-                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                    $('#invalidAmount').html('This medication is not recommeded for children 12 and below. Take in syrup instead.');
                 }
+            }
+            else if(medicationTxt == "Loratidine Syrup 5mg/5mL"){
+                if(parseInt(age) <= 12 && parseInt(age) >= 2){
+                    if(x < 30){
+                        var wbd = 1; 
+                        console.log("weight-based: " + wbd);                          
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + ' tsp');                       
+                    } 
+                    else if(x >= 30){
+                        var wbd = 2; 
+                        console.log("weight-based: " + wbd);                          
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + ' tsp');
+                    }
+                }
+                else if(parseInt(age) > 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children above 12. Take in tablet instead.');
+                } 
             }
             else if(medicationTxt == "Cetirizine Tablet 10mg"){
                 if(parseInt(age) <= 12 && parseInt(age) >= 6){
@@ -2904,10 +3038,10 @@
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
                     if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
                     }
                     else if(Math.round(wbd) > 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
                     }                        
                 }
                 else if(parseInt(age) < 6){
@@ -2923,7 +3057,7 @@
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
                     
-                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');
                     
                 }
                 else if(parseInt(age) <= 12 && parseInt(age) >= 6){
@@ -2932,7 +3066,7 @@
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
                     
-                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
                 } 
             }
             else if(medicationTxt == "Epinephrine Solution for Injection 1mg/mL"){
@@ -2941,22 +3075,28 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
                 }
                 else if(parseInt(age) <= 12 && parseInt(age) >= 6){
                     var wbd = 0.3; 
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                       
                 }
                 else if(parseInt(age) < 6){
                     var wbd = 0.15; 
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                        
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
                 } 
+            }
+            else if(medicationTxt == "Antacid (Kremil-S) Chewable Tablet 178mg/233mg/30mg"){
+                document.getElementById('invalidAmount').style.display = "none";
+                document.getElementById('validAmount').style.display = "block";
+                $('#validAmount').html('Pedia dose: 1tsp. Take 1hr & 3hrs after meals & at bedtime. For Peptic ulcer: 2tabs. For Hyperacidity: 1-2tabs.');                       
+                    
             }
             else if(medicationTxt == "Salbutamol Syrup 2mg/5mL"){
                 if(x != 1){
@@ -2979,6 +3119,35 @@
                     document.getElementById('validAmount').style.display = "block";
                     
                     $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(2) + 'mL');
+                } 
+            }
+            else if(medicationTxt == "Clonidine (Catapres) Tablet 100mcg"){
+                if(parseInt(age) >= 6){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }                       
+                }
+                else if(parseInt(age) < 6){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 6.');
+                } 
+            }
+            else if(medicationTxt == "Oral Rehydration Solution (Hydrite) Sachet 4.1g"){
+                if(parseInt(age) <= 10 && parseInt(age) >= 2){
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: 1 sachet in 1 glass of water (100mL - 200mL).');
+                                            
+                }
+                else if(parseInt(age) > 10){
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: 1 sachet. Give as much fluid as the child needs.');
                 } 
             }
         });

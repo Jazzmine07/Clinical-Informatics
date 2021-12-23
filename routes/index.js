@@ -718,6 +718,7 @@ router.post('/addWeightHeight',studentController.addWeightHeight);
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
 router.post('/getVisitReasonCountDashboard', surveillanceController.getVisitReasonCount);
 router.post('/getVRGradeMonthlyCountDashboard', surveillanceController.getVRCountByGradeInMonth);
+router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);

@@ -387,6 +387,18 @@
                         <div class="col-xl-12 col-lg-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Trend</h6>
+                                </div>
+                                <div class="card-body" >
+                                    <div class="chart-bar">
+                                        <canvas id="diseaseTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
                                 </div>
                                 <div class="card-body" >
@@ -410,6 +422,18 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Symptoms Trend</h6>
+                                </div>
+                                <div class="card-body" >
+                                    <div class="chart-bar">
+                                        <canvas id="concernTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-12">
                             <div class="card shadow mb-4">
@@ -528,6 +552,9 @@
             });
             $.post("/getVisitReasonCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
                 showSymptomChart(data);
+            });
+            $.post("/getDataForTrend",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
+                showTrendChart(data,start,end);
             });
         }
         // Set new default font family and font color to mimic Bootstrap's default styling
@@ -685,7 +712,6 @@
                     g5SectionCount.push(data[4].grade5[i].count);
                     g6SectionCount.push(data[5].grade6[i].count);
                 }
-            
 
             var data={
                 labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
@@ -1270,7 +1296,393 @@
 
             complaints.onclick=clickHandlerSC;
             complaints2.onclick=clickHandlerSC;
-        }            
+        };            
+
+        function showTrendChart(data,start,end){
+            console.log("enters Show Disease Trend Chart");
+            var i,j,k;
+            var dateLabels=[];
+            var dDataSet=[],cDataSet=[];
+            var date= new Date(start);
+            var e= new Date(end);
+            var filling=[];
+            var alreadyAdded=0;
+            var dSets=[], cSets=[];
+
+            //gets all the date in the date range
+            while(date<=e){
+                dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-" +date.getDate());
+                date.setDate(date.getDate()+1);
+                filling.push(0);
+            }
+            console.log(dateLabels);
+            
+            //creates the array for dataset
+            for(i=0;i<data.length;i++){
+                alreadyAdded=0
+                if(dDataSet==null){ //if empty auto add
+                    if(data[i].diagnosis!=""){
+                        dDataSet.push({
+                            diagnosis:data[i].diagnosis,
+                            dates: dateLabels,
+                            count: filling
+                        })
+                        
+                    }
+                }
+                else{ //if not empty
+                console.log(dDataSet);
+                    for(j=0;j<dDataSet.length;j++){ //this whole thing is used to check if it has a count
+                        if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null){
+                            if(dDataSet[j].diagnosis.toLowerCase()==data[i].diagnosis.toLowerCase()){
+                                alreadyAdded=1;
+                            }
+                        }
+                    }
+                    if(alreadyAdded!=1){
+                        if(data[i].diagnosis!="" && data[i].diagnosis!=null && data[i].diagnosis!=undefined){
+                            dDataSet.push({
+                                diagnosis:data[i].diagnosis,
+                                dates: dateLabels,
+                                count: filling
+                            })
+                        }
+                    }
+                }
+            }
+
+            //counting of data Disease
+            for(i=0;i<data.length;i++){
+                for(j=0;j<dDataSet.length;j++){ // to scroll through diagnosis
+                    if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null && data[i].diagnosis!=undefined && dDataSet[j].diagnosis!=undefined){
+                        if(data[i].diagnosis.toLowerCase() == dDataSet[j].diagnosis.toLowerCase()){
+                            for(k=0;k<dateLabels.length;k++){
+                                if(data[i].visitDate==dateLabels[k]){
+                                    dDataSet[j].count[k]=dDataSet[j].count[k]+1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            console.log("ICE CREAM 2");
+            console.log(data);
+            console.log(dDataSet);
+
+            for(i=0;i<dDataSet.length;i++){
+                dSets.push({
+                    label: dDataSet[i].diagnosis,
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:dDataSet[i].count,
+                })
+            }
+            
+            //create array for concern dataset
+            for(i=0;i<data.length;i++){
+                alreadyAdded=0
+                if(cDataSet==null){ //if empty auto add
+                    if(data[i].diagnosis!=""){
+                        cDataSet.push({
+                            concern:data[i].visitReason,
+                            dates: dateLabels,
+                            count: filling
+                        })
+                        
+                    }
+                }
+                else{ //if not empty
+                console.log(cDataSet);
+                    for(j=0;j<cDataSet.length;j++){ //this whole thing is used to check if it has a count
+                        if(data[i].visitReason!="" && cDataSet[j].concern!="" && data[i].visitReason!=null && cDataSet[j].concern!=null){
+                            if(cDataSet[j].concern.toLowerCase()==data[i].visitReason.toLowerCase()){
+                                alreadyAdded=1;
+                            }
+                        }
+                    }
+                    if(alreadyAdded!=1){
+                        if(data[i].visitReason!="" && data[i].visitReason!=null && data[i].visitReason!=undefined){
+                            cDataSet.push({
+                                concern:data[i].visitReason,
+                                dates: dateLabels,
+                                count: filling
+                            })
+                        }
+                    }
+                }
+            }
+
+            for(i=0;i<data.length;i++){
+                for(j=0;j<cDataSet.length;j++){ // to scroll through diagnosis
+                    if(data[i].visitReason!="" && cDataSet[j].concern!="" && data[i].visitReason!=null && cDataSet[j].concern!=null && data[i].visitReason!=undefined && cDataSet[j].concern!=undefined){
+                        if(data[i].visitReason.toLowerCase() == cDataSet[j].concern.toLowerCase()){
+                            for(k=0;k<dateLabels.length;k++){
+                                if(data[i].visitDate==dateLabels[k]){
+                                    cDataSet[j].count[k]=cDataSet[j].count[k]+1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            for(i=0;i<cDataSet.length;i++){
+                cSets.push({
+                    label: cDataSet[i].concern,
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                           "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:cDataSet[i].count,
+                })
+            }
+
+
+            var dTrend={
+                labels: dateLabels,
+                datasets: dSets,
+            };
+            var cTrend={
+                labels: dateLabels,
+                datasets: cSets,
+            };
+            var config={
+                type: 'line',
+                data: dTrend,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },                
+                }
+            }
+            var config2={
+                type: 'line',
+                data: cTrend,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },                
+                }
+            }  
+
+            var diseaseTrend = document.getElementById("diseaseTrendChart");
+            var diseaseTrendChart = new Chart(diseaseTrend, config); 
+            var concernTrend = document.getElementById("concernTrendChart");
+            var concernTrendChart = new Chart(concernTrend, config2); 
+
+
+            
+        }
+        
+        function showTrendReportChart(data){
+            console.log("enters Show Disease Trend Chart");
+            var i,j;
+            var dLabelsDaily=[],cLabelsDaily=[];
+            var dCountDaily=[],cCountDaily=[];
+
+            var dLabelsWeekly=["Week 1","Week 2","Week 3","Week 4","Week 5"],cLabelsWeekly=["Week 1","Week 2","Week 3","Week 4","Week 5"];
+            var dCountWeekly=[0,0,0,0,0],cCountWeekly=[0,0,0,0,0];
+
+            var dLabelsMonthly=["June","July","August","September","October","November","December","January","February","March","April","May"],cLabelsMonthly=["June","July","August","September","October","November","December","January","February","March","April","May"];
+            var dCountMonthly=[0,0,0,0,0,0,0,0,0,0,0,0],cCountMonthly=[0,0,0,0,0,0,0,0,0,0,0,0];
+
+            var alreadyAdded=0;
+
+            //computation for Daily View Diagnosis
+            for(i=0;i<data.length;i++){
+                if(data[i].diagnosis!=""){
+                    alreadyAdded=0;
+                    if(dLabelsDaily==null){ //if empty auto add
+                        dLabelsDaily.push(data[i].visitDate)
+                        dCountDaily.push(1);
+                    }
+                    else{ //if not empty
+                        for(j=0;j<dLabelsDaily.length;j++){ //this whole thing is used to check if it has a count
+                            if(dLabelsDaily[j] == data[i].visitDate){
+                                dCountDaily[j]=dCountDaily[j]+1;
+                                alreadyAdded=1;
+                            }
+                        }
+                        if(alreadyAdded!=1){
+                            dLabelsDaily.push(data[i].visitDate)
+                            dCountDaily.push(1);
+                        }
+                    }
+                }
+            }
+            
+            
+            for(i=0;i<data.length;i++){
+                parts=data[i].visitDate.split('-');
+                if(data[i].diagnosis!=""){
+                    if(parts[2] <= 7)
+                        dCountWeekly[0]=dCountWeekly[0]+1;
+                    else if(parts[2] > 7 && parts[2] <= 14){
+                        dCountWeekly[1]=dCountWeekly[1]+1;
+                    }
+                    else if(parts[2] > 14 && parts[2] <= 21){
+                        dCountWeekly[2]=dCountWeekly[2]+1;
+                    }
+                    else if(parts[2] > 21 && parts[2] <= 28){
+                        dCountWeekly[3]=dCountWeekly[3]+1;
+                    }
+                    else if(parts[2] > 28 && parts[2]<=31){
+                        dCountWeekly[4]=dCountWeekly[4]+1;
+                    }
+                }
+            }
+            
+            console.log("Diseases Trend Data:");
+            console.log(dLabelsDaily);
+            console.log(dCountDaily);
+            console.log(dLabelsWeekly);
+            console.log(dCountWeekly);
+             console.log(dLabelsMonthly);
+            console.log(dCountMonthly);
+            
+            var concernTrend={
+                labels: cLabels,
+                datasets: [{
+                    label: "Grade Level Symptom Count",
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:cCount,
+                }],
+            };
+            var diseaseTrend={
+                labels: dLabels,
+                datasets: [{
+                    label: "Monthly",
+                    backgroundColor: [
+                            "rgba(255, 99, 132, 1)", 
+                            "rgba(78, 115, 223, 1)",
+                            "#32CD32",
+                            "#800080"
+                        ],
+                    hoverBackgroundColor: "#0d6efd",
+                    borderColor: "#0d6efd",
+                    data:dCount,
+                }],
+            };
+            var config={
+                type: 'line',
+                data: diseaseTrend,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                    //        type: 'time',
+                            time: {
+                                unit: 'monthly'
+                            }
+                        }]
+                    }
+                
+                }
+            }  
+            var config2={
+                type: 'line',
+                data: concernTrend,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: 'month'
+                            }
+                        }]
+                        }
+                
+                }
+            } 
+
+
+            var diseaseTrend = document.getElementById("diseaseTrendChart");
+            var diseaseTrendChart = new Chart(diseaseTrend, config); 
+            //var concernTrend = document.getElementById("concernTrendChart");
+            //var concernTrendChart = new Chart(concernTrend, config2); 
+
+            function clickHandler(click){
+                const points= diseaseTrendChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                if(points.length){
+                    var firstPoint= points[0];
+                    console.log(points[0]);
+                    console.log(firstPoint._index);
+                    if(diseaseTrendChart.config.data.datasets[0].label=="Monthly"){
+                        if(firstPoint._index===0){
+                            console.log("Hello");
+                        }
+                        else{
+                            console.log("Hi");
+                        }
+                    }
+                    else if(diseaseTrendChart.config.data.datasets[0].label=="Weekly"){
+
+                    }
+                    else if (diseaseTrendChart.config.data.datasets[0].label=="Daily"){
+                        
+                    }
+                    
+                    
+                    diseaseTrendChart.update();
+                    
+                }
+            }
+
+            diseaseTrend.onclick=clickHandler;
+            
+            
+
+
+
+        }
 
 
         $('#reportrange').daterangepicker({
@@ -1286,7 +1698,7 @@
             }
         }, cb);
 
-        
+
     
     </script>
 

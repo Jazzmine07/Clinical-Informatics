@@ -85,7 +85,6 @@ exports.getTopDisease=function(vcArray){
     console.log(vcWeek);
     //getting only the clinic visits current month
     for(i=0;i<temp.length;i++){
-        console.log("SECOND FOR LOOP????");
         parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
@@ -93,34 +92,26 @@ exports.getTopDisease=function(vcArray){
             console.log("length " + vcMonth.length);
             console.log(i);
             if(vcMonth.length==0){ //if empty auto add
-                console.log("goes in(1):"+ i);
-                console.log(temp[i].diagnosis);
                 vcMonth.push({
                     concern: temp[i].diagnosis,
                     count:1
                 });
             }
             else{ //if not empty
-                console.log("ICE CREAM");
                 for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
-                    console.log("goes in(2):"+ i);
                     console.log(vcMonth[j].concern.toLowerCase());
                     console.log(temp[i].diagnosis.toLowerCase());
                         if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            console.log("nakapasok me!");
                             vcMonth[j].count = vcMonth[j].count + 1;
-                            console.log("count... " + vcMonth[j].count);
                             alreadyAdded = true;
                             break;
                         }
                 }
                 if(alreadyAdded != true){
-                    console.log("goes in(3):"+ i);
                     vcMonth.push({
                         concern: temp[i].diagnosis,
                         count:1
                     });
-                    console.log("NAKALABAS AKO");
                 }
             }
         }
@@ -278,6 +269,7 @@ exports.getDiseaseDemographics=function(req,res){
                 }
             }
         }
+        
 
         //ADD Grade 3-6 pa
         //combining to get chart data
@@ -514,6 +506,7 @@ exports.getVisitReasonCount=function(req,res){
     
     
 }
+
 exports.getVRCountByGradeInMonth=function(req,res){
     console.log("enters")
     var database = firebase.database();
@@ -749,7 +742,64 @@ exports.getVRCountByGradeInMonth=function(req,res){
     })
     
 }
+//returns the disease and visitReason with the dates and filtered by specified date
+exports.getDiseaseTrendCount= function(req,res){
+    console.log("enters trend count")
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var studentInfoRef = database.ref("studentInfo");
+    var query = clinicVisitRef.orderByChild("timeStamp");
 
+    var temp=[],temp2=[];
+    var childSnapshotData, csData;
+    var i,j,alreadyAdded;
+    var start=req.body.startDate;
+    var end=req.body.endDate;
+    
+
+    var startSplit,endSplit, startDate,endDate;
+    databaseRef.once('value', (snapshot) => {
+        //this gets the clinicVisit data into the temp array
+        if(snapshot.hasChild("clinicVisit")){
+            query.on('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        visitReason:childSnapshotData.visitReason,
+                        visitDate:childSnapshotData.visitDate,
+                        grade:childSnapshotData.grade,
+                        section:childSnapshotData.section,
+                        diagnosis:childSnapshotData.diagnosis,
+                    })
+                })
+                
+            })
+        }
+        
+        //temp where data is filtered by date
+        for(i=0;i<temp.length;i++){
+            parts=temp[i].visitDate.split('-');
+            startSplit= start.split('-');
+            endSplit = end.split('-');
+            dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+            startDate = new Date(startSplit[0], startSplit[1] - 1, startSplit[2]);
+            endDate = new Date(endSplit[0], endSplit[1] - 1, endSplit[2]);
+            alreadyAdded=0;
+            if(dbDate<=endDate && dbDate>=startDate){
+                if(temp[i].visitReason!=""){
+                    temp2.push(temp[i])
+                    
+                }
+            }
+        }
+       console.log(temp2);
+       res.send(temp2)
+        return temp2;
+    
+    })
+
+}
 
 
 

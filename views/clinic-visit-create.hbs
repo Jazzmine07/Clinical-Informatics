@@ -929,9 +929,18 @@
                                         <div class="alert alert-danger" role="alert">
                                             <p class="alert-heading">
                                                 <i class="fa fa-exclamation-circle"></i>
-                                                <strong class="mx-1">Interaction found</strong>
+                                                <strong class="mx-1">Drug interaction found</strong>
                                             </p>
                                             <p id="interactionDiv"></p>
+                                        </div>                             
+                                    </div>
+                                    <div class="well" style="display: none;" id="successMed">  
+                                        <div class="alert alert-success" role="alert">
+                                            <p class="alert-heading">
+                                                <i class="fa fa-check-circle"></i>
+                                                <strong class="mx-1">No drug interaction found</strong>
+                                            </p>
+                                            <p id="noInteractionDiv"></p>
                                         </div>                             
                                     </div>
                                 </div>
@@ -3187,12 +3196,14 @@
                 tempDescArray = tempDescArray.join("");
                 console.log(tempDescArray)
                 document.getElementById("interactionDiv").innerHTML = tempDescArray;
+                document.getElementById("successMed").style.display = "none";
                 document.getElementById("errorMed").style.display = "block";
             } else {
                 tempDescArray = "No drug-to-drug interaction found.";
                 console.log(tempDescArray);
-                document.getElementById("errorMed").style.display = "block";
-                document.getElementById("interactionDiv").innerHTML = tempDescArray;
+                document.getElementById("noInteractionDiv").innerHTML = tempDescArray;
+                document.getElementById("errorMed").style.display = "none";
+                document.getElementById("successMed").style.display = "block";
             }
         }
 
@@ -3276,7 +3287,18 @@
             $('#row'+button_id+'').remove(); 
             console.log(removeIDs);  
             tempDescArray = [];
-            document.getElementById("errorMed").style.display = "none";  
+            if(getMe.length >= 2) {
+                console.log("inside get me if");
+                for(i = 0; i < getMe.length; i++){
+                    console.log("inside get me for loop");
+                    getID(getMe[i].value);
+                    console.log(getMe[i].value);    
+                }
+            }
+            else if(getMe.length < 2){
+                document.getElementById("successMed").style.display = "none";
+                document.getElementById("errorMed").style.display = "none";
+            }
         });  
 
         $("#assignDiagnosis").change(function(){

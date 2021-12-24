@@ -468,9 +468,7 @@
                                 <div class="col-5">
                                     <label class="col-form-label" for="reportBy">Report by</label>
                                     <select class="custom-select mb-2" id="reportBy" name="reportBy">
-                                        {{#each prescribed}}
-                                            <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                        {{/each}}
+                                        <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
                                     </select>  
                                 </div> 
                             </div>
@@ -686,6 +684,17 @@
     <script type='text/javascript'>
     $(document).ready(function() {
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+
+        var typedID = document.getElementById("studentID").value;
+
+        $.get("/getStudentRecord", {studentID: typedID}, function(data){
+            console.log(data);
+            
+            // same sa clinic-visit-create if empty yung data ibig sabihin not existing ung student
+            // data.firstName + '' + data.middleName + ' ' + data.lastName
+            // data.grade
+            // data.section
+        });
 
         $('#saveBtn').click(function(){
         

@@ -44,10 +44,7 @@ exports.getStudentInfo = function(req, res){
             }
             res.status(200).send(studentInfo);
         } else {
-            res.status(200).send({
-                error: true,
-                error_msg: "No student with that id number!"
-            })
+            res.status(200).send(studentInfo);
         }
     })
 };

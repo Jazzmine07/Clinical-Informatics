@@ -26,6 +26,12 @@ expressHbs.registerHelper('concat', function(num) {
     return "Grade " + num;
 });
 
+expressHbs.registerHelper("checkedIf", function (isTrue) {
+  console.log("helper sa index");
+  console.log(isTrue);
+  return isTrue == true ? 'checked': '';
+})
+
 router.get('/', (req, res) => {
   res.redirect('/login');
 });
@@ -124,16 +130,18 @@ router.get('/disease-surveillance', (req, res) => {
 // Get clinic visit page
 router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
-  var promise1, promise2, promise3, promise4;
-  var user, formId, record, dashboard;
+  var promise1, promise2, promise3, promise4, promise5;
+  var user, formId, record, dashboard, reports;
   promise1 = userController.getUser();
   promise2 = visitController.getClinicVisits();
   promise4 = visitController.getDashboard();
+  promise5 = visitController.getIncidenceList();
 
-  Promise.all([promise1, promise2, promise4]).then( result => {
+  Promise.all([promise1, promise2, promise4, promise5]).then( result => {
     user = result[0];
     record = result[1];
     dashboard = result[2];
+    reports = result[3];
     promise3 = visitController.getAssignedForms(user.key);
 
     promise3.then(function(forms){
@@ -151,6 +159,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
         res.render('clinic-visit', {  // add controller to get all forms assigned to clinician
           isNurse: false,
           user: user,
+          reports: reports,
           forms: formId,
         });
       }
@@ -188,6 +197,37 @@ router.get('/clinic-visit/view/:id', (req, res) => {
     }
   }).catch(error => {
     console.log('Error in loading clinic visit view form');
+    console.log(error.message);
+  });
+});
+
+// Get clinic visit view page
+router.get('/clinic-visit/view/report/:id', (req, res) => {
+  console.log("Read clinic visit view incident report successful!");
+  var prom1, prom2;
+  var user, report;
+
+  prom1 = userController.getUser();
+  prom2 = visitController.viewIncidenceReport(req);
+
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    report = result[1];
+
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-view-report', {
+        user: user,
+        isNurse: true,
+      });
+    } else{
+      res.render('clinic-visit-view-report', {
+        user: user,
+        isNurse: false,
+        report: report
+      });
+    }
+  }).catch(error => {
+    console.log('Error in loading clinic visit view report');
     console.log(error.message);
   });
 });
@@ -692,26 +732,29 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 router.post('/updateNotif', notificationController.updateNotifications);
+
+//--------GETTING STUDENT INFO RELATED----------------------------
 router.get('/getStudentRecord', studentInfoController.getStudentInfo);
 router.get('/getVisits', visitController.getStudentVisits);
 router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
 router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
-
 router.get('/getVisitDetails', visitController.getVisitDetails);
 router.get('/getLastVisit', visitController.getLastVisit);
 
-
+//---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addMedicationIntake', visitController.addMedicationIntake);
+router.post('/addIncidenceReport', visitController.addIncidenceReport);
+
+//---------POST FORMS FOR HEALTH ASSESSMENT MODULE----------------
 router.post('/addAPE', studentController.addAPE); 
+router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getApePercentageChart', studentController.getAPEPercentage);
 router.post('/getAdePercentageChart', studentController.getADEPercentage);
-
-router.post('/addSchedule', studentController.addSchedule);
 // router.post('/getSchedules', studentController.getAllApeSched);
 router.post('/loadPrevData', studentController.loadPrevData);
 router.post('/addWeightHeight',studentController.addWeightHeight);

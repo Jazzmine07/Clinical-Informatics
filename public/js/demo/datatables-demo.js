@@ -16,6 +16,10 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#doctorIncidenceReports').DataTable();
+});
+
+$(document).ready(function() {
   $('#doctorAssignedTask').DataTable();
 });
 

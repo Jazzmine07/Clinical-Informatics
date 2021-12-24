@@ -1018,3 +1018,114 @@ exports.addMedicationIntake = function(req, res){
     
     res.status(200).send();
 };
+
+exports.addIncidenceReport = function(req, res){
+    var { incidentDate, incidentTime, reportedBy, studentId, studentName , studentGrade, studentSection, 
+        doseOmission, doseDelay, ineffectiveDose, drugInteraction, drugAllergy, noStock, expiredStock,
+        description, consequences, action, care, notes } = req.body;
+
+    var time = Math.round(+new Date()/1000);
+
+    var database = firebase.database();
+    var incidenceRef = database.ref("incidenceReport");
+
+    var record = {
+        incidentDate: incidentDate,
+        incidentTime: incidentTime,
+        reportedBy: reportedBy,
+        id: studentId, 
+        studentName: studentName,
+        grade: studentGrade,
+        section: studentSection,
+        timestamp: time,
+        
+        doseOmission: doseOmission,
+        doseDelay: doseDelay,
+        ineffectiveDose: ineffectiveDose,
+        drugInteraction: drugInteraction,
+        drugAllergy: drugAllergy,
+        noStock: noStock,
+        expiredStock: expiredStock,
+        
+        description: description,
+        consequences: consequences,
+        action: action,
+        care: care,
+        notes: notes
+    };
+
+    incidenceRef.push(record);
+    res.status(200).send();
+};
+exports.getIncidenceList = function(req, res){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var incidenceRef = database.ref("incidenceReport");
+    var query = incidenceRef.orderByChild("timestamp");
+    var reports =[];
+    var childSnapshotData;
+
+    var promise = new Promise((resolve, reject) => {
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("incidenceReport")){
+                query.on('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal(); 
+                        reports.push({
+                            reportId: innerChildSnapshot.key,
+                            incidentDate: childSnapshotData.incidentDate,
+                            incidentTime: childSnapshotData.incidentTime,
+                            reportedBy: childSnapshotData.reportedBy,
+                            studentName: childSnapshotData.studentName,
+                        })         
+                    })
+                    console.log(reports);
+                    resolve(reports);
+                })
+            }
+            else {
+                resolve(reports);
+            }
+        })
+    })
+    return promise;
+}
+
+exports.viewIncidenceReport = function(req){
+    var reportId = req.params.id;
+    var database = firebase.database();
+    var incidenceRef = database.ref("incidenceReport/"+reportId);
+    var details;
+    var snapshotData;
+
+    var promise = new Promise((resolve, reject) => {
+        incidenceRef.once('value', (snapshot) => {
+            snapshotData = snapshot.exportVal();
+            details = {
+                incidentDate: snapshotData.incidentDate,
+                incidentTime: snapshotData.incidentTime,
+                reportedBy: snapshotData.reportedBy,
+                id: snapshotData.id,
+                studentName: snapshotData.studentName,
+                grade: snapshotData.grade,
+                section: snapshotData.section,
+
+                doseOmission: snapshotData.doseOmission,
+                doseDelay: snapshotData.doseDelay,
+                ineffectiveDose: snapshotData.ineffectiveDose,
+                drugInteraction: snapshotData.drugInteraction,
+                drugAllergy: snapshotData.drugAllergy,
+                noStock: snapshotData.noStock,
+                expiredStock: snapshotData.expiredStock,
+                
+                description: snapshotData.description,
+                consequences: snapshotData.consequences,
+                action: snapshotData.action,
+                care: snapshotData.care,
+                notes: snapshotData.notes
+            }
+            resolve(details);
+        })
+    })
+    return promise;
+};

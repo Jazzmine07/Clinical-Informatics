@@ -455,11 +455,11 @@
                             <div class="form-row align-items-center">
                                 <div class="col-3">
                                     <label for="incidentDate" class="col-form-label">Date of Incident</label>
-                                    <input type="date" class="form-control mb-2" id="incidentDate" name="incidentDate">
+                                    <input type="date" class="form-control mb-2" id="incidentDate" name="incidentDate" disabled="disabled" value="{{report.incidentDate}}">
                                 </div>
                                 <div class="col-2">
                                     <label for="incidentTime" class="col-form-label">Time of Incident</label>
-                                    <input type="time" class="form-control mb-2" id="incidentTime" name="incidentTime">
+                                    <input type="time" class="form-control mb-2" id="incidentTime" name="incidentTime" disabled="disabled" value="{{report.incidentTime}}">
                                 </div>
                                                                 
                             </div>
@@ -467,9 +467,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-5">
                                     <label class="col-form-label" for="reportBy">Report by</label>
-                                    <select class="custom-select mb-2" id="reportBy" name="reportBy">
-                                        <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
-                                    </select>  
+                                    <input type="text" class="form-control mb-2" id="reportBy" name="reportBy" disabled="disabled" value="{{report.reportedBy}}">
                                 </div> 
                             </div>
                         </div>
@@ -481,29 +479,22 @@
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label class="col-form-label" for="studentID">Student ID Number</label>
-                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                                    <input type="text" class="form-control mb-2" id="studentID" name="studentId" disabled="disabled" value="{{report.id}}">
                                 </div>
                                 <div class="col-5">
                                     <label class="col-form-label" for="studentName">Student Name</label>
-                                    <input type="text" class="form-control mb-2" id="studentName">
+                                    <input type="text" class="form-control mb-2" id="studentName" disabled="disabled" value="{{report.studentName}}">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <select class="custom-select mb-2" id="studentGrade">
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                        <option value="6">Six</option>
-                                    </select>
+                                    <input type="text" class="form-control mb-2" id="studentGrade" disabled="disabled" value="{{report.grade}}">
                                 </div>
                                 <div class="col-5">
                                     <label for="studentSec" class="col-form-label">Section</label>
-                                    <input type="text" class="form-control mb-2" id="studentSection">
+                                    <input type="text" class="form-control mb-2" id="studentSection" disabled="disabled" value="{{report.section}}">
                                 </div>
                             </div>
                         </div>
@@ -529,13 +520,13 @@
                             <div class="form-row align-items-start mt-3 mb-2">
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="doseOmission">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.doseOmission}} id="doseOmission">
                                         <label class="form-check-label" for="doseOmission">
                                             Dose omission
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="doseDelay">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.doseDelay}} id="doseDelay">
                                         <label class="form-check-label" for="doseDelay">
                                             Dose delay
                                         </label>
@@ -543,19 +534,19 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="ineffectiveDose">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.ineffectiveDose}} id="ineffectiveDose">
                                         <label class="form-check-label" for="ineffectiveDose">
                                             Ineffective dose
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="drugInteraction">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.drugInteraction}} id="drugInteraction">
                                         <label class="form-check-label" for="drugInteraction">
                                             Drug interaction
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="drugAllergy">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.drugAllergy}} id="drugAllergy">
                                         <label class="form-check-label" for="drugAllergy">
                                             Drug allergy
                                         </label>
@@ -563,13 +554,13 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noStock">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.noStock}} id="noStock">
                                         <label class="form-check-label" for="noStock">
                                             Inadequate stock
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="expiredStock">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.expiredStock}} id="expiredStock">
                                         <label class="form-check-label" for="expiredStock">
                                             Expired stock
                                         </label>
@@ -579,27 +570,27 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="description">Description of the Incident</label>
-                                    <textarea type="text" class="form-control mb-2" id="description" name ="description" rows="6"></textarea>                   
+                                    <textarea type="text" class="form-control mb-2" id="description" name ="description" disabled="disabled" rows="6">{{report.description}}</textarea>                   
                                 </div>
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-6">
                                     <label class="col-form-label" for="consequences">Clinical Consequences</label>
-                                    <textarea type="text" class="form-control mb-2" id="consequences" name ="consequences" rows="6"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="consequences" name ="consequences" disabled="disabled" rows="6">{{report.consequences}}</textarea>
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="action">Action Taken/Intervention</label>
-                                    <textarea type="text" class="form-control mb-2" id="action" name ="action" rows="6"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="action" name ="action" disabled="disabled" rows="6">{{report.action}}</textarea>
                                 </div>
                             </div>
                             <div class="form-row align-items-center">                               
                                 <div class="col-6">
                                     <label class="col-form-label" for="care">Further Recommended Care</label>
-                                    <textarea type="text" class="form-control mb-2" id="care" name ="care" rows="6"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="care" name ="care" disabled="disabled" rows="6">{{report.care}}</textarea>
                                 </div>
                                 <div class="col-6">
                                     <label class="col-form-label" for="notes">Notes to Parent/Guardian</label>
-                                    <textarea type="text" class="form-control mb-2" id="notes" name="notes" rows="6"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="notes" name="notes" disabled="disabled" rows="6">{{report.notes}}</textarea>
                                 </div>
                             </div>
 
@@ -680,115 +671,6 @@
             crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-
-    <script type='text/javascript'>
-    $(document).ready(function() {
-        $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
-
-        var typedID = document.getElementById("studentID").value;
-
-        $.get("/getStudentRecord", {studentID: typedID}, function(data){
-            console.log(data);
-            
-            // same sa clinic-visit-create if empty yung data ibig sabihin not existing ung student
-            // data.firstName + '' + data.middleName + ' ' + data.lastName
-            // data.grade
-            // data.section
-        });
-
-        $('#saveBtn').click(function(){
-            var incidentDate = $('#incidentDate').val(); 
-            console.log(incidentDate);
-
-            var incidentTime = $('#incidentTime').val(); 
-            console.log(incidentTime);
-            
-            var nurse =  $('#reportBy').find(":selected").val();   
-            console.log(nurse);
-
-            var studentID = $('#studentID').val();
-            console.log(studentID);
-            
-            var studentName = $('#studentName').val(); 
-            console.log(studentName);
-
-            var studentGrade = $('#studentGrade').val(); 
-            console.log(studentGrade);
-                
-            var studentSection = $('#studentSection').val(); 
-            console.log(studentSection);
-
-            var doseOmission = document.getElementById("doseOmission").checked; 
-            console.log(doseOmission); 
-            
-            var doseDelay = document.getElementById("doseDelay").checked;
-            console.log(doseDelay);
-
-            var ineffectiveDose = document.getElementById("ineffectiveDose").checked;
-            console.log(ineffectiveDose);
-
-            var drugInteraction = document.getElementById("drugInteraction").checked;
-            console.log(drugInteraction);
-
-            var drugAllergy = document.getElementById("drugAllergy").checked; 
-            console.log(drugAllergy);
-
-            var noStock = document.getElementById("noStock").checked;
-            console.log(noStock); 
-            
-            var expiredStock = document.getElementById("expiredStock").checked;
-            console.log(expiredStock);
-
-            var description = $('#description').val();
-            console.log(description);
-            
-            var consequences = $('#consequences').val(); 
-            console.log(consequences);
-
-            var action = $('#action').val(); 
-            console.log(action);
-                
-            var care = $('#care').val(); 
-            console.log(care);
-
-            var notes = $('#notes').val(); 
-            console.log(notes);
-
-            //AJAX HERE
-            $.ajax({
-                url: '/addIncidenceReport',
-                method: 'POST',
-                data: {
-                    incidentDate: incidentDate,
-                    incidentTime: incidentTime,
-                    reportedBy: nurse,
-                    studentId: studentID,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
-
-                    doseOmission: doseOmission,
-                    doseDelay: doseDelay,
-                    ineffectiveDose: ineffectiveDose,
-                    drugInteraction: drugInteraction,
-                    drugAllergy: drugAllergy,
-                    noStock: noStock,
-                    expiredStock: expiredStock,
-                    
-                    description: description,
-                    consequences: consequences,
-                    action: action,
-                    care: care,
-                    notes: notes
-                },
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/clinic-visit";
-                }
-            }); 
-        });
-    });
-    </script>
 </body>
 
 </html>

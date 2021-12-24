@@ -5,6 +5,7 @@ const visitController = require('../Controller/visitController');
 const studentController = require('../Controller/studentController');
 const inventoryController = require('../Controller/inventoryController');
 const notificationController = require('../Controller/notificationController');
+const programController = require('../Controller/programController');
 const surveillanceController = require('../Controller/surveillanceController');
 const { loggedIn } = require('../Controller/userController');
 var expressHbs =  require('handlebars');
@@ -29,6 +30,31 @@ expressHbs.registerHelper('concat', function(num) {
 expressHbs.registerHelper("ifChecked", function(isTrue){
   return isTrue == "true" ? 'checked': '';
 })
+
+expressHbs.registerHelper("formatDate", function(string){
+  if(string == ""){
+    return "-";
+  } else {
+    let date = new Date(string)
+    var month = date.toLocaleString('default', { month: 'short' })
+    return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
+  }
+})
+
+expressHbs.registerHelper("formatLongDate", function(string){
+  if(string == ""){
+    return "-";
+  } else {
+    let date = new Date(string)
+    var month = date.toLocaleString('default', { month: 'long' })
+    return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
+  }
+})
+
+// formattingDate: function(string){
+//   let date = new Date(string)
+//   return (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear();
+// },
 
 router.get('/', (req, res) => {
   res.redirect('/login');
@@ -175,11 +201,13 @@ router.get('/clinic-visit/view/:id', (req, res) => {
   var user, form;
 
   prom1 = userController.getUser();
-  prom2 = visitController.getClinicVisitForm(req);
+  prom2 = visitController.viewClinicVisitForm(req);
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
     form = result[1];
+    console.log("form in index");
+    console.log(form);
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-view', {
@@ -684,23 +712,53 @@ router.get('/inventory-dental/add', (req, res) => {
 // Get promotive care page
 router.get('/promotive-care', (req, res) => {
   console.log("Read promotive care successful!");
-  var users =  userController.getUser();
-  users.then(function(result){
-    res.render('promotive-care', {
-      users: users
-    });
-  })
+  var prom1, prom2;
+  var user, programs;
+  prom1 =  userController.getUser();
+  prom2 = programController.getProgramsList();
+
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    programs = result[1];
+
+    if(user.role == "Nurse"){
+      res.render('promotive-care', {
+        user: user,
+        isNurse: true,
+        programs: programs
+      });
+    } else {
+      res.render('promotive-care', {
+        user: user, 
+        isNurse: false,
+        programs: programs
+      });
+    }
+  }) 
 });
 
 // Get program form page
 router.get('/promotive-care/program-form', (req, res) => {
   console.log("Read program form successful!");
-  var users =  userController.getUser();
-  users.then(function(result){
-    res.render('program-form', {
-      users: users
-    });
-  })
+  var prom1, prom2;
+  var user;
+  prom1 =  userController.getUser();
+
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    
+    if(user.role == "Nurse"){
+      res.render('program-form', {
+        user: user,
+        isNurse: true,
+      });
+    } else {
+      res.render('program-form', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  }) 
 });
 
 // Get performance assessment  page
@@ -767,5 +825,8 @@ router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/updateDentalInventory', inventoryController.updateDentalInventory);
+
+//---------POST FORMS FOR PROMOTIVE CARE MODULE----------------
+router.post('/addProgram', programController.addProgram);
 
 module.exports = router;

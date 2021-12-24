@@ -413,6 +413,7 @@ exports.getAssignedForms = (req, res) => {
     return promise;
 };
 
+// ------ This function is for editing form-------------
 exports.getClinicVisitForm = function(req){
     var formId = req.params.id;
     var database = firebase.database();
@@ -514,6 +515,133 @@ exports.getClinicVisitForm = function(req){
                 prescribedBy: dFname + " " + dLname,
                 medicationAssignedKey: temp[0].medicationAssignedKey,
                 medicationAssigned: mFname + " " + mLname,
+                diagnosis: temp[0].diagnosis,
+                status: temp[0].status,
+                notes: temp[0].notes
+            }
+            resolve(details);
+        })
+    })
+    return promise;
+};
+
+//----------------This function is for viewing the form together with the medications
+exports.viewClinicVisitForm = function(req){
+    var formId = req.params.id;
+    var database = firebase.database();
+    var formRef = database.ref("clinicVisit/"+formId);
+    var userRef = database.ref("clinicUsers");
+    var temp = [], medications = [], details;
+    var fname, lname, dFname, dLname, mFname, mLname;
+
+    var promise = new Promise((resolve, reject)=>{
+        formRef.on('value', async (snapshot) => {
+            snapshotData = snapshot.exportVal();
+            snapshot.child('medications').forEach(function(meds){
+                medications.push({
+                    medicine: meds.child('medicine').val(),
+                    purpose: meds.child('purpose').val(),
+                    amount: meds.child('amount').val(),
+                    interval: meds.child('interval').val(),
+                    startMed: meds.child('startMed').val(),
+                    endMed: meds.child('endMed').val(),
+                })
+            })
+            console.log("medications array inside controlelr");
+            console.log(medications);
+            temp.push({
+                formId: formId,
+                id: snapshotData.id,
+                studentName: snapshotData.studentName,
+                grade: snapshotData.grade,
+                section: snapshotData.section,
+                visitDate: snapshotData.visitDate,
+                timeIn: snapshotData.timeIn,
+                clinicType: snapshotData.clinicType,
+                nurseKey: snapshotData.attendingNurse,
+                attendingNurse: "",
+                
+                weight: snapshotData.weight,
+                weightStatus: snapshotData.weightStatus,
+                height: snapshotData.height,
+                heightStatus: snapshotData.heightStatus,
+                bodyTemp: snapshotData.bodyTemp,
+                bodyTempStatus: snapshotData.bodyTempStatus,
+                systolicBP: snapshotData.systolicBP,
+                systolicStatus: snapshotData.systolicStatus,
+                diastolicBP: snapshotData.diastolicBP,
+                diastolicStatus: snapshotData.diastolicStatus,
+                pulseRate: snapshotData.pulseRate,
+                pulseRateStatus: snapshotData.pulseRateStatus,
+                respirationRate: snapshotData.respirationRate,   
+                respRateStatus: snapshotData.respRateStatus,
+
+                visitReason: snapshotData.visitReason,
+                impression: snapshotData.impression,
+                treatment: snapshotData.treatment,
+
+                diagnosisAssignedKey: snapshotData.diagnosisAssigned,
+                diagnosis: snapshotData.diagnosis,
+
+                prescribedBy: "",
+                medicationAssignedKey: snapshotData.medicationAssigned,
+                status: snapshotData.status,
+            })
+
+            await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
+                fname = userSnapshot.child('firstName').val();
+                lname = userSnapshot.child('lastName').val();
+            });   
+
+            await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
+                dFname = diagnosis.child('firstName').val();
+                dLname = diagnosis.child('lastName').val();
+            });
+            
+            if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
+                await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
+                    mFname = medication.child('firstName').val();
+                    mLname = medication.child('lastName').val();
+                });
+            }
+        
+            details = {
+                formId: temp[0].formId,
+                id: temp[0].id,
+                studentName: temp[0].studentName,
+                grade: temp[0].grade,
+                section: temp[0].section,
+                visitDate: temp[0].visitDate,
+                nurseKey: temp[0].nurseKey,
+                attendingNurse: fname + " " + lname,
+                timeIn: temp[0].timeIn,
+                timeOut: temp[0].timeOut,
+                clinicType: temp[0].clinicType,
+                weight: temp[0].weight,
+                weightStatus: temp[0].weightStatus,
+                height: temp[0].height,
+                heightStatus: temp[0].heightStatus,
+                bodyTemp: temp[0].bodyTemp,
+                bodyTempStatus: temp[0].bodyTempStatus,
+                systolicBP: temp[0].systolicBP,
+                systolicStatus: temp[0].systolicStatus,
+                diastolicBP: temp[0].diastolicBP,
+                diastolicStatus: temp[0].diastolicStatus,
+                pulseRate: temp[0].pulseRate,
+                pulseRateStatus: temp[0].pulseRateStatus,
+                respirationRate: temp[0].respirationRate,
+                respRateStatus: temp[0].respRateStatus,
+                visitReason: temp[0].visitReason,
+                impression: temp[0].impression,
+                treatment: temp[0].treatment,
+                treatment: temp[0].treatment,
+                diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
+                diagnosisAssigned: dFname + " " + dLname,
+                diagnosis: temp[0].diagnosis,
+                prescribedBy: dFname + " " + dLname,
+                medicationAssignedKey: temp[0].medicationAssignedKey,
+                medicationAssigned: mFname + " " + mLname,
+                medications: medications,
                 diagnosis: temp[0].diagnosis,
                 status: temp[0].status,
                 notes: temp[0].notes
@@ -1057,13 +1185,13 @@ exports.addIncidenceReport = function(req, res){
     incidenceRef.push(record);
     res.status(200).send();
 };
+
 exports.getIncidenceList = function(req, res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var incidenceRef = database.ref("incidenceReport");
     var query = incidenceRef.orderByChild("timestamp");
-    var reports =[];
-    var childSnapshotData;
+    var childSnapshotData, reports =[];
 
     var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {

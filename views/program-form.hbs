@@ -923,8 +923,25 @@
             console.log(location); 
             console.log(population);
             console.log(disease);
-            alert("Selected value is: "+ population);
 
+            $.ajax({
+                url: '/addProgram',
+                method: 'POST',
+                data: {
+                    progType: progType,
+                    progName: progName,
+                    description: description,
+                    objectives: objectives,
+                    population: population,
+                    startDate: progStart,
+                    endDate: progEnd,
+                    location: location
+                },
+                success: function(data) {
+                    console.log("success in ajax!");
+                    window.location.href = "/promotive-care";
+                }
+            }); 
         });
 
         

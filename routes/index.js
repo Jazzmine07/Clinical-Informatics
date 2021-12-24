@@ -26,10 +26,8 @@ expressHbs.registerHelper('concat', function(num) {
     return "Grade " + num;
 });
 
-expressHbs.registerHelper("checkedIf", function (isTrue) {
-  console.log("helper sa index");
-  console.log(isTrue);
-  return isTrue == true ? 'checked': '';
+expressHbs.registerHelper("ifChecked", function(isTrue){
+  return isTrue == "true" ? 'checked': '';
 })
 
 router.get('/', (req, res) => {

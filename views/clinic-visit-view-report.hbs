@@ -520,13 +520,13 @@
                             <div class="form-row align-items-start mt-3 mb-2">
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.doseOmission}} id="doseOmission">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.doseOmission}} id="doseOmission">
                                         <label class="form-check-label" for="doseOmission">
                                             Dose omission
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.doseDelay}} id="doseDelay">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.doseDelay}} id="doseDelay">
                                         <label class="form-check-label" for="doseDelay">
                                             Dose delay
                                         </label>
@@ -534,19 +534,19 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.ineffectiveDose}} id="ineffectiveDose">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.ineffectiveDose}} id="ineffectiveDose">
                                         <label class="form-check-label" for="ineffectiveDose">
                                             Ineffective dose
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.drugInteraction}} id="drugInteraction">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.drugInteraction}} id="drugInteraction">
                                         <label class="form-check-label" for="drugInteraction">
                                             Drug interaction
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.drugAllergy}} id="drugAllergy">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.drugAllergy}} id="drugAllergy">
                                         <label class="form-check-label" for="drugAllergy">
                                             Drug allergy
                                         </label>
@@ -554,13 +554,13 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.noStock}} id="noStock">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.noStock}} id="noStock">
                                         <label class="form-check-label" for="noStock">
                                             Inadequate stock
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{checkedIf report.expiredStock}} id="expiredStock">
+                                        <input class="form-check-input" type="checkbox" disabled="disabled" {{ifChecked report.expiredStock}} id="expiredStock">
                                         <label class="form-check-label" for="expiredStock">
                                             Expired stock
                                         </label>

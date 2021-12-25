@@ -819,8 +819,10 @@ router.post('/getVisitReasonCountDashboard', surveillanceController.getVisitReas
 router.post('/getVRGradeMonthlyCountDashboard', surveillanceController.getVRCountByGradeInMonth);
 router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 
+//---------FORMS FOR INVENTORY MODULE----------------
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
+router.get('/getUsedMedicineDaily', inventoryController.getUsedMedicineDaily);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

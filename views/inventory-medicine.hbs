@@ -873,6 +873,10 @@
         }
     </script>
     <script>
+        $.get("/getUsedMedicineDaily", function(details){
+            console.log(details);
+        });
+
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
             var batchNum = row.find('td').eq(0).text();

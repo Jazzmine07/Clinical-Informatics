@@ -48,7 +48,7 @@ exports.getMedicineInventory = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("medicineInventory")){
-                inventoryRef.on('value', (childSnapshot) => {
+                inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         
@@ -97,7 +97,7 @@ exports.getMedicines = function(){
                     await temp.forEach(med => {
                         var found = false;
                         for(i = 0; i < filtered.length; i++){
-                            if(med.medicine == filtered[i].medicine){   // filters if same medicine name
+                            if(med.name == filtered[i].name){   // filters if same medicine name
                                 found = true;
                                 break;
                             } 
@@ -109,6 +109,8 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
+                    console.log("filtering ba ung medicine name");
+                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {
@@ -165,6 +167,58 @@ exports.getMedicineDetails = function(req, res){
     })
 };
 
+exports.getUsedMedicineDaily = function(req, res){
+    var childSnapshotData, i, temp = [], filtered = [], currInventory;
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("usedMedicine");
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("usedMedicine")){
+            inventoryRef.orderByChild('date').equalTo(date).on('value', async (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicineID: childSnapshotData.medicineID,
+                        medicineName: childSnapshotData.medicineName,
+                        date: childSnapshotData.date,
+                        usedInventory: childSnapshotData.usedInventory,
+                    })
+                })
+
+                console.log("temp bago ifilter");
+                console.log(temp);
+
+                await temp.forEach(inventory => {
+                    var found = false;
+                    for(i = 0; i < filtered.length; i++){
+                        if(inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same date
+                            found = true;
+                            filtered[i].usedInventory += inventory.usedInventory;
+                            break;
+                        } 
+                    }
+                    if(!found){
+                        filtered.push({
+                            medicineID: inventory.medicineID,
+                            medicineName: inventory.medicineName,
+                            date: inventory.date,
+                            usedInventory: inventory.usedInventory,
+                        })
+                    }    
+                })
+                console.log("filtered used medicine for the day");
+                console.log(filtered);
+                res.status(200).send(filtered);
+            })
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
+};
+
 exports.updateMedicineInventory = function(req, res){
     var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate } = req.body;
     var today = new Date();
@@ -201,7 +255,7 @@ exports.getUsedMedicine = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("usedMedicine")){
-                inventoryRef.on('value', async (childSnapshot) => {
+                inventoryRef.once('value', async (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({

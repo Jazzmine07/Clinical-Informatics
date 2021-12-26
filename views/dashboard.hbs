@@ -613,13 +613,7 @@
             showDailyVisits(data, btnClick);
             });
 
-            $.post("/getVRGradeMonthlyCountDashboard",{from:"dashboard"}, function(data){
-                if(checker2){
-                    console.log("checker");
-                    genderSymptomChart.destroy();
-                    visitTypeChart.destroy();
-                }
-                
+            $.post("/getVRGradeMonthlyCountDashboard",{from:"dashboard"}, function(data){                
                 var i;
                 var labels=[],dataCountG1=[],dataCountG2=[],dataCountG3=[],dataCountG4=[],dataCountG5=[],dataCountG6=[];
                 for(i=0;i<data.length-1;i++){
@@ -631,11 +625,9 @@
                     dataCountG5.push(data[i].g5);
                     dataCountG6.push(data[i].g6);
                 }
-                console.log(labels);
-                
                 symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,data);
                 clinicVisitTypeChart()
-                checker2=true;
+                
             });
 
         }

@@ -737,7 +737,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
             }
             
         }
-        //temp3.push(temp);
+        temp3.push(temp);
         console.log("getDiseaseCount array");
         console.log(temp3);
         if(from=="dashboard"){

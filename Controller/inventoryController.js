@@ -244,16 +244,56 @@ exports.updateMedicineInventory = function(req, res){
     res.status(200).send(amount);
 };
 
-exports.getUsedMedicine = function(){
+exports.getUsedMedicineToday = function(){
     var childSnapshotData, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
-    var inventoryRef = database.ref("usedMedicine");
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+
+    if(month == 1){
+        month = "January";
+    }
+    else if(month == 2){
+        month = "February";
+    }
+    else if(month == 3){
+        month = "March";
+    }
+    else if(month == 4){
+        month = "April";
+    }
+    else if(month == 5){
+        month = "May";
+    }
+    else if(month == 6){
+        month = "June";
+    }
+    else if(month == 7){
+        month = "July";
+    }
+    else if(month == 8){
+        month = "August";
+    }
+    else if(month == 9){
+        month = "September";
+    }
+    else if(month == 10){
+        month = "October";
+    }
+    else if(month == 11){
+        month = "November";
+    }
+    else if(month == 12){
+        month = "December";
+    }
 
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("usedMedicine")){
-                inventoryRef.once('value', async (childSnapshot) => {
+                database.ref("usedMedicine/"+year+"/"+month+"/"+day).once('value', async (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
@@ -286,8 +326,6 @@ exports.getUsedMedicine = function(){
                                     currInventory: currInventory,
                                     usedInventory: inventory.usedInventory,
                                     unit: inventory.unit,
-                                    purchDate: inventory.purchDate,
-                                    expDate: inventory.expDate
                                 })
                             }    
                         })

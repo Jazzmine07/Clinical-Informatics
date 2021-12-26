@@ -531,7 +531,7 @@
 
     <!-- Page level plugins -->
     <script src="public/vendor/chart.js/Chart.min.js"></script>
-    {{!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -1125,13 +1125,13 @@
                 if(points.length){
                     var firstPoint= points[0];
                     console.log(points[0]);
-                    console.log(firstPoint._index);
+                    console.log(firstPoint.index);
                     console.log(data[1].arr2.length);
-                    var con = data[0].arr[firstPoint._index].concern;
+                    var con = data[0].arr[firstPoint.index].concern;
                     
                     if(symptomChart.config.data.datasets[0].label=="Symptom Count" || symptomPieChart.config.data.datasets[0].label=="Symptom Count"){
                         temp=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
-                        console.log(data[0].arr[firstPoint._index].concern);
+                        console.log(data[0].arr[firstPoint.index].concern);
                         
                         if(firstPoint._index === 0){
                             for(i=0;i<data[1].arr2.length;i++){
@@ -1200,7 +1200,7 @@
                         }
                         console.log("CONCERN:");
                         console.log(con);
-                        if(firstPoint._index === 0){
+                        if(firstPoint.index === 0){
                             sLabels.push("Truthfulness");
                             sLabels.push("Sincerity");
                             sLabels.push("Honesty");
@@ -1224,7 +1224,7 @@
                                 }
                             }
                         }
-                        else if(firstPoint._index === 1){
+                        else if(firstPoint.index === 1){
                             sLabels.push("Simplicity");
                             sLabels.push("Charity");
                             sLabels.push("Helpfulness");
@@ -1248,7 +1248,7 @@
                                 }
                             }
                         }
-                        else if(firstPoint._index === 2){
+                        else if(firstPoint.index === 2){
                             sLabels.push("Respect");
                             sLabels.push("Courtesy");
                             sLabels.push("Trust");
@@ -1272,7 +1272,7 @@
                                 }
                             }
                         }
-                        else if(firstPoint._index === 3){
+                        else if(firstPoint.index === 3){
                             sLabels.push("Unity");
                             sLabels.push("Purity");
                             sLabels.push("Fidelity");
@@ -1297,7 +1297,7 @@
                                 }
                             }
                         }
-                        else if(firstPoint._index === 4){
+                        else if(firstPoint.index === 4){
                             sLabels.push("Trustworthiness");
                             sLabels.push("Reliability");
                             sLabels.push("Dependability");
@@ -1322,7 +1322,7 @@
                                 }
                             }
                         }
-                        else if(firstPoint._index === 5){
+                        else if(firstPoint.index === 5){
                             sLabels.push("Self-Discipline");
                             sLabels.push("Abnegation");
                             sLabels.push("Self-Giving");
@@ -1429,7 +1429,7 @@
                     dDataSet[i].count.push(parseInt("0"));
                 }
             }
-            console.log(dDataSet);
+            //console.log(dDataSet);
             
             //counting of data Disease
             for(i=0;i<data.length;i++){
@@ -1440,13 +1440,7 @@
                                 if(data[i].visitDate==dateLabels[k]){
                                     dDataSet[j].count[k]=dDataSet[j].count[k]+1;
                                 }
-                                else{
-                                    console.log("Do nothing please 2");
-                                }
                             }
-                        }
-                        else{
-                            console.log("Do nothing please")
                         }
                     }
                 }
@@ -1466,12 +1460,8 @@
                     data:dDataSet[i].count,
                 })
             }
-            console.log("ICE CREAM 2");
-            console.log(dSets);
-            
-
-
-
+            //console.log("ICE CREAM 2");
+            //console.log(dSets);
 
             //create array for concern dataset
             for(i=0;i<data.length;i++){

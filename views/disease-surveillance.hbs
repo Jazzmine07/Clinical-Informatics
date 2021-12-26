@@ -396,7 +396,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12 col-lg-12">
+                        <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
@@ -434,33 +434,37 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Reason for Visit</h6>
+
+                        <!-- Visit Reason/Complaints Charts -->
+                        <div class="row">
+                            <!-- Bar Chart -->
+                            <div class="col-xl-8 col-lg-7">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Visit Reason Count</h6>
+                                    </div>
+                                    <div class="card-body" style="width: 1100px;">
+                                        <div class="chart-bar">
+                                            <canvas id="complaintsChart"></canvas>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body" style="width: 650px; length: 7500px" >
-                                    <div class="chart-bar">
-                                        <canvas id="complaintsChart"></canvas>
+                            </div>
+
+                            <!-- Pie Chart -->
+                            <div class="col-xl-4 col-lg-5">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Visit Reason Percentage</h6>
+                                    </div>
+                                    <div class="card-body" style="width: 550px; height: 400px">
+                                        <div class="chart-pie pt-6 pb-2">
+                                            <canvas id="complaintsPieChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-xl-8 col-lg-12">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Reason for Visit</h6>
-                                </div>
-                                <div class="card-body" style="width: 650px; length: 7500px" >
-                                    <div class="chart-bar">
-                                        <canvas id="complaintsPieChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     
 
@@ -524,6 +528,7 @@
     <!-- Custom scripts for all pages-->
     <script src="public/js/sb-admin-2.min.js"></script>
 
+
     <!-- Page level plugins -->
     <script src="public/vendor/chart.js/Chart.min.js"></script>
     {{!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
@@ -557,9 +562,6 @@
                 showTrendChart(data,start,end);
             });
         }
-        // Set new default font family and font color to mimic Bootstrap's default styling
-        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-        Chart.defaults.global.defaultFontColor = '#858796';
 
         function number_format(number, decimals, dec_point, thousands_sep) {
         // *     example: number_format(1234.56, 2, ',', ' ');
@@ -606,7 +608,7 @@
                         data: [data[0].female, data[1].female, data[2].female, data[3].female, data[4].female, data[5].female],
                     }],
                 },
-                //plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -617,6 +619,23 @@
                             bottom: 0
                         }
                     },
+                    //plugins: {
+                    //    datalabels: {
+                    //        anchor: 'center',
+                    //        align: 'center',
+                    //        font: {
+                    //            weight: 'bold'
+                    //        },
+                    //       color: "#000000",
+                    //    },
+                    //    title: {
+                    //        display: true,
+                    //        text: 'Symptoms of this Month',
+                    //        font: {
+                    //            size: 25   // font size of the labels
+                    //        },
+                    //    }
+                    //},
                     scales: {
                         x: {
                             title: {
@@ -655,9 +674,6 @@
                         }
                     }
                 
-                },
-                legend: {
-                display: true
                 },
                 tooltips: {
                     titleMarginBottom: 10,
@@ -787,22 +803,41 @@
             var config={
                 type: 'bar',
                 data,
-                //plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
                         padding: {
                             left: 10,
                             right: 25,
-                            top: 25,
                             bottom: 0
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'center',
+                            align: 'center',
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: "#000000",
+                        },
+                        title: {
+                            display: true,
+                            text: 'Disease by Grade Level',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        },
+                        legend: {
+                            display: false,
                         }
                     },
                     scales: {
                         x: {
                             title: {
                                 display: true,
-                                text: 'School Year',
+                                text: 'Grade Level',
                                 font: {
                                     size: 15,   // font size of the labels
                                     weight: 'bold'
@@ -817,21 +852,11 @@
                             maxBarThickness: 50,
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: 'Weight in kg',
-                                font: {
-                                    size: 15,   // font size of the labels
-                                    weight: 'bold'
-                                },
-                                color: "rgba(255, 99, 132, 1)",
-                            },
                             ticks: {
                                 font: {
                                     size: 15,   // font size of the labels
                                 },
-                                color: "rgba(255, 99, 132, 1)",
-                                stepSize: 15,
+                                stepSize: 5,
                             }
                         }
                     }
@@ -841,7 +866,7 @@
             var config2={
                 type: 'pie',
                 data,
-                //plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -851,7 +876,31 @@
                             top: 25,
                             bottom: 0
                         }
-                    },                
+                    },  
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'center',
+                            offset: 55,
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: "#000000",
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => {
+                                    sum += data;
+                                });
+                                let percentage = (value*100 / sum).toFixed(2)+"%";
+                                return percentage;
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        }
+                    }              
                 }
             }
 
@@ -927,13 +976,11 @@
                 datasets: [{
                     label: "Symptom Count",
                     backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                            "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
+                       /// "rgba(78, 115, 223, 1)", // blue
+                        "rgba(255,153,0,255)",  // orange
+                        "rgba(118,186,27,255)", // green
+                        "rgba(255, 99, 132, 1)", // pink
                     ],
-                    hoverBackgroundColor: "#0d6efd",
-                    borderColor: "#0d6efd",
                     data:dataCount,
                 }],
             };
@@ -947,7 +994,6 @@
                             "#32CD32",
                             "#800080"
                         ],
-                    hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data:gDataCount,
                 }],
@@ -962,7 +1008,6 @@
                             "#32CD32",
                             "#800080"
                     ],
-                    hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data: sDataCount,
                     
@@ -972,21 +1017,37 @@
             var config={
                 type: 'bar',
                 data:symptomsCount,
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 25,
-                            bottom: 0
+                    plugins: {
+                        datalabels: {
+                            anchor: 'center',
+                            align: 'center',
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: "#FFFFFF",
+                            font: {
+                                size: 15   // font size of the labels
+                            },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Visit Reason/Complaints',
+                            font: {
+                                size: 25   // font size of the chart title
+                            },
+                        },
+                        legend: {
+                            display: false
                         }
                     },
                     scales: {
                         x: {
                             title: {
                                 display: true,
-                                text: 'School Year',
+                                text: 'Visit Reason/Complaint',
                                 font: {
                                     size: 15,   // font size of the labels
                                     weight: 'bold'
@@ -1001,21 +1062,11 @@
                             maxBarThickness: 50,
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: 'Weight in kg',
-                                font: {
-                                    size: 15,   // font size of the labels
-                                    weight: 'bold'
-                                },
-                                color: "rgba(255, 99, 132, 1)",
-                            },
                             ticks: {
                                 font: {
                                     size: 15,   // font size of the labels
                                 },
-                                color: "rgba(255, 99, 132, 1)",
-                                stepSize: 15,
+                                stepSize: 5,
                             }
                         }
                     }
@@ -1025,6 +1076,7 @@
             var configPie={
                 type: 'pie',
                 data:symptomsCount,
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -1032,10 +1084,33 @@
                             left: 10,
                             right: 25,
                             top: 25,
-                            bottom: 0
                         }
                     },
-                
+                    plugins: {
+                        datalabels: {
+                            anchor: 'top',
+                            align: 'center',
+                            offset: 35,
+                            font: {
+                                weight: 'bold',
+                                size: 15   // font size of the labels
+                            },
+                            color: "#000000",
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => {
+                                    sum += data;
+                                });
+                                let percentage = (value*100 / sum).toFixed(2)+"%";
+                                return percentage;
+                            },
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        }
+                    }
                 }
             }            
             

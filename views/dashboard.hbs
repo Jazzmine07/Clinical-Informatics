@@ -324,14 +324,13 @@
                     
 
                     <div class="row">
-
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Monthly Symptoms</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Complaints</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -348,12 +347,12 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Clinic Visits Based on Visit Type</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Visit Type</h6>
                                 </div>
 
                                 <!-- Pie Chart -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-6 pb-2">
+                                <div class="card-body"  style="height: 360px">
+                                    <div class="chart-pie pt-6 pb-2" style="height: 300px">
                                         <canvas id="pieChart"></canvas>
                                     </div>
                                 </div>
@@ -364,7 +363,7 @@
                     <div class="col-xl-12 col-lg-12">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Daily Visits for the Month</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Clinic Visits</h6>
                             </div>
                             <div class="card-body" >
                                 <div class="chart-bar">
@@ -587,7 +586,6 @@
     <script src="public/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
@@ -636,75 +634,39 @@
             var sections=[],sectionsCount=[];
             var i,j,k;
             var gradeData={
-                    labels: labels, // x-axis
-                    datasets: [{
-                        label: "Grade 1",
-                        //lineTension: 0,                                     // this will set if line is curve or straight
-                        //borderColor: 'rgb(255,0,0)',               // border color of the line and legend border
-                        backgroundColor: "red",         // legend background color
-                        //pointBorderColor: "rgb(255,0,0)",          // color of points
-                        //pointBackgroundColor: "rgb(255,0,0)",      // background color of points
-                        //pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
-                        //pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
-                        //pointRadius: 3,
-                        data: dataCountG1,   // values of the point
-                    }, {
-                        label: "Grade 2",
-                        //lineTension: 0,
-                        //borderColor: "	rgb(255,165,0)",
-                        backgroundColor: "rgb(255,165,0)",
-                        //pointBorderColor: "rgb(255,165,0)",
-                        //pointBackgroundColor: "rgb(255,165,0)",
-                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        //pointRadius: 3,
-                        data: dataCountG2,
-                    }, {
-                        label: "Grade 3",
-                        //lineTension: 0,
-                        //borderColor: "rgb(255,255,0)",
-                        backgroundColor: "rgb(255,255,0)",
-                        //pointBorderColor: "rgb(255,255,0)",
-                        //pointBackgroundColor: "rgb(255,255,0)",
-                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        //pointRadius: 3,
-                        data: dataCountG3,
-                    }, {
-                        label: "Grade 4",
-                        //lineTension: 0,
-                        //borderColor: "rgb(0,128,0)",
-                        backgroundColor: "#32CD32",
-                        //pointBorderColor: "rgb(0,128,0)",
-                        //pointBackgroundColor: "rgb(0,128,0)",
-                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        //pointRadius: 3,
-                        data: dataCountG4,
-                    }, {
-                        label: "Grade 5",
-                        //lineTension: 0,
-                        //borderColor: "rgb(0,0,255)",
-                        backgroundColor: "#00FFFF",
-                        //pointBorderColor: "rgb(0,0,255)",
-                        //pointBackgroundColor: "rgb(0,0,255)",
-                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        //pointRadius: 3,
-                        data: dataCountG5,
-                    }, {
-                        label: "Grade 6",
-                        //lineTension: 0,
-                        //borderColor: "rgb(127, 0, 255)",
-                        backgroundColor: "#FFC0CB",
-                        //pointBorderColor: "rgb(127, 0, 255)",
-                        //pointBackgroundColor: "rgb(127, 0, 255)",
-                        //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                        //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        //pointRadius: 3,
-                        data: dataCountG6,
-                    }],
-                }
+                labels: labels, // x-axis
+                datasets: [{
+                    label: "Grade 1",                           // border color of the line and legend border
+                    backgroundColor: "rgba(255,82,82,255)", // red  
+                    data: dataCountG1,   // values of the point
+                }, {
+                    label: "Grade 2",
+                    //borderColor: "	rgb(255,165,0)",
+                    backgroundColor: "rgba(255,153,0,255)",  // orange
+                    data: dataCountG2,
+                }, {
+                    label: "Grade 3",
+                    //borderColor: "rgb(255,255,0)",
+                    backgroundColor: "rgba(255,205,1,255)",  // yellow
+                    data: dataCountG3,
+                }, {
+                    label: "Grade 4",
+                    //borderColor: "rgb(0,128,0)",
+                    backgroundColor: "rgba(118,186,27,255)", // green
+                    data: dataCountG4,
+                }, {
+                    label: "Grade 5",
+                    //borderColor: "rgb(0,0,255)",
+                    backgroundColor: "rgba(78, 115, 223, 1)", // blue
+                    data: dataCountG5,
+                }, {
+                    label: "Grade 6",
+                    //borderColor: "rgb(127, 0, 255)",
+                    backgroundColor: "rgba(255, 99, 132, 1)", // pink
+                    //pointRadius: 3,
+                    data: dataCountG6,
+                }],
+            }
             console.log(sectionsCount);            
 
             var config={
@@ -726,23 +688,24 @@
                             anchor: 'center',
                             align: 'center',
                             font: {
-                                weight: 'bold'
+                                weight: 'bold',
+                                size: 15
                             },
                             color: "#000000",
                         },
                         title: {
                             display: true,
-                            text: 'Symptoms of this Month',
+                            text: 'Complaints for the Month by Grade Level',
                             font: {
                                 size: 25   // font size of the labels
                             },
-                        }
+                        },
                     },
                     scales: {
                         x: {
                             title: {
                                 display: true,
-                                text: 'Symptoms',
+                                text: 'Complaints',
                                 font: {
                                     size: 15,   // font size of the labels
                                     weight: 'bold'
@@ -762,20 +725,16 @@
                                     size: 15,   // font size of the labels
                                     weight: 'bold'
                                 },
-                                //color: "rgba(255, 99, 132, 1)",
                             },
                             ticks: {
                                 font: {
                                     size: 15,   // font size of the labels
                                 },
-                                //color: "rgba(255, 99, 132, 1)",
+                                stepSize: 5,
                             },
                             stacked: true,
                         },
                     },
-                    //legend: {
-                    //    display: false
-                    //}
                 }
             }
 
@@ -862,34 +821,29 @@
                             }
                         }
 
-                        var sectionData={
+                        var sectionData = {
                             labels: sections, // x-axis
-                                datasets: [{
-                                    label: labels[firstPoint.index],
-                                    //lineTension: 0,                                     // this will set if line is curve or straight
-                                    //borderColor: 'rgb(255,0,0)',               // border color of the line and legend border
-                                    backgroundColor: "red",         // legend background color
-                                    //pointBorderColor: "rgb(255,0,0)",          // color of points
-                                    //pointBackgroundColor: "rgb(255,0,0)",      // background color of points
-                                    //pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
-                                    //pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
-                                    //pointRadius: 3,
-                                    data: sectionsCount,   // values of the point
-                                }],
+                            datasets: [{        // border color of the line and legend border
+                                backgroundColor: [
+                                    "rgba(255,82,82,255)", // red
+                                    "rgba(255,153,0,255)",  // orange
+                                    "rgba(255,205,1,255)",  // yellow
+                                    "rgba(118,186,27,255)", // green
+                                    "rgba(78, 115, 223, 1)", // blue
+                                    "rgba(255, 99, 132, 1)", // pink
+                                ],
+                                data: sectionsCount,   // values of the point
+                            }],
                         }
-
                         console.log(sectionsCount);
                         stackedBarChart.config.data = sectionData;
-
+                        stackedBarChart.config.options.plugins.title.text = "Complaints for the Month by Sections";
+                        stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                     }
-                    
-                     stackedBarChart.update();
+                    stackedBarChart.update();
                 }
             }
-
             monthlySymptoms.onclick=clickHandler;
-
-
         }
 
         function clinicVisitTypeChart(){
@@ -900,10 +854,12 @@
                     labels: ["Consultation", "Emergency", "Intramurals", "Family Day"],
                     datasets: [{
                         backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                            "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
+                            "rgba(255,82,82,255)", // red
+                            "rgba(255,153,0,255)",  // orange
+                            "rgba(255,205,1,255)",  // yellow
+                            "rgba(118,186,27,255)", // green
+                            "rgba(78, 115, 223, 1)", // blue
+                            "rgba(255, 99, 132, 1)", // pink
                         ],
                         data: [54, 2, 17, 7],
                     }],
@@ -1079,8 +1035,6 @@
 
             }
         //------------------END OF "IF USER WANTS TO SEE COUNT FOR EACH DAY"------------------
-            
-           
             var chartData={
                 labels: daysString, // x-axis
                 datasets: [{
@@ -1122,14 +1076,13 @@
                         },
                         title: {
                             display: true,
-                            text: 'Daily Visits for the Month',
+                            text: 'Daily Clinic Visits for the Month',
                             font: {
                                 size: 25   // font size of the labels
                             },
                         },
                         legend: {
-                            display: true,
-                            position: 'right',
+                            display: false,
                         }
                     },
                     scales: {
@@ -1153,7 +1106,7 @@
                                 font: {
                                     size: 15   // font size of the labels
                                 },
-                                stepSize: 10
+                                stepSize: 5
                             }
                         },
                     }

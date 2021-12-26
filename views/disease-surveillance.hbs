@@ -1360,7 +1360,8 @@
 
                     }
                     else if(symptomChart.config.data.datasets[0].label=="Section Symptom Count"){
-                        temp=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
+                        symptomChart.config.data = symptomsCount;
+                        symptomPieChart.config.data = symptomsCount;
 
                     }
                     

@@ -573,30 +573,40 @@
                             <input type="text" class="form-control" value="{{form.medicationAssigned}}" disabled="disabled" style="width: 300px;">--}}
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label class="col-form-label" for="prescribedBy">Prescribed by</label>
-                                            <input type="text" class="form-control" id="prescribedBy" name="prescribedBy" disabled="disabled" value="{{form.prescribedBy}}">
-                                        </div> 
+                            <div class="form-row align-items-center mb-2">
+                                <div class="col-4">
+                                    <label class="col-form-label" for="prescribedBy">Prescribed by</label>
+                                    <input type="text" class="form-control" id="prescribedBy" name="prescribedBy" disabled="disabled" value="{{form.prescribedBy}}">
+                                </div> 
+                            </div>
+                        
+                            <div class="form-row align-items-center">
+                                {{#each form.medications}}    
+                                    <div class="col-3 mb-2">
+                                        <label class="col-form-label" for="medicationVisit">Medication</label>
+                                        <input type="text" disabled="disabled" class="form-control" name="medicationVisit" value="{{medicine}}">                                                                  
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label class="col-form-label" for="medicationVisit">Medication</label>
-                                            {{#each form.medications}}    
-                                                <tr>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{medicine}}"></input></td>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{purpose}}"></input></td>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{amount}}"></input></td>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{interval}}"></input></td>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{formatDate startMed}}"></input></td>
-                                                    <td><input type="text" disabled="disabled" class="form-control" value="{{formatDate endMed}}"></input></td>
-                                                </tr>
-                                            {{/each}}                                                          
-                                        </div>
+                                    <div class="col-1 mb-2">
+                                        <label class="col-form-label" for="amountMed">Dose</label>
+                                        <input type="text" disabled="disabled" class="form-control" value="{{amount}}" name="amountMed">
                                     </div>
-                                </div>
+                                    <div class="col-2 mb-2">
+                                        <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                        <input type="text" disabled="disabled" class="form-control" value="{{purpose}}" name="puproseVisit">
+                                    </div>
+                                    <div class="col-2 mb-2">
+                                        <label class="col-form-label" for="intervalMed">Interval</label>
+                                        <input type="text" disabled="disabled" class="form-control" value="{{interval}}" name="intervalMed">
+                                    </div>
+                                    <div class="col-2 mb-2">
+                                        <label class="col-form-label" for="startMed">Start Date</label>
+                                        <input type="date" disabled="disabled" class="form-control" value="{{formatDate startMed}}" name="startMed">
+                                    </div>
+                                    <div class="col-2 mb-2">
+                                        <label class="col-form-label" for="endMed">End Date</label>
+                                        <input type="date" disabled="disabled" class="form-control" value="{{formatDate endMed}}" name="endMed">
+                                    </div>
+                                {{/each}}                                                           
                             </div>
                         </div>
                     </div>

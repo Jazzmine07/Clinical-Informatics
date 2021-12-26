@@ -552,7 +552,7 @@ router.get('/inventory-medicine', (req, res) => {
   var user, inventory, usedMedicine;
   prom1 = userController.getUser();
   prom2 = inventoryController.getMedicineInventory();
-  prom3 = inventoryController.getUsedMedicine();
+  prom3 = inventoryController.getUsedMedicineToday();
 
   Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];

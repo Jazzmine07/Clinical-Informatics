@@ -1502,7 +1502,32 @@
             } 
 
             $.get("/getBMI", {studentID: typedID}, function(data){
-                var i;
+                var i,size;
+                if(schoolYear.length!=null){
+                    size=schoolYear.length;
+                    for(i=0;i<size;i++){
+                        schoolYear.pop()
+                    }
+                }
+                if(BMI.length!=null){
+                    size=BMI.length;
+                    for(i=0;i<size;i++){
+                        BMI.pop()
+                    }
+                }
+                if(weight.length!=null){
+                    size=weight.length;
+                    for(i=0;i<size;i++){
+                        weight.pop()
+                    }
+                }
+                if(height.length!=null){
+                    size=height.length;
+                    for(i=0;i<size;i++){
+                        height.pop()
+                    }
+                }
+
 
                 for(i = 0; i < data.length; i++){
                     schoolYear.push(data[i].schoolYear + ' ('+ data[i].age +' yrs old)');

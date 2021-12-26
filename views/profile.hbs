@@ -1504,26 +1504,8 @@
             $.get("/getBMI", {studentID: typedID}, function(data){
                 var i;
 
-                //             await invTemp.forEach(med => {
-                //                 var found = false;
-                //                 for(i = 0; i < filtered.length; i++){
-                //                     if(med.medicine == filtered[i].medicine){   // filters if same medicine name
-                //                         found = true;
-                //                         break;
-                //                     } 
-                //                 }
-                //                 if(!found){
-                //                     filtered.push({
-                //                         medicine: med.medicine,
-                //                         name: med.name,
-                //                         dosageForm: med.dosageForm,
-                //                         strength: med.strength
-                //                     })
-                //                 }    
-                //             })
-
                 for(i = 0; i < data.length; i++){
-                    schoolYear.push(data[i].schoolYear);
+                    schoolYear.push(data[i].schoolYear + ' ('+ data[i].age +' yrs old)');
                     BMI.push(parseFloat(data[i].bmi));
                     weight.push(parseFloat(data[i].weight));
                     height.push(parseFloat(data[i].height));

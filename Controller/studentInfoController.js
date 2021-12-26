@@ -87,6 +87,7 @@ exports.getBMI = function(req, res){
                 childSnapshotData = childSnapshot.exportVal();
                 studentInfo.push({ 
                     schoolYear: childSnapshot.key,  // getting parent key
+                    age: childSnapshotData.age,
                     bmi: childSnapshotData.bmi,
                     weight: childSnapshotData.weight,
                     height: childSnapshotData.height

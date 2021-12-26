@@ -799,6 +799,8 @@ router.post('/getBmiStatus', studentController.getBmiStatus);
 router.get('/getVisitDetails', visitController.getVisitDetails);
 router.get('/getLastVisit', visitController.getLastVisit);
 
+router.get('/getAllVisits',visitController.getAllVisits);
+
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);

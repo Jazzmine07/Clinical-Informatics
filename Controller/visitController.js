@@ -1257,3 +1257,34 @@ exports.viewIncidenceReport = function(req){
     })
     return promise;
 };
+
+exports.getAllVisits = function(req,res){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var query = clinicVisitRef.orderByChild("timestamp");
+    var visits =[];
+    var childSnapshotData;
+
+    
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("clinicVisit")){
+            query.on('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                    visits.push({
+                        formId: innerChildSnapshot.key,
+                        studentName: childSnapshotData.studentName,
+                        complaint: childSnapshotData.visitReason,
+                        timeIn: childSnapshotData.timeIn,
+                        timeOut: childSnapshotData.timeOut,
+                        status: childSnapshotData.status,
+                        visitDate: childSnapshotData.visitDate
+                    })         
+                })
+            })
+        }
+        res.send (visits);
+    })
+    
+};

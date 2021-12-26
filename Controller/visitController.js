@@ -1283,8 +1283,11 @@ exports.getAllVisits = function(req,res){
                     })         
                 })
             })
+            res.send (visits);
         }
-        res.send (visits);
+        else{
+            res.send (visits);    
+        }
     })
     
 };

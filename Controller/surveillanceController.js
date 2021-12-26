@@ -539,7 +539,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                         visitReason:childSnapshotData.visitReason,
                         visitDate:childSnapshotData.visitDate,
                         id:childSnapshotData.id,
-                        grade:childSnapshotData.grade
+                        grade:childSnapshotData.grade,
+                        section:childSnapshotData.section
                     })
                 })
                 
@@ -736,7 +737,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
             }
             
         }
-
+        //temp3.push(temp);
         console.log("getDiseaseCount array");
         console.log(temp3);
         if(from=="dashboard"){

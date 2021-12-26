@@ -220,13 +220,13 @@ exports.getUsedMedicineDaily = function(req, res){
 };
 
 exports.updateMedicineInventory = function(req, res){
-    var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate } = req.body;
+    var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate, year, month, day } = req.body;
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var used = parseInt(qty) - parseInt(amount);
 
     var database = firebase.database();
-    var usedInventoryRef = database.ref("usedMedicine");
+    var usedInventoryRef = database.ref("usedMedicine/"+year+"/"+month+"/"+day);
 
     var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
     inventoryRef.set(amount);   // update inventory
@@ -237,8 +237,6 @@ exports.updateMedicineInventory = function(req, res){
         medicineName: medicineName,
         usedInventory: used,
         unit: unit,
-        purchDate: purchDate,
-        expDate: expDate,
         date: date
     };
     usedInventoryRef.push(usedInventory);

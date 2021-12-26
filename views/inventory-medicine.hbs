@@ -956,7 +956,19 @@
                 val.find("input").removeClass('is-invalid');
                 val.find("input").addClass('is-valid');
                 qtyCell.text(amount);
-                $.post("/updateMedicineInventory", {medicineID: medicineID, batchNum: batchNum, medicineName: medicineName, qty: qty, amount: amount, unit: unit, purchDate: purchDate, expDate: expDate});
+                $.post("/updateMedicineInventory", {
+                    medicineID: medicineID, 
+                    batchNum: batchNum, 
+                    medicineName: medicineName, 
+                    qty: qty, 
+                    amount: amount, 
+                    unit: unit, 
+                    purchDate: purchDate, 
+                    expDate: expDate,
+                    year: year,
+                    month: month,
+                    day: date
+                });
             }
         });
     </script>

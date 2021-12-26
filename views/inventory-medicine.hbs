@@ -361,7 +361,7 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
                         <div class="d-flex flex-row-reverse">
                             <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
@@ -722,6 +722,10 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
+                        <div class="d-flex flex-row-reverse">
+                            <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
+                        </div>
                     </div>
 
                     <!-- DataTales Example -->
@@ -873,6 +877,52 @@
         }
     </script>
     <script>
+        const now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var date = now.getDate();
+
+        if(month == 1){
+            month = "January";
+        }
+        else if(month == 2){
+            month = "February";
+        }
+        else if(month == 3){
+            month = "March";
+        }
+        else if(month == 4){
+            month = "April";
+        }
+        else if(month == 5){
+            month = "May";
+        }
+        else if(month == 6){
+            month = "June";
+        }
+        else if(month == 7){
+            month = "July";
+        }
+        else if(month == 8){
+            month = "August";
+        }
+        else if(month == 9){
+            month = "September";
+        }
+        else if(month == 10){
+            month = "October";
+        }
+        else if(month == 11){
+            month = "November";
+        }
+        else if(month == 12){
+            month = "December";
+        }
+
+        console.log("year: " + year);
+        console.log("month: " + month);
+        console.log("date: " + date);
+
         $.get("/getUsedMedicineDaily", function(details){
             console.log(details);
         });

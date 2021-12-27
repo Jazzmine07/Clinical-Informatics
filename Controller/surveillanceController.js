@@ -388,7 +388,7 @@ exports.getDiseaseDemographics=function(req,res){
                 
         }
 
-        chartData.push( {grade1:g1},{grade2:g2},{grade3:g3},{grade4:g4},{grade5:g5}, {grade6:g6} );
+        chartData.push( {grade1:g1},{grade2:g2},{grade3:g3},{grade4:g4},{grade5:g5}, {grade6:g6},{temp3} );
         console.log("HELLO DEATH");
         console.log(chartData);
     //    chartData.push(g1);
@@ -529,6 +529,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
     var monthToday = today.getMonth();
     var from = req.body.from;
 
+    console.log("MARSHMALLOW");
     databaseRef.once('value', (snapshot) => {
         //this gets the clinicVisit data into the temp array
         if(snapshot.hasChild("clinicVisit")){
@@ -740,6 +741,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
         temp3.push(temp);
         console.log("getDiseaseCount array");
         console.log(temp3);
+        console.log("MINT");
         if(from=="dashboard"){
             res.send(temp3);
         }

@@ -542,6 +542,16 @@
 
         var start = moment().subtract(29, 'days');
         var end = moment();
+        var checker1 = false;
+        var checker2 = false;
+        var checker3 = false;
+
+        var gradeLevelChart;
+        var symptomChart;
+        var symptomPieChart;
+        var diseaseTrendChart; 
+        var concernTrendChart;
+
         cb(start, end);
 
         function cb(start, end) {
@@ -555,13 +565,31 @@
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
                 console.log("DS:");
                 console.log(data);
+
+                if(checker1){
+                    gradeLevelChart.destroy();
+                }
+
                 showDiseaseChart(data, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                checker1 = true;
             });
             $.post("/getVisitReasonCountDashboard",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD'),from:"dashboard"}, function(data){
+                if(checker2){
+                    symptomChart.destroy();
+                    symptomPieChart.destroy();
+
+                }
                 showSymptomChart(data);
+                checker2 = true;
             });
             $.post("/getDataForTrend",{startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
+                if(checker3){
+                    diseaseTrendChart.destroy(); 
+                    concernTrendChart.destroy();
+
+                }
                 showTrendChart(data,start,end);
+                checker3 = true;
             });
         }
 
@@ -707,7 +735,7 @@
             var g1Sections=[],g2Sections=[],g3Sections=[],g4Sections=[],g5Sections=[],g6Sections=[];
             var g1SectionCount=[],g2SectionCount=[],g3SectionCount=[],g4SectionCount=[],g5SectionCount=[],g6SectionCount=[];
             var gradeLevel
-            var gradeLevelChart;
+            gradeLevelChart;
                 
             for(i=0;i<6;i++){
                 //getting total count for each grade level
@@ -1096,9 +1124,9 @@
             }            
             
             var complaints = document.getElementById("complaintsChart");
-            var symptomChart = new Chart(complaints, config); 
+            symptomChart = new Chart(complaints, config); 
             var complaints2 = document.getElementById("complaintsPieChart");
-            var symptomPieChart = new Chart(complaints2, configPie);   
+            symptomPieChart = new Chart(complaints2, configPie);   
 
             function clickHandlerSC(click){
                 //console.log(data[1].arr2);
@@ -1557,9 +1585,9 @@
             }  
 
             var diseaseTrend = document.getElementById("diseaseTrendChart");
-            var diseaseTrendChart = new Chart(diseaseTrend, config); 
+            diseaseTrendChart = new Chart(diseaseTrend, config); 
             var concernTrend = document.getElementById("concernTrendChart");
-            var concernTrendChart = new Chart(concernTrend, config2); 
+            concernTrendChart = new Chart(concernTrend, config2); 
 
 
             

@@ -352,7 +352,7 @@
 
                                 <!-- Pie Chart -->
                                 <div class="card-body"  style="height: 360px">
-                                    <div class="chart-pie pt-6 pb-2" style="height: 300px">
+                                    <div style="width: 400px">
                                         <canvas id="pieChart"></canvas>
                                     </div>
                                 </div>
@@ -631,39 +631,33 @@
         }
 
         function symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,data) {
-            var sections=[],sectionsCount=[];
+            var sections=[], sectionsCount=[], grade;
             var i,j,k;
             var gradeData={
                 labels: labels, // x-axis
                 datasets: [{
                     label: "Grade 1",                           // border color of the line and legend border
-                    backgroundColor: "rgba(255,82,82,255)", // red  
+                    backgroundColor: "rgba(153, 102, 255, 0.5)", // violet  
                     data: dataCountG1,   // values of the point
                 }, {
                     label: "Grade 2",
-                    //borderColor: "	rgb(255,165,0)",
-                    backgroundColor: "rgba(255,153,0,255)",  // orange
+                    backgroundColor: "rgb(255, 159, 64)",  // orange
                     data: dataCountG2,
                 }, {
                     label: "Grade 3",
-                    //borderColor: "rgb(255,255,0)",
-                    backgroundColor: "rgba(255,205,1,255)",  // yellow
+                    backgroundColor: "rgb(255, 205, 86)",  // yellow
                     data: dataCountG3,
                 }, {
                     label: "Grade 4",
-                    //borderColor: "rgb(0,128,0)",
-                    backgroundColor: "rgba(118,186,27,255)", // green
+                    backgroundColor: "rgb(75, 192, 192)", // green
                     data: dataCountG4,
                 }, {
                     label: "Grade 5",
-                    //borderColor: "rgb(0,0,255)",
-                    backgroundColor: "rgba(78, 115, 223, 1)", // blue
+                    backgroundColor: "rgb(54, 162, 235)", // blue
                     data: dataCountG5,
                 }, {
                     label: "Grade 6",
-                    //borderColor: "rgb(127, 0, 255)",
-                    backgroundColor: "rgba(255, 99, 132, 1)", // pink
-                    //pointRadius: 3,
+                    backgroundColor: "rgb(255, 99, 132)", // red
                     data: dataCountG6,
                 }],
             }
@@ -759,7 +753,9 @@
                         console.log("HI");
                         console.log(data);
                         console.log(labels[firstPoint.index]);
+
                         if(firstPoint.datasetIndex == 0){
+                            grade = "Grade 1";
                             sections.push("Truthfulness");
                             sections.push("Sincerity");
                             sections.push("Honesty");
@@ -769,6 +765,7 @@
                             
                         }
                         else if(firstPoint.datasetIndex == 1){
+                            grade = "Grade 2";
                             sections.push("Simplicity");
                             sections.push("Charity");
                             sections.push("Helpfulness");
@@ -777,6 +774,7 @@
                             sections.push("Meekness");
                         }
                         else if(firstPoint.datasetIndex == 2){
+                            grade = "Grade 3";
                             sections.push("Respect");
                             sections.push("Courtesy");
                             sections.push("Trust");
@@ -786,6 +784,7 @@
 
                         }
                         else if(firstPoint.datasetIndex == 3){
+                            grade = "Grade 4";
                             sections.push("Unity");
                             sections.push("Purity");
                             sections.push("Fidelity");
@@ -794,6 +793,7 @@
                             sections.push("Solidarity");
                         }
                         else if(firstPoint.datasetIndex == 4){
+                            grade = "Grade 5";
                             sections.push("Trustworthiness");
                             sections.push("Reliability");
                             sections.push("Dependability");
@@ -802,6 +802,7 @@
                             sections.push("Flexibility");
                         }
                         else if(firstPoint.datasetIndex == 5){
+                            grade = "Grade 6";
                             sections.push("Self-Discipline");
                             sections.push("Abnegation");
                             sections.push("Self-Giving");
@@ -837,7 +838,7 @@
                         }
                         console.log(sectionsCount);
                         stackedBarChart.config.data = sectionData;
-                        stackedBarChart.config.options.plugins.title.text = "Complaints for the Month by Sections";
+                        stackedBarChart.config.options.plugins.title.text = "Complaints for the Month by " + grade + " Sections";
                         stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                     }
                     stackedBarChart.update();
@@ -854,12 +855,10 @@
                     labels: ["Consultation", "Emergency", "Intramurals", "Family Day"],
                     datasets: [{
                         backgroundColor: [
-                            "rgba(255,82,82,255)", // red
-                            "rgba(255,153,0,255)",  // orange
-                            "rgba(255,205,1,255)",  // yellow
-                            "rgba(118,186,27,255)", // green
-                            "rgba(78, 115, 223, 1)", // blue
-                            "rgba(255, 99, 132, 1)", // pink
+                            "rgb(255, 99, 132)", // red
+                            "rgb(255, 205, 86)",  // yellow
+                            "rgb(54, 162, 235)", // blue
+                            "rgba(153, 102, 255, 0.5)", // violet
                         ],
                         data: [54, 2, 17, 7],
                     }],
@@ -877,9 +876,9 @@
                     },
                     plugins: {
                         datalabels: {
-                            anchor: 'end',
+                            anchor: 'top',
                             align: 'center',
-                            offset: 55,
+                            offset: 65,
                             font: {
                                 weight: 'bold'
                             },
@@ -896,7 +895,7 @@
                         },
                         legend: {
                             display: true,
-                            position: 'right',
+                            position: 'top',
                         }
                     }
                 }
@@ -1044,8 +1043,6 @@
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     pointBorderColor: "rgba(78, 115, 223, 1)",
                     pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
                     pointRadius: 3,
                     data: daysCount,
                 }],

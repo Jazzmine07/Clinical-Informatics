@@ -687,6 +687,8 @@ exports.getStudentVisits = function(req, res){
             }
             res.status(200).send(details);
         } else {
+            console.log("details in controller");
+            console.log(details);
             res.status(200).send(details);
         }
     })  

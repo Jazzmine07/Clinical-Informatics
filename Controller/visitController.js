@@ -36,7 +36,7 @@ exports.getDashboard = function(req, res){
 };
 
 exports.addClinicVisit = function(req, res){
-    var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, clinicType, nurse, 
+    var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, clinicType, nurseKey, nurseName,
         weight, height, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
         weightStatus, heightStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
         complaint, impression, treatment, 
@@ -67,7 +67,8 @@ exports.addClinicVisit = function(req, res){
             timeIn: timeIn,
             timeOut: timeOut,
             clinicType: clinicType,
-            attendingNurse: nurse,
+            nurseKey: nurseKey,
+            nurseName: nurseName,
     
             weight: weight,
             weightStatus: weightStatus,
@@ -114,33 +115,29 @@ exports.addClinicVisit = function(req, res){
     
         // if intake array is not empty!
         if(intakeArray != undefined){
-            userRef.child(nurse).once('value',(userSnapshot) => {
-                var fname = userSnapshot.child('firstName').val();
-                var lname = userSnapshot.child('lastName').val();
-                var intakeHistory = {
-                    attendingNurse: fname + " " + lname,
-                    grade: studentGrade,
-                    id: studentId, 
-                    medications: "", // array of medications
-                    section: studentSection,
-                    studentName: studentName,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    timestamp: time,
-                    visitDate: visitDate,
-                }
-            
-                var intakeRef = database.ref("intakeHistory");
-                var historyKey = intakeRef.push(intakeHistory).key;
-                for(i = 0; i < intakeArray.length; i++){
-                    history = {
-                        medicine: intakeArray[i].medication,
-                        amount: parseInt(intakeArray[i].amount),
-                        time: intakeArray[i].time
-                    };
-                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-                }
-            });
+            var intakeHistory = {
+                attendingNurse: nurseName,
+                grade: studentGrade,
+                id: studentId, 
+                medications: "", // array of medications
+                section: studentSection,
+                studentName: studentName,
+                timeIn: timeIn,
+                timeOut: timeOut,
+                timestamp: time,
+                visitDate: visitDate,
+            }
+        
+            var intakeRef = database.ref("intakeHistory");
+            var historyKey = intakeRef.push(intakeHistory).key;
+            for(i = 0; i < intakeArray.length; i++){
+                history = {
+                    medicine: intakeArray[i].medication,
+                    amount: parseInt(intakeArray[i].amount),
+                    time: intakeArray[i].time
+                };
+                database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+            }
         }
     
         if(diagnosisAssign != ""){
@@ -148,7 +145,7 @@ exports.addClinicVisit = function(req, res){
             var diagnosisForm = {
                 task: "Clinic Visit",
                 description: "Diagnosis & Prescription",
-                assignedBy: nurse,
+                assignedBy: nurseName,
                 dateAssigned: visitDate,
                 timestamp: time
             }
@@ -175,7 +172,7 @@ exports.addClinicVisit = function(req, res){
 };
 
 exports.editClinicVisit = function(req, res){
-    var { userKey , formId, studentId, studentName, studentGrade, studentSection, 
+    var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, diagnosis, 
         medicationAssign, medicationAssigned, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
@@ -188,8 +185,6 @@ exports.editClinicVisit = function(req, res){
     var time = Math.round(+new Date()/1000);
 
     userRef.once("value", (userSnapshot) => { 
-        var fname = userSnapshot.child('firstName').val();
-        var lname = userSnapshot.child('lastName').val();
         if(userSnapshot.child("role").val() == "Clinician"){
             console.log("pumasok sa clinician if");
             if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
@@ -218,7 +213,7 @@ exports.editClinicVisit = function(req, res){
                 //if intake array is not empty!
                 if(intakeArray != undefined){
                     var intakeHistory = {
-                        attendingClinician: fname + " " + lname,
+                        attendingClinician: userName,
                         grade: studentGrade,
                         id: studentId, 
                         medications: "", // array of medications
@@ -252,12 +247,8 @@ exports.editClinicVisit = function(req, res){
                         }
                     });
                 })
-
                 res.status(200).send();
             } else {
-                console.log("pumasok pag may medication assigned");
-                console.log("diagnosis inside edit controller");
-                console.log(diagnosis);
                 var record = {
                     timeOut: timeOut,
                     diagnosis: diagnosis,
@@ -274,7 +265,7 @@ exports.editClinicVisit = function(req, res){
                 var medicationForm = {
                     task: "Clinic Visit",
                     description: "Encode Prescription",
-                    assignedBy: userKey,
+                    assignedBy: userName,
                     dateAssigned: date,
                     timestamp: time
                 }
@@ -305,7 +296,6 @@ exports.editClinicVisit = function(req, res){
                 res.status(200).send();
             }
         } else {    // nurse encoding medication section
-            console.log("pumasok sa nurse if");
             var record = {
                 timeOut: timeOut,
                 status: status,
@@ -328,7 +318,7 @@ exports.editClinicVisit = function(req, res){
             //if intake array is not empty!
             if(intakeArray != undefined){
                 var intakeHistory = {
-                    attendingNurse: fname + " " + lname,
+                    attendingNurse: userName,
                     grade: studentGrade,
                     id: studentId, 
                     medications: "", // array of medications
@@ -365,16 +355,14 @@ exports.editClinicVisit = function(req, res){
 
             res.status(200).send();
         }
-    });
+    })
 };
 
 exports.getAssignedForms = (req, res) => {
     var user = req;
     var database = firebase.database();
     var formsRef = database.ref("assignedForms/"+user);
-    var userRef = database.ref("clinicUsers");
-    var fname, lname, i;
-    var temp =[], forms =[];
+    var forms =[];
     var childSnapshotData;
     
     var promise = new Promise((resolve, reject) => {
@@ -382,7 +370,7 @@ exports.getAssignedForms = (req, res) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
                     childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                    temp.push({
+                    forms.push({
                         task: childSnapshotData.task,
                         description: childSnapshotData.description,
                         formId: childSnapshot.key,
@@ -390,20 +378,6 @@ exports.getAssignedForms = (req, res) => {
                         dateAssigned: childSnapshotData.dateAssigned
                     });
                 })
-
-                for(i = 0; i < temp.length; i++){
-                    await userRef.child(temp[i].assignedBy).once('value',(userSnapshot) => {
-                        fname = userSnapshot.child('firstName').val();
-                        lname = userSnapshot.child('lastName').val();
-                    });  
-                    forms.push({
-                        task: temp[i].task,
-                        description: temp[i].description,
-                        formId: temp[i].formId,
-                        assignedBy: fname + " " + lname,
-                        dateAssigned: temp[i].dateAssigned
-                    });
-                }
                 resolve(forms);
             } else {
                 resolve(forms);
@@ -420,7 +394,7 @@ exports.getClinicVisitForm = function(req){
     var formRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers");
     var temp = [], details;
-    var fname, lname, dFname, dLname, mFname, mLname;
+    var dFname, dLname, mFname, mLname;
 
     var promise = new Promise((resolve, reject)=>{
         formRef.on('value', async (snapshot) => {
@@ -433,9 +407,9 @@ exports.getClinicVisitForm = function(req){
                 section: snapshotData.section,
                 visitDate: snapshotData.visitDate,
                 timeIn: snapshotData.timeIn,
-                clinicType: snapshotData.clinicType,
-                nurseKey: snapshotData.attendingNurse,
-                attendingNurse: "",
+                visitType: snapshotData.visitType,
+                nurseKey: snapshotData.nurseKey,
+                attendingNurse: snapshotData.nurseName,
                 
                 weight: snapshotData.weight,
                 weightStatus: snapshotData.weightStatus,
@@ -462,16 +436,14 @@ exports.getClinicVisitForm = function(req){
                 prescribedBy: "",
                 medicationAssignedKey: snapshotData.medicationAssigned,
                 status: snapshotData.status,
+                notes: snapshotData.notes
             })
 
-            await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
-                fname = userSnapshot.child('firstName').val();
-                lname = userSnapshot.child('lastName').val();
-            });   
             await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
                 dFname = diagnosis.child('firstName').val();
                 dLname = diagnosis.child('lastName').val();
             });
+
             if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
                 await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
                     mFname = medication.child('firstName').val();
@@ -487,10 +459,10 @@ exports.getClinicVisitForm = function(req){
                 section: temp[0].section,
                 visitDate: temp[0].visitDate,
                 nurseKey: temp[0].nurseKey,
-                attendingNurse: fname + " " + lname,
+                attendingNurse: temp[0].attendingNurse,
                 timeIn: temp[0].timeIn,
                 timeOut: temp[0].timeOut,
-                clinicType: temp[0].clinicType,
+                visitType: temp[0].visitType,
                 weight: temp[0].weight,
                 weightStatus: temp[0].weightStatus,
                 height: temp[0].height,
@@ -557,9 +529,9 @@ exports.viewClinicVisitForm = function(req){
                 section: snapshotData.section,
                 visitDate: snapshotData.visitDate,
                 timeIn: snapshotData.timeIn,
-                clinicType: snapshotData.clinicType,
+                visitType: snapshotData.visitType,
                 nurseKey: snapshotData.attendingNurse,
-                attendingNurse: "",
+                attendingNurse: snapshotData.nurseName,
                 
                 weight: snapshotData.weight,
                 weightStatus: snapshotData.weightStatus,
@@ -586,12 +558,8 @@ exports.viewClinicVisitForm = function(req){
                 prescribedBy: "",
                 medicationAssignedKey: snapshotData.medicationAssigned,
                 status: snapshotData.status,
-            })
-
-            await userRef.child(temp[0].nurseKey).once('value',(userSnapshot) => {
-                fname = userSnapshot.child('firstName').val();
-                lname = userSnapshot.child('lastName').val();
-            });   
+                notes: snapshotData.notes
+            })  
 
             await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
                 dFname = diagnosis.child('firstName').val();
@@ -613,10 +581,10 @@ exports.viewClinicVisitForm = function(req){
                 section: temp[0].section,
                 visitDate: temp[0].visitDate,
                 nurseKey: temp[0].nurseKey,
-                attendingNurse: fname + " " + lname,
+                attendingNurse: temp[0].attendingNurse,
                 timeIn: temp[0].timeIn,
                 timeOut: temp[0].timeOut,
-                clinicType: temp[0].clinicType,
+                visitType: temp[0].visitType,
                 weight: temp[0].weight,
                 weightStatus: temp[0].weightStatus,
                 height: temp[0].height,
@@ -646,6 +614,7 @@ exports.viewClinicVisitForm = function(req){
                 status: temp[0].status,
                 notes: temp[0].notes
             }
+            console.log(details);
             resolve(details);
         })
     })

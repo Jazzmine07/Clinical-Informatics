@@ -631,7 +631,7 @@
                             <div class="col-5">
                                 <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
                                 <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                    <option value="{{user.key}}"> {{user.firstName}} {{user.lastName}}</option>
+                                    <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
                         </div>
@@ -863,7 +863,7 @@
                                             <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
                                                 <option disabled="disabled" value="" selected="true">Choose...</option>
                                             {{#each prescribed}}
-                                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                                <option value="{{key}}">{{firstName}} {{lastName}}</option>
                                             {{/each}}
                                             </select>  
                                         </div> 
@@ -3481,6 +3481,9 @@
             var nurse =  $('#attendingNurse').find(":selected").val();   
             console.log(nurse);
 
+            var nurseName = $('#attendingNurse').find(':selected').text();
+            console.log(nurseName);
+
             if($('#attendingNurse').find(":selected").val() == null || $('#attendingNurse').find(":selected").val() == undefined || $('#attendingNurse').find(":selected").val() == ""){
                 $("#attendingNurse").addClass("is-invalid");
                 proceed = false;
@@ -3545,7 +3548,7 @@
             var status =  $('#status').find(":selected").text();
             console.log(status);
 
-            var notes =  $('#notes').val(); 
+            var notes = $('#notes').val(); 
             console.log(notes);
 
             console.log("proceed.... " + proceed);
@@ -3564,7 +3567,8 @@
                         timeIn: timeIn,
                         timeOut: timeOut,
                         clinicType: clinicType,
-                        nurse: nurse, // attending nurse 
+                        nurseKey: nurse, // attending nurse 
+                        nurseName: nurseName,
                         weight: weight,
                         weightStatus: weightStatus,
                         height: height,

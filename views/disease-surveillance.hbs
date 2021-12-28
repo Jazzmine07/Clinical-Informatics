@@ -546,7 +546,7 @@
         var checker2 = false;
         var checker3 = false;
 
-        var gradeLevelChart;
+        var gradeLevelChart, gradeLevelPieChart;
         var symptomChart;
         var symptomPieChart;
         var diseaseTrendChart; 
@@ -568,6 +568,7 @@
 
                 if(checker1){
                     gradeLevelChart.destroy();
+                    gradeLevelPieChart.destroy();
                 }
 
                 showDiseaseChart(data, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
@@ -734,8 +735,8 @@
             var g1Count=0, g2Count=0,g3Count=0, g4Count=0,g5Count=0, g6Count=0;
             var g1Sections=[],g2Sections=[],g3Sections=[],g4Sections=[],g5Sections=[],g6Sections=[];
             var g1SectionCount=[],g2SectionCount=[],g3SectionCount=[],g4SectionCount=[],g5SectionCount=[],g6SectionCount=[];
-            var gradeLevel
-            gradeLevelChart;
+            var gradeLevel, gradeLevelPie;
+            gradeLevelChart, gradeLevelPieChart;
                 
             for(i=0;i<6;i++){
                 //getting total count for each grade level
@@ -772,13 +773,14 @@
             var chartData={
                 labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
                 datasets: [{
-                    label: "Grade Levels",
+                    label: "Grade Levels Disease Count",
                     backgroundColor: "#4e73df",
                     hoverBackgroundColor: "#0d6efd",
                     borderColor: "#0d6efd",
                     data:gradeCounts,
                 }],
             }
+            
             var gradeSections={
                 labels: g1Sections,
                 datasets: [{
@@ -851,9 +853,9 @@
                 }],
             }           
 
-            var sdcConfig={
+            var config={
                 type: 'bar',
-                data: chartData,
+                data:chartData,
                 plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
@@ -914,9 +916,9 @@
                 
                 }
             }
-            var sdcConfig2={
+            var config2={
                 type: 'pie',
-                data: chartData,
+                data:chartData,
                 plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
@@ -957,10 +959,89 @@
             console.log(gradeCounts);
 
             gradeLevel = document.getElementById("diseaseCountDS");
-            gradeLevelChart = new Chart(gradeLevel, sdcConfig);   
+            gradeLevelChart = new Chart(gradeLevel, config);   
             
-            //var glc2 = document.getElementById("diseaseCountDSPie");
-           // var gradeLevelPieChart = new Chart(glc2, sdcConfig2);  
+            gradeLevelPie = document.getElementById("diseaseCountDSPie");
+            gradeLevelPieChart = new Chart(gradeLevelPie, config2);  
+
+            function clickHandler(click){
+                const points= gradeLevelChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                //const points2= gradeLevelPieChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                if(points.length || points2.length){
+                    var firstPoint= points[0];
+                    var firstPointPie= points[0];
+                    
+                    console.log(points[0]);
+                    console.log(firstPoint.index);
+                   // var con = data[0].arr[firstPoint.index].concern;                    
+                
+                    if(firstPoint.index === 0 ){
+                        gradeLevelChart.config._config.data.datasets[0].data = g1SectionCount;
+                        gradeLevelChart.config._config.data.labels= g1Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 1"; 
+                        //console.log(gradeLevelChart);
+                        console.log(gradeLevelPieChart);
+                        gradeLevelPieChart.config._config.data.datasets[0].data = g1SectionCount;
+                        gradeLevelPieChart.config._config.data.labels= g1Sections;
+                        gradeLevelPieChart.config._config.data.datasets[0].label= "Grade 1"; 
+                    }
+                    else if(firstPoint.i-ndex === 1){
+                        gradeLevelChart.config._config.data.datasets[0].data = g2SectionCount;
+                        gradeLevelChart.config._config.data.labels= g2Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 2"; 
+
+                        gradeLevelPieChart.config2._config2.data.datasets[0].data = g2SectionCount;
+                        gradeLevelPieChart.config2._config2.data.labels= g2Sections;
+                        gradeLevelPieChart.config2._config2.data.datasets[0].label= "Grade 2"; 
+                    }
+                    else if(firstPoint.index === 2){
+                        gradeLevelChart.config._config.data.datasets[0].data = g3SectionCount;
+                        gradeLevelChart.config._config.data.labels= g3Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 3"; 
+
+                        gradeLevelPieChart.config2._config2.data.datasets[0].data = g3SectionCount;
+                        gradeLevelPieChart.config2._config2.data.labels= g3Sections;
+                        gradeLevelPieChart.config2._config2.data.datasets[0].label= "Grade 3"; 
+                    }
+                    else if(firstPoint.index === 3){
+                        gradeLevelChart.config._config.data.datasets[0].data = g4SectionCount;
+                        gradeLevelChart.config._config.data.labels= g4Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 4";  
+
+                        gradeLevelPieChart.config._config2.data.datasets[0].data = g4SectionCount;
+                        gradeLevelPieChart.config._config2.data.labels= g4Sections;
+                        gradeLevelPieChart.config._config.ata.datasets[0].label= "Grade 4"; 
+                    }
+                    else if(firstPoint.index === 4){
+                        gradeLevelChart.config._config.data.datasets[0].data = g5SectionCount;
+                        gradeLevelChart.config._config.data.labels= g5Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 5"; 
+
+                        gradeLevelPieChart.config2._config2.data.datasets[0].data = g5SectionCount;
+                        gradeLevelPieChart.config2._config2.data.labels= g5Sections;
+                        gradeLevelPieChart.config2._config2.data.datasets[0].label= "Grade 5";  
+                    }
+                    else if(firstPoint.index === 5){
+                        gradeLevelChart.config._config.data.datasets[0].data = g6SectionCount;
+                        gradeLevelChart.config._config.data.labels= g6Sections;
+                        gradeLevelChart.config._config.data.datasets[0].label= "Grade 6"; 
+
+                        gradeLevelPieChart.config2._config2.data.datasets[0].data = g6SectionCount;
+                        gradeLevelPieChart.config2._config2.data.labels= g6Sections;
+                        gradeLevelPieChart.config2._config2.data.datasets[0].label= "Grade 6"; 
+                    }
+
+                    gradeLevelChart.config.data=gradeSections;
+                    gradeLevelPieChart.config.data=gradeSections;
+                
+                    
+                    gradeLevelChart.update();
+                    gradeLevelPieChart.update();
+                }
+            }
+
+            gradeLevel.onclick=clickHandler;
+            gradeLevelPie.onclick=clickHandler;
             
         }
         //Show Symptoms Count (whole, grade level view, each section for grade levvel)
@@ -975,8 +1056,7 @@
             }
             var temp,temp2,temp3;
             var filteredData=[];
-            //console.log(labels);
-            //console.log(dataCount);
+            
         
             var gradeName=["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"]; //labels for each grade level
             

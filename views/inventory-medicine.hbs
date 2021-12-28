@@ -976,27 +976,69 @@
                 labels: ["Paracetamol", "Ibuprofren", "Nebules", "Mefanamic Acid", "Decolgen"], // x-axis
                 datasets: [{
                     label: "Grade 1",
-                    backgroundColor: 'rgba(153, 102, 255, 0.5)',    // violet
+                    //lineTension: 0,                                     // this will set if line is curve or straight
+                    //borderColor: 'rgb(255,0,0)',               // border color of the line and legend border
+                    backgroundColor: "red",         // legend background color
+                    //pointBorderColor: "rgb(255,0,0)",          // color of points
+                    //pointBackgroundColor: "rgb(255,0,0)",      // background color of points
+                    //pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
+                    //pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
+                    //pointRadius: 3,
                     data: [15, 4, 7, 12, 9],   // values of the point
                 }, {
                     label: "Grade 2",
-                    backgroundColor: "rgb(255, 159, 64)", // orange
+                    //lineTension: 0,
+                    //borderColor: "	rgb(255,165,0)",
+                    backgroundColor: "rgb(255,165,0)",
+                    //pointBorderColor: "rgb(255,165,0)",
+                    //pointBackgroundColor: "rgb(255,165,0)",
+                    //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    //pointRadius: 3,
                     data: [23, 7, 10, 9, 3],
                 }, {
                     label: "Grade 3",
-                    backgroundColor: "rgb(255, 205, 86)",  // yellow
+                    //lineTension: 0,
+                    //borderColor: "rgb(255,255,0)",
+                    backgroundColor: "rgb(255,255,0)",
+                    //pointBorderColor: "rgb(255,255,0)",
+                    //pointBackgroundColor: "rgb(255,255,0)",
+                    //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    //pointRadius: 3,
                     data: [7, 10, 4, 2, 1],
                 }, {
                     label: "Grade 4",
-                    backgroundColor: "rgb(75, 192, 192)", // green
+                    //lineTension: 0,
+                    //borderColor: "rgb(0,128,0)",
+                    backgroundColor: "#32CD32",
+                    //pointBorderColor: "rgb(0,128,0)",
+                    //pointBackgroundColor: "rgb(0,128,0)",
+                    //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    //pointRadius: 3,
                     data: [17, 3, 1, 6, 4],
                 }, {
                     label: "Grade 5",
-                    backgroundColor: "rgb(54, 162, 235)", // blue
+                    //lineTension: 0,
+                    //borderColor: "rgb(0,0,255)",
+                    backgroundColor: "#00FFFF",
+                    //pointBorderColor: "rgb(0,0,255)",
+                    //pointBackgroundColor: "rgb(0,0,255)",
+                    //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    //pointRadius: 3,
                     data: [12, 28, 7, 4, 3],
                 }, {
                     label: "Grade 6",
-                    backgroundColor: "rgb(255, 99, 132)", // red
+                    //lineTension: 0,
+                    //borderColor: "rgb(127, 0, 255)",
+                    backgroundColor: "#FFC0CB",
+                    //pointBorderColor: "rgb(127, 0, 255)",
+                    //pointBackgroundColor: "rgb(127, 0, 255)",
+                    //pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    //pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    //pointRadius: 3,
                     data: [10, 10, 10, 11, 7],
                 }],
             },
@@ -1013,8 +1055,8 @@
                 },
                 plugins: {
                     datalabels: {
-                        anchor: 'center',
-                        align: 'center',
+                        anchor: 'end',
+                        align: 'top',
                         font: {
                             weight: 'bold'
                         },
@@ -1063,6 +1105,9 @@
                         stacked: true,
                     },
                 },
+                //legend: {
+                //    display: false
+                //}
             }
         })
     </script>

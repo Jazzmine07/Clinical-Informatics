@@ -178,8 +178,10 @@ exports.getUsedMedicineDaily = function(req, res){
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("usedMedicine")){
             inventoryRef.orderByChild('date').equalTo(date).on('value', async (childSnapshot) => {
-                childSnapshot.forEach(function(innerChildSnapshot){
+                await childSnapshot.forEach(function(innerChildSnapshot){
                     childSnapshotData = innerChildSnapshot.exportVal();
+                    console.log("childSnapshotData");
+                    console.log(childSnapshotData);
                     temp.push({
                         medicineID: childSnapshotData.medicineID,
                         medicineName: childSnapshotData.medicineName,
@@ -190,8 +192,8 @@ exports.getUsedMedicineDaily = function(req, res){
 
                 console.log("temp bago ifilter");
                 console.log(temp);
-
-                await temp.forEach(inventory => {
+                
+                temp.forEach(inventory => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
                         if(inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same date
@@ -222,7 +224,7 @@ exports.getUsedMedicineDaily = function(req, res){
 exports.updateMedicineInventory = function(req, res){
     var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate, year, month, day } = req.body;
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear()+'-'+today.getMonth()+1+'-'+today.getDate();
     var used = parseInt(qty) - parseInt(amount);
 
     var database = firebase.database();

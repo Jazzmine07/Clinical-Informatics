@@ -439,7 +439,7 @@
                                 </div>
                                 <div class="col-5">
                                     <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
-                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.clinicType}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.visitType}}">
                                 </div>  
                             </div>
 
@@ -507,6 +507,23 @@
                                 </div>
                             </div>
                             <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.weightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.heightStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.bodyTempStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.systolicStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.diastolicStatus}}</div>
+                                </div>                             
+                            </div>
+                            <div class="form-row align-items-center">
                                 <div class="col-2">
                                     <label for="pulseRate" class="col-form-label">Pulse Rate</label>
                                     <div class="input-group mb-2">                                                                            
@@ -519,14 +536,21 @@
                                 <div class="col-2">
                                     <label for="respRate" class="col-form-label">Respiration Rate</label>
                                     <div class="input-group mb-2">                                        
-                                    <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
+                                        <input type="number" class="form-control" id="respRate" disabled="disabled" value="{{form.respirationRate}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="form-row align-items-center">
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.pulseRateStatus}}</div>
+                                </div>
+                                <div class="col-2" style="height: 24px;">
+                                    <div id="normalWeight" class="status font-weight-bold">{{form.respRateStatus}}</div>
+                                </div>                          
+                            </div>
                             <hr class="w-10 mb-2"></hr> 
 
                             <div class="form-row align-items-center">
@@ -600,11 +624,11 @@
                                     </div>
                                     <div class="col-2 mb-2">
                                         <label class="col-form-label" for="startMed">Start Date</label>
-                                        <input type="date" disabled="disabled" class="form-control" value="{{formatDate startMed}}" name="startMed">
+                                        <input type="text" disabled="disabled" class="form-control" value="{{formatDate startMed}}" name="startMed">
                                     </div>
                                     <div class="col-2 mb-2">
                                         <label class="col-form-label" for="endMed">End Date</label>
-                                        <input type="date" disabled="disabled" class="form-control" value="{{formatDate endMed}}" name="endMed">
+                                        <input type="text" disabled="disabled" class="form-control" value="{{formatDate endMed}}" name="endMed">
                                     </div>
                                 {{/each}}                                                           
                             </div>

@@ -460,9 +460,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 
                 <!-- /.container-fluid -->
@@ -622,6 +620,7 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <input id="userKey" type="hidden" value="{{user.key}}">
+                                <input id="userName" type="hidden" value="{{user.firstName}} {{user.lastName}}">
                                 <input id="formID" type="hidden" value="{{form.formId}}">
                                 <div class="col-4">
                                     <label for="clinicDate" class="col-form-label">Visit Date</label>
@@ -645,7 +644,7 @@
                                 </div>
                                 <div class="col-5">
                                     <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
-                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.clinicType}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.visitType}}">
                                 </div>  
                             </div>
 
@@ -829,7 +828,7 @@
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled" selected="true">Choose...</option>
                                                 {{#each medicines}}
-                                                    <option value="{{name}}">{{medicine}}</option>   
+                                                    <option value="{{medicine}}">{{medicine}}</option>   
                                                 {{/each}} 
                                             </select>                                                                   
                                         </div>
@@ -913,7 +912,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="notes">Notes/Recommendations</label>
-                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3"></textarea>
+                                    <textarea type="text" class="form-control" id="notes" name="notes" rows="3" disabled="disabled">{{form.notes}}</textarea>
                                 </div>    
                             </div>
                             <div class="d-flex justify-content-end mt-4 col-12">
@@ -1397,6 +1396,7 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <input id="userKey" type="hidden" value="{{user.key}}">
+                                <input id="userName" type="hidden" value="{{user.firstName}} {{user.lastName}}">
                                 <input id="formID" type="hidden" value="{{form.formId}}">
                                 <div class="col-4">
                                     <label for="clinicDate" class="col-form-label">Visit Date</label>
@@ -1420,7 +1420,7 @@
                                 </div>
                                 <div class="col-5">
                                     <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
-                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.clinicType}}">
+                                    <input type="text" class="form-control mb-2" disabled="disabled" value="{{form.visitType}}">
                                 </div>  
                             </div>
 
@@ -1487,8 +1487,6 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">mmHg</span>
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -1529,7 +1527,6 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon4">breaths/min</span>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -1607,7 +1604,7 @@
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled" selected="true">Choose...</option>
                                                 {{#each medicines}}
-                                                    <option value="{{name}}">{{medicine}}</option>   
+                                                    <option value="{{medicine}}">{{medicine}}</option>   
                                                 {{/each}} 
                                             </select>                                                                   
                                         </div>
@@ -1681,6 +1678,7 @@
                                     <label class="col-form-label" for="status">Disposition</label>
                                     <select class="custom-select mb-2" id="status" name="status">
                                         <option disabled="disabled" selected="true">Choose...</option>
+                                        <option value="Under Observation">Under Observation</option> 
                                         <option value="Sent Home">Sent Home</option>
                                         <option value="Hospitalized">Sent to Hospital</option>
                                         <option value="Sent To Class">Sent To Class</option>                                   
@@ -2150,6 +2148,7 @@
         $("#saveBtn").click(function(){
             console.log("pindot");
             var userKey = $('#userKey').val();
+            var userName = $('#userName').val();
             var formId = $('#formID').val();
 
             var id = $('#studentID').val();
@@ -2207,7 +2206,8 @@
                 url: '/editClinicVisit',
                 method: 'POST',
                 data: {
-                    userKey, userKey,
+                    userKey: userKey,
+                    userName, userName,
                     formId: formId,
                     studentId: id,
                     studentName: studentName,

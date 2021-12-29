@@ -11,48 +11,48 @@ exports.login = (req, res) => {
   var parentsRef = database.ref("parentUsers");
   var userInfo;
 
-  var parentAccount = {
-    email: 'mikaela_reyes@gmail.com',
-    password: 'manresa123'
-  }
+  // var parentAccount = {
+  //   email: 'mikaela_reyes@gmail.com',
+  //   password: 'manresa123'
+  // }
 
-  var key = parentsRef.push(parentAccount).key;
+  // var key = parentsRef.push(parentAccount).key;
 
-  var parentInfo = {
-    children: {
-      0: "485562",
-    }
-  }
-  database.ref('parentInfo/'+key).set(parentInfo);
+  // var parentInfo = {
+  //   children: {
+  //     0: "485562",
+  //   }
+  // }
+  // database.ref('parentInfo/'+key).set(parentInfo);
 
-  var personalInfo = {
-    idNum: "485562",
-    firstName: 'Alex',
-    middleName: 'Santos',
-    lastName: 'Reyes',
-    studentType: 'Old',
-    grade: '6',
-    section: 'Integrity',
-    birthday: '2010-04-21', // yyyy-mm-dd
-    age: '11',
-    sex: 'Male',
-    address: 'Raja Sulayman 1200 Makati City',
-    motherName: 'Mikaela Reyes',
-    motherEmail: 'mikaela_reyes@gmail.com',
-    motherContact: '09569122173',
-    fatherName: 'Edwin Reyes',
-    fatherEmail: 'edwin_reyes@gmail.com',
-    fatherContact: '09285512439',
-    guardianName: 'Edwin Reyes',
-    guardianEmail: 'edwin_reyes@gmail.com',
-    guardianContact: '09285512439',
-    hasSpecialNeeds: "No",
-    nationality: "Filipino",
-    religion: "Born Again",
+  // var personalInfo = {
+  //   idNum: "485562",
+  //   firstName: 'Alex',
+  //   middleName: 'Santos',
+  //   lastName: 'Reyes',
+  //   studentType: 'Old',
+  //   grade: '6',
+  //   section: 'Integrity',
+  //   birthday: '2010-04-21', // yyyy-mm-dd
+  //   age: '11',
+  //   sex: 'Male',
+  //   address: 'Raja Sulayman 1200 Makati City',
+  //   motherName: 'Mikaela Reyes',
+  //   motherEmail: 'mikaela_reyes@gmail.com',
+  //   motherContact: '09569122173',
+  //   fatherName: 'Edwin Reyes',
+  //   fatherEmail: 'edwin_reyes@gmail.com',
+  //   fatherContact: '09285512439',
+  //   guardianName: 'Edwin Reyes',
+  //   guardianEmail: 'edwin_reyes@gmail.com',
+  //   guardianContact: '09285512439',
+  //   hasSpecialNeeds: "No",
+  //   nationality: "Filipino",
+  //   religion: "Born Again",
 
-  }
-  //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
-  database.ref('studentInfo/' + 485562).set(personalInfo); // adding other fields
+  // }
+  // //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
+  // database.ref('studentInfo/' + 485562).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   if(email == "" && pass == ""){

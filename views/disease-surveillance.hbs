@@ -960,10 +960,10 @@
                         labels: {
                             fontSize: 15,
                             fontStyle: 'bold',
-                            //render: (context) => {
-                            //    const percentage = context.value / showData(this) * 100;
-                            //    return percentage.toFixed(2)+"%";
-                            //}
+                            render: (context) => {
+                                const percentage = context.value / showData(this) * 100;
+                                return percentage.toFixed(2)+"%";
+                            }
                         },
                         legend: {
                             display: true,

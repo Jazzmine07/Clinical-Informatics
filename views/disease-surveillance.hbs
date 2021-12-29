@@ -1159,7 +1159,7 @@
                     console.log(data[1].arr2.length);
                     var con = data[0].arr[firstPoint.index].concern;
                     
-                    if(symptomChart.config.data.datasets[0].label=="Symptom Count" || symptomPieChart.config.data.datasets[0].label=="Symptom Count"){
+                    if(symptomChart.config.data.datasets[0].label=="Symptom Count"){
                         temp=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
                         console.log(data[0].arr[firstPoint.index].concern);
                         
@@ -1401,7 +1401,7 @@
             }
 
             complaints.onclick=clickHandlerSC;
-            complaints2.onclick=clickHandlerSC;
+            //complaints2.onclick=clickHandlerSC;
         };            
 
         function showTrendChart(data,start,end){

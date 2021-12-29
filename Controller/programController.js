@@ -52,6 +52,7 @@ exports.getProgramsList = function(req, res){
                     
                         programs.push({
                             startDate: childSnapshotData.startDate,
+                            endDate: childSnapshotData.endDate,
                             progName: childSnapshotData.progName,
                             progType: childSnapshotData.progType,
                             population: population,

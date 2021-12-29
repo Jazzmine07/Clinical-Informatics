@@ -956,6 +956,7 @@
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
             document.getElementById("studentSection").value=sec;
+            
             if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
                 $('#studentGrade').val("1");
             }
@@ -1019,11 +1020,11 @@
                         //document.getElementById("allergies").value=data.allergies;
                         
                         
-                        //document.getElementById("age").value=data.currAge;
-                        //document.getElementById("dope").value=data.currDope;//change to Date
-                        //document.getElementById("clinicianAPE").value=data.currClinician;
-                        //document.getElementById("systolic").value=data.currSys;
-                        //document.getElementById("diastolic").value=data.currDia;
+                        document.getElementById("age").value=data.currAge;
+                        document.getElementById("dope").value=data.currDope;//change to Date
+                        document.getElementById("clinicianAPE").value=data.currClinician;
+                        document.getElementById("systolic").value=data.currSys;
+                        document.getElementById("diastolic").value=data.currDia;
                         document.getElementById("bodyTemp").value=data.currTemp;
                         document.getElementById("pulseRate").value=data.currPr
                         document.getElementById("respRate").value=data.currRr;

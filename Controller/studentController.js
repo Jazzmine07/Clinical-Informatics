@@ -306,7 +306,7 @@ exports.getAPEPercentage = function(req, res){
                     c4=c4+1;
                 }
             }         
-            else if(childValues.section=="Trustwortiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+            else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
                 if(childValues.status=="Accomplished"){
                     c5=c5+1;
                 }
@@ -450,74 +450,68 @@ exports.addSchedule=function(req,res){
     var database = firebase.database();
     var schedPERef= database.ref("apeSchedule");
     var schedDERef= database.ref("dentalSchedule");
-    var schedulePE=[], scheduleDE=[];
-    schedulePE = req.body.schedules;
-    scheduleDE = req.body.dentals;
-    
+    var sectionScheduleRef = database.ref("haSchedule");
+    var schedules=[], g1=[],g2=[],g3=[],g4=[],g5=[],g6=[], schoolYear;
     var i;
-
-    console.log("SCHEDULES TO BE ADDED:");
-    console.log("PE");
-    console.log(schedulePE);
-    console.log("DE");
-    console.log(scheduleDE);
-
-    for(i=0;i<scheduleDE.length;i++){
-        console.log("SCHEDULES TO BE ADDED:");
-        console.log(scheduleDE)
-        var currSec= scheduleDE[i].section;
-        var count=0;
-        console.log("SCHEDULES TO BE ADDED:");
-        console.log(scheduleDE)
-        //Dental
-        schedDERef.on('value', (snapshot) =>{
-            snapshot.forEach(function(childSnapshot){
-                var child = childSnapshot.exportVal();
-                // console.log("Child:"+child.section);
-                // console.log("Section: "+ currSec);
-                if(child.section == currSec){
-                    console.log("Has a schedule already");
-                    count=count+1;
-                }
-            }) 
-            console.log("counter:"+count);
-            if(count==0){
-                console.log("pushed");
-                schedDERef.push(scheduleDE[i]);
-            }
-            else{
-                console.log("no repeat"); //if already has schedule do nothing? 
-            }
-        });
-    }
+    var checker="false";
+    //var schedulePE=[], scheduleDE=[],
+    //schedulePE = req.body.schedules;
+    //scheduleDE = req.body.dentals;
+    schedules=req.body.schedules;
+    g1=req.body.g1;
+    g2=req.body.g2;
+    g3=req.body.g3;
+    g4=req.body.g4;
+    g5=req.body.g5;
+    g6=req.body.g6;
+    schoolYear=req.body.schoolYear;
     
+    console.log("entered addSchedule function in studentController");
+    console.log(schedules);
+    console.log(g1);
+    console.log(g2);
+    console.log(g3);
+    console.log(g4);
+    console.log(g5);
+    console.log(g6);
+    console.log(schoolYear);
 
-    for(i=0;i<schedulePE.length;i++){
-        console.log("SCHEDULES TO BE ADDED:");
-        console.log(schedulePE)
-        var currSec= schedulePE[i].section;
-        var count=0;
-        //Physical Exam
-        schedPERef.on('value', (snapshot) =>{
-            snapshot.forEach(function(childSnapshot){
-                var child = childSnapshot.exportVal();
-                // console.log("Child:"+child.section);
-                // console.log("Section: "+ currSec);
-                if(child.section == currSec){
-                    console.log("Has a schedule already");
-                    count=count+1;
-                }
-            }) 
-            console.log("counter:"+count);
-            if(count==0){
-                console.log("pushed");
-                schedPERef.push(schedulePE[i]);
+    sectionScheduleRef.once('value',(snapshot)=>{
+        snapshot.forEach(function(childSnapshot){
+            var child = childSnapshot.exportVal();
+            console.log("HELLO MY SWEET MANGA");
+            console.log(childSnapshot.key);
+            console.log(child);
+
+            if(childSnapshot.key == schoolYear){
+                checker="true";
+            }            
+        })
+
+        if(checker=="true"){
+            for(i=0;i<6;i++){
+                sectionScheduleRef.child(schoolYear).child(g1[i].section).update(g1[i]);
+                sectionScheduleRef.child(schoolYear).child(g2[i].section).update(g2[i]);
+                sectionScheduleRef.child(schoolYear).child(g3[i].section).update(g3[i]);
+                sectionScheduleRef.child(schoolYear).child(g4[i].section).update(g4[i]);
+                sectionScheduleRef.child(schoolYear).child(g5[i].section).update(g5[i]);
+                sectionScheduleRef.child(schoolYear).child(g6[i].section).update(g6[i]);
             }
-            else{
-                console.log("no repeat"); //if already has schedule do nothing? 
+        }
+        else{
+            for(i=0;i<6;i++){
+                sectionScheduleRef.child(schoolYear).child(g1[i].section).set(g1[i]);
+                sectionScheduleRef.child(schoolYear).child(g2[i].section).set(g2[i]);
+                sectionScheduleRef.child(schoolYear).child(g3[i].section).set(g3[i]);
+                sectionScheduleRef.child(schoolYear).child(g4[i].section).set(g4[i]);
+                sectionScheduleRef.child(schoolYear).child(g5[i].section).set(g5[i]);
+                sectionScheduleRef.child(schoolYear).child(g6[i].section).set(g6[i]);
             }
-        });
-    }
+            
+        }
+    })
+
+    
 
     res.send();
 }
@@ -545,6 +539,7 @@ exports.loadPrevData=function(req,res){
             var childValues = childSnapshot.exportVal();
             ape.push({
                 sy:childSnapshot.key,
+                age:childSnapshot.age,
                 dope:childValues.apeDate,
                 doctor:childValues.clinician,
                 systolic:childValues.systolic,
@@ -570,6 +565,7 @@ exports.loadPrevData=function(req,res){
             if(childSnapshot.key==currSY){
                 curr[0]={
                     sy:childSnapshot.key,
+                    age:childValues.age,
                     dope:childValues.apeDate,
                     doctor:childValues.clinician,
                     systolic:childValues.systolic,
@@ -613,6 +609,7 @@ exports.loadPrevData=function(req,res){
                         lastApe=1;
                         ape.push({
                             sy:"",
+                            age:"",
                             dope:"",
                             doctor:"",
                             systolic:"",
@@ -649,6 +646,7 @@ exports.loadPrevData=function(req,res){
             lastApe=0;
             ape.push({
                 sy:"",
+                age:"",
                 dope:"",
                 doctor:"",
                 systolic:"",
@@ -674,6 +672,7 @@ exports.loadPrevData=function(req,res){
 
             curr.push({
                 sy:"",
+                age:"",
                 dope:"",
                 doctor:"",
                 systolic:"",
@@ -701,6 +700,7 @@ exports.loadPrevData=function(req,res){
             console.log("empty curr");
             curr.push({
                 sy:"",
+                age:"",
                 dope:"",
                 doctor:"",
                 systolic:"",
@@ -734,6 +734,7 @@ exports.loadPrevData=function(req,res){
             sex:studentInfo.sex,
 
             prevSy:ape[lastApe].sy,
+            prevAge:ape[lastApe].age,
             prevTemp:ape[lastApe].temp,
             prevBp:ape[lastApe].bp,
             prevPr:ape[lastApe].pr,
@@ -757,6 +758,7 @@ exports.loadPrevData=function(req,res){
             prevDia:ape[lastApe].diastolic,
                             
             currSy:curr[0].sy,
+            currAge:curr[0].age,
             currTemp:curr[0].temp,
             currBp:curr[0].bp,
             currPr:curr[0].pr,
@@ -952,34 +954,39 @@ loadStudentData= function (id){
 }
 
 //function gets the APE schedules 
-exports.getAllApeSched=function(){
+exports.getAllSched=function(){
     //gets all the schedule created for the APE
     var currentTime = new Date()
     var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
     var currYear = currentTime.getFullYear();
+    var sy;
     //var month=1;
     //var currYear=2021;
     if(month>=6){
-        var sy= currYear +"-"+ (currYear+1) ;
+        sy= currYear +"-"+ (currYear+1) ;
     }
     else{
-        var sy= (currYear-1) +"-"+ (currYear) ;
+        sy= (currYear-1) +"-"+ (currYear) ;
     }
 
     var database = firebase.database();
     var apeSchedRef= database.ref("apeSchedule");
     var studentRef = database.ref("studentInfo");
+    var sectionScheduleRef = database.ref("haSchedule")
     var healthHistory= database.ref("studentHealthHistory");
+    var i;
     var schedule=[];
     
-    var promise = new Promise((resolve,reject)=>{
-        apeSchedRef.once('value', (snapshot) =>{
+    var promise = new Promise((resolve,reject)=> {
+        sectionScheduleRef.child(sy).once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
-                var grade, done=false;
+                console.log(snapshot.key); //school year
+                console.log(childSnapshot.key); //section Name
+                console.log(childValues); // schedule details
                 var students=[], studentsAccom=[];
-                var numStudents,i;
-                console.log("Sections"+childValues.section);
+                var grade, done=false;
+               
                 if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
                     grade="1";
                 }
@@ -999,6 +1006,7 @@ exports.getAllApeSched=function(){
                     grade="6";
                 }
                 
+                console.log("Grade Level:"+ grade);
                 //get total student count in a section
                 studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
                     if(ss.exists()){
@@ -1031,25 +1039,32 @@ exports.getAllApeSched=function(){
                 }
 
                 if(done==true){
+                    if(childValues.physicalDate =="" || childValues.physicalDate ==null || childValues.physicalDate == undefined){
+                        
+                    }
                     record={
                         grade:grade,
                         section:childValues.section,
                         numStudents:students.length,
-                        apeDate:childValues.date,
-                        apeTime:childValues.time,
-                        apeSeen:studentsAccom.length
+                        apeDate:childValues.physicalDate,
+                        apeTime:childValues.physicalTime,
+                        apeSeen:studentsAccom.length,
+                        adeDate:childValues.dentalDate,
+                        adeTime:childValues.dentalTime,
+                        adeSeen:studentsAccom.length
                     }
                     //console.log(record);
                     schedule.push(record);
                 }
-    
-            }) 
+
+            })
             console.log("Schedule size:" + schedule.length);
+            console.log(schedule)
             resolve(schedule);
             reject(schedule);
-        });
-
+        })
     })
+
     return promise;
 }
 

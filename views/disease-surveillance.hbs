@@ -396,78 +396,84 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                        <!-- Bar Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count</h6>
                                 </div>
-                                <div class="card-body" >
-                                    <div class="chart-bar">
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
                                         <canvas id="diseaseCountDS"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12 col-lg-12">
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Disease Percentage</h6>
                                 </div>
-                                <div class="card-body" >
-                                    <div class="chart-bar">
+
+                                <!-- Pie Chart -->
+                                <div class="card-body"  style="height: 360px">
+                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
                                         <canvas id="diseaseCountDSPie"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Complaints Trend</h6>
+                            </div>
+                            <div class="card-body" >
+                                <div class="chart-bar">
+                                    <canvas id="concernTrendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
-                        <div class="col-xl-12 col-lg-12">
+                        <!-- Complaints Charts -->
+                        <!-- Bar Chart -->
+                        <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Symptoms Trend</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Complaints Count</h6>
                                 </div>
-                                <div class="card-body" >
+                                <div class="card-body" style="width: 1100px;">
                                     <div class="chart-bar">
-                                        <canvas id="concernTrendChart"></canvas>
+                                        <canvas id="complaintsChart"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Visit Reason/Complaints Charts -->
-                        <div class="row">
-                            <!-- Bar Chart -->
-                            <div class="col-xl-8 col-lg-7">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Visit Reason Count</h6>
-                                    </div>
-                                    <div class="card-body" style="width: 1100px;">
-                                        <div class="chart-bar">
-                                            <canvas id="complaintsChart"></canvas>
-                                        </div>
-                                    </div>
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Complaints Percentage</h6>
                                 </div>
-                            </div>
-
-                            <!-- Pie Chart -->
-                            <div class="col-xl-4 col-lg-5">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Visit Reason Percentage</h6>
-                                    </div>
-                                    <div class="card-body" style="width: 550px; height: 400px">
-                                        <div class="chart-pie pt-6 pb-2">
-                                            <canvas id="complaintsPieChart"></canvas>
-                                        </div>
+                                <div class="card-body" style="height: 360px">
+                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
+                                        <canvas id="complaintsPieChart"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-
                     <!-- Content Row -->
                 </div>
                 <!-- /.container-fluid -->
@@ -530,9 +536,9 @@
 
 
     <!-- Page level plugins -->
-    <script src="public/vendor/chart.js/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -763,6 +769,8 @@
             }
 
             var gradeCounts=[];
+            var g1CountArr = [];
+            var g2CountArr = [];
             gradeCounts.push(g1Count);
             gradeCounts.push(g2Count);
             gradeCounts.push(g3Count);
@@ -770,34 +778,41 @@
             gradeCounts.push(g5Count);
             gradeCounts.push(g6Count);
 
-            var chartData={
+            var chartData = {
                 labels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"],
                 datasets: [{
                     label: "Grade Levels Disease Count",
-                    backgroundColor: "#4e73df",
-                    hoverBackgroundColor: "#0d6efd",
-                    borderColor: "#0d6efd",
+                    backgroundColor: [
+                        "rgba(153, 102, 255, 0.5)", // violet
+                        "rgb(255, 159, 64)",  // orange
+                        "rgb(255, 205, 86)",  // yellow
+                        "rgb(75, 192, 192)", // green
+                        "rgb(54, 162, 235)", // blue
+                        "rgb(255, 99, 132)", // red
+                    ],
                     data:gradeCounts,
                 }],
-            }
+            };
             
             var gradeSections={
                 labels: g1Sections,
                 datasets: [{
                     label: "Grade 1",
-                    backgroundColor: "#4e73df",
-                    hoverBackgroundColor: "#0d6efd",
-                    borderColor: "#0d6efd",
+                    backgroundColor: [
+                        "rgba(153, 102, 255, 0.5)", // violet
+                        "rgb(255, 159, 64)",  // orange
+                        "rgb(255, 205, 86)",  // yellow
+                        "rgb(75, 192, 192)", // green
+                        "rgb(54, 162, 235)", // blue
+                        "rgb(255, 99, 132)", // red
+                    ],
                     data:g1SectionCount,
                 }],
             }
-            
-               
 
             var config={
                 type: 'bar',
-                data:chartData,
-                plugins: [ChartDataLabels],
+                data: chartData,
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -808,17 +823,14 @@
                         }
                     },
                     plugins: {
-                        datalabels: {
-                            anchor: 'center',
-                            align: 'center',
-                            font: {
-                                weight: 'bold'
-                            },
-                            color: "#000000",
+                        labels: {
+                            render: 'value',
+                            fontSize: 15,
+                            fontStyle: 'bold',
                         },
                         title: {
                             display: true,
-                            text: 'Disease by Grade Level',
+                            text: 'Top 5 Disease by Grade Level',
                             font: {
                                 size: 25   // font size of the labels
                             },
@@ -857,37 +869,25 @@
                 
                 }
             }
+
             var config2={
                 type: 'pie',
                 data:chartData,
-                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
                         padding: {
                             left: 10,
                             right: 25,
-                            top: 25,
-                            bottom: 0
                         }
                     },  
                     plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'center',
-                            offset: 55,
-                            font: {
-                                weight: 'bold'
-                            },
-                            color: "#000000",
-                            formatter: (value, ctx) => {
-                                let sum = 0;
-                                let dataArr = ctx.chart.data.datasets[0].data;
-                                dataArr.map(data => {
-                                    sum += data;
-                                });
-                                let percentage = (value*100 / sum).toFixed(2)+"%";
-                                return percentage;
+                        labels: {
+                            fontSize: 15,
+                            fontStyle: 'bold',
+                            render: (context) => {
+                                const percentage = context.value / showData(this) * 100;
+                                return percentage.toFixed(2)+"%";
                             }
                         },
                         legend: {
@@ -896,6 +896,17 @@
                         }
                     }              
                 }
+            }
+            function showData(){
+                let totalSum = 0;
+                let i = 0;
+
+                for(i = 0; i < gradeLevelPieChart.config.data.datasets[0].data.length; i++){
+                    if(gradeLevelPieChart.getDataVisibility(i) === true){
+                        totalSum += gradeLevelPieChart.config.data.datasets[0].data[i];
+                    }
+                }
+                return totalSum;
             }
             console.log(gradeCounts);
 
@@ -908,7 +919,7 @@
             function clickHandler(click){
                 const points= gradeLevelChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
                 //const points2= gradeLevelPieChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
-                if(points.length || points2.length){
+                if(points.length){
                     var firstPoint= points[0];
                     var firstPointPie= points[0];
                     
@@ -916,7 +927,7 @@
                     console.log(firstPoint.index);
                    // var con = data[0].arr[firstPoint.index].concern;                    
                 
-                    if(firstPoint.index === 0 ){
+                    if(firstPoint.index === 0){
                         gradeLevelChart.config._config.data.datasets[0].data = g1SectionCount;
                         gradeLevelChart.config._config.data.labels= g1Sections;
                         gradeLevelChart.config._config.data.datasets[0].label= "Grade 1"; 
@@ -926,7 +937,7 @@
                         gradeLevelPieChart.config._config.data.labels= g1Sections;
                         gradeLevelPieChart.config._config.data.datasets[0].label= "Grade 1"; 
                     }
-                    else if(firstPoint.i-ndex === 1){
+                    else if(firstPoint.index === 1){
                         gradeLevelChart.config._config.data.datasets[0].data = g2SectionCount;
                         gradeLevelChart.config._config.data.labels= g2Sections;
                         gradeLevelChart.config._config.data.datasets[0].label= "Grade 2"; 
@@ -1006,10 +1017,12 @@
                 datasets: [{
                     label: "Symptom Count",
                     backgroundColor: [
-                       /// "rgba(78, 115, 223, 1)", // blue
-                        "rgba(255,153,0,255)",  // orange
-                        "rgba(118,186,27,255)", // green
-                        "rgba(255, 99, 132, 1)", // pink
+                        "rgba(153, 102, 255, 0.5)", // violet
+                        "rgb(255, 159, 64)",  // orange
+                        "rgb(255, 205, 86)",  // yellow
+                        "rgb(75, 192, 192)", // green
+                        "rgb(54, 162, 235)", // blue
+                        "rgb(255, 99, 132)", // red
                     ],
                     data:dataCount,
                 }],
@@ -1019,12 +1032,13 @@
                 datasets: [{
                     label: "Grade Level Symptom Count",
                     backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                            "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
-                        ],
-                    borderColor: "#0d6efd",
+                        "rgba(153, 102, 255, 0.5)", // violet
+                        "rgb(255, 159, 64)",  // orange
+                        "rgb(255, 205, 86)",  // yellow
+                        "rgb(75, 192, 192)", // green
+                        "rgb(54, 162, 235)", // blue
+                        "rgb(255, 99, 132)", // red
+                    ],
                     data:gDataCount,
                 }],
             };
@@ -1033,38 +1047,31 @@
                 datasets: [{
                     label: "Section Symptom Count",
                     backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                            "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
+                        "rgba(153, 102, 255, 0.5)", // violet
+                        "rgb(255, 159, 64)",  // orange
+                        "rgb(255, 205, 86)",  // yellow
+                        "rgb(75, 192, 192)", // green
+                        "rgb(54, 162, 235)", // blue
+                        "rgb(255, 99, 132)", // red
                     ],
-                    borderColor: "#0d6efd",
                     data: sDataCount,
-                    
                 }],
             };
 
             var config={
                 type: 'bar',
                 data:symptomsCount,
-                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     plugins: {
-                        datalabels: {
-                            anchor: 'center',
-                            align: 'center',
-                            font: {
-                                weight: 'bold'
-                            },
-                            color: "#FFFFFF",
-                            font: {
-                                size: 15   // font size of the labels
-                            },
+                        labels: {
+                            render: 'value',
+                            fontSize: 15,
+                            fontStyle: 'bold',
                         },
                         title: {
                             display: true,
-                            text: 'Visit Reason/Complaints',
+                            text: 'Top 5 Complaints',
                             font: {
                                 size: 25   // font size of the chart title
                             },
@@ -1077,7 +1084,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Visit Reason/Complaint',
+                                text: 'Complaint',
                                 font: {
                                     size: 15,   // font size of the labels
                                     weight: 'bold'
@@ -1106,7 +1113,6 @@
             var configPie={
                 type: 'pie',
                 data:symptomsCount,
-                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -1117,24 +1123,13 @@
                         }
                     },
                     plugins: {
-                        datalabels: {
-                            anchor: 'top',
-                            align: 'center',
-                            offset: 35,
-                            font: {
-                                weight: 'bold',
-                                size: 15   // font size of the labels
-                            },
-                            color: "#000000",
-                            formatter: (value, ctx) => {
-                                let sum = 0;
-                                let dataArr = ctx.chart.data.datasets[0].data;
-                                dataArr.map(data => {
-                                    sum += data;
-                                });
-                                let percentage = (value*100 / sum).toFixed(2)+"%";
-                                return percentage;
-                            },
+                        labels: {
+                            fontSize: 15,
+                            fontStyle: 'bold',
+                            render: (context) => {
+                                const percentage = context.value / showDataComplaints(this) * 100;
+                                return percentage.toFixed(2)+"%";
+                            }
                         },
                         legend: {
                             display: true,
@@ -1143,6 +1138,18 @@
                     }
                 }
             }            
+
+            function showDataComplaints(){
+                let totalSum = 0;
+                let i = 0;
+
+                for(i = 0; i < symptomPieChart.config.data.datasets[0].data.length; i++){
+                    if(symptomPieChart.getDataVisibility(i) === true){
+                        totalSum += symptomPieChart.config.data.datasets[0].data[i];
+                    }
+                }
+                return totalSum;
+            }
             
             var complaints = document.getElementById("complaintsChart");
             symptomChart = new Chart(complaints, config); 
@@ -1477,17 +1484,19 @@
                 }
             }
 
+            var arrryOfColors = [
+                "rgba(153, 102, 255)", // violet
+                "rgb(255, 159, 64)",  // orange
+                "rgb(255, 205, 86)",  // yellow
+                "rgb(75, 192, 192)", // green
+                "rgb(54, 162, 235)", // blue
+            ]
+
             for(i=0;i<dDataSet.length;i++){
                 dSets.push({
-                    label: dDataSet[i].diagnosis,
-                    backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                            "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
-                        ],
-                    hoverBackgroundColor: "#0d6efd",
-                    borderColor: "#0d6efd",
+                    label: dDataSet[i].diagnosis,   
+                    borderColor: arrryOfColors[i],
+                    backgroundColor: arrryOfColors[i],
                     data:dDataSet[i].count,
                 })
             }
@@ -1553,23 +1562,17 @@
             for(i=0;i<cDataSet.length;i++){
                 cSets.push({
                     label: cDataSet[i].concern,
-                    backgroundColor: [
-                            "rgba(255, 99, 132, 1)", 
-                           "rgba(78, 115, 223, 1)",
-                            "#32CD32",
-                            "#800080"
-                        ],
-                    hoverBackgroundColor: "#0d6efd",
-                    borderColor: "#0d6efd",
+                    borderColor: arrryOfColors[i],
+                    backgroundColor: arrryOfColors[i],
                     data:cDataSet[i].count,
                 })
             }
-
 
             var dTrend={
                 labels: dateLabels,
                 datasets: dSets,
             };
+            
             var cTrend={
                 labels: dateLabels,
                 datasets: cSets,
@@ -1577,31 +1580,107 @@
             var config={
                 type: 'line',
                 data: dTrend,
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 25,
-                            bottom: 0
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 5,
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Disease Trend',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        },
+                        legend: {
+                            display: true,
                         }
-                    },                
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Days',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 12   // font size of the labels
+                                },
+                                stepSize: 5
+                            }
+                        },
+                    }              
                 }
             }
             var config2={
                 type: 'line',
                 data: cTrend,
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 25,
-                            bottom: 0
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 5,
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Complaints Trend',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        },
+                        legend: {
+                            display: true,
                         }
-                    },                
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Days',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 12   // font size of the labels
+                                },
+                                stepSize: 5
+                            }
+                        },
+                    }              
                 }
             }  
 

@@ -520,7 +520,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
     var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
-    var temp=[],temp2=[];
+    var temp=[], temp2=[];
     var temp3=[];
     var childSnapshotData, csData;
     var i,j,k,alreadyAddedTemp2,alreadyAddedTemp3;

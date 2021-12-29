@@ -131,8 +131,8 @@ exports.addClinicVisit = function(req, res){
             var historyKey = intakeRef.push(intakeHistory).key;
             for(i = 0; i < intakeArray.length; i++){
                 history = {
-                    medicine: intakeArray[i].medication,
-                    medicineName: intakeArray[i].med,
+                    medicine: intakeArray[i].med,
+                    medicineName: intakeArray[i].medication,
                     amount: parseInt(intakeArray[i].amount),
                     time: intakeArray[i].time
                 };

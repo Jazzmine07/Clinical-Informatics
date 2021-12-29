@@ -15,8 +15,8 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         medications = medications.exportVal();
                         console.log("medications in controller");
                         console.log(medications);
-                        temp.push({ // gettung all the medications regardless of grade level
-                            medicineName: medications.medicine,
+                        temp.push({ // getting all the medications regardless of grade level
+                            medicineName: medications.medicineName,
                         })
                     })
                     

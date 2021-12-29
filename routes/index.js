@@ -420,29 +420,27 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
 
   prom1 = userController.getUser();
   prom2 = studentController.getSections();
-  prom3 = studentController.getAllApeSched();
-  prom4 = studentController.getAllAdeSched();
+  prom3 = studentController.getAllSched();
+  
 
-  Promise.all([prom1, prom2, prom3,prom4]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     sections = result[1];
-    apeSchedule = result[2];
-    adeSchedule = result[3];
+    scheduleData = result[2];
+    
     var i,schedule=[];
-    console.log("APE and ADE")
-    for(i=0;i<apeSchedule.length;i++){
-      console.log(apeSchedule[i]);
-      console.log(adeSchedule[i]);
+    for(i=0;i<scheduleData.length;i++){
+      console.log(scheduleData[i]);
       schedule.push({
-        grade:apeSchedule[i].grade,
-        section:apeSchedule[i].section,
-        totalNumStudents:apeSchedule[i].numStudents,
-        apeDate:apeSchedule[i].apeDate,
-        apeTime:apeSchedule[i].apeTime,
-        apeSeen:apeSchedule[i].apeSeen,
-        adeDate:adeSchedule[i].adeDate,
-        adeTime:adeSchedule[i].adeTime,
-        adeSeen:adeSchedule[i].adeSeen
+        grade:scheduleData[i].grade,
+        section:scheduleData[i].section,
+        totalNumStudents:scheduleData[i].numStudents,
+        apeDate:scheduleData[i].apeDate,
+        apeTime:scheduleData[i].apeTime,
+        apeSeen:scheduleData[i].apeSeen,
+        adeDate:scheduleData[i].adeDate,
+        adeTime:scheduleData[i].adeTime,
+        adeSeen:scheduleData[i].adeSeen
       });
     }
     

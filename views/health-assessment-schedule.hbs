@@ -754,14 +754,14 @@
                                             <td><input type="time" id="persevereDETime"></td>                                                                                 
                                         </tr>
                                         <tr>
-                                            <td>Self-discipline</td>
+                                            <td>Self-Discipline</td>
                                             <td><input type="date" id="disciplinePEDate"></td>
                                             <td><input type="time" id="disciplinePETime"></td>
                                             <td><input type="date" id="disciplineDEDate"></td>
                                             <td><input type="time" id="disciplineDETime"></td>                                                                                        
                                         </tr>
                                         <tr>
-                                            <td>Self-giving</td>
+                                            <td>Self-Giving</td>
                                             <td><input type="date" id="givingPEDate"></td>
                                             <td><input type="time" id="givingPETime"></td>
                                             <td><input type="date" id="givingDEDate"></td>
@@ -984,8 +984,8 @@
                     {section:"Integrity", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""},                     
                     {section:"Patience", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""}, 
                     {section:"Perseverance", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""},
-                    {section:"Self-discipline", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""},
-                    {section:"Self-giving", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""}];            
+                    {section:"Self-Discipline", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""},
+                    {section:"Self-Giving", physicalDate: "", physicalTime: "", dentalDate: "", dentalTime: ""}];            
 
             for(var i = 0; i < inputs.length; i++){
                 if(i == 0){
@@ -1223,23 +1223,24 @@
             //}
 
             //uncomment me, JUST ME UWU 
-            //$.ajax({
-            //    url: '/addSchedule',
-            //    method: 'POST',
-            //    data: {
-            //        schedules: schedules,
-            //        g1: g1,
-            //        g2: g2,
-            //        g3: g3,
-            //        g4: g4,
-            //        g5: g5,
-            //        g6: g6
-            //    },
-            //    success: function(data) {
-            //        console.log("added");
-            //        window.location.href = "/health-assessment";
-            //    }
-            //});
+            $.ajax({
+                url: '/addSchedule',
+                method: 'POST',
+                data: {
+                    schoolYear:schoolYear,
+                    schedules: schedules,
+                    g1: g1,
+                    g2: g2,
+                    g3: g3,
+                    g4: g4,
+                    g5: g5,
+                    g6: g6
+                },
+                success: function(data) {
+                    console.log("added");
+                    window.location.href = "/health-assessment";
+                }
+            });
 
         });
     </script> 

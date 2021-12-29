@@ -7,6 +7,7 @@ const inventoryController = require('../Controller/inventoryController');
 const notificationController = require('../Controller/notificationController');
 const programController = require('../Controller/programController');
 const surveillanceController = require('../Controller/surveillanceController');
+const reportsController = require('../Controller/reportsController');
 const { loggedIn } = require('../Controller/userController');
 var expressHbs =  require('handlebars');
 
@@ -822,7 +823,9 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 //---------FORMS FOR INVENTORY MODULE----------------
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
+router.get('/getTop5MedsUsedMonth', reportsController.getTop5MedsUsedMonth);
 router.get('/getUsedMedicineDaily', inventoryController.getUsedMedicineDaily);
+router.get('/getMedicineInventoryList', inventoryController.getMedicineInventoryList);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

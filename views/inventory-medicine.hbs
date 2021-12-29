@@ -923,6 +923,15 @@
             console.log(details);
         });
 
+        $.get("/getMedicineInventoryList", function(inventoryList){
+            console.log("inventoryList in front end");
+            console.log(inventoryList);
+        });
+
+        $.get("/getTop5MedsUsedMonth", function(top5meds){
+            console.log(top5meds);
+        });
+
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
             var batchNum = row.find('td').eq(0).text();

@@ -76,6 +76,36 @@ exports.getMedicineInventory = function(){
     return promise;
 };
 
+// for front-end
+exports.getMedicineInventoryList = function(req, res){
+    var childSnapshotData, inventory = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+    
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("medicineInventory")){
+            inventoryRef.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    inventory.push({
+                        medicineID: innerChildSnapshot.key,
+                        batchNum: childSnapshotData.batchNum,
+                        med: childSnapshotData.medicine,
+                        qty: parseInt(childSnapshotData.quantity),
+                        unit: childSnapshotData.unit,
+                        purchDate: childSnapshotData.purchDate,
+                        expDate: childSnapshotData.expDate
+                    });
+                })
+                res.status(200).send(inventory);
+            })
+        } else {
+            res.status(200).send(inventory);
+        }
+    })
+};
+
 exports.getMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -85,8 +115,8 @@ exports.getMedicines = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("medicineInventory")){
-                inventoryRef.on('value',async (childSnapshot) => {
-                    await childSnapshot.forEach(function(innerChildSnapshot){
+                inventoryRef.on('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
                             medicine: childSnapshotData.medicine,
@@ -94,10 +124,10 @@ exports.getMedicines = function(){
                         })
                     })
 
-                    await temp.forEach(med => {
+                    temp.forEach(med => {
                         var found = false;
                         for(i = 0; i < filtered.length; i++){
-                            if(med.name == filtered[i].name){   // filters if same medicine name
+                            if(med.medicine == filtered[i].medicine){   // filters if same medicine name
                                 found = true;
                                 break;
                             } 
@@ -186,9 +216,6 @@ exports.getUsedMedicineDaily = function(req, res){
                     })
                 })
 
-                console.log("temp bago ifilter");
-                console.log(temp);
-                
                 temp.forEach(inventory => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
@@ -207,8 +234,6 @@ exports.getUsedMedicineDaily = function(req, res){
                         })
                     }    
                 })
-                console.log("filtered used medicine for the day");
-                console.log(filtered);
                 res.status(200).send(filtered);
             })
         } else {

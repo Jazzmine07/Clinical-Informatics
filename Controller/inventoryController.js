@@ -192,9 +192,9 @@ exports.getUsedMedicineDaily = function(req, res){
                 temp.forEach(inventory => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
-                        if(inventory.dateUpdated == filtered[i].dateUpdated){   // filters if same medicine name and same date
+                        if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same date
                             found = true;
-                            filtered[i].count++;
+                            filtered[i].usedInventory+=inventory.usedInventory;
                             break;
                         } 
                     }
@@ -204,7 +204,6 @@ exports.getUsedMedicineDaily = function(req, res){
                             medicineName: inventory.medicineName,
                             dateUpdated: inventory.dateUpdated,
                             usedInventory: inventory.usedInventory,
-                            count: 1,
                         })
                     }    
                 })

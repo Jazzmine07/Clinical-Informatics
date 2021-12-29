@@ -49,7 +49,6 @@ exports.addClinicVisit = function(req, res){
     var clinicVisitRef = database.ref("clinicVisit");
     var userRef = database.ref("clinicUsers");
     
-
     try {
         var update = {
             height: height,

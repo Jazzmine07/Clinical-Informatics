@@ -8,57 +8,51 @@ exports.login = (req, res) => {
   var email = req.body.email;
   var pass = req.body.password;
   var database = firebase.database();
-  var userRef = database.ref("clinicUsers");
-  var parentsRef = database.ref("medicineList");
+  var parentsRef = database.ref("parentUsers");
   var userInfo;
 
-  // var studentAccount = {
-  //   medicineName: 'chloe_torres@gmail.com'
-  // }
+  var parentAccount = {
+    email: 'mikaela_reyes@gmail.com',
+    password: 'manresa123'
+  }
 
-  //parentsRef.push(studentAccount);
-  //database.ref('parentUsers/' + studentAccount.idNum); // setting the path with id number as its pk
-  //database.ref('parentUsers/' + studentAccount.idNum).set(studentAccount); // adding other fields
+  var key = parentsRef.push(parentAccount).key;
 
-  // var parentInfo = {
-  //   motherName: 'Chloe Torres',
-  //   motherEmail: 'chloe_torres@gmail.com',
-  //   motherContact: "",
-  //   fatherName: 'Antonio Torres',
-  //   fatherEmail: 'antonio_torres@gmail.com',
-  //   fatherContact: "",
-  //   guardianName: 'Chloe Torres',
-  //   guardianEmail: 'chloe_torres@gmail.com',
-  //   guardianContact: "",
-  //   children: {
-  //     0: "275755",
-  //     1: "138088"
-  //   }
-  // }
+  var parentInfo = {
+    children: {
+      0: "485562",
+    }
+  }
+  database.ref('parentInfo/'+key).set(parentInfo);
 
-  // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02'); // setting the path with id number as its pk
-  // database.ref('parentInfo/-Mp5kNza9yViFuMTFT02').set(parentInfo); // adding other fields
+  var personalInfo = {
+    idNum: "485562",
+    firstName: 'Alex',
+    middleName: 'Santos',
+    lastName: 'Reyes',
+    studentType: 'Old',
+    grade: '6',
+    section: 'Integrity',
+    birthday: '2010-04-21', // yyyy-mm-dd
+    age: '11',
+    sex: 'Male',
+    address: 'Raja Sulayman 1200 Makati City',
+    motherName: 'Mikaela Reyes',
+    motherEmail: 'mikaela_reyes@gmail.com',
+    motherContact: '09569122173',
+    fatherName: 'Edwin Reyes',
+    fatherEmail: 'edwin_reyes@gmail.com',
+    fatherContact: '09285512439',
+    guardianName: 'Edwin Reyes',
+    guardianEmail: 'edwin_reyes@gmail.com',
+    guardianContact: '09285512439',
+    hasSpecialNeeds: "No",
+    nationality: "Filipino",
+    religion: "Born Again",
 
-  // var personalInfo = {
-  //   firstName: 'Harry',
-  //   middleName: 'English',
-  //   lastName: 'Potter',
-  //   studentType: 'New',
-  //   grade: '1',
-  //   section: 'Meekness',
-  //   birthday: '2013-07-01', // yyyy-mm-dd
-  //   age: '8',
-  //   sex: 'Male',
-  //   address: 'Metro Manila',
-  //   motherName: 'Lily Potter',
-  //   motherEmail: 'lily_potter@gmail.com',
-  //   fatherName: 'James Potter',
-  //   fatherEmail: 'james_potter@gmail.com',
-  //   guardianName: 'Lily Potter',
-  //   guardianEmail: 'lily_potter@gmail.com',
-  // }
-  // //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
-  // database.ref('studentInfo/' + 116383).set(personalInfo); // adding other fields
+  }
+  //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
+  database.ref('studentInfo/' + 485562).set(personalInfo); // adding other fields
 
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   if(email == "" && pass == ""){

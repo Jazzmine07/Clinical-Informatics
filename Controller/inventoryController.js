@@ -175,22 +175,14 @@ exports.getUsedMedicineDaily = function(req, res){
 
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("usedMedicine")){
-            inventoryRef.once('value', (yearSnapshot) => { // year
-                yearSnapshot.forEach(function(monthSnapshot){ // month
-                    monthSnapshot.forEach(function(daySnapshot){
-                        daySnapshot.forEach(function(childSnapshot){
-                            childSnapshot.forEach(function(innerChildSnapshot){
-                                data = innerChildSnapshot.exportVal();
-                                console.log("daySnapshot");
-                                console.log(data);
-                                temp.push({
-                                    medicineID: data.medicineID,
-                                    medicineName: data.medicineName,
-                                    date: data.date,
-                                    usedInventory: data.usedInventory,
-                                })
-                            })
-                        })
+            inventoryRef.once('value', (childSnapshot) => { // year
+                childSnapshot.forEach(function(innerChildSnapshot){ 
+                    data = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicineID: data.medicineID,
+                        medicineName: data.medicineName,
+                        dateUpdated: data.dateUpdated,
+                        usedInventory: data.usedInventory,
                     })
                 })
 
@@ -200,7 +192,7 @@ exports.getUsedMedicineDaily = function(req, res){
                 temp.forEach(inventory => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
-                        if(inventory.date == filtered[i].date){   // filters if same medicine name and same date
+                        if(inventory.dateUpdated == filtered[i].dateUpdated){   // filters if same medicine name and same date
                             found = true;
                             filtered[i].count++;
                             break;
@@ -210,7 +202,7 @@ exports.getUsedMedicineDaily = function(req, res){
                         filtered.push({
                             medicineID: inventory.medicineID,
                             medicineName: inventory.medicineName,
-                            date: inventory.date,
+                            dateUpdated: inventory.dateUpdated,
                             usedInventory: inventory.usedInventory,
                             count: 1,
                         })
@@ -227,13 +219,13 @@ exports.getUsedMedicineDaily = function(req, res){
 };
 
 exports.updateMedicineInventory = function(req, res){
-    var { medicineID, batchNum, medicineName, qty, amount, unit, purchDate, expDate, year, month, day } = req.body;
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var { medicineID, batchNum, medicineName, qty, amount, unit } = req.body;
     var used = parseInt(qty) - parseInt(amount);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
 
     var database = firebase.database();
-    var usedInventoryRef = database.ref("usedMedicine/"+year+"/"+month+"/"+day);
+    var usedInventoryRef = database.ref("usedMedicine/");
 
     var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
     inventoryRef.set(amount);   // update inventory
@@ -244,7 +236,7 @@ exports.updateMedicineInventory = function(req, res){
         medicineName: medicineName,
         usedInventory: used,
         unit: unit,
-        date: date
+        dateUpdated: date
     };
     usedInventoryRef.push(usedInventory);
 
@@ -255,52 +247,11 @@ exports.getUsedMedicineToday = function(){
     var childSnapshotData, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-
-    if(month == 1){
-        month = "January";
-    }
-    else if(month == 2){
-        month = "February";
-    }
-    else if(month == 3){
-        month = "March";
-    }
-    else if(month == 4){
-        month = "April";
-    }
-    else if(month == 5){
-        month = "May";
-    }
-    else if(month == 6){
-        month = "June";
-    }
-    else if(month == 7){
-        month = "July";
-    }
-    else if(month == 8){
-        month = "August";
-    }
-    else if(month == 9){
-        month = "September";
-    }
-    else if(month == 10){
-        month = "October";
-    }
-    else if(month == 11){
-        month = "November";
-    }
-    else if(month == 12){
-        month = "December";
-    }
-
+    
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("usedMedicine")){
-                database.ref("usedMedicine/"+year+"/"+month+"/"+day).once('value', async (childSnapshot) => {
+                database.ref("usedMedicine/").once('value', async (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
@@ -309,8 +260,6 @@ exports.getUsedMedicineToday = function(){
                             medicineName: childSnapshotData.medicineName,
                             usedInventory: childSnapshotData.usedInventory,
                             unit: childSnapshotData.unit,
-                            purchDate: childSnapshotData.purchDate,
-                            expDate: childSnapshotData.expDate
                         })
                     })
 

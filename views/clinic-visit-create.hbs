@@ -1157,8 +1157,9 @@
             var typedID = document.getElementById("studentVisit").value;
             
             $.get("/getVisitDetails", {studentID: typedID}, function(details){
-                 console.log("all details needed for clinic-visit create");
+                console.log("all details needed for clinic-visit create");
                 console.log(details);
+                
 
                 // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
                 var i;
@@ -1206,7 +1207,9 @@
                 console.log(intakeHistory);
 
                 // --------------------------------- LAST VISIT DETAILS ------------------------------
-                if(details.lastVisitDetails != undefined){
+                console.log("details.lastVisitDetails");
+                console.log(details.lastVisitDetails);
+                if(details.lastVisitDetails != ""){
                     $('#lvDate').html(details.lastVisitDetails.visitDate);
                     $('#lvTI').html(details.lastVisitDetails.timeIn);
                     $('#lvTO').html(details.lastVisitDetails.timeOut);
@@ -3216,14 +3219,15 @@
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
         }
 
-        function addIntakeHistory(medication, amount, time, taken) {
-            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+        function addIntakeHistory(medication, med, amount, time, taken) {
+            intakeArray.push({medication: medication, med: med, amount: amount, time: time, taken: taken});
         }
 
         var i = 0;  
 
         $('#addMedication').click(function(){
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var medicationTxt = $('#medicationVisit').find('option:selected').text();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
@@ -3234,9 +3238,9 @@
 
             var time =  $('#timeTaken').val();
             console.log(time);
-            addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
+            addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
 
-            addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+            addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
             namesArray = [];
             for(i = 0; i < medicationsArray.length; i++){
                 namesArray.push(medicationsArray[i].medication);

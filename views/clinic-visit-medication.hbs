@@ -593,7 +593,7 @@
                                     <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                         <option disabled="disabled" selected="true">Choose...</option>
                                         {{#each medicines}}
-                                            <option value="{{medicine}}">{{medicine}}</option>   
+                                            <option value="{{name}}">{{medicine}}</option>   
                                         {{/each}} 
                                     </select>                                                                   
                                 </div>
@@ -833,20 +833,21 @@
 
         var medicationsArray = [];
 
-        function addMedication(meds, amount, time) {
-            medicationsArray.push({medication: meds, amount: amount, time: time});
+        function addMedication(medication, med, amount, time) {
+            medicationsArray.push({medication: medication, med: med, amount: amount, time: time});
         }
 
         var i = 0;  
 
         $('#addMedication').click(function(){
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var medicationTxt = $('#medicationVisit').find('option:selected').text();
             var amount = document.getElementById("amountMed").value;
             var timeTaken = document.getElementById("timeTaken").value;
 
             /* TO DO: Add checkers for fields if empty */
 
-            addMedication(selectedMedication, amount, timeTaken);
+            addMedication(selectedMedication, medicationTxt, amount, timeTaken);
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ timeTaken +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;

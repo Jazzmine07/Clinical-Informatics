@@ -58,13 +58,13 @@ exports.addAPE = function(req, res){
     var h=weight;
     var b=bmi;
     var bs= bmiStatus;
-    console.log(bmiStatus);
+    //console.log(bmiStatus);
 
     console.log("section(1):" + section);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
-    var schedRef=database.ref("apeSchedule");
+    var schedRef=database.ref("haSchedule");
     var studentInfoRef=database.ref("studentInfo/"+id);
 
     var record = {
@@ -116,7 +116,7 @@ exports.addAPE = function(req, res){
                     snapshot.forEach(function(childSnapshot){
                         console.log(childSnapshot.exportVal());
                         console.log(childSnapshot.key);
-                        schedRef.child(childSnapshot.key).child("status").set("Accomplished");
+                        schedRef.child(childSnapshot.key).child("physicalStatus").set("Accomplished");
                     })
                 }
             })
@@ -166,8 +166,11 @@ exports.getSectionStudents = function(req, res){
 
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
-    var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0,c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
-    var p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
+    var t1PE=0,t2PE=0,t3PE=0,t4PE=0,t5PE=0,t6PE=0,c1PE=0,c2PE=0,c3PE=0,c4PE=0,c5PE=0,c6PE=0;
+    var pPE1=0,p2PE=0,p3PE=0,p4PE=0,p5PE=0,p6PE=0;
+    
+    var c1DE=0,c2DE=0,c3DE=0,c4DE=0,c5DE=0,c6DE=0;
+    var pPD1=0,p2DE=0,p3DE=0,p4DE=0,p5DE=0,p6DE=0;
     //t# - total of grade #;
     //c#- total of grade # that got APE
     //p# - percentage of c#/t#
@@ -175,7 +178,7 @@ exports.getAPEPercentage = function(req, res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
     var healthHistory = database.ref("studentHealthHistory");
-    var apeSchedRef= database.ref("apeSchedule");
+    var haSchedRef= database.ref("haSchedule");
 
     //Commented area is used to find the number of students who got APE already
     // studentRef.on('value', (snapshot) =>{
@@ -277,7 +280,7 @@ exports.getAPEPercentage = function(req, res){
     //     res.send(data);
     // })     
     
-    apeSchedRef.once('value', (snapshot) =>{
+    haSchedRef.child(schoolYear).once('value', (snapshot) =>{
         snapshot.forEach(function(childSnapshot){
             var childValues = childSnapshot.exportVal();
             var grade;
@@ -287,57 +290,93 @@ exports.getAPEPercentage = function(req, res){
 
             console.log("Sections"+childValues.section);
             if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
-                if(childValues.status=="Accomplished"){
-                    c1=c1+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c1PE=c1PE+1;
+                }
+                if(childValues.dentalStatus=="Accomplished"){
+                    c1DE=c1DE+1;
                 }
             }
             else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
-                if(childValues.status=="Accomplished"){
-                    c2=c2+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c2PE=c2PE+1;
+                }
+                if(childValues.dentalStatus=="Accomplished"){
+                    c2DE=c2DE+1;
                 }
             }
             else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
-                if(childValues.status=="Accomplished"){
-                    c3=c3+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c3PE=c3PE+1;
+                }
+                if(childValues.dentalStatus=="Accomplished"){
+                    c3DE=c3DE+1;
                 }
             }
             else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
-                if(childValues.status=="Accomplished"){
-                    c4=c4+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c4PE=c4PE+1;
+                }
+                if(childValues.dentalStatus=="Accomplished"){
+                    c4DE=c4DE+1;
                 }
             }         
             else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
-                if(childValues.status=="Accomplished"){
-                    c5=c5+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c5PE=c5PE+1;
+                }
+                if(childValues.dentallStatus=="Accomplished"){
+                    c5DE=c5DE+1;
                 }
             }
             else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
-                if(childValues.status=="Accomplished"){
-                    c6=c6+1;
+                if(childValues.physicalStatus=="Accomplished"){
+                    c6PE=c6PE+1;
+                }
+                if(childValues.dentalStatus=="Accomplished"){
+                    c6DE=c6DE+1;
                 }
             }
         }) 
         //computes for the percentage
-        p1=c1/6;
-        p2=c2/6;
-        p3=c3/6;
-        p4=c4/6;
-        p5=c5/6;
-        p6=c6/6;
+        p1PE=c1PE/6;
+        p2PE=c2PE/6;
+        p3PE=c3PE/6;
+        p4PE=c4PE/6;
+        p5PE=c5PE/6;
+        p6PE=c6PE/6;
+        p1DE=c1DE/6;
+        p2DE=c2DE/6;
+        p3DE=c3DE/6;
+        p4DE=c4DE/6;
+        p5DE=c5DE/6;
+        p6DE=c6DE/6;
     
         var data={
-            p1:p1,
-            p2:p2,
-            p3:p3,
-            p4:p4,
-            p5:p5,
-            p6:p6,
-            c1:c1,
-            c2:c2,
-            c3:c3,
-            c4:c4,
-            c5:c5,
-            c6:c6
+            p1PE:p1PE,
+            p2PE:p2PE,
+            p3PE:p3PE,
+            p4PE:p4PE,
+            p5PE:p5PE,
+            p6PE:p6PE,
+            c1PE:c1PE,
+            c2PE:c2PE,
+            c3PE:c3PE,
+            c4PE:c4PE,
+            c5PE:c5PE,
+            c6PE:c6PE,
+            p1DE:p1DE,
+            p2DE:p2DE,
+            p3DE:p3DE,
+            p4DE:p4DE,
+            p5DE:p5DE,
+            p6DE:p6DE,
+            c1DE:c1DE,
+            c2DE:c2DE,
+            c3DE:c3DE,
+            c4DE:c4DE,
+            c5DE:c5DE,
+            c6DE:c6DE
         };
         res.send(data);
     });

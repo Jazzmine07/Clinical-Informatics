@@ -901,6 +901,9 @@
             var progEnd = document.getElementById("progEnd").value
             var location = document.getElementById("location").value;
             var population = $("#population").val();
+
+            population = population.join(', ');
+            console.log(population);
  
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);

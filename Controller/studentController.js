@@ -953,7 +953,7 @@ loadStudentData= function (id){
     return record;
 }
 
-//function gets the APE schedules 
+//function gets the all schedules 
 exports.getAllSched=function(){
     //gets all the schedule created for the APE
     var currentTime = new Date()
@@ -999,7 +999,7 @@ exports.getAllSched=function(){
                 else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
                     grade="4";
                 }         
-                else if(childValues.section=="Trustwortiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+                else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
                     grade="5";
                 }
                 else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
@@ -1068,7 +1068,120 @@ exports.getAllSched=function(){
     return promise;
 }
 
-//function gets the ADE schedules
+exports.getAllPrevSched=function(req,res){
+    //gets all the schedule created for the APE
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    var sy;
+    //var month=1;
+    //var currYear=2021;
+    if(month>=6){
+        sy= (currYear-1) +"-"+ (currYear) ;  //2021-2022 -> 2020-2021
+    }
+    else{
+        sy= (currYear-2) +"-"+ (currYear-1) ; //2020-2021 -> 2019-2020
+    }
+
+    var database = firebase.database();
+    var apeSchedRef= database.ref("apeSchedule");
+    var studentRef = database.ref("studentInfo");
+    var sectionScheduleRef = database.ref("haSchedule")
+    var healthHistory= database.ref("studentHealthHistory");
+    var i;
+    var schedule=[];
+    
+    sectionScheduleRef.child(sy).once('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            var childValues = childSnapshot.exportVal();
+            console.log(snapshot.key); //school year
+            console.log(childSnapshot.key); //section Name
+            console.log(childValues); // schedule details
+            var students=[], studentsAccom=[];
+            var grade, done=false;
+            
+            if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
+                grade="1";
+            }
+            else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
+                grade="2";
+            }
+            else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
+                grade="3";
+            }
+            else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
+                grade="4";
+            }         
+            else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+                grade="5";
+            }
+            else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
+                grade="6";
+            }
+            
+            console.log("Grade Level:"+ grade);
+            //get total student count in a section
+            studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                if(ss.exists()){
+                    ss.forEach(function(cs){
+                        var values= cs.exportVal();
+                        console.log("Section inside"+values.section);
+                        students.push({
+                            key: cs.key,
+                            section:values.section
+                        });
+                    })
+                    console.log("Students in "+ childValues.section +":"+students.length);
+                }
+            });
+            console.log(students);
+
+            if(done==false){
+                for(i=0;i<students.length;i++){
+                    healthHistory.child(students[i].key).child("ape").on('value',(ss)=>{
+                        ss.forEach(function(cs){
+                            console.log("Hello");
+                            console.log(cs.key);
+                            if(cs.key.toString() == sy){
+                                studentsAccom.push(cs.key);
+                            }
+                        })
+                    });
+                };
+                done=true;
+            }
+
+            if(done==true){
+                if(childValues.physicalDate =="" || childValues.physicalDate ==null || childValues.physicalDate == undefined){
+                    
+                }
+                record={
+                    grade:grade,
+                    section:childValues.section,
+                    numStudents:students.length,
+                    apeDate:childValues.physicalDate,
+                    apeTime:childValues.physicalTime,
+                    adeDate:childValues.dentalDate,
+                    adeTime:childValues.dentalTime,
+                }
+                //console.log(record);
+                schedule.push(record);
+            }
+  
+        })
+        schedule.push(sy);
+        console.log("Schedule size:" + schedule.length);
+        console.log(schedule)
+        res.send (schedule);
+        
+    })
+
+}
+
+
+
+
+// TO BE REMOVED
 exports.getAllAdeSched=function(){
     var currentTime = new Date()
     var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)

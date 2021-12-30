@@ -850,8 +850,237 @@
 
     <script>
         //var i = 0;
+        $(document).ready(function() {
         var inputs = $("td input");
         var schedules = []; //for loading prev sched
+
+        $.post("/getAllPrevSchedules", function(data){
+            console.log(data);
+            var i,j;
+            var peDate,deDate;
+
+            for(i=0;i<data.length;i++){
+                if(i==data.length-1){
+                    document.getElementById("schoolYear").value=data[i];
+                }
+                else{
+                    if(data[i].section =="Faithfulness"){
+                        document.getElementById("faithPEDate").value=data[i].apeDate
+                        document.getElementById("faithDEDate").value=data[i].adeDate
+                        document.getElementById("faithPETime").value=data[i].apeTime
+                        document.getElementById("faithDETime").value=data[i].adeTime;
+                    }
+                    else if(data[i].section =="Honesty"){
+                        document.getElementById("honestyPEDate").value=data[i].apeDate
+                        document.getElementById("honestyDEDate").value=data[i].adeDate
+                        document.getElementById("honestyPETime").value=data[i].apeTime
+                        document.getElementById("honestyDETime").value=data[i].adeTime;
+                    }
+                    else if(data[i].section =="Humility"){
+                        document.getElementById("humilityPEDate").value=data[i].apeDate
+                        document.getElementById("humilityDEDate").value=data[i].adeDate
+                        document.getElementById("humilityPETime").value=data[i].apeTime
+                        document.getElementById("humilityDETime").value=data[i].adeTime;
+                    }
+                    else if(data[i].section =="Politeness"){
+                        document.getElementById("politePEDate").value=data[i].apeDate
+                        document.getElementById("politeDEDate").value=data[i].adeDate
+                        document.getElementById("politePETime").value=data[i].apeTime
+                        document.getElementById("politeDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Sincerity"){
+                        document.getElementById("sincerePEDate").value=data[i].apeDate
+                        document.getElementById("sincereDEDate").value=data[i].adeDate
+                        document.getElementById("sincerePETime").value=data[i].apeTime
+                        document.getElementById("sincereDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Truthfulness"){
+                        document.getElementById("truthPEDate").value=data[i].apeDate
+                        document.getElementById("truthDEDate").value=data[i].adeDate
+                        document.getElementById("truthPETime").value=data[i].apeTime
+                        document.getElementById("truthDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Charity"){
+                        document.getElementById("charityPEDate").value=data[i].apeDate
+                        document.getElementById("charityDEDate").value=data[i].adeDate
+                        document.getElementById("charityPETime").value=data[i].apeTime
+                        document.getElementById("charityDETime").value=data[i].adeTime;
+                    }   
+                    else if(data[i].section =="Gratefulness"){
+                        document.getElementById("gratefulPEDate").value=data[i].apeDate
+                        document.getElementById("gratefulDEDate").value=data[i].adeDate
+                        document.getElementById("gratefulPETime").value=data[i].apeTime
+                        document.getElementById("gratefulDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Gratitude"){
+                        document.getElementById("gratitudePEDate").value=data[i].apeDate
+                        document.getElementById("gratitudeDEDate").value=data[i].adeDate
+                        document.getElementById("gratitudePETime").value=data[i].apeTime
+                        document.getElementById("gratitudeDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Helpfulness"){
+                        document.getElementById("helpfulPEDate").value=data[i].apeDate
+                        document.getElementById("helpfulDEDate").value=data[i].adeDate
+                        document.getElementById("helpfulPETime").value=data[i].apeTime
+                        document.getElementById("helpfulDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Meekness"){
+                        document.getElementById("meekPEDate").value=data[i].apeDate
+                        document.getElementById("meekDEDate").value=data[i].adeDate
+                        document.getElementById("meekPETime").value=data[i].apeTime
+                        document.getElementById("meekDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Simplicity"){
+                        document.getElementById("simplePEDate").value=data[i].apeDate
+                        document.getElementById("simpleDEDate").value=data[i].adeDate
+                        document.getElementById("simplePETime").value=data[i].apeTime
+                        document.getElementById("simpleDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Courtesy"){
+                        document.getElementById("courtPEDate").value=data[i].apeDate
+                        document.getElementById("courtDEDate").value=data[i].adeDate
+                        document.getElementById("courtPETime").value=data[i].apeTime
+                        document.getElementById("courtDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Kindness"){
+                        document.getElementById("kindPEDate").value=data[i].apeDate
+                        document.getElementById("kindDEDate").value=data[i].adeDate
+                        document.getElementById("kindPETime").value=data[i].apeTime
+                        document.getElementById("kindDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Piety"){
+                        document.getElementById("pietyPEDate").value=data[i].apeDate
+                        document.getElementById("pietyDEDate").value=data[i].adeDate
+                        document.getElementById("pietyPETime").value=data[i].apeTime
+                        document.getElementById("pietyDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Prayerfulness"){
+                        document.getElementById("prayerPEDate").value=data[i].apeDate
+                        document.getElementById("prayerDEDate").value=data[i].adeDate
+                        document.getElementById("prayerPETime").value=data[i].apeTime
+                        document.getElementById("prayerDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Respect"){
+                        document.getElementById("respectPEDate").value=data[i].apeDate
+                        document.getElementById("respectDEDate").value=data[i].adeDate
+                        document.getElementById("respectPETime").value=data[i].apeTime
+                        document.getElementById("respectDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Trust"){
+                        document.getElementById("trustPEDate").value=data[i].apeDate
+                        document.getElementById("trustDEDate").value=data[i].adeDate
+                        document.getElementById("trustPETime").value=data[i].apeTime
+                        document.getElementById("trustDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Equality"){
+                        document.getElementById("equalPEDate").value=data[i].apeDate
+                        document.getElementById("equalDEDate").value=data[i].adeDate
+                        document.getElementById("equalPETime").value=data[i].apeTime
+                        document.getElementById("equalDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Fidelity"){
+                        document.getElementById("fidelityPEDate").value=data[i].apeDate
+                        document.getElementById("fidelityDEDate").value=data[i].adeDate
+                        document.getElementById("fidelityPETime").value=data[i].apeTime
+                        document.getElementById("fidelityDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Harmony"){
+                        document.getElementById("harmonyPEDate").value=data[i].apeDate
+                        document.getElementById("harmonyDEDate").value=data[i].adeDate
+                        document.getElementById("harmonyPETime").value=data[i].apeTime
+                        document.getElementById("harmonyDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Purity"){
+                        document.getElementById("purityPEDate").value=data[i].apeDate
+                        document.getElementById("purityDEDate").value=data[i].adeDate
+                        document.getElementById("purityPETime").value=data[i].apeTime
+                        document.getElementById("purityDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Solidarity"){
+                        document.getElementById("solidPEDate").value=data[i].apeDate
+                        document.getElementById("solidDEDate").value=data[i].adeDate
+                        document.getElementById("solidPETime").value=data[i].apeTime
+                        document.getElementById("solidDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Unity"){
+                        document.getElementById("unityPEDate").value=data[i].apeDate
+                        document.getElementById("unityDEDate").value=data[i].adeDate
+                        document.getElementById("unityPETime").value=data[i].apeTime
+                        document.getElementById("unityDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Dependability"){
+                        document.getElementById("dependPEDate").value=data[i].apeDate
+                        document.getElementById("dependDEDate").value=data[i].adeDate
+                        document.getElementById("dependPETime").value=data[i].apeTime
+                        document.getElementById("dependDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Flexibility"){
+                        document.getElementById("flexPEDate").value=data[i].apeDate
+                        document.getElementById("flexDEDate").value=data[i].adeDate
+                        document.getElementById("flexPETime").value=data[i].apeTime
+                        document.getElementById("flexDETime").value=data[i].adeTime;
+                    } else if(data[i].section =="Reliability"){
+                        document.getElementById("relyPEDate").value=data[i].apeDate
+                        document.getElementById("relyDEDate").value=data[i].adeDate
+                        document.getElementById("relyPETime").value=data[i].apeTime
+                        document.getElementById("relyDETime").value=data[i].adeTime;
+                    } else if(data[i].section =="Responsibility"){
+                        document.getElementById("responsiblePEDate").value=data[i].apeDate
+                        document.getElementById("responsibleDEDate").value=data[i].adeDate
+                        document.getElementById("responsiblePETime").value=data[i].apeTime
+                        document.getElementById("responsibleDETime").value=data[i].adeTime;
+                    } else if(data[i].section =="Serenity"){
+                        document.getElementById("serenePEDate").value=data[i].apeDate
+                        document.getElementById("sereneDEDate").value=data[i].adeDate
+                        document.getElementById("serenePETime").value=data[i].apeTime
+                        document.getElementById("sereneDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Trustworthiness"){
+                        document.getElementById("trustworthyPEDate").value=data[i].apeDate
+                        document.getElementById("trustworthyDEDate").value=data[i].adeDate
+                        document.getElementById("trustworthyPETime").value=data[i].apeTime
+                        document.getElementById("trustworthyDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Abnegation"){
+                        document.getElementById("abnegatePEDate").value=data[i].apeDate
+                        document.getElementById("abnegateDEDate").value=data[i].adeDate
+                        document.getElementById("abnegatePETime").value=data[i].apeTime
+                        document.getElementById("abnegateDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Integrity"){
+                        document.getElementById("integrityPEDate").value=data[i].apeDate
+                        document.getElementById("integrityDEDate").value=data[i].adeDate
+                        document.getElementById("integrityPETime").value=data[i].apeTime
+                        document.getElementById("integrityDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Patience"){
+                        document.getElementById("patiencePEDate").value=data[i].apeDate
+                        document.getElementById("patienceDEDate").value=data[i].adeDate
+                        document.getElementById("patiencePETime").value=data[i].apeTime
+                        document.getElementById("patienceDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Perseverance"){
+                        document.getElementById("perseverePEDate").value=data[i].apeDate
+                        document.getElementById("persevereDEDate").value=data[i].adeDate
+                        document.getElementById("perseverePETime").value=data[i].apeTime
+                        document.getElementById("persevereDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Self-Discipline"){
+                        document.getElementById("disciplinePEDate").value=data[i].apeDate
+                        document.getElementById("disciplineDEDate").value=data[i].adeDate
+                        document.getElementById("disciplinePETime").value=data[i].apeTime
+                        document.getElementById("disciplineDETime").value=data[i].adeTime;
+                    } 
+                    else if(data[i].section =="Self-Giving"){
+                        document.getElementById("givingPEDate").value=data[i].apeDate
+                        document.getElementById("givingDEDate").value=data[i].adeDate
+                        document.getElementById("givingPETime").value=data[i].apeTime
+                        document.getElementById("givingDETime").value=data[i].adeTime;
+                    } 
+                }
+            }
+        })
+
 
         //var schedulePEArray = [];
         //var scheduleDEArray = [];
@@ -1243,6 +1472,7 @@
             });
 
         });
+        })
     </script> 
 </body>
 </html>

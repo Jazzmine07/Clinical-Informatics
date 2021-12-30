@@ -812,7 +812,7 @@ router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getApePercentageChart', studentController.getAPEPercentage);
 router.post('/getAdePercentageChart', studentController.getADEPercentage);
-// router.post('/getSchedules', studentController.getAllApeSched);
+router.post('/getAllPrevSchedules', studentController.getAllPrevSched);
 router.post('/loadPrevData', studentController.loadPrevData);
 router.post('/addWeightHeight',studentController.addWeightHeight);
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);

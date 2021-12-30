@@ -68,10 +68,10 @@ exports.getTopDisease=function(vcArray){
             }
             else{ //if not empty
                 for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
-                        if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            vcWeek[j].count = vcWeek[j].count + 1;
-                            alreadyAdded = true;
-                        }
+                    if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                        vcWeek[j].count = vcWeek[j].count + 1;
+                        alreadyAdded = true;
+                    }
                 }
                 if(alreadyAdded != true){
                     vcWeek.push({

@@ -6,37 +6,29 @@ exports.addProgram = function(req, res){
     var database = firebase.database();
     var programRef = database.ref("programs");
     var time = Math.round(+new Date()/1000);
-    var i, key;
 
     var program = {
         progType: progType,
         progName: progName,
         description: description,
         objectives: objectives,
+        population: population,
         startDate: startDate,
         endDate: endDate,
         location: location,
         timestamp: time
     };
 
-    key = programRef.push(program).key;
-
-    for(i = 0; i < population.length; i++){
-        var populationGroup = {
-            population: population[i]
-        }
-        database.ref('programs/' + key + '/population').push(populationGroup);
-    }
-    
+    programRef.push(program);
     res.status(200).send();
 }
 
-exports.getProgramsList = function(req, res){
+exports.getProgramsList = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
     var programRef = database.ref("programs");
     var query = programRef.orderByChild("startDate");
-    var childSnapshotData, programs =[], population = [];
+    var childSnapshotData, programs =[];
 
     var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {
@@ -44,21 +36,17 @@ exports.getProgramsList = function(req, res){
                 query.on('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal(); 
-                        innerChildSnapshot.child('population').forEach(function(populationGroup){
-                            population.push({
-                                population: populationGroup.child('population').val()
-                            })
-                        })
-                    
                         programs.push({
                             startDate: childSnapshotData.startDate,
                             endDate: childSnapshotData.endDate,
                             progName: childSnapshotData.progName,
                             progType: childSnapshotData.progType,
-                            population: population,
+                            population: childSnapshotData.population,
                             location: childSnapshotData.location
-                        })         
+                        })
                     })
+                    console.log("programs");
+                    console.log(programs);   
                     resolve(programs);
                 })
             }

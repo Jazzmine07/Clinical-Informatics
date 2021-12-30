@@ -205,7 +205,7 @@ exports.getUsedMedicineDaily = function(req, res){
 
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("usedMedicine")){
-            inventoryRef.on('value', (childSnapshot) => { // year
+            inventoryRef.once('value', (childSnapshot) => { // year
                 childSnapshot.forEach(function(innerChildSnapshot){ 
                     data = innerChildSnapshot.exportVal();
                     temp.push({

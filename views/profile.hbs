@@ -1673,17 +1673,17 @@
                                                 <th>Amount</th>
                                                 <th>Date</th>
                                                 <th>Time</th>
-                                                <th class="text-center">Taken in Clinic</th>
+                                                {{!-- <th class="text-center">Taken in Clinic</th> --}}
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
+                                        <tbody id="dynamicIntake">
+                                            {{!-- <tr>
                                                 <td>Paracetamol Tablet 500mg</td>
                                                 <td>1</td>
                                                 <td>04/12/2021</td>
                                                 <td>12:03</td>
                                                 <td class="text-center"><input type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked></td>
-                                            </tr>
+                                            </tr> --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -1715,7 +1715,8 @@
                                             <tr>
                                                 <th>Medicine</th>
                                                 <th>Purpose</th>
-                                                <th>Dosage</th>
+                                                <th>Dose</th>
+                                                <th>Interval</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>Status</th>
@@ -1725,7 +1726,8 @@
                                             <tr>
                                                 <td>Amoxicillin</td>
                                                 <td>For ear infection</td>
-                                                <td>250mg every 8 hours for 7 days</td>
+                                                <td>250mg</td>
+                                                <td>every 8 hours</td>
                                                 <td>04/12/2021</td>
                                                 <td>04/19/2021</td>
                                                 <td>Completed</td>
@@ -1759,116 +1761,74 @@
                                     <div class="form-row mb-2">
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Paracetamol (tablet and suspension)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="antacid">
+                                                <label class="form-check-label" for="antacid">Antacid (Kremil-S)</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Ibuprofen</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="cetirizine">
+                                                <label class="form-check-label" for="cetirizine">Cetirizine</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Mefenamic acid</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="clonidine">
+                                                <label class="form-check-label" for="clonidine">Clonidine (Catapres)</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Cold medicines (Neozep, Decolgen no-drowse/regular)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="decolgen">
+                                                <label class="form-check-label" for="decolgen">Decolgen</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Anti-allergy medication (Loratidine, Cetirizine, Antacid/Kremil-S)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="epinephrine">
+                                                <label class="form-check-label" for="epinephrine">Epinephrine</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Epinephrine</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="hydrite">
+                                                <label class="form-check-label" for="hydrite">Oral rehydration solution (Hydrite)</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Salbutamol nebules</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="ibuprofen">
+                                                <label class="form-check-label" for="ibuprofen">Ibuprofen</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Clonidine (Catapres)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="loratidine">
+                                                <label class="form-check-label" for="loratidine">Loratidine</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Oral rehydration solution (Hydrite)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="mefenamic">
+                                                <label class="form-check-label" for="mefenamic">Mefenamic Acid</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Mupirocin ointment</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="neozep">
+                                                <label class="form-check-label" for="neozep">Neozep</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Mouthwash (Betadine, Bactidol)</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="paracetamol">
+                                                <label class="form-check-label" for="paracetamol">Paracetamol</label>
                                             </div>
                                         </div>
                                         <div class="col-6 font-weight-normal">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">liniments (Efficascent oil, White flower) </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Povidone Iodine (Betadine)</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Hydrogen peroxide</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Analgesic gel (Salonpas gel)</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">Eye drops (Visine, Visine Refresh)</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Pyralvex solution</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked">
-                                                <label class="form-check-label" for="flexCheckChecked">Calamine lotion (Caladryl)</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 font-weight-normal">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="flexCheckChecked" checked>
-                                                <label class="form-check-label" for="flexCheckChecked">70% alcohol</label>
+                                                <input class="form-check-input" type="checkbox" onclick="return false;" value="" id="salbutamol">
+                                                <label class="form-check-label" for="salbutamol">Salbutamol</label>
                                             </div>
                                         </div>
                                     </div>
@@ -2101,7 +2061,7 @@
                     document.getElementById("age").innerHTML=data.age;
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
-                    document.getElementById("heightText").innerHTML=data.height;
+                    document.getElementById("heightText").innerHTML=data.height + "cm";
                     document.getElementById("address").innerHTML=data.address;
                     document.getElementById("fatherName").innerHTML=data.fatherName;
                     document.getElementById("fatherEmail").innerHTML=data.fatherEmail;
@@ -2171,11 +2131,59 @@
             $.get("/getNotAllowedMedication", {studentID: typedID}, function(data){
                 console.log("not allowed medication of a specfic student");
                 console.log(data);
+                var i;
+
+                for(i = 0; i < data.length; i++){
+                    if(data[i].medicine == "antacid" && data[i].isAllowed == true){
+                        document.getElementById("antacid").checked = true;
+                    }
+                    else if(data[i].medicine == "cetirizine " && data[i].isAllowed == true){
+                        document.getElementById("cetirizine").checked = true;
+                    }
+                    else if(data[i].medicine == "clonidine" && data[i].isAllowed == true){
+                        document.getElementById("clonidine").checked = true;
+                    }
+                    else if(data[i].medicine == "decolgen" && data[i].isAllowed == true){
+                        document.getElementById("decolgen").checked = true;
+                    }
+                    else if(data[i].medicine == "epinephrine" && data[i].isAllowed == true){
+                        document.getElementById("epinephrine").checked = true;
+                    }
+                    else if(data[i].medicine == "hydrite" && data[i].isAllowed == true){
+                        document.getElementById("hydrite").checked = true;
+                    }
+                    else if(data[i].medicine == "ibuprofen" && data[i].isAllowed == true){
+                        document.getElementById("ibuprofen").checked = true;
+                    }
+                    else if(data[i].medicine == "loratidine" && data[i].isAllowed == true){
+                        document.getElementById("loratidine").checked = true;
+                    }
+                    else if(data[i].medicine == "mefenamic" && data[i].isAllowed == true){
+                        document.getElementById("mefenamic").checked = true;
+                    }
+                    else if(data[i].medicine == "neozep" && data[i].isAllowed == true){
+                        document.getElementById("neozep").checked = true;
+                    }
+                    else if(data[i].medicine == "paracetamol" && data[i].isAllowed == true){
+                        document.getElementById("paracetamol").checked = true;
+                    }
+                    else if(data[i].medicine == "salbutamol" && data[i].isAllowed == true){
+                        document.getElementById("salbutamol").checked = true;
+                    }
+                }
             });
 
             $.get("/getIntakeHistory", {studentID: typedID}, function(data){
                 console.log("medicine intake history of a specfic student");
                 console.log(data);
+
+                var i;
+
+                for(i = 0; i < data.length; i++){
+                    $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
+                }
+
+            
             });
 
             $.get("/getVisits", {studentID: typedID}, function(data){

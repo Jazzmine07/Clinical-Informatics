@@ -24,31 +24,10 @@
     <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <style>
-        .clickable-row {
-            cursor: pointer;
-        }
-    </style>
-    
-    <style>             
-        .content {
-            margin: 15px 15px 0px 15px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
-
-        #or {
-            width: 100%; 
-            text-align: center; 
-            border-bottom: 2px solid #d1d3e2; 
-            line-height: 0.1em;
-            margin-top: 20px; 
-            margin-bottom: 20px; 
-        } 
-
-        #or span { 
-            background:#fff; 
-            padding:0 10px; 
+        .dtrg-group.dtrg-start{
+            background-color: #f8f9fc !important;
+            color: #4e72df;
+            font-weight: bold;
         }
     </style>
 
@@ -164,20 +143,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -407,12 +372,12 @@
                                     <tbody>
                                         {{#each inventory}}
                                             <tr id="{{details.medicineID}}">
-                                                <td>{{details.batchNum}}</td>
-                                                <td>{{details.med}}</td>
-                                                <td>{{details.qty}}</td>
-                                                <td>{{details.unit}}</td>
-                                                <td>{{formatDate details.purchDate}}</td>
-                                                <td>{{formatDate details.expDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.batchNum}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.med}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.qty}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.unit}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate details.purchDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate details.expDate}}</td>
                                                 <td>
                                                     <div class="input-group">
                                                         <input class="form-control" placeholder="Update inventory..." type="number" name="amount" min="0">
@@ -723,8 +688,53 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
                         <div class="d-flex flex-row-reverse">
-                            <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
-                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
+                            <a data-toggle="modal" style="color: white;" data-target="#modalFI" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-dolly-flatbed mr-1 text-white-50"></i> Forecast Medicine Inventory  </a>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalFI" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" style="max-width: 1200px; margin-top: 100px;" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Forecast Medicine Inventory</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th class="bg-primary" style="color: white;">Item Name</th>
+                                                <th class="bg-primary" style="color: white;">Estimated Quantity Needed</th>
+                                                <th class="bg-primary" style="color: white;">Conservative Estimate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Paracetamol Suspension 250mg/5mL</td>
+                                                <td style="text-align: center;">50</td>
+                                                <td style="text-align: center;">40</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Antacid (Kremil-S) Chewable Tablet 178mg/233mg/30mg</td>
+                                                <td style="text-align: center;">39</td>
+                                                <td style="text-align: center;">27</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Neozep Non-Drowsy Tablet 10mg/500mg</td>
+                                                <td style="text-align: center;">44</td>
+                                                <td style="text-align: center;">23</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                     
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                        <button type="submit" id="searchDEBtn" class="btn btn-success">Download</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -736,7 +746,7 @@
                         <div class="card-body">
                             <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv"></div>
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="medicineTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="usedMedicineTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th class="bg-primary" style="color: white;">Batch Number</th>
@@ -849,87 +859,102 @@
 
     <!-- Page level custom scripts -->
     <script src="public/js/demo/datatables-demo.js"></script>
-    
+    <script src="https://cdn.datatables.net/rowgroup/1.1.4/js/dataTables.rowGroup.min.js"></script>
 
     <script>
-        $(document).on('click', '.clickable-row', function(e){
-            window.location = "/clinic-visit/create";
-        });
-    </script>
-    <script>
-        var collapsible = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < collapsible.length; i++) {
-            collapsible[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight){
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                } 
-            });
-        }
-    </script>
-    <script>
+    $(document).ready(function(){
         const now = new Date();
         var year = now.getFullYear();
+        var lastYear = now.getFullYear() - 1;
         var month = now.getMonth() + 1;
-        var date = now.getDate();
-
-        if(month == 1){
-            month = "January";
-        }
-        else if(month == 2){
-            month = "February";
-        }
-        else if(month == 3){
-            month = "March";
-        }
-        else if(month == 4){
-            month = "April";
-        }
-        else if(month == 5){
-            month = "May";
-        }
-        else if(month == 6){
-            month = "June";
-        }
-        else if(month == 7){
-            month = "July";
-        }
-        else if(month == 8){
-            month = "August";
-        }
-        else if(month == 9){
-            month = "September";
-        }
-        else if(month == 10){
-            month = "October";
-        }
-        else if(month == 11){
-            month = "November";
-        }
-        else if(month == 12){
-            month = "December";
-        }
+        //var date = now.getDate();
+        var date = 29;
 
         console.log("year: " + year);
         console.log("month: " + month);
         console.log("date: " + date);
 
-        $.get("/getUsedMedicineDaily", function(details){
-            console.log(details);
-        });
+        //var monthDay = month;
+        //monthDay += '-';
+        //monthDay += date;
+
+        var invetoryMedicine = [];
+        
 
         $.get("/getMedicineInventoryList", function(inventoryList){
             console.log("inventoryList in front end");
             console.log(inventoryList);
+            invetoryMedicine = inventoryList;
+
+            $.get("/getUsedMedicineDaily", function(details){
+            console.log(details);
+
+                //for(var i = 0; i < details.length; i++){
+                //    console.log("inside 1st for loop");
+                //    var [yearUpdated, monthUpdated, dayUpdated] = details[i].dateUpdated.split('-');
+                //    if(month == monthUpdated){
+                //        console.log("check me");
+                //        for(var j = 0; j < invetoryMedicine.length; j++){
+                //            if(invetoryMedicine[j].med == details[i].medicineName){
+                //                console.log("inside 2nd for loop");
+                //                console.log(details[i].medicineName);
+                //                console.log(parseInt(details[i].usedInventory));
+
+                //                var stringID = '#';
+                //                stringID += invetoryMedicine[j].medicineID;
+
+                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
+                //                var row = $(stringID).closest("tr").next(".dtrg-end").css("color", "red");
+    
+                  //          }
+                            
+                   //     }
+                  //  }
+                //}
+
+                for(var i = 0; i < invetoryMedicine.length; i++){
+                    var sum = 0; 
+                    for(var j = 0; j < details.length; j++){
+                        var [yearUpdated, monthUpdated, dayUpdated] = details[j].dateUpdated.split('-');
+                        if(lastYear == yearUpdated && month == monthUpdated){
+                            if(invetoryMedicine[i].med == details[j].medicineName){
+                                
+                                console.log(details[j].medicineName);
+                                console.log(parseInt(details[j].usedInventory));
+                                sum += parseInt(details[j].usedInventory);
+                                console.log("sum: " + sum);
+
+                                var total = sum;
+                                total = total/24;
+                                var ltd = 6.3*7;
+                                console.log("ltd: " + ltd);
+                                
+                                var stringID = '#';
+                                stringID += invetoryMedicine[i].medicineID;
+                                
+                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
+                                var text = $(stringID).closest("tr").next(".dtrg-end").text();
+                                text = text.replace( /^\D+/g, '');
+                                if(Math.ceil(ltd) >= parseInt(text)){
+                                    $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
+                                    $(stringID).closest("tr").next(".dtrg-end").css("font-weight", "bold");
+                                }
+                                
+                                console.log("this is my ltd");
+                                console.log(Math.ceil(ltd));
+
+                            }
+                        }
+                    }
+                }
+            });
+
         });
 
+        
+
         $.get("/getTop5MedsUsedMonth", function(top5meds){
-            console.log(top5meds);
+            //console.log(top5meds);
         });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
@@ -950,7 +975,7 @@
             var medicineID = $(this).closest('tr').attr('id');
 
             console.log("id " + medicineID);
-    
+                
             if(amount < 0){
                 val.find("input").addClass('is-invalid');
             } 
@@ -970,7 +995,29 @@
                     unit: unit, 
                 });
             }
+
+            $('#medicineTable').DataTable({
+                destroy: true,
+                pageLength: 100,
+                order: [[1, 'asc']],
+                rowGroup: {
+                    endRender: function (rows, group ) {
+                        var total = rows
+                            .data()
+                            .pluck(2)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+
+                        return ' Total Quantity: '+
+                            $.fn.dataTable.render.number(',', '.', 0).display( total );
+                    },
+                    dataSrc: 1
+                }
+            });
+            
         });
+    });
     </script>
     <script>
         var ctx = document.getElementById("top5medsByGrade");

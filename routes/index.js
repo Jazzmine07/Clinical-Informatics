@@ -24,6 +24,55 @@ expressHbs.registerHelper('ifEquals', function(arg1, options) {
   return options.inverse(this);
 });
 
+expressHbs.registerHelper('ifSBFP', function(arg1, options) {
+  if(arg1 === "School-Based Feeding Program (SBFP)") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifWINS', function(arg1, options) {
+  if(arg1 === "Water, Sanitation, and Hygiene (WASH) in Schools (WinS)") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifPACP', function(arg1, options) {
+  if(arg1 === "Pest and Animal Control Program (PACP)") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifERSF', function(arg1, options) {
+  if(arg1 === "Evaluation and Repair of School Facilities") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifEFSQ', function(arg1, options) {
+  if(arg1 === "Evaluation of Food Safety and Quality") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifSBP', function(arg1, options) {
+  if(arg1 === "Education/Awareness/Skill-based Program") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
+expressHbs.registerHelper('ifWMP', function(arg1, options) {
+  if(arg1 === "Weight Management Program") {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 expressHbs.registerHelper('concat', function(num) {
     return "Grade " + num;
 });

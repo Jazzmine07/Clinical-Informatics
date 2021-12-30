@@ -24,31 +24,10 @@
     <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <style>
-        .clickable-row {
-            cursor: pointer;
-        }
-    </style>
-    
-    <style>             
-        .content {
-            margin: 15px 15px 0px 15px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
-
-        #or {
-            width: 100%; 
-            text-align: center; 
-            border-bottom: 2px solid #d1d3e2; 
-            line-height: 0.1em;
-            margin-top: 20px; 
-            margin-bottom: 20px; 
-        } 
-
-        #or span { 
-            background:#fff; 
-            padding:0 10px; 
+        .dtrg-group.dtrg-start{
+            background-color: #f8f9fc !important;
+            color: #4e72df;
+            font-weight: bold;
         }
     </style>
 
@@ -449,12 +428,12 @@
                                     <tbody>
                                         {{#each inventory}}
                                             <tr id="{{supplyID}}">
-                                                <td>{{batchNum}}</td>
-                                                <td>{{supply}}</td>
-                                                <td>{{qty}}</td>
-                                                <td>{{unit}}</td>
-                                                <td>{{formatDate purchDate}}</td>
-                                                <td>{{formatDate expDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{batchNum}}</td>
+                                                <td style="vertical-align: middle !important;">{{supply}}</td>
+                                                <td style="vertical-align: middle !important;">{{qty}}</td>
+                                                <td style="vertical-align: middle !important;">{{unit}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate purchDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate expDate}}</td>
                                                 <td>
                                                     <div class="input-group">
                                                         <input class="form-control" placeholder="Update inventory..." type="number" name="amount" min="0">
@@ -541,28 +520,8 @@
 
     <!-- Page level custom scripts -->
     <script src="public/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.1.4/js/dataTables.rowGroup.min.js"></script>
 
-    <script>
-        $(document).on('click', '.clickable-row', function(e){
-            window.location = "/clinic-visit/create";
-        });
-    </script>
-    <script>
-        var collapsible = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < collapsible.length; i++) {
-            collapsible[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-            content.style.maxHeight = null;
-            } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-            } 
-        });
-        }
-    </script>
     <script>
         $('#supplyTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
@@ -591,6 +550,24 @@
                 qtyCell.text(amount);
                 $.post("/updateSupplyInventory", {supplyID: supplyID, amount: amount});
             }
+            $('#supplyTable').DataTable({
+                destroy: true,
+                order: [[1, 'asc']],
+                rowGroup: {
+                    endRender: function (rows, group ) {
+                        var total = rows
+                            .data()
+                            .pluck(2)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+
+                        return ' Total Quantity: '+
+                            $.fn.dataTable.render.number(',', '.', 0).display( total );
+                    },
+                    dataSrc: 1
+                }
+            });
         });
     </script>
 </body>

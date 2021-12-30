@@ -94,7 +94,7 @@
         }
         .tracking-item .tracking-date span {
         color:#888;
-        font-size:85%;
+        font-size:100%;
         padding-left:.4rem
         }
         .tracking-item .tracking-content {
@@ -105,7 +105,7 @@
         .tracking-item .tracking-content span {
         display:block;
         color:#888;
-        font-size:85%
+        font-size:100%
         }
         .tracking-item .tracking-icon {
         line-height:2.6rem;
@@ -119,25 +119,25 @@
         background-color:#fff;
         color:#fff
         }
-        .tracking-item .tracking-icon.status-sponsored {
+        .tracking-item .tracking-icon.status-sbfp {
         background-color:#f68
         }
-        .tracking-item .tracking-icon.status-delivered {
+        .tracking-item .tracking-icon.status-wins {
         background-color:#4cbb87
         }
-        .tracking-item .tracking-icon.status-outfordelivery {
+        .tracking-item .tracking-icon.status-pacp {
         background-color:#f5a551
         }
-        .tracking-item .tracking-icon.status-deliveryoffice {
+        .tracking-item .tracking-icon.status-ersf {
         background-color:#f7dc6f
         }
-        .tracking-item .tracking-icon.status-attemptfail {
+        .tracking-item .tracking-icon.status-efsq {
         background-color:#b789c7
         }
-        .tracking-item .tracking-icon.status-exception {
+        .tracking-item .tracking-icon.status-sbp {
         background-color:#d26759
         }
-        .tracking-item .tracking-icon.status-inforeceived {
+        .tracking-item .tracking-icon.status-wmp {
         background-color:#214977
         }
         .tracking-item .tracking-icon.status-intransit {
@@ -588,7 +588,7 @@
                     </div> --}}
                                   
                     <div class="row">
-                        <div class="col-md-6 col-lg-6">
+                        <div class="col-md-12 col-lg-12">
                             <div id="tracking-pre">
 
                             </div>
@@ -600,19 +600,63 @@
                                 <div class="tracking-list">
                                     {{#each programs}}                  
                                     <div class="tracking-item">
-                                        <div class="tracking-icon status-outfordelivery">
-                                            <svg class="svg-inline--fa fa-shipping-fast fa-w-20" aria-hidden="true" data-prefix="fas" data-icon="shipping-fast" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
-                                                <path fill="currentColor" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"></path>
-                                            </svg>
+                                        {{#ifSBFP progType}}
+                                        <div class="tracking-icon status-sbfp">
+                                            <i class="fas fa-fw fa-carrot"></i>
                                             <!-- <i class="fas fa-shipping-fast"></i> -->
                                         </div>
-                                        <div class="tracking-date">{{formatDate startDate}}<span>Time of Program</span></div>
+                                        {{/ifSBFP}}
+
+                                        {{#ifWINS progType}}
+                                        <div class="tracking-icon status-wins">
+                                            <i class="fas fa-fw fa-tint"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWINS}}
+
+                                        {{#ifPACP progType}}
+                                        <div class="tracking-icon status-pacp">
+                                            <i class="fas fa-fw fa-bug"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifPACP}}
+
+                                        {{#ifERSF progType}}
+                                        <div class="tracking-icon status-ersf">
+                                            <i class="fas fa-fw fa-wrench"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifERSF}}
+
+                                        {{#ifEFSQ progType}}
+                                        <div class="tracking-icon status-efsq">
+                                            <i class="fas fa-fw fa-utensils"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifEFSQ}}
+
+                                        {{#ifSBP progType}}
+                                        <div class="tracking-icon status-sbp">
+                                            <i class="fas fa-fw fa-briefcase-medical"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifSBP}}
+
+                                        {{#ifWMP progType}}
+                                        <div class="tracking-icon status-wmp">
+                                            <i class="fas fa-fw fa-weight"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWMP}}
+
+                                        <div class="tracking-date">{{formatDate startDate}}<span>{{formatDate endDate}}</span></div>
                                         <div class="tracking-content">{{progName}}<span>{{progType}}</span></div>
-                                            {{#each population}}
-                                            <div class="tracking-content mt-1">{{population}}</div>
-                                            {{/each}}
-                                            <span>{{location}}</span>
+                                        {{#each population}}
+                                        <div class="tracking-content mt-1">{{population}}</div>
+                                        {{/each}}
+                                        <div class="tracking-content">{{location}}</div>
                                     </div>
+                                    {{/each}}
                                     {{!-- <div class="tracking-item">
                                         <div class="tracking-icon status-intransit">
                                             <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
@@ -673,7 +717,6 @@
                                         <div class="tracking-date">Jul 06, 2018<span>02:02 PM</span></div>
                                         <div class="tracking-content">Shipment designated to MALAYSIA.<span>HONG KONG, HONGKONG</span></div>
                                     </div> --}}
-                                    {{/each}}
                                 </div>
                             </div>
                         </div>
@@ -753,164 +796,6 @@
 
     <!-- Page level custom scripts -->
     <script src="public/js/demo/datatables-demo.js"></script>
-
-    <script>
-        $(document).on('click', '.clickable-row', function(e){
-            window.location = "/clinic-visit/create";
-        });
-    </script>
-    <script>
-        var collapsible = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < collapsible.length; i++) {
-            collapsible[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-            content.style.maxHeight = null;
-            } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-            } 
-        });
-        }
-    </script>
-     <script type='text/javascript'>
-        $(document).ready(function() {
-        var currentTime = new Date()
-        var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
-        var currYear = currentTime.getFullYear();
-        //var month=1;
-        //var currYear=2021;
-        if(month>=6){
-            var sy= currYear +"-"+ (currYear+1) ;
-        }
-        else{
-            var sy= (currYear-1) +"-"+ (currYear) ;
-        }
-        console.log(sy);
-        document.getElementById("schoolYear").value=sy;
-        document.getElementById("schoolYearDE").value=sy;
-
-        $.post("/getApePercentageChart",{schoolYear:sy}, function(data){
-            var p1=data.p1 * 100 +"%";
-            var p2=data.p2 * 100 +"%";
-            var p3=data.p3 * 100 +"%";
-            var p4=data.p4 * 100 +"%";
-            var p5=data.p5 * 100 +"%";
-            var p6=data.p6 * 100 +"%";
-            
-            $('#percent1').html("(" + data.c1 + "/ 6 )");
-            $('#percent2').html("(" + data.c2 + "/ 6 )");
-            $('#percent3').html("(" + data.c3 + "/ 6 )");
-            $('#percent4').html("(" + data.c4 + "/ 6 )");
-            $('#percent5').html("(" + data.c5 + "/ 6 )");
-            $('#percent6').html("(" + data.c6 + "/ 6 )");
-            
-            document.getElementById("g1prog").style.width= p1;
-            document.getElementById("g2prog").style.width= p2;
-            document.getElementById("g3prog").style.width= p3;
-            document.getElementById("g4prog").style.width= p4;
-            document.getElementById("g5prog").style.width= p5;
-            document.getElementById("g6prog").style.width= p6;
-            
-        });
-        $.post("/getAdePercentageChart",{schoolYear:sy}, function(data){
-            var p1=data.p1 * 100 +"%";
-            var p2=data.p2 * 100 +"%";
-            var p3=data.p3 * 100 +"%";
-            var p4=data.p4 * 100 +"%";
-            var p5=data.p5 * 100 +"%";
-            var p6=data.p6 * 100 +"%";
-            
-            $('#dentalpercent1').html("(" + data.c1 + "/ 6 )");
-            $('#dentalpercent2').html("(" + data.c2 + "/ 6 )");
-            $('#dentalpercent3').html("(" + data.c3 + "/ 6 )");
-            $('#dentalpercent4').html("(" + data.c4 + "/ 6 )");
-            $('#dentalpercent5').html("(" + data.c5 + "/ 6 )");
-            $('#dentalpercent6').html("(" + data.c6 + "/ 6 )");
-            
-            document.getElementById("g1dental").style.width= p1;
-            document.getElementById("g2dental").style.width= p2;
-            document.getElementById("g3dental").style.width= p3;
-            document.getElementById("g4dental").style.width= p4;
-            document.getElementById("g5dental").style.width= p5;
-            document.getElementById("g6dental").style.width= p6;
-            
-        });
-
-            $("#searchBtn").click(function(){
-                console.log("clicked?");
-                                                
-                var schoolYear = $('#schoolYear').val();
-                console.log(schoolYear);
-                
-                var section = $('#sectionPE').val(); 
-                console.log(section);
-
-                var id = $('#studentPE').val(); 
-                console.log(name);
-
-                localStorage.setItem("schoolYear",schoolYear);
-                localStorage.setItem("section",section);
-                localStorage.setItem("id",id);
-                localStorage.setItem("sectionStudentIndex", 0);
-
-                $.ajax({
-                    url: '/getSectionStudents',
-                    method: 'POST',
-                    data: {
-                        section: section,
-                        schoolYear: schoolYear,
-                        studentId: id
-                        //timeStamp: forSortDate,
-                    },
-                    success: function(data) {
-                        console.log(data[0]);
-                        localStorage.myArray = JSON.stringify(data);
-                        window.location.href = "/health-assessment/physical";
-                    }
-                });
-            
-            });
-
-            $("#searchDEBtn").click(function(){
-                console.log("clicked?");
-                                                
-                var schoolYear = $('#schoolYearDE').val();
-                console.log(schoolYear);
-                
-                var section = $('#sectionDE').val(); 
-                console.log(section);
-
-                var id = $('#studentDE').val(); 
-                console.log(name);
-
-                localStorage.setItem("schoolYear",schoolYear);
-                localStorage.setItem("section",section);
-                localStorage.setItem("id",id);
-                localStorage.setItem("sectionStudentIndex", 0);
-
-                $.ajax({
-                    url: '/getSectionStudents',
-                    method: 'POST',
-                    data: {
-                        section: section,
-                        schoolYear: schoolYear,
-                        studentId: id
-                        //timeStamp: forSortDate,
-                    },
-                    success: function(data) {
-                        console.log(data[0]);
-                        localStorage.myArray = JSON.stringify(data);
-                        window.location.href = "/health-assessment/dental";
-                    }
-                });
-            
-            });
-
-        });
-    </script>
     
 </body>
 

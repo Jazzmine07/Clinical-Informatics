@@ -5,7 +5,6 @@ exports.addProgram = function(req, res){
         population, startDate, endDate, location } = req.body;
     var database = firebase.database();
     var programRef = database.ref("programs");
-    var time = Math.round(+new Date()/1000);
 
     var program = {
         progType: progType,
@@ -16,7 +15,6 @@ exports.addProgram = function(req, res){
         startDate: startDate,
         endDate: endDate,
         location: location,
-        timestamp: time
     };
 
     programRef.push(program);

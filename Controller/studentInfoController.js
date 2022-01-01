@@ -132,8 +132,6 @@ exports.getStudentVisits = function(req, res){
                     notes: childSnapshotData.notes,
                 })
             })
-            console.log("student visits in controller");
-            console.log(details);
             res.status(200).send(details);
         } else {
             res.status(200).send(details);

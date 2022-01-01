@@ -12,9 +12,8 @@ exports.getDashboard = function(req, res){
         clinicVisitRef.orderByChild("visitDate").equalTo(date).once('value', (snapshot) => { 
             snapshot.forEach(function(childSnapshot) {
                 childSnapshotData = childSnapshot.exportVal();
-                console.log(childSnapshot.key);
                 visitCount++;
-                console.log(visitCount);
+
                 if(childSnapshotData.status == "Sent To Class"){
                     sentClass++;
                 } else if(childSnapshotData.status == "Hospitalized"){
@@ -625,262 +624,10 @@ exports.viewClinicVisitForm = function(req){
                 status: temp[0].status,
                 notes: temp[0].notes
             }
-            console.log(details);
             resolve(details);
         })
     })
     return promise;
-};
-
-
-// This function is called in clinic-visit-create
-exports.getVisitDetails = function(req, res){
-    var student = req.query.studentID;
-    var database = firebase.database();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var userRef = database.ref("clinicUsers");
-    var studentRef = database.ref("studentInfo/"+ student);
-    var historyRef = database.ref("intakeHistory");
-    var medicineRef = database.ref("studentHealthHistory/"+student+"/allowedMedicines");
-    var immuneHistoryRef = database.ref("studentHealthHistory/"+student+"/immuneHistory");
-    var vaccineRef = database.ref("vaccineList");
-    var inventoryRef = database.ref("medicineInventory");
-    var temp = [], invTemp = [], visits = [], intakeMedications = [], intakeHistory = [], notAllowed = [], filtered = [], vaccineList = [], immunizationHistory = [];
-    var snapshotData, childSnapshotData;
-    var studentInfo, lastVisitDetails;
-
-    clinicVisitRef.orderByChild("id").equalTo(student).once('value', (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                visits.push({
-                    idNum: childSnapshotData.id,
-                    studentName: childSnapshotData.studentName,
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.nurseName,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    weight: childSnapshotData.weight,
-                    height: childSnapshotData.height,
-                    bodyTemp: childSnapshotData.bodyTemp,
-                    systolicBP: childSnapshotData.systolicBP,
-                    diastolicBP: childSnapshotData.diastolicBP,
-                    pulseRate: childSnapshotData.pulseRate,
-                    respirationRate: childSnapshotData.respirationRate,
-                    visitReason: childSnapshotData.visitReason,
-                    treatment: childSnapshotData.treatment,
-                    diagnosis: childSnapshotData.diagnosis,
-                    status: childSnapshotData.status,
-                    notes: childSnapshotData.notes,
-                })
-            })
-            
-            // getting last visit of the student
-            if(visits.length == 1){
-                lastVisitDetails = {
-                    idNum: visits[0].idNum,
-                    studentName: visits[0].studentName,
-                    grade: visits[0].grade,
-                    section: visits[0].section,
-                    visitDate: visits[0].visitDate,
-                    attendingNurse: visits[0].attendingNurse,
-                    timeIn: visits[0].timeIn,
-                    timeOut: visits[0].timeOut,
-                    weight: visits[0].weight,
-                    height: visits[0].height,
-                    bodyTemp: visits[0].bodyTemp,
-                    systolicBP: visits[0].systolicBP,
-                    diastolicBP: visits[0].diastolicBP,
-                    pulseRate: visits[0].pulseRate,
-                    respirationRate: visits[0].respirationRate,
-                    visitReason: visits[0].visitReason,
-                    treatment: visits[0].treatment,
-                    diagnosis: visits[0].diagnosis,
-                    status: visits[0].status,
-                    notes: visits[0].notes
-                }
-            } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
-                lastVisitDetails = {
-                    idNum: visits[visits.length-1].idNum,
-                    studentName: visits[visits.length-1].studentName,
-                    grade: visits[visits.length-1].grade,
-                    section: visits[visits.length-1].section,
-                    visitDate: visits[visits.length-1].visitDate,
-                    attendingNurse: visits[visits.length-1].attendingNurse,
-                    timeIn: visits[visits.length-1].timeIn,
-                    timeOut: visits[visits.length-1].timeOut,
-                    weight: visits[visits.length-1].weight,
-                    height: visits[visits.length-1].height,
-                    bodyTemp: visits[visits.length-1].bodyTemp,
-                    systolicBP: visits[visits.length-1].systolicBP,
-                    diastolicBP: visits[visits.length-1].diastolicBP,
-                    pulseRate: visits[visits.length-1].pulseRate,
-                    respirationRate: visits[visits.length-1].respirationRate,
-                    visitReason: visits[visits.length-1].visitReason,
-                    treatment: visits[visits.length-1].treatment,
-                    diagnosis: visits[visits.length-1].diagnosis,
-                    status: visits[visits.length-1].status,
-                    notes: visits[visits.length-1].notes
-                }  
-            }
-        } else {
-            lastVisitDetails = "";
-        }
-    })  
-
-    historyRef.orderByChild("id").equalTo(student).once('value', (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                childSnapshot.child("medications").forEach(function(innerChild){
-                    innerChildData = innerChild.exportVal();
-                    intakeMedications.push({
-                        medicine: innerChildData.medicine,
-                        amount: innerChildData.amount,
-                        time: innerChildData.time
-                    })
-                })
-                
-                intakeHistory.push({
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.attendingNurse,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    medications: intakeMedications
-                });
-            });
-        } else {
-            history = [];
-        }
-    })
-
-    historyRef.once('value', (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                immunizationHistory.push({
-                    dateGiven: childSnapshotData.dateGiven,
-                    name: childSnapshotData.name,
-                    purpose: childSnapshotData.purpose,
-                })
-            });
-        } else {
-            immunizationHistory = [];
-        }
-    })
-
-    // getting list of vaccines
-    vaccineRef.once('value', (list) => {
-        list.forEach(function(vaccine){
-            console.log(vaccine.key);
-            vaccineList.push({
-                vaccineName: vaccine.key
-            })
-        })
-    })
-
-    medicineRef.once('value', (snapshot) => {
-        if(snapshot.exists()){
-            var lastUpdated = snapshot.child('lastUpdated').val();
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                if(childSnapshotData.isAllowed == false){
-                    notAllowed.push({
-                        medicine: childSnapshot.key,
-                        lastUpdated: lastUpdated,
-                    })
-                }
-            })
-        } else {
-            notAllowed = [];
-        }
-    })
-
-    // databaseRef.once('value', (snapshot) => {
-    //     if(snapshot.hasChild("medicineInventory")){
-    //         inventoryRef.on('value',async (childSnapshot) => {
-    //             await childSnapshot.forEach(function(innerChildSnapshot){
-    //                 childSnapshotData = innerChildSnapshot.exportVal();
-    //                 invTemp.push({
-    //                     medicine: childSnapshotData.medicine,
-    //                     name: childSnapshotData.name,
-    //                     dosageForm: childSnapshotData.dosageForm,
-    //                     strength: childSnapshotData.strength,
-    //                 })
-    //             })
-
-    //             await invTemp.forEach(med => {
-    //                 var found = false;
-    //                 for(i = 0; i < filtered.length; i++){
-    //                     if(med.medicine == filtered[i].medicine){   // filters if same medicine name
-    //                         found = true;
-    //                         break;
-    //                     } 
-    //                 }
-    //                 if(!found){
-    //                     filtered.push({
-    //                         medicine: med.medicine,
-    //                         name: med.name,
-    //                         dosageForm: med.dosageForm,
-    //                         strength: med.strength
-    //                     })
-    //                 }    
-    //             })
-    //         })
-    //     } else {
-    //         filtered = [];
-    //     }
-    // })
-
-    studentRef.once('value', (snapshot) => {
-        if(snapshot.exists()){
-            snapshotData = snapshot.exportVal();
-            studentInfo = {
-                firstName: snapshotData.firstName,
-                middleName: snapshotData.middleName,
-                lastName: snapshotData.lastName,
-                grade: snapshotData.grade,
-                section: snapshotData.section,
-                studentType: snapshotData.studentType,
-                birthday: snapshotData.birthday,
-                nationailty: snapshotData.nationality,
-                religion: snapshotData.religion,
-                age: snapshotData.age,
-                sex: snapshotData.sex,
-                height: snapshotData.height,
-                weight: snapshotData.weight,
-                address: snapshotData.address,
-                fatherName: snapshotData.fatherName,
-                fatherEmail: snapshotData.fatherEmail,
-                fatherContact: snapshotData.fatherContact,
-                motherName: snapshotData.motherName,
-                motherEmail: snapshotData.motherEmail,
-                motherContact: snapshotData.motherContact,
-                guardianName: snapshotData.guardianName,
-                guardianEmail: snapshotData.guardianEmail,
-                guardianContact: snapshotData.guardianContact,
-                pediaName: snapshotData.pediaName,
-                pediaEmail:snapshotData.pediaEmail,
-                pediaContact: snapshotData.pediaContact,
-                dentistName:snapshotData.dentistName,
-                dentistEmail: snapshotData.dentistEmail,
-                dentistContact: snapshotData.dentistContact,
-                preferredHospital: snapshotData.preferredHospital,
-                hospitalAddress: snapshotData.hospitalAddress
-            }
-        } else {
-            studentInfo = "";
-        }
-        res.status(200).send({
-            studentInfo: studentInfo,
-            lastVisitDetails: lastVisitDetails,
-            visits: visits,
-            intakeHistory: intakeHistory,
-            notAllowed: notAllowed,
-            immunizationHistory: immunizationHistory,
-            vaccineList: vaccineList
-        });
-    })
 };
 
 exports.getClinicVisits = function(){
@@ -1016,7 +763,6 @@ exports.getIncidenceList = function(req, res){
                             studentName: childSnapshotData.studentName,
                         })         
                     })
-                    console.log(reports);
                     resolve(reports);
                 })
             }
@@ -1098,5 +844,4 @@ exports.getAllVisits = function(req,res){
             res.send (visits);    
         }
     })
-    
 };

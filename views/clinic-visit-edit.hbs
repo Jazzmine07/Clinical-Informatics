@@ -1804,125 +1804,123 @@
         }
 
         var notAllowedMedicines = [];
-        var weight, height, age, sex;
+        var weight, height, age, fullAge, sex;
         var studentID = $('#studentID').val();
-        //var studentName, lastName, firstName, middleName, gradeSection, studentType, sex, birthday, age, nationality, religion, address;
-        //var fatherName, fatherEmail, fatherContact, motherName, motherEmail, motherContact, guardianName, guardianEmail, guardianContact;
-        //var pediaName, pediaEmail, pediaContact, dentistName, dentistEmail, dentistContact, preferredHospital, hospitalAddress;
+        var studentName, lastName, firstName, middleName, gradeSection, studentType, sex, birthday, age, nationality, religion, address;
+        var fatherName, fatherEmail, fatherContact, motherName, motherEmail, motherContact, guardianName, guardianEmail, guardianContact;
+        var pediaName, pediaEmail, pediaContact, dentistName, dentistEmail, dentistContact, preferredHospital, hospitalAddress;
 
-        //$.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
-        //    studentName = studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName;
-        //    lastName = studentInfo.lastName;
-        //    firstName = studentInfo.firstName;
-        //    middleName = studentInfo.middleName;
-        //    gradeSection = "Grade " + studentInfo.grade + " - " + studentInfo.section;
-        //    studentType = studentInfo.studentType;
-        //    sex = studentInfo.sex;
-        //    birthday birthdayage = studentInfo.birthday;
-        //    age = studentInfo.age + " years old";
-        //    nationality = studentInfo.nationality;
-        //    religion = studentInfo.religion;
-        //    address = studentInfo.address;
-        //    fatherName = studentInfo.fatherName,
-        //     fatherEmail = studentInfo.fatherEmail,
-        //    fatherContact = studentInfo.fatherContact,
-        //    motherName = studentInfo.motherName,
-        //    motherEmail = studentInfo.motherEmail,
-        //    motherContact = studentInfo.motherContact,
-        //    guardianName = studentInfo.guardianName,
-        //    guardianEmail = studentInfo.guardianEmail,
-        //    guardianContact = studentInfo.guardianContact,
-        //    pediaName = studentInfo.pediaName,
-        //    pediaEmail = studentInfo.pediaEmail,
-        //    pediaContact = studentInfo.pediaContact,
-        //    dentistName = studentInfo.dentistName,
-        //    dentistEmail = studentInfo.dentistEmail,
-        //    dentistContact = studentInfo.dentistContact,
-        //    preferredHospital = studentInfo.preferredHospital,
-        //    hospitalAddress = studentInfo.hospitalAddress
-        // });
+        $.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
+            console.log(studentInfo);
+            studentName = studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName;
+            lastName = studentInfo.lastName;
+            firstName = studentInfo.firstName;
+            middleName = studentInfo.middleName;
+            gradeSection = "Grade " + studentInfo.grade + " - " + studentInfo.section;
+            studentType = studentInfo.studentType;
+            sex = studentInfo.sex;
+            birthday = studentInfo.birthday;
+            age = studentInfo.age;
+            fullAge = studentInfo.age + " years old";
+            nationality = studentInfo.nationality;
+            religion = studentInfo.religion;
+            address = studentInfo.address;
+            fatherName = studentInfo.fatherName,
+            fatherEmail = studentInfo.fatherEmail,
+            fatherContact = studentInfo.fatherContact,
+            motherName = studentInfo.motherName,
+            motherEmail = studentInfo.motherEmail,
+            motherContact = studentInfo.motherContact,
+            guardianName = studentInfo.guardianName,
+            guardianEmail = studentInfo.guardianEmail,
+            guardianContact = studentInfo.guardianContact,
+            pediaName = studentInfo.pediaName,
+            pediaEmail = studentInfo.pediaEmail,
+            pediaContact = studentInfo.pediaContact,
+            dentistName = studentInfo.dentistName,
+            dentistEmail = studentInfo.dentistEmail,
+            dentistContact = studentInfo.dentistContact,
+            preferredHospital = studentInfo.preferredHospital,
+            hospitalAddress = studentInfo.hospitalAddress
+        });
+
+        console.log(firstName);
 
         function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
 
             // --------------------------------- STUDENT PROFILE ------------------------------
-            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
-                console.log("Student info");
-                console.log(studentInfo);
-                
-                if(!typedID && !typedID.value){
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
-                    document.getElementById('studentDiv').style.display = "none"; 
-                    document.getElementById('errorDiv').style.display = "block";  
-                    document.getElementById('lastVisit').style.display = "none";
-                    document.getElementById("clinicVisitForm").reset();
+            
+            if(!typedID && !typedID.value){
+                $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
+                document.getElementById('studentDiv').style.display = "none"; 
+                document.getElementById('errorDiv').style.display = "block";  
+                document.getElementById('lastVisit').style.display = "none";
+                document.getElementById("clinicVisitForm").reset();
 
-                }
-                else if(studentInfo.firstName == null){ // if data is null so meaning no student with that id number
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
-                    document.getElementById('studentDiv').style.display = "none";                     
-                    document.getElementById('errorDiv').style.display = "block";
-                    document.getElementById('lastVisit').style.display = "none";                   
-                    document.getElementById("clinicVisitForm").reset();
-                } 
-                else {
-                    document.getElementById('errorDiv').style.display = "none";   // hide error message 
-                    $('#headerNameCollapse').html(typedID);
-                    // Header
-                    $('#nameHeaderVisit').html(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
-                    $('#idHeaderVisit').html(typedID);
-                    //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
+            }
+            else if(firstName == null){ // if data is null so meaning no student with that id number
+                $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
+                document.getElementById('studentDiv').style.display = "none";                     
+                document.getElementById('errorDiv').style.display = "block";
+                document.getElementById('lastVisit').style.display = "none";                   
+                document.getElementById("clinicVisitForm").reset();
+            } 
+            else {
+                document.getElementById('errorDiv').style.display = "none";   // hide error message 
+                $('#headerNameCollapse').html(typedID);
+                // Header
+                $('#nameHeaderVisit').html(studentName);
+                $('#idHeaderVisit').html(typedID);
+                //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
 
-                    // personal info
-                    $('#visitLastName').html(studentInfo.lastName);
-                    $('#visitFirstName').html(studentInfo.firstName);
-                    $('#visitMiddleName').html(studentInfo.middleName);
+                // personal info
+                $('#visitLastName').html(lastName);
+                $('#visitFirstName').html(firstName);
+                $('#visitMiddleName').html(middleName);
 
-                    if(studentInfo.grade && studentInfo.section)
-                        $('#gradeSection').html("Grade " + studentInfo.grade + " - " + studentInfo.section);
-                        
-                    if(studentInfo.studentType)
-                        if(studentInfo.studentType == "old" || studentInfo.studentType == "Old")
-                            $('#studentTypeHeader').html("Old Student");
-                        else if(studentInfo.studentType == "new" || studentInfo.studentType == "New")
-                            $('#studentTypeHeader').html("New Student");    
-
-                    if(studentInfo.sex == "Female")
-                        document.getElementById("studentPic").src = "public/img/female.svg";
-                    else if(studentInfo.sex == "Male")
-                        document.getElementById("studentPic").src = "public/img/male.svg";
-
-                    $('#visitBirthday').html(studentInfo.birthday);
-                    //$('#visitNationality').html(studentInfo.nationality);
-                    //$('#visitReligion').html(studentInfo.religion);
-                    $('#visitAge').html(studentInfo.age + " years old");
-                    age = studentInfo.age;
-                    $('#visitSex').html(studentInfo.sex);
-                    sex = studentInfo.sex;
-                    $('#visitAddress').html(studentInfo.address);
-
-                    // contacts
-                    if(studentInfo.fatherName)
-                        $('#visitFN').html(studentInfo.fatherName);
+                if(gradeSection)
+                    $('#gradeSection').html(gradeSection);
                     
-                    if(studentInfo.fatherEmail)
-                        $('#visitFE').html(studentInfo.fatherEmail);
+                if(studentType)
+                    if(studentType == "old" || studentType == "Old")
+                        $('#studentTypeHeader').html("Old Student");
+                    else if(studentType == "new" || studentType == "New")
+                        $('#studentTypeHeader').html("New Student");    
 
-                    if(studentInfo.fatherContact)
-                        $('#visitFC').html(studentInfo.fatherContact);
+                if(sex == "Female")
+                    document.getElementById("studentPic").src = "public/img/female.svg";
+                else if(sex == "Male")
+                    document.getElementById("studentPic").src = "public/img/male.svg";
 
-                    if(studentInfo.motherName) 
-                        $('#visitMN').html(studentInfo.motherName);
+                $('#visitBirthday').html(birthday);
+                //$('#visitNationality').html(nationality);
+                //$('#visitReligion').html(religion);
+                $('#visitAge').html(fullAge);
+                $('#visitSex').html(sex);
+                $('#visitAddress').html(address);
 
-                    if(studentInfo.motherEmail)    
-                        $('#visitME').html(studentInfo.motherEmail);
+                // contacts
+                if(fatherName)
+                    $('#visitFN').html(fatherName);
+                
+                if(fatherEmail)
+                    $('#visitFE').html(fatherEmail);
 
-                    if(studentInfo.motherContact)    
-                        $('#visitMC').html(studentInfo.motherContact);
+                if(fatherContact)
+                    $('#visitFC').html(fatherContact);
 
-                    document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
-                }
-            });
+                if(motherName) 
+                    $('#visitMN').html(motherName);
+
+                if(motherEmail)    
+                    $('#visitME').html(motherEmail);
+
+                if(motherContact)    
+                    $('#visitMC').html(motherContact);
+
+                document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+            }
 
             // --------------------------------- LAST VISIT DETAILS ------------------------------
             $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){

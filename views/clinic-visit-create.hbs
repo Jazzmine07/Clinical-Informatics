@@ -1329,7 +1329,6 @@
                     }
                 }
 
-
                 for(i = 0; i < data.length; i++){
                     schoolYear.push(data[i].schoolYear + ' ('+ data[i].age +' yrs old)');
                     BMI.push(parseFloat(data[i].bmi));
@@ -1348,7 +1347,7 @@
                 console.log(visits);
             })
 
-            // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
+            // --------------------------------- IMMUNIZATION HISTORY -----------------------------
             $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
                 console.log("student immunization history");
                 console.log(immunizationHistory);

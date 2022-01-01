@@ -1755,7 +1755,8 @@
     <script src="public/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="public/vendor/chart.js/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <!-- Page level custom scripts -->
     <script src="public/js/demo/chart-area-demo.js"></script>
@@ -1802,115 +1803,17 @@
             event.currentTarget.className += " active";
         }
 
-        var notAllowedMedicines = [], visits = [], intakeHistory = [];
+        var notAllowedMedicines = [];
         var weight, height, age, sex;
+
         function searchProfile() {
-            notAllowedMedicines = [], visits = [], intakeHistory = [];
-            weight = "", height = "", age = "", sex = "";
             var typedID = document.getElementById("studentVisit").value;
 
-            $.get("/getVisitDetails", {studentID: typedID}, function(details){
-                /* TO DO: display the details of the last visit */
-                console.log("all details needed for clinic-visit create");
-                console.log(details);
-
-                // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
-                var i;
-                for(i = 0; i < details.notAllowed.length; i++){
-                    notAllowedMedicines.push({
-                        medicine: details.notAllowed[i].medicine
-                    })
-                }
-
-                // --------------------------------- LIST OF CLINIC VISITS ------------------------------
-                for(i = 0; i < details.visits.length; i++){
-                    visits.push({
-                        visitDate: details.visits[i].visitDate,
-                        attendingNurse: details.visits[i].attendingNurse,
-                        timeIn: details.visits[i].timeIn,
-                        timeOut: details.visits[i].timeOut,
-                        weight: details.visits[i].weight,
-                        height: details.visits[i].height,
-                        bodyTemp: details.visits[i].bodyTemp,
-                        systolicBP: details.visits[i].systolicBP,
-                        diastolicBP: details.visits[i].diastolicBP,
-                        pulseRate: details.visits[i].pulseRate,
-                        respirationRate: details.visits[i].respirationRate,
-                        visitReason: details.visits[i].visitReason,
-                        treatment: details.visits[i].treatment,
-                        diagnosis: details.visits[i].diagnosis,
-                        status: details.visits[i].status,
-                        notes: details.visits[i].notes
-                    })
-                }
-                console.log("list of visists ni student");
-                console.log(visits);
-
-                // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
-                for(i = 0; i < details.intakeHistory.length; i++){
-                    intakeHistory.push({
-                        visitDate: details.intakeHistory[i].visitDate,
-                        attendingNurse: details.intakeHistory[i].attendingNurse,
-                        timeIn: details.intakeHistory[i].timeIn,
-                        timeOut: details.intakeHistory[i].timeOut,
-                        medications: details.intakeHistory[i].medications
-                    })
-                }
-                console.log("list of intakeHistory ni student");
-                console.log(intakeHistory);
-
-                // --------------------------------- LAST VISIT DETAILS ------------------------------
-                if(details){
-                    $('#lvDate').html(details.lastVisitDetails.visitDate);
-                    $('#lvTI').html(details.lastVisitDetails.timeIn);
-                    $('#lvTO').html(details.lastVisitDetails.timeOut);
-                    $('#lvNurse').html(details.lastVisitDetails.attendingNurse);
-
-                    if(details.lastVisitDetails.systolicBP == "" || !details.lastVisitDetails.systolicBP || details.lastVisitDetails.diastolicBP == "" || !details.lastVisitDetails.diastolicBP)
-                        $('#lvBP').html("-");
-                    else
-                        $('#lvBP').html(details.lastVisitDetails.systolicBP + "/" + details.lastVisitDetails.diastolicBP);
-                    
-                    if(details.lastVisitDetails.bodyTemp == "" || !details.lastVisitDetails.bodyTemp)
-                        $('#lvBT').html("-");
-                    else
-                        $('#lvBT').html(details.lastVisitDetails.bodyTemp + "°C");
-
-                    if(details.lastVisitDetails.pulseRate == "" || !details.lastVisitDetails.pulseRate)
-                        $('#lvPR').html("-");
-                    else
-                        $('#lvPR').html(details.lastVisitDetails.pulseRate);
-                    
-                    if(details.lastVisitDetails.respirationRate == "" || !details.lastVisitDetails.respirationRate)
-                        $('#lvRR').html("-");
-                    else
-                        $('#lvRR').html(details.lastVisitDetails.respirationRate);
-
-                    $('#lvReason').html(details.lastVisitDetails.visitReason);
-
-                    if(details.lastVisitDetails.treatment == "" || !details.lastVisitDetails.treatment)
-                        $('#lvTreatment').html("-");
-                    else
-                        $('#lvTreatment').html(details.lastVisitDetails.treatment);
-
-                    if(details.lastVisitDetails.diagnosis == "" || !details.lastVisitDetails.diagnosis)
-                        $('#lvDiagnosis').html("-");
-                    else
-                        $('#lvDiagnosis').html(details.lastVisitDetails.diagnosis);
-
-                    if(details.lastVisitDetails.notes == "" || !details.lastVisitDetails.notes)
-                        $('#lvNotes').html("-");
-                    else
-                        $('#lvNotes').html(details.lastVisitDetails.notes);
-
-                    $('#lvStatus').html(details.lastVisitDetails.status);
-
-                    document.getElementById('lastVisit').style.display = "block";
-                }
-                else
-                    document.getElementById('lastVisit').style.display = "none";
-
-                // --------------------------------- STUDENT PROFILE ------------------------------
+            // --------------------------------- STUDENT PROFILE ------------------------------
+            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+                
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
@@ -1919,74 +1822,364 @@
                     document.getElementById("clinicVisitForm").reset();
 
                 }
-                else if(details.studentInfo.firstName == null){ // if data is null so meaning no student with that id number
-                    //console.log(data);
-                    //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.');
+                else if(studentInfo.firstName == null){ // if data is null so meaning no student with that id number
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
                     document.getElementById('studentDiv').style.display = "none";                     
                     document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
                 } 
                 else {
-                    weight = details.studentInfo.weight;
-                    height = details.studentInfo.height
-                    age = details.studentInfo.age;
-                    sex = details.studentInfo.sex;
                     document.getElementById('errorDiv').style.display = "none";   // hide error message 
                     $('#headerNameCollapse').html(typedID);
-
                     // Header
-                    $('#nameHeaderVisit').html(details.studentInfo.firstName + " " + details.studentInfo.middleName + " " + details.studentInfo.lastName);
+                    $('#nameHeaderVisit').html(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
                     $('#idHeaderVisit').html(typedID);
-                    //$('#studentTypeHeader').html(data.studentType + " Student");
+                    //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
 
                     // personal info
-                    $('#visitLastName').html(details.studentInfo.lastName);
-                    $('#visitFirstName').html(details.studentInfo.firstName);
-                    $('#visitMiddleName').html(details.studentInfo.middleName);
+                    $('#visitLastName').html(studentInfo.lastName);
+                    $('#visitFirstName').html(studentInfo.firstName);
+                    $('#visitMiddleName').html(studentInfo.middleName);
 
-                    if(details.studentInfo.grade && details.studentInfo.section)
-                        $('#gradeSection').html("Grade " + details.studentInfo.grade + " - " + details.studentInfo.section);
+                    if(studentInfo.grade && studentInfo.section)
+                        $('#gradeSection').html("Grade " + studentInfo.grade + " - " + studentInfo.section);
                         
-                    if(details.studentInfo.studentType)
-                        if(details.studentInfo.studentType == "old" || details.studentInfo.studentType == "Old")
+                    if(studentInfo.studentType)
+                        if(studentInfo.studentType == "old" || studentInfo.studentType == "Old")
                             $('#studentTypeHeader').html("Old Student");
-                        else if(details.studentInfo.studentType == "new" || details.studentInfo.studentType == "New")
+                        else if(studentInfo.studentType == "new" || studentInfo.studentType == "New")
                             $('#studentTypeHeader').html("New Student");    
 
-                    if(details.studentInfo.sex == "Female")
+                    if(studentInfo.sex == "Female")
                         document.getElementById("studentPic").src = "public/img/female.svg";
-                    else if (details.studentInfo.sex == "Male")
+                    else if(studentInfo.sex == "Male")
                         document.getElementById("studentPic").src = "public/img/male.svg";
 
-                    $('#visitBirthday').html(details.studentInfo.birthday);
-                    //$('#visitNationality').html(details.studentInfo.nationality);
-                    //$('#visitReligion').html(details.studentInfo.religion);
-                    $('#visitAge').html(details.studentInfo.age + " years old");
-                    $('#visitSex').html(details.studentInfo.sex);
-                    $('#visitAddress').html(details.studentInfo.address);
+                    $('#visitBirthday').html(studentInfo.birthday);
+                    //$('#visitNationality').html(studentInfo.nationality);
+                    //$('#visitReligion').html(studentInfo.religion);
+                    $('#visitAge').html(studentInfo.age + " years old");
+                    age = studentInfo.age;
+                    $('#visitSex').html(studentInfo.sex);
+                    sex = studentInfo.sex;
+                    $('#visitAddress').html(studentInfo.address);
 
                     // contacts
-                    if(details.studentInfo.fatherName)
-                        $('#visitFN').html(details.studentInfo.fatherName);
+                    if(studentInfo.fatherName)
+                        $('#visitFN').html(studentInfo.fatherName);
                     
-                    if(details.studentInfo.fatherEmail)
-                        $('#visitFE').html(details.studentInfo.fatherEmail);
+                    if(studentInfo.fatherEmail)
+                        $('#visitFE').html(studentInfo.fatherEmail);
 
-                    if(details.studentInfo.fatherContact)
-                        $('#visitFC').html(details.studentInfo.fatherContact);
+                    if(studentInfo.fatherContact)
+                        $('#visitFC').html(studentInfo.fatherContact);
 
-                    if(details.studentInfo.motherName) 
-                        $('#visitMN').html(details.studentInfo.motherName);
+                    if(studentInfo.motherName) 
+                        $('#visitMN').html(studentInfo.motherName);
 
-                    if(details.studentInfo.motherEmail)    
-                        $('#visitME').html(details.studentInfo.motherEmail);
+                    if(studentInfo.motherEmail)    
+                        $('#visitME').html(studentInfo.motherEmail);
 
-                    if(details.studentInfo.motherContact)    
-                        $('#visitMC').html(details.studentInfo.motherContact);
-
+                    if(studentInfo.motherContact)    
+                        $('#visitMC').html(studentInfo.motherContact);
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                }
+            });
+
+            var schoolYear = [];
+            var BMI = [], weight = [], height = [];
+            var checker = false;
+            // --------------------------------- FOR GROWTH MONITORING ------------------------------
+            $.get("/getBMI", {studentID: typedID}, function(data){
+                var i, size;
+                if(schoolYear.length!=null){
+                    size=schoolYear.length;
+                    for(i=0;i<size;i++){
+                        schoolYear.pop()
+                    }
+                }
+                if(BMI.length!=null){
+                    size=BMI.length;
+                    for(i=0;i<size;i++){
+                        BMI.pop()
+                    }
+                }
+                if(weight.length!=null){
+                    size=weight.length;
+                    for(i=0;i<size;i++){
+                        weight.pop()
+                    }
+                }
+                if(height.length!=null){
+                    size=height.length;
+                    for(i=0;i<size;i++){
+                        height.pop()
+                    }
+                }
+
+
+                for(i = 0; i < data.length; i++){
+                    schoolYear.push(data[i].schoolYear + ' ('+ data[i].age +' yrs old)');
+                    BMI.push(parseFloat(data[i].bmi));
+                    weight.push(parseFloat(data[i].weight));
+                    height.push(parseFloat(data[i].height));
+                }
+                
+                weightHeightChart(schoolYear, weight, height);
+                bmiChart(schoolYear, BMI);
+                checker = true;
+            });
+
+            // --------------------------------- LIST OF CLINIC VISITS ------------------------------
+            $.get('/getVisits', {studentID: typedID}, function(visits){
+                console.log("list of visits ni student");
+                console.log(visits);
+            })
+
+            // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
+            $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
+                console.log("student immunization history");
+                console.log(immunizationHistory);
+            })
+
+            // --------------------------------- LIST OF VACCINES ---------------------------------
+            $.get('/getVaccineList', function(vaccineList){
+                console.log("list of vaccines");
+                console.log(vaccineList);
+            })
+
+            // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
+            $.get('/getIntakeHistory', {studentID: typedID}, function(intakeHistory){
+                console.log("list of intakeHistory ni student");
+                console.log(intakeHistory);
+            })
+        }
+
+        var studentID = $('#studentID').val();
+        // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
+        $.get("/getNotAllowedMedication", {studentID: studentID}, function(notAllowed){
+            var i;
+            notAllowedMedicines = [];   // will make sure to clear array before pushing again.
+            console.log("list of allowed medications ni student");
+            console.log(notAllowed);
+            for(i = 0; i < notAllowed.length; i++){
+                if(notAllowed[i].isAllowed == false){
+                    notAllowedMedicines.push({
+                        medicine: notAllowed[i].medicine
+                    })
+                }
+            }
+            console.log("Not allowed medications ni student");
+            console.log(notAllowedMedicines);
+        });
+
+        var whChart;
+        function weightHeightChart(schoolYear, weight, height){
+            var ctx = document.getElementById("weightHeightChart");
+            whChart = new Chart(ctx, {  // line chart
+                type: 'line',
+                data: {
+                    labels: schoolYear, // x-axis
+                    datasets: [{
+                        label: "Weight",
+                        yAxisID: 'y',
+                        lineTension: 0,                                     // this will set if line is curve or straight
+                        borderColor: 'rgba(255, 99, 132, 1)',               // border color of the line and legend border
+                        //backgroundColor: "rgba(255, 99, 132, 1)",         // legend background color
+                        pointBorderColor: "rgba(255, 99, 132, 1)",          // color of points
+                        pointBackgroundColor: "rgba(255, 99, 132, 1)",      // background color of points
+                        pointHoverBorderColor: "rgba(255, 99, 132, 1)",     // color of points when hovered
+                        pointHoverBackgroundColor: "rgba(255, 99, 132, 1)", // background color of points when hovered
+                        pointRadius: 3,
+                        data: weight,   // values of the point
+                    }, {
+                        label: "Height",
+                        yAxisID: 'y1',
+                        lineTension: 0,
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        //backgroundColor: "rgba(78, 115, 223, 0.05)",
+                        pointBorderColor: "rgba(78, 115, 223, 1)",
+                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
+                        data: height,
+                    }],
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 0,
+                            bottom: 25
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Weight and height per school year',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'School Year',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Weight in kg',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                                color: "rgba(255, 99, 132, 1)",
+                            },
+                            min: 0,
+                            ticks: {
+                                font: {
+                                    size: 15,   // font size of the labels
+                                },
+                                color: "rgba(255, 99, 132, 1)",
+                                stepSize: 15
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Height in cm',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                                color: "rgba(78, 115, 223, 1)"
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                },
+                                color: "rgba(78, 115, 223, 1)",
+                            }
+                        }
+                    },
+                    //legend: {
+                    //    display: false
+                    //}
+                }
+            });
+        }
+
+        var bmiLineChart; 
+        function bmiChart(schoolYear, BMI){
+            var ctx = document.getElementById("bmiChart");
+            bmiLineChart = new Chart(ctx, {  // line chart
+                type: 'line',
+                data: {
+                    labels: schoolYear, // x-axis
+                    datasets: [{
+                        label: "BMI",
+                        lineTension: 0,
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        backgroundColor: "rgba(78, 115, 223, 0.05)",
+                        pointBorderColor: "rgba(78, 115, 223, 1)",
+                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
+                        data: BMI,
+                    }],
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 25,
+                            bottom: 0
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'BMI per school year',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'School Year',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'BMI',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                    },
+                    legend: {
+                        display: false
+                    }
                 }
             });
         }
@@ -2002,23 +2195,416 @@
             }
         }
 
+        $("#medicationVisit").change(function(){
+            document.getElementById('validAmount').style.display = "none";
+            document.getElementById('invalidAmount').style.display = "none";
+            var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var medicationTxt = $('#medicationVisit').find('option:selected').text();
+            var lowerCase = selectedMedication.toLowerCase();
+
+            console.log("not allowed medications of student");
+            console.log(notAllowedMedicines);
+            var i;
+            if(notAllowedMedicines.length == 0){
+                // if not allowed medicines is empty, allow all medications
+                $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                document.getElementById('invalidMedicaton').style.display = "none";
+                document.getElementById('validMedicaton').style.display = "block";
+                $('#validMedicaton').html('Medication allowed'); 
+            } else{
+                for(i = 0; i < notAllowedMedicines.length; i++){           
+                    if(lowerCase.includes(notAllowedMedicines[i].medicine) == true){
+                        $('span.select2-selection.select2-selection--single').css('border-color', '#e74a3b');  
+                        document.getElementById('validMedicaton').style.display = "none";
+                        document.getElementById('invalidMedicaton').style.display = "block";
+                        $('#invalidMedicaton').html('Medication not allowed');       
+                        break;     
+                    }
+                    else{
+                        $('span.select2-selection.select2-selection--single').css('border', '1px solid #1cc88a');
+                        document.getElementById('invalidMedicaton').style.display = "none";
+                        document.getElementById('validMedicaton').style.display = "block";
+                        $('#validMedicaton').html('Medication allowed');    
+                    }
+                }
+            }
+
+            var curWeight = document.getElementById("weight").value;
+            var x; //could be weight or age
+
+            if(curWeight != null && curWeight != "" && curWeight != " " && curWeight != undefined){
+                console.log("weight: " + curWeight);
+                x = curWeight;
+            }
+            else if(weight != null && weight != ""){
+                console.log("data.weight: " + weight);
+                x = parseFloat(weight);
+            }
+            else{
+                x = 1;
+            } 
+
+            console.log("x is...." + x);
+
+            if(medicationTxt == "Paracetamol Syrup 250mg/5mL"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / (250/5); 
+                    console.log("weight-based: " + wbd);                          
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Syrup 120mg/5mL"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / (120/5); 
+                    console.log("weight-based: " + wbd);                          
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Suspension 250mg/5mL"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / (250/5); 
+                    console.log("weight-based: " + wbd);                          
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Weight-based dosage: ' + wbd + 'mL');                       
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Tablet 250mg"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / 250; 
+                    console.log("weight-based: " + Math.round(wbd));
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }
+                } 
+            }
+            else if(medicationTxt == "Paracetamol Tablet 500mg"){
+                if(x != 1){
+                    var start = x * 10;
+                    var wbd = start / 500; 
+                    console.log("weight-based: " + Math.round(wbd));
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }
+                } 
+            }
+            else if(medicationTxt == "Ibuprofen Tablet 200mg"){
+                if(x != 1){
+                    var start = x * 5;
+                    var wbd = start / 200; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                } 
+            }
+            else if(medicationTxt == "Mefenamic Acid Tablet 250mg"){
+                if(x != 1){
+                    var start = x * 6.5;
+                    var wbd = start / 250; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                } 
+            }
+            else if(medicationTxt == "Mefenamic Acid Tablet 500mg"){
+                if(x != 1){
+                    var start = x * 6.5;
+                    var wbd = start / 500; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                } 
+            }
+            else if(medicationTxt == "Neozep Non-Drowsy Tablet 10mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "Neozep Forte Tablet 10mg/2mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "No-Drowse Decolgen Tablet 25mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "Decolgen Forte Tablet 25mg/2mg/500mg"){
+                if(parseInt(age) >= 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 12.');
+                } 
+            }
+            else if(medicationTxt == "Loratidine Tablet 10mg"){
+                if(parseInt(age) > 12){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) <= 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children 12 and below. Take in syrup instead.');
+                }
+            }
+            else if(medicationTxt == "Loratidine Syrup 5mg/5mL"){
+                if(parseInt(age) <= 12 && parseInt(age) >= 2){
+                    if(x < 30){
+                        var wbd = 1; 
+                        console.log("weight-based: " + wbd);                          
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + ' tsp');                       
+                    } 
+                    else if(x >= 30){
+                        var wbd = 2; 
+                        console.log("weight-based: " + wbd);                          
+                        document.getElementById('invalidAmount').style.display = "none";
+                        document.getElementById('validAmount').style.display = "block";
+                        $('#validAmount').html('Weight-based dosage: ' + wbd + ' tsp');
+                    }
+                }
+                else if(parseInt(age) > 12){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children above 12. Take in tablet instead.');
+                } 
+            }
+            else if(medicationTxt == "Cetirizine Tablet 10mg"){
+                if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }
+                    else if(Math.round(wbd) > 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablets');
+                    }                        
+                }
+                else if(parseInt(age) < 6){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 6.');
+                } 
+            }
+            else if(medicationTxt == "Cetirizine Syrup 5mg/5mL"){
+                if(parseInt(age) <= 5 && parseInt(age) >= 2){
+                    var wbd = 5; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');
+                    
+                }
+                else if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                    var wbd = 10; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
+                } 
+            }
+            else if(medicationTxt == "Epinephrine Solution for Injection 1mg/mL"){
+                if(parseInt(age) > 12){
+                    var wbd = 0.5; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
+                }
+                else if(parseInt(age) <= 12 && parseInt(age) >= 6){
+                    var wbd = 0.3; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                       
+                }
+                else if(parseInt(age) < 6){
+                    var wbd = 0.15; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: ' + wbd + 'mL');                        
+                } 
+            }
+            else if(medicationTxt == "Antacid (Kremil-S) Chewable Tablet 178mg/233mg/30mg"){
+                document.getElementById('invalidAmount').style.display = "none";
+                document.getElementById('validAmount').style.display = "block";
+                $('#validAmount').html('Pedia dose: 1tsp. Take 1hr & 3hrs after meals & at bedtime. For Peptic ulcer: 2tabs. For Hyperacidity: 1-2tabs.');                       
+                    
+            }
+            else if(medicationTxt == "Salbutamol Syrup 2mg/5mL"){
+                if(x != 1){
+                    var start = x * 0.15;
+                    var wbd = start / (2/5); 
+                    console.log("weight-based: " + Math.round(wbd));
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    
+                    $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(1) + 'mL');
+                    
+                } 
+            }
+            else if(medicationTxt == "Salbutamol Nebules 2.5mg/2.5ml"){
+                if(x != 1){
+                    var start = x * 0.15;
+                    var wbd = start / (2.5/2.55); 
+                    console.log("weight-based: " + Math.round(wbd));
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    
+                    $('#validAmount').html('Weight-based dosage: ' + wbd.toFixed(2) + 'mL');
+                } 
+            }
+            else if(medicationTxt == "Clonidine (Catapres) Tablet 100mcg"){
+                if(parseInt(age) >= 6){
+                    var wbd = 1; 
+                    console.log("weight-based: " + Math.round(wbd)); 
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    if(Math.round(wbd) == 1){
+                        $('#validAmount').html('Age-based dosage: ' + Math.round(wbd) + ' tablet');
+                    }                       
+                }
+                else if(parseInt(age) < 6){
+                    document.getElementById('validAmount').style.display = "none";
+                    document.getElementById('invalidAmount').style.display = "block";
+                    $('#invalidAmount').html('This medication is not recommeded for children below 6.');
+                } 
+            }
+            else if(medicationTxt == "Oral Rehydration Solution (Hydrite) Sachet 4.1g"){
+                if(parseInt(age) <= 10 && parseInt(age) >= 2){
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: 1 sachet in 1 glass of water (100mL - 200mL).');
+                                            
+                }
+                else if(parseInt(age) > 10){
+                    document.getElementById('invalidAmount').style.display = "none";
+                    document.getElementById('validAmount').style.display = "block";
+                    $('#validAmount').html('Age-based dosage: 1 sachet. Give as much fluid as the child needs.');
+                } 
+            }
+        });
+
         var medicationsArray = [];
         var namesArray = [];
         var intakeArray = [];
         var ids = [];
         var list;
         var descArray = [];
+        var tempDescArray = [];
         var found = false;
 
         async function getInteraction(){
             descArray = [];
             list = ids.toString().replace(/,/g, "+");
-        
             const response = await fetch("https://rxnav.nlm.nih.gov/REST/interaction/list.json?rxcuis="+list);
             const data = await response.json();
             
-            console.log("pumasok sa get interaction");
-            console.log(data);
             if(data.fullInteractionTypeGroup != undefined){
                 data.fullInteractionTypeGroup.forEach(function(interactionTypeGroup) {
                     interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
@@ -2029,7 +2615,7 @@
                     })
                 })
                 
-                var tempDescArray = descArray.toString();
+                tempDescArray = descArray.toString();
                 tempDescArray = tempDescArray.split(",");
 
                 for (let i = 0; i < descArray.length; i++) {
@@ -2038,24 +2624,24 @@
 
                 tempDescArray = tempDescArray.join("");
                 console.log(tempDescArray)
-
-                document.getElementById("errorMed").innerHTML = tempDescArray;
+                document.getElementById("interactionDiv").innerHTML = tempDescArray;
+                document.getElementById("successMed").style.display = "none";
+                document.getElementById("errorMed").style.display = "block";
             } else {
                 tempDescArray = "No drug-to-drug interaction found.";
-                console.log(tempDescArray)
-
-                document.getElementById("errorMed").innerHTML = tempDescArray;
+                console.log(tempDescArray);
+                document.getElementById("noInteractionDiv").innerHTML = tempDescArray;
+                document.getElementById("errorMed").style.display = "none";
+                document.getElementById("successMed").style.display = "block";
             }
         }
 
         async function getID(medicine){
             ids = [];
-            console.log("pumasok sa getID function");
             const response = await fetch("https://rxnav.nlm.nih.gov/REST/rxcui.json?name="+medicine+"&srclist=DRUGBANK");
             const data = await response.json();
             ids.push(data.idGroup.rxnormId);
-            console.log("length ng ids");
-            console.log(ids.length);
+
             if(ids.length == medicationsArray.length){
                 getInteraction();
             }
@@ -2082,16 +2668,17 @@
             var checkBox = document.getElementById("takenClinic");
 
             var time =  $('#timeTaken').val();
-            console.log(time);
             addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
-
             addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+
             namesArray = [];
             for(i = 0; i < medicationsArray.length; i++){
                 namesArray.push(medicationsArray[i].medication);
             }
+
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
+
             if(namesArray.length >= 2){
                 for(i = 0; i < medicationsArray.length; i++){
                     console.log(medicationsArray[i].medication);

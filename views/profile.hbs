@@ -2006,7 +2006,6 @@
 
         function searchStudent() {
             var typedID = document.getElementById("idNum").value;
-            console.log(typedID);
             
             $.get("/getStudentRecord", {studentID: typedID}, function(data){
                 console.log("Student data...");
@@ -2050,7 +2049,7 @@
                     if(data.studentType == "old" || data.studentType == "Old")
                         $('#studentStatus').html("Old Student");
                     else if(data.studentType == "new" || data.studentType == "New")
-                        $('#studentStatus').html("New Student");    
+                        $('#studentStatus').html("New Student");
 
                     document.getElementById("lastName").innerHTML=data.lastName;
                     document.getElementById("firstName").innerHTML=data.firstName;
@@ -2128,6 +2127,35 @@
                 checker = true;
             });
 
+            // --------------------------------- LIST OF CLINIC VISITS ------------------------------
+            $.get('/getVisits', {studentID: typedID}, function(visits){
+                console.log("list of visits ni student");
+                console.log(visits);
+            })
+
+            // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
+            $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
+                console.log("student immunization history");
+                console.log(immunizationHistory);
+            })
+
+            // --------------------------------- LIST OF VACCINES ---------------------------------
+            $.get('/getVaccineList', function(vaccineList){
+                console.log("list of vaccines");
+                console.log(vaccineList);
+            })
+
+            // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
+            $.get("/getIntakeHistory", {studentID: typedID}, function(data){
+                console.log("medicine intake history of a specfic student");
+                console.log(data);
+                var i;
+                for(i = 0; i < data.length; i++){
+                    $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
+                }
+            });
+
+            // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
             $.get("/getNotAllowedMedication", {studentID: typedID}, function(data){
                 console.log("not allowed medication of a specfic student");
                 console.log(data);
@@ -2171,24 +2199,6 @@
                         document.getElementById("salbutamol").checked = true;
                     }
                 }
-            });
-
-            $.get("/getIntakeHistory", {studentID: typedID}, function(data){
-                console.log("medicine intake history of a specfic student");
-                console.log(data);
-
-                var i;
-
-                for(i = 0; i < data.length; i++){
-                    $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
-                }
-
-            
-            });
-
-            $.get("/getVisits", {studentID: typedID}, function(data){
-                console.log("visit details of a specfic student");
-                console.log(data);
             });
         }
 

@@ -42,9 +42,7 @@ exports.getProgramsList = function(){
                             population: childSnapshotData.population,
                             location: childSnapshotData.location
                         })
-                    })
-                    console.log("programs");
-                    console.log(programs);   
+                    })  
                     resolve(programs);
                 })
             }

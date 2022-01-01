@@ -47,7 +47,7 @@ exports.addClinicVisit = function(req, res){
 
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
-    var userRef = database.ref("clinicUsers");
+    var prescriptionRef = database.ref("studentHealthHistory/"+studentId+"/prescriptionHistory");
     
     try {
         var update = {
@@ -100,15 +100,16 @@ exports.addClinicVisit = function(req, res){
         formId = clinicVisitRef.push(record).key;  
         if(medicationsArray != undefined){
             for(i = 0; i < medicationsArray.length; i++){
-                medication = {
+                prescription = {
                     medicine: medicationsArray[i].medication,
                     purpose: medicationsArray[i].purpose,
-                    amount: parseInt(medicationsArray[i].amount),
+                    amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
                     endMed: medicationsArray[i].endMed
                 };
-                database.ref('clinicVisit/' + formId + '/medications').push(medication);
+                database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
+                prescriptionRef.push(prescription);
             }
         }
     
@@ -133,7 +134,7 @@ exports.addClinicVisit = function(req, res){
                 history = {
                     medicine: intakeArray[i].med,
                     medicineName: intakeArray[i].medication,
-                    amount: parseInt(intakeArray[i].amount),
+                    amount: intakeArray[i].amount,
                     time: intakeArray[i].time
                 };
                 database.ref('intakeHistory/' + historyKey + '/medications').push(history);
@@ -180,6 +181,7 @@ exports.editClinicVisit = function(req, res){
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers/"+userKey);
+    var prescriptionRef = database.ref("studentHealthHistory/"+studentId+"/prescriptionHistory");
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = Math.round(+new Date()/1000);
@@ -199,15 +201,16 @@ exports.editClinicVisit = function(req, res){
                 clinicVisitRef.update(record);
 
                 for(i = 0; i < medicationsArray.length; i++){
-                    medication = {
+                    prescription = {
                         medicine: medicationsArray[i].medication,
                         purpose: medicationsArray[i].purpose,
-                        amount: parseInt(medicationsArray[i].amount),
+                        amount: medicationsArray[i].amount,
                         interval: medicationsArray[i].interval,
                         startMed: medicationsArray[i].startMed,
                         endMed: medicationsArray[i].endMed
                     };
-                    database.ref('clinicVisit/' + formId + '/medications').push(medication);
+                    database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
+                    prescriptionRef.push(prescription);
                 }
 
                 //if intake array is not empty!
@@ -231,7 +234,7 @@ exports.editClinicVisit = function(req, res){
                         history = {
                             medicine: intakeArray[i].medication,
                             medicineName: intakeArray[i].med,
-                            amount: parseInt(intakeArray[i].amount),
+                            amount: intakeArray[i].amount,
                             time: intakeArray[i].time
                         };
                         database.ref('intakeHistory/' + historyKey + '/medications').push(history);
@@ -305,15 +308,16 @@ exports.editClinicVisit = function(req, res){
             clinicVisitRef.update(record);
 
             for(i = 0; i < medicationsArray.length; i++){
-                medication = {
+                prescription = {
                     medicine: medicationsArray[i].medication,
                     purpose: medicationsArray[i].purpose,
-                    amount: parseInt(medicationsArray[i].amount),
+                    amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
                     endMed: medicationsArray[i].endMed
                 };
-                database.ref('clinicVisit/' + formId + '/medications').push(medication);
+                database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
+                prescriptionRef.push(prescription);
             }
 
             //if intake array is not empty!
@@ -337,7 +341,7 @@ exports.editClinicVisit = function(req, res){
                     history = {
                         medicine: intakeArray[i].medication,
                         medicineName: intakeArray[i].med,
-                        amount: parseInt(intakeArray[i].amount),
+                        amount: intakeArray[i].amount,
                         time: intakeArray[i].time
                     };
                     database.ref('intakeHistory/' + historyKey + '/medications').push(history);
@@ -622,177 +626,6 @@ exports.viewClinicVisitForm = function(req){
     return promise;
 };
 
-exports.getStudentVisits = function(req, res){
-    var student = req.query.studentID;
-    var database = firebase.database();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var userRef = database.ref("clinicUsers");
-    var temp = [], details = [];
-    var childSnapshotData, i;
-
-    clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                temp.push({
-                    idNum: childSnapshotData.id,
-                    studentName: childSnapshotData.studentName,
-                    grade: childSnapshotData.grade,
-                    section: childSnapshotData.section,
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.attendingNurse,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    weight: childSnapshotData.weight,
-                    height: childSnapshotData.height,
-                    bodyTemp: childSnapshotData.bodyTemp,
-                    systolicBP: childSnapshotData.systolicBP,
-                    diastolicBP: childSnapshotData.diastolicBP,
-                    pulseRate: childSnapshotData.pulseRate,
-                    respirationRate: childSnapshotData.respirationRate,
-                    visitReason: childSnapshotData.visitReason,
-                    treatment: childSnapshotData.treatment,
-                    diagnosis: childSnapshotData.diagnosis,
-                    status: childSnapshotData.status,
-                    notes: childSnapshotData.notes,
-                })
-            })
-
-            for(i = 0;  i < temp.length; i++){
-                await userRef.child(temp[i].attendingNurse).once('value',(userSnapshot) => {
-                    fname = userSnapshot.child('firstName').val();
-                    lname = userSnapshot.child('lastName').val();
-                    details.push({
-                        idNum: temp[i].idNum,
-                        studentName: temp[i].studentName,
-                        grade: temp[i].grade,
-                        section: temp[i].section,
-                        visitDate: temp[i].visitDate,
-                        attendingNurse: fname + " " + lname,
-                        timeIn: temp[i].timeIn,
-                        timeOut: temp[i].timeOut,
-                        weight: temp[i].weight,
-                        height: temp[i].height,
-                        bodyTemp: temp[i].bodyTemp,
-                        systolicBP: temp[i].systolicBP,
-                        diastolicBP: temp[i].diastolicBP,
-                        pulseRate: temp[i].pulseRate,
-                        respirationRate: temp[i].respirationRate,
-                        visitReason: temp[i].visitReason,
-                        treatment: temp[i].treatment,
-                        diagnosis: temp[i].diagnosis,
-                        status: temp[i].status,
-                        notes: temp[i].notes
-                    })
-                }); 
-            }
-            res.status(200).send(details);
-        } else {
-            console.log("details in controller");
-            console.log(details);
-            res.status(200).send(details);
-        }
-    })  
-};
-
-exports.getLastVisit = function(req, res){
-    var student = req.query.studentID;
-    var database = firebase.database();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var userRef = database.ref("clinicUsers");
-    var temp = [], details;
-    var childSnapshotData;
-
-    clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
-        if(snapshot.exists()){
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                temp.push({
-                    idNum: childSnapshotData.id,
-                    studentName: childSnapshotData.studentName,
-                    grade: childSnapshotData.grade,
-                    section: childSnapshotData.section,
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.attendingNurse,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    weight: childSnapshotData.weight,
-                    height: childSnapshotData.height,
-                    bodyTemp: childSnapshotData.bodyTemp,
-                    systolicBP: childSnapshotData.systolicBP,
-                    diastolicBP: childSnapshotData.diastolicBP,
-                    pulseRate: childSnapshotData.pulseRate,
-                    respirationRate: childSnapshotData.respirationRate,
-                    visitReason: childSnapshotData.visitReason,
-                    treatment: childSnapshotData.treatment,
-                    diagnosis: childSnapshotData.diagnosis,
-                    status: childSnapshotData.status,
-                    notes: childSnapshotData.notes,
-                })
-            })
-            
-            if(temp.length == 1){   // if once lang siya nagpunta sa clinic dati
-                await userRef.child(temp[0].attendingNurse).once('value',(userSnapshot) => {
-                    fname = userSnapshot.child('firstName').val();
-                    lname = userSnapshot.child('lastName').val();
-                    details = {
-                        idNum: temp[0].idNum,
-                        studentName: temp[0].studentName,
-                        grade: temp[0].grade,
-                        section: temp[0].section,
-                        visitDate: temp[0].visitDate,
-                        attendingNurse: fname + " " + lname,
-                        timeIn: temp[0].timeIn,
-                        timeOut: temp[0].timeOut,
-                        weight: temp[0].weight,
-                        height: temp[0].height,
-                        bodyTemp: temp[0].bodyTemp,
-                        systolicBP: temp[0].systolicBP,
-                        diastolicBP: temp[0].diastolicBP,
-                        pulseRate: temp[0].pulseRate,
-                        respirationRate: temp[0].respirationRate,
-                        visitReason: temp[0].visitReason,
-                        treatment: temp[0].treatment,
-                        diagnosis: temp[0].diagnosis,
-                        status: temp[0].status,
-                        notes: temp[0].notes
-                    }
-                });   
-                res.status(200).send(details);
-            } else {    // if multiple times siya pumunta sa clinic but getting the lastest visit details only   
-                await userRef.child(temp[temp.length-1].attendingNurse).once('value',(userSnapshot) => {
-                    fname = userSnapshot.child('firstName').val();
-                    lname = userSnapshot.child('lastName').val();
-                    details = {
-                        idNum: temp[temp.length-1].idNum,
-                        studentName: temp[temp.length-1].studentName,
-                        grade: temp[temp.length-1].grade,
-                        section: temp[temp.length-1].section,
-                        visitDate: temp[temp.length-1].visitDate,
-                        attendingNurse: fname + " " + lname,
-                        timeIn: temp[temp.length-1].timeIn,
-                        timeOut: temp[temp.length-1].timeOut,
-                        weight: temp[temp.length-1].weight,
-                        height: temp[temp.length-1].height,
-                        bodyTemp: temp[temp.length-1].bodyTemp,
-                        systolicBP: temp[temp.length-1].systolicBP,
-                        diastolicBP: temp[temp.length-1].diastolicBP,
-                        pulseRate: temp[temp.length-1].pulseRate,
-                        respirationRate: temp[temp.length-1].respirationRate,
-                        visitReason: temp[temp.length-1].visitReason,
-                        treatment: temp[temp.length-1].treatment,
-                        diagnosis: temp[temp.length-1].diagnosis,
-                        status: temp[temp.length-1].status,
-                        notes: temp[temp.length-1].notes
-                    }
-                });   
-                res.status(200).send(details);
-            }
-        } else {
-            res.status(200).send(details);
-        }
-    })  
-};
 
 // This function is called in clinic-visit-create
 exports.getVisitDetails = function(req, res){
@@ -803,12 +636,14 @@ exports.getVisitDetails = function(req, res){
     var studentRef = database.ref("studentInfo/"+ student);
     var historyRef = database.ref("intakeHistory");
     var medicineRef = database.ref("studentHealthHistory/"+student+"/allowedMedicines");
+    var immuneHistoryRef = database.ref("studentHealthHistory/"+student+"/immuneHistory");
+    var vaccineRef = database.ref("vaccineList");
     var inventoryRef = database.ref("medicineInventory");
-    var temp = [], invTemp = [], visits = [], intakeMedications = [], intakeHistory = [], notAllowed = [], filtered = [];
+    var temp = [], invTemp = [], visits = [], intakeMedications = [], intakeHistory = [], notAllowed = [], filtered = [], vaccineList = [], immunizationHistory = [];
     var snapshotData, childSnapshotData;
     var studentInfo, lastVisitDetails;
 
-    clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
+    clinicVisitRef.orderByChild("id").equalTo(student).on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -887,7 +722,7 @@ exports.getVisitDetails = function(req, res){
         }
     })  
 
-    historyRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
+    historyRef.orderByChild("id").equalTo(student).on('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -913,13 +748,40 @@ exports.getVisitDetails = function(req, res){
         }
     })
 
+    historyRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                immunizationHistory.push({
+                    dateGiven: childSnapshotData.dateGiven,
+                    name: childSnapshotData.name,
+                    purpose: childSnapshotData.purpose,
+                })
+            });
+        } else {
+            immunizationHistory = [];
+        }
+    })
+
+    // getting list of vaccines
+    vaccineRef.once('value', (list) => {
+        list.forEach(function(vaccine){
+            console.log(vaccine.key);
+            vaccineList.push({
+                vaccineName: vaccine.key
+            })
+        })
+    })
+
     medicineRef.on('value', (snapshot) => {
         if(snapshot.exists()){
+            var lastUpdated = snapshot.child('lastUpdated').val();
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
                 if(childSnapshotData.isAllowed == false){
                     notAllowed.push({
-                        medicine: childSnapshot.key
+                        medicine: childSnapshot.key,
+                        lastUpdated: lastUpdated,
                     })
                 }
             })
@@ -1009,6 +871,8 @@ exports.getVisitDetails = function(req, res){
             visits: visits,
             intakeHistory: intakeHistory,
             notAllowed: notAllowed,
+            immunizationHistory: immunizationHistory,
+            vaccineList: vaccineList
         });
     })
 };

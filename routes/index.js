@@ -839,15 +839,16 @@ router.post('/updateNotif', notificationController.updateNotifications);
 
 //--------GETTING STUDENT INFO RELATED----------------------------
 router.get('/getStudentRecord', studentInfoController.getStudentInfo);
-router.get('/getVisits', visitController.getStudentVisits);
+router.get('/getVisits', studentInfoController.getStudentVisits);
 router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
 router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
-router.get('/getVisitDetails', visitController.getVisitDetails);
-router.get('/getLastVisit', visitController.getLastVisit);
+router.get('/getLastVisit', studentInfoController.getLastVisit);
+router.get('/getImmunizationRecord', studentInfoController.getImmunizationRecord);
+router.get('/getVaccineList', studentInfoController.getVaccineList);
 
-router.get('/getAllVisits',visitController.getAllVisits);
+router.get('/getAllVisits', visitController.getAllVisits);
 
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);

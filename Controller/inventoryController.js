@@ -139,8 +139,6 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
-                    console.log("filtering ba ung medicine name");
-                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {

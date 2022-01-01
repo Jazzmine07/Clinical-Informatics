@@ -34,9 +34,9 @@ exports.getStudentInfo = function(req, res){
                 guardianEmail: snapshotData.guardianEmail,
                 guardianContact: snapshotData.guardianContact,
                 pediaName: snapshotData.pediaName,
-                pediaEmail:snapshotData.pediaEmail,
+                pediaEmail: snapshotData.pediaEmail,
                 pediaContact: snapshotData.pediaContact,
-                dentistName:snapshotData.dentistName,
+                dentistName: snapshotData.dentistName,
                 dentistEmail: snapshotData.dentistEmail,
                 dentistContact: snapshotData.dentistContact,
                 preferredHospital: snapshotData.preferredHospital,
@@ -148,7 +148,7 @@ exports.getLastVisit = function(req, res){
     var temp = [], details = "";
     var childSnapshotData;
 
-    clinicVisitRef.orderByChild("id").equalTo(student).on('value', async (snapshot) => {
+    clinicVisitRef.orderByChild("id").equalTo(student).once('value', async (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -277,7 +277,7 @@ exports.getImmunizationRecord = function(req, res){
             });
             res.status(200).send(immunizationHistory);
         } else {
-            res.status(200).send(immunizationHistoy);
+            res.status(200).send(immunizationHistory);
         }
     })
 }

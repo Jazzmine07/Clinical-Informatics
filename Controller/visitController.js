@@ -9,7 +9,7 @@ exports.getDashboard = function(req, res){
     var childSnapshotData, dashboard; 
 
     var promise = new Promise((resolve, reject) => {
-        clinicVisitRef.orderByChild("visitDate").equalTo(date).on('value', (snapshot) => { 
+        clinicVisitRef.orderByChild("visitDate").equalTo(date).once('value', (snapshot) => { 
             snapshot.forEach(function(childSnapshot) {
                 childSnapshotData = childSnapshot.exportVal();
                 console.log(childSnapshot.key);
@@ -132,8 +132,8 @@ exports.addClinicVisit = function(req, res){
             var historyKey = intakeRef.push(intakeHistory).key;
             for(i = 0; i < intakeArray.length; i++){
                 history = {
-                    medicine: intakeArray[i].med,
                     medicineName: intakeArray[i].medication,
+                    specificMedicine: intakeArray[i].med,
                     amount: intakeArray[i].amount,
                     time: intakeArray[i].time
                 };
@@ -199,6 +199,8 @@ exports.editClinicVisit = function(req, res){
                 };
 
                 clinicVisitRef.update(record);
+                console.log("medicationsArray in visitcontroller");
+                console.log(medicationsArray);
 
                 for(i = 0; i < medicationsArray.length; i++){
                     prescription = {
@@ -215,6 +217,9 @@ exports.editClinicVisit = function(req, res){
 
                 //if intake array is not empty!
                 if(intakeArray != undefined){
+                    console.log("intakeArray in visitcontroller");
+                    console.log(intakeArray);
+                    
                     var intakeHistory = {
                         attendingClinician: userName,
                         grade: studentGrade,
@@ -232,8 +237,8 @@ exports.editClinicVisit = function(req, res){
                     var historyKey = intakeRef.push(intakeHistory).key;
                     for(i = 0; i < intakeArray.length; i++){
                         history = {
-                            medicine: intakeArray[i].medication,
-                            medicineName: intakeArray[i].med,
+                            medicineName: intakeArray[i].medication,
+                            specificMedicine: intakeArray[i].med,
                             amount: intakeArray[i].amount,
                             time: intakeArray[i].time
                         };
@@ -243,7 +248,7 @@ exports.editClinicVisit = function(req, res){
 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
                 var formRef = database.ref("assignedForms/"+ userKey);
-                formRef.on('value', (snapshot) => { 
+                formRef.once('value', (snapshot) => { 
                     snapshot.forEach(function(childSnapshot) {
                         if(childSnapshot.key == formId){
                             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
@@ -288,7 +293,7 @@ exports.editClinicVisit = function(req, res){
                 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
                 var formRef = database.ref("assignedForms/"+ userKey);
-                formRef.on('value', (snapshot) => { 
+                formRef.once('value', (snapshot) => { 
                     snapshot.forEach(function(childSnapshot) {
                         if(childSnapshot.key == formId){
                             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
@@ -300,6 +305,7 @@ exports.editClinicVisit = function(req, res){
                 res.status(200).send();
             }
         } else {    // nurse encoding medication section
+            console.log("pumasok sa nurse if");
             var record = {
                 timeOut: timeOut,
                 status: status,
@@ -339,8 +345,8 @@ exports.editClinicVisit = function(req, res){
                 var historyKey = intakeRef.push(intakeHistory).key;
                 for(i = 0; i < intakeArray.length; i++){
                     history = {
-                        medicine: intakeArray[i].medication,
-                        medicineName: intakeArray[i].med,
+                        medicineName: intakeArray[i].medication,
+                        specificMedicine: intakeArray[i].med,
                         amount: intakeArray[i].amount,
                         time: intakeArray[i].time
                     };
@@ -350,7 +356,7 @@ exports.editClinicVisit = function(req, res){
 
             // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
             var formRef = database.ref("assignedForms/"+ userKey);
-            formRef.on('value', (snapshot) => { 
+            formRef.once('value', (snapshot) => { 
                 snapshot.forEach(function(childSnapshot) {
                     if(childSnapshot.key == formId){
                         database.ref("assignedForms/"+ userKey + "/" + formId).remove();
@@ -371,7 +377,7 @@ exports.getAssignedForms = (req, res) => {
     var childSnapshotData;
     
     var promise = new Promise((resolve, reject) => {
-        formsRef.orderByChild("timestamp").on('value', async (snapshot) => {
+        formsRef.orderByChild("timestamp").once('value', async (snapshot) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
                     childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
@@ -402,7 +408,7 @@ exports.getClinicVisitForm = function(req){
     var dFname, dLname, mFname, mLname;
 
     var promise = new Promise((resolve, reject)=>{
-        formRef.on('value', async (snapshot) => {
+        formRef.once('value', async (snapshot) => {
             snapshotData = snapshot.exportVal();
             temp.push({
                 formId: formId,
@@ -512,7 +518,7 @@ exports.viewClinicVisitForm = function(req){
     var fname, lname, dFname, dLname, mFname, mLname;
 
     var promise = new Promise((resolve, reject)=>{
-        formRef.on('value', async (snapshot) => {
+        formRef.once('value', async (snapshot) => {
             snapshotData = snapshot.exportVal();
             snapshot.child('medications').forEach(function(meds){
                 medications.push({
@@ -643,7 +649,7 @@ exports.getVisitDetails = function(req, res){
     var snapshotData, childSnapshotData;
     var studentInfo, lastVisitDetails;
 
-    clinicVisitRef.orderByChild("id").equalTo(student).on('value', (snapshot) => {
+    clinicVisitRef.orderByChild("id").equalTo(student).once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -722,7 +728,7 @@ exports.getVisitDetails = function(req, res){
         }
     })  
 
-    historyRef.orderByChild("id").equalTo(student).on('value', (snapshot) => {
+    historyRef.orderByChild("id").equalTo(student).once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -773,7 +779,7 @@ exports.getVisitDetails = function(req, res){
         })
     })
 
-    medicineRef.on('value', (snapshot) => {
+    medicineRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             var lastUpdated = snapshot.child('lastUpdated').val();
             snapshot.forEach(function(childSnapshot){
@@ -888,7 +894,7 @@ exports.getClinicVisits = function(){
     var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("clinicVisit")){
-                query.on('value', (childSnapshot) => {
+                query.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
                         visits.push({
@@ -999,7 +1005,7 @@ exports.getIncidenceList = function(req, res){
     var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("incidenceReport")){
-                query.on('value', (childSnapshot) => {
+                query.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal(); 
                         reports.push({
@@ -1072,7 +1078,7 @@ exports.getAllVisits = function(req,res){
     
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("clinicVisit")){
-            query.on('value', (childSnapshot) => {
+            query.once('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){
                     childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
                     visits.push({

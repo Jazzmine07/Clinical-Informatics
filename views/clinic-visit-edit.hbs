@@ -828,7 +828,7 @@
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled" selected="true">Choose...</option>
                                                 {{#each medicines}}
-                                                    <option value="{{medicine}}">{{medicine}}</option>   
+                                                    <option value="{{name}}">{{medicine}}</option>   
                                                 {{/each}} 
                                             </select>                                                                   
                                         </div>
@@ -1604,7 +1604,7 @@
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled" selected="true">Choose...</option>
                                                 {{#each medicines}}
-                                                    <option value="{{medicine}}">{{medicine}}</option>   
+                                                    <option value="{{name}}">{{medicine}}</option>   
                                                 {{/each}} 
                                             </select>                                                                   
                                         </div>
@@ -1805,6 +1805,42 @@
 
         var notAllowedMedicines = [];
         var weight, height, age, sex;
+        var studentID = $('#studentID').val();
+        //var studentName, lastName, firstName, middleName, gradeSection, studentType, sex, birthday, age, nationality, religion, address;
+        //var fatherName, fatherEmail, fatherContact, motherName, motherEmail, motherContact, guardianName, guardianEmail, guardianContact;
+        //var pediaName, pediaEmail, pediaContact, dentistName, dentistEmail, dentistContact, preferredHospital, hospitalAddress;
+
+        //$.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
+        //    studentName = studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName;
+        //    lastName = studentInfo.lastName;
+        //    firstName = studentInfo.firstName;
+        //    middleName = studentInfo.middleName;
+        //    gradeSection = "Grade " + studentInfo.grade + " - " + studentInfo.section;
+        //    studentType = studentInfo.studentType;
+        //    sex = studentInfo.sex;
+        //    birthday birthdayage = studentInfo.birthday;
+        //    age = studentInfo.age + " years old";
+        //    nationality = studentInfo.nationality;
+        //    religion = studentInfo.religion;
+        //    address = studentInfo.address;
+        //    fatherName = studentInfo.fatherName,
+        //     fatherEmail = studentInfo.fatherEmail,
+        //    fatherContact = studentInfo.fatherContact,
+        //    motherName = studentInfo.motherName,
+        //    motherEmail = studentInfo.motherEmail,
+        //    motherContact = studentInfo.motherContact,
+        //    guardianName = studentInfo.guardianName,
+        //    guardianEmail = studentInfo.guardianEmail,
+        //    guardianContact = studentInfo.guardianContact,
+        //    pediaName = studentInfo.pediaName,
+        //    pediaEmail = studentInfo.pediaEmail,
+        //    pediaContact = studentInfo.pediaContact,
+        //    dentistName = studentInfo.dentistName,
+        //    dentistEmail = studentInfo.dentistEmail,
+        //    dentistContact = studentInfo.dentistContact,
+        //    preferredHospital = studentInfo.preferredHospital,
+        //    hospitalAddress = studentInfo.hospitalAddress
+        // });
 
         function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
@@ -1883,9 +1919,65 @@
 
                     if(studentInfo.motherContact)    
                         $('#visitMC').html(studentInfo.motherContact);
+
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
+
+            // --------------------------------- LAST VISIT DETAILS ------------------------------
+            $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){
+                console.log("last visit details of the student");
+                console.log(lastVisit);
+                if(lastVisit != ""){
+                    $('#lvDate').html(lastVisit.visitDate);
+                    $('#lvTI').html(lastVisit.timeIn);
+                    $('#lvTO').html(lastVisit.timeOut);
+                    $('#lvNurse').html(lastVisit.attendingNurse);
+
+                    if(lastVisit.systolicBP == "" || !lastVisit.systolicBP || lastVisit.diastolicBP == "" || !lastVisit.diastolicBP)
+                        $('#lvBP').html("-");
+                    else
+                        $('#lvBP').html(lastVisit.systolicBP + "/" + lastVisit.diastolicBP);
+                    
+                    if(lastVisit.bodyTemp == "" || !lastVisit.bodyTemp)
+                        $('#lvBT').html("-");
+                    else
+                        $('#lvBT').html(lastVisit.bodyTemp + "°C");
+
+                    if(lastVisit.pulseRate == "" || !lastVisit.pulseRate)
+                        $('#lvPR').html("-");
+                    else
+                        $('#lvPR').html(lastVisit.pulseRate);
+                    
+                    if(lastVisit.respirationRate == "" || !lastVisit.respirationRate)
+                        $('#lvRR').html("-");
+                    else
+                        $('#lvRR').html(lastVisit.respirationRate);
+
+                    $('#lvReason').html(lastVisit.visitReason);
+
+                    if(lastVisit.treatment == "" || !lastVisit.treatment)
+                        $('#lvTreatment').html("-");
+                    else
+                        $('#lvTreatment').html(lastVisit.treatment);
+
+                    if(lastVisit.diagnosis == "" || !lastVisit.diagnosis)
+                        $('#lvDiagnosis').html("-");
+                    else
+                        $('#lvDiagnosis').html(lastVisit.diagnosis);
+
+                    if(lastVisit.notes == "" || !lastVisit.notes)
+                        $('#lvNotes').html("-");
+                    else
+                        $('#lvNotes').html(lastVisit.notes);
+
+                    $('#lvStatus').html(lastVisit.status);
+
+                    document.getElementById('lastVisit').style.display = "block";
+                }
+                else
+                    document.getElementById('lastVisit').style.display = "none";
+            })
 
             var schoolYear = [];
             var BMI = [], weight = [], height = [];
@@ -1956,7 +2048,6 @@
             })
         }
 
-        var studentID = $('#studentID').val();
         // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
         $.get("/getNotAllowedMedication", {studentID: studentID}, function(notAllowed){
             var i;
@@ -2651,25 +2742,30 @@
             medicationsArray.push({medication: meds, purpose: purpose, amount: amount, interval: interval, startMed: startMed, endMed: endMed});
         }
 
-        function addIntakeHistory(medication, amount, time, taken) {
-            intakeArray.push({medication: medication, amount: amount, time: time, taken: taken});
+        function addIntakeHistory(medication, med, amount, time, taken) {
+            intakeArray.push({medication: medication, med: med, amount: amount, time: time, taken: taken});
         }
 
         var i = 0;  
 
         $('#addMedication').click(function(){
             var selectedMedication = $('#medicationVisit').find('option:selected').val();
+            var medicationTxt = $('#medicationVisit').find('option:selected').text();
             var purpose = document.getElementById("purposeVisit").value
             var amount = document.getElementById("amountMed").value;
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
             var endMed = document.getElementById("endMed").value;
-
             var checkBox = document.getElementById("takenClinic");
-
             var time =  $('#timeTaken').val();
-            addIntakeHistory(selectedMedication, amount, time, checkBox.checked);
-            addMedication(selectedMedication, purpose, amount, interval, startMed, endMed);
+
+            addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
+            
+            if(checkBox.checked){
+                addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
+            }
+            console.log(medicationsArray);
+            console.log(intakeArray);
 
             namesArray = [];
             for(i = 0; i < medicationsArray.length; i++){

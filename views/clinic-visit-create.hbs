@@ -3472,14 +3472,17 @@
             var interval = document.getElementById("intervalMed").value;
             var startMed = document.getElementById("startMed").value;
             var endMed = document.getElementById("endMed").value;
-
             var checkBox = document.getElementById("takenClinic");
-
             var time =  $('#timeTaken').val();
             
-            addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
             addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
 
+            if(checkBox.checked){
+                addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
+            }
+            console.log(medicationsArray);
+            console.log(intakeArray);
+            
             namesArray = [];
             for(i = 0; i < medicationsArray.length; i++){
                 namesArray.push(medicationsArray[i].medication);

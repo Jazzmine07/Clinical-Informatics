@@ -356,9 +356,19 @@
                                             <th class="bg-primary" style="color: white;">Unit</th>
                                             <th class="bg-primary" style="color: white;">Purchase Date</th>
                                             <th class="bg-primary" style="color: white;">Expiry Date</th>
-                                            <th class="bg-primary" style="color: white;">Physical Count</th>
+                                            <th class="bg-primary" style="color: white;">Update Inventory For The Day</th>
                                         </tr>
                                     </thead>
+                                    {{!-- <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> --}}
                                     <tbody>
                                         {{#each inventory}}
                                             <tr id="{{details.medicineID}}">
@@ -429,22 +439,22 @@
                 <li class="nav-item">
                     <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                         <i class="fas fa-fw fa-archive"></i>
-                        <span>Inventory</span></a>
+                        <span>Inventory Reports</span></a>
                     <ul class="collapse show list-unstyled" id="inventory">
                         <li>
                             <a class="nav-link active" href="/inventory-medicine">
                                 <i class="fas fa-fw fa-tablets"></i>
-                                <span>Medicine</span></a>
+                                <span>Medicine Report</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/inventory-supply">
                                 <i class="fas fa-fw fa-pump-medical"></i>
-                                <span>Supply</span></a>
+                                <span>Supply Report</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/inventory-dental">
                                 <i class="fas fa-fw fa-tooth"></i>
-                                <span>Dental</span></a>
+                                <span>Dental Report</span></a>
                         </li>
                     </ul>
                 </li>
@@ -731,7 +741,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Medicine Discrepancy</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Used Medicine for the Day Inventory Report</h6>
                         </div>
                         <div class="card-body">
                             <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv"></div>
@@ -743,7 +753,7 @@
                                             <th class="bg-primary" style="color: white;">Medicine</th>
                                             <th class="bg-primary" style="color: white;">Current Inventory</th>
                                             <th class="bg-primary" style="color: white;">Unit</th>
-                                            <th class="bg-primary" style="color: white;">Discrepancy</th>
+                                            <th class="bg-primary" style="color: white;">Used Inventory</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -760,7 +770,22 @@
                                 </table>
                             </div>
                         </div>
-                    </div>     
+                    </div>
+
+                    <!-- Top medicines used chart -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Top 5 Medicines Used for the Month</h6>
+                        </div>
+                        <div class="card-body">
+                            <div style="height: 600px">
+                                <canvas id="top5medsByGrade"></canvas>
+                            </div>
+                            <div class="chart-area">
+                                <canvas id="top5medsBySex"></canvas>
+                            </div>
+                        </div>
+                    </div>      
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -924,6 +949,12 @@
                 }
             });
 
+        });
+
+        
+
+        $.get("/getTop5MedsUsedMonth", function(top5meds){
+            //console.log(top5meds);
         });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {

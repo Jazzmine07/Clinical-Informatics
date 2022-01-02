@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IsKlinika</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .clickable-row {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="pointer-events: none; cursor: default;">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
+            </a>
+            
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            {{#if isNurse}}
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{else}}
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            
+            <!-- Nav Item - Disease Surveillance -->
+            <li class="nav-item">
+                <a class="nav-link" href="/disease-surveillance">
+                    <i class="fas fa-fw fa-virus"></i>
+                    <span>Disease Surveillance</span></a>
+            </li>
+
+            <!-- Nav Item - Clinic Visit -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/clinic-visit">
+                    <i class="fas fa-fw fa-medkit"></i>
+                    <span>Clinic Visit</span></a>
+            </li>
+
+            <!-- Nav Item - Profile -->
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Student Profile</span></a>
+            </li>
+
+            <!-- Nav Item - Health Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/health-assessment">
+                    <i class="fas fa-fw fa-stethoscope"></i>
+                    <span>Health Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Inventory</span></a>
+                <ul class="collapse list-unstyled" id="inventory">
+                    <li>
+                        <a class="nav-link" href="/inventory-medicine">
+                            <i class="fas fa-fw fa-tablets"></i>
+                            <span>Medicine</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-supply">
+                            <i class="fas fa-fw fa-pump-medical"></i>
+                            <span>Supply</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-dental">
+                            <i class="fas fa-fw fa-tooth"></i>
+                            <span>Dental</span></a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Nav Item - Promotive Care -->
+            <li class="nav-item">
+                <a class="nav-link" href="/promotive-care">
+                    <i class="fas fa-fw fa-child"></i>
+                    <span>Promotive Care</span></a>
+            </li>
+
+            <!-- Nav Item - Performance Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/performance-assessment">
+                    <i class="fas fa-fw fa-star"></i>
+                    <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Communications -->
+            <li class="nav-item">
+                <a class="nav-link" href="/communications">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>Communications</span></a>
+            </li>
+
+            {{/if}}
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Clinic Visit Forms</h1>
+                    </div>
+                    {{#if success}}
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <strong class="mx-1">Success!</strong> {{success_msg}}
+                        </div>
+                    {{/if}}
+
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-8">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Incidence Report Count</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="incidenceBar"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Incidence Report Percentage</h6>
+                                </div>
+
+                                <!-- Pie Chart -->
+                                <div class="card-body" style="height: 360px">
+                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
+                                        <canvas id="incidencePie"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DataTales List of Incidence Reports -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Incidence Reports</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="doctorIncidenceReports" width="100%" cellspacing="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Incidence Date</th>
+                                            <th class="bg-primary" style="color: white;">Incidence Time</th>
+                                            <th class="bg-primary" style="color: white;">Reported By</th>
+                                            <th class="bg-primary" style="color: white;">Affected Student</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each reports}}
+                                            <tr>
+                                                <td><a href="/clinic-visit/view/report/{{reportId}}">{{formatDate incidentDate}}</a></td>    
+                                                <td><a href="/clinic-visit/view/report/{{reportId}}">{{incidentTime}}</a></td> 
+                                                <td><a href="/clinic-visit/view/report/{{reportId}}">{{reportedBy}}</a></td> 
+                                                <td><a href="/clinic-visit/view/report/{{reportId}}">{{studentName}}</a></td> 
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; IsKlinika 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form method="post" action="/logout">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="public/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/datatables-demo.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
+
+    <script>
+        var index = "{{@index}}";
+        var forms =  [];
+        forms = '{{{clinicVisitForms}}}';
+        console.log(forms);
+        for(var i = 0; i < forms.length; i++)
+        {
+            console.log(forms[i]);
+        }
+        var clinicianDesc = "{{forms.index.desc}}"
+        console.log(clinicianDesc);
+
+        $(document).on('click', '.clickable-row', function(e){
+            window.location = "/clinic-visit/create";
+        });
+
+        $(document).ready(function() {
+            var i;
+            var omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount; 
+
+            $.get('/getIncidenceCount', function(result){
+                console.log(result);
+                omissionCount = result.omissionCount;
+                delayCount = result.delayCount;
+                ineffectiveCount = result.ineffectiveCount;
+                interactionCount = result.interactionCount;
+                allergyCount = result.allergyCount;
+                noStockCount = result.noStockCount;
+                expiredCount = result.expiredCount;
+
+                incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+            })
+
+            function incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount){
+                var incidenceBar = document.getElementById("incidenceBar");
+                incidenceCountBarChart = new Chart(incidenceBar, {  // line chart
+                    type: 'bar',
+                    data: {
+                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'], // x-axis
+                        datasets: [{
+                            label: "Dose Omission",
+                            backgroundColor: [  // background color of the thing
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 3,
+                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            labels: {
+                                render: 'value',
+                                fontSize: 15,
+                                fontStyle: 'bold',
+                            },
+                            legend: {
+                                display: false,
+                            },
+                            title: {
+                                display: true,
+                                text: 'Incidence Report Count',
+                                font: {
+                                    size: 25   // font size of the labels
+                                },
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Incidence Type',
+                                    font: {
+                                        size: 15,   // font size of the labels
+                                        weight: 'bold'
+                                    },
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 15   // font size of the labels
+                                    },
+                                    stepSize: 5
+                                }
+                            }
+                        },
+                    }
+                });
+            }
+
+            function incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount){
+                var incidencePie = document.getElementById("incidencePie");
+                incidenceCountPieChart = new Chart(incidencePie, {  // pie chart
+                    type: 'pie',
+                    data: {
+                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'],
+                        datasets: [{
+                            backgroundColor: [  // background color of the thing
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {   // layout ng entire chart
+                            padding: {
+                                left: 30,
+                                right: 25,
+                                top: 0,
+                                bottom: 0,
+                            }
+                        },
+                        plugins: {
+                            labels: {
+                                fontSize: 15,
+                                fontStyle: 'bold',
+                                render: (context) => {
+                                    const percentage = context.value / computeIncidencePercent(this) * 100;
+                                    return percentage.toFixed(2)+"%";
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'right',
+                            }
+                        }
+                    }
+                });
+            }
+
+            function computeIncidencePercent(){
+                let totalSum = 0;
+                let i = 0;
+
+                for(i = 0; i < incidenceCountPieChart.config.data.datasets[0].data.length; i++){
+                    if(incidenceCountPieChart.getDataVisibility(i) === true){
+                        totalSum += incidenceCountPieChart.config.data.datasets[0].data[i];
+                    }
+                }
+                return totalSum;
+            }
+            
+        //var formIds = [];
+
+        //getNotification();
+        //setInterval(function(){ getNotification(); }, 3000);
+
+        //function getNotification() {
+        //    $.get("/getNotification", function(notifs){
+        //        console.log("notifs in front-end");
+        //        console.log(notifs);
+        //        var i;
+        //        var count = 0;
+                
+        //        formIds = [];
+                
+        //        $('#userID').val(notifs[notifs.length-1].user); // user key
+        //        for(i = 0; i < notifs.length; i++){
+        //            if(notifs[i].seen == true){
+        //                $('#notifList').empty();
+        //                break;
+        //            }
+        //        }
+                // getting list of notifications
+        //        for(i = 0; i < notifs.length; i++){
+                    // the if else statement for the display if seen or not
+        //            if(notifs[i].seen == true){
+        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+
+        //            } else {
+        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
+        //                count++;  // notififcation count
+        //            }
+                    // put key value of forms 
+        //            formIds.push(notifs[i].formId);
+        //        }
+        //        console.log(formIds);
+
+        //        $('#notifCount').text(count);
+        //        if (count == 0){
+        //            var notifHide =  $('#notifCount');
+        //            notifHide.remove();
+        //        } 
+        //    });
+        //};
+
+        //INCOMPLETE PA
+        function showVisitsReport(data,choice){
+            console.log("Hello");
+            console.log(data);
+            //used to check the current month and year to show
+            var curr =  new Date();
+            var currMonth = curr.getMonth();
+            var currYear = curr.getFullYear();
+            //find the day of the week the day is
+            var chosenDay, chosenDate;
+            var i,j;
+            var dataDate, dataDay;
+            var yearListLabels=[], yearCount=[];
+            var monthListLabels=[];
+            var days=[], daysString=[], daysCount=[],day;
+            var dataYear;
+            var alreadyAdded;
+
+            if(choice=="Year"){
+                alreadyAdded=0;
+                for(i=0;i<data.length;i++){
+                    dataYear= (new Date(data[i].visitDate)).getFullYear();
+                    if(yearListLabels == null){
+                        yearListLabels.push(dataYear);
+                        yearCount.push(1);
+                    }
+                    else{
+                        for(j=0;j<yearListLabels;j++){
+                            if(dataYear == yearListLabels[j]){
+                                yearCount[j]=yearCount[j]+1;
+                                alreadyAdded=1;
+                            }
+                        }
+                        if(alreadyAdded!=1){
+                            yearListLabels.push(dataYear);
+                            yearCount.push(1);
+                        }
+                    }
+                }
+            }
+            console.log(yearListLabels);
+            console.log(yearCount);
+
+
+
+        //------------------IF USER WANTS TO SEE COUNT FOR EACH DATE------------------
+            if(choice == 0){
+                //get the number of days based on the month and year
+                if(currMonth == "0" || currMonth == "2" || currMonth == "4" || currMonth == "6" || currMonth == "7" || currMonth == "9" ||currMonth == "11" ){
+                    for(i=0;i<31;i++){
+                        chosenDate= new Date(currYear,currMonth,i+1);
+                        chosenDay = chosenDate.getDay();
+                        console.log(chosenDate);
+                        days.push({
+                            date: i+1,
+                            day: chosenDay,
+                            count:parseInt("0")
+                        });
+                    }
+                }
+                else if(currMonth == "3" ||currMonth == "5" ||currMonth == "8" ||currMonth == "10"){
+                    for(i=0;i<30;i++){
+                        chosenDate= new Date(currYear,currMonth,i+1);
+                        chosenDay = chosenDate.getDay();
+                        days.push({
+                            date: i+1,
+                            day: chosenDay,
+                            count:parseInt("0")
+                        });
+                    }
+                }
+                else if(currMonth == "1"){
+                    if(currYear/4 == 0){
+                        for(i=0;i<29;i++){
+                            chosenDate= new Date(currYear,currMonth,i+1);
+                            chosenDay = chosenDate.getDay();
+                            days.push({
+                                date: i+1,
+                                day: chosenDay,
+                                count:parseInt("0")
+                            });
+                        }
+                    }
+                    else{
+                        for(i=0;i<28;i++){
+                            chosenDate= new Date(currYear,currMonth,i+1);
+                            chosenDay = chosenDate.getDay();
+                            days.push({
+                                date: i+1,
+                                day: chosenDay,
+                                count:parseInt("0")
+                            });
+                        }
+                    }
+                };
+                    //loops if to get the count for each day
+                    for(i=0;i<data.length;i++){
+                        for(j=0;j<days.length;j++){ 
+                            if(data[i].complaint!="" && data[i].complaint!=null && data[i].complaint!=undefined){ 
+                                dataDate= new Date(data[i].visitDate);
+                                dataDay = dataDate.getDate();
+                                if(dataDay==days[j].date-1){
+                                    days[j].count=days[j].count+1;
+                                }
+                            }
+                        }
+                    }
+                    //loop is used to push data to daysString for the label and daysCount for the data 
+                    for(i=0;i<days.length;i++){
+                    if(days[i].day == 0)
+                        day="Sun";
+                    else if(days[i].day == 1)
+                        day="Mon";
+                    else if(days[i].day == 2)
+                        day="Tue";
+                    else if(days[i].day == 3)
+                        day="Wed";
+                    else if(days[i].day == 4)
+                        day="Thu";
+                    else if(days[i].day == 5)
+                        day="Fri";
+                    else if(days[i].day == 6)
+                        day="Sat";
+                        if(days[i].day!=0){
+                            daysString.push(days[i].date + ", " + day);
+                            daysCount.push(days[i].count);
+                        }
+                    }  
+                
+            }
+                           
+        //------------------IF USER WANTS TO SEE COUNT FOR EACH DAY------------------
+            else if(choice ==1){
+                //daysString.push("Sunday");
+                daysString.push("Monday"); 
+                daysString.push("Tuesday"); 
+                daysString.push("Wednesday"); 
+                daysString.push("Thursday"); 
+                daysString.push("Friday"); 
+                daysString.push("Saturday"); 
+                //daysCount=[0,0,0,0,0,0,0];
+                daysCount=[0,0,0,0,0,0];
+                for(i=0;i<data.length;i++){
+                    if(data[i].complaint!="" && data[i].complaint!=null && data[i].complaint!=undefined){ 
+                        dataDate= new Date(data[i].visitDate);
+                        dataDay = dataDate.getDate();
+                        day = dataDate.getDay();
+                        console.log(day);
+                        //if(day == 0)
+                        //    daysCount[0]=daysCount[0]+1;
+                        if(day == 1)
+                            daysCount[1]=daysCount[1]+1;
+                        else if(day == 2)
+                            daysCount[2]=daysCount[2]+1;
+                        else if(day == 3)
+                            daysCount[3]=daysCount[3]+1;
+                        else if(day == 4)
+                            daysCount[4]=daysCount[4]+1;
+                        else if(day == 5)
+                            daysCount[5]=daysCount[5]+1;
+                        else if(day == 6)
+                            daysCount[6]=daysCount[6]+1;
+                    }
+                }
+
+            }
+        //------------------END OF "IF USER WANTS TO SEE COUNT FOR EACH DAY"------------------
+            
+           
+            var chartData={
+                labels: daysString, // x-axis
+                datasets: [{
+                    label: "Visit Count",
+                    lineTension: 0,
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    data: daysCount,
+                }],
+            };
+            
+            var config={
+                type: 'line',
+                data: chartData,
+                plugins: [ChartDataLabels],
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 0,
+                            bottom: 0
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 5,
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Daily Visits for the Month',
+                            font: {
+                                size: 25   // font size of the labels
+                            },
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Days',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                },
+                                stepSize: 10
+                            }
+                        },
+                    }
+                }
+            }
+
+            var clinicVisitReport = document.getElementById("clinicVisitsReport");
+            var clinicVisitReportChart = new Chart(clinicVisitReport, config)
+
+         function clickHandler(click){
+                const points= clinicVisitReportChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                if(points.length){
+                    var firstPoint= points[0];
+                    console.log(points[0]);
+                    console.log(firstPoint._index);
+                    
+                    
+                    
+                    clinicVisitReportChart.update();
+                }
+            }
+
+            clinicVisitReport.onclick=clickHandler;
+
+
+            
+        }
+
+
+
+    });
+    </script>
+
+</body>
+
+</html>

@@ -831,6 +831,17 @@ router.get('/communications', (req, res) => {
   })
 });
 
+// Get report clinic visit page
+router.get('/reports-clinic-visit', (req, res) => {
+  console.log("Read reports clinic visit successful!");
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('reports-clinic-visit', { 
+      user: result
+    })
+  });
+});
+
 // Get bmi info
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);

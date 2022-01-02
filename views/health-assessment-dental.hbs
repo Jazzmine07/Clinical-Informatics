@@ -562,7 +562,7 @@
                                       <label class="col-form-label" for="clinicianAPE">Examining Dentist</label>
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
                                             <option selected>Choose...</option>
-                                            {{#each users}}
+                                            {{#each clinician}}
                                                 <option value="{{key}}"> {{firstName}} {{lastName}}</option>
                                             {{/each}}
                                         </select>

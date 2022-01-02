@@ -64,7 +64,7 @@ exports.addAPE = function(req, res){
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
-    var schedRef=database.ref("haSchedule");
+    var schedRef=database.ref("haSchedule/"+schoolYear);
     var studentInfoRef=database.ref("studentInfo/"+id);
 
     var record = {
@@ -110,13 +110,13 @@ exports.addAPE = function(req, res){
         console.log("sectionTop");
         console.log(sectionTop);
         if(!sectionTop==""){
-            schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+            schedRef.child(sectionTop).once('value', (snapshot) => {
                 if(snapshot.exists){
                     console.log("Has schedule")
                     snapshot.forEach(function(childSnapshot){
                         console.log(childSnapshot.exportVal());
                         console.log(childSnapshot.key);
-                        schedRef.child(childSnapshot.key).child("physicalStatus").set("Accomplished");
+                        schedRef.child(sectionTop).child("physicalStatus").set("Accomplished");
                     })
                 }
             })
@@ -158,7 +158,7 @@ exports.addADE = function(req, res){
 
     var database = firebase.database();
     var adeRef = database.ref("studentHealthHistory/"+id+"/ade");
-    var schedRef=database.ref("haSchedule");
+    var schedRef=database.ref("haSchedule/"+schoolYear);
     var studentInfoRef=database.ref("studentInfo/"+id);
 
     var record = {
@@ -188,13 +188,13 @@ exports.addADE = function(req, res){
         console.log("sectionTop");
         console.log(sectionTop);
         if(!sectionTop==""){
-            schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+            schedRef.child(sectionTop).once('value', (snapshot) => {
                 if(snapshot.exists){
                     console.log("Has schedule")
                     snapshot.forEach(function(childSnapshot){
                         console.log(childSnapshot.exportVal());
                         console.log(childSnapshot.key);
-                        schedRef.child(childSnapshot.key).child("dentalStatus").set("Accomplished");
+                        schedRef.child(sectionTop).child("dentalStatus").set("Accomplished");
                     })
                 }
             })

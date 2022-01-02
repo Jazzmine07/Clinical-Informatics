@@ -1192,11 +1192,14 @@
             var array=[];
             var link;
             array=JSON.parse(localStorage.myArray)
+           
+            
 
             document.getElementById("schoolYear").innerHTML = schoolYear;
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
             document.getElementById("studentSection").value=sec;
+            
             if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
                 $('#studentGrade').val("1");
             }
@@ -1221,11 +1224,11 @@
             if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                //link="/health-assessment/physical";
+                link="/health-assessment/dental";
             }
             else if(i=>array.length){
                 document.getElementById("saveButtonText").innerHTML="Save";  
-                //link="/health-assessment";
+                link="/health-assessment";
             }
 
             if(i == "0"){
@@ -1265,7 +1268,7 @@
                 localStorage.setItem("sectionStudentIndex", parseInt(i-1));
                 console.log("prev:"+i);
                 console.log("HI Prev");
-                //window.location.href = "/health-assessment/physical";
+                window.location.href = "/health-assessment/dental";
             });
 
             $("#myDropdown option").click(function(){
@@ -1279,6 +1282,7 @@
             });
 
             $("#skipBtn").click(function(){
+                console.log(i);
                 localStorage.setItem("schoolYear",schoolYear);
                 localStorage.setItem("section",sec);
                 localStorage.setItem("id",id);
@@ -1288,21 +1292,22 @@
                 array=JSON.parse(localStorage.myArray)
                 var sy=schoolYear;
 
+                console.log(i);
                 if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                //link="/health-assessment/physical";
+                link="/health-assessment/dental";
                 }
                 else if(i=>array.length){
                     document.getElementById("saveButtonText").innerHTML="Save";  
-                    //link="/health-assessment";
+                    link="/health-assessment";
                 }
-                //window.location.href = link;
+                window.location.href = link;
 
                 var inputs = $("td input");
 
-                for(var i = 0; i < inputs.length; i++){
-                    $(inputs[i]).val(dentals[i]);
+                for(var j = 0; j < inputs.length; j++){
+                    $(inputs[j]).val(dentals[j]);
                 }
             });
         

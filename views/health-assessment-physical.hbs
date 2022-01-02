@@ -1308,6 +1308,8 @@
             var array=[];
             var link;
             array=JSON.parse(localStorage.myArray)
+            console.log(array[i]);
+
             if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
@@ -3049,7 +3051,7 @@
                 computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
                 console.log("BMISTATUS"+computedBmiStatus); 
                 
-                proceed = false;
+                proceed = true;
                 if(proceed){
                     $.ajax({
                         url: '/addAPE',

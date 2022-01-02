@@ -141,7 +141,7 @@ exports.addADE = function(req, res){
     var id= req.body.studentId;
     var name = req.body.studentName;
     var adeDate = req.body.visitDate;
-    //var clinician = req.body.clinician;
+    var clinician = req.body.clinician;
     var calculus = req.body.calculus;
     var gingiva = req.body.gingiva;
     var pocket = req.body.pocket;
@@ -167,7 +167,7 @@ exports.addADE = function(req, res){
         id: id,
         name: name,
         adeDate: adeDate,
-        //clinician: clinician,
+        clinician: clinician,
         calculus: calculus,
         gingiva: gingiva,
         pocket: pocket,

@@ -1340,11 +1340,11 @@
                 if(i<array.length-1){
                 //document.getElementById("skipBtn").style.display="hidden";
                 document.getElementById("saveButtonText").innerHTML="Save | Next Student";
-                //link="/health-assessment/physical";
+                link="/health-assessment/physical";
                 }
                 else if(i=>array.length){
                     document.getElementById("saveButtonText").innerHTML="Save";  
-                   // link="/health-assessment";
+                    link="/health-assessment";
                 }
 
                 var sy=schoolYear;
@@ -1400,11 +1400,11 @@
                 }
                 console.log(gender); 
 
-                var dateAPE =  $('#dope').val(); 
-                if(dateAPE==null){
-                    dateAPE="";
+                var dateADE =  $('#dope').val(); 
+                if(dateADE==null){
+                    dateADE="";
                 }
-                console.log(dateAPE);
+                console.log(dateADE);
                 
                 //var selectClinician =  $('#clinician').val();
                 var clinician =  $('#clinicianAPE').find(":selected").val();   
@@ -1424,29 +1424,64 @@
 
                 console.log(inputs);
                 var name = 'input';
+                var dentalData=[];
 
-                for(var i = 0; i < inputs.length; i++){
-                    var cur = $(inputs[i]).val();
-                    dentals[i] = cur;
-                    console.log(cur);
+                for(var j = 0; j < inputs.length; j++){
+                    var cur = $(inputs[j]).val();
+                    dentals[j] = cur;
+                    dentalData.push($(inputs[j]).val());
                 }
 
-                resetForm();
+                $.ajax({
+                        url: '/addADE',
+                        method: 'POST',
+                        data: {
+                            clicked:"save",
+                            section:  studentSection,
+                            sectionTop:document.getElementById("sectionTop").innerHTML,
+                            age:age,
+                            schoolYear:sy,
+                            studentId: id,
+                            studentName: studentName,
+                            visitDate: dateADE,
+                            //clinician: clinician,
+                            calculus:calculus,
+                            gingiva:gingiva,
+                            pocket:pocket,
+                            anomaly:anomaly,
+                            dentalInputs:dentalData,
+                            
+                        },
+                        success: function(data) {
+                            console.log("Bonjour");
+                            console.log(data);
+                            console.log(link);
+                            resetForm();
+                            //window.location.href = link;
+                        }  
+                    });
+
+                
+
+                
+
+                
+
                 
 
             }); 
 
             function resetForm() {
                 var inputs = $("td input");
-                for (var i = 0; i<inputs.length; i++) {
-                    switch (inputs[i].type) {
+                for (var j = 0; j<inputs.length; j++) {
+                    switch (inputs[j].type) {
                         // case 'hidden':
                         case 'text':
-                            inputs[i].value = '';
+                            inputs[j].value = '';
                             break;
                         case 'radio':
                         case 'checkbox':
-                            inputs[i].checked = false;   
+                            inputs[j].checked = false;   
                     }
                 }
             }

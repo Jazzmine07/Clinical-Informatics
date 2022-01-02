@@ -131,6 +131,79 @@ exports.addAPE = function(req, res){
     res.status(200).send();
 };
 
+exports.addADE = function(req, res){
+    //adds new APE of student with the current school year as the key
+    var clicked=req.body.clicked;
+    var schoolYear= req.body.schoolYear;
+    var age= req.body.age;
+    var sectionTop=req.body.sectionTop;
+    var section= req.body.section;
+    var id= req.body.studentId;
+    var name = req.body.studentName;
+    var adeDate = req.body.visitDate;
+    //var clinician = req.body.clinician;
+    var calculus = req.body.calculus;
+    var gingiva = req.body.gingiva;
+    var pocket = req.body.pocket;
+    var anomaly = req.body.anomaly;
+    var inputs = req.body.dentalInputs;
+
+    for(k=0;k<inputs.length;k++){
+        console.log(k + " " + inputs[k]);
+    }
+    
+    
+
+    console.log("Save dental record for " + sectionTop);
+
+    var database = firebase.database();
+    var adeRef = database.ref("studentHealthHistory/"+id+"/ade");
+    var schedRef=database.ref("haSchedule");
+    var studentInfoRef=database.ref("studentInfo/"+id);
+
+    var record = {
+        schoolYear:schoolYear,
+        age:age,
+        id: id,
+        name: name,
+        adeDate: adeDate,
+        //clinician: clinician,
+        calculus: calculus,
+        gingiva: gingiva,
+        pocket: pocket,
+        anomaly:anomaly,
+        inputs: inputs
+        
+    }
+
+    console.log("ADE ref:"+adeRef);
+    console.log("studentRef"+studentInfoRef);
+    console.log("record:");
+    
+
+    if(clicked=="save"){
+        adeRef.child(schoolYear).set(record);
+        console.log("Saved");
+
+        console.log("sectionTop");
+        console.log(sectionTop);
+        if(!sectionTop==""){
+            schedRef.orderByChild("section").equalTo(sectionTop).on('value', (snapshot) => {
+                if(snapshot.exists){
+                    console.log("Has schedule")
+                    snapshot.forEach(function(childSnapshot){
+                        console.log(childSnapshot.exportVal());
+                        console.log(childSnapshot.key);
+                        schedRef.child(childSnapshot.key).child("dentalStatus").set("Accomplished");
+                    })
+                }
+            })
+        }
+    }
+    
+    res.status(200).send();
+};
+
 exports.getSectionStudents = function(req, res){
     var schoolYear= req.body.schoolYear;
     var section = req.body.section;

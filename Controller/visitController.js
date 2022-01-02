@@ -134,7 +134,8 @@ exports.addClinicVisit = function(req, res){
                 history = {
                     medicineName: intakeArray[i].medication,
                     specificMedicine: intakeArray[i].med,
-                    amount: intakeArray[i].amount,
+                    specificAmount: intakeArray[i].amount,
+                    amount: parseFloat(intakeArray[i].amount),
                     time: intakeArray[i].time
                 };
                 database.ref('intakeHistory/' + historyKey + '/medications').push(history);
@@ -240,7 +241,8 @@ exports.editClinicVisit = function(req, res){
                         history = {
                             medicineName: intakeArray[i].medication,
                             specificMedicine: intakeArray[i].med,
-                            amount: intakeArray[i].amount,
+                            specificAmount: intakeArray[i].amount,
+                            amount: parseFloat(intakeArray[i].amount),
                             time: intakeArray[i].time
                         };
                         database.ref('intakeHistory/' + historyKey + '/medications').push(history);
@@ -349,7 +351,8 @@ exports.editClinicVisit = function(req, res){
                     history = {
                         medicineName: intakeArray[i].medication,
                         specificMedicine: intakeArray[i].med,
-                        amount: intakeArray[i].amount,
+                        specificAmount: intakeArray[i].amount,
+                        amount: parseFloat(intakeArray[i].amount),
                         time: intakeArray[i].time
                     };
                     database.ref('intakeHistory/' + historyKey + '/medications').push(history);

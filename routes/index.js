@@ -467,12 +467,10 @@ router.get('/profile', (req, res) => {
 router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
   var prom1,prom2,prom3,prom4,user,records,sections,schedule;
-
   prom1 = userController.getUser();
   prom2 = studentController.getSections();
   prom3 = studentController.getAllSched();
   
-
   Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     sections = result[1];
@@ -834,8 +832,7 @@ router.get('/communications', (req, res) => {
 // Get report clinic visit page
 router.get('/reports-clinic-visit', (req, res) => {
   console.log("Read reports clinic visit successful!");
-  console.log("Read clinic visit successful!");
-  var promise1, promise2, promise4, promise5;
+  var promise1, promise2;
   var user, reports;
   promise1 = userController.getUser();
   promise2 = visitController.getIncidenceList();
@@ -859,6 +856,87 @@ router.get('/reports-clinic-visit', (req, res) => {
   }).catch(error => {
     console.log('Error in clinic visit report!');
     console.log(error.message);
+  });
+});
+
+// Get report health assessment page
+router.get('/reports-health-assessment', (req, res) => {
+  console.log("Read reports health assessment successful!");
+  var prom1,prom2,prom3,prom4,user,records,sections,schedule;
+  prom1 = userController.getUser();
+  prom2 = studentController.getSections();
+  prom3 = studentController.getAllSched();
+  
+  Promise.all([prom1, prom2, prom3]).then(result => {
+    user = result[0];
+    sections = result[1];
+    scheduleData = result[2];
+    
+    var i,schedule=[];
+    for(i=0;i<scheduleData.length;i++){
+      console.log(scheduleData[i]);
+      schedule.push({
+        grade:scheduleData[i].grade,
+        section:scheduleData[i].section,
+        totalNumStudents:scheduleData[i].numStudents,
+        apeDate:scheduleData[i].apeDate,
+        apeTime:scheduleData[i].apeTime,
+        apeSeen:scheduleData[i].apeSeen,
+        adeDate:scheduleData[i].adeDate,
+        adeTime:scheduleData[i].adeTime,
+        adeSeen:scheduleData[i].adeSeen
+      });
+    }
+    
+    if(user.role == "Nurse"){
+      res.render('reports-health-assessment', {
+        user: user,
+        isNurse: true,
+        sections: sections,
+        schedule:schedule
+      });
+    } else {
+      res.render('reports-health-assessment', {
+        user: user, 
+        isNurse: false,
+        sections: sections,
+        schedule:schedule
+      });
+    }
+  }).catch(error => {
+    console.log('Error in health assessment');
+    console.log(error.message);
+  });
+});
+
+// Get report inventory page
+router.get('/reports-inventory', (req, res) => {
+  console.log("Read reports inventory successful!");
+  var prom1, prom2, prom3;
+  var user, inventory, usedMedicine;
+  prom1 = userController.getUser();
+  prom2 = inventoryController.getMedicineInventory();
+  prom3 = inventoryController.getUsedMedicineToday();
+
+  Promise.all([prom1, prom2, prom3]).then(result => {
+    user = result[0];
+    inventory = result[1];
+    usedMedicine = result[2];
+    if(user.role == "Nurse"){
+      res.render('reports-inventory', {
+        user: user,
+        isNurse: true,
+      });
+    } else {
+      res.render('reports-inventory', {
+        user: user, 
+        isNurse: false,
+        usedMedicine: usedMedicine
+      });
+    }
+  }).catch(error => {
+    console.log('Error in medicine inventory');
+    console.log(error.messgae);
   });
 });
 

@@ -247,12 +247,12 @@ exports.updateMedicineInventory = function(req, res){
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
 
     var database = firebase.database();
-    var usedInventoryRef = database.ref("usedMedicine/");
+    var discrepancyRef = database.ref("discrepancyMedicine/");
 
     var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
     inventoryRef.set(amount);   // update inventory
 
-    var usedInventory = {
+    var discrepancy = {
         medicineID: medicineID,
         batchNum: batchNum,
         medicineName: medicineName,
@@ -260,7 +260,7 @@ exports.updateMedicineInventory = function(req, res){
         unit: unit,
         dateUpdated: date
     };
-    usedInventoryRef.push(usedInventory);
+    discrepancyRef.push(discrepancy);
 
     res.status(200).send(amount);
 };

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IsKlinika</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .clickable-row {
+            cursor: pointer;
+        }
+    </style>
+    
+    <style>             
+        .content {
+            margin: 15px 15px 0px 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        #or {
+            width: 100%; 
+            text-align: center; 
+            border-bottom: 2px solid #d1d3e2; 
+            line-height: 0.1em;
+            margin-top: 20px; 
+            margin-bottom: 20px; 
+        } 
+
+        #or span { 
+            background:#fff; 
+            padding:0 10px; 
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="pointer-events: none; cursor: default;">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            {{#if isNurse}}
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{else}}
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                
+                <!-- Nav Item - Disease Surveillance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/disease-surveillance">
+                        <i class="fas fa-fw fa-virus"></i>
+                        <span>Disease Surveillance</span></a>
+                </li>
+
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{/if}}
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome, {{user.firstName}} {{user.lastName}}!</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->                   
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Health Assessment</h1>
+                        <div class="d-flex flex-row-reverse">
+                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-share mr-1 text-white-50"></i> Send Email  </button>
+
+                            <a href="/health-assessment/schedule" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a>
+                            
+                            <div class="dropdown">
+                                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="createHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                class="fas fa-plus-circle mr-1 text-white-50"></i> Create  </a>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="createHA">
+                                    <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalHA">Physical Exam</a>
+                                    <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalDE">Dental Exam</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalHA" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Physical Exam</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form  method="post" action="/getSectionStudents">
+                                        <label for="schoolYear">Enter School Year</label>                                        
+                                        <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sectionPE">Conduct APE by a Section</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="sections" class="form-control py-2 border-left-1 border" id="sectionPE" placeholder="Search by grade or section"/>                                       
+                                            </div>
+                                            <datalist id="sections">
+                                                {{#each sections}}
+                                                    <option value='{{section}}'> </option>
+                                                {{/each}}                             
+                                            </datalist>  
+                                            <h6 id="or" class="h6 text-gray"><span>OR</span></h6>
+                                            <label for="studentPE">Conduct APE for a Student</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="students" class="form-control py-2 border-left-1 border" id="studentPE" placeholder="Search student"/>                                       
+                                            </div>
+                                            <datalist id="students">
+                                                <option value="100000">Christine Nahuli</option>                                
+                                            </datalist>
+
+                                        </div>                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                        <button type="submit" id="searchBtn" class="btn btn-success">Proceed</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalDE" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Dental Exam</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form  method="post" action="/getSectionStudents">
+                                        <label for="schoolYearDE">Enter School Year</label>                                        
+                                        <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="schoolYearDE" name="schoolYearDE" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sectionDE">Conduct ADE by a Section</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="sections" class="form-control py-2 border-left-1 border" id="sectionDE" placeholder="Search by grade or section"/>                                       
+                                            </div>
+                                            <datalist id="sections">
+                                                {{#each sections}}
+                                                    <option value='{{section}}'> </option>
+                                                {{/each}}                             
+                                            </datalist>  
+                                            <h6 id="or" class="h6 text-gray"><span>OR</span></h6>
+                                            <label for="studentDE">Conduct ADE for a Student</label>
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <div class="input-group-text border-right-1" style=" background-color: #eaecf4; border: 1px solid #d1d3e2;">
+                                                    <i class="fa fa-search"></i>
+                                                    </div>
+                                                </span>
+                                                <input list="students" class="form-control py-2 border-left-1 border" id="studentDE" placeholder="Search student"/>                                       
+                                            </div>
+                                            <datalist id="students">
+                                                <option value="100000">Christine Nahuli</option>                                
+                                            </datalist>
+
+                                        </div>                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                        <button type="submit" id="searchDEBtn" class="btn btn-success">Proceed</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{#if success}}
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <strong class="mx-1">Success!</strong> {{success_msg}}
+                        </div>
+                    {{/if}}
+
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Accomplished Physical Exam by Grade Level (S.Y. 2021-2022)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small font-weight-bold">Grade 1 <span
+                                            class="float-right" id="percent1"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-danger" role="progressbar" id="g1prog"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 2 <span
+                                            class="float-right"id="percent2"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" id="g2prog" style="background-color: #FF781F;"
+                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 3 <span
+                                            class="float-right" id="percent3"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" id="g3prog" style=" background-color: #FFE800;"
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 4 <span
+                                            class="float-right"id="percent4"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success" role="progressbar" id="g4prog" 
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 5 <span
+                                            class="float-right"id="percent5"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-primary" role="progressbar" id="g5prog" 
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 6 <span
+                                            class="float-right" id="percent6"></span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" id="g6prog" style="background-color: #9400D3;"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Accomplished Dental Exam by Grade Level (S.Y. 2021-2022)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small font-weight-bold">Grade 1 <span
+                                            class="float-right" id="dentalpercent1"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-danger" role="progressbar" id="g1dental"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 2 <span
+                                            class="float-right"id="dentalpercent2"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" id="g2dental" style="background-color: #FF781F;"
+                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 3 <span
+                                            class="float-right" id="dentalpercent3"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar" role="progressbar" id="g3dental" style=" background-color: #FFE800;"
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 4 <span
+                                            class="float-right"id="dentalpercent4"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-success" role="progressbar" id="g4dental" 
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 5 <span
+                                            class="float-right"id="dentalpercent5"></span></h4>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar bg-primary" role="progressbar" id="g5dental" 
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Grade 6 <span
+                                            class="float-right" id="dentalpercent6"></span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" id="g6dental" style="background-color: #9400D3;"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Schedule</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th class="bg-primary" style="color: white;">Grade Level</th>
+                                            <th class="bg-primary" style="color: white;">Section</th>
+                                            <th class="bg-primary" style="color: white;"># Students</th>
+                                            <th class="bg-primary" style="color: white;">Date of APE</th>
+                                            <th class="bg-primary" style="color: white;">Time of APE</th>
+                                            <th class="bg-primary" style="color: white;"># Students Examined</th>
+                                            <th class="bg-primary" style="color: white;">Date of ADE</th>
+                                            <th class="bg-primary" style="color: white;">Time of ADE</th>
+                                            <th class="bg-primary" style="color: white;"># Students Examined</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        {{#each schedule}}
+                                        <tr>
+                                                <td>{{concat grade}}</td>
+                                                <td>{{section}}</td>
+                                                <td>{{totalNumStudents}}</td>
+                                                <td>{{formatDate apeDate}}</td>                                               
+                                                <td>{{apeTime}}</td>
+                                                <td>{{apeSeen}}</td> 
+                                                <td>{{formatDate adeDate}}</td>                                               
+                                                <td>{{adeTime}}</td>
+                                                <td>{{adeSeen}}</td>
+                                        {{/each}}
+                                        </tr>
+                                        
+                                    </tbody>
+                                    {{!-- <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot> --}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; IsKlinika 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form method="post" action="/logout">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="public/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/chart-area-demo.js"></script>
+    <script src="public/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/datatables-demo.js"></script>
+
+    <script>
+        $(document).on('click', '.clickable-row', function(e){
+            window.location = "/clinic-visit/create";
+        });
+    </script>
+    <script>
+        var collapsible = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < collapsible.length; i++) {
+            collapsible[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+            content.style.maxHeight = null;
+            } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+        }
+    </script>
+     <script type='text/javascript'>
+        $(document).ready(function() {
+        var currentTime = new Date()
+        var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+        var currYear = currentTime.getFullYear();
+        //var month=1;
+        //var currYear=2021;
+        if(month>=6){
+            var sy= currYear +"-"+ (currYear+1) ;
+        }
+        else{
+            var sy= (currYear-1) +"-"+ (currYear) ;
+        }
+        console.log(sy);
+        document.getElementById("schoolYear").value=sy;
+        document.getElementById("schoolYearDE").value=sy;
+
+        $.post("/getApePercentageChart",{schoolYear:sy}, function(data){
+            var p1PE=data.p1PE * 100 +"%";
+            var p2PE=data.p2PE * 100 +"%";
+            var p3PE=data.p3PE * 100 +"%";
+            var p4PE=data.p4PE * 100 +"%";
+            var p5PE=data.p5PE * 100 +"%";
+            var p6PE=data.p6PE * 100 +"%";
+            
+            $('#percent1').html("(" + data.c1PE + "/ 6 )");
+            $('#percent2').html("(" + data.c2PE + "/ 6 )");
+            $('#percent3').html("(" + data.c3PE + "/ 6 )");
+            $('#percent4').html("(" + data.c4PE + "/ 6 )");
+            $('#percent5').html("(" + data.c5PE + "/ 6 )");
+            $('#percent6').html("(" + data.c6PE + "/ 6 )");
+            
+            document.getElementById("g1prog").style.width= p1PE;
+            document.getElementById("g2prog").style.width= p2PE;
+            document.getElementById("g3prog").style.width= p3PE;
+            document.getElementById("g4prog").style.width= p4PE;
+            document.getElementById("g5prog").style.width= p5PE;
+            document.getElementById("g6prog").style.width= p6PE;
+
+            var p1DE=data.p1DE * 100 +"%";
+            var p2DE=data.p2DE * 100 +"%";
+            var p3DE=data.p3DE * 100 +"%";
+            var p4DE=data.p4DE * 100 +"%";
+            var p5DE=data.p5DE * 100 +"%";
+            var p6DE=data.p6DE * 100 +"%";
+            
+            $('#dentalpercent1').html("(" + data.c1DE + "/ 6 )");
+            $('#dentalpercent2').html("(" + data.c2DE + "/ 6 )");
+            $('#dentalpercent3').html("(" + data.c3DE + "/ 6 )");
+            $('#dentalpercent4').html("(" + data.c4DE + "/ 6 )");
+            $('#dentalpercent5').html("(" + data.c5DE + "/ 6 )");
+            $('#dentalpercent6').html("(" + data.c6DE + "/ 6 )");
+            
+            document.getElementById("g1dental").style.width= p1DE;
+            document.getElementById("g2dental").style.width= p2DE;
+            document.getElementById("g3dental").style.width= p3DE;
+            document.getElementById("g4dental").style.width= p4DE;
+            document.getElementById("g5dental").style.width= p5DE;
+            document.getElementById("g6dental").style.width= p6DE;
+
+        });
+
+            $("#searchBtn").click(function(){
+                console.log("clicked?");
+                                                
+                var schoolYear = $('#schoolYear').val();
+                console.log(schoolYear);
+                
+                var section = $('#sectionPE').val(); 
+                console.log(section);
+
+                var id = $('#studentPE').val(); 
+                console.log(name);
+
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",section);
+                localStorage.setItem("id",id);
+                localStorage.setItem("sectionStudentIndex", 0);
+
+                $.ajax({
+                    url: '/getSectionStudents',
+                    method: 'POST',
+                    data: {
+                        section: section,
+                        schoolYear: schoolYear,
+                        studentId: id
+                        //timeStamp: forSortDate,
+                    },
+                    success: function(data) {
+                        console.log(data[0]);
+                        localStorage.myArray = JSON.stringify(data);
+                        window.location.href = "/health-assessment/physical";
+                    }
+                });
+            
+            });
+
+            $("#searchDEBtn").click(function(){
+                console.log("clicked?");
+                                                
+                var schoolYear = $('#schoolYearDE').val();
+                console.log(schoolYear);
+                
+                var section = $('#sectionDE').val(); 
+                console.log(section);
+
+                var id = $('#studentDE').val(); 
+                console.log(name);
+
+                localStorage.setItem("schoolYear",schoolYear);
+                localStorage.setItem("section",section);
+                localStorage.setItem("id",id);
+                localStorage.setItem("sectionStudentIndex", 0);
+
+                $.ajax({
+                    url: '/getSectionStudents',
+                    method: 'POST',
+                    data: {
+                        section: section,
+                        schoolYear: schoolYear,
+                        studentId: id
+                        //timeStamp: forSortDate,
+                    },
+                    success: function(data) {
+                        console.log(data[0]);
+                        localStorage.myArray = JSON.stringify(data);
+                        window.location.href = "/health-assessment/dental";
+                    }
+                });
+            
+            });
+
+        });
+    </script>
+    
+</body>
+
+</html>

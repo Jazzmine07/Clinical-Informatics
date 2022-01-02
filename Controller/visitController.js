@@ -105,7 +105,8 @@ exports.addClinicVisit = function(req, res){
                     amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
-                    endMed: medicationsArray[i].endMed
+                    endMed: medicationsArray[i].endMed,
+                    status: "From clinic"
                 };
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);
@@ -208,7 +209,8 @@ exports.editClinicVisit = function(req, res){
                         amount: medicationsArray[i].amount,
                         interval: medicationsArray[i].interval,
                         startMed: medicationsArray[i].startMed,
-                        endMed: medicationsArray[i].endMed
+                        endMed: medicationsArray[i].endMed,
+                        status: "From clinic"
                     };
                     database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                     prescriptionRef.push(prescription);
@@ -319,7 +321,8 @@ exports.editClinicVisit = function(req, res){
                     amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
-                    endMed: medicationsArray[i].endMed
+                    endMed: medicationsArray[i].endMed,
+                    status: "From clinic"
                 };
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);

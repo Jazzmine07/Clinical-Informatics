@@ -834,11 +834,31 @@ router.get('/communications', (req, res) => {
 // Get report clinic visit page
 router.get('/reports-clinic-visit', (req, res) => {
   console.log("Read reports clinic visit successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('reports-clinic-visit', { 
-      user: result
-    })
+  console.log("Read clinic visit successful!");
+  var promise1, promise2, promise4, promise5;
+  var user, reports;
+  promise1 = userController.getUser();
+  promise2 = visitController.getIncidenceList();
+
+  Promise.all([promise1, promise2]).then( result => {
+    user = result[0];
+    reports = result[1];
+
+    if(user.role == "Nurse"){
+      res.render('reports-clinic-visit', {
+        isNurse: true,
+      });
+    }
+    else {
+      res.render('reports-clinic-visit', {  
+        isNurse: false,
+        user: user,
+        reports: reports,
+      });
+    }
+  }).catch(error => {
+    console.log('Error in clinic visit report!');
+    console.log(error.message);
   });
 });
 

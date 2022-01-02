@@ -817,41 +817,6 @@
                         </div>
                     {{/if}}
 
-                    <div class="row">
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-8">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Incidence Report Count</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="incidenceBar"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Incidence Report Percentage</h6>
-                                </div>
-
-                                <!-- Pie Chart -->
-                                <div class="card-body" style="height: 360px">
-                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
-                                        <canvas id="incidencePie"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- DataTales List of Incidence Reports -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -981,7 +946,6 @@
 
     <!-- Page level custom scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
 
     <script>
@@ -1003,6 +967,12 @@
         $(document).ready(function() {
             var i;
             var omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount; 
+
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            console.log("date");
+            console.log(date);
+            
 
             $.get('/getIncidenceCount', function(result){
                 console.log(result);

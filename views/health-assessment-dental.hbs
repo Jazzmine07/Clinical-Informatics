@@ -1432,6 +1432,9 @@
                     dentalData.push($(inputs[j]).val());
                 }
 
+                var selectDentistAssign = document.getElementById("clinicianAPE");
+                var selectedDentistAssign = selectDentistAssign.options[selectDentistAssign.selectedIndex].value;
+
                 $.ajax({
                         url: '/addADE',
                         method: 'POST',
@@ -1444,7 +1447,7 @@
                             studentId: id,
                             studentName: studentName,
                             visitDate: dateADE,
-                            clinician: clinician,
+                            clinician: selectedDentistAssign,
                             calculus:calculus,
                             gingiva:gingiva,
                             pocket:pocket,

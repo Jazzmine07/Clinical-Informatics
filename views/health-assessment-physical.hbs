@@ -3050,7 +3050,8 @@
                 
                 computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
                 console.log("BMISTATUS"+computedBmiStatus); 
-                
+                var selectDoctorAssign = document.getElementById("clinicianAPE");
+                var selectedDoctorAssign = selectDentistAssign.options[selectDentistAssign.selectedIndex].value;
                 proceed = true;
                 if(proceed){
                     $.ajax({
@@ -3067,7 +3068,7 @@
                             studentName: studentName,
                             visitDate: dateAPE,
                             //timeStamp: forSortDate,
-                            clinician: clinician,
+                            clinician: selectedDoctorAssign,
                             bodyTemp: bodyTemp,
                             systolic: systolic,
                             diastolic: diastolic,

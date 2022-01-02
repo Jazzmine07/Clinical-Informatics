@@ -969,6 +969,7 @@ router.get('/getIncidenceCount', visitController.getIncidenceCount);
 
 //---------POST FORMS FOR HEALTH ASSESSMENT MODULE----------------
 router.post('/addAPE', studentController.addAPE); 
+router.post('/addADE', studentController.addADE); 
 router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSectionStudents',studentController.getSectionStudents);
 router.post('/getApePercentageChart', studentController.getAPEPercentage);

@@ -105,7 +105,8 @@ exports.addClinicVisit = function(req, res){
                     amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
-                    endMed: medicationsArray[i].endMed
+                    endMed: medicationsArray[i].endMed,
+                    status: "From clinic"
                 };
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);
@@ -208,7 +209,8 @@ exports.editClinicVisit = function(req, res){
                         amount: medicationsArray[i].amount,
                         interval: medicationsArray[i].interval,
                         startMed: medicationsArray[i].startMed,
-                        endMed: medicationsArray[i].endMed
+                        endMed: medicationsArray[i].endMed,
+                        status: "From clinic"
                     };
                     database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                     prescriptionRef.push(prescription);
@@ -319,7 +321,8 @@ exports.editClinicVisit = function(req, res){
                     amount: medicationsArray[i].amount,
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
-                    endMed: medicationsArray[i].endMed
+                    endMed: medicationsArray[i].endMed,
+                    status: "From clinic"
                 };
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);
@@ -665,6 +668,38 @@ exports.getClinicVisits = function(){
     return promise;
 };
 
+exports.getAllVisits = function(req,res){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var clinicVisitRef = database.ref("clinicVisit");
+    var query = clinicVisitRef.orderByChild("timestamp");
+    var visits =[];
+    var childSnapshotData;
+    
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("clinicVisit")){
+            query.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
+                    visits.push({
+                        formId: innerChildSnapshot.key,
+                        studentName: childSnapshotData.studentName,
+                        complaint: childSnapshotData.visitReason,
+                        timeIn: childSnapshotData.timeIn,
+                        timeOut: childSnapshotData.timeOut,
+                        status: childSnapshotData.status,
+                        visitDate: childSnapshotData.visitDate
+                    })         
+                })
+            })
+            res.send (visits);
+        }
+        else{
+            res.send (visits);    
+        }
+    })
+};
+
 exports.addMedicationIntake = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, 
         visitDate, timeIn, timeOut, nurse, medicationsArray } = req.body;
@@ -813,35 +848,68 @@ exports.viewIncidenceReport = function(req){
     return promise;
 };
 
-exports.getAllVisits = function(req,res){
+exports.getIncidenceCount = function(req, res){
     var database = firebase.database();
     var databaseRef = database.ref();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var query = clinicVisitRef.orderByChild("timestamp");
-    var visits =[];
-    var childSnapshotData;
+    var incidenceRef = database.ref("incidenceReport");
+    var query = incidenceRef.orderByChild("timestamp");
+    var i, childSnapshotData, temp = [], reports =[];
+    var omissionCount = 0, delayCount = 0, ineffectiveCount = 0, interactionCount = 0, allergyCount = 0, noStockCount = 0, expiredCount = 0; 
 
-    
     databaseRef.once('value', (snapshot) => {
-        if(snapshot.hasChild("clinicVisit")){
+        if(snapshot.hasChild("incidenceReport")){
             query.once('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){
-                    childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                    visits.push({
-                        formId: innerChildSnapshot.key,
-                        studentName: childSnapshotData.studentName,
-                        complaint: childSnapshotData.visitReason,
-                        timeIn: childSnapshotData.timeIn,
-                        timeOut: childSnapshotData.timeOut,
-                        status: childSnapshotData.status,
-                        visitDate: childSnapshotData.visitDate
+                    childSnapshotData = innerChildSnapshot.exportVal(); 
+                    temp.push({
+                        incidentDate: childSnapshotData.incidentDate,
+                        doseOmission: childSnapshotData.doseOmission,
+                        doseDelay: childSnapshotData.doseDelay,
+                        ineffectiveDose: childSnapshotData.ineffectiveDose,
+                        drugInteraction: childSnapshotData.drugInteraction,
+                        drugAllergy: childSnapshotData.drugAllergy,
+                        noStock: childSnapshotData.noStock,
+                        expiredStock: childSnapshotData.expiredStock,
                     })         
                 })
+
+                for(i = 0; i < temp.length; i++){
+                    if(temp[i].doseOmission == "true"){
+                        omissionCount++;
+                    }
+                    if(temp[i].doseDelay == "true"){
+                        delayCount++;
+                    }
+                    if(temp[i].ineffectiveDose == "true"){
+                        ineffectiveCount++;
+                    }
+                    if(temp[i].drugInteraction == "true"){
+                        interactionCount++;
+                    }
+                    if(temp[i].drugAllergy == "true"){
+                        allergyCount++;
+                    }
+                    if(temp[i].noStock == "true"){
+                        noStockCount++;
+                    }
+                    if(temp[i].expiredStock == "true"){
+                        expiredCount++;
+                    }
+                }   
+
+                res.status(200).send({
+                    omissionCount: omissionCount,
+                    delayCount: delayCount,
+                    ineffectiveCount: ineffectiveCount,
+                    interactionCount: interactionCount,
+                    allergyCount: allergyCount,
+                    noStockCount: noStockCount,
+                    expiredCount: expiredCount
+                });
             })
-            res.send (visits);
         }
-        else{
-            res.send (visits);    
+        else {
+            res(reports);
         }
     })
-};
+}

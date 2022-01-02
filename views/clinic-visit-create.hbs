@@ -1217,6 +1217,9 @@
                 console.log("Student info");
                 console.log(studentInfo);
                 
+                weight = studentInfo.weight; 
+                height = studentInfo.height; 
+
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
@@ -1298,11 +1301,12 @@
                 }
             });
 
-            var schoolYear = [];
-            var BMI = [], weight = [], height = [];
-            var checker = false;
+            
             // --------------------------------- FOR GROWTH MONITORING ------------------------------
             $.get("/getBMI", {studentID: typedID}, function(data){
+                var schoolYear = [];
+                var BMI = [], weight = [], height = [];
+                var checker = false;
                 var i, size;
                 if(schoolYear.length!=null){
                     size=schoolYear.length;
@@ -3087,8 +3091,8 @@
                     console.log("weight-based: " + Math.round(wbd));
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -3102,8 +3106,8 @@
                     console.log("weight-based: " + Math.round(wbd));
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -3117,8 +3121,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -3132,8 +3136,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -3147,8 +3151,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -3476,9 +3480,8 @@
             
             addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
 
-            if(checkBox.checked){
                 addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
-            }
+            
             console.log(medicationsArray);
             console.log(intakeArray);
             

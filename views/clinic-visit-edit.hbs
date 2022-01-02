@@ -28,12 +28,11 @@
             border-top: none;
         }
 
-        #studentDiv{
-            display: none;
-        }
-
-        #lastVisit{
-            display: none;
+        .content {
+            margin: 15px 15px 0px 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
         }
 
         .valid-feedback .status{
@@ -537,31 +536,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-2">
-                        <div class="card-body">
-                            <form class="user">
-                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
-                                    </div>
-                                </div>
-                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
-                            </form>
-                        </div>
-                    </div>
-                    </div>
-
+                    
                     <div class="card shadow mb-2" id="studentDiv">
                         <div class="card-body">
                                 <!-- Card Header - Accordion -->
-                            <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
-                                role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                 <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
                             </a>
                             <!-- Card Content - Collapse -->
-                            <div class="collapse" id="collapseCV">
+                            <div class="content">
                                 <div class="card-body">
                                     <div class="container-fluid">
                                         <div class="row mb-3">
@@ -879,11 +862,23 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="well">
-                                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
-                                            <i class="fa fa-exclamation-circle"></i>
-                                            <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                        </div>                               
+                                    <div class="well" style="display: none;" id="errorMed">  
+                                        <div class="alert alert-danger" role="alert">
+                                            <p class="alert-heading">
+                                                <i class="fa fa-exclamation-circle"></i>
+                                                <strong class="mx-1">Drug interaction found</strong>
+                                            </p>
+                                            <p id="interactionDiv"></p>
+                                        </div>                             
+                                    </div>
+                                    <div class="well" style="display: none;" id="successMed">  
+                                        <div class="alert alert-success" role="alert">
+                                            <p class="alert-heading">
+                                                <i class="fa fa-check-circle"></i>
+                                                <strong class="mx-1">No drug interaction found</strong>
+                                            </p>
+                                            <p id="noInteractionDiv"></p>
+                                        </div>                             
                                     </div>
                                 </div>
                             </div>
@@ -1313,31 +1308,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-2">
-                        <div class="card-body">
-                            <form class="user">
-                                <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
-                                    </div>
-                                </div>
-                                <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv">
-                            </form>
-                        </div>
-                    </div>
-                    </div>
 
                     <div class="card shadow mb-2" id="studentDiv">
                         <div class="card-body">
                                 <!-- Card Header - Accordion -->
-                            <a href="#collapseCV" class="d-block card-header py-3" data-toggle="collapse"
-                                role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                 <h6 class="m-0 font-weight-bold text-primary" id="headerNameCollapse"></h6>
                             </a>
                             <!-- Card Content - Collapse -->
-                            <div class="collapse" id="collapseCV">
+                            <div class="content"> 
                                 <div class="card-body">
                                     <div class="container-fluid">
                                         <div class="row mb-3">
@@ -1655,11 +1634,23 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="well">
-                                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
-                                            <i class="fa fa-exclamation-circle"></i>
-                                            <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                        </div>                               
+                                    <div class="well" style="display: none;" id="errorMed">  
+                                        <div class="alert alert-danger" role="alert">
+                                            <p class="alert-heading">
+                                                <i class="fa fa-exclamation-circle"></i>
+                                                <strong class="mx-1">Drug interaction found</strong>
+                                            </p>
+                                            <p id="interactionDiv"></p>
+                                        </div>                             
+                                    </div>
+                                    <div class="well" style="display: none;" id="successMed">  
+                                        <div class="alert alert-success" role="alert">
+                                            <p class="alert-heading">
+                                                <i class="fa fa-check-circle"></i>
+                                                <strong class="mx-1">No drug interaction found</strong>
+                                            </p>
+                                            <p id="noInteractionDiv"></p>
+                                        </div>                             
                                     </div>
                                 </div>
                             </div>
@@ -1778,9 +1769,32 @@
 
         $("#medicationVisit").select2();
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
+
     </script>
 
     <script>
+        var collapsible = document.getElementsByClassName("collapsible");
+        console.log(collapsible);
+        var j;
+
+        for (j = 0; j < collapsible.length; j++) {
+            console.log("PASOK LOOP");
+            
+            collapsible[j].addEventListener("click", function() {
+                
+            this.classList.toggle("active");
+
+            var content = this.nextElementSibling;
+
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } 
+            else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+            });
+        }
+        
         function takenClicked() {
             var checkBox = document.getElementById("takenClinic");
             var div = document.getElementById("takenDiv");
@@ -1806,124 +1820,14 @@
         var notAllowedMedicines = [];
         var weight, height, age, fullAge, sex;
         var studentID = $('#studentID').val();
-        var studentName, lastName, firstName, middleName, gradeSection, studentType, sex, birthday, age, nationality, religion, address;
+        var studentName, lastName, firstName, middleName, gradeSection, studentType, birthday, age, nationality, religion, address;
         var fatherName, fatherEmail, fatherContact, motherName, motherEmail, motherContact, guardianName, guardianEmail, guardianContact;
         var pediaName, pediaEmail, pediaContact, dentistName, dentistEmail, dentistContact, preferredHospital, hospitalAddress;
 
-        $.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
-            console.log(studentInfo);
-            studentName = studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName;
-            lastName = studentInfo.lastName;
-            firstName = studentInfo.firstName;
-            middleName = studentInfo.middleName;
-            gradeSection = "Grade " + studentInfo.grade + " - " + studentInfo.section;
-            studentType = studentInfo.studentType;
-            sex = studentInfo.sex;
-            birthday = studentInfo.birthday;
-            age = studentInfo.age;
-            fullAge = studentInfo.age + " years old";
-            nationality = studentInfo.nationality;
-            religion = studentInfo.religion;
-            address = studentInfo.address;
-            fatherName = studentInfo.fatherName,
-            fatherEmail = studentInfo.fatherEmail,
-            fatherContact = studentInfo.fatherContact,
-            motherName = studentInfo.motherName,
-            motherEmail = studentInfo.motherEmail,
-            motherContact = studentInfo.motherContact,
-            guardianName = studentInfo.guardianName,
-            guardianEmail = studentInfo.guardianEmail,
-            guardianContact = studentInfo.guardianContact,
-            pediaName = studentInfo.pediaName,
-            pediaEmail = studentInfo.pediaEmail,
-            pediaContact = studentInfo.pediaContact,
-            dentistName = studentInfo.dentistName,
-            dentistEmail = studentInfo.dentistEmail,
-            dentistContact = studentInfo.dentistContact,
-            preferredHospital = studentInfo.preferredHospital,
-            hospitalAddress = studentInfo.hospitalAddress
-        });
+        
 
-        console.log(firstName);
-
-        function searchProfile() {
-            var typedID = document.getElementById("studentVisit").value;
-
-            // --------------------------------- STUDENT PROFILE ------------------------------
-            
-            if(!typedID && !typedID.value){
-                $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
-                document.getElementById('studentDiv').style.display = "none"; 
-                document.getElementById('errorDiv').style.display = "block";  
-                document.getElementById('lastVisit').style.display = "none";
-                document.getElementById("clinicVisitForm").reset();
-
-            }
-            else if(firstName == null){ // if data is null so meaning no student with that id number
-                $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
-                document.getElementById('studentDiv').style.display = "none";                     
-                document.getElementById('errorDiv').style.display = "block";
-                document.getElementById('lastVisit').style.display = "none";                   
-                document.getElementById("clinicVisitForm").reset();
-            } 
-            else {
-                document.getElementById('errorDiv').style.display = "none";   // hide error message 
-                $('#headerNameCollapse').html(typedID);
-                // Header
-                $('#nameHeaderVisit').html(studentName);
-                $('#idHeaderVisit').html(typedID);
-                //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
-
-                // personal info
-                $('#visitLastName').html(lastName);
-                $('#visitFirstName').html(firstName);
-                $('#visitMiddleName').html(middleName);
-
-                if(gradeSection)
-                    $('#gradeSection').html(gradeSection);
-                    
-                if(studentType)
-                    if(studentType == "old" || studentType == "Old")
-                        $('#studentTypeHeader').html("Old Student");
-                    else if(studentType == "new" || studentType == "New")
-                        $('#studentTypeHeader').html("New Student");    
-
-                if(sex == "Female")
-                    document.getElementById("studentPic").src = "public/img/female.svg";
-                else if(sex == "Male")
-                    document.getElementById("studentPic").src = "public/img/male.svg";
-
-                $('#visitBirthday').html(birthday);
-                //$('#visitNationality').html(nationality);
-                //$('#visitReligion').html(religion);
-                $('#visitAge').html(fullAge);
-                $('#visitSex').html(sex);
-                $('#visitAddress').html(address);
-
-                // contacts
-                if(fatherName)
-                    $('#visitFN').html(fatherName);
-                
-                if(fatherEmail)
-                    $('#visitFE').html(fatherEmail);
-
-                if(fatherContact)
-                    $('#visitFC').html(fatherContact);
-
-                if(motherName) 
-                    $('#visitMN').html(motherName);
-
-                if(motherEmail)    
-                    $('#visitME').html(motherEmail);
-
-                if(motherContact)    
-                    $('#visitMC').html(motherContact);
-
-                document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
-            }
-
-            // --------------------------------- LAST VISIT DETAILS ------------------------------
-            $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){
+        // --------------------------------- LAST VISIT DETAILS ------------------------------
+            $.get('/getLastVisit', {studentID: studentID}, function(lastVisit){
                 console.log("last visit details of the student");
                 console.log(lastVisit);
                 if(lastVisit != ""){
@@ -1975,13 +1879,94 @@
                 }
                 else
                     document.getElementById('lastVisit').style.display = "none";
-            })
 
-            var schoolYear = [];
-            var BMI = [], weight = [], height = [];
-            var checker = false;
+            // --------------------------------- STUDENT PROFILE ------------------------------
+            $.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+
+                weight = studentInfo.weight; 
+                height = studentInfo.height; 
+                                
+                    $('#headerNameCollapse').html(studentID);
+                    // Header
+                    $('#nameHeaderVisit').html(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                    $('#idHeaderVisit').html(studentID);
+                    //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
+
+                    // personal info
+                    $('#visitLastName').html(studentInfo.lastName);
+                    $('#visitFirstName').html(studentInfo.firstName);
+                    $('#visitMiddleName').html(studentInfo.middleName);
+
+                    if(studentInfo.grade && studentInfo.section)
+                        $('#gradeSection').html("Grade " + studentInfo.grade + " - " + studentInfo.section);
+                        
+                    if(studentInfo.studentType)
+                        if(studentInfo.studentType == "old" || studentInfo.studentType == "Old")
+                            $('#studentTypeHeader').html("Old Student");
+                        else if(studentInfo.studentType == "new" || studentInfo.studentType == "New")
+                            $('#studentTypeHeader').html("New Student");    
+
+                    if(studentInfo.sex == "Female")
+                        document.getElementById("studentPic").src = "public/img/female.svg";
+                    else if(studentInfo.sex == "Male")
+                        document.getElementById("studentPic").src = "public/img/male.svg";
+
+                    $('#visitBirthday').html(studentInfo.birthday);
+                    //$('#visitNationality').html(studentInfo.nationality);
+                    //$('#visitReligion').html(studentInfo.religion);
+                    $('#visitAge').html(studentInfo.age + " years old");
+                    age = studentInfo.age;
+                    $('#visitSex').html(studentInfo.sex);
+                    sex = studentInfo.sex;
+                    $('#visitAddress').html(studentInfo.address);
+
+                    // contacts
+                    if(studentInfo.fatherName)
+                        $('#visitFN').html(studentInfo.fatherName);
+                    
+                    if(studentInfo.fatherEmail)
+                        $('#visitFE').html(studentInfo.fatherEmail);
+
+                    if(studentInfo.fatherContact)
+                        $('#visitFC').html(studentInfo.fatherContact);
+
+                    if(studentInfo.motherName) 
+                        $('#visitMN').html(studentInfo.motherName);
+
+                    if(studentInfo.motherEmail)    
+                        $('#visitME').html(studentInfo.motherEmail);
+
+                    if(studentInfo.motherContact)    
+                        $('#visitMC').html(studentInfo.motherContact);
+
+                    //auto-fill form
+                    $('#studentID').val(studentID);
+                    $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                    if(studentInfo.grade)
+                        $('#studentGrade').val(studentInfo.grade);
+                    if(studentInfo.section)
+                        $('#studentSection').val(studentInfo.section);        
+                
+            });
+
+
+            });
+            
+            
+
+        console.log(firstName);
+
+
+            
             // --------------------------------- FOR GROWTH MONITORING ------------------------------
-            $.get("/getBMI", {studentID: typedID}, function(data){
+            $.get("/getBMI", {studentID: studentID}, function(data){
+                
+                var schoolYear = [];
+                var BMI = [], weight = [], height = [];
+                var checker = false;
+
                 var i, size;
                 if(schoolYear.length!=null){
                     size=schoolYear.length;
@@ -2022,13 +2007,13 @@
             });
 
             // --------------------------------- LIST OF CLINIC VISITS ------------------------------
-            $.get('/getVisits', {studentID: typedID}, function(visits){
+            $.get('/getVisits', {studentID: studentID}, function(visits){
                 console.log("list of visits ni student");
                 console.log(visits);
             })
 
             // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
-            $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
+            $.get('/getImmunizationRecord', {studentID: studentID}, function(immunizationHistory){
                 console.log("student immunization history");
                 console.log(immunizationHistory);
             })
@@ -2040,11 +2025,11 @@
             })
 
             // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
-            $.get('/getIntakeHistory', {studentID: typedID}, function(intakeHistory){
+            $.get('/getIntakeHistory', {studentID: studentID}, function(intakeHistory){
                 console.log("list of intakeHistory ni student");
                 console.log(intakeHistory);
             })
-        }
+        
 
         // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
         $.get("/getNotAllowedMedication", {studentID: studentID}, function(notAllowed){
@@ -2372,8 +2357,8 @@
                     console.log("weight-based: " + Math.round(wbd));
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -2387,8 +2372,8 @@
                     console.log("weight-based: " + Math.round(wbd));
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -2402,8 +2387,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -2417,8 +2402,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -2432,8 +2417,8 @@
                     console.log("weight-based: " + Math.round(wbd)); 
                     document.getElementById('invalidAmount').style.display = "none";
                     document.getElementById('validAmount').style.display = "block";
-                    if(Math.round(wbd) == 1){
-                        $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablet');
+                    if(Math.round(wbd) <= 1){
+                        $('#validAmount').html('Weight-based dosage: 1 tablet');
                     }
                     else if(Math.round(wbd) > 1){
                         $('#validAmount').html('Weight-based dosage: ' + Math.round(wbd) + ' tablets');
@@ -2725,13 +2710,15 @@
             }
         }
 
+        var getMe;
+
         async function getID(medicine){
             ids = [];
             const response = await fetch("https://rxnav.nlm.nih.gov/REST/rxcui.json?name="+medicine+"&srclist=DRUGBANK");
             const data = await response.json();
             ids.push(data.idGroup.rxnormId);
-
-            if(ids.length == medicationsArray.length){
+            
+            if(ids.length == getMe.length){
                 getInteraction();
             }
         }
@@ -2756,29 +2743,42 @@
             var endMed = document.getElementById("endMed").value;
             var checkBox = document.getElementById("takenClinic");
             var time =  $('#timeTaken').val();
-
-            addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
             
-            if(checkBox.checked){
+            addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
+
                 addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
-            }
+            
             console.log(medicationsArray);
             console.log(intakeArray);
-
+            
             namesArray = [];
             for(i = 0; i < medicationsArray.length; i++){
                 namesArray.push(medicationsArray[i].medication);
             }
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" placeholder="' + selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control namesInteraction" placeholder="' + selectedMedication +'" value="'+ selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
-
-            if(namesArray.length >= 2){
-                for(i = 0; i < medicationsArray.length; i++){
-                    console.log(medicationsArray[i].medication);
-                    getID(medicationsArray[i].medication);    
+            
+            getMe = document.getElementsByClassName("namesInteraction");
+            console.log("get me........");
+            console.log(getMe);
+            console.log("length ni get me");
+            console.log(getMe.length);
+            
+            if(getMe.length >= 2) {
+                console.log("inside get me if");
+                for(i = 0; i < getMe.length; i++){
+                    console.log("inside get me for loop");
+                    getID(getMe[i].value);
+                    console.log(getMe[i].value);    
                 }
             }
+
+            //if(namesArray.length >= 2){
+            //    for(i = 0; i < medicationsArray.length; i++){
+            //        getID(medicationsArray[i].medication);    
+            //    }
+            //}
         });
 
         var removeIDs = [];
@@ -2788,8 +2788,21 @@
             console.log("removing..." + button_id);  
             removeIDs.push(button_id);
             $('#row'+button_id+'').remove(); 
-            console.log(removeIDs);    
-        });
+            console.log(removeIDs);  
+            tempDescArray = [];
+            if(getMe.length >= 2) {
+                console.log("inside get me if");
+                for(i = 0; i < getMe.length; i++){
+                    console.log("inside get me for loop");
+                    getID(getMe[i].value);
+                    console.log(getMe[i].value);    
+                }
+            }
+            else if(getMe.length < 2){
+                document.getElementById("successMed").style.display = "none";
+                document.getElementById("errorMed").style.display = "none";
+            }
+        });  
 
         $("#assignMedication").change(function(){
             document.getElementById("medicationVisit").disabled = false;

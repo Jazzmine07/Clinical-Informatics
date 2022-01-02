@@ -847,7 +847,6 @@ router.post('/getBmiStatus', studentController.getBmiStatus);
 router.get('/getLastVisit', studentInfoController.getLastVisit);
 router.get('/getImmunizationRecord', studentInfoController.getImmunizationRecord);
 router.get('/getVaccineList', studentInfoController.getVaccineList);
-
 router.get('/getAllVisits', visitController.getAllVisits);
 
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
@@ -855,6 +854,9 @@ router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addMedicationIntake', visitController.addMedicationIntake);
 router.post('/addIncidenceReport', visitController.addIncidenceReport);
+
+//---------GET FOR CLINIC VISIT MODULE REPORTS---------------------
+router.get('/getIncidenceCount', visitController.getIncidenceCount);
 
 //---------POST FORMS FOR HEALTH ASSESSMENT MODULE----------------
 router.post('/addAPE', studentController.addAPE); 

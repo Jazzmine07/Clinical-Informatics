@@ -929,6 +929,8 @@
             var curr =  new Date();
             var currMonth = curr.getMonth();
             var currYear = curr.getFullYear();
+            var currentMonth = curr.toLocaleString('default', { month: 'long' });  // function to get the month word
+
             //find the day of the week the day is
             var chosenDay, chosenDate;
 
@@ -1093,7 +1095,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Daily Clinic Visits for the Month',
+                            text: 'Daily Clinic Visits for '+currentMonth+ ' '+currYear,
                             font: {
                                 size: 25   // font size of the labels
                             },

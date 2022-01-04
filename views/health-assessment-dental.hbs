@@ -1250,11 +1250,44 @@
                     success: function(data) {
                         console.log("HELLO DATA:");
                         console.log(data);
-                        //console.log(data.name);
+
                         
-                        //document.getElementById("studentName").value=data.name;                            
-                        //document.getElementById("dob").value=data.birthday;
-                        //document.getElementById("gender").value=data.sex;
+                        $('#studentName').val(data.name); 
+                        
+                        var bday = new Date(data.birthday);
+                        var day = ("0" + bday.getDate()).slice(-2);
+                        var month = ("0" + (bday.getMonth() + 1)).slice(-2);
+                        var dob = bday.getFullYear()+"-"+(month)+"-"+(day) ; 
+                        $('#dob').val(dob); 
+                        
+                        $('#gender').val(data.sex); 
+
+
+                        if(data.prevCalculus == "true")
+                            document.querySelector('input[name="calculus"]').checked = true;
+                        else
+                            document.querySelector('input[name="calculus"]').checked = false;
+                        
+                        if(data.prevGingiva == "true")
+                            document.querySelector('input[name="gingiva"]').checked = true;
+                        else
+                            document.querySelector('input[name="gingiva"]').checked = false;
+
+                        if(data.prevPocket == "true")
+                            document.querySelector('input[name="pocket"]').checked = true;
+                        else
+                            document.querySelector('input[name="pocket"]').checked = false;
+
+                        if(data.prevAnomaly == "true")
+                            document.querySelector('input[name="anomaly"]').checked = true;
+                        else
+                            document.querySelector('input[name="anomaly"]').checked = false;
+                        
+                        var inputs = $("td input");
+
+                        for(var j = 0; j < inputs.length; j++){
+                            $(inputs[j]).val(data.prevInputs[j]);
+                        }
 
                     }  
             });
@@ -1324,12 +1357,6 @@
                     link="/health-assessment";
                 }
                 window.location.href = link;
-
-                var inputs = $("td input");
-
-                for(var j = 0; j < inputs.length; j++){
-                    $(inputs[j]).val(dentals[j]);
-                }
             });
         
             var schoolYear=localStorage.getItem("schoolYear");

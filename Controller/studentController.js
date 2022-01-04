@@ -628,7 +628,7 @@ exports.addSchedule=function(req,res){
     res.send();
 }
 
-exports.loadPrevData=function(req,res){
+exports.loadPrevDataAPE=function(req,res){
     console.log("LOAD FUNCTION");
     var currSY= req.body.schoolYear;
     var id= req.body.id;
@@ -1041,6 +1041,233 @@ exports.loadPrevData=function(req,res){
     
     
 }
+//TO EDIT
+exports.loadPrevDataADE=function(req,res){
+    console.log("LOAD ADE FUNCTION");
+    var currSY= req.body.schoolYear;
+    var id= req.body.id;
+    var start=parseInt(currSY.substr(0,4))-1;
+    var end= parseInt(currSY.substr(5,8))-1;
+    console.log("Start and End:"+start+" and "+end);
+    var prevYear= start+"-"+end;
+    
+    var ade=[],curr=[],done=false;
+    var database = firebase.database();
+    var studentInfoRef= database.ref("studentInfo/"+id);
+    var studentHealthHistoryRef= database.ref("studentHealthHistory/"+id+"/ade");
+    console.log("Previous Year:"+ prevYear);
+    var studentInfo;
+    //var name,bday,sex;
+    
+    studentHealthHistoryRef.once('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            console.log(childSnapshot.key);
+            var childValues = childSnapshot.exportVal();
+            ade.push({
+                sy:childSnapshot.key,
+                age:childSnapshot.age,
+                dope:childValues.adeDate,
+                doctor:childValues.clinician,
+                calculus:childValues.calculus,
+                anomaly:childValues.anomaly,
+                gingiva:childValues.gingiva,
+                studentId:childValues.id,
+                inputs:childValues.inputs,
+                studentName:childValues.name,
+                pocket:childValues.pocket,
+                schoolYear:childValues.schoolYear                
+            });
+            // if(childSnapshot.key==currSY){
+            //     curr[0]={
+            //         sy:childSnapshot.key,
+            //         age:childSnapshot.age,
+            //         dope:childValues.adeDate,
+            //         doctor:childValues.clinician,
+            //         calculus:childValues.calculus,
+            //         anomaly:childValues.anomaly,
+            //         gingiva:childValues.gingiva,
+            //         studentId:childValues.id,
+            //         inputs:childValues.inputs,
+            //         studentName:childValues.name,
+            //         pocket:childValues.pocket,
+            //         schoolYear:childValues.schoolYear      
+            //     };
+            // }
+        });
+
+        studentInfo= loadStudentData(id);
+        console.log("StudentInfo:");
+        console.log(studentInfo);
+
+        var lastAde;
+        var i=1;
+        if(ade!=null){
+            console.log("hello");
+            console.log(ade);
+            //console.log(curr);
+            // while(lastAde==null){
+            //     console.log("THIS IS INSIDE LOOP lastAdE");
+            //     console.log(ade[ade.length-i].sy);
+            //     if(currSY==ade[ade.length-i].sy){
+            //         i++;
+            //         if(ade.length==1){
+            //             lastAde=1;
+            //             ade.push({
+            //                 sy:"",
+            //                 age:"",
+            //                 dope:"",
+            //                 doctor:"",
+            //                 calculus:"",
+            //                 anomaly:"",
+            //                 gingiva:"",
+            //                 studentId:"",
+            //                 inputs:"",
+            //                 studentName:"",
+            //                 pocket:"",
+            //                 schoolYear:""      
+            //             });
+            //             break;
+            //         }
+            //     }
+            //     else{
+            //         lastAde=i;
+            //             break;
+            //     }
+            // }
+            lastAde=ade.length-1;
+        }
+        if(ade==null){
+            console.log("empty ade");
+            lastAde=0;
+            ape.push({
+                sy:"",
+                age:"",
+                dope:"",
+                doctor:"",
+                calculus:"",
+                anomaly:"",
+                gingiva:"",
+                studentId:"",
+                inputs:"",
+                studentName:"",
+                pocket:"",
+                schoolYear:"" 
+            });
+
+            // curr.push({
+            //     sy:"",
+            //     age:"",
+            //     dope:"",
+            //     doctor:"",
+            //     calculus:"",
+            //     anomaly:"",
+            //     gingiva:"",
+            //     studentId:"",
+            //     inputs:"",
+            //     studentName:"",
+            //     pocket:"",
+            //     schoolYear:"" 
+            // });
+        }
+        // if(curr==null){
+        //     console.log("empty curr");
+        //     curr.push({
+        //         sy:"",
+        //         age:"",
+        //         dope:"",
+        //         doctor:"",
+        //         calculus:"",
+        //         anomaly:"",
+        //         gingiva:"",
+        //         studentId:"",
+        //         inputs:"",
+        //         studentName:"",
+        //         pocket:"",
+        //         schoolYear:"" 
+        //     });
+        // }
+        
+        //console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
+        console.log(ade);
+        //console.log(curr);
+        var record={
+            name:studentInfo.name,
+            birthday:studentInfo.bday,
+            sex:studentInfo.sex,
+
+            prevSy:ade[lastAde].sy,
+            prevAge:ade[lastAde].age,
+            prevDope:ade[lastAde].dope,
+            prevDoctor:ade[lastAde].doctor,
+            prevCalculus:ade[lastAde].calculus,
+            prevAnomaly:ade[lastAde].anomaly,
+            prevGingiva:ade[lastAde].gingiva,
+            prevStudentId:ade[lastAde].studentId,
+            prevInputs:ade[lastAde].inputs,
+            prevPocket:ade[lastAde].pocket,
+            prevSchoolYear:ade[lastAde].schoolYear, 
+            
+            // currSy:curr[0].sy,
+            // currAge:curr[0].age,
+            // currDope:curr[0].dope,
+            // currDoctor:curr[0].doctor,
+            // currCalculus:curr[0].calculus,
+            // currAnomaly:curr[0].anomaly,
+            // currGingiva:curr[0].gingiva,
+            // currStudentId:curr[0].studentId,
+            // currInputs:curr[0].inputs,
+            // currStudentName:curr[0].studentName,
+            // currPocket:curr[0].pocket,
+            // currSchoolYear:curr[0].schoolyear,
+        };
+        if(record.name==undefined){
+            record.name="";
+        }
+        if(record.birthday==undefined){
+            record.birthday="";
+        }
+        if(record.sex==undefined){
+            record.sex="";
+        }
+        if(record.prevSy==undefined){
+            record.prevSy="";
+        }
+        if(record.prevAge==undefined){
+            record.prevAgeAge="";
+        }
+        if(record.prevDope==undefined){
+            record.prevDope="";
+        }
+        if(record.prevDoctor==undefined){
+            record.prevDoctor=="";
+        }
+        if(record.prevCalculus==undefined){
+            record.prevCalculus="";
+        }
+        if(record.prevAnomaly==undefined){
+            record.prevAnomaly="";
+        }
+        if(record.prevGingiva==undefined){
+            record.prevGingiva="";
+        }
+        if(record.prevStudentId==undefined){
+            record.prevStudentId="";
+        }
+        if(record.prevInputs==undefined){
+            record.prevInputs=[]
+        }
+        if(record.prevPocket==undefined){
+            record.prevPocket="";
+        }
+        if(record.prevSchoolYear==undefined){
+            record.prevSchoolYear="";
+        }
+        
+
+        res.send(record);
+        });   
+}
+
 
 loadStudentData= function (id){
     var database = firebase.database();

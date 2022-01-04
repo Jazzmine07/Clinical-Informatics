@@ -1237,8 +1237,29 @@
             else{
                 document.getElementById("prevBtn").style.display="block";
             }
+            console.log(schoolYear);
+            console.log(document.getElementById("studentID").value);
             
-            
+            $.ajax({
+                    url: '/loadPrevDataADE',
+                    method: 'POST',
+                    data: {
+                        schoolYear:schoolYear,
+                        id:document.getElementById("studentID").value
+                    },
+                    success: function(data) {
+                        console.log("HELLO DATA:");
+                        console.log(data);
+                        //console.log(data.name);
+                        
+                        //document.getElementById("studentName").value=data.name;                            
+                        //document.getElementById("dob").value=data.birthday;
+                        //document.getElementById("gender").value=data.sex;
+
+                    }  
+            });
+
+
             $("#dope").change(function(){
                 var bDate = new Date(document.getElementById("dob").value);
                 var vDate = new Date(document.getElementById("dope").value);

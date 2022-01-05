@@ -323,7 +323,7 @@ router.get('/clinic-visit/create', (req, res) => {
   });
   prom2 = userController.getNurse(); 
   prom3 = userController.getClinician();
-  prom5 = inventoryController.getMedicines();
+  prom5 = inventoryController.getSpecificMedicines();
   
   Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
     user = result[0];
@@ -360,7 +360,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
 
   prom1 = userController.getUser();
   prom2 = userController.getNurse();
-  prom3 = inventoryController.getMedicines();
+  prom3 = inventoryController.getSpecificMedicines();
   prom4 = visitController.getClinicVisitForm(req);
 
   Promise.all([prom1, prom2, prom3, prom4]).then(result => {
@@ -399,7 +399,7 @@ router.get('/clinic-visit/medication', (req, res) => {
 
   prom1 = userController.getUser();
   prom2 = userController.getNurse(); 
-  prom3 = inventoryController.getMedicines();
+  prom3 = inventoryController.getSpecificMedicines();
   
   Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
@@ -628,7 +628,7 @@ router.get('/inventory-medicine/add', (req, res) => {
   console.log("Read add medicine successful!");
   var prom1, prom2, user, medicines;
   prom1 =  userController.getUser();
-  prom2 = inventoryController.getMedicines();
+  prom2 = inventoryController.getMedicineNames();
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
     medicines = result[1];

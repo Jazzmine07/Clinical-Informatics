@@ -1065,37 +1065,22 @@ exports.loadPrevDataADE=function(req,res){
         snapshot.forEach(function(childSnapshot){
             console.log(childSnapshot.key);
             var childValues = childSnapshot.exportVal();
-            ade.push({
-                sy:childSnapshot.key,
-                age:childSnapshot.age,
-                dope:childValues.adeDate,
-                doctor:childValues.clinician,
-                calculus:childValues.calculus,
-                anomaly:childValues.anomaly,
-                gingiva:childValues.gingiva,
-                studentId:childValues.id,
-                inputs:childValues.inputs,
-                studentName:childValues.name,
-                pocket:childValues.pocket,
-                schoolYear:childValues.schoolYear                
-            });
-            // if(childSnapshot.key==currSY){
-            //     curr[0]={
-            //         sy:childSnapshot.key,
-            //         age:childSnapshot.age,
-            //         dope:childValues.adeDate,
-            //         doctor:childValues.clinician,
-            //         calculus:childValues.calculus,
-            //         anomaly:childValues.anomaly,
-            //         gingiva:childValues.gingiva,
-            //         studentId:childValues.id,
-            //         inputs:childValues.inputs,
-            //         studentName:childValues.name,
-            //         pocket:childValues.pocket,
-            //         schoolYear:childValues.schoolYear      
-            //     };
-            // }
+                ade.push({
+                    sy:childSnapshot.key,
+                    age:childSnapshot.age,
+                    dope:childValues.adeDate,
+                    doctor:childValues.clinician,
+                    calculus:childValues.calculus,
+                    anomaly:childValues.anomaly,
+                    gingiva:childValues.gingiva,
+                    studentId:childValues.id,
+                    inputs:childValues.inputs,
+                    studentName:childValues.name,
+                    pocket:childValues.pocket,
+                    schoolYear:childValues.schoolYear                
+                });
         });
+        
 
         studentInfo= loadStudentData(id);
         console.log("StudentInfo:");
@@ -1138,10 +1123,10 @@ exports.loadPrevDataADE=function(req,res){
             // }
             lastAde=ade.length-1;
         }
-        if(ade==null){
+        if(ade.length==0){
             console.log("empty ade");
             lastAde=0;
-            ape.push({
+            ade.push({
                 sy:"",
                 age:"",
                 dope:"",
@@ -1156,40 +1141,8 @@ exports.loadPrevDataADE=function(req,res){
                 schoolYear:"" 
             });
 
-            // curr.push({
-            //     sy:"",
-            //     age:"",
-            //     dope:"",
-            //     doctor:"",
-            //     calculus:"",
-            //     anomaly:"",
-            //     gingiva:"",
-            //     studentId:"",
-            //     inputs:"",
-            //     studentName:"",
-            //     pocket:"",
-            //     schoolYear:"" 
-            // });
         }
-        // if(curr==null){
-        //     console.log("empty curr");
-        //     curr.push({
-        //         sy:"",
-        //         age:"",
-        //         dope:"",
-        //         doctor:"",
-        //         calculus:"",
-        //         anomaly:"",
-        //         gingiva:"",
-        //         studentId:"",
-        //         inputs:"",
-        //         studentName:"",
-        //         pocket:"",
-        //         schoolYear:"" 
-        //     });
-        // }
         
-        //console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
         console.log(ade);
         //console.log(curr);
         var record={
@@ -1209,18 +1162,6 @@ exports.loadPrevDataADE=function(req,res){
             prevPocket:ade[lastAde].pocket,
             prevSchoolYear:ade[lastAde].schoolYear, 
             
-            // currSy:curr[0].sy,
-            // currAge:curr[0].age,
-            // currDope:curr[0].dope,
-            // currDoctor:curr[0].doctor,
-            // currCalculus:curr[0].calculus,
-            // currAnomaly:curr[0].anomaly,
-            // currGingiva:curr[0].gingiva,
-            // currStudentId:curr[0].studentId,
-            // currInputs:curr[0].inputs,
-            // currStudentName:curr[0].studentName,
-            // currPocket:curr[0].pocket,
-            // currSchoolYear:curr[0].schoolyear,
         };
         if(record.name==undefined){
             record.name="";

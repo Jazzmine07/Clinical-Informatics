@@ -29,6 +29,7 @@ exports.addAPE = function(req, res){
     var clicked=req.body.clicked;
     var schoolYear= req.body.schoolYear;
     var age= req.body.age;
+    var grade = req.body.grade;
     var sectionTop=req.body.sectionTop;
     var section= req.body.section;
     var id= req.body.studentId;
@@ -70,6 +71,7 @@ exports.addAPE = function(req, res){
     var record = {
         schoolYear:schoolYear,
         age:age,
+        grade:grade,
         id: id,
         name: name,
         apeDate: apeDate,

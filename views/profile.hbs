@@ -384,7 +384,7 @@
 
                         <div class="card btn-group btn-group-toggle mb-3" style="flex-direction:row !important;" data-toggle="buttons">
                             <label class="btn btn-primary active">
-                              <input class="categorybtn active" type="radio" name="options" id="option1" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
+                              <input class="categorybtn" type="radio" name="options" id="option1" autocomplete="off" onclick="openDiv(event, 'personalInfo')"> Personal Inforamtion
                             </label>
                             <label class="btn btn-primary">
                               <input class="categorybtn" type="radio" name="options" id="option2" autocomplete="off" onclick="openDiv(event, 'growthMonitoring')"> Growth Monitoring
@@ -1415,7 +1415,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="immunizationTable" width="100%" cellspacing="0">
                                     {{!-- <thead>
                                         <tr>
                                             <th>Vaccine</th>
@@ -1428,50 +1428,158 @@
                                     </thead> --}}
                                     <tbody>
                                         <tr>
+                                            <td>Anti-Rabies</td>
+                                            <td class="text-center rabies"></td>
+                                            <td class="text-center rabies"></td>
+                                            <td class="text-center rabies"></td>
+                                            <td class="text-center rabies"></td>
+                                            <td class="text-center rabies"></td>
+                                            <td class="text-center rabies"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Anti-Tetanus</td>
+                                            <td class="text-center tetanus"></td>
+                                            <td class="text-center tetanus"></td>
+                                            <td class="text-center tetanus"></td>
+                                            <td class="text-center tetanus"></td>
+                                            <td class="text-center tetanus"></td>
+                                            <td class="text-center tetanus"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Bacillus Calmette–Guérin (BCG)</td>
+                                            <td class="text-center bcg"></td>
+                                            <td class="text-center bcg"></td>
+                                            <td class="text-center bcg"></td>
+                                            <td class="text-center bcg"></td>
+                                            <td class="text-center bcg"></td>
+                                            <td class="text-center bcg"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>COVID-19</td>
+                                            <td class="text-center covid"></td>
+                                            <td class="text-center covid"></td>
+                                            <td class="text-center covid"></td>
+                                            <td class="text-center covid"></td>
+                                            <td class="text-center covid"></td>
+                                            <td class="text-center covid"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Diphtheria, Pertussis and Tetanus (DPT)</td>
+                                            <td class="text-center dpt"></td>
+                                            <td class="text-center dpt"></td>
+                                            <td class="text-center dpt"></td>
+                                            <td class="text-center dpt"></td>
+                                            <td class="text-center dpt"></td>
+                                            <td class="text-center dpt"></td>  
+                                        </tr> 
+                                        <tr>
+                                            <td>Human Papillomavirus (HPV)</td>
+                                            <td class="text-center hpv"></td>
+                                            <td class="text-center hpv"></td>
+                                            <td class="text-center hpv"></td>
+                                            <td class="text-center hpv"></td>
+                                            <td class="text-center hpv"></td>
+                                            <td class="text-center hpv"></td>  
+                                        </tr>  
+                                        <tr>
                                             <td>Hepatitis A</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>  
+                                            <td class="text-center hepa"></td>
+                                            <td class="text-center hepa"></td>
+                                            <td class="text-center hepa"></td>
+                                            <td class="text-center hepa"></td>
+                                            <td class="text-center hepa"></td>
+                                            <td class="text-center hepa"></td>  
                                         </tr>
                                         <tr>
                                             <td>Hepatitis B</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td>
-                                            <td class="text-center">-</td>
-                                            <td class="text-center">-</td>   
-                                            <td class="text-center">-</td>   
-                                        </tr>
-                                        <tr>
-                                            <td>Measles, Mumps, Rubella (MMR)</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td>   
-                                        </tr>
+                                            <td class="text-center hepb"></td>
+                                            <td class="text-center hepb"></td>
+                                            <td class="text-center hepb"></td>
+                                            <td class="text-center hepb"></td>
+                                            <td class="text-center hepb"></td>
+                                            <td class="text-center hepb"></td>  
+                                        </tr>        
+                                        <tr> 
+                                            <td>Haemophilus Influenzae Type B (Hib)</td>
+                                            <td class="text-center hib" style="width: 200px;"></td>
+                                            <td class="text-center hib" style="width: 200px;"></td>
+                                            <td class="text-center hib" style="width: 200px;"></td>
+                                            <td class="text-center hib" style="width: 200px;"></td>
+                                            <td class="text-center hib" style="width: 200px;"></td>
+                                            <td class="text-center hib" style="width: 200px;"></td>  
+                                        </tr>                               
                                         <tr>
                                             <td rowspan="2" style="vertical-align : middle;">Influenza</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td> 
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>  
                                               
                                         </tr>
                                         <tr>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">12/10/2014</td>
-                                            <td class="text-center">-</td> 
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>
+                                            <td class="text-center influ"></td>  
                                         </tr>
+                                        <tr>
+                                            <td>Measles, Mumps, Rubella (MMR)</td>
+                                            <td class="text-center mmr"></td>
+                                            <td class="text-center mmr"></td>
+                                            <td class="text-center mmr"></td>
+                                            <td class="text-center mmr"></td>
+                                            <td class="text-center mmr"></td>
+                                            <td class="text-center mmr"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Meningococcal</td>
+                                            <td class="text-center mening"></td>
+                                            <td class="text-center mening"></td>
+                                            <td class="text-center mening"></td>
+                                            <td class="text-center mening"></td>
+                                            <td class="text-center mening"></td>
+                                            <td class="text-center mening"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Oral Poliovirus Vaccine (OPV) </td>
+                                            <td class="text-center opv"></td>
+                                            <td class="text-center opv"></td>
+                                            <td class="text-center opv"></td>
+                                            <td class="text-center opv"></td>
+                                            <td class="text-center opv"></td>
+                                            <td class="text-center opv"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Pneumococcal Conjugate Vaccine (PCV13)</td>
+                                            <td class="text-center pcv13"></td>
+                                            <td class="text-center pcv13"></td>
+                                            <td class="text-center pcv13"></td>
+                                            <td class="text-center pcv13"></td>
+                                            <td class="text-center pcv13"></td>
+                                            <td class="text-center pcv13"></td>  
+                                        </tr>
+                                        <tr>
+                                            <td>Pneumococcal Polysaccharide Vaccine (PPSV23)</td>
+                                            <td class="text-center ppsv23"></td>
+                                            <td class="text-center ppsv23"></td>
+                                            <td class="text-center ppsv23"></td>
+                                            <td class="text-center ppsv23"></td>
+                                            <td class="text-center ppsv23"></td>
+                                            <td class="text-center ppsv23"></td>  
+                                        </tr>    
+                                        <tr>
+                                            <td>Varicella</td>
+                                            <td class="text-center vari"></td>
+                                            <td class="text-center vari"></td>
+                                            <td class="text-center vari"></td>
+                                            <td class="text-center vari"></td>
+                                            <td class="text-center vari"></td>
+                                            <td class="text-center vari"></td>  
+                                        </tr>                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -1832,6 +1940,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-row mt-2 pr-3 float-right">
+                                        <label id="medLastUpdated" class="font-weight-normal form-check-label"></label>
+                                                                           
+                                    </div>
                                 </div>
                             </div>
                             
@@ -1972,7 +2084,7 @@
             }
         
             document.getElementById(card).style.display = "block";
-            event.currentTarget.className += " active";
+            //event.currentTarget.className += " active";
         }
 
         var collapsible = document.getElementsByClassName("collapsible");
@@ -2131,19 +2243,202 @@
             $.get('/getVisits', {studentID: typedID}, function(visits){
                 console.log("list of visits ni student");
                 console.log(visits);
-            })
+            });
 
             // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
             $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
                 console.log("student immunization history");
                 console.log(immunizationHistory);
-            })
+
+                var Rab = [];
+                var Tet = [];
+                var BCG = [];
+                var COVID = [];
+                var DPT = [];
+                var HPV = [];
+                var HepA = [];
+                var HepB = [];
+                var Hib = [];
+                var Inf = [];
+                var MMR = [];
+                var Men = [];
+                var OPV = [];
+                var PCV13 = [];
+                var PPSV23 = [];
+                var Var = [];
+
+                var rabies = document.getElementsByClassName("rabies");
+                var tetanus = document.getElementsByClassName("tetanus");
+                var bcg = document.getElementsByClassName("bcg");
+                var covid = document.getElementsByClassName("covid");
+                var dpt = document.getElementsByClassName("dpt");
+                var hpv = document.getElementsByClassName("hpv");
+                var hepa = document.getElementsByClassName("hepa");
+                var hepb = document.getElementsByClassName("hepb");
+                var hib = document.getElementsByClassName("hib");
+                var influ = document.getElementsByClassName("influ");
+                var mmr = document.getElementsByClassName("mmr");
+                var mening = document.getElementsByClassName("mening");
+                var opv = document.getElementsByClassName("opv");
+                var pcv13 = document.getElementsByClassName("pcv13");
+                var ppsv23 = document.getElementsByClassName("ppsv23");
+                var vari = document.getElementsByClassName("vari");
+
+
+                for(var k = 0; k < immunizationHistory.length; k++){
+                    if(immunizationHistory[k].purpose == "Anti-Rabies"){
+                        Rab.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Anti-Tetanus"){
+                        Tet.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "BCG"){
+                        BCG.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Covid-19"){
+                        COVID.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "DPT"){
+                        DPT.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "HPV"){
+                        HPV.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "HepA"){
+                        HepA.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "HepB"){
+                        HepB.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Hib"){
+                        Hib.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Influenza"){
+                        Inf.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "MMR"){
+                        MMR.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Meningococcal Vaccine"){
+                        Men.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "OPV"){
+                        OPV.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "PCV13"){
+                        PCV13.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "PPSV23"){
+                        PPSV23.push(immunizationHistory[k].dateGiven);
+                    }
+                    else if(immunizationHistory[k].purpose == "Varicella"){
+                        Var.push(immunizationHistory[k].dateGiven);
+                    }
+                }
+
+                for (var k = 0; k < rabies.length; k++) {
+                    rabies[k].innerHTML = "";
+                    if(Rab[k] != undefined)
+                        rabies[k].innerHTML = Rab[k];
+                }
+
+                for (var k = 0; k < tetanus.length; k++) {
+                    tetanus[k].innerHTML = "";
+                    if(Tet[k] != undefined)
+                        tetanus[k].innerHTML = Tet[k];
+                }
+
+                for (var k = 0; k < bcg.length; k++) {
+                    bcg[k].innerHTML = "";
+                    if(BCG[k] != undefined)
+                        bcg[k].innerHTML = BCG[k];
+                }
+
+                for (var k = 0; k < covid.length; k++) {
+                    covid[k].innerHTML = "";
+                    if(COVID[k] != undefined)
+                        covid[k].innerHTML = COVID[k];
+                }
+
+                for (var k = 0; k < dpt.length; k++) {
+                    dpt[k].innerHTML = "";
+                    if(DPT[k] != undefined)
+                        dpt[k].innerHTML = DPT[k];
+                }
+
+                for (var k = 0; k < hpv.length; k++) {
+                    hpv[k].innerHTML = "";
+                    if(HPV[k] != undefined)
+                        hpv[k].innerHTML = HPV[k];
+                }
+
+                for (var k = 0; k < hepa.length; k++) {
+                    hepa[k].innerHTML = "";
+                    if(HepA[k] != undefined)
+                        hepa[k].innerHTML = HepA[k];
+                }
+
+                for (var k = 0; k < hepb.length; k++) {
+                    hepb[k].innerHTML = "";
+                    if(HepB[k] != undefined)
+                        hepb[k].innerHTML = HepB[k];
+                }
+
+                for (var k = 0; k < hib.length; k++) {
+                    hib[k].innerHTML = "";
+                    if(Hib[k] != undefined)
+                        hib[k].innerHTML = Hib[k];
+                }
+
+                for (var k = 0; k < influ.length; k++) {
+                    influ[k].innerHTML = "";
+                    if(Inf[k] != undefined)
+                        influ[k].innerHTML = Inf[k];
+                }
+
+                for (var k = 0; k < mmr.length; k++) {
+                    mmr[k].innerHTML = "";
+                    if(MMR[k] != undefined)
+                        mmr[k].innerHTML = MMR[k];
+                }
+
+                for (var k = 0; k < mening.length; k++) {
+                    mening[k].innerHTML = "";
+                    if(Men[k] != undefined)
+                        mening[k].innerHTML = Men[k];
+                }
+
+                for (var k = 0; k < opv.length; k++) {
+                    opv[k].innerHTML = "";
+                    if(OPV[k] != undefined)
+                        opv[k].innerHTML = OPV[k];
+                }
+
+                for (var k = 0; k < pcv13.length; k++) {
+                    pcv13[k].innerHTML = "";
+                    if(PCV13[k] != undefined)
+                        pcv13[k].innerHTML = PCV13[k];
+                }
+
+                for (var k = 0; k < ppsv23.length; k++) {
+                    ppsv23[k].innerHTML = "";
+                    if(PPSV23[k] != undefined)
+                        ppsv23[k].innerHTML = PPSV23[k];
+                }
+
+                for (var k = 0; k < vari.length; k++) {
+                    vari[k].innerHTML = "";
+                    if(Var[k] != undefined)
+                        vari[k].innerHTML = Var[k];
+                }
+
+            });
 
             // --------------------------------- LIST OF VACCINES ---------------------------------
             $.get('/getVaccineList', function(vaccineList){
                 console.log("list of vaccines");
-                console.log(vaccineList);
-            })
+                console.log(vaccineList);                
+            });
 
             // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
             $.get('/getPastIllness', {studentID: typedID}, function(illness){
@@ -2162,6 +2457,9 @@
                 console.log("medicine intake history of a specfic student");
                 console.log(data);
                 var i;
+
+                $("#dynamicIntake tr").remove(); 
+
                 for(i = 0; i < data.length; i++){
                     $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
                 }
@@ -2172,6 +2470,20 @@
                 console.log("not allowed medication of a specfic student");
                 console.log(data);
                 var i;
+
+                document.getElementById("antacid").checked = false;
+                document.getElementById("cetirizine").checked = false;
+                document.getElementById("clonidine").checked = false;
+                document.getElementById("decolgen").checked = false;
+                document.getElementById("epinephrine").checked = false;
+                document.getElementById("hydrite").checked = false;
+                document.getElementById("ibuprofen").checked = false;
+                document.getElementById("loratidine").checked = false;
+                document.getElementById("mefenamic").checked = false;
+                document.getElementById("neozep").checked = false;
+                document.getElementById("paracetamol").checked = false;
+                document.getElementById("salbutamol").checked = false;
+                document.getElementById("medLastUpdated").innerHTML = "";
 
                 for(i = 0; i < data.length; i++){
                     if(data[i].medicine == "antacid" && data[i].isAllowed == true){
@@ -2209,6 +2521,9 @@
                     }
                     else if(data[i].medicine == "salbutamol" && data[i].isAllowed == true){
                         document.getElementById("salbutamol").checked = true;
+                    }
+                    else if(data[i].medicine == "lastUpdated"){
+                        document.getElementById("medLastUpdated").innerHTML = "Last updated: " + data[i].lastUpdated;
                     }
                 }
             });

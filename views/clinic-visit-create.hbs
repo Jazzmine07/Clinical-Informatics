@@ -1143,6 +1143,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
+    {{!-- SOCKET IO --}}
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.0/dist/socket.io.min.js"></script>
+
     <script>
         $("#assignDiagnosis").select2({
         placeholder: "Select or type keywords"
@@ -1374,6 +1377,18 @@
             $.get('/getVaccineList', function(vaccineList){
                 console.log("list of vaccines");
                 console.log(vaccineList);
+            })
+
+            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
+            $.get('/getPastIllness', {studentID: typedID}, function(illness){
+                console.log("list of illness");
+                console.log(illness);
+            })
+
+            // --------------------------------- LIST OF ALLERGIES ---------------------------------
+            $.get('/getAllergies', {studentID: typedID}, function(allergy){
+                console.log("list of allergies");
+                console.log(allergy);
             })
 
             // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
@@ -3856,6 +3871,9 @@
                     },
                     success: function(data) {
                         console.log("success in ajax!");
+
+                        var socket = io();
+                        socket.emit('create-notif');
                         window.location.href = "/clinic-visit";
                     }
                 }); 

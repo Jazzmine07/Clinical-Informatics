@@ -294,3 +294,53 @@ exports.getVaccineList = function(req, res){
         res.status(200).send(vaccineList);
     })
 }
+
+exports.getStudentPastIllness = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var illnessRef = database.ref("studentHealthHistory/"+ id + "/illnessHistory");
+    var childSnapshotData, illnessHistory = [];
+
+    illnessRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                illnessHistory.push({
+                    // allergy: childSnapshotData.allergy,
+                    // diagnosisDate: childSnapshotData.diagnosisDate,
+                    // lastOccurrence: childSnapshotData.lastOccurrence,
+                    // allergyType: childSnapshotData.type
+                })
+            })
+            res.status(200).send(illnessHistory);
+        } else {
+            res.status(200).send(illnessHistory);
+        }
+    })
+};
+
+exports.getStudentAllergies = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var allergyRef = database.ref("studentHealthHistory/"+ id + "/allergies");
+    var childSnapshotData, allergies = [];
+
+    allergyRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                allergies.push({
+                    allergy: childSnapshotData.allergy,
+                    diagnosisDate: childSnapshotData.diagnosisDate,
+                    lastOccurrence: childSnapshotData.lastOccurrence,
+                    allergyType: childSnapshotData.type
+                })
+            })
+            console.log("allergies");
+            console.log(allergies);
+            res.status(200).send(allergies);
+        } else {
+            res.status(200).send(allergies);
+        }
+    })
+};

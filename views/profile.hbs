@@ -2145,6 +2145,18 @@
                 console.log(vaccineList);
             })
 
+            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
+            $.get('/getPastIllness', {studentID: typedID}, function(illness){
+                console.log("list of illness");
+                console.log(illness);
+            })
+
+            // --------------------------------- LIST OF ALLERGIES ---------------------------------
+            $.get('/getAllergies', {studentID: typedID}, function(allergy){
+                console.log("list of allergies");
+                console.log(allergy);
+            })
+
             // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
             $.get("/getIntakeHistory", {studentID: typedID}, function(data){
                 console.log("medicine intake history of a specfic student");

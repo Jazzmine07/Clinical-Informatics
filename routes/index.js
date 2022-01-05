@@ -770,6 +770,7 @@ router.get('/promotive-care', (req, res) => {
   var user, programs;
   prom1 =  userController.getUser();
   prom2 = programController.getProgramsList();
+  prom3 = programController.promotiveReport();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
@@ -962,9 +963,11 @@ router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedica
 router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
 router.get('/getLastVisit', studentInfoController.getLastVisit);
+router.get('/getAllVisits', visitController.getAllVisits);
 router.get('/getImmunizationRecord', studentInfoController.getImmunizationRecord);
 router.get('/getVaccineList', studentInfoController.getVaccineList);
-router.get('/getAllVisits', visitController.getAllVisits);
+router.get('/getPastIllness', studentInfoController.getStudentPastIllness);
+router.get('/getAllergies', studentInfoController.getStudentAllergies);
 
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);

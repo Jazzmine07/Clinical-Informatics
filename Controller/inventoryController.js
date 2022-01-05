@@ -106,7 +106,7 @@ exports.getMedicineInventoryList = function(req, res){
     })
 };
 
-exports.getMedicines = function(){
+exports.getSpecificMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -139,6 +139,53 @@ exports.getMedicines = function(){
                             })
                         }    
                     })
+                    console.log("filtered");
+                    console.log(filtered);
+                    resolve(filtered);
+                })
+            } else {
+                resolve(filtered);
+            }
+        })
+    });
+    return promise;
+};
+
+exports.getMedicineNames = function(){
+    var childSnapshotData, i, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("medicineInventory")){
+                inventoryRef.on('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            medicine: childSnapshotData.medicine,
+                            name: childSnapshotData.name
+                        })
+                    })
+
+                    temp.forEach(med => {
+                        var found = false;
+                        for(i = 0; i < filtered.length; i++){
+                            if(med.name == filtered[i].name){   // filters if same medicine name
+                                found = true;
+                                break;
+                            } 
+                        }
+                        if(!found){
+                            filtered.push({
+                                medicine: med.medicine,
+                                name: med.name
+                            })
+                        }    
+                    })
+                    console.log("filtered");
+                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {

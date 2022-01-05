@@ -2898,7 +2898,7 @@
                 console.log(dateAPE);
                 
                 //var selectClinician =  $('#clinician').val();
-                var clinician =  $('#clinicianAPE').find(":selected").val();   
+                var clinician =  $('#clinicianAPE').find(":selected").text();
                 if($('#clinicianAPE').find(":selected").val() == null || $('#clinicianAPE').find(":selected").val() == undefined || $('#clinicianAPE').find(":selected").val() == ""){
                     $("#clinicianAPE").addClass("is-invalid");
                     proceed = false;
@@ -3063,7 +3063,7 @@
                 computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
                 console.log("BMISTATUS"+computedBmiStatus); 
                 var selectDoctorAssign = document.getElementById("clinicianAPE");
-                var selectedDoctorAssign = selectDoctorAssign.options[selectDoctorAssign.selectedIndex].value;
+                var selectedDoctorAssign = selectDoctorAssign.options[selectDoctorAssign.selectedIndex].text;
                 proceed = true;
                 if(proceed){
                     $.ajax({

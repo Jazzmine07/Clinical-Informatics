@@ -10,6 +10,12 @@
     <meta name="author" content="">
 
     <title>IsKlinika</title>
+    <link rel="stylesheet" href="/public/css/messages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/sb-admin-2.min.css">
+    <link rel="stylesheet" href="/public/css/sb-admin-2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
 
     <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -451,14 +457,14 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#drop-menu" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
                                 <img class="img-profile rounded-circle"
                                     src="public/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <div id="drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -1141,6 +1147,12 @@
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="/public/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="public/vendor/jquery/jquery.min.js"></script>
     <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1250,11 +1262,44 @@
                     success: function(data) {
                         console.log("HELLO DATA:");
                         console.log(data);
-                        //console.log(data.name);
+
                         
-                        //document.getElementById("studentName").value=data.name;                            
-                        //document.getElementById("dob").value=data.birthday;
-                        //document.getElementById("gender").value=data.sex;
+                        $('#studentName').val(data.name); 
+                        
+                        var bday = new Date(data.birthday);
+                        var day = ("0" + bday.getDate()).slice(-2);
+                        var month = ("0" + (bday.getMonth() + 1)).slice(-2);
+                        var dob = bday.getFullYear()+"-"+(month)+"-"+(day) ; 
+                        $('#dob').val(dob); 
+                        
+                        $('#gender').val(data.sex); 
+
+
+                        if(data.prevCalculus == "true")
+                            document.querySelector('input[name="calculus"]').checked = true;
+                        else
+                            document.querySelector('input[name="calculus"]').checked = false;
+                        
+                        if(data.prevGingiva == "true")
+                            document.querySelector('input[name="gingiva"]').checked = true;
+                        else
+                            document.querySelector('input[name="gingiva"]').checked = false;
+
+                        if(data.prevPocket == "true")
+                            document.querySelector('input[name="pocket"]').checked = true;
+                        else
+                            document.querySelector('input[name="pocket"]').checked = false;
+
+                        if(data.prevAnomaly == "true")
+                            document.querySelector('input[name="anomaly"]').checked = true;
+                        else
+                            document.querySelector('input[name="anomaly"]').checked = false;
+                        
+                        var inputs = $("td input");
+
+                        for(var j = 0; j < inputs.length; j++){
+                            $(inputs[j]).val(data.prevInputs[j]);
+                        }
 
                     }  
             });
@@ -1324,12 +1369,6 @@
                     link="/health-assessment";
                 }
                 window.location.href = link;
-
-                var inputs = $("td input");
-
-                for(var j = 0; j < inputs.length; j++){
-                    $(inputs[j]).val(dentals[j]);
-                }
             });
         
             var schoolYear=localStorage.getItem("schoolYear");

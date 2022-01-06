@@ -449,7 +449,7 @@
                         <div class="col-2 mb-4">
                             <select class="custom-select" id="groupBy" name="groupBy">
                                 <option disabled="disabled" selected="true">Group by</option>
-                                <option value="weekly">Weekly</option>
+                                <option value="daily">Daily</option>
                                 <option value="monthly">Monthly</option>
                                 <option value="yearly">Yearly</option>
                             </select>
@@ -617,6 +617,15 @@
             var month = now.getMonth();
             var start, end;
 
+            var selectedGroup =  $('#groupBy').find('option:selected').val();;
+            
+
+            $('#groupBy').change(function(){
+                selectedGroup = $('#groupBy').find('option:selected').val();
+                console.log("Malfoy");
+                console.log(selectedGroup);
+                cb(start,end)
+            });
             //var start = moment().subtract(29, 'days');
             //var end = moment();
 
@@ -674,11 +683,14 @@
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 console.log("START " + start.format('YYYY-MM-DD'));
                 console.log("END " + end.format('YYYY-MM-DD'));
-
+                console.log(selectedGroup);
                 $.get("/getAllVisits", function(data){
                     console.log(data);
                     console.log("HELLO");
-                    showDailyVisits(data, start, end);
+                    console.log("Hermione"+ selectedGroup);
+                    var choice = selectedGroup;
+                    //showDailyVisits(data, start, end);
+                    showVisitsReport(data, choice, start, end);
                 });
 
                 var startDate = new Date(start);
@@ -695,8 +707,8 @@
                     noStockCount = result.noStockCount;
                     expiredCount = result.expiredCount;
 
-                    incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
-                    incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    //incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    //incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
                 });
             }
 
@@ -1022,10 +1034,279 @@
         //};
 
         //
-            function showVisitsReport(data,choice){
-
             
+            function showVisitsReport(data,choice, start,end){
+                var startDate = new Date(start);
+                var startMonth = startDate.getMonth();
+                var startYear = startDate.getFullYear();
+                var endDate = new Date(end);
+                var endMonth = endDate.getMonth();
+                var endYear = endDate.getFullYear();
+                var monthNames = [];
+                var parts=[], dataDate;
+                var m,tempDateCompare;
+                var i,j;
+                var monthsRange=[],schoolYear=[];
+                var yearRange=[]
+                var count=[];
+                var year;
+
+                var range=[];
+
+
+
+                //------------------IF USER WANTS TO SEE COUNT BY YEAR------------------
+                if(choice == "yearly" || choice=="Yearly"){
+                    year=startYear
+                    while(year!=endYear){
+                        range.push(year);
+                        count.push(0);
+                        year++;
+                    }
+                    if(year=endYear){
+                        range.push(endYear);
+                        count.push(0);
+                    }
+
+                    for(i=0;i<data.length;i++){
+                        parts=data[i].visitDate.split("-");
+                        for(j=0;j<range.length;j++){
+                            if(parts[0]==range[j]){
+                                count[j]=count[j]+1;
+                            }
+                        }                    
+                    }
+                }
+                //------------------IF USER WANTS TO SEE COUNT BY MONTH------------------
+                else if(choice == "monthly" || choice=="Monthly"){
+                    
+                    //get the months in the time range
+                    if(startYear==endYear){
+                        for(i=startMonth;i<=endMonth;i++){
+                            monthsRange.push(i);
+                            schoolYear.push(startYear);
+                        }
+                    }
+                    else if(startYear<endYear){
+                        for(i=startMonth;i<12;i++){
+                            monthsRange.push(i);
+                            schoolYear.push(startYear);
+                        }
+                        for(i=0;i<=endMonth;i++){
+                            monthsRange.push(i);
+                            schoolYear.push(endYear);
+                        }
+                    }
+
+                    for(i = 0; i < monthsRange.length; i++){
+                        if(monthsRange[i] == 5){
+                            range.push("June " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 6){
+                            range.push("July " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 7){
+                            range.push("August " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 8){
+                            range.push("September " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 9){
+                            range.push("October " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 10){
+                            range.push("November " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 11){
+                            range.push("December " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 0){
+                            range.push("January " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 1){
+                            range.push("February " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 2){
+                            range.push("March " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 3){
+                            range.push("April " + schoolYear[i]);
+                            count.push(0);
+                        }
+                        if(monthsRange[i] == 4){
+                            range.push("May " + schoolYear[i]);
+                            count.push(0);
+                        }
+                    }
+                    
+                    for(i=0;i<data.length;i++){
+                        parts=data[i].visitDate.split("-");
+                        if(parts[1]==1)
+                            m="January ";
+                        else if(parts[1]==2)
+                            m="February ";
+                        else if(parts[1]==3)
+                            m="March ";
+                        else if(parts[1]==4)
+                            m="April ";
+                        else if(parts[1]==5)
+                            m="May ";
+                        else if(parts[1]==6)
+                            m="June ";
+                        else if(parts[1]==7)
+                            m="July ";
+                        else if(parts[1]==8)
+                            m="August ";
+                        else if(parts[1]==9)
+                            m="September ";
+                        else if(parts[1]==10)
+                            m="October ";
+                        else if(parts[1]==11)
+                            m="November ";
+                        else if(parts[1]==12)
+                            m="December ";
+
+                        tempDateCompare= m + parts[0];
+                        console.log(tempDateCompare);
+                        for(j=0;j<range.length;j++){
+                            if(tempDateCompare==range[j]){
+                                count[j]=count[j]+1;
+                            }
+                        }  
+
+                                          
+                    }
+
+                }
+                //------------------IF USER WANTS TO SEE COUNT BY DAILY------------------
+                else if(choice == "daily" || choice=="Daily"){
+                    //gets all the date in the date monthsRange
+                    while(startDate<=endDate){
+                        //dateLabels.push(startDate.getFullYear() + "-" + (startDate.getMonth()+1) + "-" +startDate.getDate());
+                        if(startDate.getDate()>=10 && (startDate.getMonth()+1)>=10){
+                            range.push(startDate.getFullYear() + "-" + (startDate.getMonth()+1) + "-" +startDate.getDate())
+                        }
+                        else if(startDate.getDate()>=10 && (startDate.getMonth()+1)<10){
+                            range.push(startDate.getFullYear() + "-0" + (startDate.getMonth()+1) + "-" +startDate.getDate())
+                        }
+                        else if(startDate.getDate()<10 && (startDate.getMonth()+1)>=10){
+                            range.push(startDate.getFullYear() + "-0" + (startDate.getMonth()+1) + "-" +startDate.getDate())
+                        }
+                        else if(startDate.getDate()<10 && (startDate.getMonth()+1)<10){
+                            range.push(startDate.getFullYear() + "-0" + (startDate.getMonth()+1) + "-0" +startDate.getDate())
+                        }
+                        
+                        
+                        startDate.setDate(startDate.getDate()+1);
+                        count.push(0);
+                    }
+
+                    for(i=0;i<data.length;i++){
+                        for(j=0;j<range.length;j++){
+                            if(data[i].visitDate==range[j]){
+                                count[j]=count[j]+1;
+                            }
+                        }                    
+                    }
+
+
+                }
+
+                console.log("RANGE and COUNT:");
+                console.log(range);
+                console.log(count);
+
+                var chartData={
+                    labels: range, // x-axis
+                    datasets: [{
+                        label: "Visit Count",
+                        lineTension: 0,
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        backgroundColor: "rgba(78, 115, 223, 1)",
+                        pointRadius: 3,
+                        data: count,
+                    }],
+                };
+                
+                var config={
+                    type: 'line',
+                    data: chartData,
+                    plugins: [ChartDataLabels],
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {   // layout ng entire chart
+                            padding: {
+                                left: 30,
+                                right: 25,
+                                top: 0,
+                                bottom: 0
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                offset: 5,
+                                font: {
+                                    weight: 'bold'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Clinic Visits',
+                                font: {
+                                    size: 25   // font size of the labels
+                                },
+                            },
+                            legend: {
+                                display: false,
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Days',
+                                    font: {
+                                        size: 15,   // font size of the labels
+                                        weight: 'bold'
+                                    },
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 15   // font size of the labels
+                                    }
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {
+                                        size: 15   // font size of the labels
+                                    },
+                                    stepSize: 5
+                                }
+                            },
+                        }
+                    }
+                }
+
+                var visitsChart = document.getElementById("dailyVisits");
+                var clinicVisitsChart = new Chart(visitsChart, config)
+
+
             }
+
+
         });
     </script>
 

@@ -180,6 +180,10 @@ router.get('/disease-surveillance', (req, res) => {
     console.log("PROMISES ARE FULFILLED");
     prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
+    console.log("WEEK:");
+    console.log(prom3[0])
+    console.log("MONTH:");
+    console.log(prom3[1])
     if(user.role == "Nurse"){
       res.render('disease-surveillance', {
         user: user,

@@ -449,9 +449,25 @@
                         <div class="col-2 mb-4">
                             <select class="custom-select" id="groupBy" name="groupBy">
                                 <option disabled="disabled" selected="true">Group by</option>
+                                <option value="weekly">Weekly</option>
                                 <option value="monthly">Monthly</option>
                                 <option value="yearly">Yearly</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Clinic Visits Trend</h6>
+                                </div>
+                                <div class="card-body" >
+                                    <div class="chart-bar">
+                                        <canvas id="dailyVisits"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -459,7 +475,7 @@
                         <div class="col-xl-12 col-lg-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Clinic Visits</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Clinic Visits Count</h6>
                                 </div>
                                 <div class="card-body" >
                                     <div class="chart-bar">

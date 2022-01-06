@@ -35,7 +35,7 @@ exports.getDashboard = function(req, res){
 };
 
 exports.addClinicVisit = function(req, res){
-    var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, clinicType, nurseKey, nurseName,
+    var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
         weightStatus, heightStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
         complaint, impression, treatment, 
@@ -64,7 +64,7 @@ exports.addClinicVisit = function(req, res){
             timestamp: time,
             timeIn: timeIn,
             timeOut: timeOut,
-            clinicType: clinicType,
+            visitType: visitType,
             nurseKey: nurseKey,
             nurseName: nurseName,
     

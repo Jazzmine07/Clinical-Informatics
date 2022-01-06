@@ -342,19 +342,12 @@
                                 <span></span> <i class="fa fa-caret-down"></i>
                             </div>
                         </div> 
-                        <div class="col-2 mb-4">
-                            <select class="custom-select" id="groupBy" name="groupBy">
-                                <option disabled="disabled" selected="true">Group by</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="yearly">Yearly</option>
-                            </select>
-                        </div>
                     </div>
                     
                     <div class="row">
                         <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-8">
-                            <div class="card shadow mb-4">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-3">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Complaints</h6>
@@ -363,23 +356,6 @@
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <canvas id="monthlySymptoms"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Visit Type</h6>
-                                </div>
-
-                                <!-- Pie Chart -->
-                                <div class="card-body" style="height: 360px">
-                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
-                                        <canvas id="pieChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -400,7 +376,6 @@
                             </div>
                         </div>
                     </div>
-                    
 
                     <!-- Content Row -->
                     <div class="row">
@@ -651,8 +626,6 @@
                     dataCountG6.push(data[i].g6);
                 }
                 symptomsCountChart(labels,dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,data);
-                clinicVisitTypeChart()
-                
             });
 
         }
@@ -866,50 +839,6 @@
                 }
             }
             monthlySymptoms.onclick=clickHandler;
-        }
-
-        function clinicVisitTypeChart(){
-            var pieChart = document.getElementById("pieChart");
-            visitTypeChart = new Chart(pieChart, {  // pie chart
-                type: 'pie',
-                data: {
-                    labels: ["Consultation", "Emergency", "Intramurals", "Family Day"],
-                    datasets: [{
-                        backgroundColor: [
-                            "rgb(255, 99, 132)", // red
-                            "rgb(255, 205, 86)",  // yellow
-                            "rgb(54, 162, 235)", // blue
-                            "rgba(153, 102, 255, 0.5)", // violet
-                        ],
-                        data: [54, 2, 17, 7],
-                    }],
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    layout: {   // layout ng entire chart
-                        padding: {
-                            left: 30,
-                            right: 25,
-                            top: 0,
-                            bottom: 0,
-                        }
-                    },
-                    plugins: {
-                        labels: {
-                            fontSize: 15,
-                            fontStyle: 'bold',
-                            render: (context) => {
-                                const percentage = context.value / showData(this) * 100;
-                                return percentage.toFixed(2)+"%";
-                            }
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right',
-                        }
-                    }
-                }
-            });
         }
 
         function showData(){

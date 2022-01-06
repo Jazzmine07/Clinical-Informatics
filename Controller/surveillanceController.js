@@ -53,7 +53,7 @@ exports.getTopDisease=function(vcArray){
     var i,j,size;
     var weekTopDiseaseFinal=[], monthTopDiseaseFinal=[];
 
-    console.log(temp);
+    
     //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
         parts =temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
@@ -61,7 +61,6 @@ exports.getTopDisease=function(vcArray){
         alreadyAdded = false;
         if(dbDate<=currDate && dbDate>=weekAgo){ // filters based on date
             if(vcWeek.length==0){ //if empty auto add
-                console.log(temp[i].diagnosis);
                 vcWeek.push({
                     concern: temp[i].diagnosis,
                     count:1
@@ -83,15 +82,13 @@ exports.getTopDisease=function(vcArray){
             }
         }
     }
-    console.log(vcWeek);
+    
     //getting only the clinic visits current month
     for(i=0;i<temp.length;i++){
         parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
         if(dbDate.getMonth() == currDate.getMonth() && dbDate.getFullYear() == currDate.getFullYear()){
-            console.log("length " + vcMonth.length);
-            console.log(i);
             if(vcMonth.length==0){ //if empty auto add
                 vcMonth.push({
                     concern: temp[i].diagnosis,
@@ -100,13 +97,11 @@ exports.getTopDisease=function(vcArray){
             }
             else{ //if not empty
                 for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
-                    console.log(vcMonth[j].concern.toLowerCase());
-                    console.log(temp[i].diagnosis.toLowerCase());
-                        if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            vcMonth[j].count = vcMonth[j].count + 1;
-                            alreadyAdded = true;
-                            break;
-                        }
+                    if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                        vcMonth[j].count = vcMonth[j].count + 1;
+                        alreadyAdded = true;
+                        break;
+                    }
                 }
                 if(alreadyAdded != true){
                     vcMonth.push({
@@ -116,14 +111,10 @@ exports.getTopDisease=function(vcArray){
                 }
             }
         }
-        console.log("nani4?");
+
     }
     
-    console.log(vcWeek);
-    console.log(vcMonth);
-    // console.log(monthTopDisease);
-    // console.log(weekTopDisease);
-
+ 
     // sorting the vcWeek and Month from highest count to lowest
     if(vcWeek.length>0){
         console.log("FIND ORDER OF WEEK TOP DISEASE");
@@ -142,73 +133,6 @@ exports.getTopDisease=function(vcArray){
         strings.push(monthTopDisease);
     }
     
-
-    // if(weekTopDisease!=null){
-    //     size= weekTopDisease.length;
-    //     if(size < 5){
-    //         for(i=0;i<weekTopDisease.length;i++){
-    //             // topWeekConcern.push(weekTopDisease[i].concern);
-    //             // topWeekCount.push(weekTopDisease[i].count);
-    //             weekTopDiseaseFinal.push(weekTopDisease[i]);
-    //             stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n" ;
-    //         }    
-    //     }
-    //     else if(size>5){
-    //         for(i=0;i<5;i++){
-    //             // topWeekConcern.push(weekTopDisease[i].concern);
-    //             // topWeekCount.push(weekTopDisease[i].count);
-    //             weekTopDiseaseFinal.push(weekTopDisease[i]);
-    //             stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n";
-    //         } 
-    //         // for(i=5;i<size;i++){
-    //         //     if(weekTopDisease[i-1].count == weekTopDisease[i].count){
-    //         //         // topWeekConcern.push(weekTopDisease[i].concern);
-    //         //         // topWeekCount.push(weekTopDisease[i].count);
-    //         //         weekTopDiseaseFinal.push(weekTopDisease[i]);
-    //         //         stringWeek = stringWeek+ weekTopDisease[i].concern + "(" + weekTopDisease[i].count + ") \n";
-    //         //     }
-    //         //     else{
-    //         //         break;
-    //         //     }
-    //         // }
-    //     }
-    // }
-    // if(monthTopDisease!=null){
-    //     size= monthTopDisease.length;
-    //     if(size < 5){
-    //         for(i=0;i<monthTopDisease.length;i++){
-    //             // topMonthConcern.push(monthTopDisease[i].concern);
-    //             // topMonthCount.push(monthTopDisease[i].count);
-    //             monthTopDiseaseFinal.push(monthTopDisease[i]);
-    //             stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
-    //         }    
-    //     }
-    //     else if(size>=5){
-    //         for(i=0;i<5;i++){
-    //             // topMonthConcern.push(monthTopDisease[i].concern);
-    //             // topMonthCount.push(monthTopDisease[i].count);
-    //             monthTopDiseaseFinal.push(monthTopDisease[i]);
-    //             stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
-    //         } 
-    //         // for(i=5;i<size;i++){
-    //         //     if(monthTopDisease[i-1].count == monthTopDisease[i].count){
-    //         //         // topMonthConcern.push(monthTopDisease[i].concern);
-    //         //         // topMonthCount.push(monthTopDisease[i].count);
-    //         //         stringMonth = stringMonth+ monthTopDisease[i].concern + "(" + monthTopDisease[i].count + ") \n";
-    //         //     }
-    //         //     else{
-    //         //         break;
-    //         //     }
-    //         // }
-    //     }
-    // }
-    //appending all top disease of the week
-       
-    
-    //strings.push(weekTopDisease);
-    //strings.push(monthTopDisease);
-    // console.log("STRINGS of top disease");
-    // console.log(strings);
         
     return strings;
 

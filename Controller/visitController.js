@@ -34,6 +34,34 @@ exports.getDashboard = function(req, res){
     return promise;
 };
 
+exports.getDiagnosis = function(){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var diagnosisRef = database.ref("diagnosisList");
+    var childSnapshotData, i, diagnosis = [], filtered = [];
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("diagnosisList")){
+                diagnosisRef.once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        diagnosis.push({
+                            diagnosis: childSnapshotData.diagnosis
+                        })
+                    })
+                    console.log("diagnosis");
+                    console.log(diagnosis);
+                    resolve(diagnosis);
+                })
+            } else {
+                resolve(filtered);
+            }
+        })
+    });
+    return promise;
+}
+
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
@@ -183,6 +211,9 @@ exports.editClinicVisit = function(req, res){
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
     var userRef = database.ref("clinicUsers/"+userKey);
     var prescriptionRef = database.ref("studentHealthHistory/"+studentId+"/prescriptionHistory");
+    var diagnosisRef = database.ref("diagnosisList");
+    var diagnosisTemp = [];
+    
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = Math.round(+new Date()/1000);
@@ -190,18 +221,38 @@ exports.editClinicVisit = function(req, res){
     userRef.once("value", (userSnapshot) => { 
         if(userSnapshot.child("role").val() == "Clinician"){
             console.log("pumasok sa clinician if");
+            var record = {
+                timeOut: timeOut,
+                diagnosis: diagnosis,
+                status: status,
+                notes: notes,
+            };
+
+            clinicVisitRef.update(record);
+            diagnosisRef.once('value', (diagnosisList) => {
+                if(diagnosisList.exists()){
+                    diagnosisList.forEach(function(diagnosisDB){
+                        diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
+                    })
+                    var found = 1;
+                    for(var i = 0; i < diagnosisTemp; i++){
+                        if(diagnosis.localeCompare() != 0){
+                            found = 0;
+                        }   
+                    }
+                    if(found = 1){
+                        diagnosisRef.push({
+                            diagnosis: diagnosis
+                        });
+                    }
+                } else{
+                    diagnosisRef.push({
+                        diagnosis: diagnosis
+                    });
+                }
+            })
             if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
                 console.log("pumasok pag wlang medication assigned");
-                var record = {
-                    timeOut: timeOut,
-                    diagnosis: diagnosis,
-                    status: status,
-                    notes: notes,
-                };
-
-                clinicVisitRef.update(record);
-                console.log("medicationsArray in visitcontroller");
-                console.log(medicationsArray);
 
                 for(i = 0; i < medicationsArray.length; i++){
                     prescription = {

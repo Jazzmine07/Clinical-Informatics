@@ -198,6 +198,16 @@ router.get('/disease-surveillance', (req, res) => {
         user: user,
         topDiagnosisWeek: prom3[0],
         topDiagnosisMonth: prom3[1],
+        topDWeekOne:prom3[0][0],
+        topDWeekTwo:prom3[0][1],
+        topDWeekThree:prom3[0][2],
+        topDWeekFour:prom3[0][3],
+        topDWeekFive:prom3[0][4],
+        topDMonthOne:prom3[0][0],
+        topDMonthTwo:prom3[0][1],
+        topDMonthThree:prom3[0][2],
+        topDMonthFour:prom3[0][3],
+        topDMonthFive:prom3[0][4],
         
       });
     } else {
@@ -205,6 +215,16 @@ router.get('/disease-surveillance', (req, res) => {
         user: user,
         topDiagnosisWeek: prom3[0],
         topDiagnosisMonth: prom3[1],
+        topDWeekOne:prom3[0][0],
+        topDWeekTwo:prom3[0][1],
+        topDWeekThree:prom3[0][2],
+        topDWeekFour:prom3[0][3],
+        topDWeekFive:prom3[0][4],
+        topDMonthOne:prom3[0][0],
+        topDMonthTwo:prom3[0][1],
+        topDMonthThree:prom3[0][2],
+        topDMonthFour:prom3[0][3],
+        topDMonthFive:prom3[0][4],
         
       });
     }

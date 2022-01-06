@@ -953,8 +953,42 @@
 
         
 
-        $.get("/getTop5MedsUsedMonth", function(top5meds){
-            //console.log(top5meds);
+        $.get("/getTop5MedsUsedMonth", function(data){
+            console.log("POKEMON");
+            var intakeData=data[0];
+            var top5=data[1];
+            var labels=[];
+            console.log(intakeData);
+            console.log(top5);
+
+            var dataCountG1=[0,0,0,0,0],dataCountG2=[0,0,0,0,0],dataCountG3=[0,0,0,0,0],dataCountG4=[0,0,0,0,0],dataCountG5=[0,0,0,0,0],dataCountG6=[0,0,0,0,0];
+            var i,j;
+
+            for(j=0;j<top5.length;j++){
+                labels.push(top5[j].medicineName);
+            }
+            for(i=0;i<intakeData.length;i++){
+                for(j=0;j<top5.length;j++){
+                    if(intakeData[i].medicineName == top5[j].medicineName){
+                        if(intakeData[i].grade=="1")
+                            dataCountG1[j]=dataCountG1[j]+1;
+                        else if(intakeData[i].grade=="2")
+                            dataCountG2[j]=dataCountG2[j]+1;
+                        else if(intakeData[i].grade=="3")
+                            dataCountG3[j]=dataCountG3[j]+1;
+                        else if(intakeData[i].grade=="4")
+                            dataCountG4[j]=dataCountG4[j]+1;
+                        else if(intakeData[i].grade=="5")
+                            dataCountG5[j]=dataCountG5[j]+1;
+                        else if(intakeData[i].grade=="6")
+                            dataCountG6[j]=dataCountG6[j]+1;
+                    }
+                }
+            }
+            
+            top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels);
+            
+
         });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
@@ -1018,51 +1052,51 @@
             
         });
     });
-    </script>
-    <script>
-        var ctx = document.getElementById("top5medsByGrade");
-        var stackedBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Paracetamol", "Ibuprofren", "Nebules", "Mefanamic Acid", "Decolgen"], // x-axis
+
+    function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels) {
+            var gradeData={
+                labels: labels, // x-axis
                 datasets: [{
-                    label: "Grade 1",
-                    backgroundColor: "rgba(153, 102, 255, 0.5)", // violet
-                    data: [15, 4, 7, 12, 9],   // values of the point
+                    label: "Grade 1",                           
+                    backgroundColor: "rgba(153, 102, 255, 0.5)", // violet  
+                    data: dataCountG1,   // values of the point
                 }, {
                     label: "Grade 2",
-                    backgroundColor: "rgb(255,165,0)",
-                    data: [23, 7, 10, 9, 3],
+                    backgroundColor: "rgb(255, 159, 64)",  // orange
+                    data: dataCountG2,
                 }, {
                     label: "Grade 3",
                     backgroundColor: "rgb(255, 205, 86)",  // yellow
-                    data: [7, 10, 4, 2, 1],
+                    data: dataCountG3,
                 }, {
                     label: "Grade 4",
                     backgroundColor: "rgb(75, 192, 192)", // green
-                    data: [17, 3, 1, 6, 4],
+                    data: dataCountG4,
                 }, {
                     label: "Grade 5",
                     backgroundColor: "rgb(54, 162, 235)", // blue
-                    data: [12, 28, 7, 4, 3],
+                    data: dataCountG5,
                 }, {
                     label: "Grade 6",
                     backgroundColor: "rgb(255, 99, 132)", // red
-                    data: [10, 10, 10, 11, 7],
+                    data: dataCountG6,
                 }],
-            },
-            plugins: [ChartDataLabels],
-            options: {
-                maintainAspectRatio: false,
-                layout: {   // layout ng entire chart
-                    padding: {
-                        left: 30,
-                        right: 25,
-                        top: 0,
-                        bottom: 25
-                    }
-                },
-                plugins: {
+            }           
+
+            var config={
+                type: 'bar',
+                data: gradeData,
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {   // layout ng entire chart
+                        padding: {
+                            left: 30,
+                            right: 25,
+                            top: 0,
+                            bottom: 25
+                        }
+                    },
+                    plugins: {
                     datalabels: {
                         anchor: 'end',
                         align: 'top',
@@ -1114,12 +1148,19 @@
                         stacked: true,
                     },
                 },
-                //legend: {
-                //    display: false
-                //}
+                }
             }
-        })
+
+            var top5MedsGrade = document.getElementById("top5medsByGrade");
+            var stackedBarChart = new Chart(top5MedsGrade, config);
+
+        }
+
+
+
+
     </script>
+    
 </body>
 
 </html>

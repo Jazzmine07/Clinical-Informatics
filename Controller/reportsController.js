@@ -6,6 +6,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
     var intakeRef = database.ref("intakeHistory");
     var i, temp = [], filtered = [], top5 = [];
     var g1Count = [], g2Count = [], g3Count = [], g4Count = [], g5Count = [], g6Count = [];
+    var pass=[];
 
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("usedMedicine")){
@@ -17,6 +18,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         console.log(medications);
                         temp.push({ // getting all the medications regardless of grade level
                             medicineName: medications.medicineName,
+                            grade:innerChildSnapshot.child("grade").exportVal(),
                         })
                     })
                     
@@ -53,10 +55,13 @@ exports.getTop5MedsUsedMonth = function(req, res){
                 //         })
                 //     }
                 // }
-                res.status(200).send(filtered);
+                pass.push(temp);
+                pass.push(filtered);
+
+                res.status(200).send(pass);
             })
         } else {
-            res.status(200).send(filtered);
+            res.status(200).send(pass);
         }
     })
 };

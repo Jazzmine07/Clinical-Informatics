@@ -240,7 +240,7 @@ exports.getStudentIntakeHistory = function(req, res){
                 childSnapshot.child("medications").forEach(function(innerChild){
                     innerChildData = innerChild.exportVal();
                     history.push({
-                        medicine: innerChildData.medicine,
+                        medicine: innerChildData.specificMedicine,
                         amount: innerChildData.amount,
                         time: innerChildData.time,
                         visitDate: childSnapshotData.visitDate,

@@ -679,6 +679,14 @@
                 }
             }, cb);
 
+            var checker1 = false;
+            var clinicVisitsChart;
+            var clinicVisitsBarChart;
+
+            var checker2 = false;
+            var incidenceCountBarChart;
+            var incidenceCountPieChart;            
+
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 console.log("START " + start.format('YYYY-MM-DD'));
@@ -689,8 +697,15 @@
                     console.log("HELLO");
                     console.log("Hermione"+ selectedGroup);
                     var choice = selectedGroup;
-                    //showDailyVisits(data, start, end);
+
+                    if(checker1){
+                        clinicVisitsChart.destroy();
+                        clinicVisitsBarChart.destroy();
+                    }
+
+                    showDailyVisits(data, start, end);
                     showVisitsReport(data, choice, start, end);
+                    checker1 = true;
                 });
 
                 var startDate = new Date(start);
@@ -707,8 +722,15 @@
                     noStockCount = result.noStockCount;
                     expiredCount = result.expiredCount;
 
-                    //incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
-                    //incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    if(checker2){
+                        incidenceCountBarChart.destroy();
+                        incidenceCountPieChart.destroy();
+                    }
+
+                    incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    checker2 = true;
+
                 });
             }
 
@@ -791,7 +813,7 @@
                 }
                 
                 var clinicVisitsBarId = document.getElementById("clinicVisitsBar");
-                var clinicVisitsBarChart = new Chart(clinicVisitsBarId, {  // line chart
+                clinicVisitsBarChart = new Chart(clinicVisitsBarId, {  // line chart
                     type: 'bar',
                     data: {
                         labels: monthNames, // x-axis
@@ -1301,7 +1323,7 @@
                 }
 
                 var visitsChart = document.getElementById("dailyVisits");
-                var clinicVisitsChart = new Chart(visitsChart, config)
+                clinicVisitsChart = new Chart(visitsChart, config)
 
 
             }

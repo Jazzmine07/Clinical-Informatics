@@ -355,19 +355,21 @@ router.get('/clinic-visit/create', (req, res) => {
 // Get clinic visit edit page
 router.get('/clinic-visit/edit/:id', (req, res) => {
   console.log("Read clinic visit edit successful!");
-  var prom1, prom2, prom3, prom4;
-  var user, nurse, medicines, form;
+  var prom1, prom2, prom3, prom4, prom5;
+  var user, nurse, medicines, form, diagnosis;
 
   prom1 = userController.getUser();
   prom2 = userController.getNurse();
   prom3 = inventoryController.getSpecificMedicines();
   prom4 = visitController.getClinicVisitForm(req);
+  prom5 = visitController.getDiagnosis();
 
-  Promise.all([prom1, prom2, prom3, prom4]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
     user = result[0];
     nurse = result[1];
     medicines = result[2];
     form = result[3];
+    diagnosis = result[4]
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
@@ -382,7 +384,8 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
         isNurse: false,
         nurse: nurse,
         form: form,
-        medicines: medicines
+        medicines: medicines,
+        diagnosis: diagnosis
       });
     }
   }).catch(error => {

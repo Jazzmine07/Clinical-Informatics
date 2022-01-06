@@ -115,7 +115,7 @@ exports.getSpecificMedicines = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("medicineInventory")){
-                inventoryRef.on('value', (childSnapshot) => {
+                inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
@@ -160,7 +160,7 @@ exports.getMedicineNames = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("medicineInventory")){
-                inventoryRef.on('value', (childSnapshot) => {
+                inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
@@ -204,7 +204,7 @@ exports.getMedicineDetails = function(req, res){
 
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("medicineInventory")){
-            inventoryRef.on('value',async (childSnapshot) => {
+            inventoryRef.once('value',async (childSnapshot) => {
                 await childSnapshot.forEach(function(innerChildSnapshot){
                     childSnapshotData = innerChildSnapshot.exportVal();
                     temp.push({
@@ -398,7 +398,7 @@ exports.getSupplyInventory = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("supplyInventory")){
-                inventoryRef.on('value', (childSnapshot) => {
+                inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         inventory.push({
@@ -432,7 +432,7 @@ exports.getSupplies = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("supplyInventory")){
-                inventoryRef.on('value',async (childSnapshot) => {
+                inventoryRef.once('value',async (childSnapshot) => {
                     await childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({
@@ -507,7 +507,7 @@ exports.getDentalInventory = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("dentalInventory")){
-                inventoryRef.on('value', (childSnapshot) => {
+                inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         inventory.push({
@@ -541,7 +541,7 @@ exports.getDentals = function(){
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("dentalInventory")){
-                inventoryRef.on('value',async (childSnapshot) => {
+                inventoryRef.once('value',async (childSnapshot) => {
                     await childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({

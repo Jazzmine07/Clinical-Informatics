@@ -1558,7 +1558,12 @@
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis">                                       
+                                    <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis">                                       
+                                    <datalist id="diagnosisList">
+                                        {{#each clinician}}
+                                            <option value="{{lastName}}"></option>
+                                        {{/each}}                            
+                                    </datalist>
                                 </div>
                             </div>
                         </div>

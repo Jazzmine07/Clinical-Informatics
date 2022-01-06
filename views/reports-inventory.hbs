@@ -1086,6 +1086,7 @@
             var config={
                 type: 'bar',
                 data: gradeData,
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {   // layout ng entire chart
@@ -1097,57 +1098,57 @@
                         }
                     },
                     plugins: {
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        font: {
-                            weight: 'bold'
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            font: {
+                                weight: 'bold'
+                            },
+                            color: "#000000",
                         },
-                        color: "#000000",
-                    },
-                    title: {
-                        display: true,
-                        text: 'Top 5 Medicines Used for the Month per Grade Level',
-                        font: {
-                            size: 25   // font size of the labels
-                        },
-                    }
-                },
-                scales: {
-                    x: {
                         title: {
                             display: true,
-                            text: 'Top 5 Medicines Used',
+                            text: 'Top 5 Medicines Used for the Month per Grade Level',
                             font: {
-                                size: 15,   // font size of the labels
-                                weight: 'bold'
+                                size: 25   // font size of the labels
                             },
-                        },
-                        ticks: {
-                            font: {
-                                size: 15   // font size of the labels
-                            },
-                            
-                        },
-                        stacked: true,
+                        }
                     },
-                    y: {
-                        title: {
-                            font: {
-                                size: 15,   // font size of the labels
-                                weight: 'bold'
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Top 5 Medicines Used',
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
                             },
-                            //color: "rgba(255, 99, 132, 1)",
-                        },
-                        ticks: {
-                            font: {
-                                size: 15,   // font size of the labels
+                            ticks: {
+                                font: {
+                                    size: 15   // font size of the labels
+                                },
+                                
                             },
-                            //color: "rgba(255, 99, 132, 1)",
+                            stacked: true,
                         },
-                        stacked: true,
+                        y: {
+                            title: {
+                                font: {
+                                    size: 15,   // font size of the labels
+                                    weight: 'bold'
+                                },
+                                //color: "rgba(255, 99, 132, 1)",
+                            },
+                            ticks: {
+                                font: {
+                                    size: 15,   // font size of the labels
+                                },
+                                //color: "rgba(255, 99, 132, 1)",
+                            },
+                            stacked: true,
+                        },
                     },
-                },
                 }
             }
 
@@ -1160,7 +1161,7 @@
 
 
     </script>
-    
+
 </body>
 
 </html>

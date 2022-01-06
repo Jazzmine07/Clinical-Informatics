@@ -101,37 +101,42 @@ exports.getBMI = function(req, res){
 exports.getStudentVisits = function(req, res){
     var student = req.query.studentID;
     var database = firebase.database();
-    var clinicVisitRef = database.ref("clinicVisit");
+    var clinicVisitRef = database.ref("clinicVisit").orderByChild("visitDate");
     var details = [];
     var childSnapshotData;
 
-    clinicVisitRef.orderByChild("id").equalTo(student).once('value', async (snapshot) => {
+    clinicVisitRef.once('value', async (snapshot) => {
         if(snapshot.exists()){
             await snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                details.push({
-                    idNum: childSnapshotData.id,
-                    studentName: childSnapshotData.studentName,
-                    grade: childSnapshotData.grade,
-                    section: childSnapshotData.section,
-                    visitDate: childSnapshotData.visitDate,
-                    attendingNurse: childSnapshotData.nurseName,
-                    timeIn: childSnapshotData.timeIn,
-                    timeOut: childSnapshotData.timeOut,
-                    weight: childSnapshotData.weight,
-                    height: childSnapshotData.height,
-                    bodyTemp: childSnapshotData.bodyTemp,
-                    systolicBP: childSnapshotData.systolicBP,
-                    diastolicBP: childSnapshotData.diastolicBP,
-                    pulseRate: childSnapshotData.pulseRate,
-                    respirationRate: childSnapshotData.respirationRate,
-                    visitReason: childSnapshotData.visitReason,
-                    treatment: childSnapshotData.treatment,
-                    diagnosis: childSnapshotData.diagnosis,
-                    status: childSnapshotData.status,
-                    notes: childSnapshotData.notes,
-                })
+                if(childSnapshotData.id == student){
+                    details.push({
+                        idNum: childSnapshotData.id,
+                        studentName: childSnapshotData.studentName,
+                        grade: childSnapshotData.grade,
+                        section: childSnapshotData.section,
+                        visitDate: childSnapshotData.visitDate,
+                        attendingNurse: childSnapshotData.nurseName,
+                        timeIn: childSnapshotData.timeIn,
+                        timeOut: childSnapshotData.timeOut,
+                        weight: childSnapshotData.weight,
+                        height: childSnapshotData.height,
+                        bodyTemp: childSnapshotData.bodyTemp,
+                        systolicBP: childSnapshotData.systolicBP,
+                        diastolicBP: childSnapshotData.diastolicBP,
+                        pulseRate: childSnapshotData.pulseRate,
+                        respirationRate: childSnapshotData.respirationRate,
+                        visitReason: childSnapshotData.visitReason,
+                        treatment: childSnapshotData.treatment,
+                        diagnosis: childSnapshotData.diagnosis,
+                        status: childSnapshotData.status,
+                        notes: childSnapshotData.notes,
+                    })
+                }
             })
+            details.reverse();
+            console.log("details");
+            console.log(details)
             res.status(200).send(details);
         } else {
             res.status(200).send(details);

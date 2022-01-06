@@ -1316,8 +1316,9 @@
                         <!-- Basic Card Example -->
                         <div class="card shadow mb-2 divmenu" id="clinicVisit">
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Clinic Visit</h6></div>
-                            <div class="card-body">
-                                    <!-- Card Header - Accordion -->
+                            <div class="card-body" id="visitsBody">
+                                <div class="font-weight-normal text-center">No data available</div>
+                                    {{!-- <!-- Card Header - Accordion -->
                                 <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                     <h6 class="m-0 font-weight-bold text-primary">Fever<span class="float-right">10/18/2021</span></h6>
                                 </a>
@@ -1389,7 +1390,7 @@
                                             </div>
                                         </div>                                  
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -1722,28 +1723,13 @@
                                             <th>Allergy</th>
                                             <th>Type</th>
                                             <th>Date of Diagnosis</th>
-                                            <th>Status</th>
+                                            <th>Last Occurrence</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="dynamicAllergy">
                                         <tr>
-                                            <td>Pollen, dust mites, animal fur</td>
-                                            <td>Respiratory</td>
-                                            <td>5/19/2019</td>
-                                            <td>Active</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shellfish</td>
-                                            <td>Food</td>
-                                            <td>2/10/2020</td>
-                                            <td>Inactive</td>   
-                                        </tr>
-                                        <tr>
-                                            <td>Ibuprofen</td>
-                                            <td>Drug</td>
-                                            <td>2/10/2020</td>
-                                            <td>Active</td>
-                                        </tr>
+                                            <td colspan="4" class="font-weight-normal text-center">No data available</td>
+                                        </tr> 
                                     </tbody>
                                 </table>
                             </div>
@@ -1785,6 +1771,9 @@
                                             </tr>
                                         </thead>
                                         <tbody id="dynamicIntake">
+                                            <tr>
+                                                <td colspan="4" class="font-weight-normal text-center">No data available</td>
+                                            </tr> 
                                             {{!-- <tr>
                                                 <td>Paracetamol Tablet 500mg</td>
                                                 <td>1</td>
@@ -2243,6 +2232,22 @@
             $.get('/getVisits', {studentID: typedID}, function(visits){
                 console.log("list of visits ni student");
                 console.log(visits);
+
+                var i;
+
+                if(visits.length != 0){
+                    var visitsBody = document.getElementById("visitsBody");
+                    visitsBody.innerHTML = "";
+                        for(i = 0; i < visits.length; i++){
+                        $('#visitsBody').append('<a href="#drop-visit'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse show" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visits[i].visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div>');
+                    } 
+                }
+                else{
+                    var visitsBody = document.getElementById("visitsBody");
+                    visitsBody.innerHTML = "";
+                    $('#visitsBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
+                }                  
+
             });
 
             // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
@@ -2450,7 +2455,22 @@
             $.get('/getAllergies', {studentID: typedID}, function(allergy){
                 console.log("list of allergies");
                 console.log(allergy);
-            })
+
+                var i;
+                
+
+                if(allergy.length != 0){
+                    $("#dynamicAllergy tr").remove();
+                        for(i = 0; i < allergy.length; i++){
+                        $('#dynamicAllergy').append('<tr><td>' + allergy[i].allergy + '</td><td>' + allergy[i].allergyType + '</td><td>' + allergy[i].diagnosisDate + '</td><td>' + allergy[i].lastOccurrence + '</td></tr>');
+                    }
+                }   
+                else{
+                    $("#dynamicAllergy tr").remove();
+                    $('#dynamicAllergy').append('<tr><td colspan="4" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
+                }
+
+            });
 
             // --------------------------------- LIST OF INTAKE HISTORY ------------------------------
             $.get("/getIntakeHistory", {studentID: typedID}, function(data){
@@ -2458,11 +2478,17 @@
                 console.log(data);
                 var i;
 
-                $("#dynamicIntake tr").remove(); 
-
-                for(i = 0; i < data.length; i++){
-                    $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
+                if(data.length != 0){
+                    $("#dynamicIntake tr").remove();
+                        for(i = 0; i < data.length; i++){
+                        $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
+                    }
+                }   
+                else{
+                    $("#dynamicIntake tr").remove();
+                    $('#dynamicIntake').append('<tr><td colspan="4" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
                 }
+
             });
 
             // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------

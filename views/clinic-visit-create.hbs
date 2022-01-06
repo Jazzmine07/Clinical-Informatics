@@ -453,7 +453,7 @@
                                 <img class="img-profile rounded-circle" src="public/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div id-"drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            <div id="drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -1170,9 +1170,8 @@
         var notAllowedMedicines = [];
         var weight, height, age, sex;
 
-        function searchProfile() {
-            var typedID = document.getElementById("studentVisit").value;
-
+        $("#studentID").change(function(){
+            var typedID = $('#studentID').val();
             // --------------------------------- LAST VISIT DETAILS ------------------------------
             $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){
                 console.log("last visit details of the student");
@@ -1226,8 +1225,44 @@
                 }
                 else
                     document.getElementById('lastVisit').style.display = "none";
-            })
-            
+            });
+
+            // --------------------------------- STUDENT PROFILE ------------------------------
+            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+                
+                weight = studentInfo.weight; 
+                height = studentInfo.height; 
+                age = studentInfo.age;
+                sex = studentInfo.sex;
+            });
+
+            // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
+            $.get("/getNotAllowedMedication", {studentID: typedID}, function(notAllowed){
+                var i;
+                notAllowedMedicines = [];   // will make sure to clear array before pushing again.
+                console.log("list of allowed medications ni student");
+                console.log(notAllowed);
+                for(i = 0; i < notAllowed.length; i++){
+                    if(notAllowed[i].isAllowed == false){
+                        notAllowedMedicines.push({
+                            medicine: notAllowed[i].medicine
+                        })
+                    }
+                }
+                console.log("Not allowed medications ni student");
+                console.log(notAllowedMedicines);
+            });
+
+        });
+
+
+        function searchProfile() {
+            var typedID = document.getElementById("studentVisit").value;
+            $('#studentID').val(typedID);
+            $('#studentID').trigger("change");
+
             // --------------------------------- STUDENT PROFILE ------------------------------
             $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
                 console.log("Student info");

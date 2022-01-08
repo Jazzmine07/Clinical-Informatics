@@ -562,11 +562,11 @@ exports.getSections=function(req,res){
 
 exports.addSchedule=function(req,res){
     var database = firebase.database();
-    var schedPERef= database.ref("apeSchedule");
-    var schedDERef= database.ref("dentalSchedule");
+    var studentRef = database.ref("studentInfo");
     var sectionScheduleRef = database.ref("haSchedule");
     var schedules=[], g1=[],g2=[],g3=[],g4=[],g5=[],g6=[], schoolYear;
     var i;
+    var students=[];
     var checker="false";
     //var schedulePE=[], scheduleDE=[],
     //schedulePE = req.body.schedules;
@@ -593,7 +593,6 @@ exports.addSchedule=function(req,res){
     sectionScheduleRef.once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
             var child = childSnapshot.exportVal();
-            console.log("HELLO MY SWEET MANGA");
             console.log(childSnapshot.key);
             console.log(child);
 
@@ -625,7 +624,28 @@ exports.addSchedule=function(req,res){
         }
     })
 
-    
+    sectionScheduleRef.child(schoolYear).once('value',(snapshot)=>{
+        snapshot.forEach(function(childSnapshot){
+            var childValues = childSnapshot.exportVal();
+            students=[];
+            studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                if(ss.exists()){
+                    ss.forEach(function(cs){
+                        var values= cs.exportVal();
+                        students.push({
+                            key: cs.key,
+                            section:values.section
+                        });
+                    })
+                }
+            });
+            console.log(schoolYear);
+            console.log(childValues.section);
+            console.log(students.length);
+            sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
+            
+        })
+    })
 
     res.send();
 }
@@ -704,13 +724,15 @@ exports.loadPrevDataAPE=function(req,res){
                 };
             }
         });
-        studentInfo= loadStudentData(id);
-        console.log("StudentInfo:");
-        console.log(studentInfo);
+        
+        // console.log("id:"+id);
+        // studentInfo= loadStudentData(id);
+        // console.log("StudentInfo:");
+        // console.log(studentInfo);
 
         var lastApe;
         var i=1;
-        if(ape!=null){
+        if(ape.length!=0){
             console.log("hello");
             console.log(ape);
             console.log(curr);
@@ -755,7 +777,7 @@ exports.loadPrevDataAPE=function(req,res){
                 }
             }
         }
-        if(ape==null){
+        if(ape.length==0){
             console.log("empty ape");
             lastApe=0;
             ape.push({
@@ -840,12 +862,11 @@ exports.loadPrevDataAPE=function(req,res){
         }
         
         //console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
-        console.log(ape);
-        console.log(curr);
+        
         var record={
-            name:studentInfo.name,
-            birthday:studentInfo.bday,
-            sex:studentInfo.sex,
+            // name:studentInfo.name,
+            // birthday:studentInfo.bday,
+            // sex:studentInfo.sex,
 
             prevSy:ape[lastApe].sy,
             prevAge:ape[lastApe].age,
@@ -1082,9 +1103,9 @@ exports.loadPrevDataADE=function(req,res){
         });
         
 
-        studentInfo= loadStudentData(id);
-        console.log("StudentInfo:");
-        console.log(studentInfo);
+        // studentInfo= loadStudentData(id);
+        // console.log("StudentInfo:");
+        // console.log(studentInfo);
 
         var lastAde;
         var i=1;
@@ -1146,9 +1167,9 @@ exports.loadPrevDataADE=function(req,res){
         console.log(ade);
         //console.log(curr);
         var record={
-            name:studentInfo.name,
-            birthday:studentInfo.bday,
-            sex:studentInfo.sex,
+            // name:studentInfo.name,
+            // birthday:studentInfo.bday,
+            // sex:studentInfo.sex,
 
             prevSy:ade[lastAde].sy,
             prevAge:ade[lastAde].age,
@@ -1212,30 +1233,35 @@ exports.loadPrevDataADE=function(req,res){
 }
 
 
-loadStudentData= function (id){
+exports.loadStudentData= function (req,res){
+    var name,bday,sex,record;
+    var id = req.body.id;
     var database = firebase.database();
     var studentInfoRef= database.ref("studentInfo/"+id);
-    var name,bday,sex,record;
-
+    console.log("HI"+id);
+    console.log("IN loadStudentData:");
+   
     studentInfoRef.once('value', (snapshot) =>{
-        var childValues = snapshot.exportVal();
-        console.log("DATA Path1: " + childValues);
-        name=childValues.firstName +" "+ childValues.lastName;
-        bday=childValues.birthday;
-        sex=childValues.sex;
-        record={
-            name:name,
-            bday:bday,
-            sex:sex
-        }
-        console.log("IN loadStudentData:");
-        
+        console.log("WHHHYYY");
+        console.log(snapshot.exportVal());
+            console.log("DATA Path1: ");
+            var childValues = snapshot.exportVal();
+            
+            console.log(childValues.firstName);
+            name=childValues.firstName +" "+ childValues.lastName;
+            bday=childValues.birthday;
+            sex=childValues.sex;
+            record={
+                name:name,
+                bday:bday,
+                sex:sex
+            }
+            console.log(record);
+            res.send(record);  
     })
-    console.log(record);
-    return record;
 }
 
-//function gets the all schedules 
+//in health-assessment --> loads the schedule for the year
 exports.getAllSched=function(){
     //gets all the schedule created for the APE
     var currentTime = new Date()
@@ -1263,10 +1289,7 @@ exports.getAllSched=function(){
         sectionScheduleRef.child(sy).once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
-                console.log(snapshot.key); //school year
-                console.log(childSnapshot.key); //section Name
-                console.log(childValues); // schedule details
-                var students=[], studentsAccom=[];
+                var students=[], studentsAccomApe=[],studentsAccomAde=[];
                 var grade, done=false;
                
                 if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
@@ -1287,32 +1310,22 @@ exports.getAllSched=function(){
                 else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
                     grade="6";
                 }
-                
-                console.log("Grade Level:"+ grade);
-                //get total student count in a section
-                studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
-                    if(ss.exists()){
-                        ss.forEach(function(cs){
-                            var values= cs.exportVal();
-                            console.log("Section inside"+values.section);
-                            students.push({
-                                key: cs.key,
-                                section:values.section
-                            });
-                        })
-                        console.log("Students in "+ childValues.section +":"+students.length);
-                    }
-                });
-                console.log(students);
 
                 if(done==false){
                     for(i=0;i<students.length;i++){
                         healthHistory.child(students[i].key).child("ape").on('value',(ss)=>{
                             ss.forEach(function(cs){
-                                console.log("Hello");
-                                console.log(cs.key);
                                 if(cs.key.toString() == sy){
-                                    studentsAccom.push(cs.key);
+                                    studentsAccomApe.push(cs.key);
+                                }
+                            })
+                        });
+                    };
+                    for(i=0;i<students.length;i++){
+                        healthHistory.child(students[i].key).child("ade").on('value',(ss)=>{
+                            ss.forEach(function(cs){
+                                if(cs.key.toString() == sy){
+                                    studentsAccomAde.push(cs.key);
                                 }
                             })
                         });
@@ -1327,21 +1340,19 @@ exports.getAllSched=function(){
                     record={
                         grade:grade,
                         section:childValues.section,
-                        numStudents:students.length,
+                        numStudents:childValues.numStudents,
                         apeDate:childValues.physicalDate,
                         apeTime:childValues.physicalTime,
-                        apeSeen:studentsAccom.length,
+                        apeSeen:studentsAccomApe.length,
                         adeDate:childValues.dentalDate,
                         adeTime:childValues.dentalTime,
-                        adeSeen:studentsAccom.length
+                        adeSeen:studentsAccomAde.length
                     }
-                    //console.log(record);
+                    console.log(record);
                     schedule.push(record);
                 }
 
             })
-            console.log("Schedule size:" + schedule.length);
-            console.log(schedule)
             resolve(schedule);
             reject(schedule);
         })
@@ -1349,7 +1360,7 @@ exports.getAllSched=function(){
 
     return promise;
 }
-
+//in health-assessment-schedule --> loads the most recent schedule clinic has for health assessments
 exports.getAllPrevSched=function(req,res){
     //gets all the schedule created for the APE
     var currentTime = new Date()
@@ -1401,26 +1412,11 @@ exports.getAllPrevSched=function(req,res){
                 else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
                     grade="6";
                 }
-                
-                //get total student count in a section
-                studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
-                    if(ss.exists()){
-                        ss.forEach(function(cs){
-                            var values= cs.exportVal();
-                            students.push({
-                                key: cs.key,
-                                section:values.section
-                            });
-                        })
-                    }
-                });
-                console.log(students);
 
             
                     record={
                         grade:grade,
                         section:childValues.section,
-                        numStudents:students.length,
                         apeDate:childValues.physicalDate,
                         apeTime:childValues.physicalTime,
                         adeDate:childValues.dentalDate,

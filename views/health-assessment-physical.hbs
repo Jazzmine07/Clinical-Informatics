@@ -1059,6 +1059,23 @@
             idInput=$('#studentID').val();
             console.log("Id:" + idInput);
             $.ajax({
+                    url: '/loadStudentData',
+                    method: 'POST',
+                    data: {
+                        //schoolYear:schoolYear,
+                        id:idInput
+                    },
+                    success: function(data) {
+                        console.log("HELLO DATA:");
+                        console.log(data.name);
+                        
+                        document.getElementById("studentName").value=data.name;                            
+                        document.getElementById("dob").value=data.bday;
+                        document.getElementById("gender").value=data.sex;
+                    }  
+            });
+
+            $.ajax({
                     url: '/loadPrevDataAPE',
                     method: 'POST',
                     data: {
@@ -1069,9 +1086,9 @@
                         console.log("HELLO DATA:");
                         console.log(data.name);
                         
-                        document.getElementById("studentName").value=data.name;                            
-                        document.getElementById("dob").value=data.birthday;
-                        document.getElementById("gender").value=data.sex;
+                        //document.getElementById("studentName").value=data.name;                            
+                        //document.getElementById("dob").value=data.birthday;
+                        //document.getElementById("gender").value=data.sex;
 
                         //document.getElementById("medProb").value=data.medProb;
                         //document.getElementById("allergies").value=data.allergies;

@@ -1251,7 +1251,23 @@
             }
             console.log(schoolYear);
             console.log(document.getElementById("studentID").value);
-            
+            console.log("WHERE AM I?")
+            $.ajax({
+                    url: '/loadStudentData',
+                    method: 'POST',
+                    data: {
+                        //schoolYear:schoolYear,
+                        id:document.getElementById("studentID").value
+                    },
+                    success: function(data) {
+                        console.log("Ayaw ko na:");
+                        console.log(data.bday);
+                        $('#studentName').val(data.name); 
+                        $('#dob').val(data.bday); 
+                        $('#gender').val(data.sex); 
+                    }  
+
+            });
             $.ajax({
                     url: '/loadPrevDataADE',
                     method: 'POST',
@@ -1264,15 +1280,15 @@
                         console.log(data);
 
                         
-                        $('#studentName').val(data.name); 
+                        //$('#studentName').val(data.name); 
                         
-                        var bday = new Date(data.birthday);
-                        var day = ("0" + bday.getDate()).slice(-2);
-                        var month = ("0" + (bday.getMonth() + 1)).slice(-2);
-                        var dob = bday.getFullYear()+"-"+(month)+"-"+(day) ; 
-                        $('#dob').val(dob); 
+                        //var bday = new Date(data.b);
+                        //var day = ("0" + bday.getDate()).slice(-2);
+                        //var month = ("0" + (bday.getMonth() + 1)).slice(-2);
+                        //var dob = bday.getFullYear()+"-"+(month)+"-"+(day) ; 
+                        //$('#dob').val(dob); 
                         
-                        $('#gender').val(data.sex); 
+                        //$('#gender').val(data.sex); 
 
 
                         if(data.prevCalculus == "true")

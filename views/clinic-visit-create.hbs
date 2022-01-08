@@ -875,9 +875,10 @@
                                             <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
                                             <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
                                                 <option disabled="disabled" value="" selected="true">Choose...</option>
-                                            {{#each prescribed}}
-                                                <option value="{{key}}">{{firstName}} {{lastName}}</option>
+                                            {{#each clinician}}
+                                                <option disabled="disabled" value="{{firstName}} {{lastName}}">{{firstName}} {{lastName}}</option>
                                             {{/each}}
+                                                <option value="{{user.firstName}} {{user.lastName}}">{{user.firstName}} {{user.lastName}}</option>
                                             </select>  
                                         </div> 
                                     </div>

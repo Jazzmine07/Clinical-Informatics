@@ -170,6 +170,7 @@ exports.getLastVisit = function(req, res){
                     pulseRate: childSnapshotData.pulseRate,
                     respirationRate: childSnapshotData.respirationRate,
                     visitReason: childSnapshotData.visitReason,
+                    impression: childSnapshotData.impression,
                     treatment: childSnapshotData.treatment,
                     diagnosis: childSnapshotData.diagnosis,
                     status: childSnapshotData.status,

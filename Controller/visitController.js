@@ -204,7 +204,7 @@ exports.addClinicVisit = function(req, res){
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, diagnosis, 
-        medicationAssign, medicationAssigned, medicationsArray, intakeArray, status, notes } = req.body;
+        medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
     
     var database = firebase.database();

@@ -925,6 +925,11 @@
             });
 
         });
+        
+        $.get("/getGroupedMedicineInventory", function(groupedInventory){
+            console.log("groupedInventory in front end");
+            console.log(groupedInventory);
+        });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');

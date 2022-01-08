@@ -53,6 +53,7 @@ exports.getTopDisease=function(vcArray){
     var i,j,size;
     var weekTopDiseaseFinal=[], monthTopDiseaseFinal=[];
 
+    console.log(temp);
     
     //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
@@ -113,7 +114,6 @@ exports.getTopDisease=function(vcArray){
         }
 
     }
-    
  
     // sorting the vcWeek and Month from highest count to lowest
     if(vcWeek.length>0){
@@ -124,12 +124,18 @@ exports.getTopDisease=function(vcArray){
         console.log(weekTopDisease)
         strings.push(weekTopDisease);
     }
+    else{
+        strings.push(weekTopDisease);
+    }
     if(vcMonth.length>0){
         console.log("FIND ORDER OF MONTH TOP DISEASE");
         monthTopDisease= vcMonth.reverse(function (x, y) {
             return x.count- y.count;
         });
         console.log(monthTopDisease);
+        strings.push(monthTopDisease);
+    }
+    else{
         strings.push(monthTopDisease);
     }
     

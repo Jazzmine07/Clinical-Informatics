@@ -493,6 +493,7 @@
                                 <option disabled="disabled" selected="true">Communicable Disease</option>
                                 <option value="chickenpox">Chickenpox</option>
                                 <option value="common-cold">Common Cold</option>
+                                <option value="common-cold">Fever</option>
                             </select>
                         </div>
                         <div class="col-4 mb-4">
@@ -1602,7 +1603,7 @@
         };            
 
         function showTrendChart(data,start,end){
-            //console.log("enters Show Disease Trend Chart");
+            console.log("enters Show Disease Trend Chart");
             var i,j,k;
             var dateLabels=[];
             var dDataSet=[],cDataSet=[];
@@ -1614,9 +1615,22 @@
 
             //gets all the date in the date range
             while(date<=e){
-                dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-" +date.getDate());
+                if(date.getDate()>=10 && (date.getMonth()+1)>=10){
+                    dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-" +date.getDate());
+                }
+                else if(date.getDate()>=10 && (date.getMonth()+1)<10){
+                    dateLabels.push(date.getFullYear() + "-0" + (date.getMonth()+1) + "-" +date.getDate());
+                }
+                else if(date.getDate()<10 && (date.getMonth()+1)>=10){
+                   dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-0" +date.getDate());
+                }
+                else if(date.getDate()<10 && (date.getMonth()+1)<10){
+                    dateLabels.push(date.getFullYear() + "-0" + (date.getMonth()+1) + "-0" +date.getDate());
+                }
+                
                 date.setDate(date.getDate()+1);
             }
+            console.log("Dates");
             console.log(dateLabels);
             
             //creates the array for dataset
@@ -1633,7 +1647,6 @@
                     }
                 }
                 else{ //if not empty
-                console.log(dDataSet);
                     for(j=0;j<dDataSet.length;j++){ //this whole thing is used to check if it has a count
                         if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null){
                             if(dDataSet[j].diagnosis.toLowerCase()==data[i].diagnosis.toLowerCase()){
@@ -1657,7 +1670,8 @@
                     dDataSet[i].count.push(parseInt("0"));
                 }
             }
-            //console.log(dDataSet);
+            console.log("dDataSet");
+            console.log(dDataSet);
             
             //counting of data Disease
             for(i=0;i<data.length;i++){
@@ -1665,6 +1679,8 @@
                     if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null && data[i].diagnosis!=undefined && dDataSet[j].diagnosis!=undefined){
                         if(data[i].diagnosis.toLowerCase() == dDataSet[j].diagnosis.toLowerCase()){
                             for(k=0;k<dateLabels.length;k++){
+                                    console.log(data[i].visitDate);
+                                    console.log(dateLabels[k]);
                                 if(data[i].visitDate==dateLabels[k]){
                                     dDataSet[j].count[k]=dDataSet[j].count[k]+1;
                                 }
@@ -1673,6 +1689,9 @@
                     }
                 }
             }
+
+            console.log("dDataSet after counting");
+            console.log(dDataSet);
 
             var arrryOfColors = [
                 "rgba(153, 102, 255)", // violet

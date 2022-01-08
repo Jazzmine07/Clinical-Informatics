@@ -55,8 +55,12 @@
             background-color: #eaecf4;
         }
 
+        .select2-search__field{
+            color: #6e707e;
+        }
+
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: white;
+            color: #6e707e;
             cursor: pointer;
             display: inline-block;
             font-weight: bold;
@@ -64,9 +68,9 @@
         }
 
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #4e73df;
-            border-color: white !important; 
-            color: white;
+            background-color: #eaecf4;
+            border-color: #d1d3e2 !important; 
+            color: #6e707e;
             border-radius: 4px;
             cursor: default;
             float: left;
@@ -801,18 +805,23 @@
                             <div class="form-row align-items-center">
                                 <div class="col-6">
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
-                                    <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea>
-                                </div>
-                                <div class="col-6">
-                                    <label class="col-form-label" for="impression">Working Impression</label>
-                                    <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
+                                    {{!-- <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea> --}}
+                                    <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="complaintVisit" name="complaintVisit">
+                                    {{#each clinician}}
+                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                    {{/each}}
+                                    </select> 
                                 </div>
                             </div>
                        
                             <div class="form-row align-items-center">
-                                <div class="col-12">
+                                <div class="col-6">
+                                    <label class="col-form-label" for="impression">Working Impression</label>
+                                    <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
+                                </div>
+                                <div class="col-6">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="3"></textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" name="treatmentVisit" rows="6"></textarea>
                                 </div>
                             </div>
                     </div>
@@ -1148,8 +1157,14 @@
 
     <script>
         $("#assignDiagnosis").select2({
-        placeholder: "Select or type keywords"
+            placeholder: "Select or type keywords"
         });
+
+        $("#complaintVisit").select2({
+            tags: true,
+            tokenSeparators: [',']
+        });
+        
         $("#medicationVisit").select2();
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
@@ -1236,6 +1251,14 @@
                 height = studentInfo.height; 
                 age = studentInfo.age;
                 sex = studentInfo.sex;
+
+                 //auto-fill form
+                $('#studentID').val(typedID);
+                $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                if(studentInfo.grade)
+                    $('#studentGrade').val(studentInfo.grade);
+                if(studentInfo.section)
+                    $('#studentSection').val(studentInfo.section);  
             });
 
             // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
@@ -3820,6 +3843,16 @@
             console.log(rr);
 
             var complaint =  $('#complaintVisit').val(); 
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            for(var index = 0; index < complaint.length; index++){
+                complaint[index] = complaint[index].charAt(0).toUpperCase() + complaint[index].slice(1);
+            }         
+
+            complaint = complaint.join(', ');
             console.log(complaint);
 
             if($('#complaintVisit').val() == null || $('#complaintVisit').val() == undefined || $('#complaintVisit').val() == ""){

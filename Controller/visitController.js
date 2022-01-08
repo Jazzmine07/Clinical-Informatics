@@ -134,6 +134,7 @@ exports.addClinicVisit = function(req, res){
                     interval: medicationsArray[i].interval,
                     startMed: medicationsArray[i].startMed,
                     endMed: medicationsArray[i].endMed,
+                    prescribedBy: prescribedBy,
                     status: "From clinic"
                 };
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
@@ -158,6 +159,8 @@ exports.addClinicVisit = function(req, res){
         
             var intakeRef = database.ref("intakeHistory");
             var historyKey = intakeRef.push(intakeHistory).key;
+            var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+
             for(i = 0; i < intakeArray.length; i++){
                 history = {
                     medicineName: intakeArray[i].medication,
@@ -166,7 +169,15 @@ exports.addClinicVisit = function(req, res){
                     amount: parseFloat(intakeArray[i].amount),
                     time: intakeArray[i].time
                 };
+
+                healthHistoryIntake = {
+                    specificMedicine: intakeArray[i].med,
+                    specificAmount: intakeArray[i].amount,
+                    time: intakeArray[i].time,
+                    dateTaken: visitDate
+                }
                 database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                historyRef.push(healthHistoryIntake);
             }
         }
     
@@ -288,6 +299,8 @@ exports.editClinicVisit = function(req, res){
                 
                     var intakeRef = database.ref("intakeHistory");
                     var historyKey = intakeRef.push(intakeHistory).key;
+                    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+
                     for(i = 0; i < intakeArray.length; i++){
                         history = {
                             medicineName: intakeArray[i].medication,
@@ -296,7 +309,15 @@ exports.editClinicVisit = function(req, res){
                             amount: parseFloat(intakeArray[i].amount),
                             time: intakeArray[i].time
                         };
+
+                        healthHistoryIntake = {
+                            specificMedicine: intakeArray[i].med,
+                            specificAmount: intakeArray[i].amount,
+                            time: intakeArray[i].time,
+                            dateTaken: visitDate
+                        }
                         database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                        historyRef.push(healthHistoryIntake);
                     }
                 }
 
@@ -398,6 +419,8 @@ exports.editClinicVisit = function(req, res){
             
                 var intakeRef = database.ref("intakeHistory");
                 var historyKey = intakeRef.push(intakeHistory).key;
+                var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+
                 for(i = 0; i < intakeArray.length; i++){
                     history = {
                         medicineName: intakeArray[i].medication,
@@ -406,7 +429,15 @@ exports.editClinicVisit = function(req, res){
                         amount: parseFloat(intakeArray[i].amount),
                         time: intakeArray[i].time
                     };
+
+                    healthHistoryIntake = {
+                        specificMedicine: intakeArray[i].med,
+                        specificAmount: intakeArray[i].amount,
+                        time: intakeArray[i].time,
+                        dateTaken: visitDate
+                    }
                     database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                    historyRef.push(healthHistoryIntake);
                 }
             }
 

@@ -106,6 +106,50 @@ exports.getMedicineInventoryList = function(req, res){
     })
 };
 
+// for front-end
+exports.getGroupedMedicineInventory = function(req, res){
+    var childSnapshotData, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+    
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("medicineInventory")){
+            inventoryRef.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicine: childSnapshotData.medicine,
+                        qty: parseInt(childSnapshotData.quantity),
+                        unit: childSnapshotData.unit,
+                    });
+                })
+
+                temp.forEach(inventory => {
+                    var found = false;
+                    for(i = 0; i < filtered.length; i++){
+                        if(inventory.medicine == filtered[i].medicine){   // filters if same medicine name
+                            filtered[i].quantity += inventory.qty;
+                            found = true;
+                            break;
+                        } 
+                    }
+                    if(!found){
+                        filtered.push({
+                            medicine: inventory.medicine,
+                            quantity: inventory.qty,
+                            unit: inventory.unit
+                        })
+                    }    
+                })
+                res.status(200).send(filtered);
+            })
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
+};
+
 exports.getSpecificMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();

@@ -1024,6 +1024,7 @@ router.post('/getAdePercentageChart', studentController.getADEPercentage);
 router.post('/getAllPrevSchedules', studentController.getAllPrevSched);
 router.post('/loadPrevDataAPE', studentController.loadPrevDataAPE);
 router.post('/loadPrevDataADE', studentController.loadPrevDataADE);
+router.post('/loadStudentData',studentController.loadStudentData);
 router.post('/addWeightHeight',studentController.addWeightHeight);
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);
 router.post('/getVisitReasonCountDashboard', surveillanceController.getVisitReasonCount);

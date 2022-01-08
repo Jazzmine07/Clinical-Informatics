@@ -34,10 +34,8 @@
             border-top: none;
         }
 
-
-        .pdfobject-container { 
-            height: 30rem; 
-            border: 1rem solid rgba(0,0,0,.1); 
+        #lastVisit{
+            display: none;
         }
 
         #studentDiv{
@@ -453,7 +451,75 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Medication Form</h1></div>
-
+                    <div class="card shadow mb-2" id="lastVisit">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
+                        <div class="card-body">
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Attending Nurse</span></div>
+                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Visit Date</span></div>
+                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time In</span></div>
+                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time Out</span></div>
+                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Body Temperature</span></div>
+                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Blood Pressure</span></div>
+                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Pulse Rate</span></div>
+                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Respiration Rate</span></div>
+                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Treatment</span></div>
+                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Status</span></div>
+                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>   
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Diagnosis</span></div>
+                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>                                            
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {{!-- {{#if isNurse}} --}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
@@ -536,6 +602,30 @@
                     <div class="card-body">
                         <div class="form-row align-items-center">
                             <div class="col-4">
+                                <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
+                            </div>
+                            <div class="col-5">
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                    <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
+                                </select>  
+                            </div>                                 
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-2">
+                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
+                            </div>
+                            <div class="col-2">
+                                <label for="clinicOut" class="col-form-label">Time Out</label>
+                                <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
+                            </div>   
+                        </div>
+
+                        <div class="form-row align-items-center">
+                            <div class="col-4">
                                 <label class="col-form-label" for="studentID">Student ID Number</label>
                                 <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                             </div>
@@ -563,29 +653,6 @@
                             </div>
                         </div>
 
-                        <div class="form-row align-items-center">
-                            <div class="col-4">
-                                <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
-                            </div>
-                            <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
-                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
-                                    <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
-                                </select>  
-                            </div>                                 
-                        </div>
-
-                        <div class="form-row align-items-center">
-                            <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In</label>
-                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
-                            </div>
-                            <div class="col-2">
-                                <label for="clinicOut" class="col-form-label">Time Out</label>
-                                <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
-                            </div>  
-                        </div>
                     </div>
                 </div>
 
@@ -711,15 +778,118 @@
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
     </script>
     <script>
-        function searchProfile(){
+
+        var notAllowedMedicines = [];
+        var weight, height, age, sex;
+
+        $("#studentID").change(function(){
+            var typedID = $('#studentID').val();
+            // --------------------------------- LAST VISIT DETAILS ------------------------------
+            $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){
+                console.log("last visit details of the student");
+                console.log(lastVisit);
+                if(lastVisit != ""){
+                    $('#lvDate').html(lastVisit.visitDate);
+                    $('#lvTI').html(lastVisit.timeIn);
+                    $('#lvTO').html(lastVisit.timeOut);
+                    $('#lvNurse').html(lastVisit.attendingNurse);
+
+                    if(lastVisit.systolicBP == "" || !lastVisit.systolicBP || lastVisit.diastolicBP == "" || !lastVisit.diastolicBP)
+                        $('#lvBP').html("-");
+                    else
+                        $('#lvBP').html(lastVisit.systolicBP + "/" + lastVisit.diastolicBP);
+                    
+                    if(lastVisit.bodyTemp == "" || !lastVisit.bodyTemp)
+                        $('#lvBT').html("-");
+                    else
+                        $('#lvBT').html(lastVisit.bodyTemp + "°C");
+
+                    if(lastVisit.pulseRate == "" || !lastVisit.pulseRate)
+                        $('#lvPR').html("-");
+                    else
+                        $('#lvPR').html(lastVisit.pulseRate);
+                    
+                    if(lastVisit.respirationRate == "" || !lastVisit.respirationRate)
+                        $('#lvRR').html("-");
+                    else
+                        $('#lvRR').html(lastVisit.respirationRate);
+
+                    $('#lvReason').html(lastVisit.visitReason);
+
+                    if(lastVisit.treatment == "" || !lastVisit.treatment)
+                        $('#lvTreatment').html("-");
+                    else
+                        $('#lvTreatment').html(lastVisit.treatment);
+
+                    if(lastVisit.diagnosis == "" || !lastVisit.diagnosis)
+                        $('#lvDiagnosis').html("-");
+                    else
+                        $('#lvDiagnosis').html(lastVisit.diagnosis);
+
+                    if(lastVisit.notes == "" || !lastVisit.notes)
+                        $('#lvNotes').html("-");
+                    else
+                        $('#lvNotes').html(lastVisit.notes);
+
+                    $('#lvStatus').html(lastVisit.status);
+
+                    document.getElementById('lastVisit').style.display = "block";
+                }
+                else
+                    document.getElementById('lastVisit').style.display = "none";
+            });
+
+            // --------------------------------- STUDENT PROFILE ------------------------------
+            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+                
+                weight = studentInfo.weight; 
+                height = studentInfo.height; 
+                age = studentInfo.age;
+                sex = studentInfo.sex;
+
+                 //auto-fill form
+                $('#studentID').val(typedID);
+                $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                if(studentInfo.grade)
+                    $('#studentGrade').val(studentInfo.grade);
+                if(studentInfo.section)
+                    $('#studentSection').val(studentInfo.section);  
+            });
+
+            // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
+            $.get("/getNotAllowedMedication", {studentID: typedID}, function(notAllowed){
+                var i;
+                notAllowedMedicines = [];   // will make sure to clear array before pushing again.
+                console.log("list of allowed medications ni student");
+                console.log(notAllowed);
+                for(i = 0; i < notAllowed.length; i++){
+                    if(notAllowed[i].isAllowed == false){
+                        notAllowedMedicines.push({
+                            medicine: notAllowed[i].medicine
+                        })
+                    }
+                }
+                console.log("Not allowed medications ni student");
+                console.log(notAllowedMedicines);
+            });
+
+        });
+
+        function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
-            
-            $.get("/getStudentRecord", {studentID: typedID}, function(data){
-                console.log("Student data...");
-                console.log(data);
-                //if(typedID.isEmpty()){
-                    // TO DO: display error message if walang ininput na id number si user
-                //}
+            $('#studentID').val(typedID);
+            $('#studentID').trigger("change");
+
+            // --------------------------------- STUDENT PROFILE ------------------------------
+            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+                
+                weight = studentInfo.weight; 
+                height = studentInfo.height; 
+
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
@@ -728,10 +898,8 @@
                     document.getElementById("clinicVisitForm").reset();
 
                 }
-                else if(data.firstName == null){ // if data is null so meaning no student with that id number
-                    //console.log(data);
-                    //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                else if(studentInfo.firstName == null){ // if data is null so meaning no student with that id number
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
                     document.getElementById('studentDiv').style.display = "none";                     
                     document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
@@ -741,69 +909,64 @@
                     document.getElementById('errorDiv').style.display = "none";   // hide error message 
                     $('#headerNameCollapse').html(typedID);
                     // Header
-                    $('#nameHeaderVisit').html(data.firstName + " " + data.middleName + " " + data.lastName);
+                    $('#nameHeaderVisit').html(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
                     $('#idHeaderVisit').html(typedID);
-                    //$('#studentTypeHeader').html(data.studentType + " Student");
+                    //$('#studentTypeHeader').html(details.studentInfo.studentType + " Student");
 
                     // personal info
-                    $('#visitLastName').html(data.lastName);
-                    $('#visitFirstName').html(data.firstName);
-                    $('#visitMiddleName').html(data.middleName);
+                    $('#visitLastName').html(studentInfo.lastName);
+                    $('#visitFirstName').html(studentInfo.firstName);
+                    $('#visitMiddleName').html(studentInfo.middleName);
 
-                    if(data.grade && data.section)
-                        $('#gradeSection').html("Grade " + data.grade + " - " + data.section);
+                    if(studentInfo.grade && studentInfo.section)
+                        $('#gradeSection').html("Grade " + studentInfo.grade + " - " + studentInfo.section);
                         
-                    if(data.studentType)
-                        if(data.studentType == "old" || data.studentType == "Old")
+                    if(studentInfo.studentType)
+                        if(studentInfo.studentType == "old" || studentInfo.studentType == "Old")
                             $('#studentTypeHeader').html("Old Student");
-                        else if(data.studentType == "new" || data.studentType == "New")
+                        else if(studentInfo.studentType == "new" || studentInfo.studentType == "New")
                             $('#studentTypeHeader').html("New Student");    
-                    
-                    
 
-                    if(data.sex == "Female")
+                    if(studentInfo.sex == "Female")
                         document.getElementById("studentPic").src = "public/img/female.svg";
-                    else if (data.sex == "Male")
+                    else if(studentInfo.sex == "Male")
                         document.getElementById("studentPic").src = "public/img/male.svg";
 
-                    $('#visitBirthday').html(data.birthday);
-                    //$('#visitNationality').html(data.nationality);
-                    //$('#visitReligion').html(data.religion);
-                    $('#visitAge').html(data.age + " years old");
-                    $('#visitSex').html(data.sex);
-                    $('#visitAddress').html(data.address);
+                    $('#visitBirthday').html(studentInfo.birthday);
+                    //$('#visitNationality').html(studentInfo.nationality);
+                    //$('#visitReligion').html(studentInfo.religion);
+                    $('#visitAge').html(studentInfo.age + " years old");
+                    age = studentInfo.age;
+                    $('#visitSex').html(studentInfo.sex);
+                    sex = studentInfo.sex;
+                    $('#visitAddress').html(studentInfo.address);
 
                     // contacts
-                    if(data.fatherName)
-                        $('#visitFN').html(data.fatherName);
+                    if(studentInfo.fatherName)
+                        $('#visitFN').html(studentInfo.fatherName);
                     
-                    if(data.fatherEmail)
-                        $('#visitFE').html(data.fatherEmail);
+                    if(studentInfo.fatherEmail)
+                        $('#visitFE').html(studentInfo.fatherEmail);
 
-                    if(data.fatherContact)
-                        $('#visitFC').html(data.fatherContact);
+                    if(studentInfo.fatherContact)
+                        $('#visitFC').html(studentInfo.fatherContact);
 
-                    if(data.motherName) 
-                        $('#visitMN').html(data.motherName);
+                    if(studentInfo.motherName) 
+                        $('#visitMN').html(studentInfo.motherName);
 
-                    if(data.motherEmail)    
-                        $('#visitME').html(data.motherEmail);
+                    if(studentInfo.motherEmail)    
+                        $('#visitME').html(studentInfo.motherEmail);
 
-                    if(data.motherContact)    
-                        $('#visitMC').html(data.motherContact);
-
-
-                    //var today = new Date();
-                    //var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    if(studentInfo.motherContact)    
+                        $('#visitMC').html(studentInfo.motherContact);
 
                     //auto-fill form
                     $('#studentID').val(typedID);
-                    $('#studentName').val(data.firstName + " " + data.middleName + " " + data.lastName);
-                    if(data.grade)
-                        $('#studentGrade').val(data.grade);
-                    if(data.section)
-                        $('#studentSection').val(data.section);
-                    //$('#visitDate').value(date);                 
+                    $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                    if(studentInfo.grade)
+                        $('#studentGrade').val(studentInfo.grade);
+                    if(studentInfo.section)
+                        $('#studentSection').val(studentInfo.section);        
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });

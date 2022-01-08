@@ -24,36 +24,61 @@ exports.login = (req, res) => {
   //   }
   // }
   // database.ref('parentInfo/'+key).set(parentInfo);
-
+    
   // var personalInfo = {
-  //   idNum: "485562",
-  //   firstName: 'Alex',
-  //   middleName: 'Santos',
-  //   lastName: 'Reyes',
+  //   firstName: 'Tauro Bailey',
+  //   middleName: 'Sison',
+  //   lastName: 'Bituin',
   //   studentType: 'Old',
   //   grade: '6',
-  //   section: 'Integrity',
-  //   birthday: '2010-04-21', // yyyy-mm-dd
+  //   section: 'Abnegation',
+  //   birthday: '2010-08-13', // yyyy-mm-dd
   //   age: '11',
   //   sex: 'Male',
-  //   address: 'Raja Sulayman 1200 Makati City',
-  //   motherName: 'Mikaela Reyes',
-  //   motherEmail: 'mikaela_reyes@gmail.com',
-  //   motherContact: '09569122173',
-  //   fatherName: 'Edwin Reyes',
-  //   fatherEmail: 'edwin_reyes@gmail.com',
-  //   fatherContact: '09285512439',
-  //   guardianName: 'Edwin Reyes',
-  //   guardianEmail: 'edwin_reyes@gmail.com',
-  //   guardianContact: '09285512439',
+  //   address: 'Evacom Building 1700',
+  //   motherName: 'Estelle Bituin',
+  //   motherEmail: 'estelle_bituin@gmail.com',
+  //   motherContact: '09778947521',
+  //   fatherName: 'Paolo Bituin',
+  //   fatherEmail: 'paolo_bituin@gmail.com',
+  //   fatherContact: '09668741257',
+  //   guardianName: 'Jose Malinaw',
+  //   guardianEmail: 'jose_malinaw@gmail.com',
+  //   guardianContact: '09174521523',
   //   hasSpecialNeeds: "No",
   //   nationality: "Filipino",
-  //   religion: "Born Again",
+  //   religion: "Roman Catholic",
+
+  // }
+    
+  // var personalInfo2 = {
+  //   firstName: 'Peyton Jaheim',
+  //   middleName: 'Maniri',
+  //   lastName: 'Abayan',
+  //   studentType: 'Old',
+  //   grade: '6',
+  //   section: 'Abnegation',
+  //   birthday: '2010-06-14', // yyyy-mm-dd
+  //   age: '11',
+  //   sex: 'Female',
+  //   address: 'Presidents Avenue, BF Homes',
+  //   motherName: 'Sasha Abayan',
+  //   motherEmail: 'sasha_abayan@gmail.com',
+  //   motherContact: '09478965897',
+  //   fatherName: 'Steven Abayan',
+  //   fatherEmail: 'steven_abayan@gmail.com',
+  //   fatherContact: '09669863529',
+  //   guardianName: 'Steven Abayan',
+  //   guardianEmail: 'steven_abayan@gmail.com',
+  //   guardianContact: '09669863529',
+  //   hasSpecialNeeds: "No",
+  //   nationality: "Filipino",
+  //   religion: "Roman Catholic",
 
   // }
   // //database.ref('studentInfo/' + studentAccount.idNum); // setting the path with id number as its pk
-  // database.ref('studentInfo/' + 485562).set(personalInfo); // adding other fields
-
+  // database.ref('studentInfo/' + 2016006).set(personalInfo); // adding other fields
+  // database.ref('studentInfo/' + 2016007).set(personalInfo2);
   //---------------------------------------------DONT FORGET TO UNCOMMENT--------------------------------------
   if(email == "" && pass == ""){
     res.render('login',{

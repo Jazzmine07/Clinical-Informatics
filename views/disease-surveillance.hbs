@@ -1604,16 +1604,26 @@
 
         function showTrendChart(data,start,end){
             console.log("enters Show Disease Trend Chart");
-            var i,j,k;
+            var i,j,k,s;
             var dateLabels=[];
             var dDataSet=[],cDataSet=[];
+            var checkSeparation=[], separationCount;
+            var dCounter=0,cCounter=0;
             var date= new Date(start);
             var e= new Date(end);
             var filling=[];
             var alreadyAdded=0;
             var dSets=[], cSets=[];
+            
+            var arrryOfColors = [
+                "rgba(153, 102, 255)", // violet
+                "rgb(255, 159, 64)",  // orange
+                "rgb(255, 205, 86)",  // yellow
+                "rgb(75, 192, 192)", // green
+                "rgb(54, 162, 235)", // blue
+            ]
 
-            //gets all the date in the date range
+            //gets all the date in the date range (THIS IS FOR BOTH THE DISEASE TREND AND VISIT REASONS)
             while(date<=e){
                 if(date.getDate()>=10 && (date.getMonth()+1)>=10){
                     dateLabels.push(date.getFullYear() + "-" + (date.getMonth()+1) + "-" +date.getDate());
@@ -1630,76 +1640,75 @@
                 
                 date.setDate(date.getDate()+1);
             }
-            console.log("Dates");
-            console.log(dateLabels);
             
+            //------------------STUFF OF DISEASE LINE CHART------------------
             //creates the array for dataset
+            console.log("DIAGNOSIS PARTS")
             for(i=0;i<data.length;i++){
                 alreadyAdded=0
                 if(dDataSet==null){ //if empty auto add
-                    if(data[i].diagnosis!=""){
-                        dDataSet.push({
-                            diagnosis:data[i].diagnosis,
-                            dates: dateLabels,
-                            count: [parseInt("0")]
-                        })
-                        
-                    }
-                }
-                else{ //if not empty
-                    for(j=0;j<dDataSet.length;j++){ //this whole thing is used to check if it has a count
-                        if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null){
-                            if(dDataSet[j].diagnosis.toLowerCase()==data[i].diagnosis.toLowerCase()){
-                                alreadyAdded=1;
-                            }
-                        }
-                    }
-                    if(alreadyAdded!=1){
-                        if(data[i].diagnosis!="" && data[i].diagnosis!=null && data[i].diagnosis!=undefined){
+                    if(data[i].diagnosis!="" && data[i].diagnosis!=undefined && data[i].diagnosis!=null){
+                        checkSeparation=data[i].diagnosis.split(", ");
+                        for(s=0;s<checkSeparation.length;s++){
                             dDataSet.push({
-                                diagnosis:data[i].diagnosis,
+                                diagnosis:checkSeparation[s],
                                 dates: dateLabels,
                                 count: [parseInt("0")]
                             })
-                        }
+                        }                        
+                    }
+                }
+                else{ //if not empty
+                    if(data[i].diagnosis!="" && data[i].diagnosis!=undefined && data[i].diagnosis!=null){
+                        checkSeparation=data[i].diagnosis.split(", ");
+                        for(s=0;s<checkSeparation.length;s++){
+                            alreadyAdded=0;
+                             for(j=0;j<dDataSet.length;j++){ //this whole thing is used to check if it has a count
+                                if(dDataSet[j].diagnosis.toLowerCase()==checkSeparation[s].toLowerCase()){
+                                    alreadyAdded=1;
+                                }
+                            }
+                            if(alreadyAdded==0){
+                                dDataSet.push({
+                                    diagnosis:checkSeparation[s],
+                                    dates: dateLabels,
+                                    count: [parseInt("0")]
+                                })
+                            }
+                        }                        
                     }
                 }
             }
             for(i=0;i<dDataSet.length;i++){
-                for(j=1;j<dateLabels.length;j++){
+                for(j=0;j<dateLabels.length;j++){
                     dDataSet[i].count.push(parseInt("0"));
                 }
             }
+            console.log("data");
+            for(i=0;i<data.length;i++){
+                console.log(data[i].diagnosis);
+            }
             console.log("dDataSet");
             console.log(dDataSet);
-            
             //counting of data Disease
             for(i=0;i<data.length;i++){
-                for(j=0;j<dDataSet.length;j++){ // to scroll through diagnosis
-                    if(data[i].diagnosis!="" && dDataSet[j].diagnosis!="" && data[i].diagnosis!=null && dDataSet[j].diagnosis!=null && data[i].diagnosis!=undefined && dDataSet[j].diagnosis!=undefined){
-                        if(data[i].diagnosis.toLowerCase() == dDataSet[j].diagnosis.toLowerCase()){
-                            for(k=0;k<dateLabels.length;k++){
-                                    console.log(data[i].visitDate);
-                                    console.log(dateLabels[k]);
-                                if(data[i].visitDate==dateLabels[k]){
-                                    dDataSet[j].count[k]=dDataSet[j].count[k]+1;
+                if(data[i].diagnosis!="" && data[i].diagnosis!=undefined && data[i].diagnosis!=null){
+                    checkSeparation=data[i].diagnosis.split(", ");
+                    separationCount=checkSeparation.length;
+                    for(s=0;s<separationCount;s++){
+                        for(k=0;k<dateLabels.length;k++){
+                            if(data[i].visitDate==dateLabels[k]){
+                                for(dCounter=0;dCounter<dDataSet.length;dCounter++){
+                                    if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
+                                        dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
+                                    }
                                 }
                             }
+                        
                         }
                     }
                 }
             }
-
-            console.log("dDataSet after counting");
-            console.log(dDataSet);
-
-            var arrryOfColors = [
-                "rgba(153, 102, 255)", // violet
-                "rgb(255, 159, 64)",  // orange
-                "rgb(255, 205, 86)",  // yellow
-                "rgb(75, 192, 192)", // green
-                "rgb(54, 162, 235)", // blue
-            ]
 
             for(i=0;i<dDataSet.length;i++){
                 dSets.push({
@@ -1708,40 +1717,45 @@
                     backgroundColor: arrryOfColors[i],
                     data:dDataSet[i].count,
                 })
-            }
-            //console.log("ICE CREAM 2");
-            //console.log(dSets);
+            };
 
+            
+            //------------------STUFF OF SYMPTOMS LINE CHART------------------
+            console.log("VISIT REASON PARTS");
             //create array for concern dataset
             for(i=0;i<data.length;i++){
                 alreadyAdded=0
                 if(cDataSet==null){ //if empty auto add
-                    if(data[i].diagnosis!=""){
-                        cDataSet.push({
-                            concern:data[i].visitReason,
-                            dates: dateLabels,
-                            count: [parseInt("0")]
-                        })
-                        
-                    }
-                }
-                else{ //if not empty
-                console.log(cDataSet);
-                    for(j=0;j<cDataSet.length;j++){ //this whole thing is used to check if it has a count
-                        if(data[i].visitReason!="" && cDataSet[j].concern!="" && data[i].visitReason!=null && cDataSet[j].concern!=null){
-                            if(cDataSet[j].concern.toLowerCase()==data[i].visitReason.toLowerCase()){
-                                alreadyAdded=1;
-                            }
-                        }
-                    }
-                    if(alreadyAdded!=1){
-                        if(data[i].visitReason!="" && data[i].visitReason!=null && data[i].visitReason!=undefined){
+                    if(data[i].visitReason!="" && data[i].visitReason!=undefined && data[i].visitReason!=null){
+                        console.log(data[i].visitReason);
+                        checkSeparation=data[i].visitReason.split(", ");
+                        for(s=0;s<checkSeparation.length;s++){
                             cDataSet.push({
-                                concern:data[i].visitReason,
+                                visitReason:checkSeparation[s],
                                 dates: dateLabels,
                                 count: [parseInt("0")]
                             })
-                        }
+                        }                         
+                    }
+                }
+                else{ //if not empty
+                    if(data[i].visitReason!="" && data[i].visitReason!=undefined && data[i].visitReason!=null){
+                        checkSeparation=data[i].visitReason.split(", ");
+                        for(s=0;s<checkSeparation.length;s++){
+                            alreadyAdded=0;
+                             for(j=0;j<cDataSet.length;j++){ //this whole thing is used to check if it has a count
+                                if(cDataSet[j].visitReason.toLowerCase()==checkSeparation[s].toLowerCase()){
+                                    alreadyAdded=1;
+                                }
+                            }
+                            if(alreadyAdded==0){
+                                cDataSet.push({
+                                    visitReason:checkSeparation[s],
+                                    dates: dateLabels,
+                                    count: [parseInt("0")]
+                                })
+                            }
+                        }                        
                     }
                 }
             }
@@ -1751,37 +1765,43 @@
                     cDataSet[i].count.push(parseInt("0"));
                 }
             }
-
+            
+            console.log(data);
+            console.log(cDataSet);
             for(i=0;i<data.length;i++){
-                for(j=0;j<cDataSet.length;j++){ // to scroll through diagnosis
-                    if(data[i].visitReason!="" && cDataSet[j].concern!="" && data[i].visitReason!=null && cDataSet[j].concern!=null && data[i].visitReason!=undefined && cDataSet[j].concern!=undefined){
-                        if(data[i].visitReason.toLowerCase() == cDataSet[j].concern.toLowerCase()){
-                            for(k=0;k<dateLabels.length;k++){
-                                if(data[i].visitDate==dateLabels[k]){
-                                    cDataSet[j].count[k]=cDataSet[j].count[k]+1;
+                if(data[i].visitReason!="" && data[i].visitReason!=undefined && data[i].visitReason!=null){
+                    checkSeparation=data[i].visitReason.split(", ");
+                    separationCount=checkSeparation.length;
+                    for(s=0;s<separationCount;s++){
+                        for(k=0;k<dateLabels.length;k++){
+                            if(data[i].visitDate==dateLabels[k]){
+                                for(cCounter=0;cCounter<cDataSet.length;cCounter++){
+                                    if(cDataSet[cCounter].visitReason == checkSeparation[s]){
+                                        cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
+                                    }
                                 }
                             }
+                        
                         }
                     }
                 }
             }
 
-            console.log(cDataSet);
-
             for(i=0;i<cDataSet.length;i++){
                 cSets.push({
-                    label: cDataSet[i].concern,
+                    label: cDataSet[i].visitReason,
                     borderColor: arrryOfColors[i],
                     backgroundColor: arrryOfColors[i],
                     data:cDataSet[i].count,
                 })
             }
 
+
+            ////------------------SHOWING OF CHARTS------------------
             var dTrend={
                 labels: dateLabels,
                 datasets: dSets,
-            };
-            
+            };      
             var cTrend={
                 labels: dateLabels,
                 datasets: cSets,

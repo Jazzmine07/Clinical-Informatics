@@ -1,7 +1,6 @@
 const firebase = require('../firebase');
 
-//HERE ARE THE FUNCTIONS FOR DISEASE SURVEILLANCE
-//function returns an array that contains the clinic visit(visitDate, id, diagnosis)
+//function returns an array that contains the clinic visit(visitDate, id, diagnosis) to pass list for top disease (used in Disease Surveillance)
 exports.getDiseaseSurveillanceData=function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -40,7 +39,7 @@ exports.getDiseaseSurveillanceData=function(){
     })
     return promise;
 }
-//function returns strings of top diagnosis for week and month - dependent on current date
+//function returns strings of top diagnosis for week and month - dependent on current date (used in Disease Surveillance)
 exports.getTopDisease=function(vcArray){
     console.log("Entered getTopDisease");
     var database = firebase.database();
@@ -148,7 +147,7 @@ exports.getTopDisease=function(vcArray){
     return strings;
 
 }
-//function is used to get data for chart which is dependent on disease and date range
+//function is used to get data for chart which is dependent on disease and date range (used in Disease Surveillance)
 exports.getDiseaseDemographics=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -353,12 +352,7 @@ exports.getDiseaseDemographics=function(req,res){
     
     
 }
-//DISEASE SURVEILLANCE FUNCTIONS END HERE
-
-
-
-//USED IN THE DASHBOARD CHARTS
-//used for Dashboard to get disease count in certain time period
+//function is used to get disease count in certain time period (used in Disease Surveillance)
 exports.getVisitReasonCount=function(req,res){
     console.log("enters")
     var database = firebase.database();
@@ -460,7 +454,7 @@ exports.getVisitReasonCount=function(req,res){
     
     
 }
-
+//(used in Dashboard)
 exports.getVRCountByGradeInMonth=function(req,res){
     console.log("enters")
     var database = firebase.database();
@@ -705,7 +699,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
     })
     
 }
-//returns the disease and visitReason with the dates and filtered by specified date
+//returns the disease and visitReason with the dates and filtered by specified date (used in Disease Surveillance)
 exports.getDiseaseTrendCount= function(req,res){
     console.log("enters trend count")
     var database = firebase.database();

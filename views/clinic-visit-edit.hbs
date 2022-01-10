@@ -50,8 +50,16 @@
             display: none;
         }
 
+        .select2-container--default.select2-container--disabled .select2-selection--single{
+            background-color: #eaecf4;
+        }
+
+        .select2-search__field{
+            color: #6e707e;
+        }
+
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: white;
+            color: #6e707e;
             cursor: pointer;
             display: inline-block;
             font-weight: bold;
@@ -59,9 +67,9 @@
         }
 
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #4e73df;
-            border-color: white !important; 
-            color: white;
+            background-color: #eaecf4;
+            border-color: #d1d3e2 !important; 
+            color: #6e707e;
             border-radius: 4px;
             cursor: default;
             float: left;
@@ -170,8 +178,6 @@
             color: #6e707e;
             line-height: 28px
         }
-
-        
 
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 26px;
@@ -1558,12 +1564,11 @@
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis">                                       
-                                    <datalist id="diagnosisList">
+                                    <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
-                                        {{/each}}                            
-                                    </datalist>
+                                        {{/each}}
+                                    </select> 
                                 </div>
                             </div>
                         </div>
@@ -1783,6 +1788,11 @@
     <script>
         $("#assignMedication").select2({
         placeholder: " Select or type keywords"
+        });
+
+        $("#diagnosis").select2({
+            tags: true,
+            tokenSeparators: [',']
         });
 
         $("#medicationVisit").select2();
@@ -2885,6 +2895,16 @@
             console.log(timeOut);
 
             var diagnosis =  $('#diagnosis').val(); 
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            for(var index = 0; index < diagnosis.length; index++){
+                diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
+            }         
+
+            diagnosis = diagnosis.join(', ');
             console.log(diagnosis);
 
             var status =  $('#status').val();

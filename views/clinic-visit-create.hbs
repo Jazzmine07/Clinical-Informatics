@@ -3710,11 +3710,13 @@
             console.log(medicationsArray);
             console.log(intakeArray); 
 
-            var selectPrescribedBy = document.getElementById("prescribedBy");
-            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-            console.log(selectedPrescribedBy);
-
             var isDisabled = $('#prescribedBy').prop('disabled');
+
+            if(!isDisabled){
+                var selectPrescribedBy = document.getElementById("prescribedBy");
+                var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+                console.log(selectedPrescribedBy);
+            }
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
 

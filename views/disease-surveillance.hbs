@@ -1607,6 +1607,7 @@
             var i,j,k,s;
             var dateLabels=[];
             var dDataSet=[],cDataSet=[];
+            var dTotalDataCount=[],cTotalDataCount=[];
             var checkSeparation=[], separationCount;
             var dCounter=0,cCounter=0;
 
@@ -1662,6 +1663,10 @@
                                 dates: dateLabels,
                                 count: [parseInt("0")]
                             })
+                            dTotalDataCount.push({
+                                diagnosis:checkSeparation[s],
+                                count: parseInt("0")
+                            })
                         }                        
                     }
                 }
@@ -1680,6 +1685,10 @@
                                     diagnosis:checkSeparation[s],
                                     dates: dateLabels,
                                     count: [parseInt("0")]
+                                })
+                                dTotalDataCount.push({
+                                    diagnosis:checkSeparation[s],
+                                    count: parseInt("0")
                                 })
                             }
                         }                        
@@ -1708,6 +1717,7 @@
                                 for(dCounter=0;dCounter<dDataSet.length;dCounter++){
                                     if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
                                         dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
+                                        dTotalDataCount[dCounter].count=dTotalDataCount[dCounter].count+1;
                                     }
                                 }
                             }
@@ -1716,15 +1726,51 @@
                     }
                 }
             }
-
-            for(i=0;i<dDataSet.length;i++){
-                dSets.push({
-                    label: dDataSet[i].diagnosis,   
-                    borderColor: arrryOfColors[i],
-                    backgroundColor: arrryOfColors[i],
-                    data:dDataSet[i].count,
-                })
-            };
+            console.log(dTotalDataCount);
+            
+            
+            dTotalDataCount= dTotalDataCount.sort(function (x, y) {
+                return y.count- x.count;
+            });
+            
+            console.log("Check:");
+            console.log(dTotalDataCount);
+            console.log(dDataSet);
+            
+            if(dTotalDataCount.length<=5){
+                for(i=0;i<dDataSet.length;i++){
+                    for(j=0;j<dTotalDataCount.length;j++){
+                        console.log(dTotalDataCount[j].diagnosis);
+                        console.log("---");
+                        console.log(dDataSet[i].diagnosis);
+                        if(dTotalDataCount[j].diagnosis.toLowerCase()==dDataSet[i].diagnosis.toLowerCase()){
+                            dSets.push({
+                                label: dDataSet[i].diagnosis,   
+                                borderColor: arrryOfColors[i],
+                                backgroundColor: arrryOfColors[i],
+                                data:dDataSet[i].count,
+                            })
+                        }
+                    }
+                };
+            }
+            else{
+                for(i=0;i<dDataSet.length;i++){
+                    for(j=0;j<5;j++){
+                        console.log(dTotalDataCount[j].diagnosis);
+                        console.log("---");
+                        console.log(dDataSet[i].diagnosis);
+                        if(dTotalDataCount[j].diagnosis.toLowerCase()==dDataSet[i].diagnosis.toLowerCase()){
+                            dSets.push({
+                                label: dDataSet[i].diagnosis,   
+                                borderColor: arrryOfColors[i],
+                                backgroundColor: arrryOfColors[i],
+                                data:dDataSet[i].count,
+                            })
+                        }
+                    }
+                };
+            }
 
             
             //------------------STUFF OF SYMPTOMS LINE CHART------------------
@@ -1741,6 +1787,10 @@
                                 visitReason:checkSeparation[s],
                                 dates: dateLabels,
                                 count: [parseInt("0")]
+                            })
+                            cTotalDataCount.push({
+                                visitReason:checkSeparation[s],
+                                count: parseInt("0")
                             })
                         }                         
                     }
@@ -1760,6 +1810,10 @@
                                     visitReason:checkSeparation[s],
                                     dates: dateLabels,
                                     count: [parseInt("0")]
+                                })
+                                cTotalDataCount.push({
+                                    visitReason:checkSeparation[s],
+                                    count: parseInt("0")
                                 })
                             }
                         }                        
@@ -1785,6 +1839,7 @@
                                 for(cCounter=0;cCounter<cDataSet.length;cCounter++){
                                     if(cDataSet[cCounter].visitReason == checkSeparation[s]){
                                         cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
+                                        cTotalDataCount[cCounter].count=cTotalDataCount[cCounter].count+1;
                                     }
                                 }
                             }
@@ -1793,15 +1848,50 @@
                     }
                 }
             }
+            
+            cTotalDataCount= cTotalDataCount.sort(function (x, y) {
+                return y.count- x.count;
+            });
 
-            for(i=0;i<cDataSet.length;i++){
-                cSets.push({
-                    label: cDataSet[i].visitReason,
-                    borderColor: arrryOfColors[i],
-                    backgroundColor: arrryOfColors[i],
-                    data:cDataSet[i].count,
-                })
+            console.log("Check:");
+            console.log(cTotalDataCount);
+            console.log(cDataSet);
+
+            if(cTotalDataCount.length<=5){
+                for(i=0;i<cDataSet.length;i++){
+                    for(j=0;j<cTotalDataCount.length;j++){
+                        console.log(cTotalDataCount[j].visitReason);
+                        console.log("---");
+                        console.log(cDataSet[i].visitReason);
+                        if(cTotalDataCount[j].visitReason.toLowerCase()==cDataSet[i].visitReason.toLowerCase()){
+                            cSets.push({
+                                label: cDataSet[i].visitReason,   
+                                borderColor: arrryOfColors[i],
+                                backgroundColor: arrryOfColors[i],
+                                data:cDataSet[i].count,
+                            })
+                        }
+                    }
+                };
             }
+            else{
+                for(i=0;i<cDataSet.length;i++){
+                    for(j=0;j<5;j++){
+                        console.log(cTotalDataCount[j].visitReason);
+                        console.log("---");
+                        console.log(cDataSet[i].visitReason);
+                        if(cTotalDataCount[j].visitReason.toLowerCase()==cDataSet[i].visitReason.toLowerCase()){
+                            cSets.push({
+                                label: cDataSet[i].visitReason,   
+                                borderColor: arrryOfColors[i],
+                                backgroundColor: arrryOfColors[i],
+                                data:cDataSet[i].count,
+                            })
+                        }
+                    }
+                };
+            }
+
 
 
             ////------------------SHOWING OF CHARTS------------------

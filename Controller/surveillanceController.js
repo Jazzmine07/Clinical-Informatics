@@ -9,6 +9,8 @@ exports.getDiseaseSurveillanceData=function(){
     var query = clinicVisitRef.orderByChild("timeStamp");
     var temp=[];
     var childSnapshotData;
+    var checkDiagnosis=[];
+    var i;
     
 
     var promise = new Promise((resolve,reject) => {
@@ -17,12 +19,15 @@ exports.getDiseaseSurveillanceData=function(){
                 query.on('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
-                            temp.push({
-                                diagnosis:childSnapshotData.diagnosis,
-                                visitDate:childSnapshotData.visitDate,
-                                id:childSnapshotData.id
-                            })
+                        checkDiagnosis=childSnapshotData.diagnosis.split(", ");
+                        for(i=0;i<checkDiagnosis.length;i++){
+                            if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
+                                temp.push({
+                                    diagnosis:checkDiagnosis[i],
+                                    visitDate:childSnapshotData.visitDate,
+                                    id:childSnapshotData.id
+                                })
+                            }
                         }
                     })
                     

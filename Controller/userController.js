@@ -107,7 +107,7 @@ exports.login = (req, res) => {
       var uid = userCredential.user.uid;
       var childRef = database.ref("clinicUsers/"+uid);
       
-      childRef.on('value', (snapshot) => { 
+      childRef.once('value', (snapshot) => { 
         if(snapshot.child('role').val() == "Clinician"){
           res.redirect("/dashboard");
         } else {

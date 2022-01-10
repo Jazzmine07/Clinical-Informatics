@@ -1039,7 +1039,7 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
 router.get('/getTop5MedsUsedMonth', reportsController.getTop5MedsUsedMonth);
-router.get('/getUsedMedicineDaily', inventoryController.getUsedMedicineDaily);
+router.get('/getMedicineDiscrepancy', inventoryController.getMedicineDiscrepancy);
 router.get('/getMedicineInventoryList', inventoryController.getMedicineInventoryList);
 router.get('/getGroupedMedicineInventory', inventoryController.getGroupedMedicineInventory);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);

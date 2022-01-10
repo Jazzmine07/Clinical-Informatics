@@ -362,11 +362,14 @@ exports.getUsedMedicineToday = function(){
     var childSnapshotData, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
     
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("discrepancyMedicine")){
-                database.ref("discrepancyMedicine/").once('value', async (childSnapshot) => {
+                database.ref("discrepancyMedicine/").orderByChild('dateUpdated').equalTo(date).once('value', async (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({

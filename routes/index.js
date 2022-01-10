@@ -652,6 +652,7 @@ router.get('/inventory-medicine', (req, res) => {
     user = result[0];
     inventory = result[1];
     usedMedicine = result[2];
+    
     if(user.role == "Nurse"){
       res.render('inventory-medicine', {
         user: user,

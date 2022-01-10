@@ -286,15 +286,16 @@ exports.getMedicineDetails = function(req, res){
     })
 };
 
-exports.getUsedMedicineDaily = function(req, res){
+// get medicine discrepancy all
+exports.getMedicineDiscrepancy = function(req, res){
     var data, i, temp = [], filtered = [];
     var database = firebase.database();
     var databaseRef = database.ref();
-    var inventoryRef = database.ref("usedMedicine");
+    var inventoryRef = database.ref("discrepancyMedicine");
 
     databaseRef.once('value', (snapshot) => {
-        if(snapshot.hasChild("usedMedicine")){
-            inventoryRef.once('value', (childSnapshot) => { // year
+        if(snapshot.hasChild("discrepancyMedicine")){
+            inventoryRef.once('value', (childSnapshot) => { 
                 childSnapshot.forEach(function(innerChildSnapshot){ 
                     data = innerChildSnapshot.exportVal();
                     temp.push({
@@ -331,6 +332,7 @@ exports.getUsedMedicineDaily = function(req, res){
     })
 };
 
+
 exports.updateMedicineInventory = function(req, res){
     var { medicineID, batchNum, medicineName, qty, amount, unit } = req.body;
     var used = parseInt(qty) - parseInt(amount);
@@ -360,11 +362,14 @@ exports.getUsedMedicineToday = function(){
     var childSnapshotData, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
     
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
-            if(snapshot.hasChild("usedMedicine")){
-                database.ref("usedMedicine/").once('value', async (childSnapshot) => {
+            if(snapshot.hasChild("discrepancyMedicine")){
+                database.ref("discrepancyMedicine/").orderByChild('dateUpdated').equalTo(date).once('value', async (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         temp.push({

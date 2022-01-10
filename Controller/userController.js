@@ -12,7 +12,7 @@ exports.login = (req, res) => {
   var userInfo;
 
   // var parentAccount = {
-  //   email: 'mikaela_reyes@gmail.com',
+  //   email: 'greta_flores@gmail.com',
   //   password: 'manresa123'
   // }
 
@@ -20,8 +20,10 @@ exports.login = (req, res) => {
 
   // var parentInfo = {
   //   children: {
-  //     0: "485562",
-  //   }
+  //     0: "2016061",
+  //     1: "2021010"
+  //   },
+  //   email: parentAccount.email
   // }
   // database.ref('parentInfo/'+key).set(parentInfo);
     
@@ -148,6 +150,42 @@ exports.login = (req, res) => {
         });
       }
     });
+    // var clinicUsersRef = database.ref("clinicUsers");
+    // clinicUsersRef.orderByChild("email").equalTo(email).once('value', (snapshot) => {
+    //   if(snapshot.exists()){
+    //     snapshot.forEach(function(userSnapshot){
+    //       var user = userSnapshot.exportVal();
+    //       console.log(user);
+    //       if(user.password == pass){
+    //         res.cookie('user', JSON.stringify({
+    //           key: userSnapshot.key,
+    //           firstName: user.firstName,
+    //           lastName: user.lastName,
+    //           role: user.role
+    //         }));
+    //         if(user.role == "Clinician"){
+    //           res.redirect("/dashboard");
+    //         } else {
+    //           res.redirect("/clinic-visit");
+    //         }
+    //       } else {
+    //         res.render('login', {
+    //           error: true,
+    //           error_msg: "Wrong password!"
+    //         });
+    //       }
+    //     })
+    //   } else {
+    //     res.render('login', {
+    //       error: true,
+    //       error_msg: "No user with that email!"
+    //     });
+    //   }
+    // })
+
+      // io.on('connection', (socket) => {
+      //   console.log('a user is connected');
+      // });
   }
 }
 
@@ -187,22 +225,21 @@ exports.getUser = function(){
   var userInfo;
   
   var promise = new Promise((resolve, reject) => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        var uid = user.uid;
-        var userRef = database.ref("clinicUsers/"+uid);
-        
-        userRef.on('value', (snapshot) => { 
-          userInfo = ({
-            key: snapshot.key,
-            firstName: snapshot.child('firstName').val(),
-            lastName: snapshot.child('lastName').val(),
-            role: snapshot.child('role').val()
-          })      
-          resolve(userInfo); 
-        })
-      }
-    });
+    user = firebase.auth().currentUser;
+    if(user !== null){
+      var uid = user.uid;
+      var userRef = database.ref("clinicUsers/"+uid);
+      
+      userRef.once('value', (snapshot) => { 
+        userInfo = ({
+          key: snapshot.key,
+          firstName: snapshot.child('firstName').val(),
+          lastName: snapshot.child('lastName').val(),
+          role: snapshot.child('role').val()
+        })      
+        resolve(userInfo); 
+      })
+    }
   })
   return promise;
 }

@@ -113,7 +113,7 @@ router.get('/', (req, res) => {
 // Get login page
 router.get('/login', (req, res) => {
   console.log("Read login successful!");
-  res.render('login');
+    res.render('login');
 });
 
 //router.get('/getNotification', notificationController.js.getNotifications);
@@ -239,6 +239,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   var promise1, promise2, promise3, promise4, promise5;
   var user, formId, record, dashboard, reports;
+
   promise1 = userController.getUser();
   promise2 = visitController.getClinicVisits();
   promise4 = visitController.getDashboard();
@@ -344,8 +345,8 @@ router.get('/clinic-visit/view/report/:id', (req, res) => {
 // Get clinic visit page
 router.get('/clinic-visit/create', (req, res) => {
   console.log("Read create clinic visit successful!");
-  var prom1, prom2, prom3, prom4, prom5;
-  var user, nurse, clinician, prescribed, medicines;
+  var prom1, prom2, prom3, prom4, prom5, prom6;
+  var user, nurse, clinician, prescribed, medicines, complaints;
 
   prom1 = userController.getUser();
   prom1.then(function(result){
@@ -357,12 +358,14 @@ router.get('/clinic-visit/create', (req, res) => {
   prom2 = userController.getNurse(); 
   prom3 = userController.getClinician();
   prom5 = inventoryController.getSpecificMedicines();
+  prom6 = visitController.getComplaints();
   
-  Promise.all([prom1, prom2, prom3, prom4, prom5]).then(result => {
+  Promise.all([prom1, prom2, prom3, prom4, prom5, prom6]).then(result => {
     user = result[0];
     nurse = result[1];
     clinician = result[2];
     medicines = result[4];
+    complaints = result[5];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-create', {
@@ -371,7 +374,8 @@ router.get('/clinic-visit/create', (req, res) => {
         nurse: nurse,
         clinician: clinician,
         prescribed: prescribed,
-        medicines: medicines
+        medicines: medicines,
+        complaints: complaints
       });
     } else {
       res.render('clinic-visit-create', {
@@ -648,6 +652,7 @@ router.get('/inventory-medicine', (req, res) => {
     user = result[0];
     inventory = result[1];
     usedMedicine = result[2];
+    
     if(user.role == "Nurse"){
       res.render('inventory-medicine', {
         user: user,
@@ -1037,8 +1042,9 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
 router.get('/getTop5MedsUsedMonth', reportsController.getTop5MedsUsedMonth);
-router.get('/getUsedMedicineDaily', inventoryController.getUsedMedicineDaily);
+router.get('/getMedicineDiscrepancy', inventoryController.getMedicineDiscrepancy);
 router.get('/getMedicineInventoryList', inventoryController.getMedicineInventoryList);
+router.get('/getGroupedMedicineInventory', inventoryController.getGroupedMedicineInventory);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

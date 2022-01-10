@@ -26,9 +26,9 @@ exports.getNotifications = function(){
                                 })
                             })
                             notifs.reverse();
-                            resolve (notifs);
+                            resolve(notifs);
                         } else {
-                            resolve (notifs);
+                            resolve(notifs);
                         }
                     })
                 }

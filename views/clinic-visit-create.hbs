@@ -807,6 +807,9 @@
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
                                     {{!-- <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea> --}}
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="complaintVisit" name="complaintVisit">
+                                        {{#each complaints}}
+                                            <option value="{{complaint}}">{{complaint}}</option>
+                                        {{/each}}
                                     </select> 
                                 </div>
                             </div>
@@ -3707,11 +3710,13 @@
             console.log(medicationsArray);
             console.log(intakeArray); 
 
-            var selectPrescribedBy = document.getElementById("prescribedBy");
-            var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
-            console.log(selectedPrescribedBy);
-
             var isDisabled = $('#prescribedBy').prop('disabled');
+
+            if(!isDisabled){
+                var selectPrescribedBy = document.getElementById("prescribedBy");
+                var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+                console.log(selectedPrescribedBy);
+            }
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
 

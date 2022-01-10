@@ -1609,8 +1609,15 @@
             var dDataSet=[],cDataSet=[];
             var checkSeparation=[], separationCount;
             var dCounter=0,cCounter=0;
+
             var date= new Date(start);
-            var e= new Date(end);
+            var getStartMonth = date.toLocaleString('default', { month: 'long' })
+            var startRange = getStartMonth + ' ' + date.getDate() + ', ' + date.getFullYear();
+
+            var e = new Date(end);
+            var getEndMonth = e.toLocaleString('default', { month: 'long' })
+            var endRange = getEndMonth + ' ' + e.getDate() + ', ' + e.getFullYear();
+            
             var filling=[];
             var alreadyAdded=0;
             var dSets=[], cSets=[];
@@ -1823,7 +1830,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Disease Trend',
+                            text: 'Top 5 Disease Trend from '+ startRange + " to " + endRange,
                             font: {
                                 size: 25   // font size of the labels
                             },

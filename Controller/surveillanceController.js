@@ -155,11 +155,12 @@ exports.getDiseaseDemographics=function(req,res){
     var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
-    var temp=[],temp2=[],temp3=[];
+    var temp=[],temp2=[],temp3=[],checkDiagnosis=[];
     var childSnapshotData, csData;
     var i,j,alreadyAdded;
     var studentInfo=[],sex, grade;
     var disease= req.body.disease;
+
     //console.log("DISEASE from frontend:"+disease);
     var start=req.body.startDate;
     var end=req.body.endDate;
@@ -180,13 +181,18 @@ exports.getDiseaseDemographics=function(req,res){
             query.on('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();
-                    temp.push({
-                        diagnosis:childSnapshotData.diagnosis,
-                        visitDate:childSnapshotData.visitDate,
-                        id:childSnapshotData.id,
-                        grade: childSnapshotData.grade,
-                        section: childSnapshotData.section
-                    })
+                    checkDiagnosis=childSnapshotData.diagnosis.split(", ");
+                        for(i=0;i<checkDiagnosis.length;i++){
+                            if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
+                                temp.push({
+                                    diagnosis:checkDiagnosis[i],
+                                    visitDate:childSnapshotData.visitDate,
+                                    id:childSnapshotData.id,
+                                    grade: childSnapshotData.grade,
+                                    section: childSnapshotData.section
+                                })
+                            }
+                        }
                 })
                 
             })

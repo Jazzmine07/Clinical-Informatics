@@ -364,6 +364,7 @@ exports.getVisitReasonCount=function(req,res){
 
     var temp=[],temp2=[],temp3=[];
     var data=[];
+    var checkVisitReason=[];
     var childSnapshotData, csData;
     var i,j,alreadyAdded;
     var start=req.body.startDate;
@@ -377,12 +378,15 @@ exports.getVisitReasonCount=function(req,res){
             query.on('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();
-                    temp.push({
-                        visitReason:childSnapshotData.visitReason,
-                        visitDate:childSnapshotData.visitDate,
-                        grade:childSnapshotData.grade,
-                        section:childSnapshotData.section,
-                    })
+                    checkVisitReason=childSnapshotData.visitReason.split(", ");
+                    for(i=0;i<checkVisitReason.length;i++){
+                        temp.push({
+                            visitReason:checkVisitReason[i],
+                            visitDate:childSnapshotData.visitDate,
+                            grade:childSnapshotData.grade,
+                            section:childSnapshotData.section,
+                        })
+                    }
                 })
                 
             })
@@ -462,6 +466,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
 
     var temp=[], temp2=[];
     var temp3=[];
+    var checkVisitReason=[];
     var childSnapshotData, csData;
     var i,j,k,alreadyAddedTemp2,alreadyAddedTemp3;
     var today= new Date();
@@ -476,13 +481,16 @@ exports.getVRCountByGradeInMonth=function(req,res){
             query.on('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();
-                    temp.push({
-                        visitReason:childSnapshotData.visitReason,
-                        visitDate:childSnapshotData.visitDate,
-                        id:childSnapshotData.id,
-                        grade:childSnapshotData.grade,
-                        section:childSnapshotData.section
-                    })
+                    checkVisitReason=childSnapshotData.visitReason.split(", ");
+                    for(i=0;i<checkVisitReason.length;i++){
+                        temp.push({
+                            visitReason:checkVisitReason[i],
+                            visitDate:childSnapshotData.visitDate,
+                            id:childSnapshotData.id,
+                            grade:childSnapshotData.grade,
+                            section:childSnapshotData.section
+                        })
+                    }
                 })
                 
             })

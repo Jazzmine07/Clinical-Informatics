@@ -876,13 +876,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
-                                            <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
-                                                <option disabled="disabled" value="" selected="true">Choose...</option>
-                                            {{#each clinician}}
-                                                <option disabled="disabled" value="{{firstName}} {{lastName}}">{{firstName}} {{lastName}}</option>
-                                            {{/each}}
-                                                <option value="{{user.firstName}} {{user.lastName}}">{{user.firstName}} {{user.lastName}}</option>
-                                            </select>  
+                                            <input type="text" class="form-control mb-2" id="prescribedBy" value="{{user.firstName}} {{user.lastName}}">
                                         </div> 
                                     </div>
                                     <div class="row">
@@ -1695,7 +1689,7 @@
             }
         }
 
-        var weightStatus;
+        var weightStatus = "";
         $("#weight").change(function(){
             var weight =  $('#weight').val();  
             console.log(weight);
@@ -1728,7 +1722,7 @@
             }
         });
 
-        var heightStatus;
+        var heightStatus = "";
         $("#height").change(function(){
             var height =  $('#height').val(); 
             console.log(height);
@@ -1956,7 +1950,7 @@
             //});
         });
 
-        var bodyTempStatus;
+        var bodyTempStatus = "";
         $("#bodyTemp").change(function(){
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
@@ -2013,7 +2007,7 @@
 
         });
 
-        var systolicStatus;
+        var systolicStatus = "";
         $("#systolic").change(function(){
             var systolic =  $('#systolic').val(); 
             console.log(systolic);
@@ -2462,7 +2456,7 @@
             //});
         });
         
-        var diastolicStatus;
+        var diastolicStatus = "";
         $("#diastolic").change(function(){
             var diastolic =  $('#diastolic').val(); 
             console.log(diastolic);
@@ -2910,7 +2904,7 @@
             //});
         });
         
-        var pulseRateStatus;
+        var pulseRateStatus = "";
         $("#pulseRate").change(function(){
             var pulseRate =  $('#pulseRate').val(); 
             console.log(pulseRate);
@@ -2994,7 +2988,7 @@
             //});
         });
 
-        var respRateStatus;
+        var respRateStatus = "";
         $("#respRate").change(function(){
             var respRate =  $('#respRate').val(); 
             console.log(respRate);
@@ -3638,13 +3632,14 @@
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
             var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+            var selectedTextDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].text;
             console.log(selectedDiagnosisAssign);
 
             var length = $(this).find('option:selected').length;
             console.log(length);
 
             if(!selectedDiagnosisAssign == null || !selectedDiagnosisAssign == "" || !selectedDiagnosisAssign == undefined){
-                document.getElementById("prescribedBy").value=selectedDiagnosisAssign;
+                document.getElementById("prescribedBy").value=selectedTextDiagnosisAssign;
                 document.getElementById("prescribedBy").disabled = true;
                 document.getElementById("medicationVisit").disabled = true;
                 document.getElementById("amountMed").disabled = true;
@@ -3713,8 +3708,7 @@
             var isDisabled = $('#prescribedBy').prop('disabled');
 
             if(!isDisabled){
-                var selectPrescribedBy = document.getElementById("prescribedBy");
-                var selectedPrescribedBy = selectPrescribedBy.options[selectPrescribedBy.selectedIndex].value;
+                var selectedPrescribedBy = document.getElementById("prescribedBy").value;
                 console.log(selectedPrescribedBy);
             }
 
@@ -3729,6 +3723,8 @@
             }
             else if(isDisabled){
                 $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
+                var selectedPrescribedBy = document.getElementById("prescribedBy").value;
+                
                 var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
                 var diagnosis =  ""; 
                

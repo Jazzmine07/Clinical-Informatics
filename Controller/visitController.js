@@ -158,6 +158,8 @@ exports.addClinicVisit = function(req, res){
         var complaintArray = complaint.split(", ");
         console.log("complaintArray");
         console.log(complaintArray);
+        var complaintsPush = [];
+        complaintsPush.push("sample");
         // Headache, Fever -> Headache Fever
 
         complaintsRef.once('value', (complaintList) => {
@@ -175,15 +177,19 @@ exports.addClinicVisit = function(req, res){
                         if(complaintsTemp[i].toLowerCase().localeCompare(complaintArray[j].toLowerCase()) == 0){
                             found = 0;
                         }
-                        else {
-                            found = 1; 
-                        }
-                        if(found == 1){
-                            complaintsRef.push({
-                                complaint: complaintArray[j]
-                            });
+                        else {    
+                            if(!complaintsTemp.includes(complaintArray[j]) && !complaintsPush.includes(complaintArray[j])){
+                                console.log("pushing...");
+                                console.log(complaintArray[j]);
+                                complaintsPush.push(complaintArray[j]);
+                            }                          
                         }
                     }
+                }
+                for(var k = 1; k < complaintsPush.length; k++){
+                    complaintsRef.push({
+                        complaint: complaintsPush[k]
+                    });
                 }
             } else{
                 for(var j = 0; j < complaintArray.length; j++){
@@ -393,15 +399,15 @@ exports.editClinicVisit = function(req, res){
                 }
 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-                var formRef = database.ref("assignedForms/"+ userKey);
-                formRef.once('value', (snapshot) => { 
-                    snapshot.forEach(function(childSnapshot) {
-                        if(childSnapshot.key == formId){
-                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                            database.ref("notifications/"+ userKey + "/" + formId).remove();
-                        }
-                    });
-                })
+                // var formRef = database.ref("assignedForms/"+ userKey);
+                // formRef.once('value', (snapshot) => { 
+                //     snapshot.forEach(function(childSnapshot) {
+                //         if(childSnapshot.key == formId){
+                //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                //             database.ref("notifications/"+ userKey + "/" + formId).remove();
+                //         }
+                //     });
+                // })
                 res.status(200).send();
             } else {
                 var record = {

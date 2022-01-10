@@ -34,11 +34,39 @@ exports.getDashboard = function(req, res){
     return promise;
 };
 
+exports.getComplaints = function(){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var complaintsRef = database.ref("complaintsList");
+    var childSnapshotData, complaints = [];
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("complaintsList")){
+                complaintsRef.once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        complaints.push({
+                            complaint: childSnapshotData.complaint
+                        })
+                    })
+                    console.log("complaints");
+                    console.log(complaints);
+                    resolve(complaints);
+                })
+            } else {
+                resolve(complaints);
+            }
+        })
+    });
+    return promise;
+}
+
 exports.getDiagnosis = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
     var diagnosisRef = database.ref("diagnosisList");
-    var childSnapshotData, i, diagnosis = [], filtered = [];
+    var childSnapshotData, diagnosis = [];
 
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
@@ -55,7 +83,7 @@ exports.getDiagnosis = function(){
                     resolve(diagnosis);
                 })
             } else {
-                resolve(filtered);
+                resolve(diagnosis);
             }
         })
     });
@@ -69,19 +97,22 @@ exports.addClinicVisit = function(req, res){
         complaint, impression, treatment, 
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
-    var i, formId;
+    var i, formId, complaintsTemp = [];
     var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit");
     var prescriptionRef = database.ref("studentHealthHistory/"+studentId+"/prescriptionHistory");
+    var complaintsRef = database.ref("complaintsList");
+    console.log("prescribedBy in controller");
+    console.log(prescribedBy);
     
     try {
         var update = {
             height: height,
             weight: weight
         };
-        database.ref("studentInfo/"+studentId).update(update);
+        //database.ref("studentInfo/"+studentId).update(update);
 
         var record = {
             id: studentId, 
@@ -123,86 +154,123 @@ exports.addClinicVisit = function(req, res){
             status: status,
             notes: notes,
         };
-    
-        formId = clinicVisitRef.push(record).key;  
-        if(medicationsArray != undefined){
-            for(i = 0; i < medicationsArray.length; i++){
-                prescription = {
-                    medicine: medicationsArray[i].medication,
-                    purpose: medicationsArray[i].purpose,
-                    amount: medicationsArray[i].amount,
-                    interval: medicationsArray[i].interval,
-                    startMed: medicationsArray[i].startMed,
-                    endMed: medicationsArray[i].endMed,
-                    prescribedBy: prescribedBy,
-                    status: "From clinic"
-                };
-                database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
-                prescriptionRef.push(prescription);
+
+        var complaintArray = complaint.split(", ");
+        console.log("complaintArray");
+        console.log(complaintArray);
+        // Headache, Fever -> Headache Fever
+
+        complaintsRef.once('value', (complaintList) => {
+            if(complaintList.exists()){
+                complaintList.forEach(function(complaintsDB){
+                    complaintsTemp.push(complaintsDB.child('complaint').val());
+                })
+                console.log("complaintsTemp");
+                console.log(complaintsTemp);
+                var found = 1;
+                for(var i = 0; i < complaintsTemp.length; i++){ // [Headache]
+                    for(var j = 0; j < complaintArray.length; j++){ // [Headche, Flu, Fever]
+                        // [Headache]
+                        // [Headache]
+                        if(complaintsTemp[i].toLowerCase().localeCompare(complaintArray[j].toLowerCase()) == 0){
+                            found = 0;
+                            console.log("May instacne na dpt papasok sya here");
+                        }
+                        if(found == 1){
+                            complaintsRef.push({
+                                complaint: complaintArray[j]
+                            });
+                        }
+                    }
+                }
+            } else{
+                for(var j = 0; j < complaintArray.length; j++){
+                    complaintsRef.push({
+                        complaint: complaintArray[j]
+                    });
+                }
             }
-        }
+        })
+    
+        // formId = clinicVisitRef.push(record).key;  
+        // if(medicationsArray != undefined){
+        //     for(i = 0; i < medicationsArray.length; i++){
+        //         prescription = {
+        //             medicine: medicationsArray[i].medication,
+        //             purpose: medicationsArray[i].purpose,
+        //             amount: medicationsArray[i].amount,
+        //             interval: medicationsArray[i].interval,
+        //             startMed: medicationsArray[i].startMed,
+        //             endMed: medicationsArray[i].endMed,
+        //             prescribedBy: prescribedBy,
+        //             status: "From clinic"
+        //         };
+        //         database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
+        //         prescriptionRef.push(prescription);
+        //     }
+        // }
     
         // if intake array is not empty!
-        if(intakeArray != undefined){
-            var intakeHistory = {
-                attendingNurse: nurseName,
-                grade: studentGrade,
-                id: studentId, 
-                medications: "", // array of medications
-                section: studentSection,
-                studentName: studentName,
-                timeIn: timeIn,
-                timeOut: timeOut,
-                timestamp: time,
-                visitDate: visitDate,
-            }
+        // if(intakeArray != undefined){
+        //     var intakeHistory = {
+        //         attendingNurse: nurseName,
+        //         grade: studentGrade,
+        //         id: studentId, 
+        //         medications: "", // array of medications
+        //         section: studentSection,
+        //         studentName: studentName,
+        //         timeIn: timeIn,
+        //         timeOut: timeOut,
+        //         timestamp: time,
+        //         visitDate: visitDate,
+        //     }
         
-            var intakeRef = database.ref("intakeHistory");
-            var historyKey = intakeRef.push(intakeHistory).key;
-            var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+        //     var intakeRef = database.ref("intakeHistory");
+        //     var historyKey = intakeRef.push(intakeHistory).key;
+        //     var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
-            for(i = 0; i < intakeArray.length; i++){
-                history = {
-                    medicineName: intakeArray[i].medication,
-                    specificMedicine: intakeArray[i].med,
-                    specificAmount: intakeArray[i].amount,
-                    amount: parseFloat(intakeArray[i].amount),
-                    time: intakeArray[i].time
-                };
+        //     for(i = 0; i < intakeArray.length; i++){
+        //         history = {
+        //             medicineName: intakeArray[i].medication,
+        //             specificMedicine: intakeArray[i].med,
+        //             specificAmount: intakeArray[i].amount,
+        //             amount: parseFloat(intakeArray[i].amount),
+        //             time: intakeArray[i].time
+        //         };
 
-                healthHistoryIntake = {
-                    specificMedicine: intakeArray[i].med,
-                    specificAmount: intakeArray[i].amount,
-                    time: intakeArray[i].time,
-                    dateTaken: visitDate
-                }
-                database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-                historyRef.push(healthHistoryIntake);
-            }
-        }
+        //         healthHistoryIntake = {
+        //             specificMedicine: intakeArray[i].med,
+        //             specificAmount: intakeArray[i].amount,
+        //             time: intakeArray[i].time,
+        //             dateTaken: visitDate
+        //         }
+        //         database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+        //         historyRef.push(healthHistoryIntake);
+        //     }
+        //}
     
-        if(diagnosisAssign != ""){
-            var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign+"/"+formId);
-            var diagnosisForm = {
-                task: "Clinic Visit",
-                description: "Diagnosis & Prescription",
-                assignedBy: nurseName,
-                dateAssigned: visitDate,
-                timestamp: time
-            }
+        // if(diagnosisAssign != ""){
+        //     var assignDiagnosis = database.ref("assignedForms/"+diagnosisAssign+"/"+formId);
+        //     var diagnosisForm = {
+        //         task: "Clinic Visit",
+        //         description: "Diagnosis & Prescription",
+        //         assignedBy: nurseName,
+        //         dateAssigned: visitDate,
+        //         timestamp: time
+        //     }
     
-            var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+formId);
-            var notif = {
-                type: "form",
-                message: "You have been assigned to a new form!",
-                date: visitDate,
-                timestamp: time,
-                seen: false
-            }
+        //     var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+formId);
+        //     var notif = {
+        //         type: "form",
+        //         message: "You have been assigned to a new form!",
+        //         date: visitDate,
+        //         timestamp: time,
+        //         seen: false
+        //     }
     
-            assignDiagnosis.set(diagnosisForm);
-            userDiagnosisNotification.set(notif);
-        }
+        //     assignDiagnosis.set(diagnosisForm);
+        //     userDiagnosisNotification.set(notif);
+        // }
 
         //needed as ajax was used to send data
         res.status(200).send();
@@ -251,7 +319,7 @@ exports.editClinicVisit = function(req, res){
                             found = 0;
                         }   
                     }
-                    if(found = 1){
+                    if(found == 1){
                         diagnosisRef.push({
                             diagnosis: diagnosis
                         });
@@ -262,6 +330,7 @@ exports.editClinicVisit = function(req, res){
                     });
                 }
             })
+
             if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
                 console.log("pumasok pag wlang medication assigned");
 

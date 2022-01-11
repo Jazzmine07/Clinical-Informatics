@@ -52,7 +52,6 @@ exports.getMedicineInventory = function(){
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
                         
-                        //console.log(childSnapshot.exportVal());
                         details = {
                             medicineID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
@@ -286,7 +285,32 @@ exports.getMedicineDetails = function(req, res){
     })
 };
 
-// get medicine discrepancy all
+exports.updateMedicineInventory = function(req, res){
+    var { medicineID, batchNum, medicineName, qty, amount, unit } = req.body;
+    var used = parseInt(qty) - parseInt(amount);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
+
+    var database = firebase.database();
+    var discrepancyRef = database.ref("discrepancyMedicine/");
+
+    var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
+    inventoryRef.set(amount);   // update inventory
+
+    var discrepancy = {
+        medicineID: medicineID,
+        batchNum: batchNum,
+        medicineName: medicineName,
+        usedInventory: used,
+        unit: unit,
+        dateUpdated: date
+    };
+    discrepancyRef.push(discrepancy);
+
+    res.status(200).send(amount);
+};
+
+// get all medicine discrepancy 
 exports.getMedicineDiscrepancy = function(req, res){
     var data, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -330,32 +354,6 @@ exports.getMedicineDiscrepancy = function(req, res){
             res.status(200).send(filtered);
         }
     })
-};
-
-
-exports.updateMedicineInventory = function(req, res){
-    var { medicineID, batchNum, medicineName, qty, amount, unit } = req.body;
-    var used = parseInt(qty) - parseInt(amount);
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
-
-    var database = firebase.database();
-    var discrepancyRef = database.ref("discrepancyMedicine/");
-
-    var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
-    inventoryRef.set(amount);   // update inventory
-
-    var discrepancy = {
-        medicineID: medicineID,
-        batchNum: batchNum,
-        medicineName: medicineName,
-        usedInventory: used,
-        unit: unit,
-        dateUpdated: date
-    };
-    discrepancyRef.push(discrepancy);
-
-    res.status(200).send(amount);
 };
 
 exports.getUsedMedicineToday = function(){
@@ -439,7 +437,7 @@ exports.addSupplyInventory = function(req, res){
 };
 
 exports.getSupplyInventory = function(){
-    var childSnapshotData, inventory = [];
+    var childSnapshotData, supply = [];
     var database = firebase.database();
     var databaseRef = database.ref();
     var inventoryRef = database.ref("supplyInventory");
@@ -450,7 +448,7 @@ exports.getSupplyInventory = function(){
                 inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        inventory.push({
+                        supply.push({
                             supplyID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
                             supply: childSnapshotData.supply,
@@ -460,12 +458,10 @@ exports.getSupplyInventory = function(){
                             expDate: childSnapshotData.expDate
                         })
                     })
-                    console.log("supply inventory in controller");
-                    console.log(inventory);
-                    resolve(inventory);
+                    resolve(supply);
                 })
             } else {
-                resolve(inventory);
+                resolve(supply);
             }
         })
     });
@@ -516,11 +512,77 @@ exports.getSupplies = function(){
 };
 
 exports.updateSupplyInventory = function(req, res){
-    var supplyID = req.body.supplyID;
-    var amount = req.body.amount;
+    var { supplyID, batchNum, supplyName, qty, amount, unit } = req.body;
+    var discrepancy = parseInt(qty) - parseInt(amount);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
+
+    var database = firebase.database();
+    var discrepancyRef = database.ref("discrepancySupply");
+
     var inventoryRef = firebase.database().ref("supplyInventory/" + supplyID + "/quantity");
-    inventoryRef.set(amount);
+    inventoryRef.set(amount);   // update inventory
+
+    var discrepancy = {
+        supplyID: supplyID,
+        batchNum: batchNum,
+        supplyName: supplyName,
+        discrepancy: discrepancy,
+        unit: unit,
+        dateUpdated: date
+    };
+    discrepancyRef.push(discrepancy);
+
     res.status(200).send(amount);
+};
+
+// get all supply discrepancy 
+exports.getSupplyDiscrepancy = function(){
+    var data, i, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("discrepancySupply");
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("discrepancySupply")){
+                inventoryRef.once('value', (childSnapshot) => { 
+                    childSnapshot.forEach(function(innerChildSnapshot){ 
+                        data = innerChildSnapshot.exportVal();
+                        temp.push({
+                            supplyID: data.supplyID,
+                            supplyName: data.supplyName,
+                            dateUpdated: data.dateUpdated,
+                            discrepancy: data.discrepancy,
+                        })
+                    })
+
+                    temp.forEach(inventory => {
+                        var found = false;
+                        for(i = 0; i < filtered.length; i++){
+                            if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.supplyName == filtered[i].supplyName){   // filters if same medicine name and same date
+                                found = true;
+                                filtered[i].discrepancy+=inventory.discrepancy;
+                                break;
+                            } 
+                        }
+                        if(!found){
+                            filtered.push({
+                                supplyID: inventory.supplyID,
+                                supplyName: inventory.supplyName,
+                                dateUpdated: inventory.dateUpdated,
+                                discrepancy: inventory.discrepancy,
+                            })
+                        }    
+                    })
+                    resolve(filtered);
+                })
+            } else {
+                resolve(filtered);
+            }
+        })
+    });
+    return promise;
 };
 
 exports.addDentalInventory = function(req, res){
@@ -625,9 +687,75 @@ exports.getDentals = function(){
 };
 
 exports.updateDentalInventory = function(req, res){
-    var dentalID = req.body.dentalID;
-    var amount = req.body.amount;
+    var { dentalID, batchNum, dentalName, qty, amount, unit } = req.body;
+    var discrepancy = parseInt(qty) - parseInt(amount);
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
+
+    var database = firebase.database();
+    var discrepancyRef = database.ref("discrepancyDental");
+
     var inventoryRef = firebase.database().ref("dentalInventory/" + dentalID + "/quantity");
-    inventoryRef.set(amount);
+    inventoryRef.set(amount);   // update inventory
+
+    var discrepancy = {
+        dentalID: dentalID,
+        batchNum: batchNum,
+        dentalName: dentalName,
+        discrepancy: discrepancy,
+        unit: unit,
+        dateUpdated: date
+    };
+    discrepancyRef.push(discrepancy);
+
     res.status(200).send(amount);
+};
+
+// get all dental discrepancy 
+exports.getDentalDiscrepancy = function(){
+    var data, i, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("discrepancyDental");
+
+    var promise = new Promise((resolve, reject)=>{
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("discrepancyDental")){
+                inventoryRef.once('value', (childSnapshot) => { 
+                    childSnapshot.forEach(function(innerChildSnapshot){ 
+                        data = innerChildSnapshot.exportVal();
+                        temp.push({
+                            dentalID: data.dentalID,
+                            dentalName: data.dentalName,
+                            dateUpdated: data.dateUpdated,
+                            discrepancy: data.discrepancy,
+                        })
+                    })
+
+                    temp.forEach(inventory => {
+                        var found = false;
+                        for(i = 0; i < filtered.length; i++){
+                            if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.dentalName == filtered[i].dentalName){   // filters if same medicine name and same date
+                                found = true;
+                                filtered[i].discrepancy+=inventory.discrepancy;
+                                break;
+                            } 
+                        }
+                        if(!found){
+                            filtered.push({
+                                dentalID: inventory.dentalID,
+                                dentalName: inventory.dentalName,
+                                dateUpdated: inventory.dateUpdated,
+                                discrepancy: inventory.discrepancy,
+                            })
+                        }    
+                    })
+                    resolve(filtered);
+                })
+            } else {
+                resolve(filtered);
+            }
+        })
+    });
+    return promise;
 };

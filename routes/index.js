@@ -700,23 +700,28 @@ router.get('/inventory-medicine/add', (req, res) => {
 // Get supply inventory page
 router.get('/inventory-supply', (req, res) => {
   console.log("Read supply inventory successful!");
-  var prom1, prom2, user, supply;
+  var prom1, prom2, prom3;
+  var user, supply, supplyDiscrepancy;
   prom1 = userController.getUser();
-  prom2= inventoryController.getSupplyInventory();
+  prom2 = inventoryController.getSupplyInventory();
+  prom3 = inventoryController.getSupplyDiscrepancy();
  
-  Promise.all([prom1,prom2]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     supply = result[1];
+    supplyDiscrepancy = result[2];
+
     if(user.role == "Nurse"){
       res.render('inventory-supply', {
         user: user,
         isNurse: true,
-        inventory: supply
+        supply: supply
       });
     } else {
       res.render('inventory-supply', {
         user: user, 
         isNurse: false,
+        supplyDiscrepancy: supplyDiscrepancy
       });
     }
   }).catch(error => {
@@ -753,14 +758,18 @@ router.get('/inventory-supply/add', (req, res) => {
 // Get dental inventory page
 router.get('/inventory-dental', (req, res) => {
   console.log("Read dental successful!");
-  var prom1, prom2, user, dental;
+  var prom1, prom2, prom3;
+  var user, dental, dentalDiscrepancy;
 
   prom1 = userController.getUser();
   prom2 = inventoryController.getDentalInventory();
+  prom3 = inventoryController.getDentalDiscrepancy();
 
-  Promise.all([prom1,prom2]).then(result => {
+  Promise.all([prom1, prom2, prom3]).then(result => {
     user = result[0];
     dental = result[1];
+    dentalDiscrepancy = result[2];
+    
     if(user.role == "Nurse"){
       res.render('inventory-dental', {
         user: user,
@@ -771,6 +780,7 @@ router.get('/inventory-dental', (req, res) => {
       res.render('inventory-dental', {
         user: user, 
         isNurse: false,
+        dentalDiscrepancy: dentalDiscrepancy
       });
     }
   }).catch(error => {

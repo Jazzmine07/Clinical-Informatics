@@ -118,63 +118,6 @@
                         <i class="fas fa-fw fa-comments"></i>
                         <span>Communications</span></a>
                 </li>
-            {{else}}
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </li>
-                
-                <!-- Nav Item - Disease Surveillance -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/disease-surveillance">
-                        <i class="fas fa-fw fa-virus"></i>
-                        <span>Disease Surveillance</span></a>
-                </li>
-
-                <!-- Nav Item - Clinic Visit -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/clinic-visit">
-                        <i class="fas fa-fw fa-medkit"></i>
-                        <span>Clinic Visit</span></a>
-                </li>
-
-                <!-- Nav Item - Profile -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/profile">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Student Profile</span></a>
-                </li>
-
-                <!-- Nav Item - Health Assessment -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="/health-assessment">
-                        <i class="fas fa-fw fa-stethoscope"></i>
-                        <span>Health Assessment</span></a>
-                </li>
-
-                <!-- Nav Item - Promotive Care -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/promotive-care">
-                        <i class="fas fa-fw fa-child"></i>
-                        <span>Promotive Care</span></a>
-                </li>
-
-                <!-- Nav Item - Performance Assessment -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/performance-assessment">
-                        <i class="fas fa-fw fa-star"></i>
-                        <span>Performance Assessment</span></a>
-                </li>
-
-                <!-- Nav Item - Communications -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/communications">
-                        <i class="fas fa-fw fa-comments"></i>
-                        <span>Communications</span></a>
-                </li>
-            {{/if}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -279,69 +222,278 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#drop-menu" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.firstName}} {{user.lastName}}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div id="drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End of Topbar -->                   
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
+                        <div class="d-flex flex-row-reverse">
+                            <a href="/inventory-dental/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Dental Inventory  </a>
+                        </div>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Dental Inventory</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dentalTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
+                                            <th class="bg-primary" style="color: white;">Dental Supply</th>
+                                            <th class="bg-primary" style="color: white;">Quantity</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Purchase Date</th>
+                                            <th class="bg-primary" style="color: white;">Expiry Date</th>
+                                            <th class="bg-primary" style="color: white;">Physical Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each dental}}
+                                            <tr id="{{dentalID}}">
+                                                <td style="vertical-align: middle !important;">{{batchNum}}</td>
+                                                <td style="vertical-align: middle !important;">{{dental}}</td>
+                                                <td style="vertical-align: middle !important;">{{qty}}</td>
+                                                <td style="vertical-align: middle !important;">{{unit}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate purchDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate expDate}}</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input class="form-control" placeholder="Update inventory..." type="number" name="amount" min="0">
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            {{!-- this is what the doctor sees --}}
+            {{else}}
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                
+                <!-- Nav Item - Disease Surveillance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/disease-surveillance">
+                        <i class="fas fa-fw fa-virus"></i>
+                        <span>Disease Surveillance</span></a>
+                </li>
+
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse show list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+            </ul>
+            <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
                             </a>
                             <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
+                                aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
-                                    Message Center
+                                    Alerts Center
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="public/img/undraw_profile_1.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
                                     </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="public/img/undraw_profile_2.svg"
-                                            alt="...">
-                                        <div class="status-indicator"></div>
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="public/img/undraw_profile_3.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-warning"></div>
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
 
@@ -373,9 +525,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->                   
 
@@ -384,17 +534,7 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Inventory</h1>
-                        <div class="d-flex flex-row-reverse">
-                            <a href="/inventory-dental/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
-                                class="fas fa-plus-circle mr-1 text-white-50"></i> Add Dental Inventory  </a>
-                        </div>
                     </div>
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -406,42 +546,17 @@
                                 <table class="table table-bordered" id="dentalTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th class="bg-primary" style="color: white;">Batch Number</th>
                                             <th class="bg-primary" style="color: white;">Dental Supply</th>
-                                            <th class="bg-primary" style="color: white;">Quantity</th>
-                                            <th class="bg-primary" style="color: white;">Unit</th>
-                                            <th class="bg-primary" style="color: white;">Purchase Date</th>
-                                            <th class="bg-primary" style="color: white;">Expiry Date</th>
-                                            <th class="bg-primary" style="color: white;">Update Inventory</th>
+                                            <th class="bg-primary" style="color: white;">Date Recorded</th>
+                                            <th class="bg-primary" style="color: white;">Discrepancy</th>
                                         </tr>
                                     </thead>
-                                    {{!-- <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot> --}}
                                     <tbody>
-                                        {{#each dental}}
+                                        {{#each dentalDiscrepancy}}
                                             <tr id="{{dentalID}}">
-                                                <td style="vertical-align: middle !important;">{{batchNum}}</td>
-                                                <td style="vertical-align: middle !important;">{{dental}}</td>
-                                                <td style="vertical-align: middle !important;">{{qty}}</td>
-                                                <td style="vertical-align: middle !important;">{{unit}}</td>
-                                                <td style="vertical-align: middle !important;">{{formatDate purchDate}}</td>
-                                                <td style="vertical-align: middle !important;">{{formatDate expDate}}</td>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input class="form-control" placeholder="Update inventory..." type="number" name="amount" min="0">
-                                                        <div class="input-group-append">
-                                                            <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important">Update</button>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                <td>{{dentalName}}</td>
+                                                <td>{{formatDate dateUpdated}}</td>
+                                                <td>{{discrepancy}}</td>
                                             </tr>
                                         {{/each}}
                                     </tbody>
@@ -453,6 +568,7 @@
                 <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
+            {{/if}}
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -526,8 +642,11 @@
         $('#dentalTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
             //var index =row.index();
+            var batchNum = row.find('td').eq(0).text();
+            var dentalName = row.find('td').eq(1).text();
             var qtyCell = row.find('td').eq(2);
             var qty = row.find('td').eq(2).text();
+            var unit = row.find('td').eq(3).text();
             console.log('TR qty cell: ' + row.find('td').eq(2).text());
             
             var val = $(this).closest('td');
@@ -548,7 +667,14 @@
                 val.find("input").removeClass('is-invalid');
                 val.find("input").addClass('is-valid');
                 qtyCell.text(amount);
-                $.post("/updateDentalInventory", {dentalID: dentalID, amount: amount});
+                $.post("/updateDentalInventory", {
+                    dentalID: dentalID, 
+                    batchNum: batchNum,
+                    dentalName: dentalName,
+                    qty: qty,
+                    amount: amount,
+                    unit: unit,
+                });
             }
 
             $('#dentalTable').DataTable({

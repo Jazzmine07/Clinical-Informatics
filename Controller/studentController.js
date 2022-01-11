@@ -731,52 +731,7 @@ exports.loadPrevDataAPE=function(req,res){
         // console.log(studentInfo);
 
         var lastApe;
-        var i=1;
-        if(ape.length!=0){
-            console.log("hello");
-            console.log(ape);
-            console.log(curr);
-            while(lastApe==null){
-                console.log("THIS IS INSIDE LOOP lastAPE");
-                console.log(ape[ape.length-i].sy);
-                if(currSY==ape[ape.length-i].sy){
-                    i++;
-                    if(ape.length==1){
-                        lastApe=1;
-                        ape.push({
-                            sy:"",
-                            age:"",
-                            dope:"",
-                            doctor:"",
-                            systolic:"",
-                            diastolic:"",
-                            temp: "",
-                            bp: "",
-                            pr:"",
-                            rr: "",
-                            sf:"",
-                            weight: "",
-                            height: "",
-                            bmi: "",
-                            bmiStatus: "",
-                            od: "",
-                            os: "",
-                            odGlasses:"",
-                            osGlasses: "",
-                            medProb: "",
-                            allergies: "",
-                            complaints: "",
-                            reco: ""
-                        });
-                        break;
-                    }
-                }
-                else{
-                    lastApe=i;
-                        break;
-                }
-            }
-        }
+        var i=0;
         if(ape.length==0){
             console.log("empty ape");
             lastApe=0;
@@ -832,7 +787,55 @@ exports.loadPrevDataAPE=function(req,res){
                 reco: ""
             });
         }
-        if(curr==null){
+        if(ape.length>=1){
+            console.log("hello");
+            console.log(ape);
+            console.log(curr);
+
+            if(ape.length==1){
+                lastApe=0;
+                ape.push({
+                    sy:"",
+                    age:"",
+                    dope:"",
+                    doctor:"",
+                    systolic:"",
+                    diastolic:"",
+                    temp: "",
+                    bp: "",
+                    pr:"",
+                    rr: "",
+                    sf:"",
+                    weight: "",
+                    height: "",
+                    bmi: "",
+                    bmiStatus: "",
+                    od: "",
+                    os: "",
+                    odGlasses:"",
+                    osGlasses: "",
+                    medProb: "",
+                    allergies: "",
+                    complaints: "",
+                    reco: ""
+                });
+            }
+            else{ //size is greater than 1
+                while(i<ape.length){
+                    if(currSY==ape[i].sy){
+                        lastApe= i-1;
+                    }
+                    else{
+                        i++;
+                    }
+                }
+            }
+
+            if(lastApe==null){
+                lastApe=i;
+            }
+        }
+        if(curr.length==0){
             console.log("empty curr");
             curr.push({
                 sy:"",
@@ -860,14 +863,12 @@ exports.loadPrevDataAPE=function(req,res){
                 reco: ""
             });
         }
+        console.log("HELLO DEATH");
+        console.log(curr.length);
+        console.log(curr[0].sy);
         
-        //console.log("DATA from studentInfo: " + name + ","+bday+","+sex);
         
         var record={
-            // name:studentInfo.name,
-            // birthday:studentInfo.bday,
-            // sex:studentInfo.sex,
-
             prevSy:ape[lastApe].sy,
             prevAge:ape[lastApe].age,
             prevTemp:ape[lastApe].temp,

@@ -871,15 +871,25 @@
             });            
         }
         //Search specific Disease chart
-        function showDiseaseChart(data) {
+        function showDiseaseChart(data, start, end) {
             //console.log(data);
             var i,j;
             var gradeName=["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"];
             var g1Count=0, g2Count=0,g3Count=0, g4Count=0,g5Count=0, g6Count=0;
             var g1Sections=[],g2Sections=[],g3Sections=[],g4Sections=[],g5Sections=[],g6Sections=[];
             var g1SectionCount=[],g2SectionCount=[],g3SectionCount=[],g4SectionCount=[],g5SectionCount=[],g6SectionCount=[];
-            var gradeLevel, gradeLevelPie;
-            gradeLevelChart, gradeLevelPieChart;
+            var gradeLevel, gradeLevelPie, gradeLevelChart, gradeLevelPieChart;
+            var selectedDisease =  $('#disease').find(":selected").text();
+            console.log("PUTA LUMABAS KA");
+            console.log(selectedDisease);
+
+            var date= new Date(start);
+            var getStartMonth = date.toLocaleString('default', { month: 'long' })
+            var startRange = getStartMonth + ' ' + date.getDate() + ', ' + date.getFullYear();
+
+            var e = new Date(end);
+            var getEndMonth = e.toLocaleString('default', { month: 'long' })
+            var endRange = getEndMonth + ' ' + e.getDate() + ', ' + e.getFullYear();
                 
             for(i=0;i<6;i++){
                 //getting total count for each grade level
@@ -936,12 +946,12 @@
                 datasets: [{
                     label: "Grade 1",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#c67aff', 
+                        '#bf6bff', 
+                        '#b85cff', 
+                        '#af47ff',
+                        '#a938ff', 
+                        '#a229ff'
                     ],
                     data:g1SectionCount,
                 }],
@@ -951,12 +961,12 @@
                 datasets: [{
                     label: "Grade 2",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#ffc65c', 
+                        '#ffbf47', 
+                        '#ffb938', 
+                        '#ffb429', 
+                        '#ffad14', 
+                        '#ffa805'
                     ],
                     data:g2SectionCount,
                 }],
@@ -966,12 +976,12 @@
                 datasets: [{
                     label: "Grade 3",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#ffeb7a', 
+                        '#ffe96b', 
+                        '#ffe75c', 
+                        '#ffe347', 
+                        '#ffe138', 
+                        '#ffdf29'
                     ],
                     data:g3SectionCount,
                 }],
@@ -981,12 +991,12 @@
                 datasets: [{
                     label: "Grade 4",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#7aff7a', 
+                        '#52ff52', 
+                        '#00e600', 
+                        '#00cc00', 
+                        '#00b300', 
+                        '#009400'
                     ],
                     data:g4SectionCount,
                 }],
@@ -996,12 +1006,12 @@
                 datasets: [{
                     label: "Grade 5",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#2929ff', 
+                        '#0505ff', 
+                        '#0000e6', 
+                        '#0000cc', 
+                        '#0000b3', 
+                        '#000094'
                     ],
                     data:g5SectionCount,
                 }],
@@ -1011,12 +1021,13 @@
                 datasets: [{
                     label: "Grade 6",
                     backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
+                        '#ff7a7a', 
+                        '#ff4242', 
+                        '#ff0505', 
+                        '#e60000', 
+                        '#cc0000', 
+                        '#b30000', 
+                        '#940000'
                     ],
                     data:g6SectionCount,
                 }],
@@ -1042,7 +1053,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Disease by Grade Level',
+                            text: selectedDisease + ' Count from ' + startRange + ' to ' + endRange + ' by Grade Level',
                             font: {
                                 size: 25   // font size of the labels
                             },
@@ -1101,7 +1112,7 @@
                                 const percentage = context.value / showData(this) * 100;
                                 return percentage.toFixed(2)+"%";
                             },
-                            fontColor: '#FFFFFF'
+                            fontColor: '#000000'
                         },
                         legend: {
                             display: true,
@@ -1138,41 +1149,59 @@
                     
                     console.log(points[0]);
                     console.log(firstPoint.index);
+
+                    var grade;
+                    var labelColor;
+
                    // var con = data[0].arr[firstPoint.index].concern;                    
                     if( gradeLevelChart.config.data.datasets[0].label=="Grade Levels Disease Count"){
                         if(firstPoint.index === 0){
+                            grade = "Grade 1";
                             gradeLevelChart.config.data=grade1Sections;
                             gradeLevelPieChart.config.data=grade1Sections;
-                            //gradeLevelChart.config._config.data.datasets[0].data = g1SectionCount;
-                            //gradeLevelChart.config._config.data.labels= g1Sections;
-                            //gradeLevelChart.config._config.data.datasets[0].label= "Grade 1"; 
-                            //console.log(gradeLevelChart);
-                            //console.log(gradeLevelPieChart);
-                            //gradeLevelPieChart.config._config.data.datasets[0].data = g1SectionCount;
-                            //gradeLevelPieChart.config._config.data.labels= g1Sections;
-                            //gradeLevelPieChart.config._config.data.datasets[0].label= "Grade 1"; 
-                        }
+                            labelColor = '#FFFFFF';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;                        }
                         else if(firstPoint.index === 1){
+                            grade = "Grade 2";
                             gradeLevelChart.config.data=grade2Sections;
                             gradeLevelPieChart.config.data=grade2Sections;
+                            labelColor = '#000000';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
                         else if(firstPoint.index === 2){
+                            grade = "Grade 3";
                             gradeLevelChart.config.data=grade3Sections;
                             gradeLevelPieChart.config.data=grade3Sections;
+                            labelColor = '#000000';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
                         else if(firstPoint.index === 3){
+                            grade = "Grade 4";
                             gradeLevelChart.config.data=grade4Sections;
                             gradeLevelPieChart.config.data=grade4Sections;
+                            labelColor = '#000000';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
                         else if(firstPoint.index === 4){
+                            grade = "Grade 5";
                             gradeLevelChart.config.data=grade5Sections;
                             gradeLevelPieChart.config.data=grade5Sections;
+                            labelColor = '#FFFFFF';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
                         else if(firstPoint.index === 5){
+                            grade = "Grade 6";
                             gradeLevelChart.config.data=grade6Sections;
                             gradeLevelPieChart.config.data=grade6Sections;
-                        }   
-                        
+                            labelColor = '#FFFFFF';
+                            gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                            gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
+                        }
                         gradeLevelChart.update();
                         gradeLevelPieChart.update();
                     }
@@ -1263,22 +1292,7 @@
                 }],
             };
 
-            var sectionCount={
-                labels: sLabels,
-                datasets: [{
-                    label: "Section Symptom Count",
-                    // background color of grade levels
-                    backgroundColor: [
-                        "rgba(153, 102, 255, 0.5)", // violet
-                        "rgb(255, 159, 64)",  // orange
-                        "rgb(255, 205, 86)",  // yellow
-                        "rgb(75, 192, 192)", // green
-                        "rgb(54, 162, 235)", // blue
-                        "rgb(255, 99, 132)", // red
-                    ],
-                    data: sDataCount,
-                }],
-            };
+            
 
             var config={
                 type: 'bar',
@@ -1290,6 +1304,7 @@
                             render: 'value',
                             fontSize: 15,
                             fontStyle: 'bold',
+                            fontColor: 'black'
                         },
                         title: {
                             display: true,
@@ -1379,6 +1394,7 @@
             symptomPieChart = new Chart(complaints2, configPie);   
 
             var concern=[];
+            var checker3 = 0;
 
             function clickHandlerSC(click){
                 //console.log(data[1].arr2);
@@ -1389,11 +1405,12 @@
                     console.log(firstPoint.index);
                     console.log(data[1].arr2.length);
                     var con = labels[firstPoint.index];
+                    
                     concern.push(con);
                     var i;
                     var grade;
-                    var barColorBackground = [];
                     var labelColor;
+                    var barColorBackground = [];
                     
                     if(symptomChart.config.data.datasets[0].label=="Symptom Count"){
                         temp=[{count:0},{count:0},{count:0},{count:0},{count:0},{count:0}];
@@ -1427,7 +1444,7 @@
                             //console.log(gDataCount);
                             symptomChart.config.data = gradeCount;
                             symptomPieChart.config.data = gradeCount;
-                            symptomChart.config.options.plugins.title.text = con + ' from ' + startRange + ' to ' + endRange +' by Grade Level';
+                            symptomChart.config.options.plugins.title.text = con + ' Complaints from ' + startRange + ' to ' + endRange +' by Grade Level';
                             symptomPieChart.config.options.plugins.labels.fontColor = "#000000";
                         }
                         else{
@@ -1461,7 +1478,7 @@
                             console.log(symptomChart.config.data.labels[firstPoint.index]);
                             symptomPieChart.config.data = gradeCount;
                             symptomPieChart.config.options.plugins.labels.fontColor = "#000000";
-                            symptomChart.config.options.plugins.title.text = con + ' from ' + startRange + ' to ' + endRange +' by Grade Level';
+                            symptomChart.config.options.plugins.title.text = concern[0] + ' Complaints from ' + startRange + ' to ' + endRange +' by Grade Level';
                         }
                     }
                     else if(symptomChart.config.data.datasets[0].label=="Grade Level Symptom Count"){
@@ -1644,11 +1661,22 @@
                         }                       
                         console.log("sDataCount");     
                         console.log(sDataCount);
+
+                        var sectionCount={
+                            labels: sLabels,
+                            datasets: [{
+                                label: "Section Symptom Count",
+                                // background color of grade levels
+                                backgroundColor: barColorBackground,
+                                data: sDataCount,
+                            }],
+                        };
                         
                         symptomChart.config.data = sectionCount;
                         symptomPieChart.config.data = sectionCount;
-                        symptomChart.config.options.plugins.datalabels.color = labelColor;
-                        symptomChart.config.options.plugins.title.text = con + ' from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                        symptomPieChart.config.options.plugins.labels.fontColor = labelColor;
+                        symptomChart.config.options.plugins.title.text = concern[0] + ' Complaints from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
+                        //symptomChart.config.options.plugins.title.font.size = 20;
                     }
                     else if(symptomChart.config.data.datasets[0].label=="Section Symptom Count"){
                         //symptomChart.config.data = symptomsCount;

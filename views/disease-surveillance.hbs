@@ -878,10 +878,9 @@
             var g1Count=0, g2Count=0,g3Count=0, g4Count=0,g5Count=0, g6Count=0;
             var g1Sections=[],g2Sections=[],g3Sections=[],g4Sections=[],g5Sections=[],g6Sections=[];
             var g1SectionCount=[],g2SectionCount=[],g3SectionCount=[],g4SectionCount=[],g5SectionCount=[],g6SectionCount=[];
-            var gradeLevel, gradeLevelPie, gradeLevelChart, gradeLevelPieChart;
-            var selectedDisease =  $('#disease').find(":selected").text();
-            console.log("PUTA LUMABAS KA");
-            console.log(selectedDisease);
+            var gradeLevel, gradeLevelPie;
+            gradeLevelChart, gradeLevelPieChart;
+            var selectedDisease = $('#disease').find(":selected").text();
 
             var date= new Date(start);
             var getStartMonth = date.toLocaleString('default', { month: 'long' })

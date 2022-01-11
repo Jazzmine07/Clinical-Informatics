@@ -604,7 +604,7 @@
                                 </div>
                                 <div class="card-body" style="height: 360px">
                                     <div class="chart-pie pt-6 pb-2" style="width: 500px">
-                                        <canvas id="complaintsPieChart"></canvas>
+                                        <canvas id="complaintsPieChart" style="height: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -1111,7 +1111,8 @@
                                 const percentage = context.value / showData(this) * 100;
                                 return percentage.toFixed(2)+"%";
                             },
-                            fontColor: '#000000'
+                            fontColor: '#000000',
+                            position: 'outside'
                         },
                         legend: {
                             display: true,
@@ -1158,7 +1159,7 @@
                             grade = "Grade 1";
                             gradeLevelChart.config.data=grade1Sections;
                             gradeLevelPieChart.config.data=grade1Sections;
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                             gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
                             gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;                        }
                         else if(firstPoint.index === 1){
@@ -1189,7 +1190,7 @@
                             grade = "Grade 5";
                             gradeLevelChart.config.data=grade5Sections;
                             gradeLevelPieChart.config.data=grade5Sections;
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                             gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
                             gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
@@ -1197,7 +1198,7 @@
                             grade = "Grade 6";
                             gradeLevelChart.config.data=grade6Sections;
                             gradeLevelPieChart.config.data=grade6Sections;
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                             gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
                             gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
@@ -1365,7 +1366,8 @@
                                 const percentage = context.value / showDataComplaints(this) * 100;
                                 return percentage.toFixed(2)+"%";
                             },
-                            fontColor: 'white',
+                            fontColor: '#000000',
+                            position: 'outside'
                         },
                         legend: {
                             display: true,
@@ -1514,7 +1516,7 @@
                                 }
                             }
                             barColorBackground.push('#c67aff', '#bf6bff', '#b85cff', '#af47ff','#a938ff', '#a229ff');
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                         }
                         else if(firstPoint.index === 1){
                             grade = "Grade 2";
@@ -1624,7 +1626,7 @@
                                 }
                             }
                             barColorBackground.push('#2929ff', '#0505ff', '#0000e6', '#0000cc', '#0000b3', '#000094');
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                         }
                         else if(firstPoint.index === 5){
                             grade = "Grade 6";
@@ -1652,7 +1654,7 @@
                                 }
                             }
                             barColorBackground.push('#ff7a7a', '#ff4242', '#ff0505', '#e60000', '#cc0000', '#b30000', '#940000');
-                            labelColor = '#FFFFFF';
+                            labelColor = '#000000';
                         }
                         console.log(temp2);
                         for(i=0;i<temp2.length;i++){

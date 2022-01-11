@@ -988,7 +988,9 @@
                                 render: (context) => {
                                     const percentage = context.value / computeIncidencePercent(this) * 100;
                                     return percentage.toFixed(2)+"%";
-                                }
+                                },
+                                fontColor: '#000000',
+                                position: 'outside'
                             },
                             legend: {
                                 display: true,

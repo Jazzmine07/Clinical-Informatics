@@ -122,8 +122,8 @@ exports.getTopDisease=function(vcArray){
     // sorting the vcWeek and Month from highest count to lowest
     if(vcWeek.length>0){
         console.log("FIND ORDER OF WEEK TOP DISEASE");
-        weekTopDisease= vcWeek.reverse(function (x, y) {
-            return x.count- y.count;
+        weekTopDisease= vcWeek.sort(function (x, y) {
+            return y.count- x.count;
         });
         console.log(weekTopDisease)
         strings.push(weekTopDisease);
@@ -133,8 +133,8 @@ exports.getTopDisease=function(vcArray){
     }
     if(vcMonth.length>0){
         console.log("FIND ORDER OF MONTH TOP DISEASE");
-        monthTopDisease= vcMonth.reverse(function (x, y) {
-            return x.count- y.count;
+        monthTopDisease= vcMonth.sort(function (x, y) {
+            return y.count- x.count;
         });
         console.log(monthTopDisease);
         strings.push(monthTopDisease);

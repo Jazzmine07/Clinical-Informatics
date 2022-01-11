@@ -824,15 +824,20 @@ exports.loadPrevDataAPE=function(req,res){
                 while(i<ape.length){
                     if(currSY==ape[i].sy){
                         lastApe= i-1;
+                        break;
                     }
                     else{
                         i++;
+                    }
+                    if(lastApe!=null){
+                        break;
                     }
                 }
             }
 
             if(lastApe==null){
-                lastApe=i;
+                console.log("Enters the last ape");
+                lastApe=i-1;
             }
         }
         if(curr.length==0){
@@ -866,6 +871,9 @@ exports.loadPrevDataAPE=function(req,res){
         console.log("HELLO DEATH");
         console.log(curr.length);
         console.log(curr[0].sy);
+        console.log(ape.length);
+        console.log(lastApe);
+        console.log(ape[lastApe].sy);
         
         
         var record={

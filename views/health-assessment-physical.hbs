@@ -1454,7 +1454,7 @@
                 link="/health-assessment";
             }
 
-            var weightStatus;
+            var weightStatus = "";
             $("#weight").change(function(){
                 var weight =  $('#weight').val();  
                 console.log(weight);
@@ -1495,7 +1495,7 @@
                 }
             });
 
-            var heightStatus;
+            var heightStatus = "";
             $("#height").change(function(){
                 var height =  $('#height').val(); 
                 var age = $('#age').val(); 
@@ -1732,7 +1732,7 @@
                 //});
             });
 
-            var bodyTempStatus;
+            var bodyTempStatus = "";
             $("#bodyTemp").change(function(){
                 var bodyTemp =  $('#bodyTemp').val(); 
                 console.log(bodyTemp);
@@ -1796,7 +1796,7 @@
 
             });
 
-            var systolicStatus;
+            var systolicStatus = "";
             $("#systolic").change(function(){
                 var systolic =  $('#systolic').val(); 
                 var age = $('#age').val();
@@ -2255,7 +2255,7 @@
                 //});
             });
             
-            var diastolicStatus;
+            var diastolicStatus = "";
             $("#diastolic").change(function(){
                 var diastolic =  $('#diastolic').val(); 
                 var age = $('#age').val();
@@ -2713,7 +2713,7 @@
                 //});
             });
             
-            var pulseRateStatus;
+            var pulseRateStatus = "";
             $("#pulseRate").change(function(){
                 var pulseRate =  $('#pulseRate').val(); 
                 var age = $('#age').val();
@@ -2798,7 +2798,7 @@
                 //});
             });
 
-            var respRateStatus;
+            var respRateStatus = "";
             $("#respRate").change(function(){
                 var respRate =  $('#respRate').val(); 
                 var age = $('#age').val();
@@ -3259,6 +3259,14 @@
                             concern: complaintAPE,
                             assess: assessAPE,
                             normal: normalPE,
+                            
+                            weightStatus: weightStatus,
+                            heightStatus: heightStatus,
+                            bodyTempStatus: bodyTempStatus,
+                            systolicStatus: systolicStatus,
+                            diastolicStatus: diastolicStatus,
+                            pulseRateStatus: pulseRateStatus,
+                            respRateStatus: respRateStatus
                         },
                         success: function(data) {
                             console.log("Bonjour");

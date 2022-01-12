@@ -878,21 +878,107 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                         <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
-                                        <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="3"></textarea>
+                                        <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="4"></textarea>
                                     </div>    
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
                                         <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
-                                        <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="3"></textarea>
+                                        <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="4"></textarea>
                                     </div>    
                                 </div>
             
                                 <div class="form-check ml-2 mt-2">
                                     <input class="form-check-input" type="checkbox" value="" id="normalPE">
-                                    <label class="form-check-label" for="flexCheckDefault">Essentially Normal P.E.</label>
+                                    <label class="form-check-label" for="normalPE">Essentially Normal P.E.</label>
                                 </div>
+                                <div class="form-check ml-2 mt-2">
+                                    <input class="form-check-input" type="checkbox" value="" id="referral" onclick="referralClicked()">
+                                    <label class="form-check-label mb-2" for="referral">For Referral</label>
+                                </div>
+                                <div id="referralDiv" style="display:none">
+                                    <label class="col-form-label font-weight-bold" for="label">Referral To</label>
+                                    <hr class="w-10 mb-2" style="margin-top: -5px;"></hr>
+
+                                    <div class="form-row align-items-center">
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="specialty">Department or Specialty Area</label>
+                                            <input type="name" class="form-control mb-2" id="specialty" name="specialty">
+                                        </div> 
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="physician">Preferred Physician (if known)</label>
+                                            <input type="name" class="form-control mb-2" id="physician" name="physician">
+                                        </div>    
+                                    </div>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-12">
+                                            <label class="col-form-label" for="reason">Reasons for Referral/Services Requested</label>
+                                            <textarea type="text" class="form-control mb-2" id="reason" name="reason" rows="4"></textarea>
+                                        </div>    
+                                    </div>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                            <input type="name" class="form-control mb-2" id="diagnosis" name="diagnosis">
+                                        </div> 
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="icd10">ICD 10</label>
+                                            <input type="name" class="form-control mb-2" id="icd10" name="icd10">
+                                        </div>    
+                                    </div>
+                                    <div class="form-row align-items-center">
+                                        <label class="col-form-label">Is this referral urgent?</label>
+                                        <div class="form-check ml-1">
+                                            <input class="form-check-input" type="radio" name="urgent" id="urgentYes">
+                                            <label class="form-check-label" for="urgentYes">Yes</label>
+                                        </div>
+                                        <div class="form-check ml-2">
+                                            <input class="form-check-input" type="radio" name="urgent" id="urgentNo">
+                                            <label class="form-check-label" for="urgentNo">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row align-items-center mb-3">
+                                        <label class="col-form-label">Is this referral for:</label>
+                                        <div class="form-check ml-1">
+                                            <input class="form-check-input" type="checkbox" name="kind" id="specialist">
+                                            <label class="form-check-label" for="specialist">Specialist/Consultation</label>
+                                        </div>
+                                        <div class="form-check ml-3">
+                                            <input class="form-check-input" type="checkbox" name="kind" id="testing">
+                                            <label class="form-check-label" for="testing">Procedure/Testing Only</label>
+                                        </div>
+                                    </div>
+
+                                    <label class="col-form-label font-weight-bold" for="label">Referring From</label>
+                                    <hr class="w-10 mb-2" style="margin-top: -5px;"></hr>
+
+                                    <div class="form-row align-items-center">
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="provider">Provider Name</label>
+                                            <input type="name" class="form-control mb-2" id="provider" name="provider">
+                                        </div> 
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="title">Provider Medical Title</label>
+                                            <input type="name" class="form-control mb-2" id="title" name="title">
+                                        </div>    
+                                    </div>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="position">Position/Designation</label>
+                                            <input type="name" class="form-control mb-2" id="position" name="position">
+                                        </div> 
+                                        <div class="col-4">
+                                            <label class="col-form-label" for="signature">Provider Signature</label>
+                                            <div class="custom-file mb-2">
+                                                <input type="file" class="custom-file-input" id="signature">
+                                                <label class="custom-file-label" for="signature">Choose file...</label>
+                                            </div>
+                                        </div>    
+                                    </div>
+
+                                </div>
+                                
 
                                 <div class="d-flex justify-content-end mt-4 col-12">
                                     <button type="submit" id="saveBtn" class="mr-2 p-2 d-none d-sm-inline-block btn btn-success">
@@ -900,7 +986,7 @@
                                     </button>                                    
                                 </div>
                         
-                    </div>
+                        </div>
                     </div>
                 </div>
 
@@ -974,6 +1060,25 @@
     <script src="public/js/demo/chart-pie-demo.js"></script>
         
     <script type='text/javascript'>
+        $('#signature').on('change',function(){
+            //get the file name
+            var fileName = $(this).val();
+            var cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(cleanFileName);
+        });
+
+        function referralClicked() {
+            var checkBox = document.getElementById("referral");
+            var div = document.getElementById("referralDiv");
+
+            if (checkBox.checked == true){
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+
         $(document).ready(function() {
 
             function myFunction(){
@@ -3076,6 +3181,43 @@
                 var normalPE = checkBox.checked; 
 
                 console.log(normalPE); 
+
+
+                //referral inputs
+                var specialty = $('#specialty').val(); 
+                console.log(specialty);
+
+                var physician = $('#physician').val(); 
+                console.log(physician);
+
+                var reason = $('#reason').val(); 
+                console.log(reason);
+
+                var diagnosis = $('#diagnosis').val(); 
+                console.log(diagnosis);
+
+                var icd10 = $('#icd10').val(); 
+                console.log(icd10);
+
+                var urgent = document.querySelector('input[name="urgent"]:checked').value;
+                console.log(urgent);
+
+                var kind1 = document.getElementById("specialist");
+                var specialist = kind1.checked; 
+                console.log(specialist);
+
+                var kind2 = document.getElementById("testing");
+                var testing = kind2.checked; 
+                console.log(testing); 
+
+                var provider = $('#provider').val(); 
+                console.log(provider);
+
+                var title = $('#title').val(); 
+                console.log(title);
+
+                var position = $('#position').val(); 
+                console.log(position);
                 
                 computedBmiStatus= document.getElementById("bmiStatus").innerHTML;
                 console.log("BMISTATUS"+computedBmiStatus); 

@@ -1845,6 +1845,19 @@
             event.currentTarget.className += " active";
         }
 
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            console.log(today.getMonth() + " " + birthDate.getMonth());
+            console.log(today.getDate() + " " + birthDate.getDate());
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
         var notAllowedMedicines = [];
         var weight, height, age, fullAge, sex;
         var studentID = $('#studentID').val();
@@ -1852,61 +1865,59 @@
         var fatherName, fatherEmail, fatherContact, motherName, motherEmail, motherContact, guardianName, guardianEmail, guardianContact;
         var pediaName, pediaEmail, pediaContact, dentistName, dentistEmail, dentistContact, preferredHospital, hospitalAddress;
 
-        
-
         // --------------------------------- LAST VISIT DETAILS ------------------------------
-            $.get('/getLastVisit', {studentID: studentID}, function(lastVisit){
-                console.log("last visit details of the student");
-                console.log(lastVisit);
-                if(lastVisit != ""){
-                    $('#lvDate').html(lastVisit.visitDate);
-                    $('#lvTI').html(lastVisit.timeIn);
-                    $('#lvTO').html(lastVisit.timeOut);
-                    $('#lvNurse').html(lastVisit.attendingNurse);
+        $.get('/getLastVisit', {studentID: studentID}, function(lastVisit){
+            console.log("last visit details of the student");
+            console.log(lastVisit);
+            if(lastVisit != ""){
+                $('#lvDate').html(lastVisit.visitDate);
+                $('#lvTI').html(lastVisit.timeIn);
+                $('#lvTO').html(lastVisit.timeOut);
+                $('#lvNurse').html(lastVisit.attendingNurse);
 
-                    if(lastVisit.systolicBP == "" || !lastVisit.systolicBP || lastVisit.diastolicBP == "" || !lastVisit.diastolicBP)
-                        $('#lvBP').html("-");
-                    else
-                        $('#lvBP').html(lastVisit.systolicBP + "/" + lastVisit.diastolicBP);
-                    
-                    if(lastVisit.bodyTemp == "" || !lastVisit.bodyTemp)
-                        $('#lvBT').html("-");
-                    else
-                        $('#lvBT').html(lastVisit.bodyTemp + "°C");
-
-                    if(lastVisit.pulseRate == "" || !lastVisit.pulseRate)
-                        $('#lvPR').html("-");
-                    else
-                        $('#lvPR').html(lastVisit.pulseRate);
-                    
-                    if(lastVisit.respirationRate == "" || !lastVisit.respirationRate)
-                        $('#lvRR').html("-");
-                    else
-                        $('#lvRR').html(lastVisit.respirationRate);
-
-                    $('#lvReason').html(lastVisit.visitReason);
-
-                    if(lastVisit.treatment == "" || !lastVisit.treatment)
-                        $('#lvTreatment').html("-");
-                    else
-                        $('#lvTreatment').html(lastVisit.treatment);
-
-                    if(lastVisit.diagnosis == "" || !lastVisit.diagnosis)
-                        $('#lvDiagnosis').html("-");
-                    else
-                        $('#lvDiagnosis').html(lastVisit.diagnosis);
-
-                    if(lastVisit.notes == "" || !lastVisit.notes)
-                        $('#lvNotes').html("-");
-                    else
-                        $('#lvNotes').html(lastVisit.notes);
-
-                    $('#lvStatus').html(lastVisit.status);
-
-                    document.getElementById('lastVisit').style.display = "block";
-                }
+                if(lastVisit.systolicBP == "" || !lastVisit.systolicBP || lastVisit.diastolicBP == "" || !lastVisit.diastolicBP)
+                    $('#lvBP').html("-");
                 else
-                    document.getElementById('lastVisit').style.display = "none";
+                    $('#lvBP').html(lastVisit.systolicBP + "/" + lastVisit.diastolicBP);
+                
+                if(lastVisit.bodyTemp == "" || !lastVisit.bodyTemp)
+                    $('#lvBT').html("-");
+                else
+                    $('#lvBT').html(lastVisit.bodyTemp + "°C");
+
+                if(lastVisit.pulseRate == "" || !lastVisit.pulseRate)
+                    $('#lvPR').html("-");
+                else
+                    $('#lvPR').html(lastVisit.pulseRate);
+                
+                if(lastVisit.respirationRate == "" || !lastVisit.respirationRate)
+                    $('#lvRR').html("-");
+                else
+                    $('#lvRR').html(lastVisit.respirationRate);
+
+                $('#lvReason').html(lastVisit.visitReason);
+
+                if(lastVisit.treatment == "" || !lastVisit.treatment)
+                    $('#lvTreatment').html("-");
+                else
+                    $('#lvTreatment').html(lastVisit.treatment);
+
+                if(lastVisit.diagnosis == "" || !lastVisit.diagnosis)
+                    $('#lvDiagnosis').html("-");
+                else
+                    $('#lvDiagnosis').html(lastVisit.diagnosis);
+
+                if(lastVisit.notes == "" || !lastVisit.notes)
+                    $('#lvNotes').html("-");
+                else
+                    $('#lvNotes').html(lastVisit.notes);
+
+                $('#lvStatus').html(lastVisit.status);
+
+                document.getElementById('lastVisit').style.display = "block";
+            }
+            else
+                document.getElementById('lastVisit').style.display = "none";
 
             // --------------------------------- STUDENT PROFILE ------------------------------
             $.get("/getStudentRecord", {studentID: studentID}, function(studentInfo){
@@ -1915,6 +1926,9 @@
 
                 weight = studentInfo.weight; 
                 height = studentInfo.height; 
+                birthday = studentInfo.birthday;
+                age = getAge(birthday);
+                sex = studentInfo.sex; 
                                 
                     $('#headerNameCollapse').html(studentID);
                     // Header
@@ -1944,10 +1958,8 @@
                     $('#visitBirthday').html(studentInfo.birthday);
                     //$('#visitNationality').html(studentInfo.nationality);
                     //$('#visitReligion').html(studentInfo.religion);
-                    $('#visitAge').html(studentInfo.age + " years old");
-                    age = studentInfo.age;
+                    $('#visitAge').html(age + " years old");
                     $('#visitSex').html(studentInfo.sex);
-                    sex = studentInfo.sex;
                     $('#visitAddress').html(studentInfo.address);
 
                     // contacts
@@ -1980,14 +1992,8 @@
             });
 
 
-            });
-            
-            
+        });
 
-        console.log(firstName);
-
-
-            
             // --------------------------------- FOR GROWTH MONITORING ------------------------------
             $.get("/getBMI", {studentID: studentID}, function(data){
                 

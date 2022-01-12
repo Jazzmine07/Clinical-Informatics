@@ -80,8 +80,8 @@
                     // put key value of forms 
                     formIds.push(notifs[i].formId);
                 }
-                console.log("formIds");
-                console.log(formIds);
+                //console.log("formIds");
+                //console.log(formIds);
 
                 $('#notifCount').text(count);
                 if (count == 0){
@@ -93,24 +93,28 @@
 
         $("#alertsDropdown").click(function(){
             let count = document.getElementById('notifCount');
-            count.remove();
+            if(count.length != 0){
+                count.remove();
+            }
             
-            var userID = $('#userID').val();
-            var classesNodeList = document.querySelectorAll(".formID");
-            var values = Array.prototype.map.call(classesNodeList, function(element) {
-                return element.value;
-            });
-            console.log("classesNodeList");
-            console.log(classesNodeList);
-            console.log("values");
-            console.log(values);
+            console.log("formIds");
+            console.log(formIds);
+            
+            //var userID = $('#userID').val();
+            //var classesNodeList = document.querySelectorAll(".formID");
+            //var values = Array.prototype.map.call(classesNodeList, function(element) {
+            //    return element.value;
+            //});
+            
+            //console.log("values");
+            //console.log(values);
 
             //$.ajax({
             //    url: '/updateNotif',
             //    method: 'POST',
             //    data: {
             //        userID: userID,
-            //        formIds: values
+            //        formIds: formIds
             //    },
             //    success: function(data) {
             //        console.log("success!");

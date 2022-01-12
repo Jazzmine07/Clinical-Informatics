@@ -559,7 +559,7 @@
                                                 <th class="bg-primary" style="color: white;">Conservative Estimate</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="forecastTable">
                                             <tr>
                                                 <td>Paracetamol Suspension 250mg/5mL</td>
                                                 <td style="text-align: center;">50</td>
@@ -698,14 +698,33 @@
     $(document).ready(function(){
         const now = new Date();
         var year = now.getFullYear();
-        var lastYear = now.getFullYear() - 1;
+        //var lastYear = now.getFullYear() - 1;
         var month = now.getMonth() + 1;
-        //var date = now.getDate();
-        var date = 29;
+        var date = now.getDate();
+        //var date = 8;
 
         console.log("year: " + year);
         console.log("month: " + month);
         console.log("date: " + date);
+
+        var schoolYear, schoolYearStart, schoolYearEnd;
+
+        if(month >= 6){
+            schoolYear = year + "-" + (year + 1);
+            schoolYearStart = year;
+            schoolYearEnd = year + 1;
+            lastYear = year - 1;
+        }
+        else{
+            schoolYear = (year - 1) + "-" + (year);
+            schoolYearStart = year - 1;
+            schoolYearEnd = year;
+            lastYear = year - 2;
+        }
+
+        var dateToday = new Date(year, month - 1, date);
+        console.log("today... " + dateToday);
+        console.log("last year... " + lastYear);
 
         //var monthDay = month;
         //monthDay += '-';
@@ -723,39 +742,59 @@
                 console.log("list of discrepancy in front end");
                 console.log(details);
 
-                //for(var i = 0; i < details.length; i++){
-                //    console.log("inside 1st for loop");
-                //    var [yearUpdated, monthUpdated, dayUpdated] = details[i].dateUpdated.split('-');
-                //    if(month == monthUpdated){
-                //        console.log("check me");
-                //        for(var j = 0; j < invetoryMedicine.length; j++){
-                //            if(invetoryMedicine[j].med == details[i].medicineName){
-                //                console.log("inside 2nd for loop");
-                //                console.log(details[i].medicineName);
-                //                console.log(parseInt(details[i].usedInventory));
+                var medYear = [], medMonth = [], medDay = [];
+                var curDates = [];
+                var medicineUsed = [];
 
-                //                var stringID = '#';
-                //                stringID += invetoryMedicine[j].medicineID;
+                temp = [];
+                for(i = 0; i < details.length; i++){
+                    temp.push(new Date(details[i].dateUpdated));
+                    //console.log("pushing...");
+                    //console.log(details[i].dateUpdated);
+                }
 
-                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
-                //                var row = $(stringID).closest("tr").next(".dtrg-end").css("color", "red");
-    
-                  //          }
-                            
-                   //     }
-                  //  }
-                //}
+                for(i = 0; i < details.length; i++){
+                    medYear.push(temp[i].getFullYear());
+                    medMonth.push(temp[i].getMonth());
+                    medDay.push(temp[i].getDate());
+                }
+                
+                for(i = 0; i < details.length; i++){
+                    if((medYear[i] == schoolYearStart && medMonth[i] >= 6) || (medYear[i] == schoolYearEnd && medMonth[i] <= 4)){ // filter all clinic visits from start of the school year
+                        curDates.push(new Date(medYear[i], medMonth[i], medDay[i]+1));
+                        //console.log(medYear[i]);
+                        //console.log(medMonth[i]);
+                        //console.log(medDay[i]);
+                        //console.log(curDates);
+                        medicineUsed.push({
+                            medicineName: details[i].medicineName,
+                            dateUpdated: details[i].dateUpdated,
+                            usedInventory: details[i].usedInventory
+                        });
+                    }
+                }
 
                 for(var i = 0; i < invetoryMedicine.length; i++){
                     var sum = 0; 
-                    for(var j = 0; j < details.length; j++){
-                        var [yearUpdated, monthUpdated, dayUpdated] = details[j].dateUpdated.split('-');
-                        if(lastYear == yearUpdated && month == monthUpdated){
-                            if(invetoryMedicine[i].med == details[j].medicineName){
-                                
-                                console.log(details[j].medicineName);
-                                console.log(parseInt(details[j].usedInventory));
-                                sum += parseInt(details[j].usedInventory);
+                    for(var j = 0; j < curDates.length; j++){
+                        //console.log("before split");
+                        var yearUpdated = curDates[j].getFullYear();
+                        var monthUpdated = curDates[j].getMonth();
+                        var dayUpdated = curDates[j].getDate() - 1;
+                        //console.log(yearUpdated);
+                        //console.log(monthUpdated);
+                        //console.log(dayUpdated);
+                        console.log(year + " " + yearUpdated);
+                        console.log(month + " " + monthUpdated + 1);
+                        if(year == yearUpdated && month == monthUpdated + 1){
+                            console.log("pasok if");
+                            console.log(invetoryMedicine[i].med);
+                            console.log(medicineUsed[j].medicineName);
+                            if(invetoryMedicine[i].med == medicineUsed[j].medicineName){
+                                console.log("pasok 2nd if");
+                                console.log(curDates[j].medicineName);
+                                console.log(parseInt(curDates[j].usedInventory));
+                                sum += parseInt(curDates[j].usedInventory);
                                 console.log("sum: " + sum);
 
                                 var total = sum;
@@ -781,6 +820,31 @@
                         }
                     }
                 }
+
+                //for(var i = 0; i < details.length; i++){
+                //    console.log("inside 1st for loop");
+                //    var [yearUpdated, monthUpdated, dayUpdated] = details[i].dateUpdated.split('-');
+                //    if(month == monthUpdated){
+                //        console.log("check me");
+                //        for(var j = 0; j < invetoryMedicine.length; j++){
+                //            if(invetoryMedicine[j].med == details[i].medicineName){
+                //                console.log("inside 2nd for loop");
+                //                console.log(details[i].medicineName);
+                //                console.log(parseInt(details[i].usedInventory));
+
+                //                var stringID = '#';
+                //                stringID += invetoryMedicine[j].medicineID;
+
+                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
+                //                var row = $(stringID).closest("tr").next(".dtrg-end").css("color", "red");
+    
+                  //          }
+                            
+                   //     }
+                  //  }
+                //}
+
+                
             });
 
         });

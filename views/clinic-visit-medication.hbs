@@ -778,9 +778,21 @@
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
     </script>
     <script>
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            console.log(today.getMonth() + " " + birthDate.getMonth());
+            console.log(today.getDate() + " " + birthDate.getDate());
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
 
         var notAllowedMedicines = [];
-        var weight, height, age, sex;
+        var weight, height, age, sex, birthday;
 
         $("#studentID").change(function(){
             var typedID = $('#studentID').val();
@@ -846,7 +858,8 @@
                 
                 weight = studentInfo.weight; 
                 height = studentInfo.height; 
-                age = studentInfo.age;
+                birthday = studentInfo.birthday;
+                age = getAge(birthday);
                 sex = studentInfo.sex;
 
                  //auto-fill form
@@ -889,6 +902,9 @@
                 
                 weight = studentInfo.weight; 
                 height = studentInfo.height; 
+                birthday = studentInfo.birthday;
+                age = getAge(birthday);
+                sex = studentInfo.sex;
 
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
@@ -935,10 +951,8 @@
                     $('#visitBirthday').html(studentInfo.birthday);
                     //$('#visitNationality').html(studentInfo.nationality);
                     //$('#visitReligion').html(studentInfo.religion);
-                    $('#visitAge').html(studentInfo.age + " years old");
-                    age = studentInfo.age;
+                    $('#visitAge').html(age + " years old");
                     $('#visitSex').html(studentInfo.sex);
-                    sex = studentInfo.sex;
                     $('#visitAddress').html(studentInfo.address);
 
                     // contacts

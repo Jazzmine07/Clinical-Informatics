@@ -476,6 +476,17 @@ router.get('/clinic-visit/incidence', (req, res) => {
   });
 });
 
+// Get clinic referral page
+router.get('/clinic-visit/referral', (req, res) => {
+  console.log("Read clinic visit referral successful!");
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('clinic-visit-referral', { 
+      user: result
+    })
+  });
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");
@@ -860,6 +871,30 @@ router.get('/promotive-care/program-form', (req, res) => {
       });
     } else {
       res.render('program-form', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  }) 
+});
+
+// Get attendance form page
+router.get('/promotive-care/attendance-form', (req, res) => {
+  console.log("Read attendance form successful!");
+  var prom1, prom2;
+  var user;
+  prom1 =  userController.getUser();
+
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    
+    if(user.role == "Nurse"){
+      res.render('attendance-form', {
+        user: user,
+        isNurse: true,
+      });
+    } else {
+      res.render('attendance-form', {
         user: user, 
         isNurse: false,
       });

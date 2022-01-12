@@ -956,81 +956,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            {{!-- <div class="form-row align-items-center">
-                                <div class="col-6">
-                                    <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
-                                    <select class="custom-select mb-2" id="prescribedBy" name="prescribedBy">
-                                        <option disabled="disabled" selected="true">Choose...</option>
-                                    {{#each prescribed}}
-                                        <option value="{{key}}"> {{firstName}} {{lastName}}</option>
-                                    {{/each}}
-                                    </select>  
-                                </div>   
-                                <div class="col-5" rowspan="2">
-                                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="errorMed">
-                                        <i class="fa fa-exclamation-circle"></i>
-                                        <strong class="mx-1">Interaction found: </strong><span id="interactionDiv"></span> 
-                                    </div>                               
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label class="col-form-label" for="medicationVisit">Medication</label>
-                                    <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
-                                        <option disabled="disabled" selected="true">Choose...</option>
-                                        {{#each medicines}}
-                                            <option value="{{name}}">{{medicine}}</option>   
-                                        {{/each}} 
-                                    </select>                                                                   
-                                </div>
-                                <div class="col-3">
-                                    <label class="col-form-label" for="amountMed">Dose</label>
-                                    <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <div id="validMedicaton" class="valid-feedback font-weight-bold"></div>
-                                    <div id="invalidMedicaton" class="invalid-feedback font-weight-bold"></div>                                    
-                                </div>
-                                <div class="col-4">
-                                    <div id="validAmount" class="valid-feedback font-weight-bold"></div>
-                                    <div id="invalidAmount" class="invalid-feedback font-weight-bold"></div>
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                    <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                    <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
-                                </div>
-                                <div class="col-3">
-                                    <label class="col-form-label" for="intervalMed">Interval</label>
-                                    <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
-                                </div>
-                            </div>
-                            <div class="form-row d-flex align-items-center">
-                                <div class="col-2 align-items-center">
-                                    <label class="col-form-label" for="startMed">Start Date</label>
-                                    <input type="date" class="form-control mb-2" id="startMed" name="startMed">
-                                </div>
-                                <div class="col-2 align-items-center">
-                                    <label class="col-form-label" for="endMed">End Date</label>
-                                    <input type="date" class="form-control mb-2" id="endMed" name="endMed">
-                                </div>
-                                <div class="col-2" style="margin-right: -115px;">
-                                    <div class="form-check align-items-center" style="padding-top: 35px;">
-                                        <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
-                                        <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
-                                    </div>
-                                </div>
-                                <div id="takenDiv" class="col-2 align-items-center" style="display:none">
-                                    <label class="col-form-label" for="timeTaken">Time</label>
-                                    <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
-                                </div> 
-                            </div> --}}
-                            
-                            <!-- <a href="#" id="addMedication" onclick="addMedication()">Fill Details</a> -->
                             <a class="btn btn-link"  id="addMedication"><i class="fas fa-plus-circle fa-plus-circle text-blue-50"></i> Add Medication</a>
                         
                             <!-- <div id="container"></div> -->
@@ -1177,8 +1102,21 @@
             event.currentTarget.className += " active";
         }
 
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            console.log(today.getMonth() + " " + birthDate.getMonth());
+            console.log(today.getDate() + " " + birthDate.getDate());
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
         var notAllowedMedicines = [];
-        var weight, height, age, sex;
+        var weight, height, age, sex, birthday;
 
         $("#studentID").change(function(){
             var typedID = $('#studentID').val();
@@ -1244,7 +1182,8 @@
                 
                 weight = studentInfo.weight; 
                 height = studentInfo.height; 
-                age = studentInfo.age;
+                birthday = studentInfo.birthday;
+                age = getAge(birthday);
                 sex = studentInfo.sex;
 
                  //auto-fill form
@@ -1288,6 +1227,9 @@
                 
                 weight = studentInfo.weight; 
                 height = studentInfo.height; 
+                birthday = studentInfo.birthday;
+                age = getAge(birthday);
+                sex = studentInfo.sex;
 
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
@@ -1334,10 +1276,8 @@
                     $('#visitBirthday').html(studentInfo.birthday);
                     //$('#visitNationality').html(studentInfo.nationality);
                     //$('#visitReligion').html(studentInfo.religion);
-                    $('#visitAge').html(studentInfo.age + " years old");
-                    age = studentInfo.age;
+                    $('#visitAge').html(age + " years old");
                     $('#visitSex').html(studentInfo.sex);
-                    sex = studentInfo.sex;
                     $('#visitAddress').html(studentInfo.address);
 
                     // contacts

@@ -55,6 +55,13 @@ exports.addAPE = function(req, res){
     var assess = req.body.assess;
     var normal = req.body.normal;
     var bmiStatus= req.body.bmiStatus;
+    var weightStatus= req.body.weightStatus;
+    var heightStatus= req.body.heightStatus;
+    var bodyTempStatus= req.body.bodyTempStatus;
+    var systolicStatus= req.body.systolicStatus;
+    var diastolicStatus= req.body.diastolicStatus;
+    var pulseRateStatus= req.body.pulseRateStatus;
+    var respRateStatus= req.body.respRateStatus;
     var w=weight;
     var h=weight;
     var b=bmi;
@@ -73,6 +80,7 @@ exports.addAPE = function(req, res){
         age:age,
         grade:grade,
         id: id,
+        section:section,
         name: name,
         apeDate: apeDate,
         clinician: clinician,
@@ -93,7 +101,14 @@ exports.addAPE = function(req, res){
         allergies: allergies,
         concern: concern,
         assess: assess,
-        bmiStatus:bmiStatus
+        bmiStatus:bmiStatus,
+        weightStatus: weightStatus,
+        heightStatus: heightStatus,
+        bodyTempStatus: bodyTempStatus,
+        systolicStatus: systolicStatus,
+        diastolicStatus: diastolicStatus,
+        pulseRateStatus: pulseRateStatus,
+        respRateStatus: respRateStatus
         // normal: normal
     }
 
@@ -1293,52 +1308,75 @@ exports.getAllSched=function(){
     var healthHistory= database.ref("studentHealthHistory");
     var i;
     var schedule=[];
+    var studentsAccomApe=[],studentsAccomAde=[];
+    var grade, done=false, sec;
     
     var promise = new Promise((resolve,reject)=> {
         sectionScheduleRef.child(sy).once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
-                var students=[], studentsAccomApe=[],studentsAccomAde=[];
-                var grade, done=false;
+                
                
                 if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
                     grade="1";
+                    sec=childValues.section;
                 }
                 else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
                     grade="2";
+                    sec=childValues.section;
                 }
                 else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
                     grade="3";
+                    sec=childValues.section;
                 }
                 else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
                     grade="4";
+                    sec=childValues.section;
                 }         
                 else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
                     grade="5";
+                    sec=childValues.section;
                 }
                 else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
                     grade="6";
+                    sec=childValues.section;
                 }
-
+        
                 if(done==false){
-                    for(i=0;i<students.length;i++){
-                        healthHistory.child(students[i].key).child("ape").on('value',(ss)=>{
-                            ss.forEach(function(cs){
-                                if(cs.key.toString() == sy){
-                                    studentsAccomApe.push(cs.key);
+                    healthHistory.once('value',(students)=>{
+                        students.forEach(function(student){
+                            student.child("ape").forEach(function(year){
+                                if(year.key==sy){
+                                    var apeData = year.exportVal();
+                                    if(apeData.section === sec){
+                                        console.log("ENTERS SECTION");
+                                        studentsAccomApe.push("1");
+                                    }
+                                    else{
+                                        if(sec=="Reliability"){
+                                            console.log("ENTERS ELSE");
+                                            console.log(apeData.section);
+                                            console.log(sec);
+                                        }
+                                    }
                                 }
                             })
-                        });
-                    };
-                    for(i=0;i<students.length;i++){
-                        healthHistory.child(students[i].key).child("ade").on('value',(ss)=>{
-                            ss.forEach(function(cs){
-                                if(cs.key.toString() == sy){
-                                    studentsAccomAde.push(cs.key);
+                        })
+                    })
+                    healthHistory.once('value',(students)=>{
+                        students.forEach(function(student){
+                            student.child("ade").forEach(function(year){
+                                if(year.key==sy){
+                                    var adeData = year.exportVal();
+                                    if(adeData.section==sec){
+                                        studentsAccomAde.push("1");
+                                    }
                                 }
                             })
-                        });
-                    };
+                        })
+                    })
+                    console.log("ACCOMPLISHED:");
+                    console.log(studentsAccomApe.length);
                     done=true;
                 }
 
@@ -1360,7 +1398,7 @@ exports.getAllSched=function(){
                     console.log(record);
                     schedule.push(record);
                 }
-
+                done=false;
             })
             resolve(schedule);
             reject(schedule);

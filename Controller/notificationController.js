@@ -26,8 +26,6 @@ exports.getNotifications = function(req, res){
                                 })
                             })
                             notifs.reverse();
-                            console.log("notifs in controller");
-                            console.log(notifs);
                             res.status(200).send(notifs);
                             //resolve(notifs);
                         } else {
@@ -44,14 +42,18 @@ exports.getNotifications = function(req, res){
 
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
+    console.log("user id in notif contoller");
+    console.log(userID);
+    console.log("formIds in notif contoller");
+    console.log(formIds);
     var database = firebase.database();
 
     if(formIds.length != 0){
-        var seen = {
-            seen: true
-        }
+        // var seen = {
+        //     seen: true
+        // }
         for(var i = 0; i < formIds.length; i++){
-            database.ref("notifications/"+userID+"/"+formIds[i]).update(seen);
+            database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
         }
     }
 

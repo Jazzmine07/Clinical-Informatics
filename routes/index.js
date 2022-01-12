@@ -116,25 +116,26 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-//router.get('/getNotification', notificationController.js.getNotifications);
+router.get('/getNotification', notificationController.getNotifications);
+
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   console.log("Read dashboard successful!");
-  var prom1,prom2,user,notifs;
-  var prom1 =  userController.getUser();
-  //studentController.getNotifications(user.key, notifs => {
-  
-  prom1.then(function(result){
-    user = result;
-  })
-  // prom2 = notificationController.getNotifications();
-  // prom2.then(function(result){
-  //   notifs = result;
-  // });
+  var prom1, prom2;
+  var user, notifs;
 
-  Promise.all([prom1,prom2]).then(result => {
+  prom1 = userController.getUser();
+  //prom2 = notificationController.getNotifications();
+
+  Promise.all([prom1]).then(result => {
     var i, count = 0, newNotifs;
     
+    user = result[0];
+    // notifs = result[1];
+
+    // console.log("notifs in index");
+    // console.log(notifs);
+
     // for(i = 0; i < notifs.length; i++){
     //   if(notifs[i].seen == false){
     //     count++; 
@@ -148,7 +149,6 @@ router.get('/dashboard', (req, res) => {
     // }
 
     if(user.role == "Nurse"){
-      // dashboard for nurse to be fixed
       res.render('dashboard', {
         isNurse: true,
         user: user,
@@ -157,7 +157,7 @@ router.get('/dashboard', (req, res) => {
     else {
       res.render('dashboard', { // nagsesend ng another response
         user: user,
-        notification: notifs,
+        //notification: notifs,
         count: count,
         newNotifs: newNotifs
       })

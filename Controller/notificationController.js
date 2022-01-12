@@ -12,7 +12,7 @@ exports.getNotifications = function(req, res){
                     var uid = user.uid;
                     var notifRef = database.ref("notifications/"+uid);
                             
-                    notifRef.orderByChild("timestamp").on('value', (snapshot) => {
+                    notifRef.orderByChild("timestamp").once('value', (snapshot) => {
                         if(snapshot.exists()){
                             snapshot.forEach(function(childSnapshot){
                                 childSnapshotData = childSnapshot.exportVal();

@@ -48,13 +48,13 @@
     $(document).ready(function() {
         var formIds = [];
 
-        //getNotification();
-        setInterval(function(){ getNotification(); }, 3000);
+        getNotification();
+        //setInterval(function(){ getNotification(); }, 3000);
 
         function getNotification() {
             $.get("/getNotification", function(notifs){
-                //console.log("notifs in front-end");
-                //console.log(notifs);
+                console.log("notifs in front-end");
+                console.log(notifs);
                 var i;
                 var count = 0;
                 
@@ -100,7 +100,7 @@
             console.log("formIds");
             console.log(formIds);
             
-            //var userID = $('#userID').val();
+            var userID = $('#userID').val();
             //var classesNodeList = document.querySelectorAll(".formID");
             //var values = Array.prototype.map.call(classesNodeList, function(element) {
             //    return element.value;
@@ -108,18 +108,19 @@
             
             //console.log("values");
             //console.log(values);
+            
 
-            //$.ajax({
-            //    url: '/updateNotif',
-            //    method: 'POST',
-            //    data: {
-            //        userID: userID,
-            //        formIds: formIds
-            //    },
-            //    success: function(data) {
-            //        console.log("success!");
-            //    }
-            //});
+            $.ajax({
+                url: '/updateNotif',
+                method: 'POST',
+                data: {
+                    userID: userID,
+                    formIds: formIds
+                },
+                success: function(data) {
+                    console.log("success!");
+                }
+            });
         });
 
         //$("#alertsDropdown").click(function(){

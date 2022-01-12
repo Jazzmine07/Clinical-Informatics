@@ -117,25 +117,24 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/getNotification', notificationController.getNotifications);
-
 // Get dashboard page
 router.get('/dashboard', (req, res) => {
   console.log("Read dashboard successful!");
-  var prom1, prom2;
-  var user, notifs;
+  var prom1,prom2,user,notifs;
+  var prom1 =  userController.getUser();
+  //studentController.getNotifications(user.key, notifs => {
+  
+  prom1.then(function(result){
+    user = result;
+  })
+  // prom2 = notificationController.getNotifications();
+  // prom2.then(function(result){
+  //   notifs = result;
+  // });
 
-  prom1 = userController.getUser();
-  //prom2 = notificationController.getNotifications();
-
-  Promise.all([prom1]).then(result => {
+  Promise.all([prom1,prom2]).then(result => {
     var i, count = 0, newNotifs;
     
-    user = result[0];
-    // notifs = result[1];
-
-    // console.log("notifs in index");
-    // console.log(notifs);
-
     // for(i = 0; i < notifs.length; i++){
     //   if(notifs[i].seen == false){
     //     count++; 
@@ -149,6 +148,7 @@ router.get('/dashboard', (req, res) => {
     // }
 
     if(user.role == "Nurse"){
+      // dashboard for nurse to be fixed
       res.render('dashboard', {
         isNurse: true,
         user: user,
@@ -157,7 +157,7 @@ router.get('/dashboard', (req, res) => {
     else {
       res.render('dashboard', { // nagsesend ng another response
         user: user,
-        //notification: notifs,
+        notification: notifs,
         count: count,
         newNotifs: newNotifs
       })
@@ -476,17 +476,6 @@ router.get('/clinic-visit/incidence', (req, res) => {
   });
 });
 
-// Get clinic referral page
-router.get('/clinic-visit/referral', (req, res) => {
-  console.log("Read clinic visit referral successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('clinic-visit-referral', { 
-      user: result
-    })
-  });
-});
-
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");
@@ -711,28 +700,23 @@ router.get('/inventory-medicine/add', (req, res) => {
 // Get supply inventory page
 router.get('/inventory-supply', (req, res) => {
   console.log("Read supply inventory successful!");
-  var prom1, prom2, prom3;
-  var user, supply, supplyDiscrepancy;
+  var prom1, prom2, user, supply;
   prom1 = userController.getUser();
-  prom2 = inventoryController.getSupplyInventory();
-  prom3 = inventoryController.getSupplyDiscrepancy();
+  prom2= inventoryController.getSupplyInventory();
  
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  Promise.all([prom1,prom2]).then(result => {
     user = result[0];
     supply = result[1];
-    supplyDiscrepancy = result[2];
-
     if(user.role == "Nurse"){
       res.render('inventory-supply', {
         user: user,
         isNurse: true,
-        supply: supply
+        inventory: supply
       });
     } else {
       res.render('inventory-supply', {
         user: user, 
         isNurse: false,
-        supplyDiscrepancy: supplyDiscrepancy
       });
     }
   }).catch(error => {
@@ -769,18 +753,14 @@ router.get('/inventory-supply/add', (req, res) => {
 // Get dental inventory page
 router.get('/inventory-dental', (req, res) => {
   console.log("Read dental successful!");
-  var prom1, prom2, prom3;
-  var user, dental, dentalDiscrepancy;
+  var prom1, prom2, user, dental;
 
   prom1 = userController.getUser();
   prom2 = inventoryController.getDentalInventory();
-  prom3 = inventoryController.getDentalDiscrepancy();
 
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  Promise.all([prom1,prom2]).then(result => {
     user = result[0];
     dental = result[1];
-    dentalDiscrepancy = result[2];
-    
     if(user.role == "Nurse"){
       res.render('inventory-dental', {
         user: user,
@@ -791,7 +771,6 @@ router.get('/inventory-dental', (req, res) => {
       res.render('inventory-dental', {
         user: user, 
         isNurse: false,
-        dentalDiscrepancy: dentalDiscrepancy
       });
     }
   }).catch(error => {
@@ -871,30 +850,6 @@ router.get('/promotive-care/program-form', (req, res) => {
       });
     } else {
       res.render('program-form', {
-        user: user, 
-        isNurse: false,
-      });
-    }
-  }) 
-});
-
-// Get attendance form page
-router.get('/promotive-care/attendance-form', (req, res) => {
-  console.log("Read attendance form successful!");
-  var prom1, prom2;
-  var user;
-  prom1 =  userController.getUser();
-
-  Promise.all([prom1]).then(result => {
-    user = result[0];
-    
-    if(user.role == "Nurse"){
-      res.render('attendance-form', {
-        user: user,
-        isNurse: true,
-      });
-    } else {
-      res.render('attendance-form', {
         user: user, 
         isNurse: false,
       });

@@ -477,17 +477,20 @@ exports.getVRCountByGradeInMonth=function(req,res){
     var today= new Date();
     var curr=today.toString();
     var monthToday = today.getMonth();
+    var yearToday = today.getFullYear();
     var from = req.body.from;
+    var getTop10Temp=[],getTop10Final=[],alreadyAdded;
 
     console.log("MARSHMALLOW");
-    databaseRef.once('value', (snapshot) => {
-        //this gets the clinicVisit data into the temp array
-        if(snapshot.hasChild("clinicVisit")){
-            query.on('value', (childSnapshot) => {
-                childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
-                    childSnapshotData = innerChildSnapshot.exportVal();
-                    checkVisitReason=childSnapshotData.visitReason.split(", ");
-                    for(i=0;i<checkVisitReason.length;i++){
+    clinicVisitRef.once('value', (snapshot) => {
+        snapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
+            childSnapshotData = innerChildSnapshot.exportVal();
+            checkVisitReason=childSnapshotData.visitReason.split(", ");
+            for(i=0;i<checkVisitReason.length;i++){
+                console.log(checkVisitReason);
+                if(checkVisitReason[i]!=""){
+                    partsDb =childSnapshotData.visitDate.split('-');
+                    if(partsDb[1]-1 == monthToday && partsDb[0]==yearToday){
                         temp.push({
                             visitReason:checkVisitReason[i],
                             visitDate:childSnapshotData.visitDate,
@@ -496,205 +499,265 @@ exports.getVRCountByGradeInMonth=function(req,res){
                             section:childSnapshotData.section
                         })
                     }
-                })
-                
-            })
-        }
-        console.log("temp:");
+                }
+            }
+        })
+
+        if(temp.length>0){
+            console.log("temp:");
         console.log(temp);
+        
+        for(i=0;i<temp.length;i++){
+            alreadyAdded=0;
+            if(getTop10Temp.length==0){
+                getTop10Temp.push({
+                    visitReason:temp[i].visitReason,
+                    count:1
+                })
+            }
+            else{
+                for(j=0;j<getTop10Temp.length;j++){
+                    if(temp[i].visitReason.toLowerCase() == getTop10Temp[j].visitReason.toLowerCase()){
+                        getTop10Temp[j].count= getTop10Temp[j].count+1;
+                        alreadyAdded=1;
+                    }
+                }
+                if(alreadyAdded!=1){
+                    if(temp[i].visitReason!=""){
+                        getTop10Temp.push({
+                            visitReason: temp[i].visitReason,
+                            count:1
+                        })
+                    }
+                }
+            }
+                
+        }
+        
+        //to sort in descending order
+        getTop10Temp=getTop10Temp.sort(function (x, y) {
+            return y.count- x.count;
+        });
+        console.log(getTop10Temp);
+
+        //to get only the top 10 
+        if(getTop10Temp.lenth<=10){
+            getTop10Final=getTop10Temp;
+        }
+        else{
+            for(i=0;i<10;i++){
+                getTop10Final.push({
+                    visitReason: getTop10Temp[i].visitReason,
+                    count:getTop10Temp[i].count
+                })
+            }
+        }
+        console.log(getTop10Final);
+        
+        
         //temp where data is filtered by date and gets the count of each disease
         for(i=0;i<temp.length;i++){
-            if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
-                partsDb=temp[i].visitDate.split('-');
-            alreadyAddedTemp2=0;
-            alreadyAddedTemp3=0;
-            if(partsDb[1]-1 == monthToday){
-                // temp2.push(temp[i]);
-                if(temp3==null){ //if empty auto add
-                    if(temp[i].visitReason!=""){
-                        // temp2.push({
-                        //     concern: temp[i].visitReason,
-                        //     count:1
-                        // })
-
-                        if(temp[i].grade=="1"){
-                           temp3.push({
-                               concern: temp[i].visitReason,
-                               g1:1,
-                               g2:0,
-                               g3:0,
-                               g4:0,
-                               g5:0,
-                               g6:0
-                           })
+            if(temp[i].visitReason!=undefined && temp[i].visitReason!=""){
+                if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                    alreadyAddedTemp2=0;
+                    alreadyAddedTemp3=0;       
+                    if(temp3.length==0){
+                        if(temp[i].visitReason!=""){
+                            for(j=0;j<getTop10Final.length;j++){
+                                if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
+                                    if(temp[i].grade=="1"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:1,
+                                            g2:0,
+                                            g3:0,
+                                            g4:0,
+                                            g5:0,
+                                            g6:0
+                                        })
+                                    }
+                                    else if(temp[i].grade=="2"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:0,
+                                            g2:1,
+                                            g3:0,
+                                            g4:0,
+                                            g5:0,
+                                            g6:0
+                                        })
+                                    } 
+                                    else if(temp[i].grade=="3"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:0,
+                                            g2:0,
+                                            g3:1,
+                                            g4:0,
+                                            g5:0,
+                                            g6:0
+                                        })
+                                    }
+                                    else if(temp[i].grade=="4"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:0,
+                                            g2:0,
+                                            g3:0,
+                                            g4:1,
+                                            g5:0,
+                                            g6:0
+                                        })
+                                    }
+                                    else if(temp[i].grade=="5"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:0,
+                                            g2:0,
+                                            g3:0,
+                                            g4:0,
+                                            g5:1,
+                                            g6:0
+                                        })
+                                    }
+                                    else if(temp[i].grade=="6"){
+                                        temp3.push({
+                                            concern: temp[i].visitReason,
+                                            g1:0,
+                                            g2:0,
+                                            g3:0,
+                                            g4:0,
+                                            g5:0,
+                                            g6:1
+                                        })
+                                    }
+                                }
+                            }
                         }
-                        else if(temp[i].grade=="2"){
-                            temp3.push({
-                                concern: temp[i].visitReason,
-                                g1:0,
-                                g2:1,
-                                g3:0,
-                                g4:0,
-                                g5:0,
-                                g6:0
-                            })
-                        } 
-                        if(temp[i].grade=="3"){
-                            temp3.push({
-                                concern: temp[i].visitReason,
-                                g1:0,
-                                g2:0,
-                                g3:1,
-                                g4:0,
-                                g5:0,
-                                g6:0
-                            })
+                    }
+                    else{
+                        console.log(temp[i].visitReason);
+                        for(k=0;k<temp3.length;k++){
+                            if(temp3[k].concern!="" && temp3[k].concern!=undefined){
+                                for(j=0;j<getTop10Final.length;j++){
+                                    if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
+                                        if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
+                                            if(temp[i].grade=="1"){
+                                                temp3[k].g1=temp3[k].g1+1;
+                                            }
+                                            else if(temp[i].grade=="2"){
+                                                temp3[k].g2=temp3[k].g2+1;
+                                            }
+                                            else if(temp[i].grade=="3"){
+                                                temp3[k].g3=temp3[k].g3+1;
+                                            }
+                                            else if(temp[i].grade=="4"){
+                                                temp3[k].g4=temp3[k].g4+1;
+                                            }
+                                            else if(temp[i].grade=="5"){
+                                                temp3[k].g5=temp3[k].g5+1;
+                                            }
+                                            else if(temp[i].grade=="6"){
+                                                temp3[k].g6=temp3[k].g6+1;
+                                            }                        
+                                            alreadyAddedTemp3=1;
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        if(temp[i].grade=="4"){
-                            temp3.push({
-                                concern: temp[i].visitReason,
-                                g1:0,
-                                g2:0,
-                                g3:0,
-                                g4:1,
-                                g5:0,
-                                g6:0
-                            })
-                        }
-                        if(temp[i].grade=="5"){
-                            temp3.push({
-                                concern: temp[i].visitReason,
-                                g1:0,
-                                g2:0,
-                                g3:0,
-                                g4:0,
-                                g5:1,
-                                g6:0
-                            })
-                        }
-                        if(temp[i].grade=="6"){
-                            temp3.push({
-                                concern: temp[i].visitReason,
-                                g1:0,
-                                g2:0,
-                                g3:0,
-                                g4:0,
-                                g5:0,
-                                g6:1
-                            })
+                        if(alreadyAddedTemp3!=1){
+                            for(j=0;j<getTop10Final.length;j++){
+                                if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
+                                    if(temp[i].visitReason!=""){    
+                                        if(temp[i].grade=="1"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:1,
+                                                g2:0,
+                                                g3:0,
+                                                g4:0,
+                                                g5:0,
+                                                g6:0
+                                            })
+                                        }
+                                        else if(temp[i].grade=="2"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:0,
+                                                g2:1,
+                                                g3:0,
+                                                g4:0,
+                                                g5:0,
+                                                g6:0
+                                            })
+                                        } 
+                                        else if(temp[i].grade=="3"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:0,
+                                                g2:0,
+                                                g3:1,
+                                                g4:0,
+                                                g5:0,
+                                                g6:0
+                                            })
+                                        }
+                                        else if(temp[i].grade=="4"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:0,
+                                                g2:0,
+                                                g3:0,
+                                                g4:1,
+                                                g5:0,
+                                                g6:0
+                                            })
+                                        }
+                                        else if(temp[i].grade=="5"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:0,
+                                                g2:0,
+                                                g3:0,
+                                                g4:0,
+                                                g5:1,
+                                                g6:0
+                                            })
+                                        }
+                                        else if(temp[i].grade=="6"){
+                                            temp3.push({
+                                                concern: temp[i].visitReason,
+                                                g1:0,
+                                                g2:0,
+                                                g3:0,
+                                                g4:0,
+                                                g5:0,
+                                                g6:1
+                                            })
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            
                         }
                     }
                 }
-                else{ //if not empty
-
-                    for(k=0;k<temp3.length;k++){
-                        if(temp3[k].concern!="" && temp[i].visitReason!="" && temp3[k].concern!=undefined && temp[i].visitReason!=undefined){
-                            if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
-                                if(temp[i].grade=="1"){
-                                    temp3[k].g1=temp3[k].g1+1;
-                                }
-                                else if(temp[i].grade=="2"){
-                                    temp3[k].g2=temp3[k].g2+1;
-                                }
-                                else if(temp[i].grade=="3"){
-                                    temp3[k].g3=temp3[k].g3+1;
-                                }
-                                else if(temp[i].grade=="4"){
-                                    temp3[k].g4=temp3[k].g4+1;
-                                }
-                                else if(temp[i].grade=="5"){
-                                    temp3[k].g5=temp3[k].g5+1;
-                                }
-                                else if(temp[i].grade=="6"){
-                                    temp3[k].g6=temp3[k].g6+1;
-                                }                        
-                                alreadyAddedTemp3=1;
-                            }
-                        }
-                        
-                    }
-                    if(alreadyAddedTemp3!=1){
-                        if(temp[i].visitReason!=""){    
-                            if(temp[i].grade=="1"){
-                               temp3.push({
-                                   concern: temp[i].visitReason,
-                                   g1:1,
-                                   g2:0,
-                                   g3:0,
-                                   g4:0,
-                                   g5:0,
-                                   g6:0
-                               })
-                            }
-                            else if(temp[i].grade=="2"){
-                                temp3.push({
-                                    concern: temp[i].visitReason,
-                                    g1:0,
-                                    g2:1,
-                                    g3:0,
-                                    g4:0,
-                                    g5:0,
-                                    g6:0
-                                })
-                            } 
-                            if(temp[i].grade=="3"){
-                                temp3.push({
-                                    concern: temp[i].visitReason,
-                                    g1:0,
-                                    g2:0,
-                                    g3:1,
-                                    g4:0,
-                                    g5:0,
-                                    g6:0
-                                })
-                            }
-                            if(temp[i].grade=="4"){
-                                temp3.push({
-                                    concern: temp[i].visitReason,
-                                    g1:0,
-                                    g2:0,
-                                    g3:0,
-                                    g4:1,
-                                    g5:0,
-                                    g6:0
-                                })
-                            }
-                            if(temp[i].grade=="5"){
-                                temp3.push({
-                                    concern: temp[i].visitReason,
-                                    g1:0,
-                                    g2:0,
-                                    g3:0,
-                                    g4:0,
-                                    g5:1,
-                                    g6:0
-                                })
-                            }
-                            if(temp[i].grade=="6"){
-                                temp3.push({
-                                    concern: temp[i].visitReason,
-                                    g1:0,
-                                    g2:0,
-                                    g3:0,
-                                    g4:0,
-                                    g5:0,
-                                    g6:1
-                                })
-                            }
-                        }
-                    }
-
-                    
-
-                }
             }
-            }
+
+            
             
         }
+        
         temp3.push(temp);
+
+
         console.log("getDiseaseCount array");
         console.log(temp3);
         console.log("MINT");
+        }
+        
         if(from=="dashboard"){
             res.send(temp3);
         }
@@ -702,8 +765,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
             return temp3;
         }
 
-    })
-    
+    })    
 }
 //returns the disease and visitReason with the dates and filtered by specified date (used in Disease Surveillance)
 exports.getDiseaseTrendCount= function(req,res){

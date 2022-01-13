@@ -782,15 +782,15 @@ exports.addSchedule=function(req,res){
     g6=req.body.g6;
     schoolYear=req.body.schoolYear;
     
-    console.log("entered addSchedule function in studentController");
-    console.log(schedules);
-    console.log(g1);
-    console.log(g2);
-    console.log(g3);
-    console.log(g4);
-    console.log(g5);
-    console.log(g6);
-    console.log(schoolYear);
+    // console.log("entered addSchedule function in studentController");
+    // console.log(schedules);
+    // console.log(g1);
+    // console.log(g2);
+    // console.log(g3);
+    // console.log(g4);
+    // console.log(g5);
+    // console.log(g6);
+    // console.log(schoolYear);
 
     sectionScheduleRef.once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
@@ -829,23 +829,22 @@ exports.addSchedule=function(req,res){
     sectionScheduleRef.child(schoolYear).once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
             var childValues = childSnapshot.exportVal();
-            students=[];
             studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
                 if(ss.exists()){
                     ss.forEach(function(cs){
                         var values= cs.exportVal();
+                        console.log(values.section);
                         students.push({
                             key: cs.key,
                             section:values.section
                         });
                     })
                 }
+                sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
+                students=[];
             });
-            console.log(schoolYear);
-            console.log(childValues.section);
-            console.log(students.length);
-            sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
-            
+            sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set("0");
+            sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set("0");
         })
     })
 
@@ -1540,7 +1539,7 @@ exports.getAllSched=function(){
                     adeTime:childValues.dentalTime,
                     adeSeen:childValues.adeSeen,
                 }
-                console.log(record);
+                //console.log(record);
                 schedule.push(record);
 
             })

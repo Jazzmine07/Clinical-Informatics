@@ -28,6 +28,14 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#usedSupplyTable').DataTable();
+});
+
+$(document).ready(function() {
+  $('#usedDentalTable').DataTable();
+});
+
+$(document).ready(function() {
   //$('#medicineTable').DataTable();
   $('#medicineTable').DataTable({
     paging: false,

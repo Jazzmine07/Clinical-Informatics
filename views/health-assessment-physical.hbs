@@ -1278,124 +1278,6 @@
                 }
                 document.getElementById("age").value=ageYear;
             })
-    
-            $("#weight").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                console.log(h);
-                if(!h==null || !h==""){
-                    var b= w/(h*h);
-                    var sId = $('#studentID').val();
-                    var dob = $('#dob').val(); 
-                    var a = $('#age').val(); 
-                    var g = $('#gender').val(); 
-                    var apeDate =  $('#dope').val(); 
-                    document.getElementById("bmi").value=b.toFixed(2);
-                    var bmiVal=$('#bmi').val();
-
-                    $.ajax({
-                    url: '/getBmiStatus',
-                    method: 'POST',
-                    data: {
-                        id:sId,
-                        dob:dob,
-                        age:a,
-                        sex:g,
-                        dateAPE:apeDate,
-                        bmi:bmiVal
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        computedBmiStatus=data;
-                        //document.getElementById("bmiStatus").innerHTML = data;
-                        if(data == "Normal weight"){
-                            console.log("weight if");
-                            $("#bmi").removeClass("is-invalid");
-                            $("#bmi").addClass("is-valid");
-                            document.getElementById('notNormalWeightBMI').style.display = "none";
-                            document.getElementById('normalWeightBMI').style.display = "block";                            
-                        }
-                        else if(data == "UnderWeight" || data == "OverWeight" || data == "Obese"){
-                            console.log("weight else");
-                            $("#bmi").removeClass("is-valid");
-                            $("#bmi").addClass("is-invalid");
-                            document.getElementById("notNormalWeightBMI").innerHTML = data;
-                            //$('#notNormalWeightBMI').html(data);
-                            document.getElementById('normalWeightBMI').style.display = "none";
-                            document.getElementById('notNormalWeightBMI').style.display = "block";
-                        }
-                        else{
-                            $("#bmi").removeClass("is-valid");
-                            $("#bmi").removeClass("is-invalid");
-                            document.getElementById('normalWeightBMI').style.display = "none";
-                            document.getElementById('notNormalWeightBMI').style.display = "none";
-                        }
-                    }
-                });
-
-
-                    //$.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
-                    //   console.log(data)
-                    //})
-                }
-            });
-
-            $("#height").change(function(){
-                var w = $("#weight").val();
-                var h= $("#height").val()/100;
-                console.log(w);
-                if(!w==null || !w==""){
-                    var b= w/(h*h);
-                    var sId = $('#studentID').val();
-                    var dob = $('#dob').val(); 
-                    var a = $('#age').val(); 
-                    var g = $('#gender').val(); 
-                    var apeDate =  $('#dope').val(); 
-                    document.getElementById("bmi").value=b.toFixed(2);
-                    var bmiVal=$('#bmi').val();
-
-                    $.ajax({
-                        url: '/getBmiStatus',
-                        method: 'POST',
-                        data: {
-                            id:sId,
-                            dob:dob,
-                            age:a,
-                            sex:g,
-                            dateAPE:apeDate,
-                            bmi:bmiVal
-                        },
-                        success: function(data) {
-                            console.log(data);
-                            computedBmiStatus=data;
-                            //document.getElementById("bmiStatus").innerHTML = data;
-                            if(data == "Normal weight"){
-                                console.log("height if");
-                                $("#bmi").removeClass("is-invalid");
-                                $("#bmi").addClass("is-valid");
-                                document.getElementById('notNormalWeightBMI').style.display = "none";
-                                document.getElementById('normalWeightBMI').style.display = "block";                            
-                            }
-                            else if(data == "UnderWeight" || data == "OverWeight" || data == "Obese"){
-                                console.log("height else");
-                                $("#bmi").removeClass("is-valid");
-                                $("#bmi").addClass("is-invalid");
-                                document.getElementById("notNormalWeightBMI").innerHTML = data;
-                                //$('#notNormalWeightBMI').html(data);
-                                document.getElementById('normalWeightBMI').style.display = "none";
-                                document.getElementById('notNormalWeightBMI').style.display = "block";
-                            }
-                            else{
-                                $("#bmi").removeClass("is-valid");
-                                $("#bmi").removeClass("is-invalid");
-                                document.getElementById('normalWeightBMI').style.display = "none";
-                                document.getElementById('notNormalWeightBMI').style.display = "none";
-                            }
-                        }
-                    });
-
-                }
-            });
 
             $("#prevBtn").click(function(){
                 localStorage.setItem("schoolYear",schoolYear);
@@ -1498,6 +1380,67 @@
                     weightStatus = "Overweight";
                     console.log("overweight!!");
                 }
+                
+                var w = $("#weight").val();
+                var h= $("#height").val()/100;
+                if(!h==null || !h==""){
+                    var b= w/(h*h);
+                    var sId = $('#studentID').val();
+                    var dob = $('#dob').val(); 
+                    var a = $('#age').val(); 
+                    var g = $('#gender').val(); 
+                    var apeDate =  $('#dope').val(); 
+                    document.getElementById("bmi").value=b.toFixed(2);
+                    var bmiVal=$('#bmi').val();
+
+                    $.ajax({
+                    url: '/getBmiStatus',
+                    method: 'POST',
+                    data: {
+                        id:sId,
+                        dob:dob,
+                        age:a,
+                        sex:g,
+                        dateAPE:apeDate,
+                        bmi:bmiVal
+                    },
+                    success: function(data) {
+                        console.log("BMI STATUS")
+                        console.log(data);
+                        computedBmiStatus=data;
+                        document.getElementById("bmiStatus").innerHTML = data;
+                        if(data == "Normal weight"){
+                            console.log("weight if");
+                            $("#bmi").removeClass("is-invalid");
+                            $("#bmi").addClass("is-valid");
+                            document.getElementById('notNormalWeightBMI').style.display = "none";
+                            document.getElementById('normalWeightBMI').style.display = "block";                            
+                        }
+                        else if(data == "UnderWeight" || data == "OverWeight" || data == "Obese"){
+                            console.log("weight else");
+                            $("#bmi").removeClass("is-valid");
+                            $("#bmi").addClass("is-invalid");
+                            document.getElementById("notNormalWeightBMI").innerHTML = data;
+                            //$('#notNormalWeightBMI').html(data);
+                            document.getElementById('normalWeightBMI').style.display = "none";
+                            document.getElementById('notNormalWeightBMI').style.display = "block";
+                        }
+                        else{
+                            $("#bmi").removeClass("is-valid");
+                            $("#bmi").removeClass("is-invalid");
+                            document.getElementById('normalWeightBMI').style.display = "none";
+                            document.getElementById('notNormalWeightBMI').style.display = "none";
+                        }
+                    }
+                });
+
+
+                    //$.post("/getBmiStatus",{id:id,dob:dob,age:age,sex:gender,dataAPE:dateAPE,bmi:bmiVal}function(data){
+                    //   console.log(data)
+                    //})
+                }
+
+
             });
 
             var heightStatus = "";
@@ -1735,6 +1678,62 @@
                         }
                     }
                 //});
+                var w = $("#weight").val();
+                var h= $("#height").val()/100;
+                console.log(w);
+                if(!w==null || !w==""){
+                    var b= w/(h*h);
+                    var sId = $('#studentID').val();
+                    var dob = $('#dob').val(); 
+                    var a = $('#age').val(); 
+                    var g = $('#gender').val(); 
+                    var apeDate =  $('#dope').val(); 
+                    document.getElementById("bmi").value=b.toFixed(2);
+                    var bmiVal=$('#bmi').val();
+
+                    $.ajax({
+                        url: '/getBmiStatus',
+                        method: 'POST',
+                        data: {
+                            id:sId,
+                            dob:dob,
+                            age:a,
+                            sex:g,
+                            dateAPE:apeDate,
+                            bmi:bmiVal
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            computedBmiStatus=data;
+                            document.getElementById("bmiStatus").innerHTML = data;
+                            if(data == "Normal weight"){
+                                console.log("height if");
+                                $("#bmi").removeClass("is-invalid");
+                                $("#bmi").addClass("is-valid");
+                                document.getElementById('notNormalWeightBMI').style.display = "none";
+                                document.getElementById('normalWeightBMI').style.display = "block";                            
+                            }
+                            else if(data == "UnderWeight" || data == "OverWeight" || data == "Obese"){
+                                console.log("height else");
+                                $("#bmi").removeClass("is-valid");
+                                $("#bmi").addClass("is-invalid");
+                                document.getElementById("notNormalWeightBMI").innerHTML = data;
+                                //$('#notNormalWeightBMI').html(data);
+                                document.getElementById('normalWeightBMI').style.display = "none";
+                                document.getElementById('notNormalWeightBMI').style.display = "block";
+                            }
+                            else{
+                                $("#bmi").removeClass("is-valid");
+                                $("#bmi").removeClass("is-invalid");
+                                document.getElementById('normalWeightBMI').style.display = "none";
+                                document.getElementById('notNormalWeightBMI').style.display = "none";
+                            }
+                        }
+                    });
+
+                }
+
+
             });
 
             var bodyTempStatus = "";

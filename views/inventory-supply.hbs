@@ -539,14 +539,17 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Supply Inventory</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Supply Discrepancy</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="supplyTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
                                             <th class="bg-primary" style="color: white;">Supply</th>
+                                            <th class="bg-primary" style="color: white;">Current Inventory</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
                                             <th class="bg-primary" style="color: white;">Date Recorded</th>
                                             <th class="bg-primary" style="color: white;">Discrepancy</th>
                                         </tr>
@@ -554,7 +557,10 @@
                                     <tbody>
                                         {{#each supplyDiscrepancy}}
                                             <tr id="{{supplyID}}">
+                                                <td>{{batchNum}}</td>
                                                 <td>{{supplyName}}</td>
+                                                <td>{{currInventory}}</td>
+                                                <td>{{unit}}</td>
                                                 <td>{{formatDate dateUpdated}}</td>
                                                 <td>{{discrepancy}}</td>
                                             </tr>

@@ -374,6 +374,7 @@ exports.getUsedMedicineToday = function(){
                             medicineID: childSnapshotData.medicineID,
                             batchNum: childSnapshotData.batchNum,
                             medicineName: childSnapshotData.medicineName,
+                            dateUpdated: childSnapshotData.dateUpdated,
                             usedInventory: childSnapshotData.usedInventory,
                             unit: childSnapshotData.unit,
                         })
@@ -381,10 +382,10 @@ exports.getUsedMedicineToday = function(){
 
                     await temp.forEach(inventory => {
                         var found = false;
-                        databaseRef.child("medicineInventory").child(inventory.medicineID).on('value', (snapshot) => {
+                        databaseRef.child("medicineInventory").child(inventory.medicineID).once('value', (snapshot) => {
                             currInventory = snapshot.child("quantity").val();
                             for(i = 0; i < filtered.length; i++){
-                                if(inventory.batchNum == filtered[i].batchNum && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and batch number
+                                if(inventory.batchNum == filtered[i].batchNum && inventory.medicineName == filtered[i].medicineName && inventory.dateUpdated == filtered[i].dateUpdated){   // filters if same medicine name and batch number
                                     found = true;
                                     filtered[i].usedInventory += inventory.usedInventory;
                                     break;
@@ -395,6 +396,7 @@ exports.getUsedMedicineToday = function(){
                                     medicineID: inventory.medicineID,
                                     batchNum: inventory.batchNum,
                                     medicineName: inventory.medicineName,
+                                    dateUpdated: inventory.dateUpdated,
                                     currInventory: currInventory,
                                     usedInventory: inventory.usedInventory,
                                     unit: inventory.unit,
@@ -538,42 +540,52 @@ exports.updateSupplyInventory = function(req, res){
 
 // get all supply discrepancy 
 exports.getSupplyDiscrepancy = function(){
-    var data, i, temp = [], filtered = [];
+    var data, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
     var inventoryRef = database.ref("discrepancySupply");
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
 
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("discrepancySupply")){
-                inventoryRef.once('value', (childSnapshot) => { 
+                inventoryRef.orderByChild('dateUpdated').equalTo(date).once('value', (childSnapshot) => { 
                     childSnapshot.forEach(function(innerChildSnapshot){ 
                         data = innerChildSnapshot.exportVal();
                         temp.push({
                             supplyID: data.supplyID,
+                            batchNum: data.batchNum,
                             supplyName: data.supplyName,
                             dateUpdated: data.dateUpdated,
                             discrepancy: data.discrepancy,
+                            unit: data.unit,
                         })
                     })
 
                     temp.forEach(inventory => {
                         var found = false;
-                        for(i = 0; i < filtered.length; i++){
-                            if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.supplyName == filtered[i].supplyName){   // filters if same medicine name and same date
-                                found = true;
-                                filtered[i].discrepancy+=inventory.discrepancy;
-                                break;
-                            } 
-                        }
-                        if(!found){
-                            filtered.push({
-                                supplyID: inventory.supplyID,
-                                supplyName: inventory.supplyName,
-                                dateUpdated: inventory.dateUpdated,
-                                discrepancy: inventory.discrepancy,
-                            })
-                        }    
+                        databaseRef.child("supplyInventory").child(inventory.supplyID).once('value', (snapshot) => {
+                            currInventory = snapshot.child("quantity").val();
+                            for(i = 0; i < filtered.length; i++){
+                                if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.supplyName == filtered[i].supplyName && inventory.batchNum == filtered[i].batchNum){   // filters if same medicine name and same date
+                                    found = true;
+                                    filtered[i].discrepancy+=inventory.discrepancy;
+                                    break;
+                                } 
+                            }
+                            if(!found){
+                                filtered.push({
+                                    supplyID: inventory.supplyID,
+                                    batchNum: inventory.batchNum,
+                                    supplyName: inventory.supplyName,
+                                    dateUpdated: inventory.dateUpdated,
+                                    currInventory: currInventory,
+                                    discrepancy: inventory.discrepancy,
+                                    unit: inventory.unit,
+                                })
+                            }  
+                        })  
                     })
                     resolve(filtered);
                 })
@@ -713,42 +725,52 @@ exports.updateDentalInventory = function(req, res){
 
 // get all dental discrepancy 
 exports.getDentalDiscrepancy = function(){
-    var data, i, temp = [], filtered = [];
+    var data, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
     var databaseRef = database.ref();
     var inventoryRef = database.ref("discrepancyDental");
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(); 
 
     var promise = new Promise((resolve, reject)=>{
         databaseRef.once('value', (snapshot) => {
             if(snapshot.hasChild("discrepancyDental")){
-                inventoryRef.once('value', (childSnapshot) => { 
+                inventoryRef.orderByChild('dateUpdated').equalTo(date).once('value', (childSnapshot) => { 
                     childSnapshot.forEach(function(innerChildSnapshot){ 
                         data = innerChildSnapshot.exportVal();
                         temp.push({
                             dentalID: data.dentalID,
+                            batchNum: data.batchNum,
                             dentalName: data.dentalName,
                             dateUpdated: data.dateUpdated,
                             discrepancy: data.discrepancy,
+                            unit: data.unit,
                         })
                     })
 
                     temp.forEach(inventory => {
                         var found = false;
-                        for(i = 0; i < filtered.length; i++){
-                            if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.dentalName == filtered[i].dentalName){   // filters if same medicine name and same date
-                                found = true;
-                                filtered[i].discrepancy+=inventory.discrepancy;
-                                break;
-                            } 
-                        }
-                        if(!found){
-                            filtered.push({
-                                dentalID: inventory.dentalID,
-                                dentalName: inventory.dentalName,
-                                dateUpdated: inventory.dateUpdated,
-                                discrepancy: inventory.discrepancy,
-                            })
-                        }    
+                        databaseRef.child("dentalInventory").child(inventory.dentalID).once('value', (snapshot) => {
+                            currInventory = snapshot.child("quantity").val();
+                            for(i = 0; i < filtered.length; i++){
+                                if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.dentalName == filtered[i].dentalName && inventory.batchNum == filtered[i].batchNum){   // filters if same medicine name and same date
+                                    found = true;
+                                    filtered[i].discrepancy+=inventory.discrepancy;
+                                    break;
+                                } 
+                            }
+                            if(!found){
+                                filtered.push({
+                                    dentalID: inventory.dentalID,
+                                    batchNum: inventory.batchNum,
+                                    dentalName: inventory.dentalName,
+                                    dateUpdated: inventory.dateUpdated,
+                                    currInventory: currInventory,
+                                    discrepancy: inventory.discrepancy,
+                                    unit: inventory.unit,
+                                })
+                            }  
+                        })   
                     })
                     resolve(filtered);
                 })

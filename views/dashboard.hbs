@@ -681,7 +681,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Complaints for ' + currentMonth + ' ' + currYear + ' by Grade Level',
+                            text: 'Top 10 Complaints for ' + currentMonth + ' ' + currYear + ' by Grade Level',
                             font: {
                                 size: 25   // font size of the labels
                             },
@@ -839,7 +839,7 @@
                             console.log(sectionsCount);
                             stackedBarChart.config.data = sectionData;
                             stackedBarChart.config.options.plugins.datalabels.color = labelColor;
-                            stackedBarChart.config.options.plugins.title.text = 'Complaints for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
+                            stackedBarChart.config.options.plugins.title.text = 'Top 10 Complaints for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
                             stackedBarChart.config.options.plugins.legend.display = false;
                             stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                         }

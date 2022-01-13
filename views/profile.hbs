@@ -2120,7 +2120,7 @@
                 else if(data.firstName == null){ // if data is null so meaning no student with that id number
                     //console.log(data);
                     //console.log(data.error_msg);
-                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>' + data.error_msg);
+                    $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error! No student with that ID number!</strong>');
                     document.getElementById('studentInfoDiv').style.display = "none";                     
                     document.getElementById('errorDiv').style.display = "block";
                 } 

@@ -601,6 +601,7 @@
                                             <th class="bg-primary" style="color: white;">Medicine</th>
                                             <th class="bg-primary" style="color: white;">Current Inventory</th>
                                             <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Date Recorded</th>
                                             <th class="bg-primary" style="color: white;">Discrepancy</th>
                                         </tr>
                                     </thead>
@@ -611,6 +612,7 @@
                                                 <td>{{medicineName}}</td>
                                                 <td>{{currInventory}}</td>
                                                 <td>{{unit}}</td>
+                                                <td>{{formatDate dateUpdated}}</td>
                                                 <td>{{usedInventory}}</td>
                                             </tr>
                                         {{/each}}

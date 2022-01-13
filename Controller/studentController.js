@@ -66,14 +66,19 @@ exports.addAPE = function(req, res){
     var h=weight;
     var b=bmi;
     var bs= bmiStatus;
+    
     //console.log(bmiStatus);
-
+    var studentsAccomApe=[];
+    var done=false;
+    
     console.log("section(1):" + section);
 
     var database = firebase.database();
     var apeRef = database.ref("studentHealthHistory/"+id+"/ape");
     var schedRef=database.ref("haSchedule/"+schoolYear);
     var studentInfoRef=database.ref("studentInfo/"+id);
+
+    var healthHistory= database.ref("studentHealthHistory");
 
     var record = {
         schoolYear:schoolYear,
@@ -112,27 +117,14 @@ exports.addAPE = function(req, res){
         // normal: normal
     }
 
-    console.log("APE ref:"+apeRef);
-    console.log("studentRef"+studentInfoRef);
-    console.log("record:");
-    console.log(record);
-    console.log(record.odVision);
-    console.log(record.weight);
-    console.log(record.height);
-
     if(clicked=="save"){
         apeRef.child(schoolYear).set(record);
-        console.log("Saved");
-
-        console.log("sectionTop");
-        console.log(sectionTop);
+        
         if(!sectionTop==""){
             schedRef.child(sectionTop).once('value', (snapshot) => {
                 if(snapshot.exists){
                     console.log("Has schedule")
                     snapshot.forEach(function(childSnapshot){
-                        console.log(childSnapshot.exportVal());
-                        console.log(childSnapshot.key);
                         schedRef.child(sectionTop).child("physicalStatus").set("Accomplished");
                     })
                 }
@@ -143,6 +135,30 @@ exports.addAPE = function(req, res){
         studentInfoRef.child("height").set(height);
         studentInfoRef.child("bmi").set(bmi);
         studentInfoRef.child("bmiStatus").set(bmiStatus);
+
+        healthHistory.once('value',(students)=>{
+            students.forEach(function(student){
+                student.child("ape").forEach(function(year){
+                    if(year.key==schoolYear){
+                        var apeData = year.exportVal();
+                        if(apeData.section == section){
+                            console.log("ENTERS SECTION");
+                            studentsAccomApe.push("1");
+                            done=true;
+                            console.log("made true");   
+                        }
+                    }
+                })
+            })
+            if(done==true){
+                console.log("TOTAL checked");
+                console.log(studentsAccomApe.length);
+                schedRef.child(section).child("apeSeen").set(studentsAccomApe.length);
+                done=false;
+            }
+        })
+        
+        
     }
     
     res.status(200).send();
@@ -168,7 +184,9 @@ exports.addADE = function(req, res){
     for(k=0;k<inputs.length;k++){
         console.log(k + " " + inputs[k]);
     }
-    
+
+    var studentsAccomAde=[];
+    var done=false;  
     
 
     console.log("Save dental record for " + sectionTop);
@@ -177,6 +195,8 @@ exports.addADE = function(req, res){
     var adeRef = database.ref("studentHealthHistory/"+id+"/ade");
     var schedRef=database.ref("haSchedule/"+schoolYear);
     var studentInfoRef=database.ref("studentInfo/"+id);
+
+    var healthHistory= database.ref("studentHealthHistory");
 
     var record = {
         schoolYear:schoolYear,
@@ -216,6 +236,25 @@ exports.addADE = function(req, res){
                 }
             })
         }
+
+        healthHistory.once('value',(students)=>{
+            students.forEach(function(student){
+                student.child("ade").forEach(function(year){
+                    if(year.key==schoolYear){
+                        var adeData = year.exportVal();
+                        if(adeData.section == section){
+                            studentsAccomAde.push("1");
+                            done=true; 
+                        }
+                    }
+                })
+            })
+            if(done==true){
+                schedRef.child(section).child("adeSeen").set(studentsAccomAde.length);
+                done=false;
+            }
+        })
+
     }
     
     res.status(200).send();
@@ -1342,63 +1381,20 @@ exports.getAllSched=function(){
                     sec=childValues.section;
                 }
         
-                if(done==false){
-                    healthHistory.once('value',(students)=>{
-                        students.forEach(function(student){
-                            student.child("ape").forEach(function(year){
-                                if(year.key==sy){
-                                    var apeData = year.exportVal();
-                                    if(apeData.section === sec){
-                                        console.log("ENTERS SECTION");
-                                        studentsAccomApe.push("1");
-                                    }
-                                    else{
-                                        if(sec=="Reliability"){
-                                            console.log("ENTERS ELSE");
-                                            console.log(apeData.section);
-                                            console.log(sec);
-                                        }
-                                    }
-                                }
-                            })
-                        })
-                    })
-                    healthHistory.once('value',(students)=>{
-                        students.forEach(function(student){
-                            student.child("ade").forEach(function(year){
-                                if(year.key==sy){
-                                    var adeData = year.exportVal();
-                                    if(adeData.section==sec){
-                                        studentsAccomAde.push("1");
-                                    }
-                                }
-                            })
-                        })
-                    })
-                    console.log("ACCOMPLISHED:");
-                    console.log(studentsAccomApe.length);
-                    done=true;
+                record={
+                    grade:grade,
+                    section:childValues.section,
+                    numStudents:childValues.numStudents,
+                    apeDate:childValues.physicalDate,
+                    apeTime:childValues.physicalTime,
+                    apeSeen:childValues.apeSeen,
+                    adeDate:childValues.dentalDate,
+                    adeTime:childValues.dentalTime,
+                    adeSeen:childValues.adeSeen,
                 }
+                console.log(record);
+                schedule.push(record);
 
-                if(done==true){
-                    if(childValues.physicalDate =="" || childValues.physicalDate ==null || childValues.physicalDate == undefined){
-                        
-                    }
-                    record={
-                        grade:grade,
-                        section:childValues.section,
-                        numStudents:childValues.numStudents,
-                        apeDate:childValues.physicalDate,
-                        apeTime:childValues.physicalTime,
-                        apeSeen:studentsAccomApe.length,
-                        adeDate:childValues.dentalDate,
-                        adeTime:childValues.dentalTime,
-                        adeSeen:studentsAccomAde.length
-                    }
-                    console.log(record);
-                    schedule.push(record);
-                }
-                done=false;
             })
             resolve(schedule);
             reject(schedule);

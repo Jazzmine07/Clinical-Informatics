@@ -349,6 +349,7 @@ exports.addADE = function(req, res){
     var record = {
         schoolYear:schoolYear,
         age:age,
+        section: section,
         id: id,
         name: name,
         adeDate: adeDate,
@@ -367,11 +368,8 @@ exports.addADE = function(req, res){
     
 
     if(clicked=="save"){
-        adeRef.child(schoolYear).set(record);
-        console.log("Saved");
+        adeRef.child(schoolYear).set(record);   
 
-        console.log("sectionTop");
-        console.log(sectionTop);
         if(!sectionTop==""){
             schedRef.child(sectionTop).once('value', (snapshot) => {
                 if(snapshot.exists){

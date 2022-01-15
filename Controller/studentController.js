@@ -158,7 +158,155 @@ exports.addAPE = function(req, res){
             }
         })
         
-        
+        // //for grade 5
+        // var grade4= {
+        //     schoolYear:"2020-2021",
+        //     age:"9",
+        //     grade:"4",
+        //     id: id,
+        //     section:"Harmony",
+        //     name: name,
+        //     apeDate: "2021-01-06",
+        //     clinician: clinician,
+        //     temp: temp,
+        //     systolic:systolic,
+        //     diastolic:diastolic,
+        //     pr: pr,
+        //     rr: rr,
+        //     sf: sf,
+        //     weight: "35",
+        //     height: "135",
+        //     bmi: "19.2",
+        //     odVision: odVision,
+        //     osVision: osVision,
+        //     odGlasses: odGlasses,
+        //     osGlasses: osGlasses,
+        //     medProb: medProb,
+        //     allergies: allergies,
+        //     concern: concern,
+        //     assess: assess,
+        //     bmiStatus:"Normal",
+        //     weightStatus: "Normal",
+        //     heightStatus: "Normal",
+        //     bodyTempStatus: "Normal",
+        //     systolicStatus: "Normal",
+        //     diastolicStatus: "Normal",
+        //     pulseRateStatus: "Normal",
+        //     respRateStatus: "Normal"
+        //     // normal: normal
+        // }
+        // var grade3= {
+        //     schoolYear:"2019-2020",
+        //     age:"8",
+        //     grade:"3",
+        //     id: id,
+        //     section:"Courtesy",
+        //     name: name,
+        //     apeDate: "2020-01-06",
+        //     clinician: clinician,
+        //     temp: temp,
+        //     systolic:systolic,
+        //     diastolic:diastolic,
+        //     pr: pr,
+        //     rr: rr,
+        //     sf: sf,
+        //     weight: "30",
+        //     height: "130",
+        //     bmi: "17.8",
+        //     odVision: odVision,
+        //     osVision: osVision,
+        //     odGlasses: odGlasses,
+        //     osGlasses: osGlasses,
+        //     medProb: medProb,
+        //     allergies: allergies,
+        //     concern: concern,
+        //     assess: assess,
+        //     bmiStatus:"Normal",
+        //     weightStatus: "Normal",
+        //     heightStatus: "Normal",
+        //     bodyTempStatus: "Normal",
+        //     systolicStatus: "Normal",
+        //     diastolicStatus: "Normal",
+        //     pulseRateStatus: "Normal",
+        //     respRateStatus: "Normal"
+        //     // normal: normal
+        // }
+        // var grade2= {
+        //     schoolYear:"2018-2019",
+        //     age:"7",
+        //     grade:"2",
+        //     id: id,
+        //     section:"Simplicity",
+        //     name: name,
+        //     apeDate: "2019-01-06",
+        //     clinician: clinician,
+        //     temp: temp,
+        //     systolic:systolic,
+        //     diastolic:diastolic,
+        //     pr: pr,
+        //     rr: rr,
+        //     sf: sf,
+        //     weight: "25",
+        //     height: "125",
+        //     bmi: "16",
+        //     odVision: odVision,
+        //     osVision: osVision,
+        //     odGlasses: odGlasses,
+        //     osGlasses: osGlasses,
+        //     medProb: medProb,
+        //     allergies: allergies,
+        //     concern: concern,
+        //     assess: assess,
+        //     bmiStatus:"Normal",
+        //     weightStatus: "Normal",
+        //     heightStatus: "Normal",
+        //     bodyTempStatus: "Normal",
+        //     systolicStatus: "Normal",
+        //     diastolicStatus: "Normal",
+        //     pulseRateStatus: "Normal",
+        //     respRateStatus: "Normal"
+        //     // normal: normal
+        // }
+        // var grade1= {
+        //     schoolYear:"2017-2018",
+        //     age:"6",
+        //     grade:"1",
+        //     id: id,
+        //     section:"Truthfulness",
+        //     name: name,
+        //     apeDate: "2018-01-06",
+        //     clinician: clinician,
+        //     temp: temp,
+        //     systolic:systolic,
+        //     diastolic:diastolic,
+        //     pr: pr,
+        //     rr: rr,
+        //     sf: sf,
+        //     weight: "20",
+        //     height: "120",
+        //     bmi: "13.9",
+        //     odVision: odVision,
+        //     osVision: osVision,
+        //     odGlasses: odGlasses,
+        //     osGlasses: osGlasses,
+        //     medProb: medProb,
+        //     allergies: allergies,
+        //     concern: concern,
+        //     assess: assess,
+        //     bmiStatus:"Normal",
+        //     weightStatus: "Normal",
+        //     heightStatus: "Normal",
+        //     bodyTempStatus: "Normal",
+        //     systolicStatus: "Normal",
+        //     diastolicStatus: "Normal",
+        //     pulseRateStatus: "Normal",
+        //     respRateStatus: "Normal"
+        //     // normal: normal
+        // }
+        // apeRef.child(grade4.schoolYear).set(grade4);
+        // apeRef.child(grade3.schoolYear).set(grade3);
+        // apeRef.child(grade2.schoolYear).set(grade2);
+        // apeRef.child(grade1.schoolYear).set(grade1);
     }
     
     res.status(200).send();
@@ -201,6 +349,7 @@ exports.addADE = function(req, res){
     var record = {
         schoolYear:schoolYear,
         age:age,
+        section: section,
         id: id,
         name: name,
         adeDate: adeDate,
@@ -219,11 +368,8 @@ exports.addADE = function(req, res){
     
 
     if(clicked=="save"){
-        adeRef.child(schoolYear).set(record);
-        console.log("Saved");
+        adeRef.child(schoolYear).set(record);   
 
-        console.log("sectionTop");
-        console.log(sectionTop);
         if(!sectionTop==""){
             schedRef.child(sectionTop).once('value', (snapshot) => {
                 if(snapshot.exists){
@@ -634,15 +780,15 @@ exports.addSchedule=function(req,res){
     g6=req.body.g6;
     schoolYear=req.body.schoolYear;
     
-    console.log("entered addSchedule function in studentController");
-    console.log(schedules);
-    console.log(g1);
-    console.log(g2);
-    console.log(g3);
-    console.log(g4);
-    console.log(g5);
-    console.log(g6);
-    console.log(schoolYear);
+    // console.log("entered addSchedule function in studentController");
+    // console.log(schedules);
+    // console.log(g1);
+    // console.log(g2);
+    // console.log(g3);
+    // console.log(g4);
+    // console.log(g5);
+    // console.log(g6);
+    // console.log(schoolYear);
 
     sectionScheduleRef.once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
@@ -681,23 +827,22 @@ exports.addSchedule=function(req,res){
     sectionScheduleRef.child(schoolYear).once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
             var childValues = childSnapshot.exportVal();
-            students=[];
             studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
                 if(ss.exists()){
                     ss.forEach(function(cs){
                         var values= cs.exportVal();
+                        console.log(values.section);
                         students.push({
                             key: cs.key,
                             section:values.section
                         });
                     })
                 }
+                sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
+                students=[];
             });
-            console.log(schoolYear);
-            console.log(childValues.section);
-            console.log(students.length);
-            sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
-            
+            sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set("0");
+            sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set("0");
         })
     })
 
@@ -1392,7 +1537,7 @@ exports.getAllSched=function(){
                     adeTime:childValues.dentalTime,
                     adeSeen:childValues.adeSeen,
                 }
-                console.log(record);
+                //console.log(record);
                 schedule.push(record);
 
             })
@@ -1515,6 +1660,15 @@ exports.getBmiStatus=function(req,res){
         console.log(vMonth);
         console.log(monthAge);
     }    
+
+    console.log("DATA:");
+    console.log(dob);
+    console.log(yearAge);
+    console.log(sex);
+    console.log(visitDate);
+    console.log(bmi);
+    console.log(monthAge);
+
 
     if(sex=="female"|| sex=="Female"){
         if(yearAge=="5"){
@@ -1764,9 +1918,9 @@ exports.getBmiStatus=function(req,res){
                                 bmiStatus="Obese";
                             } 
                         
-                    }
-                }                    
-            }
+                        }
+                    }                    
+                }
                 else if(monthAge==10){
                     if(bmi<13.3){
                         bmiStatus="Underweight";
@@ -2853,17 +3007,6 @@ exports.getBmiStatus=function(req,res){
                             bmiStatus="Obese";
                         }
                     }
-                    else if(monthAge==2 || monthAge==3){
-                        if(bmi>=13.4 && bmi<16.9){
-                            bmiStatus="Normal weight";
-                        }
-                        else if(bmi>=16.9 && bmi<=17.9){
-                            bmiStatus="Overweight";
-                        }
-                        else if(bmi>17.9){
-                            bmiStatus="Obese";
-                        }
-                    }
                     else if(monthAge==4 || monthAge==5|| monthAge==6){
                         if(bmi>=13.4 && bmi<16.9){
                             bmiStatus="Normal weight";
@@ -3397,13 +3540,13 @@ exports.getBmiStatus=function(req,res){
                         }
                     }
                     else if(monthAge==6){
-                        if(bmi>=14.3 && bmi<18.9){
+                        if(bmi>=14.30 && bmi<18.90){
                             bmiStatus="Normal weight";
                         }
-                        else if(bmi>=18.9 && bmi<=20.7){
+                        else if(bmi>=18.90 && bmi<=20.70){
                             bmiStatus="Overweight";
                         }
-                        else if(bmi>20.7){
+                        else if(bmi>20.70){
                             bmiStatus="Obese";
                         }
                     }
@@ -3412,7 +3555,7 @@ exports.getBmiStatus=function(req,res){
                             bmiStatus="Normal weight";
                         }
                         else{
-                            if(monthAge==10){
+                            if(monthAge==7){
                                 if(bmi>=19 && bmi<=20.7){
                                     bmiStatus="Overweight";
                                 }
@@ -3420,7 +3563,7 @@ exports.getBmiStatus=function(req,res){
                                     bmiStatus="Obese";
                                 }
                             }
-                            if(monthAge==11){
+                            if(monthAge==8){
                                 if(bmi>=19 && bmi<=20.8){
                                     bmiStatus="Overweight";
                                 }
@@ -3990,4 +4133,6 @@ exports.getBmiStatus=function(req,res){
         console.log(bmiStatus);
         res.send(bmiStatus);
     }
+    // console.log(bmiStatus);
+    // res.send(bmiStatus);
 }

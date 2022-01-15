@@ -11,21 +11,20 @@ exports.login = (req, res) => {
   var parentsRef = database.ref("parentUsers");
   var userInfo;
 
-  // var parentAccount = {
-  //   email: 'greta_flores@gmail.com',
-  //   password: 'manresa123'
-  // }
+  var parentAccount = {
+    email: 'kathrina_ramos@gmail.com',
+    password: 'manresa123'
+  }
 
-  // var key = parentsRef.push(parentAccount).key;
+  var key = parentsRef.push(parentAccount).key;
 
-  // var parentInfo = {
-  //   children: {
-  //     0: "2016061",
-  //     1: "2021010"
-  //   },
-  //   email: parentAccount.email
-  // }
-  // database.ref('parentInfo/'+key).set(parentInfo);
+  var parentInfo = {
+    children: {
+      0: "2017021",
+    },
+    email: parentAccount.email
+  }
+  database.ref('parentInfo/'+key).set(parentInfo);
     
   // var personalInfo = {
   //   firstName: 'Tauro Bailey',

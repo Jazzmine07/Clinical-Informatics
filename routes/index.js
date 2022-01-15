@@ -97,7 +97,7 @@ expressHbs.registerHelper("formatLongDate", function(string){
   } else {
     let date = new Date(string)
     var month = date.toLocaleString('default', { month: 'long' })
-    return (month + '. ' + date.getDate() + ', ' + date.getFullYear());
+    return (month + ' ' + date.getDate() + ', ' + date.getFullYear());
   }
 })
 

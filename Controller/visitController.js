@@ -110,9 +110,11 @@ exports.addClinicVisit = function(req, res){
     try {
         var update = {
             height: height,
-            weight: weight
+            heightStatus: heightStatus,
+            weight: weight,
+            weightStatus: weightStatus
         };
-        //database.ref("studentInfo/"+studentId).update(update);
+        database.ref("studentInfo/"+studentId).update(update);
 
         var record = {
             id: studentId, 

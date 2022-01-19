@@ -135,6 +135,8 @@ exports.addAPE = function(req, res){
         studentInfoRef.child("height").set(height);
         studentInfoRef.child("bmi").set(bmi);
         studentInfoRef.child("bmiStatus").set(bmiStatus);
+        studentInfoRef.child("weightStatus").set(weightStatus);
+        studentInfoRef.child("heightStatus").set(heightStatus);
 
         healthHistory.once('value',(students)=>{
             students.forEach(function(student){

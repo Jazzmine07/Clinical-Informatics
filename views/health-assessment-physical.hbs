@@ -1079,15 +1079,15 @@
                     },
                     success: function(data) {
                         console.log("HELLO DATA:");
-                        console.log(data.name);
-                        
+                                                
                         //document.getElementById("studentName").value=data.name;                            
                         //document.getElementById("dob").value=data.birthday;
                         //document.getElementById("gender").value=data.sex;
 
                         //document.getElementById("medProb").value=data.medProb;
                         //document.getElementById("allergies").value=data.allergies;
-                        
+                        console.log(data.currClinician);
+                        console.log(data.currComplaints);
                         
                         document.getElementById("age").value=data.currAge;
                         document.getElementById("dope").value=data.currDope;//change to Date

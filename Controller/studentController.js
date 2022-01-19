@@ -1069,13 +1069,8 @@ exports.loadPrevDataAPE=function(req,res){
                 reco: ""
             });
         }
-        console.log("HELLO DEATH");
-        console.log(curr.length);
-        console.log(curr[0].sy);
-        console.log(ape.length);
-        console.log(lastApe);
-        console.log(ape[lastApe].sy);
-        
+        console.log("HELLO DEATH");     
+        console.log(curr[0].systolic);   
         
         var record={
             prevSy:ape[lastApe].sy,
@@ -1246,7 +1241,7 @@ exports.loadPrevDataAPE=function(req,res){
         if(record.currAllergies==undefined){
             record.currAllergies="";
         }
-        if(record.currComplaints=undefined){
+        if(record.currComplaints==undefined){
             record.currComplaints="";
         }
         if(record.currReco==undefined){
@@ -1258,12 +1253,13 @@ exports.loadPrevDataAPE=function(req,res){
         if(record.currClinician==undefined){
             record.currClinician="";
         }
-        if(record.currSys=undefined){
+        if(record.currSys==undefined){
             record.currSys="";
         }
         if(record.currDia==undefined){
             record.currDia="";
         }
+        console.log(record.currComplaints);
 
         res.send(record);
         });

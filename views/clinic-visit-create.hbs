@@ -1548,8 +1548,10 @@
         });
 
         var heightStatus = "";
+        var BMI;
+        var BMIstatus;
         $("#height").change(function(){
-            var height =  $('#height').val(); 
+            var height = $('#height').val(); 
             console.log(height);
             console.log("height clicked");
 
@@ -1773,6 +1775,34 @@
                     }
                 }
             //});
+
+            var weight = $("#weight").val();
+            console.log("weight front");
+            console.log(weight);
+            if(!weight == null || !weight ==""){
+                var bmi = weight/((height/100)*(height/100));
+                BMI = bmi.toFixed(2);
+                var sId = $('#studentID').val();
+                var visitDate = $('#visitDate').val(); 
+
+                $.ajax({
+                    url: '/getBmiStatus',
+                    method: 'POST',
+                    data: {
+                        id:sId,
+                        dob:birthday,
+                        age:age,
+                        sex:sex,
+                        dateAPE:visitDate,
+                        bmi:BMI
+                    },
+                    success: function(data) {
+                        console.log("BMI STATUS SA FRONT END")
+                        console.log(data);
+                        BMIstatus = data;
+                    }
+                });
+            }
         });
 
         var bodyTempStatus = "";
@@ -2896,18 +2926,6 @@
                 }
             //});
         });
-        
-        function getHeightWeight(){
-            return {
-                heightStatus: heightStatus,
-                weightStatus: weightStatus,
-                bodyTempStatus: bodyTempStatus,
-                systolicStatus: systolicStatus,
-                diastolicStatus: diastolicStatus,
-                pulseRateStatus: pulseRateStatus,
-                respRateStatus: respRateStatus
-            };
-        }
 
         $("#medicationVisit").change(function(){
             document.getElementById('validAmount').style.display = "none";
@@ -3491,8 +3509,6 @@
         $('#saveBtn').click(function(){
             var height = $('#height').val();
             var weight = $('#weight').val(); 
-
-            var status = getHeightWeight();
             var proceed = true;
 
             const toNumbers = arr => arr.map(Number);
@@ -3720,7 +3736,6 @@
 
             console.log("proceed.... " + proceed);
 
-            /* TO DO: Add checkers for fields if empty */
             if(proceed){
                 $.ajax({
                     url: '/addClinicVisit',
@@ -3740,6 +3755,8 @@
                         weightStatus: weightStatus,
                         height: height,
                         heightStatus: heightStatus,
+                        bmi: BMI,
+                        bmiStatus: BMIstatus,
                         bodyTemp: bodyTemp,
                         systolicBP: systolic,
                         diastolicBP: diastolic,
@@ -3763,9 +3780,6 @@
                     },
                     success: function(data) {
                         console.log("success in ajax!");
-
-                        var socket = io();
-                        socket.emit('create-notif');
                         window.location.href = "/clinic-visit";
                     }
                 }); 

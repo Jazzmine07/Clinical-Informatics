@@ -525,7 +525,7 @@
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
                                             <option selected>Choose...</option>
                                             {{#each clinician}}
-                                                <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                                <option clinician="{{firstName}} {{lastName}}" value="{{key}}">{{firstName}} {{lastName}}</option>
                                             {{/each}}
                                         </select>
                                     </div>   
@@ -1086,12 +1086,19 @@
 
                         //document.getElementById("medProb").value=data.medProb;
                         //document.getElementById("allergies").value=data.allergies;
+
+                        
+
                         console.log(data.currClinician);
+                        if(data.currClinician == "Melvin Dayo"){
+                            $("#clinicianAPE option[clinician='Melvin Dayo']").prop('selected', true);
+                        }
+                        
                         console.log(data.currComplaints);
                         
                         document.getElementById("age").value=data.currAge;
                         document.getElementById("dope").value=data.currDope;//change to Date
-                        document.getElementById("clinicianAPE").value=data.currClinician;
+                        //document.getElementById("clinicianAPE").value=data.currClinician;
                         document.getElementById("systolic").value=data.currSys;
                         document.getElementById("diastolic").value=data.currDia;
                         document.getElementById("bodyTemp").value=data.currTemp;

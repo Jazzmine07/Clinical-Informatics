@@ -623,12 +623,14 @@
             schoolYear = (year - 1) + "-" + (year);
             schoolYearStart = year - 1;
             schoolYearEnd = year;
-            lastYear = year - 2;
+            lastYear = year - 1;
         }
 
         var dateToday = new Date(year, month - 1, date);
         console.log("today... " + dateToday);
         console.log("last year... " + lastYear);
+        console.log("start year... " + schoolYearStart);
+        console.log("end year... " + schoolYearEnd);
 
         //var monthDay = month;
         //monthDay += '-';
@@ -650,7 +652,7 @@
                 var curDates = [];
                 var medicineUsed = [];
 
-                temp = [];
+                var temp = [];
                 for(i = 0; i < details.length; i++){
                     temp.push(new Date(details[i].dateUpdated));
                     //console.log("pushing...");
@@ -664,7 +666,7 @@
                 }
                 
                 for(i = 0; i < details.length; i++){
-                    if((medYear[i] == schoolYearStart && medMonth[i] >= 6) || (medYear[i] == schoolYearEnd && medMonth[i] <= 4)){ // filter all clinic visits from start of the school year
+                    if((medYear[i] == schoolYearStart - 1 && medMonth[i] >= 6) || (medYear[i] == schoolYearEnd - 1 && medMonth[i] <= 4)){ // filter all clinic visits from start of the school year
                         curDates.push(new Date(medYear[i], medMonth[i], medDay[i]+1));
                         //console.log(medYear[i]);
                         //console.log(medMonth[i]);
@@ -688,22 +690,22 @@
                         //console.log(yearUpdated);
                         //console.log(monthUpdated);
                         //console.log(dayUpdated);
-                        console.log(year + " " + yearUpdated);
-                        console.log(month + " " + monthUpdated + 1);
-                        if(year == yearUpdated && month == monthUpdated + 1){
-                            console.log("pasok if");
-                            console.log(invetoryMedicine[i].med);
-                            console.log(medicineUsed[j].medicineName);
+                        //console.log(year + " " + yearUpdated);
+                        //console.log(month + " " + monthUpdated + 1);
+                        if(lastYear == yearUpdated && month == monthUpdated + 1){
+                            //console.log("pasok if");
+                            //console.log(invetoryMedicine[i].med);
+                            //console.log(medicineUsed[j].medicineName);
                             if(invetoryMedicine[i].med == medicineUsed[j].medicineName){
-                                console.log("pasok 2nd if");
-                                console.log(curDates[j].medicineName);
-                                console.log(parseInt(curDates[j].usedInventory));
-                                sum += parseInt(curDates[j].usedInventory);
+                                //console.log("pasok 2nd if");
+                                console.log(medicineUsed[j].medicineName);
+                                //console.log(parseInt(curDates[j].usedInventory));
+                                sum += parseInt(medicineUsed[j].usedInventory);
                                 console.log("sum: " + sum);
 
                                 var total = sum;
                                 total = total/24;
-                                var ltd = 6.3*7;
+                                var ltd = total*7;
                                 console.log("ltd: " + ltd);
                                 
                                 var stringID = '#';
@@ -712,6 +714,7 @@
                                 //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
                                 var text = $(stringID).closest("tr").next(".dtrg-end").text();
                                 text = text.replace( /^\D+/g, '');
+                                //if low stock
                                 if(Math.ceil(ltd) >= parseInt(text)){
                                     $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
                                     $(stringID).closest("tr").next(".dtrg-end").css("font-weight", "bold");
@@ -724,6 +727,8 @@
                         }
                     }
                 }
+
+                
 
                 //for(var i = 0; i < details.length; i++){
                 //    console.log("inside 1st for loop");
@@ -756,12 +761,95 @@
         $.get("/getGroupedMedicineInventory", function(groupedInventory){
             console.log("groupedInventory in front end");
             console.log(groupedInventory);
+
+            $.get("/getUsedMedicineMonthYear", function(medicineMonthYear){
+                console.log("getUsedMedicineMonthYear in front end");
+                console.log(medicineMonthYear);
+
+                var medYear = [], medMonth = [], medDay = [];
+                var curDates = [];
+                var medicineUsed = [];
+
+                var temp = [];
+                for(i = 0; i < medicineMonthYear.length; i++){
+                    temp.push(new Date(medicineMonthYear[i].dateUpdated));
+                    //console.log("pushing...");
+                    //console.log(details[i].dateUpdated);
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    medYear.push(temp[i].getFullYear());
+                    medMonth.push(temp[i].getMonth());
+                    medDay.push(temp[i].getDate());
+                }
+                
+                for(i = 0; i < medicineMonthYear.length; i++){
+                    if((medYear[i] == schoolYearStart - 1 && medMonth[i] >= 6) || (medYear[i] == schoolYearEnd - 1 && medMonth[i] <= 4)){ // filter all clinic visits from start of the school year
+                        curDates.push(new Date(medYear[i], medMonth[i], medDay[i]+1));
+                        //console.log(medYear[i]);
+                        //console.log(medMonth[i]);
+                        //console.log(medDay[i]);
+                        //console.log(curDates);
+                        medicineUsed.push({
+                            medicineName: medicineMonthYear[i].medicineName,
+                            dateUpdated: medicineMonthYear[i].dateUpdated,
+                            usedInventory: medicineMonthYear[i].usedInventory
+                        });
+                    }
+                }
+
+                for(var i = 0; i < groupedInventory.length; i++){
+                    var sum = 0; 
+                    for(var j = 0; j < curDates.length; j++){
+                        var yearUpdated = curDates[j].getFullYear();
+                        var monthUpdated = curDates[j].getMonth();
+                        var dayUpdated = curDates[j].getDate() - 1;
+                        if(groupedInventory[i].medicine == medicineUsed[j].medicineName){
+                            var totalJan, totalFeb;
+                            var ltd;
+                            if(monthUpdated + 1 == 1){
+                                console.log("Jan");
+                                console.log(medicineUsed[j].medicineName);
+                                totalJan += parseInt(medicineUsed[j].usedInventory);
+                                console.log("sum: " + sum);
+
+                                //totalJan = sum;
+                                totalJan = totalJan/24;
+                                //ltd = total*7;
+                                //console.log("ltd: ");                                
+                                //console.log(Math.ceil(ltd));
+                            }
+                            else if(monthUpdated + 1 == 2){
+                                console.log("Feb");
+                                console.log(medicineUsed[j].medicineName);
+                                totalFeb += parseInt(medicineUsed[j].usedInventory);
+                                console.log("sum: " + sum);
+
+                                //totalFeb = sum;
+                                totalFeb = totalFeb/24;
+                                //ltd = total*7;
+                                //console.log("ltd: ");
+                                //console.log(Math.ceil(ltd));
+
+                            }
+                        }
+                    }
+                }
+
+
+                $("#forecastTable tr").remove();
+                for(i = 0; i < groupedInventory.length; i++){
+                    $('#forecastTable').append('<tr><td>' + groupedInventory[i].medicine + '</td><td>' + groupedInventory[i].medicine + '</td><td>' + groupedInventory[i].medicine + '</td></tr>');
+                }
+
+
+
+
+            });
+            
         });
 
-        $.get("/getUsedMedicineMonthYear", function(medicineMonthYear){
-            console.log("getUsedMedicineMonthYear in front end");
-            console.log(medicineMonthYear);
-        });
+        
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');

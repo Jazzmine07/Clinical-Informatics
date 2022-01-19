@@ -92,8 +92,8 @@ exports.getDiagnosis = function(){
 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
-        weight, height, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
-        weightStatus, heightStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
+        weight, height, bmi, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
+        weightStatus, heightStatus, bmiStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
         complaint, impression, treatment, 
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
@@ -104,15 +104,15 @@ exports.addClinicVisit = function(req, res){
     var clinicVisitRef = database.ref("clinicVisit");
     var prescriptionRef = database.ref("studentHealthHistory/"+studentId+"/prescriptionHistory");
     var complaintsRef = database.ref("complaintsList");
-    console.log("prescribedBy in controller");
-    console.log(prescribedBy);
     
     try {
         var update = {
             height: height,
             heightStatus: heightStatus,
             weight: weight,
-            weightStatus: weightStatus
+            weightStatus: weightStatus,
+            bmi: bmi,
+            bmiStatus: bmiStatus 
         };
         database.ref("studentInfo/"+studentId).update(update);
 

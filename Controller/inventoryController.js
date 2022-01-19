@@ -173,11 +173,9 @@ exports.getUsedMedicineMonthYear = function(req, res){
                 temp.forEach(inventory => {
                     var found = false;
                     var inventoryDate = inventory.dateUpdated.split("-");
-                    console.log("inventoryDate "+inventoryDate);
 
                     for(i = 0; i < filtered.length; i++){
                         var filteredDate = filtered[i].dateUpdated.split("-");
-                        console.log("filteredDate "+filteredDate);
                         if(inventoryDate[0] == filteredDate[0] && inventoryDate[1] == filteredDate[1] && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same month and year
                             found = true;
                             filtered[i].usedInventory+=inventory.usedInventory;

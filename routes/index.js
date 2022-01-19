@@ -116,9 +116,9 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/getNotification', notificationController.getNotifications);
+router.get('/getNotification', loggedIn, notificationController.getNotifications);
 // Get dashboard page
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', loggedIn, (req, res) => {
   console.log("Read dashboard successful!");
   var prom1,prom2,user,notifs;
   var prom1 =  userController.getUser();

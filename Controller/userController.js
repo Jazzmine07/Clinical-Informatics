@@ -191,16 +191,15 @@ exports.login = (req, res) => {
 // check if user is logged in 
 exports.loggedIn = (req, res, next) => {
   var promise = new Promise((resolve, reject) => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) { // user is signed in 
-        next()
-      } else {
-        res.render('login',{
-          error: true,
-          error_msg: "Please log in!"
-        });
-      }
-    });
+    var user = firebase.auth().currentUser;
+    if(user !== null){
+      next()
+    } else {
+      res.render('login',{
+        error: true,
+        error_msg: "Please log in!"
+      });
+    }
   });
   return promise;
 };
@@ -224,7 +223,7 @@ exports.getUser = function(){
   var userInfo;
   
   var promise = new Promise((resolve, reject) => {
-    user = firebase.auth().currentUser;
+    var user = firebase.auth().currentUser;
     if(user !== null){
       var uid = user.uid;
       var userRef = database.ref("clinicUsers/"+uid);

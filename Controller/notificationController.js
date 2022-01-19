@@ -7,34 +7,37 @@ exports.getNotifications = function(req, res){
 
     //var promise= new Promise((resolve,reject)=>{
         //setTimeout(function(){
-            firebase.auth().onAuthStateChanged((user) => {
-                if(user) {
-                    var uid = user.uid;
-                    var notifRef = database.ref("notifications/"+uid);
-                            
-                    notifRef.orderByChild("timestamp").once('value', (snapshot) => {
-                        if(snapshot.exists()){
-                            snapshot.forEach(function(childSnapshot){
-                                childSnapshotData = childSnapshot.exportVal();
-                                    notifs.push({
-                                    user: snapshot.key,
-                                    type: childSnapshotData.type,
-                                    formId: childSnapshot.key,
-                                    message: childSnapshotData.message,
-                                    date: childSnapshotData.date,
-                                    seen: childSnapshotData.seen
-                                })
+            user = firebase.auth().currentUser;
+            if(user !== null) {
+                var uid = user.uid;
+                var notifRef = database.ref("notifications/"+uid);
+                        
+                notifRef.orderByChild("timestamp").once('value', (snapshot) => {
+                    if(snapshot.exists()){
+                        snapshot.forEach(function(childSnapshot){
+                            childSnapshotData = childSnapshot.exportVal();
+                            notifs.push({
+                                user: snapshot.key,
+                                type: childSnapshotData.type,
+                                formId: childSnapshot.key,
+                                message: childSnapshotData.message,
+                                date: childSnapshotData.date,
+                                seen: childSnapshotData.seen
                             })
-                            notifs.reverse();
-                            res.status(200).send(notifs);
-                            //resolve(notifs);
-                        } else {
-                            //resolve(notifs);
-                            res.status(200).send(notifs);
-                        }
-                    })
-                }
-            });
+                        })
+
+                        console.log("notifs in controller");
+                        console.log(notifs);
+
+                        notifs.reverse();
+                        res.status(200).send(notifs);
+                        //resolve(notifs);
+                    } else {
+                        //resolve(notifs);
+                        res.status(200).send(notifs);
+                    }
+                })
+            }
         //}, 10000);
     //});
     //return promise;

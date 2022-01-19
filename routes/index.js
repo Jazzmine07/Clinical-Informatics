@@ -1055,6 +1055,7 @@ router.get('/getTop5MedsUsedMonth', reportsController.getTop5MedsUsedMonth);
 router.get('/getMedicineDiscrepancy', inventoryController.getMedicineDiscrepancy);
 router.get('/getMedicineInventoryList', inventoryController.getMedicineInventoryList);
 router.get('/getGroupedMedicineInventory', inventoryController.getGroupedMedicineInventory);
+router.get('/getUsedMedicineMonthYear', inventoryController.getUsedMedicineMonthYear);
 router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);

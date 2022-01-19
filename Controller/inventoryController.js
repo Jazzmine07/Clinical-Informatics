@@ -149,6 +149,60 @@ exports.getGroupedMedicineInventory = function(req, res){
     })
 };
 
+// for front-end
+// this function adds medicine regardless of batch num
+exports.getUsedMedicineMonthYear = function(req, res){
+    var childSnapshotData, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("discrepancyMedicine");
+    
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("discrepancyMedicine")){
+            inventoryRef.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicineID: childSnapshotData.medicineID,
+                        medicineName: childSnapshotData.medicineName,
+                        dateUpdated: childSnapshotData.dateUpdated,
+                        usedInventory: childSnapshotData.usedInventory,
+                    })
+                })
+
+                temp.forEach(inventory => {
+                    var found = false;
+                    var inventoryDate = inventory.dateUpdated.split("-");
+                    console.log("inventoryDate "+inventoryDate);
+
+                    for(i = 0; i < filtered.length; i++){
+                        var filteredDate = filtered[i].dateUpdated.split("-");
+                        console.log("filteredDate "+filteredDate);
+                        if(inventoryDate[0] == filteredDate[0] && inventoryDate[1] == filteredDate[1] && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same month and year
+                            found = true;
+                            filtered[i].usedInventory+=inventory.usedInventory;
+                            break;
+                        } 
+                    }
+                    if(!found){
+                        filtered.push({
+                            medicineID: inventory.medicineID,
+                            medicineName: inventory.medicineName,
+                            dateUpdated: inventory.dateUpdated,
+                            usedInventory: inventory.usedInventory,
+                        })
+                    }    
+                })
+                console.log("filtered in controller");
+                console.log(filtered);
+                res.status(200).send(filtered);
+            })
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
+};
+
 exports.getSpecificMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -324,6 +378,7 @@ exports.getMedicineDiscrepancy = function(req, res){
                     data = innerChildSnapshot.exportVal();
                     temp.push({
                         medicineID: data.medicineID,
+                        batchNum: data.batchNum,
                         medicineName: data.medicineName,
                         dateUpdated: data.dateUpdated,
                         usedInventory: data.usedInventory,
@@ -333,7 +388,7 @@ exports.getMedicineDiscrepancy = function(req, res){
                 temp.forEach(inventory => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
-                        if(inventory.dateUpdated == filtered[i].dateUpdated && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same date
+                        if(inventory.batchNum == filtered[i].batchNum && inventory.dateUpdated == filtered[i].dateUpdated && inventory.medicineName == filtered[i].medicineName){   // filters if same medicine name and same date
                             found = true;
                             filtered[i].usedInventory+=inventory.usedInventory;
                             break;
@@ -342,6 +397,7 @@ exports.getMedicineDiscrepancy = function(req, res){
                     if(!found){
                         filtered.push({
                             medicineID: inventory.medicineID,
+                            batchNum: inventory.batchNum,
                             medicineName: inventory.medicineName,
                             dateUpdated: inventory.dateUpdated,
                             usedInventory: inventory.usedInventory,

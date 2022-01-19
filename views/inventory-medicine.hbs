@@ -758,6 +758,11 @@
             console.log(groupedInventory);
         });
 
+        $.get("/getUsedMedicineMonthYear", function(medicineMonthYear){
+            console.log("getUsedMedicineMonthYear in front end");
+            console.log(medicineMonthYear);
+        });
+
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
             var batchNum = row.find('td').eq(0).text();

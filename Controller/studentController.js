@@ -1070,7 +1070,7 @@ exports.loadPrevDataAPE=function(req,res){
             });
         }
         console.log("HELLO DEATH");     
-        console.log(curr[0].systolic);   
+        console.log(ape[lastApe].complaints);   
         
         var record={
             prevSy:ape[lastApe].sy,

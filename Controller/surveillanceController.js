@@ -11,32 +11,30 @@ exports.getDiseaseSurveillanceData=function(){
     var checkDiagnosis=[];
     var i;
     
-
+    console.log("GET TOP DISEASE DATA")
     var promise = new Promise((resolve,reject) => {
-        databaseRef.once('value', (snapshot) => {
-            if(snapshot.hasChild("clinicVisit")){
-                query.on('value', (childSnapshot) => {
-                    childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
-                        childSnapshotData = innerChildSnapshot.exportVal();
-                        checkDiagnosis=childSnapshotData.diagnosis.split(", ");
-                        for(i=0;i<checkDiagnosis.length;i++){
-                            if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
-                                temp.push({
-                                    diagnosis:checkDiagnosis[i],
-                                    visitDate:childSnapshotData.visitDate,
-                                    id:childSnapshotData.id
-                                })
-                            }
-                        }
-                    })
-                    
-                })
-            }
+        clinicVisitRef.once('value', (snapshot)=>{
+            snapshot.forEach(function(childSnapshot){
+                child = childSnapshot.exportVal();
+                console.log("HELLO MARSHMALLOW");
+                checkDiagnosis = child.diagnosis.split(", ");
+                console.log(checkDiagnosis);
+                for(i=0;i<checkDiagnosis.length;i++){
+                    if(checkDiagnosis[i]!=null && checkDiagnosis[i]!=undefined && checkDiagnosis[i]!=""){
+                        temp.push({
+                            diagnosis:checkDiagnosis[i],
+                            visitDate:child.visitDate,
+                            id:child.id
+                        })
+                    }
+                }
+            })
             console.log("temp array");
             console.log(temp);
             resolve (temp);
         })
     })
+
     return promise;
 }
 //function returns strings of top diagnosis for week and month - dependent on current date (used in Disease Surveillance)
@@ -56,8 +54,6 @@ exports.getTopDisease=function(vcArray){
     var weekAgo=new Date(today.setDate(today.getDate() - 7));
     var i,j,size;
     var weekTopDiseaseFinal=[], monthTopDiseaseFinal=[];
-
-    console.log(temp);
     
     //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
@@ -142,10 +138,6 @@ exports.getTopDisease=function(vcArray){
     else{
         strings.push(monthTopDisease);
     }
-    console.log("WEEK")
-    console.log(weekTopDisease);
-    console.log("MONTH")
-    console.log(monthTopDisease);
         
     return strings;
 

@@ -183,17 +183,8 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
     prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
     
-    console.log("WEEK:");
-    console.log(prom3[0]);
     prom3[0].sort((a, b) => b.count - a.count);
-    console.log("sort week");
-    console.log(prom3[0]);
-
-    console.log("MONTH:");
-    console.log(prom3[1]);
     prom3[1].sort((a, b) => b.count - a.count);
-    console.log("sort month");
-    console.log(prom3[1]);
 
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
@@ -213,11 +204,11 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
         topDWeekThree:prom3[0][2],
         topDWeekFour:prom3[0][3],
         topDWeekFive:prom3[0][4],
-        topDMonthOne:prom3[0][0],
-        topDMonthTwo:prom3[0][1],
-        topDMonthThree:prom3[0][2],
-        topDMonthFour:prom3[0][3],
-        topDMonthFive:prom3[0][4],
+        topDMonthOne:prom3[1][0],
+        topDMonthTwo:prom3[1][1],
+        topDMonthThree:prom3[1][2],
+        topDMonthFour:prom3[1][3],
+        topDMonthFive:prom3[1][4],
       });
     }
   }).catch(error => {

@@ -316,13 +316,13 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Clinic Visit Report</h1>
+                        {{#if error}}
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <strong class="mx-1">Error!</strong> {{error_msg}}
+                            </div>
+                        {{/if}}
                     </div>
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
 
                     <div class="row">
                         <div class="col-4 mb-4">
@@ -790,15 +790,6 @@
                         labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'], // x-axis
                         datasets: [{
                             backgroundColor: [  // background color of the thing
-                                'rgba(255, 99, 132, 0.2)',  // pink
-                                'rgba(54, 162, 235, 0.2)',  // blue 
-                                'rgba(255, 206, 86, 0.2)',  // yellow
-                                'rgba(75, 192, 192, 0.2)',  // green
-                                'rgba(153, 102, 255, 0.2)', // purple
-                                'rgba(255, 159, 64, 0.2)',  // orange,
-                                'rgba(117,0,0, 0.2)'    // maroon
-                            ],
-                            borderColor: [
                                 'rgba(255, 99, 132, 1)', // pink
                                 'rgba(54, 162, 235, 1)', // blue
                                 'rgba(255, 206, 86, 1)', // yellow

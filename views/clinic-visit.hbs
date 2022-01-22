@@ -212,6 +212,12 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Clinic Visit</h1>
+                        {{#if error}}
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <strong class="mx-1">Error!</strong> {{error_msg}}
+                            </div>
+                        {{/if}}
                         <div class="d-flex flex-row-reverse">
                             <a href="/clinic-visit/referral" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-hospital-user mx-1 text-white-50"></i> Referral Form</a>  
@@ -580,13 +586,13 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Clinic Visit</h1>
+                        {{#if error}}
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <strong class="mx-1">Error!</strong> {{error_msg}}
+                            </div>
+                        {{/if}}
                     </div>
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
 
                     <!-- DataTales List of Incidence Reports -->
                     <div class="card shadow mb-4">

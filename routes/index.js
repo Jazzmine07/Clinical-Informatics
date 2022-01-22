@@ -283,9 +283,11 @@ router.get('/clinic-visit/view/:id', loggedIn, (req, res) => {
         form: form,
       });
     } else{
-      res.render('clinic-visit-view', {
+      res.render('dashboard', {
         user: user,
-        isNurse: false
+        isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
@@ -308,9 +310,11 @@ router.get('/clinic-visit/view/report/:id', loggedIn, (req, res) => {
     report = result[1];
 
     if(user.role == "Nurse"){
-      res.render('clinic-visit-view-report', {
+      res.render('clinic-visit', {
         user: user,
         isNurse: true,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     } else{
       res.render('clinic-visit-view-report', {
@@ -361,9 +365,11 @@ router.get('/clinic-visit/create', loggedIn, (req, res) => {
         complaints: complaints
       });
     } else {
-      res.render('clinic-visit-create', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
@@ -437,9 +443,11 @@ router.get('/clinic-visit/medication', loggedIn, (req, res) => {
         medicines: medicines
       });
     } else {
-      res.render('clinic-visit-medication', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
@@ -451,22 +459,60 @@ router.get('/clinic-visit/medication', loggedIn, (req, res) => {
 // Get clinic incidence page
 router.get('/clinic-visit/incidence', loggedIn, (req, res) => {
   console.log("Read clinic visit incidence successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('clinic-visit-incidence', { 
-      user: result
-    })
+  var prom1;
+  var user;
+
+  prom1 = userController.getUser();
+  
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-incidence', {
+        user: user,
+        isNurse: true
+      });
+    } else {
+      res.render('dashboard', {
+        user: user, 
+        isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
+      });
+    }
+  }).catch(error => {
+    console.log('Error in clinic visit medication');
+    console.log(error.message);
   });
 });
 
 // Get clinic incidence page
 router.get('/clinic-visit/referral', (req, res) => {
   console.log("Read clinic visit referral successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('clinic-visit-referral', { 
-      user: result
-    })
+  var prom1;
+  var user;
+
+  prom1 = userController.getUser();
+  
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+
+    if(user.role == "Nurse"){
+      res.render('clinic-visit-referral', {
+        user: user,
+        isNurse: true
+      });
+    } else {
+      res.render('dashboard', {
+        user: user, 
+        isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
+      });
+    }
+  }).catch(error => {
+    console.log('Error in clinic visit medication');
+    console.log(error.message);
   });
 });
 
@@ -683,9 +729,11 @@ router.get('/inventory-medicine/add', loggedIn, (req, res) => {
         medicines: medicines
       });
     } else {
-      res.render('inventory-medicine-add', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   })   
@@ -741,9 +789,11 @@ router.get('/inventory-supply/add', loggedIn, (req, res) => {
         supply: supplies
       });
     } else {
-      res.render('inventory-supply-add', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   })   
@@ -800,9 +850,11 @@ router.get('/inventory-dental/add', loggedIn, (req, res) => {
         supply: dental
       });
     } else {
-      res.render('inventory-dental-add', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   })   
@@ -815,7 +867,6 @@ router.get('/promotive-care', loggedIn, (req, res) => {
   var user, programs;
   prom1 =  userController.getUser();
   prom2 = programController.getProgramsList();
-  prom3 = programController.promotiveReport();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
@@ -864,12 +915,29 @@ router.get('/promotive-care/program-form', loggedIn, (req, res) => {
 // Get performance assessment  page
 router.get('/performance-assessment', loggedIn, (req, res) => {
   console.log("Read performance assessment successful!");
-  var user =  userController.getUser();
-  user.then(function(result){
-    res.render('performance-assessment', { 
-      user: result
-    })
-  });
+  var prom1, prom2;
+  var user, programs;
+  prom1 =  userController.getUser();
+  prom2 = programController.getProgramsList();
+
+  Promise.all([prom1, prom2]).then(result => {
+    user = result[0];
+    programs = result[1];
+
+    if(user.role == "Nurse"){
+      res.render('performance-assessment', {
+        user: user,
+        isNurse: true,
+        programs: programs
+      });
+    } else {
+      res.render('performance-assessment', {
+        user: user, 
+        isNurse: false,
+        programs: programs
+      });
+    }
+  }) 
 });
 
 // Get communications page

@@ -338,8 +338,9 @@
                     <div class="row">
                         <div class="col-4 mb-4">
                             <select class="custom-select" id="program" name="program">
-                                <option disabled="disabled" selected="true">Health Program</option>
-                                <option value="name">Name of School Health Program</option>
+                                {{#each programs}}
+                                    <option value="{{progName}}"> {{progName}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         {{!-- <div class="col-4 mb-4">

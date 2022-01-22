@@ -616,10 +616,12 @@ exports.getClinicVisitForm = function(req){
                 notes: snapshotData.notes
             })
 
-            await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
-                dFname = diagnosis.child('firstName').val();
-                dLname = diagnosis.child('lastName').val();
-            });
+            if(temp[0].diagnosisAssignedKey != ""){
+                await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
+                    dFname = diagnosis.child('firstName').val();
+                    dLname = diagnosis.child('lastName').val();
+                });
+            }
 
             if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
                 await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
@@ -686,7 +688,7 @@ exports.viewClinicVisitForm = function(req){
     var promise = new Promise((resolve, reject)=>{
         formRef.once('value', async (snapshot) => {
             snapshotData = snapshot.exportVal();
-            snapshot.child('medications').forEach(function(meds){
+            snapshot.child('prescription').forEach(function(meds){
                 medications.push({
                     medicine: meds.child('medicine').val(),
                     purpose: meds.child('purpose').val(),
@@ -732,16 +734,18 @@ exports.viewClinicVisitForm = function(req){
                 diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
 
-                prescribedBy: "",
+                prescribedBy: snapshotData.prescribedBy,
                 medicationAssignedKey: snapshotData.medicationAssigned,
                 status: snapshotData.status,
                 notes: snapshotData.notes
             })  
 
-            await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
-                dFname = diagnosis.child('firstName').val();
-                dLname = diagnosis.child('lastName').val();
-            });
+            if(temp[0].diagnosisAssignedKey != ""){
+                await userRef.child(temp[0].diagnosisAssignedKey).once('value', (diagnosis) => {
+                    dFname = diagnosis.child('firstName').val();
+                    dLname = diagnosis.child('lastName').val();
+                });
+            }
             
             if(temp[0].medicationAssignedKey != "" && temp[0].medicationAssignedKey != undefined && temp[0].medicationAssignedKey != null){
                 await userRef.child(temp[0].medicationAssignedKey).once('value', (medication) => {
@@ -783,7 +787,7 @@ exports.viewClinicVisitForm = function(req){
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
                 diagnosis: temp[0].diagnosis,
-                prescribedBy: dFname + " " + dLname,
+                prescribedBy: temp[0].prescribedBy,
                 medicationAssignedKey: temp[0].medicationAssignedKey,
                 medicationAssigned: mFname + " " + mLname,
                 medications: medications,

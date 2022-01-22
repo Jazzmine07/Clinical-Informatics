@@ -94,7 +94,7 @@ exports.promotiveReport = function(){
     var databaseRef = database.ref();
     var programRef = database.ref("programs");
     var query = programRef.orderByChild("progName").equalTo(program);
-    var temp = [];
+    var temp;
 
     var apeRef = database.ref('studentHealthHistory');
     var childSnapshotData, i, j;
@@ -172,6 +172,7 @@ exports.promotiveReport = function(){
                         location: childSnapshotData.location
                     }
                 }) 
+
                 var populationArray = temp.population.split(", ");
                 console.log(populationArray);
                 var programStartDate = new Date(temp.startDate);

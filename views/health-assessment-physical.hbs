@@ -1079,7 +1079,7 @@
                     },
                     success: function(data) {
                         console.log("HELLO DATA:");
-                                                
+                        console.log(data.prevComplaints);                       
                         //document.getElementById("studentName").value=data.name;                            
                         //document.getElementById("dob").value=data.birthday;
                         //document.getElementById("gender").value=data.sex;
@@ -1128,7 +1128,7 @@
                         //load prev Data
                         document.getElementById("lpeSY").innerHTML=data.prevSy;
                         document.getElementById("lpePR").innerHTML=data.prevPr;
-                        document.getElementById("lpeRR").innerHTML=data.prevBr;
+                        document.getElementById("lpeRR").innerHTML=data.prevRr;
                         document.getElementById("lpeSF").innerHTML=data.prevSf;
                         document.getElementById("lpeWeight").innerHTML=data.prevWeight;
                         document.getElementById("lpeHeight").innerHTML=data.prevHeight;

@@ -16,9 +16,7 @@ exports.getDiseaseSurveillanceData=function(){
         clinicVisitRef.once('value', (snapshot)=>{
             snapshot.forEach(function(childSnapshot){
                 child = childSnapshot.exportVal();
-                console.log("HELLO MARSHMALLOW");
                 checkDiagnosis = child.diagnosis.split(", ");
-                console.log(checkDiagnosis);
                 for(i=0;i<checkDiagnosis.length;i++){
                     if(checkDiagnosis[i]!=null && checkDiagnosis[i]!=undefined && checkDiagnosis[i]!=""){
                         temp.push({
@@ -29,8 +27,6 @@ exports.getDiseaseSurveillanceData=function(){
                     }
                 }
             })
-            console.log("temp array");
-            console.log(temp);
             resolve (temp);
         })
     })
@@ -40,20 +36,14 @@ exports.getDiseaseSurveillanceData=function(){
 //function returns strings of top diagnosis for week and month - dependent on current date (used in Disease Surveillance)
 exports.getTopDisease=function(vcArray){
     console.log("Entered getTopDisease");
-    var database = firebase.database();
-    var databaseRef = database.ref();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var query = clinicVisitRef.orderByChild("timeStamp");
     var temp=vcArray, strings=[];
-    var vcWeek=[], weekTopDisease=[], topWeekCount=[], topWeekConcern=[], stringWeek=""; // variables for top disease week
-    var vcMonth=[], monthTopDisease=[], topMonthCount=[], topMonthConcern=[], stringMonth=""; // variables for top disease month
-    var childSnapshotData;
+    var vcWeek=[], weekTopDisease=[]; // variables for top disease week
+    var vcMonth=[], monthTopDisease=[]; // variables for top disease month
     var parts, dbDate,alreadyAdded;
     var currDate =  new Date();
     var today = new Date();
     var weekAgo=new Date(today.setDate(today.getDate() - 7));
-    var i,j,size;
-    var weekTopDiseaseFinal=[], monthTopDiseaseFinal=[];
+    var i,j;
     
     //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
@@ -121,7 +111,6 @@ exports.getTopDisease=function(vcArray){
         weekTopDisease= vcWeek.sort(function (x, y) {
             return y.count- x.count;
         });
-        console.log(weekTopDisease)
         strings.push(weekTopDisease);
     }
     else{
@@ -132,7 +121,6 @@ exports.getTopDisease=function(vcArray){
         monthTopDisease= vcMonth.sort(function (x, y) {
             return y.count- x.count;
         });
-        console.log(monthTopDisease);
         strings.push(monthTopDisease);
     }
     else{
@@ -147,13 +135,11 @@ exports.getDiseaseDemographics=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[],temp3=[],checkDiagnosis=[];
-    var childSnapshotData, csData;
-    var i,j,alreadyAdded;
-    var studentInfo=[],sex, grade;
+    var childSnapshotData;
+    var i;
     var disease= req.body.disease;
 
     //console.log("DISEASE from frontend:"+disease);
@@ -217,8 +203,6 @@ exports.getDiseaseDemographics=function(req,res){
             }
         }
         
-
-        //ADD Grade 3-6 pa
         //combining to get chart data
         for(i=0;i<temp3.length;i++){
 
@@ -334,20 +318,6 @@ exports.getDiseaseDemographics=function(req,res){
         }
 
         chartData.push( {grade1:g1},{grade2:g2},{grade3:g3},{grade4:g4},{grade5:g5}, {grade6:g6},{temp3} );
-        console.log("HELLO DEATH");
-        console.log(chartData);
-    //    chartData.push(g1);
-    //    chartData.push(g2);
-    //    chartData.push(g3);
-    //    chartData.push(g4);
-    //    chartData.push(g5);
-    //    chartData.push(g6);
-        // console.log("ARRAYs");
-        // console.log(temp);
-        // console.log(temp2);
-        // console.log(temp3);
-        // console.log(studentInfo);
-        //console.log(chartData);
         res.send(chartData);
     })
     
@@ -359,7 +329,6 @@ exports.getVisitReasonCount=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[],temp3=[];
@@ -443,7 +412,6 @@ exports.getVisitReasonCount=function(req,res){
         
         data.push({arr:temp2});
         data.push({arr2:temp3})
-        console.log(data);
         if(from=="dashboard"){
             res.send(data);
         }
@@ -459,16 +427,13 @@ exports.getVisitReasonCount=function(req,res){
 exports.getVRCountByGradeInMonth=function(req,res){
     console.log("enters")
     var database = firebase.database();
-    var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
-    var query = clinicVisitRef.orderByChild("timeStamp");
 
-    var temp=[], temp2=[];
+    var temp=[];
     var temp3=[];
     var checkVisitReason=[];
-    var childSnapshotData, csData;
-    var i,j,k,alreadyAddedTemp2,alreadyAddedTemp3;
+    var childSnapshotData;
+    var i,j,k,alreadyAddedTemp3;
     var today= new Date();
     var curr=today.toString();
     var monthToday = today.getMonth();
@@ -758,12 +723,11 @@ exports.getDiseaseTrendCount= function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[];
-    var childSnapshotData, csData;
-    var i,j,alreadyAdded;
+    var childSnapshotData;
+    var i,alreadyAdded;
     var start=req.body.startDate;
     var end=req.body.endDate;
     
@@ -805,7 +769,7 @@ exports.getDiseaseTrendCount= function(req,res){
                 }
             }
         }
-       console.log(temp2);
+       
        res.send(temp2)
         return temp2;
     

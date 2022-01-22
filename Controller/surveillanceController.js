@@ -541,7 +541,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
         console.log(getTop10Temp);
 
         //to get only the top 10 
-        if(getTop10Temp.lenth<=10){
+        if(getTop10Temp.length <= 10){
             getTop10Final=getTop10Temp;
         }
         else{

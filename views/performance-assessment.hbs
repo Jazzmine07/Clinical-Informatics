@@ -11,62 +11,37 @@
 
     <title>IsKlinika</title>
 
-    <!-- Custom fonts for this template -->
+    <!-- Custom fonts for this template-->
     <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template-->
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
-        .clickable-row {
-            cursor: pointer;
-        }
-        .rating{
-            position: absolute;
-            flex-direction: row-reverse;
-            display: flex;
-        }
-        .rating input{
-            display: none;
-        }
-        .rating label{
-            display: block;
-            cursor: pointer;
-            width: 25px;
-        }
-        .rating label:before{
-            content: '\f005';
-            font-family: fontAwesome;
-            position: relative;
-            display: block;
-            font-size: 25px;
-            color: #e3e6f0;
-        }
-        .rating label:after{
-            content: '\f005';
-            font-family: fontAwesome;
-            position: absolute;
-            display: block;
-            font-size: 25px;
-            color: #f6c23e;
-            top: 0;
-            opacity: 0;
-            transition: .5s;
-        }
-        .rating label:hover:after, 
-        .rating label:hover ~ label:after, 
-        .rating input:checked ~ label:after{
-            opacity: 1;
+        #reportrange{
+            display: inline-block;
+            width: 100%;
+            height: calc(1.5em + 0.75rem + 2px);
+            padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #6e707e;
+            vertical-align: middle;
+            background: #ffff;
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
         }
     </style>
 
 </head>
 
 <body id="page-top">
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -74,99 +49,196 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="pointer-events: none; cursor: default;">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-user-md"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
             </a>
-
+            
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+            {{#if isNurse}}
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+            {{else}}
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                
+                <!-- Nav Item - Disease Surveillance -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/disease-surveillance">
+                        <i class="fas fa-fw fa-virus"></i>
+                        <span>Disease Surveillance</span></a>
+                </li>
+
+                <!-- Nav Item - Clinic Visit -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/clinic-visit">
+                        <i class="fas fa-fw fa-medkit"></i>
+                        <span>Clinic Visit</span></a>
+                </li>
+
+                <!-- Nav Item - Profile -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Student Profile</span></a>
+                </li>
+
+                <!-- Nav Item - Health Assessment -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/health-assessment">
+                        <i class="fas fa-fw fa-stethoscope"></i>
+                        <span>Health Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Inventory -->
+                <li class="nav-item">
+                    <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-archive"></i>
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
+                        <li>
+                            <a class="nav-link" href="/inventory-medicine">
+                                <i class="fas fa-fw fa-tablets"></i>
+                                <span>Medicine</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-supply">
+                                <i class="fas fa-fw fa-pump-medical"></i>
+                                <span>Supply</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/inventory-dental">
+                                <i class="fas fa-fw fa-tooth"></i>
+                                <span>Dental</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Nav Item - Promotive Care -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/promotive-care">
+                        <i class="fas fa-fw fa-child"></i>
+                        <span>Promotive Care</span></a>
+                </li>
+
+                <!-- Nav Item - Performance Assessment -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/performance-assessment">
+                        <i class="fas fa-fw fa-star"></i>
+                        <span>Performance Assessment</span></a>
+                </li>
+
+                <!-- Nav Item - Communications -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/communications">
+                        <i class="fas fa-fw fa-comments"></i>
+                        <span>Communications</span></a>
+                </li>
+
+                <!-- Nav Item - Reports -->
+                <li class="nav-item">
+                    <a href="#report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Reports</span></a>
+                    <ul class="collapse list-unstyled" id="report">
+                        <li>
+                            <a class="nav-link" href="/reports-clinic-visit">
+                                <i class="fas fa-fw fa-medkit"></i>
+                                <span>Clinic Visit</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/reports-health-assessment">
+                                <i class="fas fa-fw fa-stethoscope"></i>
+                                <span>Health Assessment</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/reports-inventory">
+                                <i class="fas fa-fw fa-archive"></i>
+                                <span>Inventory</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-fw fa-child"></i>
+                                <span>Promotive Care</span></a>
+                        </li>
+                    </ul>
+                </li>
+            {{/if}}
             
-            <!-- Nav Item - Disease Surveillance -->
-            <li class="nav-item">
-                <a class="nav-link" href="/disease-surveillance">
-                    <i class="fas fa-fw fa-virus"></i>
-                    <span>Disease Surveillance</span></a>
-            </li>
-
-            <!-- Nav Item - Clinic Visit -->
-            <li class="nav-item">
-                <a class="nav-link" href="/clinic-visit">
-                    <i class="fas fa-fw fa-medkit"></i>
-                    <span>Clinic Visit</span></a>
-            </li>
-
-            <!-- Nav Item - Profile -->
-            <li class="nav-item">
-                <a class="nav-link" href="/profile">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Student Profile</span></a>
-            </li>
-
-            <!-- Nav Item - Health Assessment -->
-            <li class="nav-item">
-                <a class="nav-link" href="/health-assessment">
-                    <i class="fas fa-fw fa-stethoscope"></i>
-                    <span>Health Assessment</span></a>
-            </li>
-
-            <!-- Nav Item - Inventory -->
-            <li class="nav-item">
-                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                    <i class="fas fa-fw fa-archive"></i>
-                    <span>Inventory</span></a>
-                <ul class="collapse list-unstyled" id="inventory">
-                    <li>
-                        <a class="nav-link" href="/inventory-medicine">
-                            <i class="fas fa-fw fa-tablets"></i>
-                            <span>Medicine</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/inventory-supply">
-                            <i class="fas fa-fw fa-pump-medical"></i>
-                            <span>Supply</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/inventory-dental">
-                            <i class="fas fa-fw fa-tooth"></i>
-                            <span>Dental</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Nav Item - Promotive Care -->
-            <li class="nav-item">
-                <a class="nav-link" href="/promotive-care">
-                    <i class="fas fa-fw fa-child"></i>
-                    <span>Promotive Care</span></a>
-            </li>
-
-            <!-- Nav Item - Performance Assessment -->
-            <li class="nav-item active">
-                <a class="nav-link" href="/performance-assessment">
-                    <i class="fas fa-fw fa-star"></i>
-                    <span>Performance Assessment</span></a>
-            </li>
-
-            <!-- Nav Item - Communications -->
-            <li class="nav-item">
-                <a class="nav-link" href="/communications">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>Communications</span></a>
-            </li>
-
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
+            <hr class="sidebar-divider">
+            
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -185,11 +257,9 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <form class="form-inline">
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-                    </form>
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -217,7 +287,7 @@
                                 </form>
                             </div>
                         </li>
-                        
+
                         {{>notifications}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -234,10 +304,6 @@
                             <div id="drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
@@ -246,7 +312,7 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -256,69 +322,72 @@
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
+                <!-- End of Topbar -->                   
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Clinic Visit Forms</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Performance Assessment</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-print fa-sm text-white-50"></i> Print</a>
                     </div>
 
-                    <!-- DataTales Assigned Task -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Health Services</h6>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <div class="col-4 mb-4">
+                            <select class="custom-select" id="program" name="program">
+                                <option disabled="disabled" selected="true">Health Program</option>
+                                <option value="name">Name of School Health Program</option>
+                            </select>
                         </div>
-                        <div class="card-body">
-                            <div class="form-row mb-4">
-                                <div class="col-9 pt-2 align-items-center ">1). How do you rate the clinic’s health service?</div>
-                                <div class="col-3">
-                                    <div class="rating">
-                                        <input style="display: none" type="radio" name="star" id="star0"><label style="display: none" for="star0"></label>
-                                        <input type="radio" name="star" id="star1"><label for="star1"></label>
-                                        <input type="radio" name="star" id="star2"><label for="star2"></label>
-                                        <input type="radio" name="star" id="star3"><label for="star3"></label>
-                                        <input type="radio" name="star" id="star4"><label for="star4"></label>
-                                        <input type="radio" name="star" id="star4"><label for="star5"></label>
-                                    </div>
-                                </div>                                       
+                        {{!-- <div class="col-4 mb-4">
+                            <div id="reportrange">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down"></i>
                             </div>
-                            <div class="form-row mb-4">
-                                <div class="col-9 pt-2 align-items-center ">5). Do the clinic personnel properly inform parents/students of the illness and management of illness</div>
-                                <div class="col-3">
-                                    <div class="rating">
-                                        <input style="display: none" type="radio" name="star" id="star0"><label style="display: none" for="star0"></label>
-                                        <input type="radio" name="star" id="star1"><label for="star1"></label>
-                                        <input type="radio" name="star" id="star2"><label for="star2"></label>
-                                        <input type="radio" name="star" id="star3"><label for="star3"></label>
-                                        <input type="radio" name="star" id="star4"><label for="star4"></label>
-                                        <input type="radio" name="star" id="star4"><label for="star5"></label>
+                        </div>  --}}
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-3">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Health Program</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="healthProgram"></canvas>
                                     </div>
-                                </div>                                       
-                            </div>                          
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /.container-fluid -->
+
             </div>
             <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; IsKlinika 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; IsKlinika 2021</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -357,9 +426,45 @@
     <!-- Custom scripts for all pages-->
     <script src="public/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level custom scripts -->
+    <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script type="text/javascript">
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            console.log("START " + start.format('YYYY-MM-DD'));
+            console.log("END " + end.format('YYYY-MM-DD'));
+
+            var program =  $('#program').find(":selected").text();
+            console.log(program);
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+        
+        
+    </script>
+
 </body>
 
 </html>

@@ -476,6 +476,17 @@ router.get('/clinic-visit/incidence', (req, res) => {
   });
 });
 
+// Get clinic incidence page
+router.get('/clinic-visit/referral', (req, res) => {
+  console.log("Read clinic visit referral successful!");
+  var user =  userController.getUser();
+  user.then(function(result){
+    res.render('clinic-visit-referral', { 
+      user: result
+    })
+  });
+});
+
 // Get profile page
 router.get('/profile', (req, res) => {
   console.log("Read profile successful!");

@@ -307,18 +307,20 @@ exports.getVaccineList = function(req, res){
 exports.getStudentPastIllness = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
-    var illnessRef = database.ref("studentHealthHistory/"+ id + "/illnessHistory");
-    var childSnapshotData, illnessHistory = [];
+    var illnessRef = database.ref("studentHealthHistory/"+ id + "/pastIllness");
+    var illnessHistory = [];
 
     illnessRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
                 illnessHistory.push({
-                    // allergy: childSnapshotData.allergy,
-                    // diagnosisDate: childSnapshotData.diagnosisDate,
-                    // lastOccurrence: childSnapshotData.lastOccurrence,
-                    // allergyType: childSnapshotData.type
+                    disease: childSnapshotData.disease,
+                    status: childSnapshotData.status,
+                    startDate: childSnapshotData.startDate,
+                    endDate: childSnapshotData.endDate,
+                    notes: childSnapshotData.notes,
+                    treatment: childSnapshotData.treatment
                 })
             })
             res.status(200).send(illnessHistory);

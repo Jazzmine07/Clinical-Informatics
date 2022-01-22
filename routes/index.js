@@ -148,14 +148,16 @@ router.get('/dashboard', loggedIn, (req, res) => {
     // }
 
     if(user.role == "Nurse"){
-      // dashboard for nurse to be fixed
-      res.render('dashboard', {
+      res.render('clinic-visit', {
         isNurse: true,
         user: user,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
     else {
       res.render('dashboard', { // nagsesend ng another response
+        isNurse: false,
         user: user,
         notification: notifs,
         count: count,
@@ -169,7 +171,7 @@ router.get('/dashboard', loggedIn, (req, res) => {
 });
 
 // Get disease surveillance page
-router.get('/disease-surveillance', (req, res) => {
+router.get('/disease-surveillance', loggedIn, (req, res) => {
   console.log("Read disease surveillance successful!");
   var prom1 ,prom2, prom3 ,user, topDiagnosis;
 
@@ -181,37 +183,19 @@ router.get('/disease-surveillance', (req, res) => {
     prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
     
-    console.log("WEEK:");
-    console.log(prom3[0]);
     prom3[0].sort((a, b) => b.count - a.count);
-    console.log("sort week");
-    console.log(prom3[0]);
-
-    console.log("MONTH:");
-    console.log(prom3[1]);
     prom3[1].sort((a, b) => b.count - a.count);
-    console.log("sort month");
-    console.log(prom3[1]);
 
     if(user.role == "Nurse"){
-      res.render('disease-surveillance', {
+      res.render('clinic-visit', {
+        isNurse: true,
         user: user,
-        topDiagnosisWeek: prom3[0],
-        topDiagnosisMonth: prom3[1],
-        topDWeekOne:prom3[0][0],
-        topDWeekTwo:prom3[0][1],
-        topDWeekThree:prom3[0][2],
-        topDWeekFour:prom3[0][3],
-        topDWeekFive:prom3[0][4],
-        topDMonthOne:prom3[0][0],
-        topDMonthTwo:prom3[0][1],
-        topDMonthThree:prom3[0][2],
-        topDMonthFour:prom3[0][3],
-        topDMonthFive:prom3[0][4],
-        
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     } else {
       res.render('disease-surveillance', {
+        isNurse: false,
         user: user,
         topDiagnosisWeek: prom3[0],
         topDiagnosisMonth: prom3[1],
@@ -220,12 +204,11 @@ router.get('/disease-surveillance', (req, res) => {
         topDWeekThree:prom3[0][2],
         topDWeekFour:prom3[0][3],
         topDWeekFive:prom3[0][4],
-        topDMonthOne:prom3[0][0],
-        topDMonthTwo:prom3[0][1],
-        topDMonthThree:prom3[0][2],
-        topDMonthFour:prom3[0][3],
-        topDMonthFive:prom3[0][4],
-        
+        topDMonthOne:prom3[1][0],
+        topDMonthTwo:prom3[1][1],
+        topDMonthThree:prom3[1][2],
+        topDMonthFour:prom3[1][3],
+        topDMonthFive:prom3[1][4],
       });
     }
   }).catch(error => {
@@ -235,7 +218,7 @@ router.get('/disease-surveillance', (req, res) => {
 });
 
 // Get clinic visit page
-router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
+router.get('/clinic-visit', loggedIn, (req, res) => { // dont foget to put loggedIn
   console.log("Read clinic visit successful!");
   var promise1, promise2, promise3, promise4, promise5;
   var user, formId, record, dashboard, reports;
@@ -279,7 +262,7 @@ router.get('/clinic-visit', (req, res) => { // dont foget to put loggedIn
 });
 
 // Get clinic visit view page
-router.get('/clinic-visit/view/:id', (req, res) => {
+router.get('/clinic-visit/view/:id', loggedIn, (req, res) => {
   console.log("Read clinic visit view successful!");
   var prom1, prom2;
   var user, form;
@@ -312,7 +295,7 @@ router.get('/clinic-visit/view/:id', (req, res) => {
 });
 
 // Get clinic visit view page
-router.get('/clinic-visit/view/report/:id', (req, res) => {
+router.get('/clinic-visit/view/report/:id', loggedIn, (req, res) => {
   console.log("Read clinic visit view incident report successful!");
   var prom1, prom2;
   var user, report;
@@ -343,7 +326,7 @@ router.get('/clinic-visit/view/report/:id', (req, res) => {
 });
 
 // Get clinic visit page
-router.get('/clinic-visit/create', (req, res) => {
+router.get('/clinic-visit/create', loggedIn, (req, res) => {
   console.log("Read create clinic visit successful!");
   var prom1, prom2, prom3, prom4, prom5, prom6;
   var user, nurse, clinician, prescribed, medicines, complaints;
@@ -390,7 +373,7 @@ router.get('/clinic-visit/create', (req, res) => {
 });
 
 // Get clinic visit edit page
-router.get('/clinic-visit/edit/:id', (req, res) => {
+router.get('/clinic-visit/edit/:id', loggedIn, (req, res) => {
   console.log("Read clinic visit edit successful!");
   var prom1, prom2, prom3, prom4, prom5;
   var user, nurse, medicines, form, diagnosis;
@@ -432,7 +415,7 @@ router.get('/clinic-visit/edit/:id', (req, res) => {
 });
 
 // Get clinic medication page
-router.get('/clinic-visit/medication', (req, res) => {
+router.get('/clinic-visit/medication', loggedIn, (req, res) => {
   console.log("Read medication clinic visit successful!");
   var prom1, prom2, prom3;
   var user, nurse, medicines;
@@ -466,7 +449,7 @@ router.get('/clinic-visit/medication', (req, res) => {
 });
 
 // Get clinic incidence page
-router.get('/clinic-visit/incidence', (req, res) => {
+router.get('/clinic-visit/incidence', loggedIn, (req, res) => {
   console.log("Read clinic visit incidence successful!");
   var user =  userController.getUser();
   user.then(function(result){
@@ -488,7 +471,7 @@ router.get('/clinic-visit/referral', (req, res) => {
 });
 
 // Get profile page
-router.get('/profile', (req, res) => {
+router.get('/profile', loggedIn, (req, res) => {
   console.log("Read profile successful!");
   var promise1, promise2;
   var user;
@@ -515,7 +498,7 @@ router.get('/profile', (req, res) => {
 });
 
 // Get health assessment page
-router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
+router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
   var prom1,prom2,prom3,prom4,user,records,sections,schedule;
   prom1 = userController.getUser();
@@ -565,7 +548,7 @@ router.get('/health-assessment', (req, res) => { // dont foget to put loggedIn
 });
 
 // Get physical exam page
-router.get('/health-assessment/physical', (req, res) => {
+router.get('/health-assessment/physical', loggedIn, (req, res) => {
   console.log("Read physical exam successful!");
   var prom1, prom3;
   var user,clinician;
@@ -596,7 +579,7 @@ router.get('/health-assessment/physical', (req, res) => {
 });
 
 // Get physical exam page
-router.get('/health-assessment/dental', (req, res) => {
+router.get('/health-assessment/dental', loggedIn, (req, res) => {
   console.log("Read dental exam successful!");
   var prom1,prom2;
   var user,clinician;
@@ -627,7 +610,7 @@ router.get('/health-assessment/dental', (req, res) => {
 });
 
 // Get health assessment schedule page
-router.get('/health-assessment/schedule', (req, res) => {
+router.get('/health-assessment/schedule', loggedIn, (req, res) => {
   console.log("Read health assessment schedule successful!");
   prom1 =  userController.getUser();
   Promise.all([prom1]).then(result => {
@@ -651,7 +634,7 @@ router.get('/health-assessment/schedule', (req, res) => {
 });
 
 // Get medicine inventory page
-router.get('/inventory-medicine', (req, res) => {
+router.get('/inventory-medicine', loggedIn, (req, res) => {
   console.log("Read medicine inventory successful!");
   var prom1, prom2, prom3;
   var user, inventory, usedMedicine;
@@ -684,7 +667,7 @@ router.get('/inventory-medicine', (req, res) => {
 });
 
 // Get add medicine inventory page
-router.get('/inventory-medicine/add', (req, res) => {
+router.get('/inventory-medicine/add', loggedIn, (req, res) => {
   console.log("Read add medicine successful!");
   var prom1, prom2, user, medicines;
   prom1 =  userController.getUser();
@@ -709,7 +692,7 @@ router.get('/inventory-medicine/add', (req, res) => {
 });
 
 // Get supply inventory page
-router.get('/inventory-supply', (req, res) => {
+router.get('/inventory-supply', loggedIn, (req, res) => {
   console.log("Read supply inventory successful!");
   var prom1, prom2, prom3;
   var user, supply, discrepancy;
@@ -742,7 +725,7 @@ router.get('/inventory-supply', (req, res) => {
 });
 
 // Get add supply inventory page
-router.get('/inventory-supply/add', (req, res) => {
+router.get('/inventory-supply/add', loggedIn, (req, res) => {
   console.log("Read add supply successful!");
   var prom1, prom2, user, supplies;
   prom1 =  userController.getUser();
@@ -767,7 +750,7 @@ router.get('/inventory-supply/add', (req, res) => {
 });
 
 // Get dental inventory page
-router.get('/inventory-dental', (req, res) => {
+router.get('/inventory-dental', loggedIn, (req, res) => {
   console.log("Read dental successful!");
   var prom1, prom2, prom3;
   var user, dental, discrepancy;
@@ -801,7 +784,7 @@ router.get('/inventory-dental', (req, res) => {
 });
 
 // Get add supply inventory page
-router.get('/inventory-dental/add', (req, res) => {
+router.get('/inventory-dental/add', loggedIn, (req, res) => {
   console.log("Read add dental successful!");
   var prom1, prom2, user, dental;
   prom1 =  userController.getUser();
@@ -826,7 +809,7 @@ router.get('/inventory-dental/add', (req, res) => {
 });
 
 // Get promotive care page
-router.get('/promotive-care', (req, res) => {
+router.get('/promotive-care', loggedIn, (req, res) => {
   console.log("Read promotive care successful!");
   var prom1, prom2;
   var user, programs;
@@ -855,7 +838,7 @@ router.get('/promotive-care', (req, res) => {
 });
 
 // Get program form page
-router.get('/promotive-care/program-form', (req, res) => {
+router.get('/promotive-care/program-form', loggedIn, (req, res) => {
   console.log("Read program form successful!");
   var prom1, prom2;
   var user;
@@ -879,7 +862,7 @@ router.get('/promotive-care/program-form', (req, res) => {
 });
 
 // Get performance assessment  page
-router.get('/performance-assessment', (req, res) => {
+router.get('/performance-assessment', loggedIn, (req, res) => {
   console.log("Read performance assessment successful!");
   var user =  userController.getUser();
   user.then(function(result){
@@ -890,7 +873,7 @@ router.get('/performance-assessment', (req, res) => {
 });
 
 // Get communications page
-router.get('/communications', (req, res) => {
+router.get('/communications', loggedIn, (req, res) => {
   console.log("Read communications successful!");
   var users =  userController.getUser();
   users.then(function(result){
@@ -901,7 +884,7 @@ router.get('/communications', (req, res) => {
 });
 
 // Get report clinic visit page
-router.get('/reports-clinic-visit', (req, res) => {
+router.get('/reports-clinic-visit', loggedIn, (req, res) => {
   console.log("Read reports clinic visit successful!");
   var promise1, promise2;
   var user, reports;
@@ -913,8 +896,11 @@ router.get('/reports-clinic-visit', (req, res) => {
     reports = result[1];
 
     if(user.role == "Nurse"){
-      res.render('reports-clinic-visit', {
+      res.render('clinic-visit', {
         isNurse: true,
+        user: user,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
     else {
@@ -931,7 +917,7 @@ router.get('/reports-clinic-visit', (req, res) => {
 });
 
 // Get report health assessment page
-router.get('/reports-health-assessment', (req, res) => {
+router.get('/reports-health-assessment', loggedIn, (req, res) => {
   console.log("Read reports health assessment successful!");
   var prom1,prom2,prom3,prom4,user,records,sections,schedule;
   prom1 = userController.getUser();
@@ -960,13 +946,14 @@ router.get('/reports-health-assessment', (req, res) => {
     }
     
     if(user.role == "Nurse"){
-      res.render('reports-health-assessment', {
-        user: user,
+      res.render('clinic-visit', {
         isNurse: true,
-        sections: sections,
-        schedule:schedule
+        user: user,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
-    } else {
+    }
+    else {
       res.render('reports-health-assessment', {
         user: user, 
         isNurse: false,
@@ -981,7 +968,7 @@ router.get('/reports-health-assessment', (req, res) => {
 });
 
 // Get report inventory page
-router.get('/reports-inventory', (req, res) => {
+router.get('/reports-inventory', loggedIn, (req, res) => {
   console.log("Read reports inventory successful!");
   var prom1, prom2, prom3;
   var user, inventory, usedMedicine;
@@ -993,10 +980,13 @@ router.get('/reports-inventory', (req, res) => {
     user = result[0];
     inventory = result[1];
     usedMedicine = result[2];
+
     if(user.role == "Nurse"){
-      res.render('reports-inventory', {
-        user: user,
+      res.render('clinic-visit', {
         isNurse: true,
+        user: user,
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     } else {
       res.render('reports-inventory', {
@@ -1011,10 +1001,8 @@ router.get('/reports-inventory', (req, res) => {
   });
 });
 
-// Get bmi info
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-
 router.post('/updateNotif', notificationController.updateNotifications);
 
 //--------GETTING STUDENT INFO RELATED----------------------------

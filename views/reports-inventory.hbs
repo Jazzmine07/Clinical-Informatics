@@ -327,17 +327,17 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
+                        {{#if error}}
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <strong class="mx-1">Error!</strong> {{error_msg}}
+                            </div>
+                        {{/if}}
                         <div class="d-flex flex-row-reverse">
                             <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
                         </div>
                     </div>
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -870,8 +870,6 @@
             }
             
             top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels);
-            
-
         });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {

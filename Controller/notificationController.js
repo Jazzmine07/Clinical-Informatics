@@ -25,10 +25,6 @@ exports.getNotifications = function(req, res){
                                 seen: childSnapshotData.seen
                             })
                         })
-
-                        console.log("notifs in controller");
-                        console.log(notifs);
-
                         notifs.reverse();
                         res.status(200).send(notifs);
                         //resolve(notifs);

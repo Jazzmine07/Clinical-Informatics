@@ -316,13 +316,13 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Clinic Visit Report</h1>
+                        {{#if error}}
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <strong class="mx-1">Error!</strong> {{error_msg}}
+                            </div>
+                        {{/if}}
                     </div>
-                    {{#if success}}
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; !important" id="error">
-                            <i class="fa fa-exclamation-circle"></i>
-                            <strong class="mx-1">Success!</strong> {{success_msg}}
-                        </div>
-                    {{/if}}
 
                     <div class="row">
                         <div class="col-4 mb-4">
@@ -704,20 +704,32 @@
                         labels: monthNames, // x-axis
                         datasets: [{
                             backgroundColor: [  // background color of the thing
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
+                                'rgba(89, 140, 116, 0.3)',  // pearl (june)
+                                'rgba(224, 17, 95, 0.3)',    // ruby (july)
+                                'rgba(180, 196, 36, 0.3)',   // peridot (aug)
+                                'rgba(15, 82, 186, 0.3)',    // sapphire (sept)
+                                'rgba(168, 195, 188, 0.3)',  // opal (oct)
+                                'rgba(228, 208, 10, 0.3)',   // citrine (nov)
+                                'rgba(120, 189, 212, 0.3)',  // blue topaz (dec)
+                                'rgba(154, 42, 42, 0.3)',    // garnet (jan)
+                                'rgba(153, 102, 204, 0.3)',  // amethyst (feb)
+                                'rgba(0, 255, 191, 0.3)',    // aquamarine (march)
+                                'rgba(185, 242, 255, 0.3)',  // diamond (april)
+                                'rgba(80, 200, 120, 0.3)',   // emerald (may)
                             ],
                             borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+                                'rgba(89, 140, 116, 1)',  // pearl (june)
+                                'rgba(224, 17, 95, 1)',    // ruby (july)
+                                'rgba(180, 196, 36, 1)',   // peridot (aug)
+                                'rgba(15, 82, 186, 1)',    // sapphire (sept)
+                                'rgba(168, 195, 188, 1)',  // opal (oct)
+                                'rgba(228, 208, 10, 1)',   // citrine (nov)
+                                'rgba(120, 189, 212, 1)',  // blue topaz (dec)
+                                'rgba(154, 42, 42, 1)',    // garnet (jan)
+                                'rgba(153, 102, 204, 1)',  // amethyst (feb)
+                                'rgba(0, 255, 191, 1)',    // aquamarine (march)
+                                'rgba(185, 242, 255, 1)',  // diamond (april)
+                                'rgba(80, 200, 120, 1)',   // emerald (may)
                             ],
                             borderWidth: 3,
                             data: count
@@ -778,20 +790,13 @@
                         labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'], // x-axis
                         datasets: [{
                             backgroundColor: [  // background color of the thing
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+                                'rgba(255, 99, 132, 1)', // pink
+                                'rgba(54, 162, 235, 1)', // blue
+                                'rgba(255, 206, 86, 1)', // yellow
+                                'rgba(75, 192, 192, 1)', // green
+                                'rgba(153, 102, 255, 1)', // purple
+                                'rgba(255, 159, 64, 1)', // orange
+                                'rgba(117, 0, 0, 1)'    // maroon
                             ],
                             borderWidth: 3,
                             data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
@@ -846,12 +851,13 @@
                         labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'],
                         datasets: [{
                             backgroundColor: [  // background color of the thing
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+                                'rgba(255, 99, 132, 1)', // pink
+                                'rgba(54, 162, 235, 1)', // blue
+                                'rgba(255, 206, 86, 1)', // yellow
+                                'rgba(75, 192, 192, 1)', // green
+                                'rgba(153, 102, 255, 1)', // purple
+                                'rgba(255, 159, 64, 1)', // orange
+                                'rgba(117, 0, 0, 1)'    // maroon
                             ],
                             data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
                         }],
@@ -959,10 +965,8 @@
                 var yearRange=[]
                 var count=[];
                 var year;
-
                 var range=[];
-
-
+                var xLabel;
 
                 //------------------IF USER WANTS TO SEE COUNT BY YEAR------------------
                 if(choice == "yearly" || choice=="Yearly"){
@@ -985,6 +989,7 @@
                             }
                         }                    
                     }
+                    xLabel = "Year";
                 }
                 //------------------IF USER WANTS TO SEE COUNT BY MONTH------------------
                 else if(choice == "monthly" || choice=="Monthly"){
@@ -1095,10 +1100,10 @@
 
                                           
                     }
-
+                    xLabel = "Month";
                 }
                 //------------------IF USER WANTS TO SEE COUNT BY DAILY------------------
-                else if(choice == "daily" || choice=="Daily"){
+                else if(choice == "daily" || choice == "Daily"){
                     //gets all the date in the date monthsRange
                     while(startDate<=endDate){
                         //dateLabels.push(startDate.getFullYear() + "-" + (startDate.getMonth()+1) + "-" +startDate.getDate());
@@ -1127,8 +1132,7 @@
                             }
                         }                    
                     }
-
-
+                    xLabel = "Days";
                 }
 
                 console.log("RANGE and COUNT:");
@@ -1185,7 +1189,7 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Days',
+                                    text: xLabel,
                                     font: {
                                         size: 15,   // font size of the labels
                                         weight: 'bold'
@@ -1210,9 +1214,7 @@
                 }
 
                 var visitsChart = document.getElementById("dailyVisits");
-                clinicVisitsChart = new Chart(visitsChart, config)
-
-
+                clinicVisitsChart = new Chart(visitsChart, config);
             }
 
 

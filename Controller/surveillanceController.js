@@ -11,53 +11,39 @@ exports.getDiseaseSurveillanceData=function(){
     var checkDiagnosis=[];
     var i;
     
-
+    console.log("GET TOP DISEASE DATA")
     var promise = new Promise((resolve,reject) => {
-        databaseRef.once('value', (snapshot) => {
-            if(snapshot.hasChild("clinicVisit")){
-                query.on('value', (childSnapshot) => {
-                    childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
-                        childSnapshotData = innerChildSnapshot.exportVal();
-                        checkDiagnosis=childSnapshotData.diagnosis.split(", ");
-                        for(i=0;i<checkDiagnosis.length;i++){
-                            if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
-                                temp.push({
-                                    diagnosis:checkDiagnosis[i],
-                                    visitDate:childSnapshotData.visitDate,
-                                    id:childSnapshotData.id
-                                })
-                            }
-                        }
-                    })
-                    
-                })
-            }
-            console.log("temp array");
-            console.log(temp);
+        clinicVisitRef.once('value', (snapshot)=>{
+            snapshot.forEach(function(childSnapshot){
+                child = childSnapshot.exportVal();
+                checkDiagnosis = child.diagnosis.split(", ");
+                for(i=0;i<checkDiagnosis.length;i++){
+                    if(checkDiagnosis[i]!=null && checkDiagnosis[i]!=undefined && checkDiagnosis[i]!=""){
+                        temp.push({
+                            diagnosis:checkDiagnosis[i],
+                            visitDate:child.visitDate,
+                            id:child.id
+                        })
+                    }
+                }
+            })
             resolve (temp);
         })
     })
+
     return promise;
 }
 //function returns strings of top diagnosis for week and month - dependent on current date (used in Disease Surveillance)
 exports.getTopDisease=function(vcArray){
     console.log("Entered getTopDisease");
-    var database = firebase.database();
-    var databaseRef = database.ref();
-    var clinicVisitRef = database.ref("clinicVisit");
-    var query = clinicVisitRef.orderByChild("timeStamp");
     var temp=vcArray, strings=[];
-    var vcWeek=[], weekTopDisease=[], topWeekCount=[], topWeekConcern=[], stringWeek=""; // variables for top disease week
-    var vcMonth=[], monthTopDisease=[], topMonthCount=[], topMonthConcern=[], stringMonth=""; // variables for top disease month
-    var childSnapshotData;
+    var vcWeek=[], weekTopDisease=[]; // variables for top disease week
+    var vcMonth=[], monthTopDisease=[]; // variables for top disease month
     var parts, dbDate,alreadyAdded;
     var currDate =  new Date();
     var today = new Date();
     var weekAgo=new Date(today.setDate(today.getDate() - 7));
-    var i,j,size;
-    var weekTopDiseaseFinal=[], monthTopDiseaseFinal=[];
-
-    console.log(temp);
+    var i,j;
     
     //getting only the clinic visits current week
     for(i=0;i<temp.length;i++){
@@ -125,7 +111,6 @@ exports.getTopDisease=function(vcArray){
         weekTopDisease= vcWeek.sort(function (x, y) {
             return y.count- x.count;
         });
-        console.log(weekTopDisease)
         strings.push(weekTopDisease);
     }
     else{
@@ -136,13 +121,11 @@ exports.getTopDisease=function(vcArray){
         monthTopDisease= vcMonth.sort(function (x, y) {
             return y.count- x.count;
         });
-        console.log(monthTopDisease);
         strings.push(monthTopDisease);
     }
     else{
         strings.push(monthTopDisease);
     }
-    
         
     return strings;
 
@@ -152,13 +135,11 @@ exports.getDiseaseDemographics=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[],temp3=[],checkDiagnosis=[];
-    var childSnapshotData, csData;
-    var i,j,alreadyAdded;
-    var studentInfo=[],sex, grade;
+    var childSnapshotData;
+    var i;
     var disease= req.body.disease;
 
     //console.log("DISEASE from frontend:"+disease);
@@ -222,8 +203,6 @@ exports.getDiseaseDemographics=function(req,res){
             }
         }
         
-
-        //ADD Grade 3-6 pa
         //combining to get chart data
         for(i=0;i<temp3.length;i++){
 
@@ -339,20 +318,6 @@ exports.getDiseaseDemographics=function(req,res){
         }
 
         chartData.push( {grade1:g1},{grade2:g2},{grade3:g3},{grade4:g4},{grade5:g5}, {grade6:g6},{temp3} );
-        console.log("HELLO DEATH");
-        console.log(chartData);
-    //    chartData.push(g1);
-    //    chartData.push(g2);
-    //    chartData.push(g3);
-    //    chartData.push(g4);
-    //    chartData.push(g5);
-    //    chartData.push(g6);
-        // console.log("ARRAYs");
-        // console.log(temp);
-        // console.log(temp2);
-        // console.log(temp3);
-        // console.log(studentInfo);
-        //console.log(chartData);
         res.send(chartData);
     })
     
@@ -364,7 +329,6 @@ exports.getVisitReasonCount=function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[],temp3=[];
@@ -448,7 +412,6 @@ exports.getVisitReasonCount=function(req,res){
         
         data.push({arr:temp2});
         data.push({arr2:temp3})
-        console.log(data);
         if(from=="dashboard"){
             res.send(data);
         }
@@ -464,16 +427,13 @@ exports.getVisitReasonCount=function(req,res){
 exports.getVRCountByGradeInMonth=function(req,res){
     console.log("enters")
     var database = firebase.database();
-    var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
-    var query = clinicVisitRef.orderByChild("timeStamp");
 
-    var temp=[], temp2=[];
+    var temp=[];
     var temp3=[];
     var checkVisitReason=[];
-    var childSnapshotData, csData;
-    var i,j,k,alreadyAddedTemp2,alreadyAddedTemp3;
+    var childSnapshotData;
+    var i,j,k,alreadyAddedTemp3;
     var today= new Date();
     var curr=today.toString();
     var monthToday = today.getMonth();
@@ -481,13 +441,11 @@ exports.getVRCountByGradeInMonth=function(req,res){
     var from = req.body.from;
     var getTop10Temp=[],getTop10Final=[],alreadyAdded;
 
-    console.log("MARSHMALLOW");
     clinicVisitRef.once('value', (snapshot) => {
         snapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
             childSnapshotData = innerChildSnapshot.exportVal();
             checkVisitReason=childSnapshotData.visitReason.split(", ");
             for(i=0;i<checkVisitReason.length;i++){
-                console.log(checkVisitReason);
                 if(checkVisitReason[i]!=""){
                     partsDb =childSnapshotData.visitDate.split('-');
                     if(partsDb[1]-1 == monthToday && partsDb[0]==yearToday){
@@ -504,172 +462,63 @@ exports.getVRCountByGradeInMonth=function(req,res){
         })
 
         if(temp.length>0){
-            console.log("temp:");
-        console.log(temp);
         
-        for(i=0;i<temp.length;i++){
-            alreadyAdded=0;
-            if(getTop10Temp.length==0){
-                getTop10Temp.push({
-                    visitReason:temp[i].visitReason,
-                    count:1
-                })
+            for(i=0;i<temp.length;i++){
+                alreadyAdded=0;
+                if(getTop10Temp.length==0){
+                    getTop10Temp.push({
+                        visitReason:temp[i].visitReason,
+                        count:1
+                    })
+                }
+                else{
+                    for(j=0;j<getTop10Temp.length;j++){
+                        if(temp[i].visitReason.toLowerCase() == getTop10Temp[j].visitReason.toLowerCase()){
+                            getTop10Temp[j].count= getTop10Temp[j].count+1;
+                            alreadyAdded=1;
+                        }
+                    }
+                    if(alreadyAdded!=1){
+                        if(temp[i].visitReason!=""){
+                            getTop10Temp.push({
+                                visitReason: temp[i].visitReason,
+                                count:1
+                            })
+                        }
+                    }
+                }
+                    
+            }
+            
+            //to sort in descending order
+            getTop10Temp=getTop10Temp.sort(function (x, y) {
+                return y.count- x.count;
+            });
+            
+
+            //to get only the top 10 
+            if(getTop10Temp.length <= 10){
+                getTop10Final=getTop10Temp;
             }
             else{
-                for(j=0;j<getTop10Temp.length;j++){
-                    if(temp[i].visitReason.toLowerCase() == getTop10Temp[j].visitReason.toLowerCase()){
-                        getTop10Temp[j].count= getTop10Temp[j].count+1;
-                        alreadyAdded=1;
-                    }
-                }
-                if(alreadyAdded!=1){
-                    if(temp[i].visitReason!=""){
-                        getTop10Temp.push({
-                            visitReason: temp[i].visitReason,
-                            count:1
-                        })
-                    }
+                for(i=0;i<10;i++){
+                    getTop10Final.push({
+                        visitReason: getTop10Temp[i].visitReason,
+                        count:getTop10Temp[i].count
+                    })
                 }
             }
-                
-        }
-        
-        //to sort in descending order
-        getTop10Temp=getTop10Temp.sort(function (x, y) {
-            return y.count- x.count;
-        });
-        console.log(getTop10Temp);
-
-        //to get only the top 10 
-        if(getTop10Temp.lenth<=10){
-            getTop10Final=getTop10Temp;
-        }
-        else{
-            for(i=0;i<10;i++){
-                getTop10Final.push({
-                    visitReason: getTop10Temp[i].visitReason,
-                    count:getTop10Temp[i].count
-                })
-            }
-        }
-        console.log(getTop10Final);
-        
-        
-        //temp where data is filtered by date and gets the count of each disease
-        for(i=0;i<temp.length;i++){
-            if(temp[i].visitReason!=undefined && temp[i].visitReason!=""){
-                if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
-                    alreadyAddedTemp2=0;
-                    alreadyAddedTemp3=0;       
-                    if(temp3.length==0){
-                        if(temp[i].visitReason!=""){
-                            for(j=0;j<getTop10Final.length;j++){
-                                if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
-                                    if(temp[i].grade=="1"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:1,
-                                            g2:0,
-                                            g3:0,
-                                            g4:0,
-                                            g5:0,
-                                            g6:0
-                                        })
-                                    }
-                                    else if(temp[i].grade=="2"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:0,
-                                            g2:1,
-                                            g3:0,
-                                            g4:0,
-                                            g5:0,
-                                            g6:0
-                                        })
-                                    } 
-                                    else if(temp[i].grade=="3"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:0,
-                                            g2:0,
-                                            g3:1,
-                                            g4:0,
-                                            g5:0,
-                                            g6:0
-                                        })
-                                    }
-                                    else if(temp[i].grade=="4"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:0,
-                                            g2:0,
-                                            g3:0,
-                                            g4:1,
-                                            g5:0,
-                                            g6:0
-                                        })
-                                    }
-                                    else if(temp[i].grade=="5"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:0,
-                                            g2:0,
-                                            g3:0,
-                                            g4:0,
-                                            g5:1,
-                                            g6:0
-                                        })
-                                    }
-                                    else if(temp[i].grade=="6"){
-                                        temp3.push({
-                                            concern: temp[i].visitReason,
-                                            g1:0,
-                                            g2:0,
-                                            g3:0,
-                                            g4:0,
-                                            g5:0,
-                                            g6:1
-                                        })
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        console.log(temp[i].visitReason);
-                        for(k=0;k<temp3.length;k++){
-                            if(temp3[k].concern!="" && temp3[k].concern!=undefined){
+            
+            //temp where data is filtered by date and gets the count of each disease
+            for(i=0;i<temp.length;i++){
+                if(temp[i].visitReason!=undefined && temp[i].visitReason!=""){
+                    if(temp[i].visitDate!="" && temp[i].visitDate!=null && temp[i].visitDate!=undefined){
+                        alreadyAddedTemp2=0;
+                        alreadyAddedTemp3=0;       
+                        if(temp3.length==0){
+                            if(temp[i].visitReason!=""){
                                 for(j=0;j<getTop10Final.length;j++){
                                     if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
-                                        if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
-                                            if(temp[i].grade=="1"){
-                                                temp3[k].g1=temp3[k].g1+1;
-                                            }
-                                            else if(temp[i].grade=="2"){
-                                                temp3[k].g2=temp3[k].g2+1;
-                                            }
-                                            else if(temp[i].grade=="3"){
-                                                temp3[k].g3=temp3[k].g3+1;
-                                            }
-                                            else if(temp[i].grade=="4"){
-                                                temp3[k].g4=temp3[k].g4+1;
-                                            }
-                                            else if(temp[i].grade=="5"){
-                                                temp3[k].g5=temp3[k].g5+1;
-                                            }
-                                            else if(temp[i].grade=="6"){
-                                                temp3[k].g6=temp3[k].g6+1;
-                                            }                        
-                                            alreadyAddedTemp3=1;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if(alreadyAddedTemp3!=1){
-                            for(j=0;j<getTop10Final.length;j++){
-                                if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
-                                    if(temp[i].visitReason!=""){    
                                         if(temp[i].grade=="1"){
                                             temp3.push({
                                                 concern: temp[i].visitReason,
@@ -738,24 +587,125 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                         }
                                     }
                                 }
+                            }
+                        }
+                        else{
+                            console.log(temp[i].visitReason);
+                            for(k=0;k<temp3.length;k++){
+                                if(temp3[k].concern!="" && temp3[k].concern!=undefined){
+                                    for(j=0;j<getTop10Final.length;j++){
+                                        if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
+                                            if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
+                                                if(temp[i].grade=="1"){
+                                                    temp3[k].g1=temp3[k].g1+1;
+                                                }
+                                                else if(temp[i].grade=="2"){
+                                                    temp3[k].g2=temp3[k].g2+1;
+                                                }
+                                                else if(temp[i].grade=="3"){
+                                                    temp3[k].g3=temp3[k].g3+1;
+                                                }
+                                                else if(temp[i].grade=="4"){
+                                                    temp3[k].g4=temp3[k].g4+1;
+                                                }
+                                                else if(temp[i].grade=="5"){
+                                                    temp3[k].g5=temp3[k].g5+1;
+                                                }
+                                                else if(temp[i].grade=="6"){
+                                                    temp3[k].g6=temp3[k].g6+1;
+                                                }                        
+                                                alreadyAddedTemp3=1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if(alreadyAddedTemp3!=1){
+                                for(j=0;j<getTop10Final.length;j++){
+                                    if(temp[i].visitReason.toLowerCase()==getTop10Final[j].visitReason.toLowerCase()){
+                                        if(temp[i].visitReason!=""){    
+                                            if(temp[i].grade=="1"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:1,
+                                                    g2:0,
+                                                    g3:0,
+                                                    g4:0,
+                                                    g5:0,
+                                                    g6:0
+                                                })
+                                            }
+                                            else if(temp[i].grade=="2"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:0,
+                                                    g2:1,
+                                                    g3:0,
+                                                    g4:0,
+                                                    g5:0,
+                                                    g6:0
+                                                })
+                                            } 
+                                            else if(temp[i].grade=="3"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:0,
+                                                    g2:0,
+                                                    g3:1,
+                                                    g4:0,
+                                                    g5:0,
+                                                    g6:0
+                                                })
+                                            }
+                                            else if(temp[i].grade=="4"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:0,
+                                                    g2:0,
+                                                    g3:0,
+                                                    g4:1,
+                                                    g5:0,
+                                                    g6:0
+                                                })
+                                            }
+                                            else if(temp[i].grade=="5"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:0,
+                                                    g2:0,
+                                                    g3:0,
+                                                    g4:0,
+                                                    g5:1,
+                                                    g6:0
+                                                })
+                                            }
+                                            else if(temp[i].grade=="6"){
+                                                temp3.push({
+                                                    concern: temp[i].visitReason,
+                                                    g1:0,
+                                                    g2:0,
+                                                    g3:0,
+                                                    g4:0,
+                                                    g5:0,
+                                                    g6:1
+                                                })
+                                            }
+                                        }
+                                    }
+                                    
+                                }
                                 
                             }
-                            
                         }
                     }
                 }
+
+                
+                
             }
-
             
-            
-        }
-        
-        temp3.push(temp);
+            temp3.push(temp);
 
-
-        console.log("getDiseaseCount array");
-        console.log(temp3);
-        console.log("MINT");
         }
         
         if(from=="dashboard"){
@@ -773,12 +723,11 @@ exports.getDiseaseTrendCount= function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var studentInfoRef = database.ref("studentInfo");
     var query = clinicVisitRef.orderByChild("timeStamp");
 
     var temp=[],temp2=[];
-    var childSnapshotData, csData;
-    var i,j,alreadyAdded;
+    var childSnapshotData;
+    var i,alreadyAdded;
     var start=req.body.startDate;
     var end=req.body.endDate;
     
@@ -820,7 +769,7 @@ exports.getDiseaseTrendCount= function(req,res){
                 }
             }
         }
-       console.log(temp2);
+       
        res.send(temp2)
         return temp2;
     

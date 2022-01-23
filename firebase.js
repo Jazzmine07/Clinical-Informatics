@@ -1,4 +1,4 @@
-const firebase = require('firebase');                   
+const firebase = require('firebase');    
 
 const firebaseConfig = {
     apiKey: "AIzaSyDI-FxXAgROiDQ5nh3IgjlUgH2GHGRZp2g",
@@ -13,5 +13,4 @@ const firebaseConfig = {
 
 // Initialize firebase
 const app = firebase.initializeApp(firebaseConfig); 
-
 module.exports = app;

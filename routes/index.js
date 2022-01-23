@@ -395,7 +395,7 @@ router.get('/clinic-visit/edit/:id', loggedIn, (req, res) => {
     nurse = result[1];
     medicines = result[2];
     form = result[3];
-    diagnosis = result[4]
+    diagnosis = result[4];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
@@ -487,31 +487,35 @@ router.get('/clinic-visit/incidence', loggedIn, (req, res) => {
 });
 
 // Get clinic incidence page
-router.get('/clinic-visit/referral', (req, res) => {
+router.get('/clinic-visit/referral', loggedIn, (req, res) => {
   console.log("Read clinic visit referral successful!");
-  var prom1;
-  var user;
+  var prom1, prom2;
+  var user, diagnosis;
 
   prom1 = userController.getUser();
+  prom2 = visitController.getDiagnosis();
   
-  Promise.all([prom1]).then(result => {
+  Promise.all([prom1, prom2]).then(result => {
     user = result[0];
+    diagnosis = result[1];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-referral', {
         user: user,
-        isNurse: true
+        isNurse: true,
+        diagnosis: diagnosis
       });
     } else {
-      res.render('dashboard', {
+      res.render('clinic-visit-referral', {
         user: user, 
         isNurse: false,
-        error: true,
-        error_msg: "You don't have access to this module!"
+        diagnosis: diagnosis
+        // error: true,
+        // error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
-    console.log('Error in clinic visit medication');
+    console.log('Error in clinic visit referral');
     console.log(error.message);
   });
 });
@@ -1092,6 +1096,7 @@ router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addMedicationIntake', visitController.addMedicationIntake);
 router.post('/addIncidenceReport', visitController.addIncidenceReport);
+router.post('/addReferral', visitController.addReferral);
 
 //---------GET FOR CLINIC VISIT MODULE REPORTS---------------------
 router.get('/getIncidenceCount', visitController.getIncidenceCount);

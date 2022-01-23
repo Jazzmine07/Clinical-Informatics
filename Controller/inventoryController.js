@@ -191,8 +191,8 @@ exports.getUsedMedicineMonthYear = function(req, res){
                         })
                     }    
                 })
-                console.log("filtered in controller");
-                console.log(filtered);
+                // console.log("filtered in controller");
+                // console.log(filtered);
                 res.status(200).send(filtered);
             })
         } else {
@@ -234,8 +234,8 @@ exports.getSpecificMedicines = function(){
                             })
                         }    
                     })
-                    console.log("filtered");
-                    console.log(filtered);
+                    // console.log("filtered");
+                    // console.log(filtered);
                     resolve(filtered);
                 })
             } else {
@@ -279,8 +279,8 @@ exports.getMedicineNames = function(){
                             })
                         }    
                     })
-                    console.log("filtered");
-                    console.log(filtered);
+                    // console.log("filtered");
+                    // console.log(filtered);
                     resolve(filtered);
                 })
             } else {

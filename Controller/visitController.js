@@ -401,15 +401,15 @@ exports.editClinicVisit = function(req, res){
                 }
 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-                // var formRef = database.ref("assignedForms/"+ userKey);
-                // formRef.once('value', (snapshot) => { 
-                //     snapshot.forEach(function(childSnapshot) {
-                //         if(childSnapshot.key == formId){
-                //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                //             database.ref("notifications/"+ userKey + "/" + formId).remove();
-                //         }
-                //     });
-                // })
+                var formRef = database.ref("assignedForms/"+ userKey);
+                formRef.once('value', (snapshot) => { 
+                    snapshot.forEach(function(childSnapshot) {
+                        if(childSnapshot.key == formId){
+                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                            database.ref("notifications/"+ userKey + "/" + formId).remove();
+                        }
+                    });
+                })
                 res.status(200).send();
             } else {
                 var record = {

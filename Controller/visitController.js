@@ -1,4 +1,5 @@
 const firebase = require('../firebase');
+const firebaseStorage = require('firebase/storage');
 
 exports.getDashboard = function(req, res){
     var database = firebase.database();
@@ -60,7 +61,7 @@ exports.getComplaints = function(){
         })
     });
     return promise;
-}
+};
 
 exports.getDiagnosis = function(){
     var database = firebase.database();
@@ -78,8 +79,8 @@ exports.getDiagnosis = function(){
                             diagnosis: childSnapshotData.diagnosis
                         })
                     })
-                    console.log("diagnosis");
-                    console.log(diagnosis);
+                    // console.log("diagnosis");
+                    // console.log(diagnosis);
                     resolve(diagnosis);
                 })
             } else {
@@ -88,7 +89,7 @@ exports.getDiagnosis = function(){
         })
     });
     return promise;
-}
+};
 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
@@ -158,11 +159,8 @@ exports.addClinicVisit = function(req, res){
         };
 
         var complaintArray = complaint.split(", ");
-        console.log("complaintArray");
-        console.log(complaintArray);
         var complaintsPush = [];
         complaintsPush.push("sample");
-        // Headache, Fever -> Headache Fever
 
         complaintsRef.once('value', (complaintList) => {
             if(complaintList.exists()){
@@ -244,7 +242,6 @@ exports.addClinicVisit = function(req, res){
                     medicineName: intakeArray[i].medication,
                     specificMedicine: intakeArray[i].med,
                     specificAmount: intakeArray[i].amount,
-                    amount: parseFloat(intakeArray[i].amount),
                     time: intakeArray[i].time
                 };
 
@@ -257,6 +254,40 @@ exports.addClinicVisit = function(req, res){
                 database.ref('intakeHistory/' + historyKey + '/medications').push(history);
                 historyRef.push(healthHistoryIntake);
             }
+
+            var parentRef = database.ref("parentInfo");
+            parentRef.once('value', (snapshot) => {
+                snapshot.forEach(function(parent){
+                    parent.child('children').forEach(function(children){
+                        if(children.val() == studentId){
+                            var parentNotification = database.ref("notifications/"+parent.key+"/"+studentId);
+                            var notif = {
+                                message: "Your child, " + studentName + ", visited the clinic and was given a medication.",
+                                timeIn: timeIn,
+                                date: visitDate, 
+                            }
+                            parentNotification.push(notif);
+                        }
+                    })
+                })
+            })
+        } else {
+            var parentRef = database.ref("parentInfo");
+            parentRef.once('value', (snapshot) => {
+                snapshot.forEach(function(parent){
+                    parent.child('children').forEach(function(children){
+                        if(children.val() == studentId){
+                            var parentNotification = database.ref("notifications/"+parent.key+"/"+studentId);
+                            var notif = {
+                                message: "Your child, " + studentName + ", visited the clinic.",
+                                timeIn: timeIn,
+                                date: visitDate, 
+                            }
+                            parentNotification.push(notif);
+                        }
+                    })
+                })
+            })
         }
     
         if(diagnosisAssign != ""){
@@ -610,7 +641,7 @@ exports.getClinicVisitForm = function(req){
                 diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
 
-                prescribedBy: "",
+                prescribedBy: snapshotData.prescribedBy,
                 medicationAssignedKey: snapshotData.medicationAssigned,
                 status: snapshotData.status,
                 notes: snapshotData.notes
@@ -659,17 +690,17 @@ exports.getClinicVisitForm = function(req){
                 visitReason: temp[0].visitReason,
                 impression: temp[0].impression,
                 treatment: temp[0].treatment,
-                treatment: temp[0].treatment,
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
                 diagnosis: temp[0].diagnosis,
-                prescribedBy: dFname + " " + dLname,
+                prescribedBy: temp[0].prescribedBy,
                 medicationAssignedKey: temp[0].medicationAssignedKey,
                 medicationAssigned: mFname + " " + mLname,
-                diagnosis: temp[0].diagnosis,
                 status: temp[0].status,
                 notes: temp[0].notes
             }
+            console.log("details in controller");
+            console.log(details);
             resolve(details);
         })
     })
@@ -975,7 +1006,7 @@ exports.getIncidenceList = function(req, res){
         })
     })
     return promise;
-}
+};
 
 exports.viewIncidenceReport = function(req){
     var reportId = req.params.id;
@@ -1099,4 +1130,67 @@ exports.getIncidenceCount = function(req, res){
             });
         }
     })
-}
+};
+
+exports.addReferral = function(req, res){
+    var { studentId, studentName , studentGrade, studentSection, birthday, gender, age,
+        specialty, physician, reason, diagnosis, icd10, urgent, specialist, testing,
+        provider, title, position, signature, signatureFileName, fileType } = req.body;
+        console.log("studentId in controller");
+        console.log(studentId);
+        console.log("position in controller");
+        console.log(position);
+        console.log("signature in controller");
+        console.log(signature);
+        console.log("signatureFileName in controller");
+        console.log(signatureFileName);
+        console.log("fileType in controller");
+        console.log(fileType);
+    var storageRef = firebase.storage().ref();
+    var metadata = {
+        contentType: fileType,
+    };
+    var uploadTask = storageRef.child('files/signatures/'+signatureFileName).put(signature, metadata);
+    var fileUrl;
+    var database = firebase.database();
+    var referralRef = database.ref("referralForms");
+
+    console.log("pumasok sa controller");
+
+    uploadTask.snapshot.ref.getDownloadURL().then(function(url){
+        fileUrl = url;
+    })
+    console.log("fileUrl in controller");
+    console.log(fileUrl);
+    // uploadTask.then(snapshot => snapshot.ref.getDownloadURL())
+    // .then(url => {
+    //     console.log('File available at', url);
+    // });
+
+    var record = {
+        studentId: studentId,
+        studentName: studentName,
+        grade: studentGrade,
+        section: studentSection,
+        birthday: birthday,
+        gender: gender,
+        age: age,
+        
+        specialty: specialty,
+        physician: physician,
+        reason: reason,
+        diagnosis: diagnosis,
+        icd10: icd10,
+        urgent: urgent,
+        specialist: specialist,
+        testing: testing,
+        
+        provider: provider,
+        title: title,
+        position: position,
+        signature: fileUrl
+    };
+
+    referralRef.push(record);
+    res.status(200).send();
+};

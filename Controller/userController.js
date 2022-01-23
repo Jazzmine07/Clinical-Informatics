@@ -11,6 +11,20 @@ exports.login = (req, res) => {
   var parentsRef = database.ref("parentUsers");
   var userInfo;
 
+  var parentRef = database.ref("parentInfo");
+            
+  // parentRef.once('value', (snapshot) => {
+  //   snapshot.forEach(function(parent){
+  //     parent.child('children').forEach(function (children){
+  //       var parentEmail = parent.exportVal();
+  //       console.log("parent.key");
+  //       console.log(parent.key);
+  //       console.log("parentemail");
+  //       console.log(parentEmail);
+  //     })
+  //   })
+  // })
+
   // var parentAccount = {
   //   email: 'kathrina_ramos@gmail.com',
   //   password: 'manresa123'

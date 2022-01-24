@@ -395,7 +395,7 @@ router.get('/clinic-visit/edit/:id', loggedIn, (req, res) => {
     nurse = result[1];
     medicines = result[2];
     form = result[3];
-    diagnosis = result[4];
+    diagnosis = result[4]
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-edit', {
@@ -487,35 +487,31 @@ router.get('/clinic-visit/incidence', loggedIn, (req, res) => {
 });
 
 // Get clinic incidence page
-router.get('/clinic-visit/referral', loggedIn, (req, res) => {
+router.get('/clinic-visit/referral', (req, res) => {
   console.log("Read clinic visit referral successful!");
-  var prom1, prom2;
-  var user, diagnosis;
+  var prom1;
+  var user;
 
   prom1 = userController.getUser();
-  prom2 = visitController.getDiagnosis();
   
-  Promise.all([prom1, prom2]).then(result => {
+  Promise.all([prom1]).then(result => {
     user = result[0];
-    diagnosis = result[1];
 
     if(user.role == "Nurse"){
       res.render('clinic-visit-referral', {
         user: user,
-        isNurse: true,
-        diagnosis: diagnosis
+        isNurse: true
       });
     } else {
-      res.render('clinic-visit-referral', {
+      res.render('dashboard', {
         user: user, 
         isNurse: false,
-        diagnosis: diagnosis
-        // error: true,
-        // error_msg: "You don't have access to this module!"
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
-    console.log('Error in clinic visit referral');
+    console.log('Error in clinic visit medication');
     console.log(error.message);
   });
 });
@@ -991,31 +987,33 @@ router.get('/reports-clinic-visit', loggedIn, (req, res) => {
 // Get report health assessment page
 router.get('/reports-health-assessment', loggedIn, (req, res) => {
   console.log("Read reports health assessment successful!");
-  var prom1,prom2,prom3,prom4,user,records,sections,schedule;
+  var prom1,prom2,prom3,prom4,user,sections;
   prom1 = userController.getUser();
-  prom2 = studentController.getSections();
-  prom3 = studentController.getAllSched();
+  // prom2 = studentController.getSections();
+  // prom3 = studentController.getAllSched();
   
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  
+  Promise.all([prom1]).then(result => {
     user = result[0];
     sections = result[1];
     scheduleData = result[2];
+    prom4 = reportsController.getStudentsNoCurrYearRecord();
     
-    var i,schedule=[];
-    for(i=0;i<scheduleData.length;i++){
-      console.log(scheduleData[i]);
-      schedule.push({
-        grade:scheduleData[i].grade,
-        section:scheduleData[i].section,
-        totalNumStudents:scheduleData[i].numStudents,
-        apeDate:scheduleData[i].apeDate,
-        apeTime:scheduleData[i].apeTime,
-        apeSeen:scheduleData[i].apeSeen,
-        adeDate:scheduleData[i].adeDate,
-        adeTime:scheduleData[i].adeTime,
-        adeSeen:scheduleData[i].adeSeen
-      });
-    }
+    // var i,schedule=[];
+    // for(i=0;i<scheduleData.length;i++){
+    //   console.log(scheduleData[i]);
+    //   schedule.push({
+    //     grade:scheduleData[i].grade,
+    //     section:scheduleData[i].section,
+    //     totalNumStudents:scheduleData[i].numStudents,
+    //     apeDate:scheduleData[i].apeDate,
+    //     apeTime:scheduleData[i].apeTime,
+    //     apeSeen:scheduleData[i].apeSeen,
+    //     adeDate:scheduleData[i].adeDate,
+    //     adeTime:scheduleData[i].adeTime,
+    //     adeSeen:scheduleData[i].adeSeen
+    //   });
+    // }
     
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
@@ -1029,8 +1027,8 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
       res.render('reports-health-assessment', {
         user: user, 
         isNurse: false,
-        sections: sections,
-        schedule:schedule
+        // sections: sections,
+        // schedule:schedule
       });
     }
   }).catch(error => {
@@ -1096,7 +1094,6 @@ router.post('/addClinicVisit', visitController.addClinicVisit);
 router.post('/editClinicVisit', visitController.editClinicVisit);
 router.post('/addMedicationIntake', visitController.addMedicationIntake);
 router.post('/addIncidenceReport', visitController.addIncidenceReport);
-router.post('/addReferral', visitController.addReferral);
 
 //---------GET FOR CLINIC VISIT MODULE REPORTS---------------------
 router.get('/getIncidenceCount', visitController.getIncidenceCount);

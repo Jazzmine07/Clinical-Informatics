@@ -755,7 +755,6 @@ exports.getSections=function(req,res){
                     section: child.section
                 });
             })
-            console.log(section);
             resolve(section);
         });
     });

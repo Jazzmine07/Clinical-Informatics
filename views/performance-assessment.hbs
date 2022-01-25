@@ -339,7 +339,7 @@
                         <div class="col-4 mb-4">
                             <select class="custom-select" id="program" name="program">
                                 {{#each programs}}
-                                    <option value="{{progName}}"> {{progName}}</option>
+                                    <option value="{{progType}}"> {{progName}}</option>
                                 {{/each}}
                             </select>
                         </div>
@@ -436,12 +436,16 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script type="text/javascript">
+        var program
         $("#program").change(function(){
-            var program =  $('#program').find(":selected").text();
+            program =  $('#program').find(":selected").text();
             console.log(program);
-        });
-        
-        
+        }
+
+        $.get('/getProgramReport', {program: program}, function(report){
+            console.log("report in front end");
+            console.log(report);
+        })
     </script>
 
 </body>

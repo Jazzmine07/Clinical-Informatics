@@ -1214,4 +1214,7 @@ router.post('/updateDentalInventory', inventoryController.updateDentalInventory)
 //---------POST FORMS FOR PROMOTIVE CARE MODULE----------------
 router.post('/addProgram', programController.addProgram);
 
+//---------GET FOR PROMOTIVE CARE MODULE REPORTS---------------------
+router.get('/getProgramReport', programController.promotiveReport);
+
 module.exports = router;

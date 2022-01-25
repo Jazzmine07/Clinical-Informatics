@@ -87,9 +87,9 @@ exports.getProgramsList = function(){
     return promise;
 }
 
-exports.promotiveReport = function(){
+exports.promotiveReport = function(req, res){
     var program = "Work out";
-    //req.query.program;
+    //req.body.program;
     var database = firebase.database();
     var databaseRef = database.ref();
     var programRef = database.ref("programs");
@@ -247,7 +247,7 @@ exports.promotiveReport = function(){
                                 snapshot.forEach(function(ape){ // skipping id number
                                     ape.child('ape').forEach(function(apeList){
                                         apeData = apeList.exportVal();
-                                        if(apeData.grade == "2"){   // dont forget if weightStatus is underweight
+                                        if(apeData.grade == "2" && apeData.weightStatus == "Underweight"){   // dont forget if weightStatus is underweight
                                             apeGrade2Temp.push({
                                                 id: ape.key,
                                                 name: apeData.name,

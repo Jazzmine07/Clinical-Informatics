@@ -915,10 +915,11 @@ router.get('/promotive-care/program-form', loggedIn, (req, res) => {
 // Get performance assessment  page
 router.get('/performance-assessment', loggedIn, (req, res) => {
   console.log("Read performance assessment successful!");
-  var prom1, prom2;
+  var prom1, prom2, prom3;
   var user, programs;
   prom1 =  userController.getUser();
   prom2 = programController.getProgramsList();
+  ///prom3 = programController.promotiveReport();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];

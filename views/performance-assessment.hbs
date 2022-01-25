@@ -338,9 +338,9 @@
                     <div class="row">
                         <div class="col-4 mb-4">
                             <select class="custom-select" id="program" name="program">
-                                <option disabled="disabled"  value="" selected="true">Select School Health Program</option>
+                                <option disabled="disabled"  value="" selected="true">Select School Health Program...</option>
                                 {{#each programs}}
-                                    <option value="{{progType}}"> {{progName}}</option>
+                                    <option value="{{progName}}"> {{progName}}</option>
                                 {{/each}}
                             </select>
                         </div>
@@ -437,19 +437,17 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script type="text/javascript">
-        var program;
-
+        var program = $('#program').find(":selected").text();
         $("#program").change(function(){
-            program =  $('#program').find(":selected").text();
+            program = $('#program').find(":selected").text();
             console.log(program);
-        }
+        })
 
         $.get('/getProgramReport', {program: program}, function(report){
             console.log("report in front end");
             console.log(report);
         })
     </script>
-
 </body>
 
 </html>

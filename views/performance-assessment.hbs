@@ -338,6 +338,7 @@
                     <div class="row">
                         <div class="col-4 mb-4">
                             <select class="custom-select" id="program" name="program">
+                                <option disabled="disabled"  value="" selected="true">Select School Health Program</option>
                                 {{#each programs}}
                                     <option value="{{progType}}"> {{progName}}</option>
                                 {{/each}}
@@ -436,7 +437,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script type="text/javascript">
-        var program
+        var program;
+
         $("#program").change(function(){
             program =  $('#program').find(":selected").text();
             console.log(program);

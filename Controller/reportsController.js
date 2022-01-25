@@ -101,7 +101,7 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
         })
     })
 
-    //var promise = new Promise((resolve,reject)=>{
+    var promise = new Promise((resolve,reject)=>{
         console.log("STUDENTS WITHOUT APE");
         healthHistory.once('value',(students)=>{
             students.forEach(function(student){
@@ -205,8 +205,11 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
             }
             noRecord.push(noApeList);
             noRecord.push(noAdeList);
-            return noRecord;
+            console.log(noRecord);
+            resolve(noRecord);
         })
+    })
+    return promise;
 }
 
 // exports.getStudentsNoCurrYearRecord = function(req, res){

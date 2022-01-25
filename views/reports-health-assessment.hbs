@@ -665,57 +665,202 @@
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Schedule</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th class="bg-primary" style="color: white;">Grade Level</th>
-                                            <th class="bg-primary" style="color: white;">Section</th>
-                                            <th class="bg-primary" style="color: white;"># Students</th>
-                                            <th class="bg-primary" style="color: white;">Date of APE</th>
-                                            <th class="bg-primary" style="color: white;">Time of APE</th>
-                                            <th class="bg-primary" style="color: white;"># Students Examined</th>
-                                            <th class="bg-primary" style="color: white;">Date of ADE</th>
-                                            <th class="bg-primary" style="color: white;">Time of ADE</th>
-                                            <th class="bg-primary" style="color: white;"># Students Examined</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        {{#each schedule}}
-                                        <tr>
-                                                <td>{{concat grade}}</td>
-                                                <td>{{section}}</td>
-                                                <td>{{totalNumStudents}}</td>
-                                                <td>{{formatDate apeDate}}</td>                                               
-                                                <td>{{apeTime}}</td>
-                                                <td>{{apeSeen}}</td> 
-                                                <td>{{formatDate adeDate}}</td>                                               
-                                                <td>{{adeTime}}</td>
-                                                <td>{{adeSeen}}</td>
-                                        {{/each}}
-                                        </tr>
-                                        
-                                    </tbody>
-                                    {{!-- <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot> --}}
-                                </table>
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Annual Physical and Dental Exam Count by Section</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th class="bg-primary" style="color: white;">Grade Level</th>
+                                                <th class="bg-primary" style="color: white;">Section</th>
+                                                <th class="bg-primary" style="color: white;"># Students</th>
+                                                <th class="bg-primary" style="color: white;">Date of APE</th>
+                                                <th class="bg-primary" style="color: white;"># Students Examined</th>
+                                                <th class="bg-primary" style="color: white;">Date of ADE</th>
+                                                <th class="bg-primary" style="color: white;"># Students Examined</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {{#each schedule}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{totalNumStudents}}</td>
+                                                    <td>{{formatDate apeDate}}</td>                                               
+                                                    <td>{{apeSeen}}</td> 
+                                                    <td>{{formatDate adeDate}}</td>                                               
+                                                    <td>{{adeSeen}}</td>
+                                            
+                                            </tr>
+                                            {{/each}}
+                                            
+                                        </tbody>
+                                        {{!-- <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Office</th>
+                                                <th>Age</th>
+                                                <th>Start date</th>
+                                                <th>Salary</th>
+                                            </tr>
+                                        </tfoot> --}}
+                                    </table>
+                                </div>
                             </div>
                         </div>
+
+
+                    <div class="row">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Student without Annual Physical Exam for school year</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th class="bg-primary" style="color: white;">Grade Level</th>
+                                                <th class="bg-primary" style="color: white;">Section</th>
+                                                <th class="bg-primary" style="color: white;">Student Id</th>
+                                                <th class="bg-primary" style="color: white;">Student Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each noApeG1}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noApeG2}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noApeG3}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noApeG4}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noApeG5}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noApeG6}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Student without Annual Dental Exam for school year</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="HATable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th class="bg-primary" style="color: white;">Grade Level</th>
+                                                <th class="bg-primary" style="color: white;">Section</th>
+                                                <th class="bg-primary" style="color: white;">Student Id</th>
+                                                <th class="bg-primary" style="color: white;">Student Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {{#each noAdeG1}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noAdeG2}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noAdeG3}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noAdeG4}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noAdeG5}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            {{#each noAdeG6}}
+                                            <tr>
+                                                    <td>{{concat grade}}</td>
+                                                    <td>{{section}}</td>
+                                                    <td>{{id}}</td>
+                                                    <td>{{name}}</td>                                               
+                                            </tr>
+                                            {{/each}}
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     

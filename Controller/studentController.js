@@ -126,6 +126,7 @@ exports.addAPE = function(req, res){
                     console.log("Has schedule")
                     snapshot.forEach(function(childSnapshot){
                         schedRef.child(sectionTop).child("physicalStatus").set("Accomplished");
+                        schedRef.child(sectionTop).child("physicalDate").set(apeDate);
                     })
                 }
             })
@@ -308,7 +309,7 @@ exports.addAPE = function(req, res){
         // apeRef.child(grade4.schoolYear).set(grade4);
         // apeRef.child(grade3.schoolYear).set(grade3);
         // apeRef.child(grade2.schoolYear).set(grade2);
-        // apeRef.child(grade1.schoolYear).set(grade1);
+        //apeRef.child(grade1.schoolYear).set(grade1);
     }
     
     res.status(200).send();
@@ -380,6 +381,7 @@ exports.addADE = function(req, res){
                         console.log(childSnapshot.exportVal());
                         console.log(childSnapshot.key);
                         schedRef.child(sectionTop).child("dentalStatus").set("Accomplished");
+                        schedRef.child(sectionTop).child("dentalDate").set(adeDate);
                     })
                 }
             })

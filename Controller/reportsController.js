@@ -205,6 +205,7 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
             }
             noRecord.push(noApeList);
             noRecord.push(noAdeList);
+            noRecord.push(sy);
             console.log(noRecord);
             resolve(noRecord);
         })

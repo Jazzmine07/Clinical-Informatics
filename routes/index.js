@@ -1000,7 +1000,7 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
     
     var i;
     console.log("NO APE:");
-    //console.log(result[2][0][0].grade1); // [prom4=result][ape or ade][by grade]
+    //console.log(result[2][0][0].grade1); // [prom4=result][ape or ade or sy][by grade]
     
     var noApeG1=[],noApeG2=[],noApeG3=[],noApeG4=[],noApeG5=[],noApeG6=[];
     var noAdeG1=[],noAdeG2=[],noAdeG3=[],noAdeG4=[],noAdeG5=[],noAdeG6=[];
@@ -1108,7 +1108,7 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
         noAdeG4:noAdeG4,
         noAdeG5:noAdeG5,
         noAdeG6:noAdeG6,
-        
+        schoolYearData:result[2][2],
         // sections: sections,
       });
     }

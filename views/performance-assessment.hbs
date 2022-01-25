@@ -340,7 +340,7 @@
                             <select class="custom-select" id="program" name="program">
                                 <option disabled="disabled"  value="" selected="true">Select School Health Program...</option>
                                 {{#each programs}}
-                                    <option value="{{progName}}"> {{progName}}</option>
+                                    <option value="{{progName}}">{{progName}}</option>
                                 {{/each}}
                             </select>
                         </div>
@@ -441,11 +441,11 @@
         $("#program").change(function(){
             program = $('#program').find(":selected").text();
             console.log(program);
-        })
 
-        $.get('/getProgramReport', {program: program}, function(report){
-            console.log("report in front end");
-            console.log(report);
+            $.get('/getProgramReport', {program: program}, function(report){
+                console.log("report in front end");
+                console.log(report);
+            })
         })
     </script>
 </body>

@@ -926,10 +926,11 @@ router.get('/performance-assessment', loggedIn, (req, res) => {
     programs = result[1];
 
     if(user.role == "Nurse"){
-      res.render('performance-assessment', {
+      res.render('clinic-visit', {
         user: user,
         isNurse: true,
-        programs: programs
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     } else {
       res.render('performance-assessment', {

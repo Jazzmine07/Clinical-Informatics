@@ -260,7 +260,7 @@ exports.addClinicVisit = function(req, res){
                 snapshot.forEach(function(parent){
                     parent.child('children').forEach(function(children){
                         if(children.val() == studentId){
-                            var intakeNotification = database.ref("notifications/"+parent.key+"/"+intake);
+                            var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
                             var intakeNotif = {
                                 message: "Your child, " + studentName + ", was given a medication.",
                                 id: studentId,
@@ -269,7 +269,7 @@ exports.addClinicVisit = function(req, res){
                             }
                             intakeNotification.push(intakeNotif);
 
-                            var visitsNotification = database.ref("notifications/"+parent.key+"/"+visits);
+                            var visitsNotification = database.ref("notifications/"+parent.key+"/visits");
                             var visitNotif = {
                                 message: "Your child, " + studentName + ", visited the clinic due to " + complaint,
                                 id: studentId,
@@ -287,7 +287,7 @@ exports.addClinicVisit = function(req, res){
                 snapshot.forEach(function(parent){
                     parent.child('children').forEach(function(children){
                         if(children.val() == studentId){
-                            var visitsNotification = database.ref("notifications/"+parent.key+"/"+visits);
+                            var visitsNotification = database.ref("notifications/"+parent.key+"/visits");
                             var visitNotif = {
                                 message: "Your child, " + studentName + ", visited the clinic due to " + complaint,
                                 id: studentId,
@@ -446,7 +446,7 @@ exports.editClinicVisit = function(req, res){
                         snapshot.forEach(function(parent){
                             parent.child('children').forEach(function(children){
                                 if(children.val() == studentId){
-                                    var intakeNotification = database.ref("notifications/"+parent.key+"/"+intake);
+                                    var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
                                     var intakeNotif = {
                                         message: "Your child, " + studentName + ", was given a medication.",
                                         id: studentId,
@@ -584,7 +584,7 @@ exports.editClinicVisit = function(req, res){
                     snapshot.forEach(function(parent){
                         parent.child('children').forEach(function(children){
                             if(children.val() == studentId){
-                                var intakeNotification = database.ref("notifications/"+parent.key+"/"+intake);
+                                var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
                                 var intakeNotif = {
                                     message: "Your child, " + studentName + ", was given a medication.",
                                     id: studentId,

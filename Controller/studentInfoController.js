@@ -22,6 +22,7 @@ exports.getStudentInfo = function(req, res){
                 age: snapshotData.age,
                 sex: snapshotData.sex,
                 bmi: snapshotData.bmi,
+                bmiStatus: snapshotData.bmiStatus,
                 height: snapshotData.height,
                 heightStatus: snapshotData.heightStatus,
                 weight: snapshotData.weight,

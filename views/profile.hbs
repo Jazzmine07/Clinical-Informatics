@@ -385,21 +385,24 @@
                                             <div class="font-weight-bold">BMI</div>
                                             <div>
                                                 <span class="font-weight-normal" id="BMIText">No data available</span>
-                                                <span class="ml-2 badge badge-success" id="BMIStatus">normal</span>
+                                                <span class="ml-2 badge badge-success" id="BMIStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="BMIStatusRed" style="display: none;"></span>  
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="font-weight-bold">Weight</div>
                                             <div id="weight"> 
                                                 <span class="font-weight-normal" id="weightText">No data available</span>
-                                                <span class="ml-2 badge badge-success" id="weightStatus">normal</span>  
+                                                <span class="ml-2 badge badge-success" id="weightStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="weightStatusRed" style="display: none;"></span>  
                                             </div>                                                                          
                                         </div>
                                         <div class="col-4">
                                             <div class="font-weight-bold">Height</div>
                                             <div>
                                                 <span class="font-weight-normal" id="heightText">No data available</span>
-                                                <span class="ml-2 badge badge-danger" id="heightStatus">below normal</span>
+                                                <span class="ml-2 badge badge-success" id="heightStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="heightStatusRed" style="display: none;"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -2004,27 +2007,89 @@
                     document.getElementById("age").innerHTML=data.age;
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("BMIText").innerHTML=data.bmi;
+
+                    if(data.bmiStatus == "Normal"){
+                        document.getElementById("BMIStatus").innerHTML=data.bmiStatus;
+                        document.getElementById("BMIStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("BMIStatusRed").innerHTML=data.bmiStatus;
+                        document.getElementById("BMIStatusRed").style.display = "inline-block";
+                    }
+
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
-                    document.getElementById("weightStatus").innerHTML=data.weightStatus;
+
+                    if(data.weightStatus == "Normal"){
+                        document.getElementById("weightStatus").innerHTML=data.weightStatus;
+                        document.getElementById("weightStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("weightStatusRed").innerHTML=data.weightStatus;
+                        document.getElementById("weightStatusRed").style.display = "inline-block";
+                    }
+                        
                     document.getElementById("heightText").innerHTML=data.height + "cm";
+                    
+                    if(data.heightStatus == "Normal"){
                     document.getElementById("heightStatus").innerHTML=data.heightStatus;
+                        document.getElementById("heightStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("heightStatusRed").innerHTML=data.heightStatus;
+                        document.getElementById("heightStatusRed").style.display = "inline-block";
+                    }
+                    
                     document.getElementById("address").innerHTML=data.address;
+
+                    if(data.fatherName && data.fatherName != "")
                     document.getElementById("fatherName").innerHTML=data.fatherName;
+
+                    if(data.fatherEmail && data.fatherEmail != "")
                     document.getElementById("fatherEmail").innerHTML=data.fatherEmail;
-                    document.getElementById("fatherContact").innerHTML=data.fatherContact;
+                    
+                    if(data.fatherContact && data.fatherContact != "" && data.fatherContact != "No information available.")
+                        document.getElementById("fatherContact").innerHTML= "+63" + data.fatherContact;
+                    
+                    if(data.motherName && data.motherName != "")
                     document.getElementById("motherName").innerHTML=data.motherName;
+
+                    if(data.motherEmail && data.motherEmail != "")
                     document.getElementById("motherEmail").innerHTML=data.motherEmail;
-                    document.getElementById("motherContact").innerHTML=data.motherContact;
+
+                    if(data.motherContact && data.motherContact != "" && data.motherContact != "No information available.")
+                        document.getElementById("motherContact").innerHTML= "+63" + data.motherContact;
+
+                    if(data.guardianName && data.guardianName != "")
                     document.getElementById("guardianName").innerHTML=data.guardianName;
+
+                    if(data.guardianEmail && data.guardianEmail != "")
                     document.getElementById("guardianEmail").innerHTML=data.guardianEmail;
-                    document.getElementById("guardianContact").innerHTML=data.guardianContact;
+
+                    if(data.guardianContact && data.guardianContact != "" && data.guardianContact != "No information available.")
+                        document.getElementById("guardianContact").innerHTML= "+63" + data.guardianContact;
+                    
+                    if(data.pediaName && data.pediaName != "")
                     document.getElementById("physicianName").innerHTML=data.pediaName;
+                    
+                    if(data.pediaEmail && data.pediaEmail != "")
                     document.getElementById("physicianEmail").innerHTML=data.pediaEmail;
-                    document.getElementById("physicianContact").innerHTML=data.pediaContact;
+                    
+                    if(data.pediaContact && data.pediaContact != "" && data.pediaContact != "No information available.")
+                    document.getElementById("physicianContact").innerHTML= "+63" + data.pediaContact;
+                    
+                    if(data.dentistName && data.dentistName != "")
                     document.getElementById("dentistName").innerHTML=data.dentistName;
+                    
+                    if(data.dentistEmail && data.dentistEmail != "")
                     document.getElementById("dentistEmail").innerHTML=data.dentistEmail;
-                    document.getElementById("dentistContact").innerHTML=data.dentistContact;
+                    
+                    if(data.dentistContact && data.dentistContact != "" && data.dentistContact != "No information available.")
+                    document.getElementById("dentistContact").innerHTML= "+63" + data.dentistContact;
+                    
+                    if(data.hospitalName && data.hospitalName != "" && data.hospitalName != "No information available.")
                     document.getElementById("hospitalName").innerHTML=data.hospitalName;
+                    
+                    if(data.hospitalAddress && data.hospitalAddress != "" && data.hospitalAddress != "No information available." )
                     document.getElementById("hospitalAddress").innerHTML=data.hospitalAddress;  
                 }
             });

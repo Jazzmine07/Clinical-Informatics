@@ -131,6 +131,7 @@ exports.getStudentVisits = function(req, res){
                         respirationRate: childSnapshotData.respirationRate,
                         visitReason: childSnapshotData.visitReason,
                         treatment: childSnapshotData.treatment,
+                        impression: childSnapshotData.impression, 
                         diagnosis: childSnapshotData.diagnosis,
                         status: childSnapshotData.status,
                         notes: childSnapshotData.notes,

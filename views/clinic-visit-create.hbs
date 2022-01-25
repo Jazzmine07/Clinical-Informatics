@@ -1000,8 +1000,26 @@
             return age;
         }
 
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
         var notAllowedMedicines = [];
         var weight, height, age, sex, birthday;
+
+        var today = formatDate();
+        console.log(today);
+        $('#visitDate').val(today);
 
         $("#studentID").change(function(){
             var typedID = $('#studentID').val();
@@ -1078,6 +1096,10 @@
                     $('#studentGrade').val(studentInfo.grade);
                 if(studentInfo.section)
                     $('#studentSection').val(studentInfo.section);  
+                if(studentInfo.weight)
+                    $('#weight').val(studentInfo.weight);  
+                if(studentInfo.height)
+                    $('#height').val(studentInfo.height);  
             });
 
             // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
@@ -1190,7 +1212,12 @@
                     if(studentInfo.grade)
                         $('#studentGrade').val(studentInfo.grade);
                     if(studentInfo.section)
-                        $('#studentSection').val(studentInfo.section);        
+                        $('#studentSection').val(studentInfo.section);   
+                    if(studentInfo.weight)
+                        $('#weight').val(studentInfo.weight);  
+                    if(studentInfo.height)
+                        $('#height').val(studentInfo.height);  
+
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });

@@ -8,6 +8,14 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('#noAPETable').DataTable();
+});
+
+$(document).ready(function() {
+  $('#noADETable').DataTable();
+});
+
+$(document).ready(function() {
   $('#nurseAssignedTask').DataTable();
 });
 

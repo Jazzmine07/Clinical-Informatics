@@ -484,37 +484,20 @@
 
 
     <script>
-        var index = "{{@index}}";
-        var forms =  [];
-        forms = '{{{clinicVisitForms}}}';
-        console.log(forms);
-        for(var i = 0; i < forms.length; i++)
-        {
-            console.log(forms[i]);
-        }
-        var clinicianDesc = "{{forms.index.desc}}"
-        console.log(clinicianDesc);
-
-        $(document).on('click', '.clickable-row', function(e){
-            window.location = "/clinic-visit/create";
-        });
-
         $(document).ready(function() {
             var startRange, endRange;
             const now = new Date();
             var year = now.getFullYear();
             var month = now.getMonth();
+            console.log("month");
+            console.log(month);
             var start, end;
-
-            var selectedGroup =  $('#groupBy').find('option:selected').val();;
+            var selectedGroup =  $('#groupBy').find('option:selected').val();
             
-
             $('#groupBy').change(function(){
                 selectedGroup = $('#groupBy').find('option:selected').val();
                 cb(start,end)
             });
-            //var start = moment().subtract(29, 'days');
-            //var end = moment();
 
             if(month < 3){
                 getMonthDateRange(year-1);  
@@ -525,7 +508,7 @@
 
             function getMonthDateRange(year) {
                 //var moment = require('moment');
-
+                console.log("pumapasok ba dito");
                 month = 2;
 
                 // month in moment is 0 based, so 9 is actually october, subtract 1 to compensate
@@ -538,17 +521,6 @@
                 // make sure to call toDate() for plain JavaScript date type
                 console.log(start.toDate());
                 console.log(end.toDate());
-
-                var getStart = new Date(start);
-                var getStartMonth = getStart.toLocaleString('default', { month: 'long' })
-                startRange = getStartMonth + ' ' + getStart.getDate() + ', ' + getStart.getFullYear();
-
-                var getEnd = new Date(end);
-                var getEndMonth = getEnd.toLocaleString('default', { month: 'long' })
-                endRange = getEndMonth + ' ' + getEnd.getDate() + ', ' + getEnd.getFullYear();
-
-                console.log("start Range "+startRange);
-                console.log("end Range "+endRange);
 
                 cb(start, end);
             }
@@ -575,9 +547,19 @@
             var incidenceCountPieChart;            
 
             function cb(start, end) {
+                var getStart = new Date(start);
+                var getStartMonth = getStart.toLocaleString('default', { month: 'long' })
+                startRange = getStartMonth + ' ' + getStart.getDate() + ', ' + getStart.getFullYear();
+
+                var getEnd = new Date(end);
+                var getEndMonth = getEnd.toLocaleString('default', { month: 'long' })
+                endRange = getEndMonth + ' ' + getEnd.getDate() + ', ' + getEnd.getFullYear();
+
+                console.log("start Range "+startRange);
+                console.log("end Range "+endRange);
+                
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 $.get("/getAllVisits", function(data){
-                    
                     var choice = selectedGroup;
 
                     if(checker1){
@@ -594,6 +576,7 @@
                 var endDate = new Date(end);
 
                 $.get('/getIncidenceCount', {start: startDate, end: endDate}, function(result){
+                    console.log(result);
                     omissionCount = result.omissionCount;
                     delayCount = result.delayCount;
                     ineffectiveCount = result.ineffectiveCount;
@@ -1117,7 +1100,7 @@
                             },
                             title: {
                                 display: true,
-                                text: 'Clinic Visits',
+                                text: 'Clinic Visits from ' + startRange + " to " + endRange,
                                 font: {
                                     size: 25   // font size of the labels
                                 },

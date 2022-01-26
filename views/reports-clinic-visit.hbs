@@ -511,8 +511,6 @@
 
             $('#groupBy').change(function(){
                 selectedGroup = $('#groupBy').find('option:selected').val();
-                console.log("Malfoy");
-                console.log(selectedGroup);
                 cb(start,end)
             });
             //var start = moment().subtract(29, 'days');
@@ -578,13 +576,8 @@
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                console.log("START " + start.format('YYYY-MM-DD'));
-                console.log("END " + end.format('YYYY-MM-DD'));
-                console.log(selectedGroup);
                 $.get("/getAllVisits", function(data){
-                    console.log(data);
-                    console.log("HELLO");
-                    console.log("Hermione"+ selectedGroup);
+                    
                     var choice = selectedGroup;
 
                     if(checker1){
@@ -601,8 +594,6 @@
                 var endDate = new Date(end);
 
                 $.get('/getIncidenceCount', {start: startDate, end: endDate}, function(result){
-                    console.log("inside");
-                    console.log(result);
                     omissionCount = result.omissionCount;
                     delayCount = result.delayCount;
                     ineffectiveCount = result.ineffectiveCount;
@@ -654,7 +645,6 @@
                         schoolYear.push(endYear);
                     }
                 }
-                console.log(monthsRange);
 
                 for(i = 0; i < monthsRange.length; i++){
                     if(monthsRange[i] == 5)
@@ -688,7 +678,6 @@
                     count.push(parseInt("0"));
                 }
 
-                console.log(data);
                 for(i=0;i<data.length;i++){
                     parts=data[i].visitDate.split("-"); // 2021-01-03    2021 01 03
                     dataDate= new Date(parts[0], parts[1]-1, parts[2]);   // year, month, day
@@ -908,52 +897,6 @@
                 return totalSum;
             }
             
-        //var formIds = [];
-
-        //getNotification();
-        //setInterval(function(){ getNotification(); }, 3000);
-
-        //function getNotification() {
-        //    $.get("/getNotification", function(notifs){
-        //        console.log("notifs in front-end");
-        //        console.log(notifs);
-        //        var i;
-        //        var count = 0;
-                
-        //        formIds = [];
-                
-        //        $('#userID').val(notifs[notifs.length-1].user); // user key
-        //        for(i = 0; i < notifs.length; i++){
-        //            if(notifs[i].seen == true){
-        //                $('#notifList').empty();
-        //                break;
-        //            }
-        //        }
-                // getting list of notifications
-        //        for(i = 0; i < notifs.length; i++){
-                    // the if else statement for the display if seen or not
-        //            if(notifs[i].seen == true){
-        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="visibility: hidden; background-color: #ffff; color: #ffff; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
-
-        //            } else {
-        //                $('#notifList').append('<a class="dropdown-item d-flex align-items-center" href="/clinic-visit"><div style="height: 40px;"><span class="badge badge-pill badge-danger d-flex align-items-baseline" style="color: #e74a3b; font-size:5px;">.</span></div><div class="mr-3"><div class="icon-circle bg-primary"><i class="fas fa-file-alt text-white"></i></div></div><div><div class="small text-gray-500">' + notifs[i].date + '</div><span class="font-weight-bold">'+ notifs[i].message + '</span></div></a>');
-        //                count++;  // notififcation count
-        //            }
-                    // put key value of forms 
-        //            formIds.push(notifs[i].formId);
-        //        }
-        //        console.log(formIds);
-
-        //        $('#notifCount').text(count);
-        //        if (count == 0){
-        //            var notifHide =  $('#notifCount');
-        //            notifHide.remove();
-        //        } 
-        //    });
-        //};
-
-        //
-            
             function showVisitsReport(data,choice, start,end){
                 var startDate = new Date(start);
                 var startMonth = startDate.getMonth();
@@ -1095,7 +1038,6 @@
                             m="December ";
 
                         tempDateCompare= m + parts[0];
-                        console.log(tempDateCompare);
                         for(j=0;j<range.length;j++){
                             if(tempDateCompare==range[j]){
                                 count[j]=count[j]+1;
@@ -1128,7 +1070,6 @@
                         startDate.setDate(startDate.getDate()+1);
                         count.push(0);
                     }
-
                     for(i=0;i<data.length;i++){
                         for(j=0;j<range.length;j++){
                             if(data[i].visitDate==range[j]){
@@ -1138,10 +1079,6 @@
                     }
                     xLabel = "Days";
                 }
-
-                console.log("RANGE and COUNT:");
-                console.log(range);
-                console.log(count);
 
                 var chartData={
                     labels: range, // x-axis
@@ -1216,6 +1153,7 @@
                         }
                     }
                 }
+               
 
                 var visitsChart = document.getElementById("dailyVisits");
                 clinicVisitsChart = new Chart(visitsChart, config);

@@ -918,13 +918,12 @@ exports.getAllVisits = function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
-    var query = clinicVisitRef.orderByChild("timestamp");
     var visits =[];
     var childSnapshotData;
     
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("clinicVisit")){
-            query.once('value', (childSnapshot) => {
+            clinicVisitRef.once('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){
                     childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
                     visits.push({
@@ -937,8 +936,9 @@ exports.getAllVisits = function(req,res){
                         visitDate: childSnapshotData.visitDate
                     })         
                 })
+                res.send (visits);
             })
-            res.send (visits);
+            
         }
         else{
             res.send (visits);    

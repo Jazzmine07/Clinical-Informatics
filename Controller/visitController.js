@@ -360,26 +360,46 @@ exports.editClinicVisit = function(req, res){
             };
 
             clinicVisitRef.update(record);
+
+            var diagnosisArray = diagnosis.split(", ");
+            var diagnosisPush = [];
+            diagnosisPush.push("sample");
+
             diagnosisRef.once('value', (diagnosisList) => {
                 if(diagnosisList.exists()){
-                    diagnosisList.forEach(function(diagnosisDB){
-                        diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
+                    diagnosisList.forEach(function(complaintsDB){
+                        diagnosisTemp.push(complaintsDB.child('complaint').val());
                     })
+                    console.log("diagnosisTemp");
+                    console.log(diagnosisTemp);
                     var found = 1;
-                    for(var i = 0; i < diagnosisTemp; i++){
-                        if(diagnosis.localeCompare() != 0){
-                            found = 0;
-                        }   
+                    for(var i = 0; i < diagnosisTemp.length; i++){ // [Headache]
+                        for(var j = 0; j < diagnosisArray.length; j++){ // [Headche, Flu, Fever]
+                            // [Headache]
+                            // [Headache]
+                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosisArray[j].toLowerCase()) == 0){
+                                found = 0;
+                            }
+                            else {    
+                                if(!diagnosisTemp.includes(v[j]) && !diagnosisPush.includes(diagnosisArray[j])){
+                                    console.log("pushing...");
+                                    console.log(diagnosisArray[j]);
+                                    diagnosisPush.push(diagnosisArray[j]);
+                                }                          
+                            }
+                        }
                     }
-                    if(found == 1){
-                        diagnosisRef.push({
-                            diagnosis: diagnosis
+                    for(var k = 1; k < diagnosisPush.length; k++){
+                        complaintsRef.push({
+                            complaint: diagnosisPush[k]
                         });
                     }
                 } else{
-                    diagnosisRef.push({
-                        diagnosis: diagnosis
-                    });
+                    for(var j = 0; j < diagnosisArray.length; j++){
+                        complaintsRef.push({
+                            complaint: diagnosisArray[j]
+                        });
+                    }
                 }
             })
 
@@ -884,8 +904,23 @@ exports.getClinicVisits = function(){
     var databaseRef = database.ref();
     var clinicVisitRef = database.ref("clinicVisit");
     var query = clinicVisitRef.orderByChild("timestamp");
-    var visits =[];
+    var temp = [], visits =[];
     var childSnapshotData;
+
+    var date = new Date();
+    var month = date.getMonth()+1;
+    var currYear = date.getFullYear();
+    var schoolYearStart, schoolYearEnd;
+    var visitDates = [], visitYear = [], visitMonth = [];
+
+    if(month >= 6){
+        schoolYearStart = currYear; // 2021-2022
+        schoolYearEnd = currYear + 1;
+    }
+    else {
+        schoolYearStart = currYear - 1;
+        schoolYearEnd = currYear;
+    }
 
     var promise = new Promise((resolve, reject) => {
         databaseRef.once('value', (snapshot) => {
@@ -893,7 +928,8 @@ exports.getClinicVisits = function(){
                 query.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                        visits.push({
+                        visitDates.push(new Date(childSnapshotData.visitDate));
+                        temp.push({
                             formId: innerChildSnapshot.key,
                             studentName: childSnapshotData.studentName,
                             complaint: childSnapshotData.visitReason,
@@ -903,6 +939,25 @@ exports.getClinicVisits = function(){
                             visitDate: childSnapshotData.visitDate
                         })         
                     })
+
+                    for(var i = 0; i < visitDates.length; i++){
+                        visitYear.push(visitDates[i].getFullYear());
+                        visitMonth.push(visitDates[i].getMonth()+1);
+                    }
+
+                    for(var i = 0; i < visitDates.length; i++){
+                        if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){
+                            visits.push({
+                                formId: temp[i].formId,
+                                studentName: temp[i].studentName,
+                                complaint: temp[i].complaint,
+                                timeIn: temp[i].timeIn,
+                                timeOut: temp[i].timeOut,
+                                status: temp[i].status,
+                                visitDate: temp[i].visitDate
+                            })
+                        }
+                    }
                     resolve(visits);
                 })
             }

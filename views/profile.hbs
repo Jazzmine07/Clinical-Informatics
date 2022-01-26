@@ -110,13 +110,6 @@
                         <span>Promotive Care</span></a>
                 </li>
 
-                <!-- Nav Item - Performance Assessment -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/performance-assessment">
-                        <i class="fas fa-fw fa-star"></i>
-                        <span>Performance Assessment</span></a>
-                </li>
-
                 <!-- Nav Item - Communications -->
                 <li class="nav-item">
                     <a class="nav-link" href="/communications">
@@ -392,21 +385,24 @@
                                             <div class="font-weight-bold">BMI</div>
                                             <div>
                                                 <span class="font-weight-normal" id="BMIText">No data available</span>
-                                                <span class="ml-2 badge badge-success" id="BMIStatus">normal</span>
+                                                <span class="ml-2 badge badge-success" id="BMIStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="BMIStatusRed" style="display: none;"></span>  
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="font-weight-bold">Weight</div>
                                             <div id="weight"> 
                                                 <span class="font-weight-normal" id="weightText">No data available</span>
-                                                <span class="ml-2 badge badge-success" id="weightStatus">normal</span>  
+                                                <span class="ml-2 badge badge-success" id="weightStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="weightStatusRed" style="display: none;"></span>  
                                             </div>                                                                          
                                         </div>
                                         <div class="col-4">
                                             <div class="font-weight-bold">Height</div>
                                             <div>
                                                 <span class="font-weight-normal" id="heightText">No data available</span>
-                                                <span class="ml-2 badge badge-danger" id="heightStatus">below normal</span>
+                                                <span class="ml-2 badge badge-success" id="heightStatus" style="display: none;"></span>
+                                                <span class="ml-2 badge badge-danger" id="heightStatusRed" style="display: none;"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -1450,9 +1446,10 @@
                         <!-- Basic Card Example -->
                         <div class="card shadow mb-2 divmenu" id="medHistory">
                             <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Past Medical History</h6></div>
-                            <div class="card-body">
+                            <div class="card-body" id="illnessBody">
+                                <div class="font-weight-normal text-center">No data available</div>
                                     <!-- Card Header - Accordion -->
-                                <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                {{!-- <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                     <h6 class="m-0 font-weight-bold text-primary">Dengue<span class="float-right">3/18/2021</span></h6>
                                 </a>
                                 <!-- Card Content - Collapse -->
@@ -1552,7 +1549,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -2010,27 +2007,89 @@
                     document.getElementById("age").innerHTML=data.age;
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("BMIText").innerHTML=data.bmi;
+
+                    if(data.bmiStatus == "Normal"){
+                        document.getElementById("BMIStatus").innerHTML=data.bmiStatus;
+                        document.getElementById("BMIStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("BMIStatusRed").innerHTML=data.bmiStatus;
+                        document.getElementById("BMIStatusRed").style.display = "inline-block";
+                    }
+
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
-                    document.getElementById("weightStatus").innerHTML=data.weightStatus;
+
+                    if(data.weightStatus == "Normal"){
+                        document.getElementById("weightStatus").innerHTML=data.weightStatus;
+                        document.getElementById("weightStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("weightStatusRed").innerHTML=data.weightStatus;
+                        document.getElementById("weightStatusRed").style.display = "inline-block";
+                    }
+                        
                     document.getElementById("heightText").innerHTML=data.height + "cm";
+                    
+                    if(data.heightStatus == "Normal"){
                     document.getElementById("heightStatus").innerHTML=data.heightStatus;
+                        document.getElementById("heightStatus").style.display = "inline-block";
+                    }
+                    else{
+                        document.getElementById("heightStatusRed").innerHTML=data.heightStatus;
+                        document.getElementById("heightStatusRed").style.display = "inline-block";
+                    }
+                    
                     document.getElementById("address").innerHTML=data.address;
+
+                    if(data.fatherName && data.fatherName != "")
                     document.getElementById("fatherName").innerHTML=data.fatherName;
+
+                    if(data.fatherEmail && data.fatherEmail != "")
                     document.getElementById("fatherEmail").innerHTML=data.fatherEmail;
-                    document.getElementById("fatherContact").innerHTML=data.fatherContact;
+                    
+                    if(data.fatherContact && data.fatherContact != "" && data.fatherContact != "No information available.")
+                        document.getElementById("fatherContact").innerHTML= "+63" + data.fatherContact;
+                    
+                    if(data.motherName && data.motherName != "")
                     document.getElementById("motherName").innerHTML=data.motherName;
+
+                    if(data.motherEmail && data.motherEmail != "")
                     document.getElementById("motherEmail").innerHTML=data.motherEmail;
-                    document.getElementById("motherContact").innerHTML=data.motherContact;
+
+                    if(data.motherContact && data.motherContact != "" && data.motherContact != "No information available.")
+                        document.getElementById("motherContact").innerHTML= "+63" + data.motherContact;
+
+                    if(data.guardianName && data.guardianName != "")
                     document.getElementById("guardianName").innerHTML=data.guardianName;
+
+                    if(data.guardianEmail && data.guardianEmail != "")
                     document.getElementById("guardianEmail").innerHTML=data.guardianEmail;
-                    document.getElementById("guardianContact").innerHTML=data.guardianContact;
+
+                    if(data.guardianContact && data.guardianContact != "" && data.guardianContact != "No information available.")
+                        document.getElementById("guardianContact").innerHTML= "+63" + data.guardianContact;
+                    
+                    if(data.pediaName && data.pediaName != "")
                     document.getElementById("physicianName").innerHTML=data.pediaName;
+                    
+                    if(data.pediaEmail && data.pediaEmail != "")
                     document.getElementById("physicianEmail").innerHTML=data.pediaEmail;
-                    document.getElementById("physicianContact").innerHTML=data.pediaContact;
+                    
+                    if(data.pediaContact && data.pediaContact != "" && data.pediaContact != "No information available.")
+                    document.getElementById("physicianContact").innerHTML= "+63" + data.pediaContact;
+                    
+                    if(data.dentistName && data.dentistName != "")
                     document.getElementById("dentistName").innerHTML=data.dentistName;
+                    
+                    if(data.dentistEmail && data.dentistEmail != "")
                     document.getElementById("dentistEmail").innerHTML=data.dentistEmail;
-                    document.getElementById("dentistContact").innerHTML=data.dentistContact;
+                    
+                    if(data.dentistContact && data.dentistContact != "" && data.dentistContact != "No information available.")
+                    document.getElementById("dentistContact").innerHTML= "+63" + data.dentistContact;
+                    
+                    if(data.hospitalName && data.hospitalName != "" && data.hospitalName != "No information available.")
                     document.getElementById("hospitalName").innerHTML=data.hospitalName;
+                    
+                    if(data.hospitalAddress && data.hospitalAddress != "" && data.hospitalAddress != "No information available." )
                     document.getElementById("hospitalAddress").innerHTML=data.hospitalAddress;  
                 }
             });
@@ -2093,9 +2152,15 @@
                     for(i = 0; i < visits.length; i++){
                         if(visits[i].notes == ""){
                             visits[i].notes = "-";
-                            $('#visitsBody').append('<a href="#drop-visit'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse show" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visits[i].visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div>');
-
                         }
+                        if(visits[i].diagnosis == ""){
+                            visits[i].diagnosis = visits[i].impression;
+                        }
+                        if(visits[i].timeOut == ""){
+                            visits[i].timeOut = "-";
+                        }
+                        
+                        $('#visitsBody').append('<a href="#drop-visit'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse show" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visits[i].visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div>');
                     } 
                 }
                 else{
@@ -2105,6 +2170,30 @@
                 }                  
 
             });
+
+            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
+            $.get('/getPastIllness', {studentID: typedID}, function(illness){
+                console.log("list of illness");
+                console.log(illness);
+
+                var i;
+
+                if(illness.length != 0){
+                    var illnessBody = document.getElementById("illnessBody");
+                    illnessBody.innerHTML = "";
+                    for(i = 0; i < illness.length; i++){
+                        if(illness[i].notes == ""){
+                            illness[i].notes = "-";
+                        }
+                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + illness[i].startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + illness[i].startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + illness[i].endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                    } 
+                }
+                else{
+                    var illnessBody = document.getElementById("illnessBody");
+                    illnessBody.innerHTML = "";
+                    $('#illnessBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
+                }        
+            })
 
             // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
             $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
@@ -2300,12 +2389,6 @@
                 console.log("list of vaccines");
                 console.log(vaccineList);                
             });
-
-            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
-            $.get('/getPastIllness', {studentID: typedID}, function(illness){
-                console.log("list of illness");
-                console.log(illness);
-            })
 
             // --------------------------------- LIST OF ALLERGIES ---------------------------------
             $.get('/getAllergies', {studentID: typedID}, function(allergy){

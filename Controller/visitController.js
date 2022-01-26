@@ -260,13 +260,23 @@ exports.addClinicVisit = function(req, res){
                 snapshot.forEach(function(parent){
                     parent.child('children').forEach(function(children){
                         if(children.val() == studentId){
-                            var parentNotification = database.ref("notifications/"+parent.key+"/"+studentId);
-                            var notif = {
-                                message: "Your child, " + studentName + ", visited the clinic and was given a medication.",
+                            var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                            var intakeNotif = {
+                                message: "Your child, " + studentName + ", was given a medication.",
+                                id: studentId,
                                 timeIn: timeIn,
                                 date: visitDate, 
                             }
-                            parentNotification.push(notif);
+                            intakeNotification.push(intakeNotif);
+
+                            var visitsNotification = database.ref("notifications/"+parent.key+"/visits");
+                            var visitNotif = {
+                                message: "Your child, " + studentName + ", visited the clinic due to " + complaint,
+                                id: studentId,
+                                timeIn: timeIn,
+                                date: visitDate, 
+                            }
+                            visitsNotification.push(visitNotif);
                         }
                     })
                 })
@@ -277,13 +287,14 @@ exports.addClinicVisit = function(req, res){
                 snapshot.forEach(function(parent){
                     parent.child('children').forEach(function(children){
                         if(children.val() == studentId){
-                            var parentNotification = database.ref("notifications/"+parent.key+"/"+studentId);
-                            var notif = {
-                                message: "Your child, " + studentName + ", visited the clinic.",
+                            var visitsNotification = database.ref("notifications/"+parent.key+"/visits");
+                            var visitNotif = {
+                                message: "Your child, " + studentName + ", visited the clinic due to " + complaint,
+                                id: studentId,
                                 timeIn: timeIn,
                                 date: visitDate, 
                             }
-                            parentNotification.push(notif);
+                            visitsNotification.push(visitNotif);
                         }
                     })
                 })
@@ -429,6 +440,24 @@ exports.editClinicVisit = function(req, res){
                         database.ref('intakeHistory/' + historyKey + '/medications').push(history);
                         historyRef.push(healthHistoryIntake);
                     }
+
+                    var parentRef = database.ref("parentInfo");
+                    parentRef.once('value', (snapshot) => {
+                        snapshot.forEach(function(parent){
+                            parent.child('children').forEach(function(children){
+                                if(children.val() == studentId){
+                                    var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                                    var intakeNotif = {
+                                        message: "Your child, " + studentName + ", was given a medication.",
+                                        id: studentId,
+                                        timeIn: timeIn,
+                                        date: visitDate, 
+                                    }
+                                    intakeNotification.push(intakeNotif);
+                                }
+                            })
+                        })
+                    })
                 }
 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
@@ -549,6 +578,24 @@ exports.editClinicVisit = function(req, res){
                     database.ref('intakeHistory/' + historyKey + '/medications').push(history);
                     historyRef.push(healthHistoryIntake);
                 }
+
+                var parentRef = database.ref("parentInfo");
+                parentRef.once('value', (snapshot) => {
+                    snapshot.forEach(function(parent){
+                        parent.child('children').forEach(function(children){
+                            if(children.val() == studentId){
+                                var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                                var intakeNotif = {
+                                    message: "Your child, " + studentName + ", was given a medication.",
+                                    id: studentId,
+                                    timeIn: timeIn,
+                                    date: visitDate, 
+                                }
+                                intakeNotification.push(intakeNotif);
+                            }
+                        })
+                    })
+                })
             }
 
             // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------

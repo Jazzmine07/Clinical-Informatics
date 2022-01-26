@@ -189,13 +189,6 @@
                         <span>Promotive Care</span></a>
                 </li>
 
-                <!-- Nav Item - Performance Assessment -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/performance-assessment">
-                        <i class="fas fa-fw fa-star"></i>
-                        <span>Performance Assessment</span></a>
-                </li>
-
                 <!-- Nav Item - Communications -->
                 <li class="nav-item">
                     <a class="nav-link" href="/communications">
@@ -1150,6 +1143,13 @@
                         $('#studentName').val(data.name); 
                         $('#dob').val(data.bday); 
                         $('#gender').val(data.sex); 
+                        $('#age').val(getAge(data.bday));
+
+                        var today = formatDate();
+                        console.log(today);
+
+                        $('#dope').val(today);
+
                     }  
 
             });
@@ -1177,34 +1177,59 @@
 
 
                         if(data.prevCalculus == "true")
-                            document.querySelector('input[name="calculus"]').checked = true;
+                            document.getElementById("calculusYes").checked = true;
                         else
-                            document.querySelector('input[name="calculus"]').checked = false;
+                            document.getElementById("calculusNo").checked = true;
                         
                         if(data.prevGingiva == "true")
-                            document.querySelector('input[name="gingiva"]').checked = true;
+                            document.getElementById("gingivaYes").checked = true;
                         else
-                            document.querySelector('input[name="gingiva"]').checked = false;
+                            document.getElementById("gingivaNo").checked = true;
 
                         if(data.prevPocket == "true")
-                            document.querySelector('input[name="pocket"]').checked = true;
+                            document.getElementById("pocketYes").checked = true;
                         else
-                            document.querySelector('input[name="pocket"]').checked = false;
+                            document.getElementById("pocketNo").checked = true;
 
                         if(data.prevAnomaly == "true")
-                            document.querySelector('input[name="anomaly"]').checked = true;
+                            document.getElementById("anomalyYes").checked = true;
                         else
-                            document.querySelector('input[name="anomaly"]').checked = false;
+                            document.getElementById("anomalyNo").checked = true;
                         
                         var inputs = $("td input");
 
                         for(var j = 0; j < inputs.length; j++){
                             $(inputs[j]).val(data.prevInputs[j]);
                         }
-
                     }  
             });
 
+            function formatDate() {
+                var d = new Date(),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) 
+                    month = '0' + month;
+                if (day.length < 2) 
+                    day = '0' + day;
+
+                return [year, month, day].join('-');
+            }
+
+            function getAge(dateString) {
+                var today = new Date();
+                var birthDate = new Date(dateString);
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var m = today.getMonth() - birthDate.getMonth();
+                console.log(today.getMonth() + " " + birthDate.getMonth());
+                console.log(today.getDate() + " " + birthDate.getDate());
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                return age;
+            }
 
             $("#dope").change(function(){
                 var bDate = new Date(document.getElementById("dob").value);

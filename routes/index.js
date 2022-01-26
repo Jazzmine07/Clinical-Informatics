@@ -915,20 +915,22 @@ router.get('/promotive-care/program-form', loggedIn, (req, res) => {
 // Get performance assessment  page
 router.get('/performance-assessment', loggedIn, (req, res) => {
   console.log("Read performance assessment successful!");
-  var prom1, prom2;
+  var prom1, prom2, prom3;
   var user, programs;
   prom1 =  userController.getUser();
   prom2 = programController.getProgramsList();
+  ///prom3 = programController.promotiveReport();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
     programs = result[1];
 
     if(user.role == "Nurse"){
-      res.render('performance-assessment', {
+      res.render('clinic-visit', {
         user: user,
         isNurse: true,
-        programs: programs
+        error: true,
+        error_msg: "You don't have access to this module!"
       });
     } else {
       res.render('performance-assessment', {
@@ -1213,5 +1215,8 @@ router.post('/updateDentalInventory', inventoryController.updateDentalInventory)
 
 //---------POST FORMS FOR PROMOTIVE CARE MODULE----------------
 router.post('/addProgram', programController.addProgram);
+
+//---------GET FOR PROMOTIVE CARE MODULE REPORTS---------------------
+router.get('/getProgramReport', programController.promotiveReport);
 
 module.exports = router;

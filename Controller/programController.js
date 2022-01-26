@@ -87,17 +87,22 @@ exports.getProgramsList = function(){
     return promise;
 }
 
-exports.promotiveReport = function(){
-    var program = "Work out";
-    //req.query.program;
+exports.promotiveReport = function(req, res){
+    var program = req.query.program;
+    console.log("program");
+    console.log(program);
+    //var program = "OPLAN Health Food";
     var database = firebase.database();
     var databaseRef = database.ref();
     var programRef = database.ref("programs");
     var query = programRef.orderByChild("progName").equalTo(program);
     var temp;
 
+    var studentInfoRef = database.ref("studentInfo");
+    var g1Students = [], g2Students = [], g3Students = [], g4Students = [], g5Students = [], g6Students = [];
+
     var apeRef = database.ref('studentHealthHistory');
-    var childSnapshotData, i, j;
+    var childSnapshotData, i;
     var apeGrade1Temp = [], apeG1CurrYearTemp = [], apeG1LastYearTemp = [];
     var apeGrade2Temp = [], apeG2CurrYearTemp = [], apeG2LastYearTemp = [];
     var apeGrade3Temp = [], apeG3CurrYearTemp = [], apeG3LastYearTemp = [];
@@ -158,6 +163,7 @@ exports.promotiveReport = function(){
 
     var prevSchoolYear = (schoolYearStart-1)+"-"+(schoolYearEnd-1);
 
+
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("programs")){
             query.once('value', (childSnapshot) => {
@@ -171,10 +177,10 @@ exports.promotiveReport = function(){
                         population: childSnapshotData.population,
                         location: childSnapshotData.location
                     }
-                }) 
+                });
 
                 var populationArray = temp.population.split(", ");
-                console.log(populationArray);
+                //console.log(populationArray);
                 var programStartDate = new Date(temp.startDate);
                 var programEndDate = new Date(temp.endDate); 
                 if(temp.progType == "School-Based Feeding Program (SBFP)"){
@@ -243,66 +249,81 @@ exports.promotiveReport = function(){
                             })
                         }
                         if(populationArray[i] == "Grade 2"){
-                            apeRef.once('value', (snapshot) => {
-                                snapshot.forEach(function(ape){ // skipping id number
-                                    ape.child('ape').forEach(function(apeList){
-                                        apeData = apeList.exportVal();
-                                        if(apeData.grade == "2"){   // dont forget if weightStatus is underweight
-                                            apeGrade2Temp.push({
-                                                id: ape.key,
-                                                name: apeData.name,
-                                                schoolYear: apeList.key,
-                                                grade: apeData.grade,
-                                                weight: apeData.weight,
-                                            })
-                                        } 
-                                    })
-                                })
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 2){
+                                        g2Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
 
-                                var g2currID = apeGrade2Temp[0].id;
-                                console.log("prevSchoolYear");
-                                console.log(prevSchoolYear);
-                                for(i = 0; i < apeGrade2Temp.length; i++){
-                                    if(g2currID == apeGrade2Temp[i].id){    // if same id number
-                                        console.log("apeGrade2Temp[i].schoolYear");
-                                        console.log(apeGrade2Temp[i].schoolYear);
-                                        if(apeGrade2Temp[i].schoolYear == prevSchoolYear){    // APE last year
-                                            apeG2LastYearTemp.push({
-                                                id: apeGrade2Temp[i].id,
-                                                name: apeGrade2Temp[i].name,
-                                                schoolYear: apeGrade2Temp[i].schoolYear,
-                                                grade: apeGrade2Temp[i].grade,
-                                                weight: apeGrade2Temp[i].weight,
-                                            })
-                                            if(checker == 0 && apeGrade2Temp[i].schoolYear == prevSchoolYear){
-                                                apeG2CurrYearTemp.push({
-                                                    id: apeGrade2Temp[i-1].id,
-                                                    name: apeGrade2Temp[i-1].name,
-                                                    schoolYear: schoolYear,
-                                                    grade: apeGrade2Temp[i-1].grade,
-                                                    weight: 'No APE record.',
+                                // console.log("g2Students");
+                                // console.log(g2Students);
+                                    
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g2Students.length; j++){
+                                            if(ape.key == g2Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Underweight"){
+                                                        apeG2LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
                                                 })
                                             }
-                                        } else {
-                                            var checker = 0;
-                                            for(j = 0; j < apeGrade2Temp.length; j++){
-                                                if(apeGrade2Temp[j].schoolYear == schoolYear){
+                                        }
+                                    });
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < apeG2LastYearTemp.length; k++){
+                                            if(ape.key == apeG2LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
                                                     apeG2CurrYearTemp.push({
-                                                        id: apeGrade2Temp[i].id,
-                                                        name: apeGrade2Temp[i].name,
-                                                        schoolYear: apeGrade2Temp[i].schoolYear,
-                                                        grade: apeGrade2Temp[i].grade,
-                                                        weight: apeGrade2Temp[i].weight,
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
                                                     })
-                                                    checker = 1;
+                                                } else {
+                                                    console.log("wala");
+                                                    apeG2CurrYearTemp.push({
+                                                        id: apeG2LastYearTemp[k].id,
+                                                        name: apeG2LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "2",
+                                                        section: apeG2LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
                                                 }
                                             }
                                         }
-                                    } else {
-                                        g2currID = apeGrade2Temp[i].id;
-                                        i--;
-                                    }
-                                }
+                                    });
+
+                                    res.status(200).send({
+                                        lastYearAPE: apeG2LastYearTemp, 
+                                        currentYearAPE: apeG2CurrYearTemp,
+                                        programType: "School-Based Feeding Program (SBFP)"
+                                    });
+                                })
                             })
                         }
                     }
@@ -348,8 +369,8 @@ exports.promotiveReport = function(){
                                                 //count mga diarrhea before progStart
                                                 console.log("ilang beses pumasok sa before wins?");
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning" ||
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "hand foot and mouth disease" || impressionDiagnosis[i].diagnosis.toLowerCase() == "hand foot and mouth disease"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning" ||
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "hand foot and mouth disease" || impressionDiagnosis[i].diagnosis.toLowerCase() == "hand foot and mouth disease"){
                                                     winsBeforeCountG1++;
                                                 }
                                             }
@@ -357,8 +378,8 @@ exports.promotiveReport = function(){
                                                 console.log("ilang beses pumasok sa after wins?");
                                                 //count mga diarrhea before progEnd
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning" ||
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "hand foot and mouth disease" || impressionDiagnosis[i].diagnosis.toLowerCase() == "hand foot and mouth disease"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning" ||
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "hand foot and mouth disease" || impressionDiagnosis[i].diagnosis.toLowerCase() == "hand foot and mouth disease"){
                                                     winsAfterCountG1++;
                                                 }
                                             }
@@ -367,6 +388,11 @@ exports.promotiveReport = function(){
                                         console.log(winsBeforeCountG1);
                                         console.log("winsAfterCountG1");
                                         console.log(winsAfterCountG1);
+                                        res.status(200).send({
+                                            winsBeforeCountG1: winsBeforeCountG1, 
+                                            winsAfterCountG1: winsAfterCountG1,
+                                            programType: "Water, Sanitation, and Hygiene (WASH) in Schools (WinS)"
+                                        });
                                     })
                                 }
                             })
@@ -413,16 +439,16 @@ exports.promotiveReport = function(){
                                             if(curVisitDates[i] < programStartDate){ 
                                                 console.log("ilang beses pumasok sa before pacp?");
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" || 
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
                                                     pacpBeforeCountG1++;
                                                 }
                                             }
                                             else if(curVisitDates[i] > programEndDate){
                                                 console.log("ilang beses pumasok sa after pacp?");
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" ||
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" ||
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
                                                     pacpAfterCountG1++;
                                                 }
                                             }
@@ -431,6 +457,11 @@ exports.promotiveReport = function(){
                                         console.log(pacpBeforeCountG1);
                                         console.log("pacpAfterCountG1");
                                         console.log(pacpAfterCountG1);
+                                        res.status(200).send({
+                                            pacpBeforeCountG1: pacpBeforeCountG1, 
+                                            pacpAfterCountG1: pacpAfterCountG1,
+                                            programType: "Pest and Animal Control Program (PACP)"
+                                        });
                                     })
                                 }
                             })
@@ -478,7 +509,7 @@ exports.promotiveReport = function(){
                                                 //count mga diarrhea before progStart
                                                 console.log("ilang beses pumasok sa before efsq?");
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
                                                     efsqBeforeCountG1++;
                                                 }
                                             }
@@ -486,7 +517,7 @@ exports.promotiveReport = function(){
                                                 console.log("ilang beses pumasok sa after efsq?");
                                                 //count mga diarrhea before progEnd
                                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                   impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
+                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
                                                     efsqAfterCountG1++;
                                                 }
                                             }
@@ -495,6 +526,11 @@ exports.promotiveReport = function(){
                                         console.log(efsqBeforeCountG1);
                                         console.log("efsqAfterCountG1");
                                         console.log(efsqAfterCountG1);
+                                        res.status(200).send({
+                                            efsqBeforeCountG1: efsqBeforeCountG1, 
+                                            efsqAfterCountG1: efsqAfterCountG1,
+                                            programType: "Evaluation of Food Safety and Quality"
+                                        });
                                     })
                                 }
                             })
@@ -569,63 +605,82 @@ exports.promotiveReport = function(){
                             })
                         }
                         if(populationArray[i] == "Grade 2"){
-                            apeRef.once('value', (snapshot) => {
-                                snapshot.forEach(function(ape){ // skipping id number
-                                    ape.child('ape').forEach(function(apeList){
-                                        var apeData = apeList.exportVal();
-                                        if(apeData.grade == "2"){   // dont forget if weightStatus is overweight or obese
-                                            wpeApeGrade2Temp.push({
-                                                id: ape.key,
-                                                name: apeData.name,
-                                                schoolYear: apeList.key,
-                                                grade: apeData.grade,
-                                                weight: apeData.weight,
-                                            })
-                                        } 
-                                    })
-                                })
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 2){
+                                        g2Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
 
-                                var g2currID = wpeApeGrade2Temp[0].id;
-                                for(i = 0; i < wpeApeGrade2Temp.length; i++){
-                                    if(g2currID == wpeApeGrade2Temp[i].id){    // if same id number
-                                        if(wpeApeGrade2Temp[i].schoolYear == prevSchoolYear){    // APE last year
-                                            wpeApeG2LastYearTemp.push({
-                                                id: wpeApeGrade2Temp[i].id,
-                                                name: wpeApeGrade2Temp[i].name,
-                                                schoolYear: wpeApeGrade2Temp[i].schoolYear,
-                                                grade: wpeApeGrade2Temp[i].grade,
-                                                weight: wpeApeGrade2Temp[i].weight,
-                                            })
-                                            if(checker == 0 && wpeApeGrade2Temp[i].schoolYear == prevSchoolYear){
-                                                wpeApeG2CurrYearTemp.push({
-                                                    id: wpeApeGrade2Temp[i-1].id,
-                                                    name: wpeApeGrade2Temp[i-1].name,
-                                                    schoolYear: schoolYear,
-                                                    grade: wpeApeGrade2Temp[i-1].grade,
-                                                    weight: 'No APE record.',
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g2Students.length; j++){
+                                            if(ape.key == g2Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Overweight"){
+                                                        wpeApeG2LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
                                                 })
                                             }
-                                        } else {
-                                            var checker = 0;
-                                            for(j = 0; j < wpeApeGrade2Temp.length; j++){
-                                                if(wpeApeGrade2Temp[j].schoolYear == schoolYear){
+                                        }
+                                    });
+
+                                    // console.log("apeGrade2Temp");
+                                    // console.log(apeGrade2Temp);
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < wpeApeG2LastYearTemp.length; k++){
+                                            if(ape.key == wpeApeG2LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
                                                     wpeApeG2CurrYearTemp.push({
-                                                        id: wpeApeGrade2Temp[i].id,
-                                                        name: wpeApeGrade2Temp[i].name,
-                                                        schoolYear: wpeApeGrade2Temp[i].schoolYear,
-                                                        grade: wpeApeGrade2Temp[i].grade,
-                                                        weight: wpeApeGrade2Temp[i].weight,
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
                                                     })
-                                                    checker = 1;
+                                                } else {
+                                                    console.log("wala");
+                                                    wpeApeG2CurrYearTemp.push({
+                                                        id: wpeApeG2LastYearTemp[k].id,
+                                                        name: wpeApeG2LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "2",
+                                                        section: wpeApeG2LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
                                                 }
                                             }
                                         }
-                                    } else {
-                                        g2currID = wpeApeGrade2Temp[i].id;
-                                        i--;
-                                    }
-                                }
-                            })
+                                    });
+
+                                    res.status(200).send({
+                                        wpeApeG2LastYearTemp: wpeApeG2LastYearTemp, 
+                                        wpeApeG2CurrYearTemp: wpeApeG2CurrYearTemp,
+                                        programType: "Weight Management Program"
+                                    });
+                                })
+                            });
                         }
                     }
                 }

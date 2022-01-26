@@ -700,16 +700,24 @@
         var symptomPieChart;
         var diseaseTrendChart; 
         var concernTrendChart;
+        var disease =  $('#disease').find(":selected").text();
+        
+        console.log(disease);
+
+        $('#disease').change(function(){
+            disease =  $('#disease').find(":selected").text();
+            cb(start,end)
+        });
 
         cb(start, end);
+
 
         function cb(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             console.log("START " + start.format('YYYY-MM-DD'));
             console.log("END " + end.format('YYYY-MM-DD'));
 
-            var disease =  $('#disease').find(":selected").text();
-            console.log(disease);
+            
 
             $.post("/getDiseaseDemographics",{disease:disease,startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')}, function(data){
                 console.log("DS:");

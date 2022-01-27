@@ -434,6 +434,8 @@ exports.getUsedMedicineToday = function(){
                         })
                     })
 
+                    console.log("pasok1");
+
                     await temp.forEach(inventory => {
                         var found = false;
                         databaseRef.child("medicineInventory").child(inventory.medicineID).once('value', (snapshot) => {
@@ -455,9 +457,13 @@ exports.getUsedMedicineToday = function(){
                                     usedInventory: inventory.usedInventory,
                                     unit: inventory.unit,
                                 })
+                                console.log("filtered1");
+                                console.log(filtered);
                             }    
                         })
                     })
+                    console.log("filtered2");
+                    console.log(filtered);
                     resolve(filtered);
                 })
             } else {
@@ -466,6 +472,82 @@ exports.getUsedMedicineToday = function(){
         })
     });
     return promise;
+}
+
+exports.getMedicineDiscrepancyReport = function(req, res){
+    var start = req.query.start;
+    var startDate = new Date(start);
+    var end = req.query.end;
+    var endDate = new Date(end);
+    var yearMonthDate = [], newDate;
+
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+    var childSnapshotData, i, j, temp = [], currInv = [], filtered = [];
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("discrepancyMedicine")){
+            inventoryRef.once('value', (medicineInventory) => {
+                medicineInventory.forEach(function(medInventory){
+                    var data = medInventory.exportVal();
+                    currInv.push({
+                        medicineID: medInventory.key,
+                        medicine: data.medicine,
+                        currInventory: data.quantity,
+                    })
+                })
+
+                database.ref("discrepancyMedicine/").once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            medicineID: childSnapshotData.medicineID,
+                            batchNum: childSnapshotData.batchNum,
+                            medicineName: childSnapshotData.medicineName,
+                            dateUpdated: childSnapshotData.dateUpdated,
+                            usedInventory: childSnapshotData.usedInventory,
+                            unit: childSnapshotData.unit,
+                        })
+                    })
+    
+                    temp.forEach((inventory) => {
+                        yearMonthDate = inventory.dateUpdated.split("-"); // 2021-01-03    2021 01 03
+                        newDate = new Date(yearMonthDate[0], yearMonthDate[1]-1, yearMonthDate[2]);   // year, month, day
+    
+                        if(startDate <= newDate && newDate <= endDate){ // if within date range
+                            var found = false;
+                            for(i = 0; i < currInv.length; i++){
+                                if(inventory.medicineID == currInv[i].medicineID){
+                                    for(j = 0; j < filtered.length; j++){
+                                        if(inventory.batchNum == filtered[j].batchNum && inventory.medicineName == filtered[j].medicineName){   // filters if same medicine name and batch number
+                                            found = true;
+                                            filtered[j].usedInventory += inventory.usedInventory;
+                                            break;
+                                        } 
+                                    }
+                                    if(!found){
+                                        filtered.push({
+                                            batchNum: inventory.batchNum,
+                                            medicineName: inventory.medicineName,
+                                            dateUpdated: inventory.dateUpdated,
+                                            currInventory: currInv[i].currInventory,
+                                            usedInventory: inventory.usedInventory,
+                                            unit: inventory.unit,
+                                        })
+                                    } 
+                                }
+                            }
+                        }
+                    })
+                    res.status(200).send(filtered);
+                })
+            })
+            
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
 }
 
 exports.addSupplyInventory = function(req, res){
@@ -651,6 +733,82 @@ exports.getSupplyDiscrepancy = function(){
     return promise;
 };
 
+exports.getSupplyDiscrepancyReport = function(req, res){
+    var start = req.query.start;
+    var startDate = new Date(start);
+    var end = req.query.end;
+    var endDate = new Date(end);
+    var yearMonthDate = [], newDate;
+
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("supplyInventory");
+    var childSnapshotData, i, j, temp = [], currInv = [], filtered = [];
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("discrepancySupply")){
+            inventoryRef.once('value', (supplyInventory) => {
+                supplyInventory.forEach(function(suppInventory){
+                    var data = suppInventory.exportVal();
+                    currInv.push({
+                        supplyID: suppInventory.key,
+                        supply: data.supply,
+                        currInventory: data.quantity,
+                    })
+                })
+
+                database.ref("discrepancySupply/").once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            supplyID: childSnapshotData.supplyID,
+                            batchNum: childSnapshotData.batchNum,
+                            supplyName: childSnapshotData.supplyName,
+                            dateUpdated: childSnapshotData.dateUpdated,
+                            discrepancy: childSnapshotData.discrepancy,
+                            unit: childSnapshotData.unit,
+                        })
+                    })
+    
+                    temp.forEach((inventory) => {
+                        yearMonthDate = inventory.dateUpdated.split("-"); // 2021-01-03    2021 01 03
+                        newDate = new Date(yearMonthDate[0], yearMonthDate[1]-1, yearMonthDate[2]);   // year, month, day
+    
+                        if(startDate <= newDate && newDate <= endDate){ // if within date range
+                            var found = false;
+                            for(i = 0; i < currInv.length; i++){
+                                if(inventory.supplyID == currInv[i].supplyID){
+                                    for(j = 0; j < filtered.length; j++){
+                                        if(inventory.batchNum == filtered[j].batchNum && inventory.supplyName == filtered[j].supplyName){   // filters if same medicine name and batch number
+                                            found = true;
+                                            filtered[j].discrepancy += inventory.discrepancy;
+                                            break;
+                                        } 
+                                    }
+                                    if(!found){
+                                        filtered.push({
+                                            batchNum: inventory.batchNum,
+                                            supplyName: inventory.supplyName,
+                                            dateUpdated: inventory.dateUpdated,
+                                            currInventory: currInv[i].currInventory,
+                                            discrepancy: inventory.discrepancy,
+                                            unit: inventory.unit,
+                                        })
+                                    } 
+                                }
+                            }
+                        }
+                    })
+                    res.status(200).send(filtered);
+                })
+            })
+            
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
+}
+
 exports.addDentalInventory = function(req, res){
     var dentalArray = req.body.dentalArray;
     var i, dentals;
@@ -835,3 +993,79 @@ exports.getDentalDiscrepancy = function(){
     });
     return promise;
 };
+
+exports.getDentalDiscrepancyReport = function(req, res){
+    var start = req.query.start;
+    var startDate = new Date(start);
+    var end = req.query.end;
+    var endDate = new Date(end);
+    var yearMonthDate = [], newDate;
+
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("dentalInventory");
+    var childSnapshotData, i, j, temp = [], currInv = [], filtered = [];
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("discrepancyDental")){
+            inventoryRef.once('value', (dentalInventory) => {
+                dentalInventory.forEach(function(suppInventory){
+                    var data = suppInventory.exportVal();
+                    currInv.push({
+                        dentalID: suppInventory.key,
+                        dentalName: data.dental,
+                        currInventory: data.quantity,
+                    })
+                })
+
+                database.ref("discrepancyDental/").once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        temp.push({
+                            dentalID: childSnapshotData.dentalID,
+                            batchNum: childSnapshotData.batchNum,
+                            dentalName: childSnapshotData.dentalName,
+                            dateUpdated: childSnapshotData.dateUpdated,
+                            discrepancy: childSnapshotData.discrepancy,
+                            unit: childSnapshotData.unit,
+                        })
+                    })
+    
+                    temp.forEach(inventory => {
+                        yearMonthDate = inventory.dateUpdated.split("-"); // 2021-01-03    2021 01 03
+                        newDate = new Date(yearMonthDate[0], yearMonthDate[1]-1, yearMonthDate[2]);   // year, month, day
+    
+                        if(startDate <= newDate && newDate <= endDate){ // if within date range
+                            var found = false;
+                            for(i = 0; i < currInv.length; i++){
+                                if(inventory.dentalID == currInv[i].dentalID){
+                                    for(j = 0; j < filtered.length; j++){
+                                        if(inventory.batchNum == filtered[j].batchNum && inventory.dentalName == filtered[j].dentalName){   // filters if same medicine name and batch number
+                                            found = true;
+                                            filtered[j].discrepancy += inventory.discrepancy;
+                                            break;
+                                        } 
+                                    }
+                                    if(!found){
+                                        filtered.push({
+                                            batchNum: inventory.batchNum,
+                                            dentalName: inventory.dentalName,
+                                            dateUpdated: inventory.dateUpdated,
+                                            currInventory: currInv[i].currInventory,
+                                            discrepancy: inventory.discrepancy,
+                                            unit: inventory.unit,
+                                        })
+                                    } 
+                                }
+                            }
+                        }
+                    })
+                    res.status(200).send(filtered);
+                })
+            })
+            
+        } else {
+            res.status(200).send(filtered);
+        }
+    })
+}

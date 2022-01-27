@@ -1,5 +1,8 @@
 const firebase = require('../firebase');
 
+//----------------- CLINIC VISIT REPORT FUNCTIONS-----------------------------
+
+//This function is used to get the top 5 medicines used
 exports.getTop5MedsUsedMonth = function(req, res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -66,8 +69,13 @@ exports.getTop5MedsUsedMonth = function(req, res){
     })
 };
 
+//-----------------END OF CLINIC VISIT REPORT FUNCTIONS-----------------------------
+
+
 
 //-----------------HEALTH ASSESSMENT REPORT FUNCTIONS-----------------------------
+
+// This function is used to get the id numbers of the students without Annual Physical and Dental Exams
 exports.getStudentsNoCurrYearRecord = function(req, res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -213,9 +221,4 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
     return promise;
 }
 
-// exports.getStudentsNoCurrYearRecord = function(req, res){
-
-// }
-
-
-//-----------------HEALTH ASSESSMENT REPORT FUNCTIONS-----------------------------
+//-----------------END OF HEALTH ASSESSMENT REPORT FUNCTIONS-----------------------------

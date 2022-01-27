@@ -24,8 +24,16 @@ exports.addWeightHeight=function(req,res){
     res.status(200).send();
 };
 
+//-------- HEALTH ASSESSMENT-----------
+/*
+Legends:
+- APE --> Annual Physcial Exam
+- ADE --> Annual Dental Exam
+*/
+
+
+//This function is used to adds new APE of a student with the current school year as the key
 exports.addAPE = function(req, res){
-    //adds new APE of student with the current school year as the key
     var clicked=req.body.clicked;
     var schoolYear= req.body.schoolYear;
     var age= req.body.age;
@@ -315,8 +323,8 @@ exports.addAPE = function(req, res){
     res.status(200).send();
 };
 
+//This function is used to add new ADE of student with the current school year as the key
 exports.addADE = function(req, res){
-    //adds new APE of student with the current school year as the key
     var clicked=req.body.clicked;
     var schoolYear= req.body.schoolYear;
     var age= req.body.age;
@@ -410,6 +418,7 @@ exports.addADE = function(req, res){
     res.status(200).send();
 };
 
+//This function is used to get the list of students in a specific section
 exports.getSectionStudents = function(req, res){
     var schoolYear= req.body.schoolYear;
     var section = req.body.section;
@@ -443,6 +452,7 @@ exports.getSectionStudents = function(req, res){
     }
 };
 
+//
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var t1PE=0,t2PE=0,t3PE=0,t4PE=0,t5PE=0,t6PE=0,c1PE=0,c2PE=0,c3PE=0,c4PE=0,c5PE=0,c6PE=0;

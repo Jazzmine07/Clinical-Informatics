@@ -881,7 +881,7 @@
 
             var i;
             var days=[], daysString=[], daysCount=[],day;
-            var dataDate, dataDay;
+            var dataDate, dataDay,dataMonth,dateYear;
 
         //------------------IF USER WANTS TO SEE COUNT FOR EACH DATE------------------
                 //get the number of days based on the month and year
@@ -932,39 +932,51 @@
                         }
                     }
                 };
-                    //loops if to get the count for each day
-                    for(i=0;i<data.length;i++){
-                        for(j=0;j<days.length;j++){ 
-                            if(data[i].complaint!="" && data[i].complaint!=null && data[i].complaint!=undefined){ 
-                                dataDate= new Date(data[i].visitDate);
-                                dataDay = dataDate.getDate();
+                
+                console.log("Days array 0 date:")
+                console.log(days[0].date);
+                console.log("DATA ARRAY [0].visitDate:");
+                console.log(data[0].visitDate)
+
+                
+
+                //loops if to get the count for each day
+                for(i=0;i<data.length;i++){
+                    for(j=0;j<days.length;j++){ 
+                        if(data[i].complaint!="" && data[i].complaint!=null && data[i].complaint!=undefined){ 
+                            dataDate= new Date(data[i].visitDate);
+                            dataDay = dataDate.getDate();
+                            dataMonth=dataDate.getMonth();
+                            dataYear=dataDate.getFullYear();
+                            
+                            if(dataYear == currYear && dataMonth == currMonth){
                                 if(dataDay==days[j].date){
-                                    
                                     days[j].count=days[j].count+1;
                                 }
                             }
                         }
                     }
-                    //loop is used to push data to daysString for the label and daysCount for the data 
-                    for(i=0;i<days.length;i++){
-                    if(days[i].day == 0)
-                        day="Sun";
-                    else if(days[i].day == 1)
-                        day="Mon";
-                    else if(days[i].day == 2)
-                        day="Tue";
-                    else if(days[i].day == 3)
-                        day="Wed";
-                    else if(days[i].day == 4)
-                        day="Thu";
-                    else if(days[i].day == 5)
-                        day="Fri";
-                    else if(days[i].day == 6)
-                        day="Sat";
-                        
-                        daysString.push(days[i].date + ", " + day);
-                        daysCount.push(days[i].count);
-                    }  
+                }
+                //loop is used to push data to daysString for the label and daysCount for the data 
+                for(i=0;i<days.length;i++){
+                if(days[i].day == 0)
+                    day="Sun";
+                else if(days[i].day == 1)
+                    day="Mon";
+                else if(days[i].day == 2)
+                    day="Tue";
+                else if(days[i].day == 3)
+                    day="Wed";
+                else if(days[i].day == 4)
+                    day="Thu";
+                else if(days[i].day == 5)
+                    day="Fri";
+                else if(days[i].day == 6)
+                    day="Sat";
+                    
+                    daysString.push(days[i].date + ", " + day);
+                    daysCount.push(days[i].count);
+                }  
                 
                            
             var chartData={

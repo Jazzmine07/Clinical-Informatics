@@ -122,6 +122,7 @@ router.get('/dashboard', loggedIn, (req, res) => {
   console.log("Read dashboard successful!");
   var prom1,prom2,user,notifs;
   var prom1 =  userController.getUser();
+
   //studentController.getNotifications(user.key, notifs => {
   
   prom1.then(function(result){
@@ -1171,6 +1172,7 @@ router.get('/getImmunizationRecord', studentInfoController.getImmunizationRecord
 router.get('/getVaccineList', studentInfoController.getVaccineList);
 router.get('/getPastIllness', studentInfoController.getStudentPastIllness);
 router.get('/getAllergies', studentInfoController.getStudentAllergies);
+router.get('/getStudentAllHealthAssessRecords', studentInfoController.getStudentAllHealthAssessRecords);
 
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);

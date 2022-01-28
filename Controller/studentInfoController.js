@@ -357,3 +357,83 @@ exports.getStudentAllergies = function(req, res){
         }
     })
 };
+
+exports.getStudentAllHealthAssessRecords = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var studentApeRecord= database.ref("studentHealthHistory/"+id+"/ape");
+    var studentAdeRecord= database.ref("studentHealthHistory/"+id+"/ade");
+    var healthHistory= database.ref("studentHealthHistory/"+id);
+    
+    console.log("HI");
+    var allApe=[], allAde=[], allHaRecords=[];
+    console.log(id);
+
+    healthHistory.once('value',(students)=>{
+        if(allApe.length==0 && allAde.length==0){
+            //students.forEach(function(student){
+                console.log("DAMNIT");
+                students.child("ape").forEach(function(childSnapshot){
+                    console.log("Death")
+                    if(childSnapshot.exists()){
+                        console.log("HI!")
+                        var childValues= childSnapshot.exportVal();
+                        allApe.push({
+                            sy:childSnapshot.key,
+                            age:childValues.age,
+                            dope:childValues.apeDate,
+                            doctor:childValues.clinician,
+                            systolic:childValues.systolic,
+                            diastolic:childValues.diastolic,
+                            temp: childValues.temp,
+                            bp: childValues.bp,
+                            pr: childValues.pr,
+                            rr: childValues.rr,
+                            sf:childValues.sf,
+                            weight: childValues.weight,
+                            height: childValues.height,
+                            bmi: childValues.bmi,
+                            bmiStatus: childValues.bmiStatus,
+                            od: childValues.odVision,
+                            os: childValues.osVision,
+                            odGlasses: childValues.odGlasses,
+                            osGlasses: childValues.osGlasses,
+                            medProb: childValues.medProb,
+                            allergies: childValues.allergies,
+                            complaints: childValues.concern,
+                            reco: childValues.assess
+                        });
+                    }
+                })
+                students.child("ade").forEach(function(childSnapshot2){
+                    if(childSnapshot2.exists()){
+                        var childValues2= childSnapshot2.exportVal();
+                        allAde.push({
+                            sy:childSnapshot2.key,
+                            age:childValues2.age,
+                            dope:childValues2.adeDate,
+                            doctor:childValues2.clinician,
+                            calculus:childValues2.calculus,
+                            anomaly:childValues2.anomaly,
+                            gingiva:childValues2.gingiva,
+                            studentId:childValues2.id,
+                            inputs:childValues2.inputs,
+                            studentName:childValues2.name,
+                            pocket:childValues2.pocket,
+                            schoolYear:childValues2.schoolYear                
+                        });
+                    }
+                })                           
+            //})
+        }
+        console.log(allApe);
+        console.log(allAde);
+        allHaRecords.push(allApe);
+        allHaRecords.push(allAde);
+        console.log("HI");
+        res.send(allHaRecords);
+    })
+    
+
+
+};

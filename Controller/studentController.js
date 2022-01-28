@@ -1273,7 +1273,7 @@ exports.loadPrevDataAPE=function(req,res){
         console.log(record.currComplaints);
 
         res.send(record);
-        });
+    });
     
 
       

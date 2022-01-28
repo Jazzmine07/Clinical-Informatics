@@ -2099,6 +2099,8 @@
                 bmiLineChart.destroy();
             } 
 
+            // --------------------------------- LIST OF GROWTH MONITORING ------------------------------
+            
             $.get("/getBMI", {studentID: typedID}, function(data){
                 var i,size;
                 if(schoolYear.length!=null){
@@ -2137,6 +2139,12 @@
                 weightHeightChart(schoolYear, weight, height);
                 bmiChart(schoolYear, BMI);
                 checker = true;
+            });
+            
+            // --------------------------------- LIST OF APE/ADE ------------------------------
+            $.get("/getStudentAllHealthAssessRecords",{studentID: typedID}, function(data){
+                console.log("DATA:")
+                console.log(data);
             });
 
             // --------------------------------- LIST OF CLINIC VISITS ------------------------------

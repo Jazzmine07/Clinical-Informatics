@@ -1089,10 +1089,22 @@
                     $('#studentGrade').val(studentInfo.grade);
                 if(studentInfo.section)
                     $('#studentSection').val(studentInfo.section);  
-                if(studentInfo.weight)
+
+                if(studentInfo.weight){
                     $('#weight').val(studentInfo.weight);  
-                if(studentInfo.height)
-                    $('#height').val(studentInfo.height);  
+                    $('#weight').trigger("change");
+                }
+                else{
+                    $('#weight').val(""); 
+                }
+
+                if(studentInfo.height){
+                    $('#height').val(studentInfo.height);
+                    $('#height').trigger("change");
+                } 
+                else{
+                    $('#height').val(""); 
+                }
             });
 
             // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
@@ -1206,11 +1218,22 @@
                         $('#studentGrade').val(studentInfo.grade);
                     if(studentInfo.section)
                         $('#studentSection').val(studentInfo.section);   
-                    if(studentInfo.weight)
+                    
+                    if(studentInfo.weight){
                         $('#weight').val(studentInfo.weight);  
-                    if(studentInfo.height)
-                        $('#height').val(studentInfo.height);  
-
+                        $('#weight').trigger("change");
+                    }
+                    else{
+                        $('#weight').val(""); 
+                    }
+                    
+                    if(studentInfo.height){
+                        $('#height').val(studentInfo.height);
+                        $('#height').trigger("change");
+                    } 
+                    else{
+                        $('#height').val(""); 
+                    }
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                 }
             });
@@ -3362,7 +3385,6 @@
                     interactionTypeGroup.fullInteractionType.forEach(function(fullInteractionType){
                         fullInteractionType.interactionPair.forEach(function(description){
                             descArray.push(description.description);
-                            console.log(descArray);
                         })
                     })
                 })
@@ -3375,13 +3397,11 @@
                 }
 
                 tempDescArray = tempDescArray.join("");
-                console.log(tempDescArray)
                 document.getElementById("interactionDiv").innerHTML = tempDescArray;
                 document.getElementById("successMed").style.display = "none";
                 document.getElementById("errorMed").style.display = "block";
             } else {
                 tempDescArray = "No drug-to-drug interaction found.";
-                console.log(tempDescArray);
                 document.getElementById("noInteractionDiv").innerHTML = tempDescArray;
                 document.getElementById("errorMed").style.display = "none";
                 document.getElementById("successMed").style.display = "block";
@@ -3424,56 +3444,39 @@
             
             addMedication(medicationTxt, purpose, amount, interval, startMed, endMed);
 
-                addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
+            addIntakeHistory(selectedMedication, medicationTxt, amount, time, checkBox.checked);
             
+            console.log("ADD MEDICATION CLICKED");
             console.log(medicationsArray);
             console.log(intakeArray);
             
             namesArray = [];
-            for(i = 0; i < medicationsArray.length; i++){
-                namesArray.push(medicationsArray[i].medication);
+            for(var j = 0; j < medicationsArray.length; j++){
+                namesArray.push(medicationsArray[j].medication);
             }
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control namesInteraction" placeholder="' + medicationTxt +'" value="'+ selectedMedication +'"></input></td><td><input class="form-control" disabled="disabled" placeholder="' + purpose + '"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ amount +'"></td><td><input disabled="disabled" class="form-control" placeholder="'+ interval +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ startMed +'"</input></td><td><input disabled="disabled" class="form-control" placeholder="'+ endMed +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');
             i++;
             
             getMe = document.getElementsByClassName("namesInteraction");
-            console.log("get me........");
-            console.log(getMe);
-            console.log("length ni get me");
-            console.log(getMe.length);
             
             if(getMe.length >= 2) {
-                console.log("inside get me if");
-                for(i = 0; i < getMe.length; i++){
-                    console.log("inside get me for loop");
-                    getID(getMe[i].value);
-                    console.log(getMe[i].value);    
+                for(var k = 0; k < getMe.length; k++){
+                    getID(getMe[k].value);
                 }
             }
-
-            //if(namesArray.length >= 2){
-            //    for(i = 0; i < medicationsArray.length; i++){
-            //        getID(medicationsArray[i].medication);    
-            //    }
-            //}
         });
 
         var removeIDs = [];
 
         $(document).on('click', '.btn_remove', function(){  
             var button_id = $(this).attr("id");
-            console.log("removing..." + button_id);  
             removeIDs.push(button_id);
             $('#row'+button_id+'').remove(); 
-            console.log(removeIDs);  
             tempDescArray = [];
             if(getMe.length >= 2) {
-                console.log("inside get me if");
-                for(i = 0; i < getMe.length; i++){
-                    console.log("inside get me for loop");
-                    getID(getMe[i].value);
-                    console.log(getMe[i].value);    
+                for(var l = 0; l < getMe.length; l++){
+                    getID(getMe[l].value);
                 }
             }
             else if(getMe.length < 2){
@@ -3527,16 +3530,28 @@
         });
 
         $('#saveBtn').click(function(){
-            var height = $('#height').val();
+            $('#weight').trigger("change");
+            $('#height').trigger("change");
+
             var weight = $('#weight').val(); 
+            console.log(weight + " " + weightStatus);
+            
+            var height = $('#height').val();
+            console.log(height + " " + heightStatus); 
+
+            console.log(BMI + " " + BMIstatus);
+
             var proceed = true;
 
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
-            console.log(newArray);       
 
             newArray.sort();
             console.log(newArray);
+
+            console.log("arrays before removing........");
+            console.log(medicationsArray);
+            console.log(intakeArray); 
 
             for (var j = newArray.length -1; j >= 0; j--){
                 medicationsArray.splice(newArray[j],1);
@@ -3547,22 +3562,24 @@
 
             for(var k = 0; k < intakeArray.length; k++){
                 if(intakeArray[k].taken === false){
-                    console.log("removing false intake...");
                     removeIntakeIDs.push(k);
-                    console.log(intakeArray[k]);
                 }
             }
 
             const convertID = arr => arr.map(Number);
             var newIntakeArray = toNumbers(removeIntakeIDs);
-            console.log(newArray);       
 
             newIntakeArray.sort();
+            console.log(newIntakeArray);
+
+            console.log("intake before removing........");
+            console.log(intakeArray);
 
             for (var l = newIntakeArray.length -1; l >= 0; l--){
                 intakeArray.splice(newIntakeArray[l],1);
             }
 
+            console.log("arrays in saving........");
             console.log(medicationsArray);
             console.log(intakeArray); 
 
@@ -3755,7 +3772,7 @@
             console.log(notes);
 
             console.log("proceed.... " + proceed);
-
+            proceed = false;
             if(proceed){
                 $.ajax({
                     url: '/addClinicVisit',

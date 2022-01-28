@@ -1011,7 +1011,7 @@
             else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
                 $('#studentGrade').val("4");
             }         
-            else if(document.getElementById("studentSection").value=="Trustwortiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
+            else if(document.getElementById("studentSection").value=="Trustworthiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
                 $('#studentGrade').val("5");
             }
             else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
@@ -1046,6 +1046,7 @@
             console.log(id);
             idInput=$('#studentID').val();
             console.log("Id:" + idInput);
+
             $.ajax({
                     url: '/loadStudentData',
                     method: 'POST',
@@ -1091,7 +1092,6 @@
                         
                         document.getElementById("age").value=data.currAge;
                         document.getElementById("dope").value=data.currDope;//change to Date
-                        //document.getElementById("clinicianAPE").value=data.currClinician;
                         document.getElementById("systolic").value=data.currSys;
                         document.getElementById("diastolic").value=data.currDia;
                         document.getElementById("bodyTemp").value=data.currTemp;
@@ -1109,14 +1109,17 @@
                         document.getElementById("assessAPE").value=data.currReco;
 
 
-                        //document.getElementById("BmiStatus").innerHTML=data.currBmiStatus;
-                        //document.getElementById("bodyTemp").value=data.temp;
-                        //paki-change sa backend
-                        //document.getElementById("bloodPressure").value=data.bp;
+                        //document.getElementById("systolic").value="101";
+                        //document.getElementById("diastolic").value="64"
+                        //document.getElementById("bodyTemp").value="36.5";
+                        //document.getElementById("pulseRate").value="68";
+                        //document.getElementById("respRate").value="21";
+                        //document.getElementById("skinFind").value="healthy";
+                        //document.getElementById("weight").value="20";
+                        //document.getElementById("height").value="120";
+                        //document.getElementById("complaintAPE").value="none";
+                        //document.getElementById("assessAPE").value="none";
 
-                        //uncomment me pag nabago na sa back
-                        //document.getElementById("systolic").value=data.bp;
-                        //document.getElementById("diastolic").value=data.bp;
 
                         //load prev Data
                         document.getElementById("lpeSY").innerHTML=data.prevSy;

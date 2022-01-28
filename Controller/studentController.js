@@ -232,7 +232,7 @@ exports.addAPE = function(req, res){
         //     allergies: allergies,
         //     concern: concern,
         //     assess: assess,
-        //     bmiStatus:"Normal",
+        //     bmiStatus:"Normal weight",
         //     weightStatus: "Normal",
         //     heightStatus: "Normal",
         //     bodyTempStatus: "Normal",
@@ -268,7 +268,7 @@ exports.addAPE = function(req, res){
         //     allergies: allergies,
         //     concern: concern,
         //     assess: assess,
-        //     bmiStatus:"Normal",
+        //     bmiStatus:"Normal weight",
         //     weightStatus: "Normal",
         //     heightStatus: "Normal",
         //     bodyTempStatus: "Normal",
@@ -304,7 +304,7 @@ exports.addAPE = function(req, res){
         //     allergies: allergies,
         //     concern: concern,
         //     assess: assess,
-        //     bmiStatus:"Normal",
+        //     bmiStatus:"Normal weight",
         //     weightStatus: "Normal",
         //     heightStatus: "Normal",
         //     bodyTempStatus: "Normal",
@@ -317,7 +317,7 @@ exports.addAPE = function(req, res){
         // apeRef.child(grade4.schoolYear).set(grade4);
         // apeRef.child(grade3.schoolYear).set(grade3);
         // apeRef.child(grade2.schoolYear).set(grade2);
-        //apeRef.child(grade1.schoolYear).set(grade1);
+        // apeRef.child(grade1.schoolYear).set(grade1);
     }
     
     res.status(200).send();

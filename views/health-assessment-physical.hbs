@@ -1099,7 +1099,11 @@
                         document.getElementById("respRate").value=data.currRr;
                         document.getElementById("skinFind").value=data.currSf;
                         document.getElementById("weight").value=data.currWeight;
+                        $('#weight').trigger("change");
+
                         document.getElementById("height").value=data.currHeight;
+                        $('#height').trigger("change");
+
                         document.getElementById("bmi").value=data.currBmi;
                         document.getElementById("odVision").value=data.currOdVision;
                         document.getElementById("osVision").value=data.currOsVision;
@@ -2816,6 +2820,9 @@
                     sectionHeader="";
                 }
                 console.log(sectionHeader);
+
+                $('#weight').trigger("change");
+                $('#height').trigger("change");
 
                 var id = $('#studentID').val();
                 if($('#studentID').val() == null || $('#studentID').val() == undefined || $('#studentID').val() == ""){

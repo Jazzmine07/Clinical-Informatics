@@ -452,7 +452,7 @@ exports.getSectionStudents = function(req, res){
     }
 };
 
-//
+//This function is get the percentages of the section APE for school year 
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var t1PE=0,t2PE=0,t3PE=0,t4PE=0,t5PE=0,t6PE=0,c1PE=0,c2PE=0,c3PE=0,c4PE=0,c5PE=0,c6PE=0;
@@ -672,6 +672,7 @@ exports.getAPEPercentage = function(req, res){
 
 
 }
+//This function is get the percentages of the section ADE for school year
 exports.getADEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
@@ -772,7 +773,7 @@ exports.getSections=function(req,res){
     });
     return promise;
 }
-
+//This function is used to add the health assessment schedules
 exports.addSchedule=function(req,res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
@@ -862,6 +863,7 @@ exports.addSchedule=function(req,res){
     res.send();
 }
 
+//This function is used to load the previous APEs of the student
 exports.loadPrevDataAPE=function(req,res){
     console.log("LOAD FUNCTION");
     var currSY= req.body.schoolYear;
@@ -1281,7 +1283,7 @@ exports.loadPrevDataAPE=function(req,res){
     
     
 }
-//TO EDIT
+//This function is used to load the previous ADEs of the student?
 exports.loadPrevDataADE=function(req,res){
     console.log("LOAD ADE FUNCTION");
     var currSY= req.body.schoolYear;
@@ -1449,7 +1451,7 @@ exports.loadPrevDataADE=function(req,res){
         });   
 }
 
-
+//This function is used to load the data of the students
 exports.loadStudentData= function (req,res){
     var name,bday,sex,record;
     var id = req.body.id;
@@ -1631,11 +1633,6 @@ exports.getAllPrevSched=function(req,res){
     })
 
 }
-
-
-
-
-
 
 //computes BMI status of the child
 exports.getBmiStatus=function(req,res){

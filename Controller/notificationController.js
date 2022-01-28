@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 
+// This function is used to get the notifications per user
 exports.getNotifications = function(req, res){
     var database = firebase.database();
     var childSnapshotData;
@@ -39,6 +40,7 @@ exports.getNotifications = function(req, res){
     //return promise;
 }
 
+// This function is used to update the notification if the user has seen it or not
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
     console.log("user id in notif contoller");

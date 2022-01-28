@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 
+// This function is used to add medicine inventories 
 exports.addMedicineInventory = async function(req, res){
     var medicationsArray = req.body.meds;
     var i, medicines;
@@ -39,6 +40,7 @@ exports.addMedicineInventory = async function(req, res){
     res.status(200).send();
 };
 
+// This function is used to get all the medicine inventories to be displayed to the nurse 
 exports.getMedicineInventory = function(){
     var childSnapshotData, inventory = [], details;
     var database = firebase.database();
@@ -75,7 +77,7 @@ exports.getMedicineInventory = function(){
     return promise;
 };
 
-// for front-end
+// This function is used to get all the medicine inventories to be sent to the front end in order to update discrepancy real-time
 exports.getMedicineInventoryList = function(req, res){
     var childSnapshotData, inventory = [];
     var database = firebase.database();
@@ -105,7 +107,7 @@ exports.getMedicineInventoryList = function(req, res){
     })
 };
 
-// for front-end
+// This function is used to get all the medicine inventories grouped by medicine regardless of batch number
 exports.getGroupedMedicineInventory = function(req, res){
     var childSnapshotData, temp = [], filtered = [];
     var database = firebase.database();
@@ -149,8 +151,7 @@ exports.getGroupedMedicineInventory = function(req, res){
     })
 };
 
-// for front-end
-// this function adds medicine regardless of batch num
+// This function is used to get all the medicine used with the same month and year
 exports.getUsedMedicineMonthYear = function(req, res){
     var childSnapshotData, temp = [], filtered = [];
     var database = firebase.database();
@@ -201,6 +202,7 @@ exports.getUsedMedicineMonthYear = function(req, res){
     })
 };
 
+// This function is used to get all the specific medicines (with dosage and strength) for medication section
 exports.getSpecificMedicines = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -246,6 +248,7 @@ exports.getSpecificMedicines = function(){
     return promise;
 };
 
+// This function is used to get all the generic medicine for adding inventory purposes (category)
 exports.getMedicineNames = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -291,52 +294,53 @@ exports.getMedicineNames = function(){
     return promise;
 };
 
-exports.getMedicineDetails = function(req, res){
-    var childSnapshotData, i, temp = [], filtered = [];
-    var database = firebase.database();
-    var databaseRef = database.ref();
-    var inventoryRef = database.ref("medicineInventory");
+// exports.getMedicineDetails = function(req, res){
+//     var childSnapshotData, i, temp = [], filtered = [];
+//     var database = firebase.database();
+//     var databaseRef = database.ref();
+//     var inventoryRef = database.ref("medicineInventory");
 
-    databaseRef.once('value', (snapshot) => {
-        if(snapshot.hasChild("medicineInventory")){
-            inventoryRef.once('value',async (childSnapshot) => {
-                await childSnapshot.forEach(function(innerChildSnapshot){
-                    childSnapshotData = innerChildSnapshot.exportVal();
-                    temp.push({
-                        medicine: childSnapshotData.medicine,
-                        name: childSnapshotData.name,
-                        dosageForm: childSnapshotData.dosageForm,
-                        strength: childSnapshotData.strength,
-                    })
-                })
+//     databaseRef.once('value', (snapshot) => {
+//         if(snapshot.hasChild("medicineInventory")){
+//             inventoryRef.once('value',async (childSnapshot) => {
+//                 await childSnapshot.forEach(function(innerChildSnapshot){
+//                     childSnapshotData = innerChildSnapshot.exportVal();
+//                     temp.push({
+//                         medicine: childSnapshotData.medicine,
+//                         name: childSnapshotData.name,
+//                         dosageForm: childSnapshotData.dosageForm,
+//                         strength: childSnapshotData.strength,
+//                     })
+//                 })
 
-                await temp.forEach(med => {
-                    var found = false;
-                    for(i = 0; i < filtered.length; i++){
-                        if(med.medicine == filtered[i].medicine){   // filters if same medicine name
-                            found = true;
-                            break;
-                        } 
-                    }
-                    if(!found){
-                        filtered.push({
-                            medicine: med.medicine,
-                            name: med.name,
-                            dosageForm: med.dosageForm,
-                            strength: med.strength
-                        })
-                    }    
-                })
-                console.log("laman ng medicine details");
-                console.log(filtered);
-                res.status(200).send(filtered);
-            })
-        } else {
-            res.status(200).send(filtered);
-        }
-    })
-};
+//                 await temp.forEach(med => {
+//                     var found = false;
+//                     for(i = 0; i < filtered.length; i++){
+//                         if(med.medicine == filtered[i].medicine){   // filters if same medicine name
+//                             found = true;
+//                             break;
+//                         } 
+//                     }
+//                     if(!found){
+//                         filtered.push({
+//                             medicine: med.medicine,
+//                             name: med.name,
+//                             dosageForm: med.dosageForm,
+//                             strength: med.strength
+//                         })
+//                     }    
+//                 })
+//                 console.log("laman ng medicine details");
+//                 console.log(filtered);
+//                 res.status(200).send(filtered);
+//             })
+//         } else {
+//             res.status(200).send(filtered);
+//         }
+//     })
+// };
 
+// This function is used to record any discrepancy in the medicine inventory
 exports.updateMedicineInventory = function(req, res){
     var { medicineID, batchNum, medicineName, qty, amount, unit } = req.body;
     var used = parseInt(qty) - parseInt(amount);
@@ -362,7 +366,7 @@ exports.updateMedicineInventory = function(req, res){
     res.status(200).send(amount);
 };
 
-// get all medicine discrepancy 
+// This function is used to get all the discrepancy in the medicine inventory for low stock detection
 exports.getMedicineDiscrepancy = function(req, res){
     var data, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -410,6 +414,7 @@ exports.getMedicineDiscrepancy = function(req, res){
     })
 };
 
+// This function is used to get all the discrepancy in the medicine inventory for the day (to be shown to physician)
 exports.getUsedMedicineToday = function(){
     var childSnapshotData, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
@@ -474,6 +479,7 @@ exports.getUsedMedicineToday = function(){
     return promise;
 }
 
+// This function is used to get the discrepancy report for the medicine inventory
 exports.getMedicineDiscrepancyReport = function(req, res){
     var start = req.query.start;
     var startDate = new Date(start);
@@ -550,6 +556,7 @@ exports.getMedicineDiscrepancyReport = function(req, res){
     })
 }
 
+// This function is used to add supply inventories 
 exports.addSupplyInventory = function(req, res){
     var suppliesArray = req.body.supplies;
     var i, supplies;
@@ -574,6 +581,7 @@ exports.addSupplyInventory = function(req, res){
     res.status(200).send();
 };
 
+// This function is used to get all the supply inventories to be displayed to the nurse 
 exports.getSupplyInventory = function(){
     var childSnapshotData, supply = [];
     var database = firebase.database();
@@ -606,6 +614,7 @@ exports.getSupplyInventory = function(){
     return promise;
 };
 
+// This function is used to get all the generic supply name for adding inventory purposes (category)
 exports.getSupplies = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -649,6 +658,7 @@ exports.getSupplies = function(){
     return promise;
 };
 
+// This function is used to record any discrepancy in the supply inventory
 exports.updateSupplyInventory = function(req, res){
     var { supplyID, batchNum, supplyName, qty, amount, unit } = req.body;
     var discrepancy = parseInt(qty) - parseInt(amount);
@@ -674,7 +684,7 @@ exports.updateSupplyInventory = function(req, res){
     res.status(200).send(amount);
 };
 
-// get all supply discrepancy 
+// This function is used to get all the discrepancy in the supply inventory for the day (to be shown to physician)
 exports.getSupplyDiscrepancy = function(){
     var data, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
@@ -733,6 +743,7 @@ exports.getSupplyDiscrepancy = function(){
     return promise;
 };
 
+// This function is used to get the discrepancy report for the supply inventory
 exports.getSupplyDiscrepancyReport = function(req, res){
     var start = req.query.start;
     var startDate = new Date(start);
@@ -809,6 +820,7 @@ exports.getSupplyDiscrepancyReport = function(req, res){
     })
 }
 
+// This function is used to add dental inventories 
 exports.addDentalInventory = function(req, res){
     var dentalArray = req.body.dentalArray;
     var i, dentals;
@@ -833,6 +845,7 @@ exports.addDentalInventory = function(req, res){
     res.status(200).send();
 };
 
+// This function is used to get all the dental inventories to be displayed to the nurse 
 exports.getDentalInventory = function(){
     var childSnapshotData, inventory = [];
     var database = firebase.database();
@@ -867,6 +880,7 @@ exports.getDentalInventory = function(){
     return promise;
 };
 
+// This function is used to get all the generic dental supply name for adding inventory purposes (category)
 exports.getDentals = function(){
     var childSnapshotData, i, temp = [], filtered = [];
     var database = firebase.database();
@@ -910,6 +924,7 @@ exports.getDentals = function(){
     return promise;
 };
 
+// This function is used to record any discrepancy in the dental supply inventory
 exports.updateDentalInventory = function(req, res){
     var { dentalID, batchNum, dentalName, qty, amount, unit } = req.body;
     var discrepancy = parseInt(qty) - parseInt(amount);
@@ -935,7 +950,7 @@ exports.updateDentalInventory = function(req, res){
     res.status(200).send(amount);
 };
 
-// get all dental discrepancy 
+// This function is used to get all the discrepancy in the dental supply inventory for the day (to be shown to physician)
 exports.getDentalDiscrepancy = function(){
     var data, i, temp = [], filtered = [], currInventory;
     var database = firebase.database();
@@ -994,6 +1009,7 @@ exports.getDentalDiscrepancy = function(){
     return promise;
 };
 
+// This function is used to get the discrepancy report for the dental supply inventory
 exports.getDentalDiscrepancyReport = function(req, res){
     var start = req.query.start;
     var startDate = new Date(start);

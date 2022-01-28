@@ -739,13 +739,16 @@
             function clickHandler(click){
                 const barColorBackground = [];
                 var labelColor;
+                var concern = [];
                 const points= stackedBarChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
                 if(points.length){
                     if(stackedBarChart.config.data == gradeData){
-                        var firstPoint= points[0];
+                        var firstPoint = points[0];
                         console.log(points[0]);
                         console.log(firstPoint.datasetIndex);
                         console.log(firstPoint.index);
+                        var con = labels[firstPoint.index];
+                        concern.push(con);
                         if(sections!=null){
                             for(i=0;i<6;i++){
                                 sections.pop();
@@ -845,7 +848,7 @@
                             console.log(sectionsCount);
                             stackedBarChart.config.data = sectionData;
                             stackedBarChart.config.options.plugins.datalabels.color = labelColor;
-                            stackedBarChart.config.options.plugins.title.text = 'Top 10 Complaints for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
+                            stackedBarChart.config.options.plugins.title.text = concern[0] + ' Complaints for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
                             stackedBarChart.config.options.plugins.legend.display = false;
                             stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                         }

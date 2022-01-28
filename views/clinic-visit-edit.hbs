@@ -1668,8 +1668,8 @@
         });
 
         $("#diagnosis").select2({
-            tags: true,
-            tokenSeparators: [',']
+            tags: true,            
+            maximumSelectionLength: 1
         });
 
         $("#medicationVisit").select2();
@@ -2779,15 +2779,15 @@
 
             var diagnosis = $('#diagnosis').val(); 
 
-            function capitalizeFirstLetter(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
+            //function capitalizeFirstLetter(string) {
+            //    return string.charAt(0).toUpperCase() + string.slice(1);
+            //}
 
-            for(var index = 0; index < diagnosis.length; index++){
-                diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
-            }         
+            //for(var index = 0; index < diagnosis.length; index++){
+            //    diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
+            //}         
 
-            diagnosis = diagnosis.join(', ');
+            //diagnosis = diagnosis.join(', ');
             console.log(diagnosis);
 
             var status =  $('#status').val();

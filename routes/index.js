@@ -1194,7 +1194,6 @@ router.post('/getAllPrevSchedules', studentController.getAllPrevSched);
 router.post('/loadPrevDataAPE', studentController.loadPrevDataAPE);
 router.post('/loadPrevDataADE', studentController.loadPrevDataADE);
 router.post('/loadStudentData',studentController.loadStudentData);
-router.post('/addWeightHeight',studentController.addWeightHeight);
 
 //---------POST FORMS FOR DISEASE SURVEILLANCE MODULE----------------
 router.post('/getDiseaseDemographics', surveillanceController.getDiseaseDemographics);

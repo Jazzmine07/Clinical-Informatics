@@ -1459,7 +1459,7 @@
                             <label class="col-form-label p-2 mr-1" for="assignMedication">Assign To</label>
                             <select class="form-control mb-2 select2 populate placeholder" multiple="multiple" style="width: 300px; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="assignMedication" name="assignMedication">
                                 {{#each nurse}}
-                                    <option value="{{key}}"> {{firstName}} {{lastName}}</option>
+                                    <option value="{{key}}">{{firstName}} {{lastName}}</option>
                                 {{/each}}
                             </select> 
                         </div>
@@ -1563,7 +1563,6 @@
                                 <div class="col-4">
                                     <label class="col-form-label" for="status">Disposition</label>
                                     <select class="custom-select mb-2" id="status" name="status">
-                                        <option disabled="disabled" selected="true">Choose...</option>
                                         <option value="Under Observation">Under Observation</option> 
                                         <option value="Sent Home">Sent Home</option>
                                         <option value="Hospitalized">Sent to Hospital</option>

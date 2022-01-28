@@ -1,6 +1,7 @@
 const firebase = require('../firebase');
 const firebaseStorage = require('firebase/storage');
 
+//This function is used to count the dashboar for the day
 exports.getDashboard = function(req, res){
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit"); 
@@ -35,6 +36,7 @@ exports.getDashboard = function(req, res){
     return promise;
 };
 
+//This function is used to get the list of complaints
 exports.getComplaints = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -63,6 +65,7 @@ exports.getComplaints = function(){
     return promise;
 };
 
+//This function is used to get the list of diagnosis
 exports.getDiagnosis = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -91,6 +94,7 @@ exports.getDiagnosis = function(){
     return promise;
 };
 
+//This function is used to get add clinic visit form 
 exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bmi, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
@@ -332,6 +336,7 @@ exports.addClinicVisit = function(req, res){
     }
 };
 
+//This function is used to save the clinic visit form edited
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, diagnosis, 
@@ -361,45 +366,31 @@ exports.editClinicVisit = function(req, res){
 
             clinicVisitRef.update(record);
 
-            var diagnosisArray = diagnosis.split(", ");
-            var diagnosisPush = [];
-            diagnosisPush.push("sample");
-
             diagnosisRef.once('value', (diagnosisList) => {
                 if(diagnosisList.exists()){
-                    diagnosisList.forEach(function(complaintsDB){
-                        diagnosisTemp.push(complaintsDB.child('complaint').val());
+                    diagnosisList.forEach(function(diagnosisDB){
+                        console.log(diagnosisDB.exportVal());
+                        diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
                     })
                     console.log("diagnosisTemp");
                     console.log(diagnosisTemp);
                     var found = 1;
-                    for(var i = 0; i < diagnosisTemp.length; i++){ // [Headache]
-                        for(var j = 0; j < diagnosisArray.length; j++){ // [Headche, Flu, Fever]
-                            // [Headache]
-                            // [Headache]
-                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosisArray[j].toLowerCase()) == 0){
-                                found = 0;
-                            }
-                            else {    
-                                if(!diagnosisTemp.includes(v[j]) && !diagnosisPush.includes(diagnosisArray[j])){
-                                    console.log("pushing...");
-                                    console.log(diagnosisArray[j]);
-                                    diagnosisPush.push(diagnosisArray[j]);
-                                }                          
-                            }
-                        }
+
+                    for(var i = 0; i < diagnosisTemp; i++){
+                        if(diagnosis.localeCompare() != 0){
+                            found = 0;
+                        } 
                     }
-                    for(var k = 1; k < diagnosisPush.length; k++){
-                        complaintsRef.push({
-                            complaint: diagnosisPush[k]
-                        });
+
+                    if(found == 1){
+                        diagnosisRef.push({
+                            diagnosis: diagnosis
+                        })
                     }
                 } else{
-                    for(var j = 0; j < diagnosisArray.length; j++){
-                        complaintsRef.push({
-                            complaint: diagnosisArray[j]
-                        });
-                    }
+                    diagnosisRef.push({
+                        diagnosis: diagnosis
+                    });
                 }
             })
 
@@ -633,6 +624,7 @@ exports.editClinicVisit = function(req, res){
     })
 };
 
+//This function is used to get the clinic visit forms to the user
 exports.getAssignedForms = (req, res) => {
     var user = req;
     var database = firebase.database();
@@ -662,7 +654,7 @@ exports.getAssignedForms = (req, res) => {
     return promise;
 };
 
-// ------ This function is for editing form-------------
+//This function is used to get the clinic visit form to edit
 exports.getClinicVisitForm = function(req){
     var formId = req.params.id;
     var database = firebase.database();

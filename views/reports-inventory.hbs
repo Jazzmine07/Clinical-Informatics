@@ -21,7 +21,8 @@
     <link href="public/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="public/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"
+    >
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
@@ -344,8 +345,77 @@
                             <div style="height: 600px">
                                 <canvas id="top5medsByGrade"></canvas>
                             </div>
-                            <div class="chart-area">
+                            {{!-- <div class="chart-area">
                                 <canvas id="top5medsBySex"></canvas>
+                            </div> --}}
+                        </div>
+                    </div>
+                    <div class="card shadow mb-4" id="medDiv" style="display: none;">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="medTitle"></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="medTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
+                                            <th class="bg-primary" style="color: white;">Medicine Name</th>
+                                            <th class="bg-primary" style="color: white;">Current Inventory</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Date Recorded</th>
+                                            <th class="bg-primary" style="color: white;">Discrepancy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="medBody">                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="card shadow mb-4" id="supDiv" style="display: none;">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="supTitle"></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="supTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
+                                            <th class="bg-primary" style="color: white;">Supply Name</th>
+                                            <th class="bg-primary" style="color: white;">Current Inventory</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Date Recorded</th>
+                                            <th class="bg-primary" style="color: white;">Discrepancy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="supBody">                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="card shadow mb-4" id="denDiv" style="display: none;">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary" id="denTitle"></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="denTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
+                                            <th class="bg-primary" style="color: white;">Dental Supply Name</th>
+                                            <th class="bg-primary" style="color: white;">Current Inventory</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Date Recorded</th>
+                                            <th class="bg-primary" style="color: white;">Discrepancy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="denBody">                                                
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>      
@@ -421,6 +491,7 @@
 
     <!-- Page level custom scripts -->
     <script src="public/js/demo/datatables-demo.js"></script>
+
     <script src="https://cdn.datatables.net/rowgroup/1.1.4/js/dataTables.rowGroup.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -447,6 +518,10 @@
         
         cb(start, end);
 
+        //var medTable = $('#medTable').DataTable();
+        //var supTable = $('#medTable').DataTable();
+        //var denTable = document.getElementById("denTable");
+
         function cb(start, end) {
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             console.log("START " + start.format('YYYY-MM-DD'));
@@ -458,16 +533,64 @@
             $.get('/getMedicineDiscrepancyReport', {start: startDate, end: endDate}, function(result){
                 console.log("medicine discrepancy result");
                 console.log(result);
+
+                if(result.length != 0){
+                    $("#medBody tr").remove();
+                    document.getElementById("medDiv").style.display = "block";
+                    $('#medTitle').text("Medicine Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));
+
+                    for(var i = 0; i < result.length; i++){
+                        //medTable.row.add([result[i].batchNum, result[i].medicineName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].usedInventory]);
+                        $('#medBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].medicineName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].usedInventory + '</td></tr>');
+                    }       
+                    //medTable.draw();
+                } 
+                else{
+                    $("#medBody tr").remove();
+                    $('#medBody').append('<tr><td colspan="6" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
+                } 
             });
 
             $.get('/getSupplyDiscrepancyReport', {start: startDate, end: endDate}, function(result){
                 console.log("supply discrepancy result");
                 console.log(result);
+
+                if(result.length != 0){
+                    $("#supBody tr").remove();
+                    document.getElementById("supDiv").style.display = "block";
+                    $('#supTitle').text("Supply Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));
+
+                    for(var i = 0; i < result.length; i++){
+                        //supTable.row.add([result[i].batchNum, result[i].supplyName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].discrepancy]);
+                        $('#supBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].supplyName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
+                    }       
+                    //supTable.draw();
+                }
+                else{
+                    $("#supBody tr").remove();
+                    $('#supBody').append('<tr><td colspan="6" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
+                }
             });
 
             $.get('/getDentalDiscrepancyReport', {start: startDate, end: endDate}, function(result){
                 console.log("dental discrepancy result");
                 console.log(result);
+
+                if(result.length != 0){
+                    $("#denBody tr").remove();
+                    document.getElementById("denDiv").style.display = "block"; 
+                    $('#denTitle').text("Dental Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));  
+
+                    for(var i = 0; i < result.length; i++){
+                        //denTable.row.add([result[i].batchNum, result[i].dentalName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].discrepancy]);
+                        $('#denBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].dentalName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
+                    }       
+                    //denTable.draw();
+                }
+                else{
+                    $("#denBody tr").remove();
+                    $('#denBody').append('<tr><td colspan="6" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
+                }
             });
         }
 
@@ -484,7 +607,6 @@
             }
         }, cb);
         
-
         $.get("/getMedicineInventoryList", function(inventoryList){
             console.log("inventoryList in front end");
             console.log(inventoryList);

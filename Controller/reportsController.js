@@ -12,7 +12,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
     var pass=[];
 
     databaseRef.once('value', (snapshot) => {
-        if(snapshot.hasChild("usedMedicine")){
+        if(snapshot.hasChild("intakeHistory")){
             intakeRef.once('value', (childSnapshot) => { // year
                 childSnapshot.forEach(function(innerChildSnapshot){
                     innerChildSnapshot.child('medications').forEach(function(medications){

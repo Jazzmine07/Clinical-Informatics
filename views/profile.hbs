@@ -536,8 +536,8 @@
                             <!-- Basic Card Example -->
                             <div class="card shadow mb-2">
                                 <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Health Assessment</h6></div>
-                                <div class="card-body">
-                                        <!-- Card Header - Accordion -->
+                                <div class="card-body" id="healthBody">
+                                        {{!-- <!-- Card Header - Accordion -->
                                     <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                         <h6 class="m-0 font-weight-bold text-primary">Physical Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2021</span></h6>
                                     </a>
@@ -595,10 +595,10 @@
                                                 </div>
                                             </div>
                                             <div class="form-row mb-2">
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <div class="font-weight-bold">Vision</span></div>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <div class="font-weight-bold">with Glasses</span></div>
                                                 </div>
                                             </div>
@@ -1178,7 +1178,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -2144,6 +2144,24 @@
             $.get("/getStudentAllHealthAssessRecords",{studentID: typedID}, function(data){
                 console.log("DATA:")
                 console.log(data);
+
+                var i;
+
+                if(data.length != 0){
+                    var healthBody = document.getElementById("healthBody");
+                    healthBody.innerHTML = "";
+
+                    for(i = 0; i < data[0].length; i++){
+                        $('#healthBody').append('<a href="#drop-health'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + 'Physical Examination Results (S.Y. ' +  data[0][i].sy + ')' + '<span class="float-right">' + data[0][i].dope + '</span></h6></a><div class="collapse" id="drop-health'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col-2"><div class="font-weight-bold">' + "Date of Examination" + '</div><div class="font-weight-normal">' + data[0][i].dope + '</div></div><div class="col-5"><div class="font-weight-bold">' + "Examining Physician" + '</div><div class="font-weight-normal">' + data[0][i].doctor + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-2"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + data[0][i].temp + '°C' + '</div></div><div class="col-2"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + data[0][i].systolic + "/" + data[0][i].diastolic + '</div></div><div class="col-2"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + data[0][i].pr + '</div></div><div class="col-2"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + data[0][i].rr + '</div></div><div class="col-4"><div class="font-weight-bold">' + "Skin Findings" + '</div><div class="font-weight-normal">' + data[0][i].sf + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-2"><div class="font-weight-bold">' + "Weight" + '</div><div class="font-weight-normal">' + data[0][i].weight + '</div></div><div class="col-2"><div class="font-weight-bold">' + "Height" + '</div><div class="font-weight-normal">' + data[0][i].height + '</div></div><div class="col-2"><div class="font-weight-bold">' + "BMI" + '</div><div class="font-weight-normal">' + data[0][i].bmi + '</div></div><div class="col-5"><div class="font-weight-bold">' + "BMI Status" + '</div><div class="font-weight-normal">' + data[0][i].bmiStatus + '</div></div></div>' + 
+                        '<div class="form-row mb-2"><div class="col-4"><div class="font-weight-bold">Vision</div></div><div class="col-4"><div class="font-weight-bold">with Glasses</div></div></div>' + '<div class="form-row mb-2"><div class="col-2"><div class="font-weight-bold">od<span class="ml-1 font-weight-normal">' + data[0][i].od + '</span></div></div><div class="col-2"><div class="font-weight-bold">os<span class="ml-1 font-weight-normal">' + data[0][i].os + '</span></div></div><div class="col-2"><div class="font-weight-bold">od<span class="ml-1 font-weight-normal">' + data[0][i].od + '</span></div></div><div class="col-2"><div class="font-weight-bold">os<span class="ml-1 font-weight-normal">' + data[0][i].os + '</span></div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Problems/Complaints/Abnormal Findings" + '</div><div class="font-weight-normal">' + data[0][i].complaints + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Assessment/Recommendations" + '</div><div class="font-weight-normal">' + data[0][i].reco + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="form-check"><input class="form-check-input" type="checkbox" onclick="return false;" value="" id="enpe" checked><label class="form-check-label" for="flexCheckChecked">Essentially Normal P.E.</label></div></div></div>' + '</div></div>');
+                    } 
+                }
+                else{
+                    var healthBody = document.getElementById("healthBody");
+                    healthBody.innerHTML = "";
+                    $('#healthBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
+                } 
+
             });
 
             // --------------------------------- LIST OF CLINIC VISITS ------------------------------

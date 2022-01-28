@@ -396,17 +396,19 @@ exports.addADE = function(req, res){
         }
 
         healthHistory.once('value',(students)=>{
-            students.forEach(function(student){
-                student.child("ade").forEach(function(year){
-                    if(year.key==schoolYear){
-                        var adeData = year.exportVal();
-                        if(adeData.section == section){
-                            studentsAccomAde.push("1");
-                            done=true; 
+            if(done==false){
+                students.forEach(function(student){
+                    student.child("ade").forEach(function(year){
+                        if(year.key==schoolYear){
+                            var adeData = year.exportVal();
+                            if(adeData.section == section){
+                                studentsAccomAde.push("1");
+                                done=true; 
+                            }
                         }
-                    }
+                    })
                 })
-            })
+            }
             if(done==true){
                 schedRef.child(section).child("adeSeen").set(studentsAccomAde.length);
                 done=false;

@@ -2166,8 +2166,12 @@
                         if(visits[i].timeOut == ""){
                             visits[i].timeOut = "-";
                         }
+
+                        let date = new Date(visits[i].visitDate);
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let visitDate = month + ' ' + date.getDate() + ', ' + date.getFullYear();
                         
-                        $('#visitsBody').append('<a href="#drop-visit'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse show" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visits[i].visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div>');
+                        $('#visitsBody').append('<a href="#drop-visit'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse show" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div>');
                     } 
                 }
                 else{
@@ -2220,52 +2224,100 @@
 
                 for(var k = 0; k < immunizationHistory.length; k++){
                     if(immunizationHistory[k].purpose == "Anti-Rabies"){
-                        Rab.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Rab.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Anti-Tetanus"){
-                        Tet.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Tet.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "BCG"){
-                        BCG.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        BCG.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Covid-19"){
-                        COVID.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        COVID.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "DPT"){
-                        DPT.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        DPT.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "HPV"){
-                        HPV.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        HPV.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "HepA"){
-                        HepA.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        HepA.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "HepB"){
-                        HepB.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        HepB.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Hib"){
-                        Hib.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Hib.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Influenza"){
-                        Inf.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Inf.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "MMR"){
-                        MMR.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        MMR.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Meningococcal Vaccine"){
-                        Men.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Men.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "OPV"){
-                        OPV.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        OPV.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "PCV13"){
-                        PCV13.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        PCV13.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "PPSV23"){
-                        PPSV23.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        PPSV23.push(dateGiven);
                     }
                     else if(immunizationHistory[k].purpose == "Varicella"){
-                        Var.push(immunizationHistory[k].dateGiven);
+                        let date = new Date(immunizationHistory[k].dateGiven)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateGiven = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                        Var.push(dateGiven);
                     }
                 }
 
@@ -2387,7 +2439,16 @@
                         if(illness[i].notes == ""){
                             illness[i].notes = "-";
                         }
-                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + illness[i].startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + illness[i].startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + illness[i].endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+
+                        let start = new Date(illness[i].startDate)
+                        let startMonth = start.toLocaleString('default', { month: 'long' })
+                        let startDate = startMonth + ' ' + start.getDate() + ', ' + start.getFullYear();
+
+                        let end = new Date(illness[i].endDate)
+                        let endMonth = end.toLocaleString('default', { month: 'long' })
+                        let endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
+
+                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
                     } 
                 }
                 else{
@@ -2408,7 +2469,14 @@
                 if(allergy.length != 0){
                     $("#dynamicAllergy tr").remove();
                         for(i = 0; i < allergy.length; i++){
-                        $('#dynamicAllergy').append('<tr><td>' + allergy[i].allergy + '</td><td>' + allergy[i].allergyType + '</td><td>' + allergy[i].diagnosisDate + '</td><td>' + allergy[i].lastOccurrence + '</td></tr>');
+                            let start = new Date(allergy[i].diagnosisDate)
+                            let startMonth = start.toLocaleString('default', { month: 'long' })
+                            let diagnosisDate = startMonth + ' ' + start.getDate() + ', ' + start.getFullYear();
+
+                            let end = new Date(allergy[i].lastOccurrence)
+                            let endMonth = end.toLocaleString('default', { month: 'long' })
+                            let lastOccurrence = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
+                        $('#dynamicAllergy').append('<tr><td>' + allergy[i].allergy + '</td><td>' + allergy[i].allergyType + '</td><td>' + diagnosisDate + '</td><td>' + lastOccurrence + '</td></tr>');
                     }
                 }   
                 else{
@@ -2427,7 +2495,10 @@
                 if(data.length != 0){
                     $("#dynamicIntake tr").remove();
                         for(i = 0; i < data.length; i++){
-                        $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + data[i].visitDate + '</td><td>' + data[i].time + '</td></tr>');
+                            let visit = new Date(data[i].visitDate)
+                            let visitMonth = visit.toLocaleString('default', { month: 'long' })
+                            let visitDate = visitMonth + ' ' + visit.getDate() + ', ' + visit.getFullYear();
+                        $('#dynamicIntake').append('<tr><td>' + data[i].medicine + '</td><td>' + data[i].amount + '</td><td>' + visitDate + '</td><td>' + data[i].time + '</td></tr>');
                     }
                 }   
                 else{

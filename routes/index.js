@@ -499,16 +499,16 @@ router.get('/clinic-visit/referral', (req, res) => {
     user = result[0];
 
     if(user.role == "Nurse"){
-      res.render('clinic-visit-referral', {
+      res.render('clinic-visit', {
         user: user,
-        isNurse: true
-      });
-    } else {
-      res.render('dashboard', {
-        user: user, 
-        isNurse: false,
+        isNurse: true,
         error: true,
         error_msg: "You don't have access to this module!"
+      });
+    } else {
+      res.render('clinic-visit-referral', {
+        user: user, 
+        isNurse: false,
       });
     }
   }).catch(error => {
@@ -1124,13 +1124,12 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
 // Get report inventory page
 router.get('/reports-inventory', loggedIn, (req, res) => {
   console.log("Read reports inventory successful!");
-  var prom1, prom2, prom3;
-  var user, inventory, usedMedicine;
+  var prom1, prom2;
+  var user, inventory;
   prom1 = userController.getUser();
   prom2 = inventoryController.getMedicineInventory();
-  prom3 = inventoryController.getUsedMedicineToday();
 
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  Promise.all([prom1, prom2]).then(result => {
     user = result[0];
     inventory = result[1];
     usedMedicine = result[2];
@@ -1146,7 +1145,6 @@ router.get('/reports-inventory', loggedIn, (req, res) => {
       res.render('reports-inventory', {
         user: user, 
         isNurse: false,
-        usedMedicine: usedMedicine
       });
     }
   }).catch(error => {
@@ -1205,6 +1203,10 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 //---------FORMS FOR INVENTORY MODULE----------------
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
+router.get('/getMedicineDiscrepancyReport', inventoryController.getMedicineDiscrepancyReport);
+router.get('/getSupplyDiscrepancyReport', inventoryController.getSupplyDiscrepancyReport);
+router.get('/getDentalDiscrepancyReport', inventoryController.getDentalDiscrepancyReport);
+
 router.get('/getTop5MedsUsedMonth', reportsController.getTop5MedsUsedMonth);
 router.get('/getMedicineDiscrepancy', inventoryController.getMedicineDiscrepancy);
 router.get('/getMedicineInventoryList', inventoryController.getMedicineInventoryList);

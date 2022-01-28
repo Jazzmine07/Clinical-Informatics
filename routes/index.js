@@ -1161,6 +1161,7 @@ router.post('/updateNotif', notificationController.updateNotifications);
 router.get('/getStudentRecord', studentInfoController.getStudentInfo);
 router.get('/getVisits', studentInfoController.getStudentVisits);
 router.get('/getIntakeHistory', studentInfoController.getStudentIntakeHistory);
+router.get('/getPrescriptionHistory', studentInfoController.getStudentPrescriptionHistory);
 router.get('/getNotAllowedMedication', studentInfoController.getNotAllowedMedication);
 router.get('/getBMI', studentInfoController.getBMI);
 router.post('/getBmiStatus', studentController.getBmiStatus);
@@ -1171,6 +1172,7 @@ router.get('/getVaccineList', studentInfoController.getVaccineList);
 router.get('/getPastIllness', studentInfoController.getStudentPastIllness);
 router.get('/getAllergies', studentInfoController.getStudentAllergies);
 router.get('/getStudentAllHealthAssessRecords', studentInfoController.getStudentAllHealthAssessRecords);
+router.get('/getUploads', studentInfoController.getUploads);
 
 //---------POST FORMS FOR CLINIC VISIT MODULE---------------------
 router.post('/addClinicVisit', visitController.addClinicVisit);

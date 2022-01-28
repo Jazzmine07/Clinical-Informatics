@@ -931,6 +931,7 @@ exports.getClinicVisits = function(){
                         visitDates.push(new Date(childSnapshotData.visitDate));
                         temp.push({
                             formId: innerChildSnapshot.key,
+                            id: childSnapshotData.id,
                             studentName: childSnapshotData.studentName,
                             complaint: childSnapshotData.visitReason,
                             timeIn: childSnapshotData.timeIn,
@@ -949,6 +950,7 @@ exports.getClinicVisits = function(){
                         if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){
                             visits.push({
                                 formId: temp[i].formId,
+                                id: temp[i].id,
                                 studentName: temp[i].studentName,
                                 complaint: temp[i].complaint,
                                 timeIn: temp[i].timeIn,

@@ -53,30 +53,6 @@ exports.getStudentInfo = function(req, res){
     })
 };
 
-exports.getNotAllowedMedication = function(req, res){
-    var id = req.query.studentID;
-    var database = firebase.database();
-    var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
-    var childSnapshotData, notAllowed = [];
-
-    medicineRef.once('value', (snapshot) => {
-        if(snapshot.exists()){
-            var lastUpdated = snapshot.child('lastUpdated').val();
-            snapshot.forEach(function(childSnapshot){
-                childSnapshotData = childSnapshot.exportVal();
-                notAllowed.push({
-                    medicine: childSnapshot.key,
-                    isAllowed: childSnapshotData.isAllowed,
-                    lastUpdated: lastUpdated,
-                })
-            })
-            res.status(200).send(notAllowed);
-        } else {
-            res.status(200).send(notAllowed);
-        }
-    })
-};
-
 exports.getBMI = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -99,6 +75,83 @@ exports.getBMI = function(req, res){
         } else {
             res.send(studentInfo);
         }
+    })
+};
+
+exports.getStudentAllHealthAssessRecords = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var studentApeRecord= database.ref("studentHealthHistory/"+id+"/ape");
+    var studentAdeRecord= database.ref("studentHealthHistory/"+id+"/ade");
+    var healthHistory= database.ref("studentHealthHistory/"+id);
+    
+    console.log("HI");
+    var allApe=[], allAde=[], allHaRecords=[];
+    console.log(id);
+
+    healthHistory.once('value',(students)=>{
+        if(allApe.length==0 && allAde.length==0){
+            //students.forEach(function(student){
+                console.log("DAMNIT");
+                students.child("ape").forEach(function(childSnapshot){
+                    console.log("Death")
+                    if(childSnapshot.exists()){
+                        console.log("HI!")
+                        var childValues= childSnapshot.exportVal();
+                        allApe.push({
+                            sy:childSnapshot.key,
+                            age:childValues.age,
+                            dope:childValues.apeDate,
+                            doctor:childValues.clinician,
+                            systolic:childValues.systolic,
+                            diastolic:childValues.diastolic,
+                            temp: childValues.temp,
+                            bp: childValues.bp,
+                            pr: childValues.pr,
+                            rr: childValues.rr,
+                            sf:childValues.sf,
+                            weight: childValues.weight,
+                            height: childValues.height,
+                            bmi: childValues.bmi,
+                            bmiStatus: childValues.bmiStatus,
+                            od: childValues.odVision,
+                            os: childValues.osVision,
+                            odGlasses: childValues.odGlasses,
+                            osGlasses: childValues.osGlasses,
+                            medProb: childValues.medProb,
+                            allergies: childValues.allergies,
+                            complaints: childValues.concern,
+                            reco: childValues.assess
+                        });
+                    }
+                })
+                students.child("ade").forEach(function(childSnapshot2){
+                    if(childSnapshot2.exists()){
+                        var childValues2= childSnapshot2.exportVal();
+                        allAde.push({
+                            sy:childSnapshot2.key,
+                            age:childValues2.age,
+                            dope:childValues2.adeDate,
+                            doctor:childValues2.clinician,
+                            calculus:childValues2.calculus,
+                            anomaly:childValues2.anomaly,
+                            gingiva:childValues2.gingiva,
+                            studentId:childValues2.id,
+                            inputs:childValues2.inputs,
+                            studentName:childValues2.name,
+                            pocket:childValues2.pocket,
+                            schoolYear:childValues2.schoolYear                
+                        });
+                    }
+                })                           
+            //})
+        }
+        console.log(allApe);
+        console.log(allAde);
+        allHaRecords.push(allApe);
+        allHaRecords.push(allAde);
+        console.log("HI");
+        res.send(allHaRecords);
     })
 };
 
@@ -252,7 +305,7 @@ exports.getStudentIntakeHistory = function(req, res){
                     innerChildData = innerChild.exportVal();
                     history.push({
                         medicine: innerChildData.specificMedicine,
-                        amount: innerChildData.amount,
+                        amount: innerChildData.specificAmount,
                         time: innerChildData.time,
                         visitDate: childSnapshotData.visitDate,
                         attendingNurse: childSnapshotData.attendingNurse,
@@ -274,7 +327,7 @@ exports.getImmunizationRecord = function(req, res){
     var historyRef = database.ref("studentHealthHistory/"+id+"/immuneHistory");
     var childSnapshotData, immunizationHistory = [];
 
-    historyRef.once('value', async (snapshot) => {
+    historyRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
@@ -358,82 +411,96 @@ exports.getStudentAllergies = function(req, res){
     })
 };
 
-exports.getStudentAllHealthAssessRecords = function(req, res){
+exports.getStudentPrescriptionHistory = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
-    var studentApeRecord= database.ref("studentHealthHistory/"+id+"/ape");
-    var studentAdeRecord= database.ref("studentHealthHistory/"+id+"/ade");
-    var healthHistory= database.ref("studentHealthHistory/"+id);
-    
-    console.log("HI");
-    var allApe=[], allAde=[], allHaRecords=[];
-    console.log(id);
+    var historyRef = database.ref("studentHealthHistory/"+id+"/prescriptionHistory");
+    var childSnapshotData, prescriptionHistory = [];
 
-    healthHistory.once('value',(students)=>{
-        if(allApe.length==0 && allAde.length==0){
-            //students.forEach(function(student){
-                console.log("DAMNIT");
-                students.child("ape").forEach(function(childSnapshot){
-                    console.log("Death")
-                    if(childSnapshot.exists()){
-                        console.log("HI!")
-                        var childValues= childSnapshot.exportVal();
-                        allApe.push({
-                            sy:childSnapshot.key,
-                            age:childValues.age,
-                            dope:childValues.apeDate,
-                            doctor:childValues.clinician,
-                            systolic:childValues.systolic,
-                            diastolic:childValues.diastolic,
-                            temp: childValues.temp,
-                            bp: childValues.bp,
-                            pr: childValues.pr,
-                            rr: childValues.rr,
-                            sf:childValues.sf,
-                            weight: childValues.weight,
-                            height: childValues.height,
-                            bmi: childValues.bmi,
-                            bmiStatus: childValues.bmiStatus,
-                            od: childValues.odVision,
-                            os: childValues.osVision,
-                            odGlasses: childValues.odGlasses,
-                            osGlasses: childValues.osGlasses,
-                            medProb: childValues.medProb,
-                            allergies: childValues.allergies,
-                            complaints: childValues.concern,
-                            reco: childValues.assess
-                        });
-                    }
+    historyRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                prescriptionHistory.push({
+                    medicine: childSnapshotData.medicine,
+                    amount: childSnapshotData.amount,
+                    purpose: childSnapshotData.purpose,
+                    interval: childSnapshotData.interval,
+                    startDate: childSnapshotData.startMed,
+                    endDate: childSnapshotData.endMed,
+                    prescribedBy: childSnapshotData.prescribedBy,
+                    status: childSnapshotData.status
                 })
-                students.child("ade").forEach(function(childSnapshot2){
-                    if(childSnapshot2.exists()){
-                        var childValues2= childSnapshot2.exportVal();
-                        allAde.push({
-                            sy:childSnapshot2.key,
-                            age:childValues2.age,
-                            dope:childValues2.adeDate,
-                            doctor:childValues2.clinician,
-                            calculus:childValues2.calculus,
-                            anomaly:childValues2.anomaly,
-                            gingiva:childValues2.gingiva,
-                            studentId:childValues2.id,
-                            inputs:childValues2.inputs,
-                            studentName:childValues2.name,
-                            pocket:childValues2.pocket,
-                            schoolYear:childValues2.schoolYear                
-                        });
-                    }
-                })                           
-            //})
+            });
+            res.status(200).send(prescriptionHistory);
+        } else {
+            res.status(200).send(prescriptionHistory);
         }
-        console.log(allApe);
-        console.log(allAde);
-        allHaRecords.push(allApe);
-        allHaRecords.push(allAde);
-        console.log("HI");
-        res.send(allHaRecords);
     })
-    
+};
 
+exports.getNotAllowedMedication = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var medicineRef = database.ref("studentHealthHistory/"+id+"/allowedMedicines");
+    var childSnapshotData, notAllowed = [];
 
+    medicineRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            var lastUpdated = snapshot.child('lastUpdated').val();
+            snapshot.forEach(function(childSnapshot){
+                childSnapshotData = childSnapshot.exportVal();
+                notAllowed.push({
+                    medicine: childSnapshot.key,
+                    isAllowed: childSnapshotData.isAllowed,
+                    lastUpdated: lastUpdated,
+                })
+            })
+            res.status(200).send(notAllowed);
+        } else {
+            res.status(200).send(notAllowed);
+        }
+    })
+};
+
+exports.getUploads = function(req, res){
+    var id = req.query.studentID;
+    var database = firebase.database();
+    var uploadsRef = database.ref("studentHealthHistory/"+ id + "/uploads");
+    var medCert = [], labResults = [];
+
+    uploadsRef.once('value', (snapshot) => {
+        if(snapshot.exists()){
+            snapshot.child("medCert").forEach(function(childSnapshot){
+                if(childSnapshot.exists()){
+                    var childSnapshotData = childSnapshot.exportVal();
+                    medCert.push({
+                        dateUploaded: childSnapshotData.date,
+                        fileName: childSnapshotData.name,
+                        url: childSnapshotData.url
+                    })
+                }
+            })
+            snapshot.child("labResult").forEach(function(labResult){
+                if(labResult.exists()){
+                    var lab = labResult.exportVal();
+                    labResults.push({
+                        dateUploaded: lab.date,
+                        fileName: lab.name,
+                        url: lab.url
+                    })
+                }
+            })
+
+            res.status(200).send({
+                medCert: medCert,
+                labResults: labResults
+            });
+        } else {
+            res.status(200).send({
+                medCert: medCert,
+                labResults: labResults
+            });
+        }
+    })
 };

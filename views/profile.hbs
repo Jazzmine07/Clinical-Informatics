@@ -2099,8 +2099,7 @@
                 bmiLineChart.destroy();
             } 
 
-            // --------------------------------- LIST OF GROWTH MONITORING ------------------------------
-            
+            // --------------------------------- FOR GROWTH CHART ------------------------------
             $.get("/getBMI", {studentID: typedID}, function(data){
                 var i,size;
                 if(schoolYear.length!=null){
@@ -2178,30 +2177,6 @@
                 }                  
 
             });
-
-            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
-            $.get('/getPastIllness', {studentID: typedID}, function(illness){
-                console.log("list of illness");
-                console.log(illness);
-
-                var i;
-
-                if(illness.length != 0){
-                    var illnessBody = document.getElementById("illnessBody");
-                    illnessBody.innerHTML = "";
-                    for(i = 0; i < illness.length; i++){
-                        if(illness[i].notes == ""){
-                            illness[i].notes = "-";
-                        }
-                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + illness[i].startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + illness[i].startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + illness[i].endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
-                    } 
-                }
-                else{
-                    var illnessBody = document.getElementById("illnessBody");
-                    illnessBody.innerHTML = "";
-                    $('#illnessBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
-                }        
-            })
 
             // --------------------------------- IMMUNIZATION HISTORY ---------------------------------
             $.get('/getImmunizationRecord', {studentID: typedID}, function(immunizationHistory){
@@ -2398,6 +2373,30 @@
                 console.log(vaccineList);                
             });
 
+            // ------------------------- LIST OF PAST ILLNESS / MEDICAL HISTORY --------------------
+            $.get('/getPastIllness', {studentID: typedID}, function(illness){
+                console.log("list of illness");
+                console.log(illness);
+
+                var i;
+
+                if(illness.length != 0){
+                    var illnessBody = document.getElementById("illnessBody");
+                    illnessBody.innerHTML = "";
+                    for(i = 0; i < illness.length; i++){
+                        if(illness[i].notes == ""){
+                            illness[i].notes = "-";
+                        }
+                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + illness[i].startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + illness[i].startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + illness[i].endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                    } 
+                }
+                else{
+                    var illnessBody = document.getElementById("illnessBody");
+                    illnessBody.innerHTML = "";
+                    $('#illnessBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
+                }        
+            })
+
             // --------------------------------- LIST OF ALLERGIES ---------------------------------
             $.get('/getAllergies', {studentID: typedID}, function(allergy){
                 console.log("list of allergies");
@@ -2436,6 +2435,15 @@
                     $('#dynamicIntake').append('<tr><td colspan="4" class="font-weight-normal text-center">' + "No data available" + '</td></tr>');   
                 }
 
+            });
+
+            // --------------------------------- LIST OF PRESCRIPTION HISTORY ------------------------------
+            $.get("/getPrescriptionHistory", {studentID: typedID}, function(data){
+                console.log("prescription history of a specfic student");
+                console.log(data);
+                var i;
+
+                // TO DO: add checker if may prescribed by, kasi pwede parent mag input dito so baka malimutan ilagay ng parent sino nag prescribe
             });
 
             // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
@@ -2499,6 +2507,15 @@
                         document.getElementById("medLastUpdated").innerHTML = "Last updated: " + data[i].lastUpdated;
                     }
                 }
+            });
+
+            // --------------------------------- UPLOADS ------------------------------
+            $.get("/getUploads", {studentID: typedID}, function(data){
+                console.log("med cert and/or lab results of a specfic student");
+                console.log(data);
+                var i;
+
+                // TO DO: add checker if may prescribed by, kasi pwede parent mag input dito so baka malimutan ilagay ng parent sino nag prescribe
             });
         }
 

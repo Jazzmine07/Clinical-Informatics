@@ -107,22 +107,22 @@
                 <li class="nav-item">
                     <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                         <i class="fas fa-fw fa-archive"></i>
-                        <span>Inventory Reports</span></a>
-                    <ul class="collapse show list-unstyled" id="inventory">
+                        <span>Inventory</span></a>
+                    <ul class="collapse list-unstyled" id="inventory">
                         <li>
-                            <a class="nav-link active" href="/inventory-medicine">
+                            <a class="nav-link" href="/inventory-medicine">
                                 <i class="fas fa-fw fa-tablets"></i>
-                                <span>Medicine Report</span></a>
+                                <span>Medicine</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/inventory-supply">
                                 <i class="fas fa-fw fa-pump-medical"></i>
-                                <span>Supply Report</span></a>
+                                <span>Supply</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/inventory-dental">
                                 <i class="fas fa-fw fa-tooth"></i>
-                                <span>Dental Report</span></a>
+                                <span>Dental</span></a>
                         </li>
                     </ul>
                 </li>
@@ -147,6 +147,31 @@
                         <i class="fas fa-fw fa-comments"></i>
                         <span>Communications</span></a>
                 </li>
+
+                <!-- Nav Item - Reports -->
+                <li class="nav-item">
+                    <a href="#report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Reports</span></a>
+                    <ul class="collapse show list-unstyled" id="report">
+                        <li>
+                            <a class="nav-link" href="/reports-clinic-visit">
+                                <i class="fas fa-fw fa-medkit"></i>
+                                <span>Clinic Visit</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/reports-health-assessment">
+                                <i class="fas fa-fw fa-stethoscope"></i>
+                                <span>Health Assessment</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="/reports-inventory">
+                                <i class="fas fa-fw fa-archive"></i>
+                                <span>Inventory</span></a>
+                        </li>
+                    </ul>
+                </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -302,7 +327,7 @@
                         </div> 
                     </div>
                     <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
+                    {{!-- <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Medicine Inventory Discrepancy Report</h6>
                         </div>
@@ -329,12 +354,12 @@
                                                 <td>{{unit}}</td>
                                                 <td>{{usedInventory}}</td>
                                             </tr>
-                                        {{/each}} --}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Top medicines used chart -->
                     <div class="card shadow mb-4">
@@ -537,6 +562,7 @@
                 if(result.length != 0){
                     $("#medBody tr").remove();
                     document.getElementById("medDiv").style.display = "block";
+                    $('#medTitle').text("");
                     $('#medTitle').text("Medicine Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));
 
                     for(var i = 0; i < result.length; i++){

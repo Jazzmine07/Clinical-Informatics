@@ -899,6 +899,7 @@ exports.viewClinicVisitForm = function(req){
     return promise;
 };
 
+//This function is used to get the clinic visits for entire school year
 exports.getClinicVisits = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -971,6 +972,7 @@ exports.getClinicVisits = function(){
     return promise;
 };
 
+//This function is used to get the clinic visits for the student (used in the Dashboard)
 exports.getAllVisits = function(req,res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -1003,6 +1005,7 @@ exports.getAllVisits = function(req,res){
     })
 };
 
+//This function is used to add a medication intake record
 exports.addMedicationIntake = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, 
         visitDate, timeIn, timeOut, nurse, medicationsArray } = req.body;
@@ -1041,6 +1044,7 @@ exports.addMedicationIntake = function(req, res){
     res.status(200).send();
 };
 
+//This function is used to add an incidence report
 exports.addIncidenceReport = function(req, res){
     var { incidentDate, incidentTime, reportedBy, studentId, studentName , studentGrade, studentSection, 
         doseOmission, doseDelay, ineffectiveDose, drugInteraction, drugAllergy, noStock, expiredStock,
@@ -1080,6 +1084,7 @@ exports.addIncidenceReport = function(req, res){
     res.status(200).send();
 };
 
+//This function is used to get all the incidence reports
 exports.getIncidenceList = function(req, res){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -1112,6 +1117,7 @@ exports.getIncidenceList = function(req, res){
     return promise;
 };
 
+//This function is used to view the incidence report
 exports.viewIncidenceReport = function(req){
     var reportId = req.params.id;
     var database = firebase.database();
@@ -1151,6 +1157,7 @@ exports.viewIncidenceReport = function(req){
     return promise;
 };
 
+//This function is used to get the incidence counts
 exports.getIncidenceCount = function(req, res){
     var start = req.query.start;
     var startDate = new Date(start);
@@ -1236,6 +1243,7 @@ exports.getIncidenceCount = function(req, res){
     })
 };
 
+//This function is used to add a referral
 exports.addReferral = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, birthday, gender, age,
         specialty, physician, reason, diagnosis, icd10, urgent, specialist, testing,

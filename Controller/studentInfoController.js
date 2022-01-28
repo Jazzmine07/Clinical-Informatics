@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 
+//This function is used to get the student's information
 exports.getStudentInfo = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -53,6 +54,7 @@ exports.getStudentInfo = function(req, res){
     })
 };
 
+//This function is used to get the BMI of the student
 exports.getBMI = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -78,6 +80,7 @@ exports.getBMI = function(req, res){
     })
 };
 
+//This function is used to get all the Annual Physical and Dental Exams of the student
 exports.getStudentAllHealthAssessRecords = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -155,6 +158,7 @@ exports.getStudentAllHealthAssessRecords = function(req, res){
     })
 };
 
+//This function is used to get all the clinic visits of the student
 exports.getStudentVisits = function(req, res){
     var student = req.query.studentID;
     var database = firebase.database();
@@ -202,6 +206,7 @@ exports.getStudentVisits = function(req, res){
     })  
 };
 
+//This function is used to get the last clinic visit of the student
 exports.getLastVisit = function(req, res){
     var student = req.query.studentID;
     var database = firebase.database();
@@ -291,6 +296,7 @@ exports.getLastVisit = function(req, res){
     })  
 };
 
+//This function is used to get all the intake history of the student
 exports.getStudentIntakeHistory = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -321,6 +327,7 @@ exports.getStudentIntakeHistory = function(req, res){
     })
 };
 
+//This function is used to get the immunizations of the student
 exports.getImmunizationRecord = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -344,6 +351,7 @@ exports.getImmunizationRecord = function(req, res){
     })
 }
 
+//This function is used to get all the vaccines of the student
 exports.getVaccineList = function(req, res){
     var database = firebase.database();
     var vaccineRef = database.ref("vaccineList");
@@ -359,6 +367,7 @@ exports.getVaccineList = function(req, res){
     })
 }
 
+//This function is used to get all the past illnesses of the student
 exports.getStudentPastIllness = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -385,6 +394,7 @@ exports.getStudentPastIllness = function(req, res){
     })
 };
 
+//This function is used to get all the allergies of the student
 exports.getStudentAllergies = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -411,6 +421,7 @@ exports.getStudentAllergies = function(req, res){
     })
 };
 
+//This function is used to get all the prescriptions of the student
 exports.getStudentPrescriptionHistory = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -439,6 +450,7 @@ exports.getStudentPrescriptionHistory = function(req, res){
     })
 };
 
+//This function is used to get the medications that student is not allowed to take
 exports.getNotAllowedMedication = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
@@ -463,6 +475,7 @@ exports.getNotAllowedMedication = function(req, res){
     })
 };
 
+//This function is used to get the upload files of the student
 exports.getUploads = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();

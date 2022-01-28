@@ -4,6 +4,7 @@ const urlencoder = bodyParser.urlencoded({
   extended: false
 })
 
+// This function is used to login
 exports.login = (req, res) => {
   var email = req.body.email;
   var pass = req.body.password;
@@ -202,7 +203,7 @@ exports.login = (req, res) => {
   }
 }
 
-// check if user is logged in 
+// This function is used to check if user is logged in
 exports.loggedIn = (req, res, next) => {
   var promise = new Promise((resolve, reject) => {
     var user = firebase.auth().currentUser;
@@ -218,6 +219,7 @@ exports.loggedIn = (req, res, next) => {
   return promise;
 };
 
+// This function is used to logout
 exports.logout = (req, res) => {
   firebase.auth().signOut().then(() => {
     // Sign-out successful.

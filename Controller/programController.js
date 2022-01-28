@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 
+// This function is used to add a new program for promotive care
 exports.addProgram = function(req, res){
     var { progType, progName, description, objectives,
         population, startDate, endDate, location } = req.body;
@@ -21,6 +22,7 @@ exports.addProgram = function(req, res){
     res.status(200).send();
 }
 
+// This function is used to get all the programs 
 exports.getProgramsList = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -87,6 +89,7 @@ exports.getProgramsList = function(){
     return promise;
 }
 
+// This function is used to get the report of a program
 exports.promotiveReport = function(req, res){
     var program = req.query.program;
     console.log("program");

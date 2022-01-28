@@ -4,26 +4,6 @@ const bodyParser = require('body-parser');
 
 var TAG = "studentController.js";
 
-exports.addWeightHeight=function(req,res){
-    console.log("ADD WEIGHT HEIGHT");
-    var id= req.body.studentId;
-    var weight = req.body.weight;
-    var height = req.body.height;
-    var bmi= req.body.bmi;
-    var bmiStatus=req.body.bmiStatus;
-
-    var database = firebase.database();
-    var studentInfoRef=database.ref("studentInfo/"+id);
-    console.log("ref:"+studentInfoRef);
-
-    // studentInfoRef.child('weight').set(weight);
-    // studentInfoRef.child('height').set(height);
-    // studentInfoRef.child('bmi').set(bmi);
-    // studentInfoRef.child('bmiStatus').set(bmiStatus);
-
-    res.status(200).send();
-};
-
 //-------- HEALTH ASSESSMENT-----------
 /*
 Legends:
@@ -454,7 +434,7 @@ exports.getSectionStudents = function(req, res){
     }
 };
 
-//This function is get the percentages of the section APE for school year 
+//This function is used to get the percentages of the section APE for school year 
 exports.getAPEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var t1PE=0,t2PE=0,t3PE=0,t4PE=0,t5PE=0,t6PE=0,c1PE=0,c2PE=0,c3PE=0,c4PE=0,c5PE=0,c6PE=0;
@@ -674,7 +654,7 @@ exports.getAPEPercentage = function(req, res){
 
 
 }
-//This function is get the percentages of the section ADE for school year
+//This function is used to get the percentages of the section ADE for school year
 exports.getADEPercentage = function(req, res){
     var schoolYear= req.body.schoolYear;
     var c1=0,c2=0,c3=0,c4=0,c5=0,c6=0;
@@ -754,12 +734,13 @@ exports.getADEPercentage = function(req, res){
 
 
 }
-
+//This function is used to get the list of sections in the database
 exports.getSections=function(req,res){
     var database = firebase.database();
     var sectionRef= database.ref("sections");
     var section=[];
     var g1=[],g2=[],g3=[],g4=[],g5=[],g6=[];
+   
 
     var promise = new Promise((resolve,reject)=>{
         sectionRef.on('value', (snapshot) =>{

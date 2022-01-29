@@ -702,8 +702,8 @@
             });
 
         });
-
-        $.get("/getTop5MedsUsedMonth", function(data){
+        
+        $.get("/getTop5MedsUsedMonth",{start: start.format('YYYY-MM-DD'), end:end.format('YYYY-MM-DD')},function(data){
             console.log("POKEMON");
             console.log(data);
             var intakeData=data[0];

@@ -4,32 +4,78 @@ const firebase = require('../firebase');
 
 //This function is used to get the top 5 medicines used
 exports.getTop5MedsUsedMonth = function(req, res){
+    console.log("ENTERS getTop5MedsUsedMonth function");
     var database = firebase.database();
     var databaseRef = database.ref();
     var intakeRef = database.ref("intakeHistory");
-    var i, temp = [], filtered = [], top5 = [];
+    var i, j, temp = [], filtered = [], top5 = [];
     var g1Count = [], g2Count = [], g3Count = [], g4Count = [], g5Count = [], g6Count = [];
     var pass=[];
+    var start=req.query.start;
+    var end=req.query.end;
+    var startDate=[],endDate=[]
+    startDate = start.split("-");
+    endDate = end.split("-");
+    
+    console.log("DATES");
+    console.log(startDate)
+    console.log(endDate);
+    var dataDateSplit=[], dataDate;
+    if(startDate[2][0]==0){
+        var startDay=startDate[2][1];
+    }
+    else{
+        var startDay=startDate[2];
+    }
+    if(endDate[2][0]==0){
+        var endDay=endDate[2][1];
+    }
+    else{
+        var endDay=endDate[2];
+    }
+
+ 
+    console.log("DEATH AWAITS");
 
     databaseRef.once('value', (snapshot) => {
         if(snapshot.hasChild("intakeHistory")){
-            intakeRef.once('value', (childSnapshot) => { // year
-                childSnapshot.forEach(function(innerChildSnapshot){
+            intakeRef.once('value', async (childSnapshot) => { // year
+                await childSnapshot.forEach(function(innerChildSnapshot){
                     innerChildSnapshot.child('medications').forEach(function(medications){
+                        var date = innerChildSnapshot.child("visitDate").exportVal();
+                        
+                        console.log("DATA DATE 2:")
+                        console.log(date);
+                        dataDateSplit= date.split("-");
+                        console.log(dataDateSplit);
+                        var day="";
+                        if(dataDateSplit[2][0]==0){
+                            day=dataDateSplit[2][1];
+                        }
+                        else{
+                            day=dataDateSplit[2];
+                        }
+                        console.log("Day");
+                        console.log(day)
+
                         medications = medications.exportVal();
                         console.log("medications in controller");
                         console.log(medications);
-                        temp.push({ // getting all the medications regardless of grade level
-                            medicineName: medications.medicineName,
-                            grade:innerChildSnapshot.child("grade").exportVal(),
-                        })
+                        if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0]) && (dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1]) && (day>=startDay && day<=endDay) ){
+                            temp.push({ // getting all the medications regardless of grade level
+                                medicineName: medications.medicineName,
+                                grade:innerChildSnapshot.child("grade").exportVal(),
+                                visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                            })
+                        }
+
                     })
                     
                 })
 
                 console.log("temp medications");
                 console.log(temp);
-                
+
                 temp.forEach(medicine => {
                     var found = false;
                     for(i = 0; i < filtered.length; i++){
@@ -48,7 +94,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                 })
                 console.log("filtered intake medicine");
                 console.log(filtered);
-                var top = filtered[0].medicineName;
+                //var top = filtered[0].medicineName;
                 // for(i = 0; i < filtered.length; i++){
                 //     if(filtered[i].count >= top){
                 //         top = filtered[0].medicineName;

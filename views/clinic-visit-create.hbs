@@ -444,7 +444,7 @@
                                 <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv"></div>
                             </form>
                         </div>
-                    </div>
+                    </div>                                  
 
                 <div class="card shadow mb-2" id="studentDiv">
                     <div class="card-body">
@@ -508,6 +508,13 @@
                 {{!-- END OF STUDENT PROFILE --}}
 
                 {{!-- {{#if isNurse}} --}}
+
+                <div id="noAPEAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                    <strong>Reminder!</strong> This student has no existing APE record for this school year.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div> 
                 <!-- Basic Card Example -->
                 <div class="card shadow mb-2" id="scrollVisit">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
@@ -1284,6 +1291,30 @@
                 weightHeightChart(schoolYear, weight, height);
                 bmiChart(schoolYear, BMI);
                 checker = true;
+            });
+
+            // --------------------------------- LIST OF APE/ADE ------------------------------
+            $.get("/getStudentAllHealthAssessRecords",{studentID: typedID}, function(data){
+                console.log("DATA:")
+                console.log(data);
+
+                var i;
+                var found = false;
+
+                document.getElementById("noAPEAlert").style.display = "none";
+
+                if(data.length != 0){
+                    for(i = 0; i < data[0].length; i++){
+                        if(data[0][i].sy == "2021-2022"){
+                            console.log("found = true");
+                            found = true;
+                        }
+                    }
+                    if(!found){
+                        document.getElementById("noAPEAlert").style.display = "block";
+                    } 
+                }
+                
             });
 
             // --------------------------------- LIST OF CLINIC VISITS ------------------------------

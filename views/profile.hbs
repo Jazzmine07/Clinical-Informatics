@@ -537,8 +537,8 @@
                             <div class="card shadow mb-2">
                                 <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Health Assessment</h6></div>
                                 <div class="card-body" id="healthBody">
-                                        {{!-- <!-- Card Header - Accordion -->
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
+                                         <!-- Card Header - Accordion -->
+                                    {{!-- <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
                                         <h6 class="m-0 font-weight-bold text-primary">Physical Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2021</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
@@ -640,10 +640,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </div> --}}                                    
+                                </div>
+                                <div class="card-body">
                                     <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
-                                        <h6 class="m-0 font-weight-bold text-primary">Dental Examination Results (S.Y. 2020 - 2021)<span class="float-right">3/18/2020</span></h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Dental Examination Results (S.Y. 2021 - 2022)<span class="float-right">3/18/2020</span></h6>
                                     </a>
                                     <!-- Card Content - Collapse -->
                                     <div class="content">
@@ -1178,7 +1179,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1748,16 +1749,8 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Medical Certificate</h6>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body">
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
-                                        <h6 class="m-0 font-weight-bold text-primary">Chickenpox<span class="float-right">03/18/2020</span></h6>
-                                    </a>
-                                    <!-- Card Content - Collapse -->
-                                    <div class="content">
-                                        <div class="card-body">
-                                            <div>BLOB</div>
-                                        </div>
-                                    </div>
+                                <div class="card-body" id="medCertBody">
+                                    
                                 </div>
                             </div>
                               <div class="card shadow mb-2">
@@ -1766,16 +1759,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Laboratory Results</h6>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body">
-                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
-                                        <h6 class="m-0 font-weight-bold text-primary">Blood Test - Diabetes<span class="float-right">03/18/2020</span></h6>
-                                    </a>
-                                    <!-- Card Content - Collapse -->
-                                    <div class="content">
-                                        <div class="card-body">
-                                            <div>BLOB</div>
-                                        </div>
-                                    </div>
+                                <div class="card-body" id="labResultBody">                                    
                                 </div>
                             </div> 
                         </div>
@@ -2009,10 +1993,12 @@
                     document.getElementById("BMIText").innerHTML=data.bmi;
 
                     if(data.bmiStatus == "Normal"){
+                        document.getElementById("BMIStatus").style.display = "none";
                         document.getElementById("BMIStatus").innerHTML=data.bmiStatus;
                         document.getElementById("BMIStatus").style.display = "inline-block";
                     }
                     else{
+                        document.getElementById("BMIStatusRed").style.display = "none";
                         document.getElementById("BMIStatusRed").innerHTML=data.bmiStatus;
                         document.getElementById("BMIStatusRed").style.display = "inline-block";
                     }
@@ -2020,10 +2006,12 @@
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
 
                     if(data.weightStatus == "Normal"){
+                        document.getElementById("weightStatus").style.display = "none"
                         document.getElementById("weightStatus").innerHTML=data.weightStatus;
                         document.getElementById("weightStatus").style.display = "inline-block";
                     }
                     else{
+                        document.getElementById("weightStatusRed").style.display = "none"
                         document.getElementById("weightStatusRed").innerHTML=data.weightStatus;
                         document.getElementById("weightStatusRed").style.display = "inline-block";
                     }
@@ -2031,10 +2019,12 @@
                     document.getElementById("heightText").innerHTML=data.height + "cm";
                     
                     if(data.heightStatus == "Normal"){
-                    document.getElementById("heightStatus").innerHTML=data.heightStatus;
+                        document.getElementById("heightStatus").style.display = "none";
+                        document.getElementById("heightStatus").innerHTML=data.heightStatus;                        
                         document.getElementById("heightStatus").style.display = "inline-block";
                     }
                     else{
+                        document.getElementById("heightStatusRed").style.display = "none"
                         document.getElementById("heightStatusRed").innerHTML=data.heightStatus;
                         document.getElementById("heightStatusRed").style.display = "inline-block";
                     }
@@ -2604,7 +2594,31 @@
                 console.log(data);
                 var i;
 
-                // TO DO: add checker if may prescribed by, kasi pwede parent mag input dito so baka malimutan ilagay ng parent sino nag prescribe
+                console.log("medcerts");
+                console.log(data.medCert);
+
+                if(data.length != 0){
+                    var medCertBody = document.getElementById("medCertBody");
+                    medCertBody.innerHTML = "";
+
+                    var labResultBody = document.getElementById("labResultBody");
+                    labResultBody.innerHTML = "";
+
+                    for(var i = 0; i < data.medCert.length; i++){
+                        $('#medCertBody').append('<a href="'+data.medCert[i].url+'" target="_blank" class="d-block card-header py-3 m-0 font-weight-bold text-primary" role="button">' + data.medCert[i].dateUploaded + '</a>');
+                    }
+
+                    for(var i = 0; i < data.labResults.length; i++){
+                        $('#labResultBody').append('<a href="'+data.labResults[i].url+'" target="_blank" class="d-block card-header py-3 m-0 font-weight-bold text-primary" role="button">' + data.labResults[i].dateUploaded + '</a>');
+                    }
+                }
+                else{
+                    var medCertBody = document.getElementById("medCertBody");
+                    medCertBody.innerHTML = "";
+
+                    var labResultBody = document.getElementById("labResultBody");
+                    labResultBody.innerHTML = "";
+                }
             });
         }
 

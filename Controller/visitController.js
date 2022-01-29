@@ -99,7 +99,7 @@ exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bmi, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
         weightStatus, heightStatus, bmiStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
-        complaint, impression, treatment, 
+        complaint, impression, treatment, diagnosisSentence,
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
     var i, formId, complaintsTemp = [];
@@ -155,6 +155,7 @@ exports.addClinicVisit = function(req, res){
     
             diagnosisAssigned: diagnosisAssign,
             diagnosis: diagnosis,
+            diagnosisSentence:diagnosisSentence,
     
             prescribedBy: prescribedBy,
     
@@ -339,7 +340,7 @@ exports.addClinicVisit = function(req, res){
 //This function is used to save the clinic visit form edited
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
-        visitDate, timeIn, timeOut, diagnosis, 
+        visitDate, timeIn, timeOut, diagnosis, diagnosisSentence,
         medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
     
@@ -360,6 +361,7 @@ exports.editClinicVisit = function(req, res){
             var record = {
                 timeOut: timeOut,
                 diagnosis: diagnosis,
+                diagnosisSentence:diagnosisSentence,
                 status: status,
                 notes: notes,
             };
@@ -486,6 +488,7 @@ exports.editClinicVisit = function(req, res){
                 var record = {
                     timeOut: timeOut,
                     diagnosis: diagnosis,
+                    diagnosisSentence:diagnosisSentence,
                     medicationAssigned: medicationAssign,
                     medications: "", // array of medications
                     status: status,

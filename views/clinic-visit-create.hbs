@@ -720,14 +720,18 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
-                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <label class="col-form-label" for="diagnosis">Illness</label>
                                     <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis">                                       
                                     <datalist id="diagnosisList">
                                         {{#each clinician}}
                                             <option value="{{lastName}}"></option>
                                         {{/each}}                            
                                     </datalist>
+
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
+                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="6"></textarea>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -3766,6 +3770,9 @@
                 $("#treatmentVisit").removeClass("is-invalid");
             }
 
+            var diagnosisSentence =  $('#diagnosisPar').val(); 
+            console.log(diagnosisSentence);
+
             var status =  $('#status').find(":selected").text();
             console.log(status);
 
@@ -3811,6 +3818,7 @@
                         prescribedBy: selectedPrescribedBy,
                         diagnosisAssign: selectedDiagnosisAssign,
                         diagnosis: diagnosis,
+                        diagnosisSentence:diagnosisSentence,
                         medicationsArray: medicationsArray,
                         intakeArray: intakeArray,
                         notes: notes,

@@ -672,8 +672,8 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
-                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >                                       
+                                    <label class="col-form-label" for="diagnosis">Illness</label>
+                                    <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >        
                                 </div>
                             </div>
                         </div>
@@ -1441,13 +1441,16 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-6 mb-4">
-                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
+                                    <label class="col-form-label" for="diagnosis">Illness</label>
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
                                         {{/each}}
                                     </select> 
-                                </div>
+                                    
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
+                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="6"></textarea> 
+                                </div>                              
                             </div>
                         </div>
                     </div>
@@ -2793,6 +2796,9 @@
 
             diagnosis = diagnosis[0];
 
+            var diagnosisSentence =  $('#diagnosisPar').val(); 
+            console.log(diagnosisSentence);
+
             var status =  $('#status').val();
             console.log(status);
 
@@ -2841,6 +2847,7 @@
                     intakeArray: intakeArray,
                     status: status,
                     notes: notes,
+                    diagnosisSentence:diagnosisSentence,
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";

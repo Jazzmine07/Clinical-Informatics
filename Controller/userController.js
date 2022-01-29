@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 const bodyParser = require('body-parser');
+const { admin } = require('googleapis/build/src/apis/admin');
 const urlencoder = bodyParser.urlencoded({
   extended: false
 })
@@ -12,7 +13,7 @@ exports.login = (req, res) => {
   var parentsRef = database.ref("parentUsers");
   var userInfo;
 
-  var parentRef = database.ref("parentInfo");
+  var parentRef = database.ref("teacherUsers");
             
   // parentRef.once('value', (snapshot) => {
   //   snapshot.forEach(function(parent){
@@ -27,11 +28,15 @@ exports.login = (req, res) => {
   // })
 
   // var parentAccount = {
-  //   email: 'kathrina_ramos@gmail.com',
-  //   password: 'manresa123'
+  //   email: 'angelica_robins@manresaschool.edu.ph',
+  //   password: 'manresa123',
+  //   role: 'teacher',
+  //   firstName: 'Angelica',
+  //   lastName: 'Robins'
   // }
 
-  // var key = parentsRef.push(parentAccount).key;
+  // parentRef.push(parentAccount)
+  //var key = parentsRef.push(parentAccount).key;
 
   // var parentInfo = {
   //   children: {
@@ -120,12 +125,21 @@ exports.login = (req, res) => {
       // ------------------------------------DONT FORGET TO UNCOMMENT-------------------------------------------
       var uid = userCredential.user.uid;
       var childRef = database.ref("clinicUsers/"+uid);
+      var adminRef = database.ref("adminUsers/"+uid);
       
       childRef.once('value', (snapshot) => { 
-        if(snapshot.child('role').val() == "Clinician"){
-          res.redirect("/dashboard");
+        if(snapshot.exists()){
+          if(snapshot.child('role').val() == "Clinician"){
+            res.redirect("/dashboard");
+          } else if(snapshot.child('role').val() == "Nurse"){
+            res.redirect("/clinic-visit");
+          }
         } else {
-          res.redirect("/clinic-visit");
+          adminRef.once('value', (adminUser) => {
+            if(adminUser.exists()){
+              res.redirect("/reports-clinic-visit");
+            }
+          })
         }
       })
      })
@@ -208,7 +222,7 @@ exports.loggedIn = (req, res, next) => {
   var promise = new Promise((resolve, reject) => {
     var user = firebase.auth().currentUser;
     if(user !== null){
-      next()
+      next();
     } else {
       res.render('login',{
         error: true,
@@ -238,19 +252,43 @@ exports.getUser = function(){
   var database = firebase.database();
   var userInfo;
   
-  var promise = new Promise((resolve, reject) => {
+  var promise = new Promise(async(resolve, reject) => {
     var user = firebase.auth().currentUser;
+    
     if(user !== null){
       var uid = user.uid;
+      console.log("uid in controller");
+      console.log(uid);
       var userRef = database.ref("clinicUsers/"+uid);
+      var adminRef = database.ref("adminUsers/"+uid);
       
-      userRef.once('value', (snapshot) => { 
-        userInfo = ({
-          key: snapshot.key,
-          firstName: snapshot.child('firstName').val(),
-          lastName: snapshot.child('lastName').val(),
-          role: snapshot.child('role').val()
-        })      
+      await userRef.once('value', async (snapshot) => { 
+        if(snapshot.exists()){
+          console.log("user is admin");
+          userInfo = ({
+            key: snapshot.key,
+            firstName: snapshot.child('firstName').val(),
+            lastName: snapshot.child('lastName').val(),
+            role: snapshot.child('role').val()
+          })
+        } else {
+          console.log("pasoks");
+          await adminRef.once('value', (adminUser) => {
+            console.log("pasoks1");
+            if(adminUser.exists()){
+              console.log("pasoks2");
+              console.log(adminUser.exportVal());
+              userInfo = ({
+                key: adminUser.key,
+                firstName: adminUser.child('firstName').val(),
+                lastName: adminUser.child('lastName').val(),
+                role: adminUser.child('role').val()
+              })
+            }
+          })
+        }  
+        console.log("userInfo");
+        console.log(userInfo);
         resolve(userInfo); 
       })
     }

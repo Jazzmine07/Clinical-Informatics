@@ -16,7 +16,7 @@ exports.getDiseaseSurveillanceData=function(){
         clinicVisitRef.once('value', (snapshot)=>{
             snapshot.forEach(function(childSnapshot){
                 child = childSnapshot.exportVal();
-                if(!child.diagnosis ==null && !child.diagnosis==undefined && !child.diagnosis =="" ){
+                //if(!child.diagnosis ==null && !child.diagnosis==undefined && !child.diagnosis =="" ){
                     checkDiagnosis = child.diagnosis.split(", ");
                     for(i=0;i<checkDiagnosis.length;i++){
                         if(checkDiagnosis[i]!=null && checkDiagnosis[i]!=undefined && checkDiagnosis[i]!=""){
@@ -27,7 +27,7 @@ exports.getDiseaseSurveillanceData=function(){
                             })
                         }
                     }
-                }
+                //}
             })
             resolve (temp);
         })
@@ -164,7 +164,7 @@ exports.getDiseaseDemographics=function(req,res){
             query.on('value', (childSnapshot) => {
                 childSnapshot.forEach(function(innerChildSnapshot){ // Getting primary keys of users
                     childSnapshotData = innerChildSnapshot.exportVal();
-                    if(!childSnapshotData.diagnosis==null && !childSnapshotData.diagnosis==undefined && !childSnapshotData.diagnosis==""){
+                    //if(!childSnapshotData.diagnosis==null && !childSnapshotData.diagnosis==undefined && !childSnapshotData.diagnosis==""){
                         checkDiagnosis=childSnapshotData.diagnosis.split(", ");
                             for(i=0;i<checkDiagnosis.length;i++){
                                 if(childSnapshotData.diagnosis!=null && childSnapshotData.diagnosis!=undefined && childSnapshotData.diagnosis!=""){
@@ -177,7 +177,7 @@ exports.getDiseaseDemographics=function(req,res){
                                     })
                                 }
                             }
-                    }
+                    //}
                 })
                 
             })

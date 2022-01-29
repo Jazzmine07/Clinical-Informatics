@@ -186,6 +186,10 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
     
     prom3[0].sort((a, b) => b.count - a.count);
     prom3[1].sort((a, b) => b.count - a.count);
+    console.log("WEEK");
+    console.log(prom3[0]);
+    console.log("Month");
+    console.log(prom3[1]);
 
     if(user.role == "Nurse"){
       res.render('clinic-visit', {

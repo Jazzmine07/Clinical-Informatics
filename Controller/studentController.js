@@ -761,9 +761,10 @@ exports.addSchedule=function(req,res){
     var database = firebase.database();
     var studentRef = database.ref("studentInfo");
     var sectionScheduleRef = database.ref("haSchedule");
+    var healthHistory= database.ref("studentHealthHistory");
     var schedules=[], g1=[],g2=[],g3=[],g4=[],g5=[],g6=[], schoolYear;
-    var i;
-    var students=[];
+    var i,done=false;
+    var students=[], studentsAccomApe=[], studentsAccomAde=[];
     var checker="false";
     //var schedulePE=[], scheduleDE=[],
     //schedulePE = req.body.schedules;
@@ -777,16 +778,6 @@ exports.addSchedule=function(req,res){
     g6=req.body.g6;
     schoolYear=req.body.schoolYear;
     
-    // console.log("entered addSchedule function in studentController");
-    // console.log(schedules);
-    // console.log(g1);
-    // console.log(g2);
-    // console.log(g3);
-    // console.log(g4);
-    // console.log(g5);
-    // console.log(g6);
-    // console.log(schoolYear);
-
     sectionScheduleRef.once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
             var child = childSnapshot.exportVal();
@@ -840,8 +831,56 @@ exports.addSchedule=function(req,res){
             });
             sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set("0");
             sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set("0");
+            
+            healthHistory.once('value',(students)=>{
+                students.forEach(function(student){
+                    student.child("ape").forEach(function(year){
+                        if(year.key==schoolYear){
+                            var apeData = year.exportVal();
+                            if(apeData.section == childValues.section){
+                                console.log("ENTERS SECTION");
+                                studentsAccomApe.push("1");
+                                done=true;
+                                console.log("made true");   
+                            }
+                        }
+                    })
+                })
+                if(done==true){
+                    console.log("TOTAL checked");
+                    console.log(studentsAccomApe.length);
+                    sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set(studentsAccomApe.length);
+                    done=false;
+                    studentsAccomApe=[];
+                }
+            })
+            healthHistory.once('value',(students)=>{
+                students.forEach(function(student){
+                    student.child("ade").forEach(function(year){
+                        if(year.key==schoolYear){
+                            var adeData = year.exportVal();
+                            if(adeData.section == childValues.section){
+                                console.log("ENTERS SECTION");
+                                studentsAccomAde.push("1");
+                                done=true;
+                                console.log("made true");   
+                            }
+                        }
+                    })
+                })
+                if(done==true){
+                    console.log("TOTAL checked");
+                    console.log(studentsAccomAde.length);
+                    sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set(studentsAccomAde.length);
+                    done=false;
+                    studentsAccomAde=[];
+                }
+            })
         })
+
     })
+
+    
 
     res.send();
 }

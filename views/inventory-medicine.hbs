@@ -33,6 +33,292 @@
 
 </head>
 
+{{#if isAdmin}}
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="pointer-events: none; cursor: default;">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3 text-capitalize">IsKlinika</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Reports -->
+            <li class="nav-item">
+                <a href="#report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Reports</span></a>
+                <ul class="collapse show list-unstyled" id="report">
+                    <li>
+                        <a class="nav-link" href="/reports-clinic-visit">
+                            <i class="fas fa-fw fa-medkit"></i>
+                            <span>Clinic Visit</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/reports-health-assessment">
+                            <i class="fas fa-fw fa-stethoscope"></i>
+                            <span>Health Assessment</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/reports-inventory">
+                            <i class="fas fa-fw fa-archive"></i>
+                            <span>Inventory</span></a>
+                    </li>
+                    <li>
+                </ul>
+            </li>
+
+            <!-- Nav Item - Performance Assessment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/performance-assessment">
+                    <i class="fas fa-fw fa-star"></i>
+                    <span>Performance Assessment</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a href="#inventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Inventory</span></a>
+                <ul class="collapse show list-unstyled" id="inventory">
+                    <li>
+                        <a class="nav-link active" href="/inventory-medicine">
+                            <i class="fas fa-fw fa-tablets"></i>
+                            <span>Medicine</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-supply">
+                            <i class="fas fa-fw fa-pump-medical"></i>
+                            <span>Supply</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/inventory-dental">
+                            <i class="fas fa-fw fa-tooth"></i>
+                            <span>Dental</span></a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        {{>notifications}}
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#drop-menu" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome, {{user.firstName}} {{user.lastName}}!</span>
+                                <img class="img-profile rounded-circle"
+                                    src="public/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div id"drop-menu" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End of Topbar -->                   
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Medicine Inventory</h6>
+                            {{#if error}}
+                                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" style="font-size: 12px; color: #e74a3b; margin-bottom: 10px;" id="error">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <strong class="mx-1">Error!</strong> {{error_msg}}
+                                </div>
+                            {{/if}}
+                        </div>
+                        <div class="card-body">
+                            <div class="invalid-feedback align-items-center" style="font-size: 12px; display: none;" id="errorDiv"></div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="adminMedicineTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="bg-primary" style="color: white;">Batch Number</th>
+                                            <th class="bg-primary" style="color: white;">Medicine</th>
+                                            <th class="bg-primary" style="color: white;">Quantity</th>
+                                            <th class="bg-primary" style="color: white;">Unit</th>
+                                            <th class="bg-primary" style="color: white;">Purchase Date</th>
+                                            <th class="bg-primary" style="color: white;">Expiry Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each inventory}}
+                                            <tr id="{{details.medicineID}}">
+                                                <td style="vertical-align: middle !important;">{{details.batchNum}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.med}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.qty}}</td>
+                                                <td style="vertical-align: middle !important;">{{details.unit}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate details.purchDate}}</td>
+                                                <td style="vertical-align: middle !important;">{{formatDate details.expDate}}</td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; IsKlinika 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form method="post" action="/logout">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="public/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    {{!-- <script src="public/vendor/chart.js/Chart.min.js"></script> --}}
+
+    <!-- Page level custom scripts -->
+    {{!-- <script src="public/js/demo/chart-pie-demo.js"></script> --}}
+
+    <!-- Page level plugins -->
+    <script src="public/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="public/js/demo/datatables-demo.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.1.4/js/dataTables.rowGroup.min.js"></script>
+
+</body>
+{{else}}
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -451,7 +737,7 @@
                                             <tr style="text-align: center;">
                                                 <th class="bg-primary" style="color: white;">Item Name</th>
                                                 <th class="bg-primary" style="color: white;">Estimated Quantity Needed</th>
-                                                <th class="bg-primary" style="color: white;">Conservative Estimate</th>
+                                                <th class="bg-primary" style="color: white;">Unit</th>
                                             </tr>
                                         </thead>
                                         <tbody id="forecastTable">
@@ -620,10 +906,10 @@
         }
 
         var dateToday = new Date(year, month - 1, date);
-        console.log("today... " + dateToday);
-        console.log("last year... " + lastYear);
-        console.log("start year... " + schoolYearStart);
-        console.log("end year... " + schoolYearEnd);
+        //console.log("today... " + dateToday);
+        //console.log("last year... " + lastYear);
+        //console.log("start year... " + schoolYearStart);
+        //console.log("end year... " + schoolYearEnd);
 
         //var monthDay = month;
         //monthDay += '-';
@@ -633,13 +919,13 @@
         
 
         $.get("/getMedicineInventoryList", function(inventoryList){
-            console.log("inventoryList in front end");
-            console.log(inventoryList);
+            //console.log("inventoryList in front end");
+            //console.log(inventoryList);
             invetoryMedicine = inventoryList;
 
             $.get("/getMedicineDiscrepancy", function(details){
-                console.log("list of discrepancy in front end");
-                console.log(details);
+                //console.log("list of discrepancy in front end");
+                //console.log(details);
 
                 var medYear = [], medMonth = [], medDay = [];
                 var curDates = [];
@@ -694,12 +980,12 @@
                                 console.log(medicineUsed[j].medicineName);
                                 //console.log(parseInt(curDates[j].usedInventory));
                                 sum += parseInt(medicineUsed[j].usedInventory);
-                                console.log("sum: " + sum);
+                                //console.log("sum: " + sum);
 
                                 var total = sum;
                                 total = total/24;
-                                var ltd = total*7;
-                                console.log("ltd: " + ltd);
+                                var ltd = total*7; //lead time or ave time inventory is delivered
+                                //console.log("ltd: " + ltd);
                                 
                                 var stringID = '#';
                                 stringID += invetoryMedicine[i].medicineID;
@@ -709,12 +995,13 @@
                                 text = text.replace( /^\D+/g, '');
                                 //if low stock
                                 if(Math.ceil(ltd) >= parseInt(text)){
+                                    //console.log("pasok");
                                     $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
                                     $(stringID).closest("tr").next(".dtrg-end").css("font-weight", "bold");
                                 }
                                 
-                                console.log("this is my ltd");
-                                console.log(Math.ceil(ltd));
+                                //console.log("this is my ltd");
+                                //console.log(Math.ceil(ltd));
 
                             }
                         }
@@ -762,6 +1049,7 @@
                 var medYear = [], medMonth = [], medDay = [];
                 var curDates = [];
                 var medicineUsed = [];
+                var medicineMonthUsed = [];
 
                 var temp = [];
                 for(i = 0; i < medicineMonthYear.length; i++){
@@ -776,10 +1064,11 @@
                     medDay.push(temp[i].getDate());
                 }
                 
+                console.log("medicineMonthYear.length: " + medicineMonthYear.length);
                 for(i = 0; i < medicineMonthYear.length; i++){
                     if((medYear[i] == schoolYearStart - 1 && medMonth[i] >= 6) || (medYear[i] == schoolYearEnd - 1 && medMonth[i] <= 4)){ // filter all clinic visits from start of the school year
                         curDates.push(new Date(medYear[i], medMonth[i], medDay[i]+1));
-                        //console.log(medYear[i]);
+                        console.log("count: " + i);
                         //console.log(medMonth[i]);
                         //console.log(medDay[i]);
                         //console.log(curDates);
@@ -791,54 +1080,254 @@
                     }
                 }
 
+                console.log("medicineUsed: " + medicineUsed.length);
+                console.log("groupedInventory: " + groupedInventory.length);
+
+                var schoolDays = 209;
                 for(var i = 0; i < groupedInventory.length; i++){
-                    var sum = 0; 
-                    for(var j = 0; j < curDates.length; j++){
-                        var yearUpdated = curDates[j].getFullYear();
-                        var monthUpdated = curDates[j].getMonth();
-                        var dayUpdated = curDates[j].getDate() - 1;
+                    //sum
+                    var sumJan = 0;
+                    var sumFeb = 0;
+                    var sumMar = 0;
+                    var sumApr = 0;
+                    var sumJun = 0;
+                    var sumJul = 0;
+                    var sumAug = 0;
+                    var sumSep = 0;
+                    var sumOct = 0;
+                    var sumNov = 0;
+                    var sumDec = 0;
+
+                    //total
+                    var totalJan = 0;
+                    var totalFeb = 0;
+                    var totalMar = 0;
+                    var totalApr = 0;
+                    var totalJun = 0;
+                    var totalJul = 0;
+                    var totalAug = 0;
+                    var totalSep = 0;
+                    var totalOct = 0;
+                    var totalNov = 0;
+                    var totalDec = 0;
+
+                    //lead time
+                    var ltdJan = 0;
+                    var ltdFeb = 0;
+                    var ltdMar = 0;
+                    var ltdApr = 0;
+                    var ltdJun = 0;
+                    var ltdJul = 0;
+                    var ltdAug = 0;
+                    var ltdSep = 0;
+                    var ltdOct = 0;
+                    var ltdNov = 0;
+                    var ltdDec = 0;
+
+                    
+                    for(var j = 0; j < medicineUsed.length; j++){
+                        
                         if(groupedInventory[i].medicine == medicineUsed[j].medicineName){
-                            var totalJan, totalFeb;
-                            var ltd;
+                            console.log(groupedInventory[i].medicine + " = " + medicineUsed[j].medicineName);
+
+                            var yearUpdated = curDates[j].getFullYear();
+                            var monthUpdated = curDates[j].getMonth();
+                            var dayUpdated = curDates[j].getDate() - 1;
+
                             if(monthUpdated + 1 == 1){
                                 console.log("Jan");
-                                console.log(medicineUsed[j].medicineName);
-                                totalJan += parseInt(medicineUsed[j].usedInventory);
-                                console.log("sum: " + sum);
-
-                                //totalJan = sum;
+                                sumJan += parseInt(medicineUsed[j].usedInventory);                            
+                                totalJan = sumJan;
+                                console.log("totalJan: " + totalJan);
                                 totalJan = totalJan/24;
-                                //ltd = total*7;
-                                //console.log("ltd: ");                                
-                                //console.log(Math.ceil(ltd));
+                                console.log("aveJan: " + totalJan);
+                                ltdJan = totalJan*7;
+                                console.log("ltd: " + ltdJan);
+                                ltdJan = Math.ceil(ltdJan);
+                                console.log("ltdRoundUp: " + Math.ceil(ltdJan));
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Jan",
+                                    forecast: ltdJan
+                                });
                             }
                             else if(monthUpdated + 1 == 2){
                                 console.log("Feb");
-                                console.log(medicineUsed[j].medicineName);
-                                totalFeb += parseInt(medicineUsed[j].usedInventory);
-                                console.log("sum: " + sum);
-
-                                //totalFeb = sum;
+                                sumFeb += parseInt(medicineUsed[j].usedInventory);
+                                totalFeb = sumFeb;
+                                console.log("totalFeb: " + totalFeb);
                                 totalFeb = totalFeb/24;
-                                //ltd = total*7;
-                                //console.log("ltd: ");
-                                //console.log(Math.ceil(ltd));
-
+                                console.log("aveFeb: " + totalFeb);
+                                ltdFeb = totalFeb*7;
+                                console.log("ltd: " + ltdFeb);
+                                ltdFeb = Math.ceil(ltdFeb);
+                                console.log("ltdRoundUp: " + Math.ceil(ltdFeb));
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Feb",
+                                    forecast: ltdFeb
+                                });
+                            }
+                            else if(monthUpdated + 1 == 3){
+                                console.log("Mar");
+                                sumMar += parseInt(medicineUsed[j].usedInventory);
+                                totalMar = sumMar;
+                                console.log("totalMar: " + totalMar);
+                                totalMar = totalMar/24;
+                                console.log("aveMar: " + totalMar);
+                                ltdMar = totalMar*7;
+                                console.log("ltd: " + ltdMar);
+                                ltdMar = Math.ceil(ltdMar);
+                                console.log("ltdRoundUp: " + Math.ceil(ltdMar));
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Mar",
+                                    forecast: ltdMar
+                                });
+                            }
+                            else if(monthUpdated + 1 == 4){
+                                console.log("Apr");
+                                sumApr += parseInt(medicineUsed[j].usedInventory);
+                                totalApr = sumApr;
+                                console.log("totalApr: " + totalApr);
+                                totalApr = totalApr/24;
+                                console.log("aveApr: " + totalApr);
+                                ltdApr = totalApr*7;
+                                console.log("ltd: " + ltdApr);
+                                ltdApr = Math.ceil(ltdApr);
+                                console.log("ltdRoundUp: " + Math.ceil(ltdApr));
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Apr",
+                                    forecast: ltdApr
+                                });
+                            }
+                            else if(monthUpdated + 1 == 6){
+                                console.log("Jun");
+                                sumJun += parseInt(medicineUsed[j].usedInventory);
+                                totalJun = sumJun;
+                                console.log("totalJun: " + totalJun);
+                                totalJun = totalJun/24;
+                                console.log("aveJun: " + totalJun);
+                                ltdJun = totalJun*7;
+                                console.log("ltd: " + ltdJun);
+                                ltdJun = Math.ceil(ltdJun);
+                                console.log("ltdRoundUp: " + Math.ceil(ltdJun));
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Jun",
+                                    forecast: ltdJun
+                                });
+                            }
+                            else if(monthUpdated + 1 == 7){
+                                console.log("Jul");
+                                sumJul += parseInt(medicineUsed[j].usedInventory);
+                                totalJul = sumJul;
+                                totalJul = totalJul/24;
+                                ltdJul = totalJul*7;
+                                ltdJul = Math.ceil(ltdJul);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Jul",
+                                    forecast: ltdJul
+                                });
+                            }
+                            else if(monthUpdated + 1 == 8){
+                                console.log("Aug");
+                                sumAug += parseInt(medicineUsed[j].usedInventory);
+                                totalAug = sumAug;
+                                totalAug = totalAug/24;
+                                ltdAug = totalAug*7;
+                                ltdAug = Math.ceil(ltdAug);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Aug",
+                                    forecast: ltdAug
+                                });
+                            }
+                            else if(monthUpdated + 1 == 9){
+                                console.log("Sep");
+                                sumSep += parseInt(medicineUsed[j].usedInventory);
+                                totalSep = sumSep;
+                                totalSep = totalSep/24;
+                                ltdSep = totalSep*7;
+                                ltdSep = Math.ceil(ltdSep);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Sep",
+                                    forecast: ltdSep
+                                });
+                            }
+                            else if(monthUpdated + 1 == 10){
+                                console.log("Oct");
+                                sumOct += parseInt(medicineUsed[j].usedInventory);
+                                totalOct = sumOct;
+                                totalOct = totalOct/24;
+                                ltdOct = totalOct*7;
+                                ltdOct = Math.ceil(ltdOct);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Oct",
+                                    forecast: ltdOct
+                                });
+                            }
+                            else if(monthUpdated + 1 == 11){
+                                console.log("Nov");
+                                sumNov += parseInt(medicineUsed[j].usedInventory);
+                                totalNov = sumNov;
+                                totalNov = totalNov/24;
+                                ltdNov = totalNov*7;
+                                ltdNov = Math.ceil(ltdNov);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Nov",
+                                    forecast: ltdNov
+                                });
+                            }
+                            else if(monthUpdated + 1 == 12){
+                                console.log("Dec");
+                                sumDec += parseInt(medicineUsed[j].usedInventory);
+                                totalDec = sumDec;
+                                totalDec = totalDec/24;
+                                ltdDec = totalDec*7;
+                                ltdDec = Math.ceil(ltdDec);
+                                medicineMonthUsed.push({
+                                    medicineName: medicineUsed[j].medicineName,
+                                    month: "Dec",
+                                    forecast: ltdDec
+                                });
                             }
                         }
                     }
                 }
 
+                console.log("medicineMonthUsed");
+                console.log(medicineMonthUsed);
 
-                $("#forecastTable tr").remove();
-                for(i = 0; i < groupedInventory.length; i++){
-                    var estimate = Math.floor(Math.random() * 150) + 20;
-                    var conservative = estimate - Math.floor(Math.random() * 20);
-                    $('#forecastTable').append('<tr><td>' + groupedInventory[i].medicine + '</td><td>' + estimate + '</td><td>' + conservative + '</td></tr>');
+                var forecastYearInventory = [];
+
+                for(var k = 0; k < groupedInventory.length; k++){
+                    var totalForecast = 0;
+                    for(var l = 0; l < medicineMonthUsed.length; l++){
+                        if(groupedInventory[k].medicine == medicineMonthUsed[l].medicineName){
+                            totalForecast += medicineMonthUsed[l].forecast;                            
+                        }
+                    }
+                    forecastYearInventory.push({
+                        medicineName: groupedInventory[k].medicine,
+                        forecast: Math.ceil((totalForecast/11) * schoolDays)
+                    });
                 }
 
+                console.log("forecastYearInventory");
+                console.log(forecastYearInventory);
 
-
+                $("#forecastTable tr").remove();
+                for(var i = 0; i < groupedInventory.length; i++){
+                    //var estimate = Math.floor(Math.random() * 150) + 20;
+                    //var conservative = estimate - Math.floor(Math.random() * 20);
+                    $('#forecastTable').append('<tr><td>' + groupedInventory[i].medicine + '</td><td>' + forecastYearInventory[i].forecast + '</td><td>' + groupedInventory[i].unit + '</td></tr>');
+                }
 
             });
             
@@ -907,5 +1396,6 @@
     });
     </script>
 </body>
+{{/if}}
 
 </html>

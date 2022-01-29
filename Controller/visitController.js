@@ -319,7 +319,7 @@ exports.addClinicVisit = function(req, res){
             var userDiagnosisNotification = database.ref("notifications/"+diagnosisAssign+"/"+formId);
             var notif = {
                 type: "form",
-                message: "You have been assigned to a new form!",
+                message: "You have a new assigned task!",
                 date: visitDate,
                 timestamp: time,
                 seen: false
@@ -510,7 +510,7 @@ exports.editClinicVisit = function(req, res){
                 var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
                 var notif = {
                     type: "form",
-                    message: "You have been assigned to a new form!",
+                    message: "You have a new assigned task!",
                     date: date,
                     timestamp: time,
                     seen: false

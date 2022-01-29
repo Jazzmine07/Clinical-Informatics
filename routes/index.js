@@ -478,11 +478,9 @@ router.get('/clinic-visit/incidence', loggedIn, (req, res) => {
         isNurse: true
       });
     } else {
-      res.render('dashboard', {
+      res.render('clinic-visit-incidence', {
         user: user, 
         isNurse: false,
-        error: true,
-        error_msg: "You don't have access to this module!"
       });
     }
   }).catch(error => {
@@ -704,7 +702,13 @@ router.get('/inventory-medicine', loggedIn, (req, res) => {
         isNurse: true,
         inventory: inventory
       });
-    } else {
+    } else if(user.role == "Admin"){
+      res.render('inventory-medicine', {
+        user: user,
+        isAdmin: true,
+        inventory: inventory
+      });
+    } else if(user.role == "Clinician"){
       res.render('inventory-medicine', {
         user: user, 
         isNurse: false,
@@ -764,7 +768,13 @@ router.get('/inventory-supply', loggedIn, (req, res) => {
         isNurse: true,
         supply: supply
       });
-    } else {
+    } else if(user.role == "Admin"){
+      res.render('inventory-supply', {
+        user: user,
+        isAdmin: true,
+        supply: supply
+      });
+    } else if(user.role == "Clinician"){
       res.render('inventory-supply', {
         user: user, 
         isNurse: false,
@@ -825,7 +835,13 @@ router.get('/inventory-dental', loggedIn, (req, res) => {
         isNurse: true,
         dental: dental
       });
-    } else {
+    } else if(user.role == "Admin"){
+      res.render('inventory-dental', {
+        user: user,
+        isAdmin: true,
+        dental: dental
+      });
+    } else if(user.role == "Clinician"){
       res.render('inventory-dental', {
         user: user, 
         isNurse: false,
@@ -917,6 +933,30 @@ router.get('/promotive-care/program-form', loggedIn, (req, res) => {
   }) 
 });
 
+// Get program form page
+router.get('/promotive-care/attendance-form', loggedIn, (req, res) => {
+  console.log("Read attendance program form successful!");
+  var prom1, prom2;
+  var user;
+  prom1 = userController.getUser();
+
+  Promise.all([prom1]).then(result => {
+    user = result[0];
+    
+    if(user.role == "Nurse"){
+      res.render('attendance-form', {
+        user: user,
+        isNurse: true,
+      });
+    } else {
+      res.render('attendance-form', {
+        user: user, 
+        isNurse: false,
+      });
+    }
+  }) 
+});
+
 // Get performance assessment  page
 router.get('/performance-assessment', loggedIn, (req, res) => {
   console.log("Read performance assessment successful!");
@@ -937,10 +977,17 @@ router.get('/performance-assessment', loggedIn, (req, res) => {
         error: true,
         error_msg: "You don't have access to this module!"
       });
-    } else {
+    } else if(user.role == "Admin"){
+      res.render('performance-assessment', {
+        user: user,
+        isAdmin: true,
+        programs: programs
+      });
+    } else if(user.role == "Clinician"){
       res.render('performance-assessment', {
         user: user, 
         isNurse: false,
+        isAdmin: false,
         programs: programs
       });
     }
@@ -966,10 +1013,11 @@ router.get('/reports-clinic-visit', loggedIn, (req, res) => {
   promise1 = userController.getUser();
   promise2 = visitController.getIncidenceList();
 
-  Promise.all([promise1, promise2]).then( result => {
+  Promise.all([promise1, promise2]).then(result => {
     user = result[0];
     reports = result[1];
-
+    console.log("user in clinic visit report");
+    console.log(user);
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
         isNurse: true,
@@ -977,10 +1025,16 @@ router.get('/reports-clinic-visit', loggedIn, (req, res) => {
         error: true,
         error_msg: "You don't have access to this module!"
       });
-    }
-    else {
+    } else if(user.role == "Admin"){
+      res.render('reports-clinic-visit', {
+        user: user,
+        isAdmin: true,
+        reports: reports,
+      });
+    } else if(user.role == "Clinician"){
       res.render('reports-clinic-visit', {  
         isNurse: false,
+        isAdmin: false,
         user: user,
         reports: reports,
       });
@@ -994,19 +1048,23 @@ router.get('/reports-clinic-visit', loggedIn, (req, res) => {
 // Get report health assessment page
 router.get('/reports-health-assessment', loggedIn, (req, res) => {
   console.log("Read reports health assessment successful!");
-  var prom1,prom2,prom3,prom4,user,sections;
+  var prom1, prom2, prom3, prom4;
+  var user, sections;
   prom1 = userController.getUser();
   // prom2 = studentController.getSections();
   prom3 = studentController.getAllSched();
   prom4 = reportsController.getStudentsNoCurrYearRecord();
-
-  Promise.all([prom1,prom3,prom4]).then(result => {
+  
+  Promise.all([prom1, prom3, prom4]).then(result => {
+    console.log("prom1 in health assess report");
+  console.log(prom1);
     user = result[0];
     //sections = result[1];
     scheduleData = result[1];
     
     var i;
-    console.log("NO APE:");
+    console.log("user in health assess report");
+    console.log(user);
     //console.log(result[2][0][0].grade1); // [prom4=result][ape or ade or sy][by grade]
     
     var noApeG1=[],noApeG2=[],noApeG3=[],noApeG4=[],noApeG5=[],noApeG6=[];
@@ -1089,7 +1147,6 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
       });
     }
 
-    
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
         isNurse: true,
@@ -1097,11 +1154,30 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
         error: true,
         error_msg: "You don't have access to this module!"
       });
-    }
-    else {
+    } else if(user.role == "Admin"){
+      res.render('reports-health-assessment', {
+        user: user,
+        isAdmin: true,
+        schedule:schedule,
+        noApeG1:noApeG1,
+        noApeG2:noApeG2,
+        noApeG3:noApeG3,
+        noApeG4:noApeG4,
+        noApeG5:noApeG5,
+        noApeG6:noApeG6,
+        noAdeG1:noAdeG1,
+        noAdeG2:noAdeG2,
+        noAdeG3:noAdeG3,
+        noAdeG4:noAdeG4,
+        noAdeG5:noAdeG5,
+        noAdeG6:noAdeG6,
+        schoolYearData:result[2][2],
+      });
+    } else if(user.role == "Clinician"){
       res.render('reports-health-assessment', {
         user: user, 
         isNurse: false,
+        isAdmin: false,
         schedule:schedule,
         noApeG1:noApeG1,
         noApeG2:noApeG2,
@@ -1145,7 +1221,12 @@ router.get('/reports-inventory', loggedIn, (req, res) => {
         error: true,
         error_msg: "You don't have access to this module!"
       });
-    } else {
+    } else if(user.role == "Admin"){
+      res.render('reports-inventory', {
+        user: user,
+        isAdmin: true,
+      });
+    } else if(user.role == "Clinician"){
       res.render('reports-inventory', {
         user: user, 
         isNurse: false,

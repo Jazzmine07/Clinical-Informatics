@@ -1424,7 +1424,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-12">
                                     <label class="col-form-label" for="treatmentVisit">Treatment</label>
-                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" disabled="disabled" rows="3">{{form.treatment}}</textarea>
+                                    <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1446,11 +1446,14 @@
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
                                         {{/each}}
-                                    </select> 
-                                    
+                                    </select>
+                                </div>                          
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
                                     <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
-                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="6"></textarea> 
-                                </div>                              
+                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="4"></textarea> 
+                                </div>
                             </div>
                         </div>
                     </div>

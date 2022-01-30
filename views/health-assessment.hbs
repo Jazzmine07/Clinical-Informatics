@@ -309,9 +309,17 @@
                         <h1 class="h3 mb-0 text-gray-800">Health Assessment</h1>
                         <div class="d-flex flex-row-reverse">
 
-                            <a href="/health-assessment/schedule" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                            {{!-- <a href="/health-assessment/schedule" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
+                                class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a> --}}
+                            <div class="dropdown">
+                                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="schedHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                                 class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a>
-                            
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="schedHA">
+                                    <a class="dropdown-item" style="color: #3a3b45;" href="/health-assessment/schedule">By section</a>
+                                    <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalStudent">By student</a>
+                                </div>
+                            </div>
                             <div class="dropdown">
                                 <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="createHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                                 class="fas fa-plus-circle mr-1 text-white-50"></i> Create  </a>
@@ -320,6 +328,85 @@
                                     <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalHA">Physical Exam</a>
                                     <a class="dropdown-item" style="color: #3a3b45;" data-toggle="modal" data-target="#modalDE">Dental Exam</a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document" style="margin-top: 100px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Schedule by student</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form  method="post" action="/getSectionStudents">
+                                        <label for="schoolYear">School Year</label>                                        
+                                        <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">S.Y.</span>
+                                        </div>
+                                        <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        </div>
+                                        <div class="form-row align-items-center mb-2">
+                                            <div class="col-6">
+                                                <label for="examType" class="col-form-label">Type of Exam</label>
+                                                <select class="custom-select mb-2" id="examType">
+                                                    <option value="Physical">Physical</option>
+                                                    <option value="Dental">Dental</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-row align-items-center mb-2">
+                                                <div class="col-6">
+                                                    <label for="HADate" class="col-form-label">Date</label>
+                                                    <input type="date" class="form-control mb-2" id="HADate" name="HADate">
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="HATime" class="col-form-label">Time</label>
+                                                    <input type="time" class="form-control mb-2" id="HATime" name="HATime">
+                                                </div>                                
+                                            </div>
+                                            <div class="form-row align-items-center mb-2">
+                                            <div class="col-4">
+                                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                                    <input type="text" class="form-control mb-2" id="studentID" name="studentID">
+                                                </div>
+                                                <div class="col-8">
+                                                    <label class="col-form-label" for="studentName">Student Name</label>
+                                                    <input type="text" class="form-control mb-2" id="studentName">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row align-items-center mb-2">
+                                                <div class="col-4">
+                                                    <label for="studentGrd" class="col-form-label">Grade</label>
+                                                    <select class="custom-select mb-2" id="studentGrade">
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                        <option value="4">Four</option>
+                                                        <option value="5">Five</option>
+                                                        <option value="6">Six</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-8">
+                                                    <label for="studentSec" class="col-form-label">Section</label>
+                                                    <input type="text" class="form-control mb-2" id="studentSection">
+                                                </div>
+                                            </div>
+
+                                        </div>                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+                                        <button data-dismiss="modal" type="button" id="saveSchedBtn" class="btn btn-success">Save</a>
+                                        {{!-- <a data-dismiss="modal" class="btn btn-success">Save</a> --}}
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -368,7 +455,6 @@
                                                 <input list="students" class="form-control py-2 border-left-1 border" id="studentPE" placeholder="Search student"/>                                       
                                             </div>
                                             <datalist id="students">
-                                                <option value="100000">Christine Nahuli</option>                                
                                             </datalist>
 
                                         </div>                                    
@@ -426,7 +512,6 @@
                                                 <input list="students" class="form-control py-2 border-left-1 border" id="studentDE" placeholder="Search student"/>                                       
                                             </div>
                                             <datalist id="students">
-                                                <option value="100000">Christine Nahuli</option>                                
                                             </datalist>
 
                                         </div>                                    
@@ -544,7 +629,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Schedule</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Schedule by Section</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -578,17 +663,60 @@
                                         {{/each}}
                                         </tr>
                                         
-                                    </tbody>
-                                    {{!-- <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                    </tbody>                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Schedule by Student</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="schedStudTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th class="bg-primary" style="color: white;">Student ID</th>
+                                            <th class="bg-primary" style="color: white;">Student Name</th>
+                                            <th class="bg-primary" style="color: white;">Grade Level</th>
+                                            <th class="bg-primary" style="color: white;">Section</th>                                            
+                                            <th class="bg-primary" style="color: white;">Date</th>
+                                            <th class="bg-primary" style="color: white;">Time</th>
+                                            <th class="bg-primary" style="color: white;">Type of Exam</th>
                                         </tr>
-                                    </tfoot> --}}
+                                    </thead>
+                                    <tbody>                                        
+                                        <tr>
+                                            <td>2019108</td>  
+                                            <td>Nick Dylan Natividad</td>  
+                                            <td>Grade 3</td>  
+                                            <td>Prayerfulness</td>
+                                            <td>Feb. 3, 2022</td>
+                                            <td>09:00</td> 
+                                            <td>Physical</td>                                            
+                                        </tr>  
+                                        <tr>
+                                            <td>2018021</td>  
+                                            <td>John Smith Etrone</td>  
+                                            <td>Grade 4</td>  
+                                            <td>Purity</td>
+                                            <td>Feb. 5, 2022</td>
+                                            <td>11:00</td> 
+                                            <td>Physical</td>                                            
+                                        </tr>  
+                                        <tr>
+                                            <td>2021089</td>  
+                                            <td>Charlie Micah Lambert Togonon</td>  
+                                            <td>Grade 1</td>  
+                                            <td>Sincerity</td>
+                                            <td>Feb. 8, 2022</td>
+                                            <td>9:00</td> 
+                                            <td>Physical</td>                                            
+                                        </tr>                                        
+                                    </tbody>                                    
                                 </table>
                             </div>
                         </div>
@@ -690,7 +818,45 @@
         }
     </script>
      <script type='text/javascript'>
-        $(document).ready(function() {
+        var table = $('#schedStudTable').DataTable();
+
+        $("#studentID").change(function(){
+            var typedID = $('#studentID').val();
+            console.log(typedID);
+            
+            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
+                console.log("Student info");
+                console.log(studentInfo);
+
+                //auto-fill form
+                $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
+                $('#studentGrade').val(studentInfo.grade);
+                $('#studentSection').val(studentInfo.section);  
+            });
+        });
+
+        $("#saveSchedBtn").click(function(){
+            console.log("clicked");
+            var id= $('#studentID').val();
+            var name = $('#studentName').val();
+            //var gradeString = "Grade";            
+            grade = $('#studentGrade').val();
+            grade = "Grade " + grade;
+            //gradeString.concat(" ", grade);
+            var section = $('#studentSection').val();
+            var schedHA = $('#HADate').val();
+            var time = $('#HATime').val();
+            var exam = $('#examType').find(":selected").val();
+            
+            let date = new Date(schedHA);
+            var month = date.toLocaleString('default', { month: 'short' });
+            var sched = month + '. ' + date.getDate() + ', ' + date.getFullYear();
+
+            table.row.add([id, name, grade, section, sched, time, exam]);
+            table.draw();
+        });
+
+        $(document).ready(function() {      
         var currentTime = new Date()
         var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
         var currYear = currentTime.getFullYear();

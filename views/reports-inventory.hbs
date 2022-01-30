@@ -627,8 +627,11 @@
                     $('#medTitle').text("Medicine Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));
 
                     for(var i = 0; i < result.length; i++){
+                        let date = new Date(result[i].dateUpdated)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateUpdated = month + ' ' + date.getDate() + ', ' + date.getFullYear();
                         //medTable.row.add([result[i].batchNum, result[i].medicineName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].usedInventory]);
-                        $('#medBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].medicineName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].usedInventory + '</td></tr>');
+                        $('#medBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].medicineName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + dateUpdated + '</td><td>' + result[i].usedInventory + '</td></tr>');
                     }       
                     //medTable.draw();
                 } 
@@ -648,8 +651,11 @@
                     $('#supTitle').text("Supply Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));
 
                     for(var i = 0; i < result.length; i++){
+                        let date = new Date(result[i].dateUpdated)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateUpdated = month + ' ' + date.getDate() + ', ' + date.getFullYear();
                         //supTable.row.add([result[i].batchNum, result[i].supplyName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].discrepancy]);
-                        $('#supBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].supplyName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
+                        $('#supBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].supplyName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
                     }       
                     //supTable.draw();
                 }
@@ -669,8 +675,11 @@
                     $('#denTitle').text("Dental Discrepancy from " + start.format('MMMM D, YYYY') + ' to ' + end.format('MMMM D, YYYY'));  
 
                     for(var i = 0; i < result.length; i++){
+                        let date = new Date(result[i].dateUpdated)
+                        let month = date.toLocaleString('default', { month: 'long' })
+                        let dateUpdated = month + ' ' + date.getDate() + ', ' + date.getFullYear();
                         //denTable.row.add([result[i].batchNum, result[i].dentalName, result[i].currInventory, result[i].unit, result[i].dateUpdated, result[i].discrepancy]);
-                        $('#denBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].dentalName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + result[i].dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
+                        $('#denBody').append('<tr><td>' + result[i].batchNum + '</td><td>' + result[i].dentalName + '</td><td>' + result[i].currInventory + '</td><td>' + result[i].unit + '</td><td>' + dateUpdated + '</td><td>' + result[i].discrepancy + '</td></tr>');
                     }       
                     //denTable.draw();
                 }

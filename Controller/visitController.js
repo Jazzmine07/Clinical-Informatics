@@ -226,7 +226,7 @@ exports.addClinicVisit = function(req, res){
             teacherRef.once('value', (snapshot) => {
                 snapshot.forEach(function(childSnapshot){
                     if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
-                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                         var teacherNotif = {
                             message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
                             id: studentId,
@@ -234,7 +234,7 @@ exports.addClinicVisit = function(req, res){
                         }
                         teacherNotification.push(teacherNotif);
                     } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
-                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                         var teacherNotif = {
                             message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
                             id: studentId,
@@ -438,7 +438,7 @@ exports.editClinicVisit = function(req, res){
                 teacherRef.once('value', (snapshot) => {
                     snapshot.forEach(function(childSnapshot){
                         if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
-                            var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                            var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                             var teacherNotif = {
                                 message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
                                 id: studentId,
@@ -446,7 +446,7 @@ exports.editClinicVisit = function(req, res){
                             }
                             teacherNotification.push(teacherNotif);
                         } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
-                            var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                            var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                             var teacherNotif = {
                                 message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
                                 id: studentId,
@@ -600,7 +600,7 @@ exports.editClinicVisit = function(req, res){
             teacherRef.once('value', (snapshot) => {
                 snapshot.forEach(function(childSnapshot){
                     if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
-                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                         var teacherNotif = {
                             message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
                             id: studentId,
@@ -608,7 +608,7 @@ exports.editClinicVisit = function(req, res){
                         }
                         teacherNotification.push(teacherNotif);
                     } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
-                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
                         var teacherNotif = {
                             message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
                             id: studentId,

@@ -1,5 +1,6 @@
 const firebase = require('../firebase');
 const firebaseStorage = require('firebase/storage');
+const { compute_alpha } = require('googleapis');
 
 //This function is used to count the dashboar for the day
 exports.getDashboard = function(req, res){
@@ -53,8 +54,8 @@ exports.getComplaints = function(){
                             complaint: childSnapshotData.complaint
                         })
                     })
-                    console.log("complaints");
-                    console.log(complaints);
+                    // console.log("complaints");
+                    // console.log(complaints);
                     resolve(complaints);
                 })
             } else {
@@ -155,10 +156,9 @@ exports.addClinicVisit = function(req, res){
     
             diagnosisAssigned: diagnosisAssign,
             diagnosis: diagnosis,
-            diagnosisSentence:diagnosisSentence,
+            diagnosisSentence: diagnosisSentence,
     
             prescribedBy: prescribedBy,
-    
             status: status,
             notes: notes,
         };
@@ -172,8 +172,8 @@ exports.addClinicVisit = function(req, res){
                 complaintList.forEach(function(complaintsDB){
                     complaintsTemp.push(complaintsDB.child('complaint').val());
                 })
-                console.log("complaintsTemp");
-                console.log(complaintsTemp);
+                // console.log("complaintsTemp");
+                // console.log(complaintsTemp);
                 var found = 1;
                 for(var i = 0; i < complaintsTemp.length; i++){ // [Headache]
                     for(var j = 0; j < complaintArray.length; j++){ // [Headche, Flu, Fever]
@@ -184,8 +184,8 @@ exports.addClinicVisit = function(req, res){
                         }
                         else {    
                             if(!complaintsTemp.includes(complaintArray[j]) && !complaintsPush.includes(complaintArray[j])){
-                                console.log("pushing...");
-                                console.log(complaintArray[j]);
+                                // console.log("pushing...");
+                                // console.log(complaintArray[j]);
                                 complaintsPush.push(complaintArray[j]);
                             }                          
                         }
@@ -221,6 +221,29 @@ exports.addClinicVisit = function(req, res){
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);
             }
+
+            var teacherRef = database.ref("teacherUsers");
+            teacherRef.once('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot){
+                    if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotif = {
+                            message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
+                            id: studentId,
+                            date: visitDate, 
+                        }
+                        teacherNotification.push(teacherNotif);
+                    } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotif = {
+                            message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
+                            id: studentId,
+                            date: visitDate, 
+                        }
+                        teacherNotification.push(teacherNotif);
+                    }
+                })
+            })
         }
     
         //if intake array is not empty!
@@ -278,7 +301,6 @@ exports.addClinicVisit = function(req, res){
                             var visitNotif = {
                                 message: "Your child, " + studentName + ", visited the clinic due to " + complaint,
                                 id: studentId,
-                                timeIn: timeIn,
                                 date: visitDate, 
                             }
                             visitsNotification.push(visitNotif);
@@ -371,15 +393,14 @@ exports.editClinicVisit = function(req, res){
             diagnosisRef.once('value', (diagnosisList) => {
                 if(diagnosisList.exists()){
                     diagnosisList.forEach(function(diagnosisDB){
-                        console.log(diagnosisDB.exportVal());
+                        //console.log(diagnosisDB.exportVal());
                         diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
                     })
-                    console.log("diagnosisTemp");
-                    console.log(diagnosisTemp);
-                    var found = 1;
 
-                    for(var i = 0; i < diagnosisTemp; i++){
-                        if(diagnosis.localeCompare() != 0){
+                    var found = 1;
+                    for(var i = 0; i < diagnosisTemp.length; i++){
+                        if(diagnosis.toLowerCase().localeCompare(diagnosisTemp[i].toLowerCase()) == 0){
+                            //console.log("existing illness");
                             found = 0;
                         } 
                     }
@@ -413,11 +434,31 @@ exports.editClinicVisit = function(req, res){
                     prescriptionRef.push(prescription);
                 }
 
+                var teacherRef = database.ref("teacherUsers");
+                teacherRef.once('value', (snapshot) => {
+                    snapshot.forEach(function(childSnapshot){
+                        if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
+                            var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                            var teacherNotif = {
+                                message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
+                                id: studentId,
+                                date: visitDate, 
+                            }
+                            teacherNotification.push(teacherNotif);
+                        } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
+                            var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                            var teacherNotif = {
+                                message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
+                                id: studentId,
+                                date: visitDate, 
+                            }
+                            teacherNotification.push(teacherNotif);
+                        }
+                    })
+                })
+
                 //if intake array is not empty!
                 if(intakeArray != undefined){
-                    console.log("intakeArray in visitcontroller");
-                    console.log(intakeArray);
-                    
                     var intakeHistory = {
                         attendingClinician: userName,
                         grade: studentGrade,
@@ -498,37 +539,37 @@ exports.editClinicVisit = function(req, res){
                 clinicVisitRef.update(record);
 
                 //-----------NOTIFICATION FOR NURSE---------------
-                var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
-                var medicationForm = {
-                    task: "Clinic Visit",
-                    description: "Encode Prescription",
-                    assignedBy: userName,
-                    dateAssigned: date,
-                    timestamp: time
-                }
+                // var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
+                // var medicationForm = {
+                //     task: "Clinic Visit",
+                //     description: "Encode Prescription",
+                //     assignedBy: userName,
+                //     dateAssigned: date,
+                //     timestamp: time
+                // }
 
-                var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
-                var notif = {
-                    type: "form",
-                    message: "You have a new assigned task!",
-                    date: date,
-                    timestamp: time,
-                    seen: false
-                }
+                // var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
+                // var notif = {
+                //     type: "form",
+                //     message: "You have a new assigned task!",
+                //     date: date,
+                //     timestamp: time,
+                //     seen: false
+                // }
 
-                assignMedication.set(medicationForm);
-                userMedicationNotification.set(notif);
+                // assignMedication.set(medicationForm);
+                // userMedicationNotification.set(notif);
                 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-                var formRef = database.ref("assignedForms/"+ userKey);
-                formRef.once('value', (snapshot) => { 
-                    snapshot.forEach(function(childSnapshot) {
-                        if(childSnapshot.key == formId){
-                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                            database.ref("notifications/"+ userKey + "/" + formId).remove();
-                        }
-                    });
-                })
+                // var formRef = database.ref("assignedForms/"+ userKey);
+                // formRef.once('value', (snapshot) => { 
+                //     snapshot.forEach(function(childSnapshot) {
+                //         if(childSnapshot.key == formId){
+                //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                //             database.ref("notifications/"+ userKey + "/" + formId).remove();
+                //         }
+                //     });
+                // })
 
                 res.status(200).send();
             }
@@ -554,6 +595,29 @@ exports.editClinicVisit = function(req, res){
                 database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
                 prescriptionRef.push(prescription);
             }
+
+            var teacherRef = database.ref("teacherUsers");
+            teacherRef.once('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot){
+                    if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotif = {
+                            message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
+                            id: studentId,
+                            date: visitDate, 
+                        }
+                        teacherNotification.push(teacherNotif);
+                    } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
+                        var teacherNotification = database.ref("notifications/"+childSnapshot.key);
+                        var teacherNotif = {
+                            message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
+                            id: studentId,
+                            date: visitDate, 
+                        }
+                        teacherNotification.push(teacherNotif);
+                    }
+                })
+            })
 
             //if intake array is not empty!
             if(intakeArray != undefined){
@@ -761,8 +825,6 @@ exports.getClinicVisitForm = function(req){
                 status: temp[0].status,
                 notes: temp[0].notes
             }
-            console.log("details in controller");
-            console.log(details);
             resolve(details);
         })
     })
@@ -791,8 +853,7 @@ exports.viewClinicVisitForm = function(req){
                     endMed: meds.child('endMed').val(),
                 })
             })
-            console.log("medications array inside controlelr");
-            console.log(medications);
+            
             temp.push({
                 formId: formId,
                 id: snapshotData.id,

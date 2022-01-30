@@ -736,7 +736,7 @@
                                     </datalist>
 
                                     <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
-                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="6"></textarea>
+                                    <textarea disabled="true" type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="6"></textarea>
                                 </div>
                                 
                             </div>
@@ -3522,6 +3522,7 @@
         });  
 
         $("#assignDiagnosis").change(function(){
+            document.getElementById("treatmentVisit").disabled = false;
             document.getElementById("prescribedBy").disabled = false;
             document.getElementById("medicationVisit").disabled = false;
             document.getElementById("amountMed").disabled = false;
@@ -3542,6 +3543,7 @@
 
             if(!selectedDiagnosisAssign == null || !selectedDiagnosisAssign == "" || !selectedDiagnosisAssign == undefined){
                 document.getElementById("prescribedBy").value=selectedTextDiagnosisAssign;
+                document.getElementById("treatmentVisit").disabled = true;
                 document.getElementById("prescribedBy").disabled = true;
                 document.getElementById("medicationVisit").disabled = true;
                 document.getElementById("amountMed").disabled = true;
@@ -3553,6 +3555,7 @@
                 document.getElementById("addMedication").style.visibility = "hidden";
             }
             else if(length == 0){
+                document.getElementById("treatmentVisit").disabled = false;
                 document.getElementById("prescribedBy").disabled = false;
                 document.getElementById("medicationVisit").disabled = false;
                 document.getElementById("amountMed").disabled = false;
@@ -3792,14 +3795,14 @@
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
 
-            if($('#treatmentVisit').val() == null || $('#treatmentVisit').val() == undefined || $('#treatmentVisit').val() == ""){
-                $("#treatmentVisit").addClass("is-invalid");
-                proceed = false;
-                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
-            }
-            else{
-                $("#treatmentVisit").removeClass("is-invalid");
-            }
+            //if($('#treatmentVisit').val() == null || $('#treatmentVisit').val() == undefined || $('#treatmentVisit').val() == ""){
+            //    $("#treatmentVisit").addClass("is-invalid");
+            //    proceed = false;
+            //    $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            //}
+            //else{
+            //    $("#treatmentVisit").removeClass("is-invalid");
+            //}
 
             var diagnosisSentence =  $('#diagnosisPar').val(); 
             console.log(diagnosisSentence);

@@ -257,14 +257,11 @@ exports.getUser = function(){
     
     if(user !== null){
       var uid = user.uid;
-      console.log("uid in controller");
-      console.log(uid);
       var userRef = database.ref("clinicUsers/"+uid);
       var adminRef = database.ref("adminUsers/"+uid);
       
       await userRef.once('value', async (snapshot) => { 
         if(snapshot.exists()){
-          console.log("user is admin");
           userInfo = ({
             key: snapshot.key,
             firstName: snapshot.child('firstName').val(),
@@ -272,12 +269,8 @@ exports.getUser = function(){
             role: snapshot.child('role').val()
           })
         } else {
-          console.log("pasoks");
           await adminRef.once('value', (adminUser) => {
-            console.log("pasoks1");
             if(adminUser.exists()){
-              console.log("pasoks2");
-              console.log(adminUser.exportVal());
               userInfo = ({
                 key: adminUser.key,
                 firstName: adminUser.child('firstName').val(),
@@ -287,8 +280,6 @@ exports.getUser = function(){
             }
           })
         }  
-        console.log("userInfo");
-        console.log(userInfo);
         resolve(userInfo); 
       })
     }

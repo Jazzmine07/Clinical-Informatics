@@ -539,37 +539,37 @@ exports.editClinicVisit = function(req, res){
                 clinicVisitRef.update(record);
 
                 //-----------NOTIFICATION FOR NURSE---------------
-                // var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
-                // var medicationForm = {
-                //     task: "Clinic Visit",
-                //     description: "Encode Prescription",
-                //     assignedBy: userName,
-                //     dateAssigned: date,
-                //     timestamp: time
-                // }
+                var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
+                var medicationForm = {
+                    task: "Clinic Visit",
+                    description: "Encode Prescription",
+                    assignedBy: userName,
+                    dateAssigned: date,
+                    timestamp: time
+                }
 
-                // var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
-                // var notif = {
-                //     type: "form",
-                //     message: "You have a new assigned task!",
-                //     date: date,
-                //     timestamp: time,
-                //     seen: false
-                // }
+                var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
+                var notif = {
+                    type: "form",
+                    message: "You have a new assigned task!",
+                    date: date,
+                    timestamp: time,
+                    seen: false
+                }
 
-                // assignMedication.set(medicationForm);
-                // userMedicationNotification.set(notif);
+                assignMedication.set(medicationForm);
+                userMedicationNotification.set(notif);
                 
                 // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-                // var formRef = database.ref("assignedForms/"+ userKey);
-                // formRef.once('value', (snapshot) => { 
-                //     snapshot.forEach(function(childSnapshot) {
-                //         if(childSnapshot.key == formId){
-                //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                //             database.ref("notifications/"+ userKey + "/" + formId).remove();
-                //         }
-                //     });
-                // })
+                var formRef = database.ref("assignedForms/"+ userKey);
+                formRef.once('value', (snapshot) => { 
+                    snapshot.forEach(function(childSnapshot) {
+                        if(childSnapshot.key == formId){
+                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                            database.ref("notifications/"+ userKey + "/" + formId).remove();
+                        }
+                    });
+                })
 
                 res.status(200).send();
             }

@@ -722,7 +722,7 @@
         function showDailyVisits(data){
             console.log("VisitCharts")
             //used to check the current month and year to show
-            var curr =  new Date(2022, 1, 1);   // DONT FORGET TO REMOVE THE DATE!!!
+            var curr =  new Date();   // DONT FORGET TO REMOVE THE DATE!!!
             var currMonth = curr.getMonth();
             var currYear = curr.getFullYear();
             var currentMonth = curr.toLocaleString('default', { month: 'long' });  // function to get the month word

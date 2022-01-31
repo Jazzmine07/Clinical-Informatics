@@ -327,8 +327,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Medicine Inventory Discrepancy Report</h1>
                         <div class="d-flex flex-row-reverse">
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-print mr-1 text-white-50"></i> Print</button>
+                            <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                             {{!-- <a data-toggle="modal" style="color: white;" data-target="#modalFI" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-dolly-flatbed mr-1 text-white-50"></i> Forecast Medicine Inventory</a> --}}
                         </div>
@@ -872,6 +871,7 @@
         });
     });
 
+    var stackedBarChart;
     function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels) {
             var gradeData={
                 labels: labels, // x-axis
@@ -972,11 +972,21 @@
             }
 
             var top5MedsGrade = document.getElementById("top5medsByGrade");
-            var stackedBarChart = new Chart(top5MedsGrade, config);
+            stackedBarChart = new Chart(top5MedsGrade, config);
 
         }
 
+        $('#downloadBtn').click(function () {
+            var stackedBarChartImg = stackedBarChart.toBase64Image();
 
+            var a = document.createElement('a');
+            a.href = stackedBarChartImg;
+
+            a.download = 'top-5-medicines-used-by-grade-level.png';
+
+            // Trigger the download
+            a.click();
+        });
 
 
     </script>

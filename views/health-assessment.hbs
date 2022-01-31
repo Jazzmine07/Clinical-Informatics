@@ -311,6 +311,7 @@
 
                             {{!-- <a href="/health-assessment/schedule" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a> --}}
+                            <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download Schedule</button>
                             <div class="dropdown">
                                 <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2 dropdown-toggle" type="button" id="schedHA" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                                 class="fas fa-calendar-alt mr-1 text-white-50"></i> Schedule  </a>
@@ -654,10 +655,10 @@
                                                 <td>{{concat grade}}</td>
                                                 <td>{{section}}</td>
                                                 <td>{{totalNumStudents}}</td>
-                                                <td>{{formatDate apeDate}}</td>                                               
+                                                <td>{{apeDate}}</td>                                               
                                                 <td>{{apeTime}}</td>
                                                 <td>{{apeSeen}}</td> 
-                                                <td>{{formatDate adeDate}}</td>                                               
+                                                <td>{{adeDate}}</td>                                               
                                                 <td>{{adeTime}}</td>
                                                 <td>{{adeSeen}}</td>
                                         {{/each}}
@@ -694,7 +695,7 @@
                                             <td>Nick Dylan Natividad</td>  
                                             <td>Grade 3</td>  
                                             <td>Prayerfulness</td>
-                                            <td>Feb. 3, 2022</td>
+                                            <td>2022-02-03</td>
                                             <td>09:00</td> 
                                             <td>Physical</td>                                            
                                         </tr>  
@@ -703,7 +704,7 @@
                                             <td>John Smith Etrone</td>  
                                             <td>Grade 4</td>  
                                             <td>Purity</td>
-                                            <td>Feb. 5, 2022</td>
+                                            <td>2022-02-05</td>
                                             <td>11:00</td> 
                                             <td>Physical</td>                                            
                                         </tr>  
@@ -712,7 +713,7 @@
                                             <td>Charlie Micah Lambert Togonon</td>  
                                             <td>Grade 1</td>  
                                             <td>Sincerity</td>
-                                            <td>Feb. 8, 2022</td>
+                                            <td>2022-02-08</td>
                                             <td>9:00</td> 
                                             <td>Physical</td>                                            
                                         </tr>                                        
@@ -816,6 +817,48 @@
             } 
         });
         }
+
+        function htmlToCSV(html, filename) {
+            var data = [];
+
+            var rows = $("#HATable tr");
+            //var rows = document.querySelectorAll("table tr");
+                    
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                        
+                for (var j = 0; j < cols.length; j++) {
+                        row.push(cols[j].innerText);
+                }
+                        
+                data.push(row.join(",")); 		
+            }
+
+            downloadCSVFile(data.join("\n"), filename);
+        }
+
+        function downloadCSVFile(csv, filename) {
+            var csv_file, download_link;
+
+            csv_file = new Blob([csv], {type: "text/csv"});
+
+            download_link = document.createElement("a");
+
+            download_link.download = filename;
+
+            download_link.href = window.URL.createObjectURL(csv_file);
+
+            download_link.style.display = "none";
+
+            document.body.appendChild(download_link);
+
+            download_link.click();
+        }
+
+        $('#downloadBtn').click(function(){
+            var html = document.getElementById("HATable").outerHTML;
+            htmlToCSV(html, "health-assessment-schedule-by-section.csv");
+        });
     </script>
      <script type='text/javascript'>
         var table = $('#schedStudTable').DataTable();

@@ -329,8 +329,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Health Assessment Report</h1>
                         <div class="d-flex flex-row-reverse">
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-print mr-1 text-white-50"></i> Print</button>
+                            <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                         </div>
                     </div>
 
@@ -482,9 +481,9 @@
                                                     <td>{{concat grade}}</td>
                                                     <td>{{section}}</td>
                                                     <td>{{totalNumStudents}}</td>
-                                                    <td>{{formatDate apeDate}}</td>                                               
+                                                    <td>{{apeDate}}</td>                                               
                                                     <td>{{apeSeen}}</td> 
-                                                    <td>{{formatDate adeDate}}</td>                                               
+                                                    <td>{{adeDate}}</td>                                               
                                                     <td>{{adeSeen}}</td>
                                             
                                             </tr>
@@ -749,6 +748,49 @@
             } 
         });
         }
+
+        function htmlToCSV(html, filename) {
+            var data = [];
+
+            var rows = $("#HATable tr");
+            //var rows = document.querySelectorAll("table tr");
+                    
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("td, th");
+                        
+                for (var j = 0; j < cols.length; j++) {
+                        row.push(cols[j].innerText);
+                }
+                        
+                data.push(row.join(",")); 		
+            }
+
+            downloadCSVFile(data.join("\n"), filename);
+        }
+
+        function downloadCSVFile(csv, filename) {
+            var csv_file, download_link;
+
+            csv_file = new Blob([csv], {type: "text/csv"});
+
+            download_link = document.createElement("a");
+
+            download_link.download = filename;
+
+            download_link.href = window.URL.createObjectURL(csv_file);
+
+            download_link.style.display = "none";
+
+            document.body.appendChild(download_link);
+
+            download_link.click();
+        }
+
+        $('#downloadBtn').click(function(){
+            var html = document.getElementById("HATable").outerHTML;
+            htmlToCSV(html, "Accomplished-APE-and-ADE-by-Section.csv");
+        });
+
     </script>
      <script type='text/javascript'>
         $(document).ready(function() {

@@ -336,8 +336,7 @@
                             </div>
                         {{/if}}
                         <div class="d-flex flex-row-reverse">
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-print mr-1 text-white-50"></i> Print</button>
+                            <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                         </div>
                     </div>
 
@@ -1155,6 +1154,33 @@
                 clinicVisitsChart = new Chart(visitsChart, config);
             }
 
+            $('#downloadBtn').click(function () {
+            var clinicVisitsBarChartImg = clinicVisitsBarChart.toBase64Image();
+            var incidenceCountBarChartImg = incidenceCountBarChart.toBase64Image();
+            var incidenceCountPieChartImg = incidenceCountPieChart.toBase64Image();
+            var clinicVisitsChartImg = clinicVisitsChart.toBase64Image();
+
+            var a = document.createElement('a');
+            var b = document.createElement('a');
+            var c = document.createElement('a');
+            var d = document.createElement('a');
+
+            a.href = clinicVisitsBarChartImg;
+            b.href = incidenceCountBarChartImg;
+            c.href = incidenceCountPieChartImg;
+            d.href = clinicVisitsChartImg;
+
+            a.download = 'clinic-visits-bar-chart.png';
+            b.download = 'incidence-count-bar-chart.png';
+            c.download = 'incidence-count-pie-chart.png';
+            d.download = 'clinic-visits-trend.png';
+
+            // Trigger the download
+            a.click();
+            b.click();
+            c.click();
+            d.click();
+        }); 
 
         });
     </script>

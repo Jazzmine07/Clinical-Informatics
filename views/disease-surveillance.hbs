@@ -309,8 +309,7 @@
                                 <strong class="mx-1">Error!</strong> {{error_msg}}
                             </div>
                         {{/if}}
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-print fa-sm text-white-50"></i> Print</a>
+                        <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                     </div>
                     <div class="row">
                         <div class="col-4 mb-4 d-flex justify-content-center">
@@ -721,7 +720,7 @@
                 console.log(data);
 
                 if(checker1){
-                    gradeLevelChart.destroy();
+                    gradeLevelChart.destroy();  
                     gradeLevelPieChart.destroy();
                 }
 
@@ -2128,10 +2127,7 @@
             var diseaseTrend = document.getElementById("diseaseTrendChart");
             diseaseTrendChart = new Chart(diseaseTrend, config); 
             var concernTrend = document.getElementById("concernTrendChart");
-            concernTrendChart = new Chart(concernTrend, config2); 
-
-
-            
+            concernTrendChart = new Chart(concernTrend, config2);             
         }
         
 
@@ -2147,6 +2143,44 @@
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
         }, cb);
+
+        $('#downloadBtn').click(function () {
+            var gradeLevelChartImg = gradeLevelChart.toBase64Image();
+            var gradeLevelPieChartImg = gradeLevelPieChart.toBase64Image();
+            var symptomChartImg = symptomChart.toBase64Image();
+            var symptomPieChartImg = symptomPieChart.toBase64Image();
+            var diseaseTrendChartImg = diseaseTrendChart.toBase64Image();
+            var concernTrendChartImg = concernTrendChart.toBase64Image();
+
+            var a = document.createElement('a');
+            var b = document.createElement('a');
+            var c = document.createElement('a');
+            var d = document.createElement('a');
+            var e = document.createElement('a');
+            var f = document.createElement('a');
+
+            a.href = gradeLevelChartImg;
+            b.href = gradeLevelPieChartImg;
+            c.href = symptomChartImg;
+            d.href = symptomPieChartImg;
+            e.href = diseaseTrendChartImg;
+            f.href = concernTrendChartImg;
+
+            a.download = 'disease-count-by-grade-level.png';
+            b.download = 'disease-count-pie-chart.png';
+            c.download = 'complaints-count-by-grade-level.png';
+            d.download = 'complaints-count-pie-chart.png';
+            e.download = 'disease-trend.png';
+            f.download = 'complaints-trend.png';
+
+            // Trigger the download
+            a.click();
+            b.click();
+            c.click();
+            d.click();
+            e.click();
+            f.click();
+        });  
 
 
     

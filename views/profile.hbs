@@ -3602,13 +3602,15 @@
                     document.getElementById("age").innerHTML=data.age;
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("BMIText").innerHTML=data.bmi;
-
+                    
                     if(data.bmiStatus == "Normal"){
+                        document.getElementById("BMIStatusRed").style.display = "none";
                         document.getElementById("BMIStatus").style.display = "none";
                         document.getElementById("BMIStatus").innerHTML=data.bmiStatus;
                         document.getElementById("BMIStatus").style.display = "inline-block";
                     }
                     else{
+                        document.getElementById("BMIStatus").style.display = "none";
                         document.getElementById("BMIStatusRed").style.display = "none";
                         document.getElementById("BMIStatusRed").innerHTML=data.bmiStatus;
                         document.getElementById("BMIStatusRed").style.display = "inline-block";
@@ -3617,12 +3619,14 @@
                     document.getElementById("weightText").innerHTML=data.weight + "kg";
 
                     if(data.weightStatus == "Normal"){
-                        document.getElementById("weightStatus").style.display = "none"
+                        document.getElementById("weightStatus").style.display = "none";
+                        document.getElementById("weightStatusRed").style.display = "none";
                         document.getElementById("weightStatus").innerHTML=data.weightStatus;
                         document.getElementById("weightStatus").style.display = "inline-block";
                     }
                     else{
-                        document.getElementById("weightStatusRed").style.display = "none"
+                        document.getElementById("weightStatus").style.display = "none";
+                        document.getElementById("weightStatusRed").style.display = "none";
                         document.getElementById("weightStatusRed").innerHTML=data.weightStatus;
                         document.getElementById("weightStatusRed").style.display = "inline-block";
                     }
@@ -3630,12 +3634,14 @@
                     document.getElementById("heightText").innerHTML=data.height + "cm";
                     
                     if(data.heightStatus == "Normal"){
+                        document.getElementById("heightStatusRed").style.display = "none";
                         document.getElementById("heightStatus").style.display = "none";
                         document.getElementById("heightStatus").innerHTML=data.heightStatus;                        
                         document.getElementById("heightStatus").style.display = "inline-block";
                     }
                     else{
-                        document.getElementById("heightStatusRed").style.display = "none"
+                        document.getElementById("heightStatusRed").style.display = "none";
+                        document.getElementById("heightStatus").style.display = "none";
                         document.getElementById("heightStatusRed").innerHTML=data.heightStatus;
                         document.getElementById("heightStatusRed").style.display = "inline-block";
                     }

@@ -964,6 +964,10 @@ exports.getClinicVisits = function(){
     var temp = [], visits =[];
     var childSnapshotData;
 
+    var currDate =  new Date();
+    var today = new Date();
+    var weekAgo=new Date(today.setDate(today.getDate() - 7));
+
     var date = new Date();
     var month = date.getMonth()+1;
     var currYear = date.getFullYear();
@@ -985,17 +989,29 @@ exports.getClinicVisits = function(){
                 query.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                        visitDates.push(new Date(childSnapshotData.visitDate));
-                        temp.push({
-                            formId: innerChildSnapshot.key,
-                            id: childSnapshotData.id,
-                            studentName: childSnapshotData.studentName,
-                            complaint: childSnapshotData.visitReason,
-                            timeIn: childSnapshotData.timeIn,
-                            timeOut: childSnapshotData.timeOut,
-                            status: childSnapshotData.status,
-                            visitDate: childSnapshotData.visitDate
-                        })         
+                        var dataSplit=[]
+                        dataSplit=childSnapshotData.visitDate.split("-");
+                        if(dataSplit[1][0]==0){
+                            dataSplit[1]=dataSplit[1][1];
+                        }
+                        if(dataSplit[2][0]==0){
+                            dataSplit[2]=parseInt(dataSplit[2][1])+1
+                        }
+                        var dataDate = new Date(dataSplit[0], dataSplit[1]-1, dataSplit[2]);
+                        
+                        if(dataDate<=currDate && dataDate>=weekAgo){
+                            visitDates.push(new Date(childSnapshotData.visitDate));
+                            temp.push({
+                                formId: innerChildSnapshot.key,
+                                id: childSnapshotData.id,
+                                studentName: childSnapshotData.studentName,
+                                complaint: childSnapshotData.visitReason,
+                                timeIn: childSnapshotData.timeIn,
+                                timeOut: childSnapshotData.timeOut,
+                                status: childSnapshotData.status,
+                                visitDate: childSnapshotData.visitDate
+                            })
+                        }         
                     })
 
                     for(var i = 0; i < visitDates.length; i++){

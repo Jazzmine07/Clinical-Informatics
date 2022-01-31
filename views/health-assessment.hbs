@@ -891,11 +891,11 @@
             var time = $('#HATime').val();
             var exam = $('#examType').find(":selected").val();
             
-            let date = new Date(schedHA);
-            var month = date.toLocaleString('default', { month: 'short' });
-            var sched = month + '. ' + date.getDate() + ', ' + date.getFullYear();
+            //let date = new Date(schedHA);
+            //var month = date.toLocaleString('default', { month: 'short' });
+            //var sched = month + '. ' + date.getDate() + ', ' + date.getFullYear();
 
-            table.row.add([id, name, grade, section, sched, time, exam]);
+            table.row.add([id, name, grade, section, schedHA, time, exam]);
             table.draw();
         });
 

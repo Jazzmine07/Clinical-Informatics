@@ -438,7 +438,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
     var checkVisitReason=[];
     var childSnapshotData;
     var i,j,k,alreadyAddedTemp3;
-    var today= new Date(2022, 1, 1);    // DONT FORGET TO REMOVE THE DATE!!
+    var today= new Date();    // DONT FORGET TO REMOVE THE DATE!!
     var curr=today.toString();
     var monthToday = today.getMonth();
     var yearToday = today.getFullYear();

@@ -732,7 +732,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="printForecast">
                                         <thead>
                                             <tr style="text-align: center;">
                                                 <th class="bg-primary" style="color: white;">Item Name</th>
@@ -760,7 +760,7 @@
                                     </table>                                     
                                     <div class="modal-footer">
                                         <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
-                                        <button type="submit" id="searchDEBtn" class="btn btn-success" data-dismiss="modal">Download</a>
+                                        <button type="button" id="forecastBtn" class="btn btn-success">Download</a>
                                     </div>
                                 </div>
                             </div>
@@ -878,6 +878,53 @@
     <script src="https://cdn.datatables.net/rowgroup/1.1.4/js/dataTables.rowGroup.min.js"></script>
 
     <script>
+    function htmlToCSV(html, filename) {
+        var data = [];
+
+        var rows = $("#printForecast tr");
+        //var rows = document.querySelectorAll("table tr");
+                
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+                    
+            for (var j = 0; j < cols.length; j++) {
+                    row.push(cols[j].innerText);
+            }
+                    
+            data.push(row.join(",")); 		
+        }
+
+        downloadCSVFile(data.join("\n"), filename);
+    }
+
+    function downloadCSVFile(csv, filename) {
+        var csv_file, download_link;
+
+        csv_file = new Blob([csv], {type: "text/csv"});
+
+        download_link = document.createElement("a");
+
+        download_link.download = filename;
+
+        download_link.href = window.URL.createObjectURL(csv_file);
+
+        download_link.style.display = "none";
+
+        document.body.appendChild(download_link);
+
+        download_link.click();
+    }
+
+    $('#forecastBtn').click(function(){
+        var html = document.getElementById("printForecast").outerHTML;
+        htmlToCSV(html, "forecast.csv");
+    });
+
+    //document.getElementById("download-button").addEventListener("click", function () {
+    //    var html = document.querySelector("printForecast").outerHTML;
+    //    htmlToCSV(html, "forecast.csv");
+    //});
+
     $(document).ready(function(){
         const now = new Date();
         var year = now.getFullYear();

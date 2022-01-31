@@ -1098,11 +1098,15 @@
                         document.getElementById("pulseRate").value=data.currPr
                         document.getElementById("respRate").value=data.currRr;
                         document.getElementById("skinFind").value=data.currSf;
-                        document.getElementById("weight").value=data.currWeight;
-                        $('#weight').trigger("change");
+                        if(data.currWeight != ""){
+                            document.getElementById("weight").value=data.currWeight;
+                            $('#weight').trigger("change");
+                        }
 
-                        document.getElementById("height").value=data.currHeight;
-                        $('#height').trigger("change");
+                        if(data.currHeight != ""){
+                            document.getElementById("height").value=data.currHeight;
+                            $('#height').trigger("change");
+                        }
 
                         document.getElementById("bmi").value=data.currBmi;
                         document.getElementById("odVision").value=data.currOdVision;

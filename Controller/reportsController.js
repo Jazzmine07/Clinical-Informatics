@@ -61,12 +61,46 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         medications = medications.exportVal();
                         console.log("medications in controller");
                         console.log(medications);
-                        if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0]) && (dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1]) && (day>=startDay && day<=endDay) ){
+
+
+                        console.log("DATES")
+                        console.log(dataDateSplit[0]);
+                        console.log(startDate[0]);
+                        console.log(endDate[0]);
+                        console.log(dataDateSplit[1]);
+                        console.log(startDate[1]);
+                        console.log(endDate[1]);
+                        console.log(day);
+                        console.log(startDay);
+                        console.log(endDay);
+
+                        if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0])){
+                            console.log("STUPID");;
                             temp.push({ // getting all the medications regardless of grade level
                                 medicineName: medications.medicineName,
                                 grade:innerChildSnapshot.child("grade").exportVal(),
                                 visitDate:innerChildSnapshot.child("visitDate").exportVal(),
                             })
+                        }
+                        else{
+                            if((dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1])){
+                                console.log("STUPID");;
+                                temp.push({ // getting all the medications regardless of grade level
+                                    medicineName: medications.medicineName,
+                                    grade:innerChildSnapshot.child("grade").exportVal(),
+                                    visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                })
+                            }
+                            else{
+                                if((day>=startDay && day<=endDay) ){
+                                    console.log("STUPID");;
+                                    temp.push({ // getting all the medications regardless of grade level
+                                        medicineName: medications.medicineName,
+                                        grade:innerChildSnapshot.child("grade").exportVal(),
+                                        visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                    })
+                                }
+                            }
                         }
 
                     })

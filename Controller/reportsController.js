@@ -44,10 +44,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                     innerChildSnapshot.child('medications').forEach(function(medications){
                         var date = innerChildSnapshot.child("visitDate").exportVal();
                         
-                        console.log("DATA DATE 2:")
-                        console.log(date);
                         dataDateSplit= date.split("-");
-                        console.log(dataDateSplit);
                         var day="";
                         if(dataDateSplit[2][0]==0){
                             day=dataDateSplit[2][1];
@@ -55,27 +52,11 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         else{
                             day=dataDateSplit[2];
                         }
-                        console.log("Day");
-                        console.log(day)
 
                         medications = medications.exportVal();
-                        console.log("medications in controller");
-                        console.log(medications);
-
-
-                        console.log("DATES")
-                        console.log(dataDateSplit[0]);
-                        console.log(startDate[0]);
-                        console.log(endDate[0]);
-                        console.log(dataDateSplit[1]);
-                        console.log(startDate[1]);
-                        console.log(endDate[1]);
-                        console.log(day);
-                        console.log(startDay);
-                        console.log(endDay);
+                        
 
                         if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0])){
-                            console.log("STUPID");;
                             temp.push({ // getting all the medications regardless of grade level
                                 medicineName: medications.medicineName,
                                 grade:innerChildSnapshot.child("grade").exportVal(),
@@ -84,7 +65,6 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         }
                         else{
                             if((dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1])){
-                                console.log("STUPID");;
                                 temp.push({ // getting all the medications regardless of grade level
                                     medicineName: medications.medicineName,
                                     grade:innerChildSnapshot.child("grade").exportVal(),
@@ -93,7 +73,6 @@ exports.getTop5MedsUsedMonth = function(req, res){
                             }
                             else{
                                 if((day>=startDay && day<=endDay) ){
-                                    console.log("STUPID");;
                                     temp.push({ // getting all the medications regardless of grade level
                                         medicineName: medications.medicineName,
                                         grade:innerChildSnapshot.child("grade").exportVal(),
@@ -106,9 +85,6 @@ exports.getTop5MedsUsedMonth = function(req, res){
                     })
                     
                 })
-
-                console.log("temp medications");
-                console.log(temp);
 
                 temp.forEach(medicine => {
                     var found = false;

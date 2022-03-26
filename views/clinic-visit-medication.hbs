@@ -481,10 +481,10 @@
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="clinicDate" class="col-form-label">Visit Date</label>
-                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
+                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" disabled="true">
                             </div>
                             <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse<label style="color:red">*</label></label>
                                 <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
                                     <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
@@ -493,30 +493,30 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <label for="clinicIn" class="col-form-label">Time In<label style="color:red">*</label></label>
                                 <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
                             </div>
                             <div class="col-2">
-                                <label for="clinicOut" class="col-form-label">Time Out</label>
+                                <label for="clinicOut" class="col-form-label">Time Out<label style="color:red">*</label></label>
                                 <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                             </div>   
                         </div>
 
                         <div class="form-row align-items-center">
                             <div class="col-4">
-                                <label class="col-form-label" for="studentID">Student ID Number</label>
+                                <label class="col-form-label" for="studentID">Student ID Number<label style="color:red">*</label></label>
                                 <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                             </div>
                             <div class="col-5">
                                 <label class="col-form-label" for="studentName">Student Name</label>
-                                <input type="text" class="form-control mb-2" id="studentName">
+                                <input type="text" class="form-control mb-2" id="studentName" disabled="true">
                             </div>
                         </div>
 
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="studentGrd" class="col-form-label">Grade</label>
-                                <select class="custom-select mb-2" id="studentGrade">
+                                <select class="custom-select mb-2" id="studentGrade" disabled="true">
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
@@ -527,7 +527,7 @@
                             </div>
                             <div class="col-5">
                                 <label for="studentSec" class="col-form-label">Section</label>
-                                <input type="text" class="form-control mb-2" id="studentSection">
+                                <input type="text" class="form-control mb-2" id="studentSection" disabled="true">
                             </div>
                         </div>
 
@@ -542,7 +542,7 @@
                             <div class="col-md-8">                                
                                 <div class="row">
                                     <div class="col-6">
-                                        <label class="col-form-label" for="medicationVisit">Medication</label>
+                                        <label class="col-form-label" for="medicationVisit">Medication<label style="color:red">*</label></label>
                                         <input list="medications" class="form-control mb-2" id="medicationVisit" onchange="selectChanged(this)">                                       
                                         <datalist id="medications">
                                             {{#each medicines}}
@@ -551,7 +551,7 @@
                                         </datalist>                                                                  
                                     </div>
                                     <div class="col-5">
-                                        <label class="col-form-label" for="amountMed">Dose</label>
+                                        <label class="col-form-label" for="amountMed">Dose<label style="color:red">*</label></label>
                                         <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
                                     </div>
                                 </div>
@@ -567,7 +567,7 @@
                                 </div>
                                 <div class="row">
                                     <div id="takenDiv" class="col-3 align-items-center">
-                                        <label class="col-form-label" for="timeTaken">Time</label>
+                                        <label class="col-form-label" for="timeTaken">Time<label style="color:red">*</label></label>
                                         <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
                                     </div>
                                 </div>
@@ -689,6 +689,22 @@
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
     </script>
     <script>
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        var today = formatDate();
+        $('#visitDate').val(today);
 
         function getAge(dateString) {
             var today = new Date();

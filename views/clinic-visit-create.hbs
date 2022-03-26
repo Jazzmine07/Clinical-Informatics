@@ -3576,7 +3576,7 @@
                                 <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" disabled="true">
                             </div>
                             <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse<label style="color:red">*</label></label>
                                 <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
                                     <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
@@ -3585,7 +3585,7 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <label for="clinicIn" class="col-form-label">Time In<label style="color:red">*</label></label>
                                 <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
                             </div>
                             <div class="col-2">
@@ -3593,7 +3593,7 @@
                                 <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                             </div>  
                             <div class="col-3">
-                                <label for="clinicType" class="col-form-label">Clinic Visit Type</label>
+                                <label for="clinicType" class="col-form-label">Clinic Visit Type<label style="color:red">*</label></label>
                                 <select class="custom-select mb-2" id="clinicType" name="clinicType">
                                     <option value="Consultation">Consultation</option>
                                     <option value="Emergency">Emergency</option>
@@ -3605,7 +3605,7 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-4">
-                                <label class="col-form-label" for="studentID">Student ID Number</label>
+                                <label class="col-form-label" for="studentID">Student ID Number<label style="color:red">*</label></label>
                                 <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                             </div>
                             <div class="col-5">
@@ -3740,7 +3740,7 @@
                     
                             <div class="form-row align-items-center">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit<label style="color:red">*</label></label>
                                     {{!-- <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea> --}}
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="complaintVisit" name="complaintVisit">
                                         {{#each complaints}}
@@ -3752,7 +3752,7 @@
                        
                             <div class="form-row align-items-center mt-2">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="impression">Working Impression</label>
+                                    <label class="col-form-label" for="impression">Working Impression<label style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
                                 </div>
                                 <div class="col-6">

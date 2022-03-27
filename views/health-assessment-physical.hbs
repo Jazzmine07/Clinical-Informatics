@@ -466,11 +466,11 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                       <label class="col-form-label" for="studentID">Student ID Number</label>
-                                      <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                                      <input type="text" class="form-control mb-2" id="studentID" name="studentId" disabled="true">
                                     </div>
                                     <div class="col-5">
                                         <label class="col-form-label" for="studentName">Student Name</label>
-                                        <input type="text" class="form-control mb-2" id="studentName" name="studentName">
+                                        <input type="text" class="form-control mb-2" id="studentName" name="studentName" disabled="true">
                                     </div>
                                 </div>
 
@@ -489,32 +489,32 @@
                                     </div>
                                     <div class="col-5">
                                         <label for="studentSection" class="col-form-label">Section</label>
-                                        <input type="text" class="form-control mb-2" id="studentSection">
+                                        <input type="text" class="form-control mb-2" id="studentSection" disabled="true">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <label for="dob" class="col-form-label">Date of Birth</label>
-                                        <input type="date" class="form-control mb-2" id="dob">
+                                        <input type="date" class="form-control mb-2" id="dob" disabled="true">
                                     </div>
                                     <div class="col-3">
                                         <label for="gender" class="col-form-label">Gender</label>
-                                        <input type="name" class="form-control mb-2" id="gender">
+                                        <input type="name" class="form-control mb-2" id="gender" disabled="true">
                                     </div>
                                     <div class="col-2">
                                         <label for="age" class="col-form-label">Age</label>
-                                        <input type="number" class="form-control mb-2" id="age">
+                                        <input type="number" class="form-control mb-2" id="age" disabled="true">
                                     </div>
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
                                         <label for="dope" class="col-form-label">Date of Examination</label>
-                                        <input type="date" class="form-control mb-2" id="dope">
+                                        <input type="date" class="form-control mb-2" id="dope" disabled="true">
                                     </div>
                                     <div class="col-5">
-                                      <label class="col-form-label" for="clinicianAPE">Examining Physician</label>
+                                      <label class="col-form-label" for="clinicianAPE">Examining Physician</label><label style="color:red">*</label>
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
                                             <option selected>Choose...</option>
                                             {{#each clinician}}
@@ -526,7 +526,7 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-2">
-                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label>
+                                        <label for="bodyTemp" class="col-form-label">Body Temperature</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                        
                                             <input type="number" class="form-control" id="bodyTemp" name="bodyTemp" min="0" step="0.1">                                        
                                             <div class="input-group-append">
@@ -535,7 +535,7 @@
                                         </div>
                                     </div>
                                     <div class="col-3">
-                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label>
+                                        <label for="bloodPressure" class="col-form-label">Blood Pressure</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                               
                                             <input type="number" class="form-control" id="systolic" placeholder="Systolic" min="0">
                                             <input type="number" class="form-control" id="diastolic" placeholder="Diastolic" min="0">         
@@ -545,7 +545,7 @@
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label>
+                                        <label for="pulseRate" class="col-form-label">Pulse Rate</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                        
                                             
                                         <input type="number" class="form-control" id="pulseRate" name="pulseRate" min="0">
@@ -555,7 +555,7 @@
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <label for="respRate" class="col-form-label">Respiration Rate</label>
+                                        <label for="respRate" class="col-form-label">Respiration Rate</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                        
                                             
                                         <input type="number" class="form-control" id="respRate" name="respRate">
@@ -594,14 +594,14 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
-                                        <label for="skinFind" class="col-form-label">Skin Findings</label>
+                                        <label for="skinFind" class="col-form-label">Skin Findings</label><label style="color:red">*</label>
                                         <input type="name" class="form-control mb-2" id="skinFind" name="skinFind">
                                     </div>
                                 </div>
                                 
                                 <div class="form-row align-items-center">
                                     <div class="col-2">
-                                        <label for="Weight" class="col-form-label">Weight</label>
+                                        <label for="Weight" class="col-form-label">Weight</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="weight" step="0.1">
                                             <div class="input-group-append">
@@ -611,7 +611,7 @@
                                     </div>
                                 
                                     <div class="col-2">
-                                        <label for="height" class="col-form-label">Height</label>
+                                        <label for="height" class="col-form-label">Height</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                           
                                         <input type="number" class="form-control" id="height" step="0.1">
                                             <div class="input-group-append">
@@ -621,9 +621,9 @@
                                     </div>
                                     
                                     <div class="col-3">
-                                        <label for="bmi" class="col-form-label">BMI</label>
+                                        <label for="bmi" class="col-form-label">BMI</label><label style="color:red">*</label>
                                         <div class="input-group mb-2">                                           
-                                        <input type="number" class="form-control" id="bmi" step="0.01">
+                                        <input type="number" class="form-control" id="bmi" step="0.01" disabled="true">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="bmiStatus">-</span>
                                             </div>
@@ -649,7 +649,7 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-2">
-                                        <label for="odVision" class="ml-1 col-form-label">Vision</label>
+                                        <label for="odVision" class="ml-1 col-form-label">Vision</label><label style="color:red">*</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">od</span>
@@ -755,14 +755,14 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
-                                        <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label>
+                                        <label class="col-form-label" for="complaintAPE">Problems/Complaints/Abnormal Findings</label><label style="color:red">*</label>
                                         <textarea type="text" class="form-control mb-2" id="complaintAPE" name ="complaintAPE" rows="4"></textarea>
                                     </div>    
                                 </div>
 
                                 <div class="form-row align-items-center">
                                     <div class="col-12">
-                                        <label class="col-form-label" for="assessPE">Assessment/Recommendation</label>
+                                        <label class="col-form-label" for="assessPE">Assessment/Recommendation</label><label style="color:red">*</label>
                                         <textarea type="text" class="form-control mb-2" id="assessAPE" name="assessAPE" rows="4"></textarea>
                                     </div>    
                                 </div>
@@ -997,27 +997,7 @@
             document.getElementById("schoolYear").innerHTML = schoolYear;
             document.getElementById("sectionTop").innerHTML = sec;
             document.getElementById("studentID").innerHTML=id;
-            document.getElementById("studentSection").value=sec;
-            
-            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
-                $('#studentGrade').val("1");
-            }
-            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
-                $('#studentGrade').val("2");
-            }
-            else if(document.getElementById("studentSection").value=="Respect"||document.getElementById("studentSection").value=="Courtesy"||document.getElementById("studentSection").value=="Trust"||document.getElementById("studentSection").value=="Kindness"||document.getElementById("studentSection").value=="Piety"||document.getElementById("studentSection").value=="Prayerfulness"){
-                $('#studentGrade').val("3");
-            }
-            else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
-                $('#studentGrade').val("4");
-            }         
-            else if(document.getElementById("studentSection").value=="Trustworthiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
-                $('#studentGrade').val("5");
-            }
-            else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
-                $('#studentGrade').val("6");
-            }
-            
+            document.getElementById("studentSection").value=sec;            
 
             $('#studentID').val(array[i]);
 
@@ -1061,8 +1041,54 @@
                         document.getElementById("studentName").value=data.name;                            
                         document.getElementById("dob").value=data.bday;
                         document.getElementById("gender").value=data.sex;
+
+
+                        //checks if no section
+                        if(document.getElementById("studentSection").value==""){
+                           document.getElementById("studentSection").value=data.section;
+
+                            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
+                                $('#studentGrade').val("1");
+                            }
+                            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
+                                $('#studentGrade').val("2");
+                            }
+                            else if(document.getElementById("studentSection").value=="Respect"||document.getElementById("studentSection").value=="Courtesy"||document.getElementById("studentSection").value=="Trust"||document.getElementById("studentSection").value=="Kindness"||document.getElementById("studentSection").value=="Piety"||document.getElementById("studentSection").value=="Prayerfulness"){
+                                $('#studentGrade').val("3");
+                            }
+                            else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
+                                $('#studentGrade').val("4");
+                            }         
+                            else if(document.getElementById("studentSection").value=="Trustworthiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
+                                $('#studentGrade').val("5");
+                            }
+                            else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
+                                $('#studentGrade').val("6");
+                            }
+
+                           
+                        }
                     }  
             });
+
+            if(document.getElementById("studentSection").value=="Truthfulness"||document.getElementById("studentSection").value=="Sincerity"||document.getElementById("studentSection").value=="Honesty"||document.getElementById("studentSection").value=="Faithfulness"||document.getElementById("studentSection").value=="Humility"||document.getElementById("studentSection").value=="Politeness"){
+                $('#studentGrade').val("1");
+            }
+            else if(document.getElementById("studentSection").value=="Simplicity"||document.getElementById("studentSection").value=="Charity"||document.getElementById("studentSection").value=="Helpfulness"||document.getElementById("studentSection").value=="Gratitude"||document.getElementById("studentSection").value=="Meekness"){
+                $('#studentGrade').val("2");
+            }
+            else if(document.getElementById("studentSection").value=="Respect"||document.getElementById("studentSection").value=="Courtesy"||document.getElementById("studentSection").value=="Trust"||document.getElementById("studentSection").value=="Kindness"||document.getElementById("studentSection").value=="Piety"||document.getElementById("studentSection").value=="Prayerfulness"){
+                $('#studentGrade').val("3");
+            }
+            else if(document.getElementById("studentSection").value=="Unity"||document.getElementById("studentSection").value=="Purity"||document.getElementById("studentSection").value=="Fidelity"||document.getElementById("studentSection").value=="Equality"||document.getElementById("studentSection").value=="Harmony"||document.getElementById("studentSection").value=="Solidarity"){
+                $('#studentGrade').val("4");
+            }         
+            else if(document.getElementById("studentSection").value=="Trustworthiness"||document.getElementById("studentSection").value=="Reliability"||document.getElementById("studentSection").value=="Dependability"||document.getElementById("studentSection").value=="Responsibility"||document.getElementById("studentSection").value=="Serenity"||document.getElementById("studentSection").value=="Flexibility"){
+                $('#studentGrade').val("5");
+            }
+            else if(document.getElementById("studentSection").value=="Self-Discipline"||document.getElementById("studentSection").value=="Self-Giving"||document.getElementById("studentSection").value=="Abnegation"||document.getElementById("studentSection").value=="Integrity"||document.getElementById("studentSection").value=="Perseverance"||document.getElementById("studentSection").value=="Patience"){
+                $('#studentGrade').val("6");
+            }
 
             $.ajax({
                     url: '/loadPrevDataAPE',

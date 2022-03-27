@@ -1326,7 +1326,7 @@ exports.loadPrevDataADE=function(req,res){
 
 //This function is used to load the data of the students
 exports.loadStudentData= function (req,res){
-    var name,bday,sex,record;
+    var name,bday,sex,record,section;
     var id = req.body.id;
     var database = firebase.database();
     var studentInfoRef= database.ref("studentInfo/"+id);
@@ -1343,10 +1343,12 @@ exports.loadStudentData= function (req,res){
             name=childValues.firstName +" "+ childValues.lastName;
             bday=childValues.birthday;
             sex=childValues.sex;
+            section=childValues.section;
             record={
                 name:name,
                 bday:bday,
-                sex:sex
+                sex:sex,
+                section:section
             }
             console.log(record);
             res.send(record);  

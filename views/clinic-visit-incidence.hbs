@@ -451,10 +451,10 @@
                             <div class="form-row align-items-center">
                                 <div class="col-3">
                                     <label for="incidentDate" class="col-form-label">Date of Incident</label>
-                                    <input type="date" class="form-control mb-2" id="incidentDate" name="incidentDate">
+                                    <input type="date" class="form-control mb-2" id="incidentDate" name="incidentDate" disabled="true">
                                 </div>
                                 <div class="col-2">
-                                    <label for="incidentTime" class="col-form-label">Time of Incident</label>
+                                    <label for="incidentTime" class="col-form-label">Time of Incident<label style="color:red">*</label></label>
                                     <input type="time" class="form-control mb-2" id="incidentTime" name="incidentTime">
                                 </div>
                                                                 
@@ -462,7 +462,7 @@
 
                             <div class="form-row align-items-center">
                                 <div class="col-5">
-                                    <label class="col-form-label" for="reportBy">Report by</label>
+                                    <label class="col-form-label" for="reportBy">Report by<label style="color:red">*</label></label>
                                     <select class="custom-select mb-2" id="reportBy" name="reportBy">
                                         <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
                                     </select>  
@@ -476,19 +476,19 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                    <label class="col-form-label" for="studentID">Student ID Number<label style="color:red">*</label></label>
                                     <input type="text" class="form-control mb-2" id="studentID" name="studentId">
                                 </div>
                                 <div class="col-5">
                                     <label class="col-form-label" for="studentName">Student Name</label>
-                                    <input type="text" class="form-control mb-2" id="studentName">
+                                    <input type="text" class="form-control mb-2" id="studentName" disabled="true">
                                 </div>
                             </div>
 
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <select class="custom-select mb-2" id="studentGrade">
+                                    <select class="custom-select mb-2" id="studentGrade" disabled="true"> 
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -499,7 +499,7 @@
                                 </div>
                                 <div class="col-5">
                                     <label for="studentSec" class="col-form-label">Section</label>
-                                    <input type="text" class="form-control mb-2" id="studentSection">
+                                    <input type="text" class="form-control mb-2" id="studentSection" disabled="true">
                                 </div>
                             </div>
                         </div>
@@ -559,12 +559,6 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="noStock">
-                                        <label class="form-check-label" for="noStock">
-                                            Inadequate stock
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="expiredStock">
                                         <label class="form-check-label" for="expiredStock">
                                             Expired stock
@@ -574,7 +568,7 @@
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="description">Description of the Incident</label>
+                                    <label class="col-form-label" for="description">Description of the Incident<label style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="description" name ="description" rows="6"></textarea>                   
                                 </div>
                             </div>
@@ -584,7 +578,7 @@
                                     <textarea type="text" class="form-control mb-2" id="consequences" name ="consequences" rows="6"></textarea>
                                 </div>
                                 <div class="col-6">
-                                    <label class="col-form-label" for="action">Action Taken/Intervention</label>
+                                    <label class="col-form-label" for="action">Action Taken/Intervention<label style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="action" name ="action" rows="6"></textarea>
                                 </div>
                             </div>
@@ -684,6 +678,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script type='text/javascript'>
+        function formatDate() {
+            var d = new Date(),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) 
+                month = '0' + month;
+            if (day.length < 2) 
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        var today = formatDate();
+        $('#incidentDate').val(today);
+
     $(document).ready(function() {
         $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
 

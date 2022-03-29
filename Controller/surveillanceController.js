@@ -497,8 +497,7 @@ exports.getVRCountByGradeInMonth=function(req,res){
             //to sort in descending order
             getTop10Temp=getTop10Temp.sort(function (x, y) {
                 return y.count- x.count;
-            });
-            
+            });            
 
             //to get only the top 10 
             if(getTop10Temp.length <= 10){
@@ -512,6 +511,9 @@ exports.getVRCountByGradeInMonth=function(req,res){
                     })
                 }
             }
+
+            console.log("Sorted top 10")
+            console.log(getTop10Temp);
             
             //temp where data is filtered by date and gets the count of each disease
             for(i=0;i<temp.length;i++){
@@ -531,7 +533,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:0,
                                                 g4:0,
                                                 g5:0,
-                                                g6:0
+                                                g6:0, 
+                                                total:1
                                             })
                                         }
                                         else if(temp[i].grade=="2"){
@@ -542,7 +545,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:0,
                                                 g4:0,
                                                 g5:0,
-                                                g6:0
+                                                g6:0, 
+                                                total:1
                                             })
                                         } 
                                         else if(temp[i].grade=="3"){
@@ -553,7 +557,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:1,
                                                 g4:0,
                                                 g5:0,
-                                                g6:0
+                                                g6:0, 
+                                                total:1
                                             })
                                         }
                                         else if(temp[i].grade=="4"){
@@ -564,7 +569,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:0,
                                                 g4:1,
                                                 g5:0,
-                                                g6:0
+                                                g6:0, 
+                                                total:1
                                             })
                                         }
                                         else if(temp[i].grade=="5"){
@@ -575,7 +581,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:0,
                                                 g4:0,
                                                 g5:1,
-                                                g6:0
+                                                g6:0, 
+                                                total:1
                                             })
                                         }
                                         else if(temp[i].grade=="6"){
@@ -586,7 +593,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                 g3:0,
                                                 g4:0,
                                                 g5:0,
-                                                g6:1
+                                                g6:1, 
+                                                total:1
                                             })
                                         }
                                     }
@@ -602,21 +610,27 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                             if(temp3[k].concern.toLowerCase()==temp[i].visitReason.toLowerCase()){ 
                                                 if(temp[i].grade=="1"){
                                                     temp3[k].g1=temp3[k].g1+1;
+                                                    temp3[k].total=temp3[k].total+1;                                                    
                                                 }
                                                 else if(temp[i].grade=="2"){
                                                     temp3[k].g2=temp3[k].g2+1;
+                                                    temp3[k].total=temp3[k].total+1;  
                                                 }
                                                 else if(temp[i].grade=="3"){
                                                     temp3[k].g3=temp3[k].g3+1;
+                                                    temp3[k].total=temp3[k].total+1;  
                                                 }
                                                 else if(temp[i].grade=="4"){
                                                     temp3[k].g4=temp3[k].g4+1;
+                                                    temp3[k].total=temp3[k].total+1;  
                                                 }
                                                 else if(temp[i].grade=="5"){
                                                     temp3[k].g5=temp3[k].g5+1;
+                                                    temp3[k].total=temp3[k].total+1;  
                                                 }
                                                 else if(temp[i].grade=="6"){
                                                     temp3[k].g6=temp3[k].g6+1;
+                                                    temp3[k].total=temp3[k].total+1;  
                                                 }                        
                                                 alreadyAddedTemp3=1;
                                             }
@@ -636,7 +650,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:0,
                                                     g4:0,
                                                     g5:0,
-                                                    g6:0
+                                                    g6:0,
+                                                    total:1
                                                 })
                                             }
                                             else if(temp[i].grade=="2"){
@@ -647,7 +662,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:0,
                                                     g4:0,
                                                     g5:0,
-                                                    g6:0
+                                                    g6:0,
+                                                    total:1
                                                 })
                                             } 
                                             else if(temp[i].grade=="3"){
@@ -658,7 +674,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:1,
                                                     g4:0,
                                                     g5:0,
-                                                    g6:0
+                                                    g6:0,
+                                                    total:1
                                                 })
                                             }
                                             else if(temp[i].grade=="4"){
@@ -669,7 +686,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:0,
                                                     g4:1,
                                                     g5:0,
-                                                    g6:0
+                                                    g6:0,
+                                                    total:1
                                                 })
                                             }
                                             else if(temp[i].grade=="5"){
@@ -680,7 +698,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:0,
                                                     g4:0,
                                                     g5:1,
-                                                    g6:0
+                                                    g6:0,
+                                                    total:1
                                                 })
                                             }
                                             else if(temp[i].grade=="6"){
@@ -691,7 +710,8 @@ exports.getVRCountByGradeInMonth=function(req,res){
                                                     g3:0,
                                                     g4:0,
                                                     g5:0,
-                                                    g6:1
+                                                    g6:1,
+                                                    total:1
                                                 })
                                             }
                                         }
@@ -702,15 +722,19 @@ exports.getVRCountByGradeInMonth=function(req,res){
                             }
                         }
                     }
-                }
-
+                }  
                 
-                
-            }
-            
+            }     
             temp3.push(temp);
 
         }
+        temp3=temp3.sort(function (x, y) {
+            return y.total- x.total;
+        }); 
+        console.log("TEMP3 array:");
+        console.log(temp3);
+
+
         
         if(from=="dashboard"){
             res.send(temp3);

@@ -1301,6 +1301,7 @@
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit</label>
                                     <textarea type="text" class="form-control mb-2" id="complaintVisit" disabled="disabled" rows="6">{{form.visitReason}}</textarea>
                                 </div>
+                                
                                 <div class="col-6">
                                     <label class="col-form-label" for="impression">Working Impression</label>
                                     <textarea type="text" class="form-control mb-2" id="impression" disabled="disabled" rows="6">{{form.impression}}</textarea>
@@ -1332,7 +1333,13 @@
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
                                         {{/each}}
                                     </select>
-                                </div>                          
+                                </div>       
+                                <div class="col-3" style="margin-right: -70px;">
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
+                                    </div>
+                                </div>                   
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
@@ -2729,6 +2736,7 @@
                     timeIn: timeIn,
                     timeOut: timeOut,
                     diagnosis: diagnosis,
+                    communicable:document.getElementById("communicableCheckBox").checked,
                     medicationAssign: selectedMedicationAssign,
                     medicationAssigned: medicationAssigned,
                     medicationsArray: medicationsArray,

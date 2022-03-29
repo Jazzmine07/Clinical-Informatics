@@ -363,7 +363,7 @@ exports.addClinicVisit = function(req, res){
 //This function is used to save the clinic visit form edited
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
-        visitDate, timeIn, timeOut, diagnosis, diagnosisSentence,
+        visitDate, timeIn, timeOut, diagnosis, diagnosisSentence,communicable,
         medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
     
@@ -384,6 +384,7 @@ exports.editClinicVisit = function(req, res){
             var record = {
                 timeOut: timeOut,
                 diagnosis: diagnosis,
+                communicable:communicable,
                 diagnosisSentence:diagnosisSentence,
                 status: status,
                 notes: notes,

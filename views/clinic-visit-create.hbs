@@ -3528,7 +3528,8 @@
                             <div class="form-row mb-2">
                                 <div class="col-3">
                                     <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>              
+                                                              
                                 </div>
                                 <div class="col">
                                     <div class="font-weight-bold">Treatment</span></div>
@@ -3747,6 +3748,12 @@
                                             <option value="{{complaint}}">{{complaint}}</option>
                                         {{/each}}
                                     </select> 
+                                </div>
+                                <div class="col-3" style="margin-right: -70px;">
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" onclick="communicableClicked()" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
+                                    </div>
                                 </div>
                             </div>
                        
@@ -5326,6 +5333,7 @@
                 div.style.display = "none";
             }
         }
+        
 
         var weightStatus = "";
         $("#weight").change(function(){
@@ -5624,6 +5632,9 @@
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
             console.log("bodyTemp clicked");
+
+            console.log("Communicable Disease Checkbox:");
+            console.log(document.getElementById("communicableCheckBox").checked);
 
             if(bodyTemp >= 36 && bodyTemp <= 37.9){
                 $("#bodyTemp").removeClass("is-invalid");
@@ -7476,7 +7487,7 @@
             else{
                 $("#attendingNurse").removeClass("is-invalid");
             }
-            
+
             //vital signs
             var bodyTemp =  $('#bodyTemp').val(); 
             console.log(bodyTemp);
@@ -7582,6 +7593,7 @@
                         pulseRateStatus: pulseRateStatus,
                         respRateStatus: respRateStatus,
                         complaint: complaint,
+                        communicable:document.getElementById("communicableCheckBox").checked,
                         impression: impression,
                         treatment: treatment,                    
                         prescribedBy: selectedPrescribedBy,

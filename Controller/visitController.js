@@ -100,7 +100,7 @@ exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bmi, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
         weightStatus, heightStatus, bmiStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
-        complaint, impression, treatment, diagnosisSentence,
+        complaint, impression, treatment, diagnosisSentence, communicable,
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
     var i, formId, complaintsTemp = [];
@@ -153,6 +153,7 @@ exports.addClinicVisit = function(req, res){
             visitReason: complaint,
             impression: impression,
             treatment: treatment,
+            communicable: communicable,
     
             diagnosisAssigned: diagnosisAssign,
             diagnosis: diagnosis,

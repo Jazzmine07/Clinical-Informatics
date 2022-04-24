@@ -5,8 +5,35 @@
 }
 .leaderboard header {
   --start: 15%;
-  height: 130px;
+  height: 90px;
   background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, 0.33) 10%, rgba(54, 89, 219, 0.33) 17%), linear-gradient(to right, #5b7cfa, #3659db);
+  color: #fff;
+  position: relative;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+#leaderboardCD1 {
+  --start: 15%;
+  height: 90px;
+  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(219, 54, 54, 0.33) 10%, rgba(219, 54, 54, 0.33) 17%), linear-gradient(to right, #ff6557, #e74a3b);
+  color: #fff;
+  position: relative;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+#leaderboardCD2 {
+  --start: 15%;
+  height: 90px;
+  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(219, 54, 54, 0.33) 10%, rgba(219, 54, 54, 0.33) 17%), linear-gradient(to right, #ff6557, #e74a3b);
+  color: #fff;
+  position: relative;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+#leaderboardCD3 {
+  --start: 15%;
+  height: 90px;
+  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(219, 54, 54, 0.33) 10%, rgba(219, 54, 54, 0.33) 17%), linear-gradient(to right, #ff6557, #e74a3b);
   color: #fff;
   position: relative;
   border-radius: 12px 12px 0 0;
@@ -25,16 +52,16 @@
   display: block;
 }
 .leaderboard header .leaderboard__title--top {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 6.5px;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 1.5px;
 }
 .leaderboard header .leaderboard__title--bottom {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 3.55px;
-  opacity: 0.65;
-  transform: translateY(-2px);
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 1.5px;
+  /* opacity: 0.65;
+  transform: translateY(-2px); */
 }
 .leaderboard header .leaderboard__icon {
   fill: #fff;
@@ -56,7 +83,7 @@
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
-  padding: 10px 30px 10px 10px;
+  padding: 0px 20px 0px 10px;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);

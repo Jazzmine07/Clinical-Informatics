@@ -1339,6 +1339,10 @@
                                         <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
                                         <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
                                     </div>
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="injuryCheckBox" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Injury</label>
+                                    </div>
                                 </div>                   
                             </div>
                             <div class="form-row align-items-center">
@@ -2737,6 +2741,7 @@
                     timeOut: timeOut,
                     diagnosis: diagnosis,
                     communicable:document.getElementById("communicableCheckBox").checked,
+                    injury:document.getElementById("injuryCheckBox").checked,
                     medicationAssign: selectedMedicationAssign,
                     medicationAssigned: medicationAssigned,
                     medicationsArray: medicationsArray,

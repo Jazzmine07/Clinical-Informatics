@@ -3754,6 +3754,10 @@
                                         <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
                                         <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
                                     </div>
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="injuryCheckBox" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Injury</label>
+                                    </div>
                                 </div>
                             </div>
                        
@@ -5635,6 +5639,7 @@
 
             console.log("Communicable Disease Checkbox:");
             console.log(document.getElementById("communicableCheckBox").checked);
+            console.log(document.getElementById("injuryCheckBox").checked);
 
             if(bodyTemp >= 36 && bodyTemp <= 37.9){
                 $("#bodyTemp").removeClass("is-invalid");
@@ -7594,6 +7599,7 @@
                         respRateStatus: respRateStatus,
                         complaint: complaint,
                         communicable:document.getElementById("communicableCheckBox").checked,
+                        injury:document.getElementById("injuryCheckBox").checked,
                         impression: impression,
                         treatment: treatment,                    
                         prescribedBy: selectedPrescribedBy,

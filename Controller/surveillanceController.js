@@ -23,7 +23,9 @@ exports.getDiseaseSurveillanceData=function(){
                             temp.push({
                                 diagnosis:checkDiagnosis[i],
                                 visitDate:child.visitDate,
-                                id:child.id
+                                id:child.id,
+                                injury:child.injury,
+                                communicable:child.communicable
                             })
                         }
                     }
@@ -41,6 +43,10 @@ exports.getTopDisease=function(vcArray){
     var temp=vcArray, strings=[];
     var vcWeek=[], weekTopDisease=[]; // variables for top disease week
     var vcMonth=[], monthTopDisease=[]; // variables for top disease month
+    var vcYear=[], yearTopDisease=[]; //variables for top disease year
+    var communicableWeek=[], weekTopCommunicable=[]; // variables for top communicable disease week
+    var communicableMonth=[], monthTopCommunicable=[]; // variables for top communicabledisease month
+    var communicableYear=[], yearTopCommunicable=[]; //variables for top communicabledisease year
     var parts, dbDate,alreadyAdded;
     var currDate =  new Date();
     var today = new Date();
@@ -53,60 +59,170 @@ exports.getTopDisease=function(vcArray){
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
         if(dbDate<=currDate && dbDate>=weekAgo){ // filters based on date
-            if(vcWeek.length==0){ //if empty auto add
-                vcWeek.push({
-                    concern: temp[i].diagnosis,
-                    count:1
-                });
-            }
-            else{ //if not empty
-                for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
-                    if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                        vcWeek[j].count = vcWeek[j].count + 1;
-                        alreadyAdded = true;
-                    }
-                }
-                if(alreadyAdded != true){
+            if(temp[i].injury != "true"){
+                //NOT COMMUNICABLE DISEASES
+                if(vcWeek.length==0){ //if empty auto add
                     vcWeek.push({
                         concern: temp[i].diagnosis,
                         count:1
                     });
                 }
+                else{ //if not empty
+                    for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
+                        if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                            vcWeek[j].count = vcWeek[j].count + 1;
+                            alreadyAdded = true;
+                        }
+                    }
+                    if(alreadyAdded != true){
+                        vcWeek.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                }
+
+                //COMMUNICABLE DISEASES
+                if(temp[i].communicable =="true"){
+                    if(communicableWeek.length==0){ //if empty auto add
+                        communicableWeek.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<communicableWeek.length;j++){ //this whole thing is used to check if it has a count
+                            if(communicableWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                communicableWeek[j].count = communicableWeek[j].count + 1;
+                                alreadyAdded = true;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            communicableWeek.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+    
+                }
             }
         }
     }
-    
-    //getting only the clinic visits current month
+    //getting only the clinic visits current month (not communicable)
     for(i=0;i<temp.length;i++){
         parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
         if(dbDate.getMonth() == currDate.getMonth() && dbDate.getFullYear() == currDate.getFullYear()){
-            if(vcMonth.length==0){ //if empty auto add
-                vcMonth.push({
-                    concern: temp[i].diagnosis,
-                    count:1
-                });
-            }
-            else{ //if not empty
-                for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
-                    if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                        vcMonth[j].count = vcMonth[j].count + 1;
-                        alreadyAdded = true;
-                        break;
-                    }
-                }
-                if(alreadyAdded != true){
+            if(temp[i].injury != "true"){
+                //NOT COMMUNICABLE
+                if(vcMonth.length==0){ //if empty auto add
                     vcMonth.push({
                         concern: temp[i].diagnosis,
                         count:1
                     });
                 }
+                else{ //if not empty
+                    for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
+                        if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                            vcMonth[j].count = vcMonth[j].count + 1;
+                            alreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if(alreadyAdded != true){
+                        vcMonth.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                }
+
+                //COMMUNICABLE DISEASES
+                if(temp[i].communicable=="true"){
+                    if(communicableMonth.length==0){ //if empty auto add
+                        communicableMonth.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<communicableMonth.length;j++){ //this whole thing is used to check if it has a count
+                            if(communicableMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                communicableMonth[j].count = communicableMonth[j].count + 1;
+                                alreadyAdded = true;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            communicableMonth.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+                }
             }
         }
-
     }
- 
+    //getting only the clinic visits current year (not communicable)
+    for(i=0;i<temp.length;i++){
+        parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
+        dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
+        alreadyAdded = false;
+        if(dbDate.getFullYear() == currDate.getFullYear()){
+            if(temp[i].injury != "true"){
+                if(vcYear.length==0){ //if empty auto add
+                    vcYear.push({
+                        concern: temp[i].diagnosis,
+                        count:1
+                    });
+                }
+                else{ //if not empty
+                    for(j=0;j<vcYear.length;j++){ //this whole thing is used to check if it has a count
+                        if(vcYear[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                            vcYear[j].count = vcYear[j].count + 1;
+                            alreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if(alreadyAdded != true){
+                        vcYear.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                }
+
+                //COMMUNICABLE DISEASES
+                if(temp[i].communicable=="true"){
+                    if(communicableYear.length==0){ //if empty auto add
+                        communicableYear.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<communicableYear.length;j++){ //this whole thing is used to check if it has a count
+                            if(communicableYear[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                communicableYear[j].count = communicableYear[j].count + 1;
+                                alreadyAdded = true;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            communicableYear.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+
     // sorting the vcWeek and Month from highest count to lowest
     if(vcWeek.length>0){
         console.log("FIND ORDER OF WEEK TOP DISEASE");
@@ -118,6 +234,7 @@ exports.getTopDisease=function(vcArray){
     else{
         strings.push(weekTopDisease);
     }
+    
     if(vcMonth.length>0){
         console.log("FIND ORDER OF MONTH TOP DISEASE");
         monthTopDisease= vcMonth.sort(function (x, y) {
@@ -128,7 +245,51 @@ exports.getTopDisease=function(vcArray){
     else{
         strings.push(monthTopDisease);
     }
-        
+
+    if(vcYear.length>0){
+        console.log("FIND ORDER OF YEAR TOP DISEASE");
+        yearTopDisease= vcYear.sort(function (x, y) {
+            return y.count- x.count;
+        });
+        strings.push(yearTopDisease);
+    }
+    else{
+        strings.push(yearTopDisease);
+    }
+
+    if(communicableWeek.length>0){
+        console.log("FIND ORDER OF WEEK TOP COMMUNICABLE DISEASE");
+        weekTopCommunicable= communicableWeek.sort(function (x, y) {
+            return y.count- x.count;
+        });
+        strings.push(weekTopCommunicable);
+    }
+    else{
+        strings.push(weekTopCommunicable);
+    }
+
+    if(communicableMonth.length>0){
+        console.log("FIND ORDER OF WEEK TOP COMMUNICABLE DISEASE");
+        monthTopCommunicable= communicableMonth.sort(function (x, y) {
+            return y.count- x.count;
+        });
+        strings.push(monthTopCommunicable);
+    }
+    else{
+        strings.push(monthTopCommunicable);
+    }
+
+    if(communicableYear.length>0){
+        console.log("FIND ORDER OF WEEK TOP COMMUNICABLE DISEASE");
+        yearTopCommunicable= communicableYear.sort(function (x, y) {
+            return y.count- x.count;
+        });
+        strings.push(yearTopCommunicable);
+    }
+    else{
+        strings.push(yearTopCommunicable);
+    }
+            
     return strings;
 
 }

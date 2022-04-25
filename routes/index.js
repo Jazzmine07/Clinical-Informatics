@@ -192,10 +192,22 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
     
     prom3[0].sort((a, b) => b.count - a.count);
     prom3[1].sort((a, b) => b.count - a.count);
+    prom3[2].sort((a, b) =>b.count - a.count);
+    prom3[3].sort((a, b) => b.count - a.count);
+    prom3[4].sort((a, b) => b.count - a.count);
+    prom3[5].sort((a, b) =>b.count - a.count);
     console.log("WEEK");
     console.log(prom3[0]);
     console.log("Month");
     console.log(prom3[1]);
+    console.log("Year");
+    console.log(prom3[2]);
+    console.log("WEEK COMMUNICABLE");
+    console.log(prom3[3]);
+    console.log("Month COMMUNICABLE");
+    console.log(prom3[4]);
+    console.log("Year COMMUNICABLE");
+    console.log(prom3[5]);
 
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
@@ -217,16 +229,46 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
         user: user,
         topDiagnosisWeek: prom3[0],
         topDiagnosisMonth: prom3[1],
+        topDiagnosisYear: prom3[2],
+        topCommunicableWeek: prom3[3],
+        topCommunicableMonth: prom3[4],
+        topCommunicableYear: prom3[5],
+
         topDWeekOne:prom3[0][0],
         topDWeekTwo:prom3[0][1],
         topDWeekThree:prom3[0][2],
         topDWeekFour:prom3[0][3],
         topDWeekFive:prom3[0][4],
+
         topDMonthOne:prom3[1][0],
         topDMonthTwo:prom3[1][1],
         topDMonthThree:prom3[1][2],
         topDMonthFour:prom3[1][3],
         topDMonthFive:prom3[1][4],
+
+        topDYearOne:prom3[2][0],
+        topDYearTwo:prom3[2][1],
+        topDYearThree:prom3[2][2],
+        topDYearFour:prom3[2][3],
+        topDYearFive:prom3[2][4],
+
+        topCWeekOne:prom3[3][0],
+        topCWeekTwo:prom3[3][1],
+        topCWeekThree:prom3[3][2],
+        topCWeekFour:prom3[3][3],
+        topCWeekFive:prom3[3][4],
+
+        topCMonthOne:prom3[4][0],
+        topCMonthTwo:prom3[4][1],
+        topCMonthThree:prom3[4][2],
+        topCMonthFour:prom3[4][3],
+        topCMonthFive:prom3[4][4],
+
+        topCYearOne:prom3[5][0],
+        topCYearTwo:prom3[5][1],
+        topCYearThree:prom3[5][2],
+        topCYearFour:prom3[5][3],
+        topCYearFive:prom3[5][4],
       });
     }
   }).catch(error => {

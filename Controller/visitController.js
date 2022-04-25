@@ -100,7 +100,7 @@ exports.addClinicVisit = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, visitDate, timeIn, timeOut, visitType, nurseKey, nurseName,
         weight, height, bmi, bodyTemp,  systolicBP,  diastolicBP, pulseRate, respirationRate, 
         weightStatus, heightStatus, bmiStatus, bodyTempStatus, systolicStatus, diastolicStatus, pulseRateStatus, respRateStatus,
-        complaint, impression, treatment, diagnosisSentence, communicable,
+        complaint, impression, treatment, diagnosisSentence, communicable,injury,
         diagnosisAssign, diagnosis, prescribedBy, medicationsArray, intakeArray, notes, status } = req.body;
 
     var i, formId, complaintsTemp = [];
@@ -154,6 +154,7 @@ exports.addClinicVisit = function(req, res){
             impression: impression,
             treatment: treatment,
             communicable: communicable,
+            injury:injury,
     
             diagnosisAssigned: diagnosisAssign,
             diagnosis: diagnosis,
@@ -363,7 +364,7 @@ exports.addClinicVisit = function(req, res){
 //This function is used to save the clinic visit form edited
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
-        visitDate, timeIn, timeOut, diagnosis, diagnosisSentence,communicable,
+        visitDate, timeIn, timeOut, diagnosis, diagnosisSentence,communicable, injury,
         medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
     
@@ -385,6 +386,7 @@ exports.editClinicVisit = function(req, res){
                 timeOut: timeOut,
                 diagnosis: diagnosis,
                 communicable:communicable,
+                injury:injury,
                 diagnosisSentence:diagnosisSentence,
                 status: status,
                 notes: notes,
@@ -768,6 +770,8 @@ exports.getClinicVisitForm = function(req){
 
                 diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
+                communicable: snapshotData.communicable,
+                injury:snapshotData.injury,
 
                 prescribedBy: snapshotData.prescribedBy,
                 medicationAssignedKey: snapshotData.medicationAssigned,
@@ -821,6 +825,8 @@ exports.getClinicVisitForm = function(req){
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
                 diagnosis: temp[0].diagnosis,
+                communicable: temp[0].communicable,
+                injury: temp[0].injury,
                 prescribedBy: temp[0].prescribedBy,
                 medicationAssignedKey: temp[0].medicationAssignedKey,
                 medicationAssigned: mFname + " " + mLname,

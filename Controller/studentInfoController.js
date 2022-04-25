@@ -309,24 +309,18 @@ exports.getLastVisit = function(req, res){
 exports.getStudentIntakeHistory = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
-    var historyRef = database.ref("intakeHistory");
+    var historyRef = database.ref("studentHealthHistory/" + id + "/intakeHistory");
     var childSnapshotData, history = [];
 
-    historyRef.orderByChild("id").equalTo(id).once('value', async (snapshot) => {
+    historyRef.once('value', async (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
-                childSnapshot.child("medications").forEach(function(innerChild){
-                    innerChildData = innerChild.exportVal();
-                    history.push({
-                        medicine: innerChildData.specificMedicine,
-                        amount: innerChildData.specificAmount,
-                        time: innerChildData.time,
-                        visitDate: childSnapshotData.visitDate,
-                        attendingNurse: childSnapshotData.attendingNurse,
-                        timeIn: childSnapshotData.timeIn,
-                        timeOut: childSnapshotData.timeOut,
-                    })
+                history.push({
+                    medicine: childSnapshotData.specificMedicine,
+                    amount: childSnapshotData.specificAmount,
+                    time: childSnapshotData.time,
+                    visitDate: childSnapshotData.dateTaken,
                 })
             });
             res.status(200).send(history);

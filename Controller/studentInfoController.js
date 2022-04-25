@@ -311,21 +311,32 @@ exports.getStudentIntakeHistory = function(req, res){
     var database = firebase.database();
     var historyRef = database.ref("studentHealthHistory/" + id + "/intakeHistory");
     var childSnapshotData, history = [];
+    var parts = [], tempDate, intakeSort = [];
 
     historyRef.once('value', async (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
+
+                parts = childSnapshotData.dateTaken.split('-'); 
+                tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
                 history.push({
                     medicine: childSnapshotData.specificMedicine,
                     amount: childSnapshotData.specificAmount,
                     time: childSnapshotData.time,
                     visitDate: childSnapshotData.dateTaken,
+                    sortDate:tempDate
                 })
             });
-            res.status(200).send(history);
+
+            intakeSort= history.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+
+            res.status(200).send(intakeSort);
         } else {
-            res.status(200).send(history);
+            res.status(200).send(intakeSort);
         }
     })
 };

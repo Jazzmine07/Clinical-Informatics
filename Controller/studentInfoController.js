@@ -380,7 +380,7 @@ exports.getStudentPastIllness = function(req, res){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
                 
-                parts = childSnapshotData.startDate.split('-'); // January - 0, February - 1, etc.
+                parts = childSnapshotData.startDate.split('-'); 
                 tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
                 console.log("TEMP DATE");
                 console.log(tempDate);
@@ -452,11 +452,21 @@ exports.getStudentPrescriptionHistory = function(req, res){
     var database = firebase.database();
     var historyRef = database.ref("studentHealthHistory/"+id+"/prescriptionHistory");
     var childSnapshotData, prescriptionHistory = [];
+    var currentlyTaking = [], doneTaking =[], prescriptionHistorySort = [], parts = [], tempDate, i;
 
     historyRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
+
+                if(childSnapshotData.status == "Currently Taking"){
+                    parts = childSnapshotData.startMed.split('-'); 
+                }
+                else{
+                    parts = childSnapshotData.endMed.split('-'); 
+                }
+                tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
                 prescriptionHistory.push({
                     medicine: childSnapshotData.medicine,
                     amount: childSnapshotData.amount,
@@ -465,12 +475,39 @@ exports.getStudentPrescriptionHistory = function(req, res){
                     startDate: childSnapshotData.startMed,
                     endDate: childSnapshotData.endMed,
                     prescribedBy: childSnapshotData.prescribedBy,
-                    status: childSnapshotData.status
+                    status: childSnapshotData.status,
+                    sortDate: tempDate
                 })
             });
-            res.status(200).send(prescriptionHistory);
+
+            for(i=0;i<prescriptionHistory.length;i++){
+                if(prescriptionHistory[i].status == "Currently Taking"){
+                    currentlyTaking.push(prescriptionHistory[i])
+                }
+                else{
+                    doneTaking.push(prescriptionHistory[i])
+                }
+            }
+
+            currentlyTaking = currentlyTaking.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+            doneTaking = doneTaking.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+
+            for(i=0;i<currentlyTaking.length;i++){
+                prescriptionHistorySort.push(currentlyTaking[i]);
+            }
+            for(i=0;i<doneTaking.length;i++){
+                prescriptionHistorySort.push(doneTaking[i]);
+            }
+
+
+
+            res.status(200).send(prescriptionHistorySort);
         } else {
-            res.status(200).send(prescriptionHistory);
+            res.status(200).send(prescriptionHistorySort);
         }
     })
 };

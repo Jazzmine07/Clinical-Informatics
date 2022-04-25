@@ -372,24 +372,38 @@ exports.getStudentPastIllness = function(req, res){
     var id = req.query.studentID;
     var database = firebase.database();
     var illnessRef = database.ref("studentHealthHistory/"+ id + "/pastIllness");
-    var illnessHistory = [];
+    var illnessHistory = [], illnessHistorySort = [];
+    var parts = [], tempDate;
 
     illnessRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
+                
+                parts = childSnapshotData.startDate.split('-'); // January - 0, February - 1, etc.
+                tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                console.log("TEMP DATE");
+                console.log(tempDate);
+                
                 illnessHistory.push({
                     disease: childSnapshotData.disease,
                     status: childSnapshotData.status,
                     startDate: childSnapshotData.startDate,
                     endDate: childSnapshotData.endDate,
                     notes: childSnapshotData.notes,
-                    treatment: childSnapshotData.treatment
+                    treatment: childSnapshotData.treatment,
+                    sortDate: tempDate
                 })
             })
-            res.status(200).send(illnessHistory);
+
+            illnessHistorySort= illnessHistory.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+            
+
+            res.status(200).send(illnessHistorySort);
         } else {
-            res.status(200).send(illnessHistory);
+            res.status(200).send(illnessHistorySort);
         }
     })
 };

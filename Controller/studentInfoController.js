@@ -414,23 +414,34 @@ exports.getStudentAllergies = function(req, res){
     var database = firebase.database();
     var allergyRef = database.ref("studentHealthHistory/"+ id + "/allergies");
     var childSnapshotData, allergies = [];
+    var allergiesSort = [], parts = [], tempDate;
 
     allergyRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
+                
+                parts = childSnapshotData.lastOccurrence.split('-');
+                tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                
                 allergies.push({
                     allergy: childSnapshotData.allergy,
                     diagnosisDate: childSnapshotData.diagnosisDate,
                     lastOccurrence: childSnapshotData.lastOccurrence,
-                    allergyType: childSnapshotData.type
+                    allergyType: childSnapshotData.type,
+                    sortDate: tempDate
                 })
             })
+
+            allergiesSort= allergies.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+
             console.log("allergies");
-            console.log(allergies);
-            res.status(200).send(allergies);
+            console.log(allergiesSort);
+            res.status(200).send(allergiesSort);
         } else {
-            res.status(200).send(allergies);
+            res.status(200).send(allergiesSort);
         }
     })
 };

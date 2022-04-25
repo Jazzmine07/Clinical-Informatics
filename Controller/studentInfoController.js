@@ -165,12 +165,17 @@ exports.getStudentVisits = function(req, res){
     var clinicVisitRef = database.ref("clinicVisit").orderByChild("visitDate");
     var details = [];
     var childSnapshotData;
+    var visitSort = [], parts = [],tempDate;
 
     clinicVisitRef.once('value', async (snapshot) => {
         if(snapshot.exists()){
             await snapshot.forEach(function(childSnapshot){
                 childSnapshotData = childSnapshot.exportVal();
                 if(childSnapshotData.id == student){
+
+                    parts = childSnapshotData.visitDate.split('-'); 
+                    tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
                     details.push({
                         idNum: childSnapshotData.id,
                         studentName: childSnapshotData.studentName,
@@ -193,15 +198,19 @@ exports.getStudentVisits = function(req, res){
                         diagnosis: childSnapshotData.diagnosis,
                         status: childSnapshotData.status,
                         notes: childSnapshotData.notes,
+                        sortDate:tempDate
                     })
                 }
             })
             details.reverse();
+            visitSort= details.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
             console.log("details");
             console.log(details)
-            res.status(200).send(details);
+            res.status(200).send(visitSort);
         } else {
-            res.status(200).send(details);
+            res.status(200).send(visitSort);
         }
     })  
 };

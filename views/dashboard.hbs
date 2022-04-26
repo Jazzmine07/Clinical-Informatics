@@ -518,20 +518,20 @@
             var config={
                 type: 'bar',
                 data: gradeData,
-                //plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     plugins: {
-                        //datalabels: {
-                        //    anchor: 'middle',
-                        //    align: 'middle',
-                        //    offset: 5,
-                        //    font: {
-                        //        weight: 'bold',
-                        //        size: 15
-                        //    },
-                        //    color: '#000000'
-                        //},
+                        datalabels: {
+                            anchor: 'middle',
+                            align: 'middle',
+                            offset: 5,
+                            font: {
+                                weight: 'bold',
+                                size: 15
+                            },
+                            color: '#000000'
+                        },
                         title: {
                             display: true,
                             text: 'Top 10 Complaints for ' + currentMonth + ' ' + currYear + ' by Grade Level',

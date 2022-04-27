@@ -343,7 +343,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form  method="post" action="/getSectionStudents">
+                                    <form  method="post" action="/addStudentSchedule">
                                         <label for="schoolYear">School Year</label>                                        
                                         <div class="input-group mb-2">
                                         <div class="input-group-prepend">
@@ -880,6 +880,7 @@
 
         $("#saveSchedBtn").click(function(){
             console.log("clicked");
+            var schoolYear = $('#schoolYear').val();
             var id= $('#studentID').val();
             var name = $('#studentName').val();
             //var gradeString = "Grade";            
@@ -897,6 +898,27 @@
 
             table.row.add([id, name, grade, section, schedHA, time, exam]);
             table.draw();
+
+            $.ajax({
+                url: '/addStudentSchedule',
+                method: 'POST',
+                data: {
+                    schoolYear:schoolYear,
+                    examType:exam,
+                    HADate: schedHA,
+                    HATime: time,
+                    studentID: id,
+                    studentName: name,
+                    studentGrade: grade,
+                    studentSection : section 
+                },
+                success: function(data) {
+                    console.log("added");
+                    window.location.href = "/health-assessment";
+                }
+            });
+
+
         });
 
         $(document).ready(function() {      

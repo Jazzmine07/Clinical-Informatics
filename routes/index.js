@@ -1469,6 +1469,7 @@ router.post('/addAPE', studentController.addAPE);
 router.post('/addADE', studentController.addADE); 
 router.post('/addSchedule', studentController.addSchedule);
 router.post('/getSectionStudents',studentController.getSectionStudents);
+router.post('/addStudentSchedule', studentController.addStudentSchedule);
 router.post('/getApePercentageChart', studentController.getAPEPercentage);
 router.post('/getAdePercentageChart', studentController.getADEPercentage);
 router.post('/getAllPrevSchedules', studentController.getAllPrevSched);

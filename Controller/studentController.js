@@ -736,6 +736,51 @@ exports.addSchedule=function(req,res){
     res.send();
 }
 
+exports.addStudentSchedule = function(req,res){
+    var database = firebase.database();
+    var studentScheduleRef = database.ref("haSchedule");
+    var checker="false", schoolYear;
+    var sched;
+
+    schoolYear = req.body.schoolYear;
+
+    sched={
+        schoolYear: req.body.schoolYear,
+        examType: req.body.examType,
+        date: req.body.HADate,
+        time: req.body.HATime,
+        id: req.body.studentID,
+        name: req.body.studentName,
+        grade: req.body.studentGrade,
+        section: req.body.studentSection 
+    }
+
+    console.log("check if info goes in");
+    console.log(sched);
+
+    studentScheduleRef.once('value',(snapshot)=>{
+        snapshot.forEach(function(childSnapshot){
+            var child = childSnapshot.exportVal();
+            console.log(childSnapshot.key);
+            console.log(child);
+
+            // if(childSnapshot.key == schoolYear){
+            //     checker="true";
+            // }            
+        })
+
+        // if(checker=="true"){
+        //     console.log("Has data already")
+        //     studentScheduleRef.child(schoolYear).child("students").child(sched.id).update(sched);
+        // }
+        // else{
+            //console.log("Has no  data before")
+            studentScheduleRef.child(schoolYear).child("students").child(sched.id).set(sched);            
+        //}
+    })
+
+}
+
 //This function is used to load the previous APEs of the student
 exports.loadPrevDataAPE=function(req,res){
     console.log("LOAD FUNCTION");

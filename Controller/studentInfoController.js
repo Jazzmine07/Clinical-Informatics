@@ -557,38 +557,55 @@ exports.getUploads = function(req, res){
     var database = firebase.database();
     var uploadsRef = database.ref("studentHealthHistory/"+ id + "/uploads");
     var medCert = [], labResults = [];
+    var parts = [], tempDate, medCertSort = [], labResultsSort = [];
 
     uploadsRef.once('value', (snapshot) => {
         if(snapshot.exists()){
             snapshot.child("medCert").forEach(function(childSnapshot){
                 if(childSnapshot.exists()){
                     var childSnapshotData = childSnapshot.exportVal();
+                   
+                    parts = childSnapshotData.date.split('-'); 
+                    tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
                     medCert.push({
                         dateUploaded: childSnapshotData.date,
                         fileName: childSnapshotData.name,
-                        url: childSnapshotData.url
+                        url: childSnapshotData.url,
+                        sortDate: tempDate
                     })
                 }
             })
             snapshot.child("labResult").forEach(function(labResult){
                 if(labResult.exists()){
                     var lab = labResult.exportVal();
+                    parts = lab.date.split('-'); 
+                    tempDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
                     labResults.push({
                         dateUploaded: lab.date,
                         fileName: lab.name,
-                        url: lab.url
+                        url: lab.url,
+                        sortDate: tempDate
                     })
                 }
             })
 
+            medCertSort= medCert.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+            labResultsSort= labResults.sort(function (x, y) {
+                return y.sortDate- x.sortDate;
+            });
+
             res.status(200).send({
-                medCert: medCert,
-                labResults: labResults
+                medCert: medCertSort,
+                labResults: labResultsSort
             });
         } else {
             res.status(200).send({
-                medCert: medCert,
-                labResults: labResults
+                medCert: medCertSort,
+                labResults: labResultsSort
             });
         }
     })

@@ -1430,46 +1430,48 @@ exports.getAllSched=function(){
         sectionScheduleRef.child(sy).once('value', (snapshot) =>{
             snapshot.forEach(function(childSnapshot){
                 var childValues = childSnapshot.exportVal();
-                
-               
-                if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
-                    grade="1";
-                    sec=childValues.section;
+                var child = childSnapshot.key;
+
+                if(child != "students"){
+                    if(childValues.section=="Truthfulness"||childValues.section=="Sincerity"||childValues.section=="Honesty"||childValues.section=="Faithfulness"||childValues.section=="Humility"||childValues.section=="Politeness"){
+                        grade="1";
+                        sec=childValues.section;
+                    }
+                    else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
+                        grade="2";
+                        sec=childValues.section;
+                    }
+                    else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
+                        grade="3";
+                        sec=childValues.section;
+                    }
+                    else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
+                        grade="4";
+                        sec=childValues.section;
+                    }         
+                    else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
+                        grade="5";
+                        sec=childValues.section;
+                    }
+                    else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
+                        grade="6";
+                        sec=childValues.section;
+                    }
+            
+                    record={
+                        grade:grade,
+                        section:childValues.section,
+                        numStudents:childValues.numStudents,
+                        apeDate:childValues.physicalDate,
+                        apeTime:childValues.physicalTime,
+                        apeSeen:childValues.apeSeen,
+                        adeDate:childValues.dentalDate,
+                        adeTime:childValues.dentalTime,
+                        adeSeen:childValues.adeSeen,
+                    }
+                    //console.log(record);
+                    schedule.push(record);
                 }
-                else if(childValues.section=="Simplicity"||childValues.section=="Charity"||childValues.section=="Helpfulness"||childValues.section=="Gratefulness"||childValues.section=="Gratitude"||childValues.section=="Meekness"){
-                    grade="2";
-                    sec=childValues.section;
-                }
-                else if(childValues.section=="Respect"||childValues.section=="Courtesy"||childValues.section=="Trust"||childValues.section=="Kindness"||childValues.section=="Piety"||childValues.section=="Prayerfulness"){
-                    grade="3";
-                    sec=childValues.section;
-                }
-                else if(childValues.section=="Unity"||childValues.section=="Purity"||childValues.section=="Fidelity"||childValues.section=="Equality"||childValues.section=="Harmony"||childValues.section=="Solidarity"){
-                    grade="4";
-                    sec=childValues.section;
-                }         
-                else if(childValues.section=="Trustworthiness"||childValues.section=="Reliability"||childValues.section=="Dependability"||childValues.section=="Responsibility"||childValues.section=="Serenity"||childValues.section=="Flexibility"){
-                    grade="5";
-                    sec=childValues.section;
-                }
-                else if(childValues.section=="Self-Discipline"||childValues.section=="Self-Giving"||childValues.section=="Abnegation"||childValues.section=="Integrity"||childValues.section=="Perseverance"||childValues.section=="Patience"){
-                    grade="6";
-                    sec=childValues.section;
-                }
-        
-                record={
-                    grade:grade,
-                    section:childValues.section,
-                    numStudents:childValues.numStudents,
-                    apeDate:childValues.physicalDate,
-                    apeTime:childValues.physicalTime,
-                    apeSeen:childValues.apeSeen,
-                    adeDate:childValues.dentalDate,
-                    adeTime:childValues.dentalTime,
-                    adeSeen:childValues.adeSeen,
-                }
-                //console.log(record);
-                schedule.push(record);
 
             })
             resolve(schedule);
@@ -1479,6 +1481,64 @@ exports.getAllSched=function(){
 
     return promise;
 }
+
+exports.getStudentSchedules = function(){
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    var sy;
+
+    if(month>=6){
+        sy= currYear +"-"+ (currYear+1) ;
+    }
+    else{
+        sy= (currYear-1) +"-"+ (currYear) ;
+    }
+
+    var database = firebase.database();
+    var sectionScheduleRef = database.ref("haSchedule")
+    var schedule=[], studentSched;
+
+    var promise = new Promise((resolve,reject)=> {
+        sectionScheduleRef.child(sy).once('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){
+                var child = childSnapshot.key;
+                console.log("GET STUDENT SCHEDULES")
+                console.log("child");
+                console.log(child)
+
+                if(child == "students"){
+                    childSnapshot.forEach(function(childSnapshot2){
+                        var child2 = childSnapshot2.key;
+                        console.log("child2");
+                        console.log(child2);
+                        var childValues = childSnapshot2.exportVal();
+                        studentSched={
+                            id:childValues.id,
+                            name:childValues.name,
+                            grade:childValues.grade,
+                            section:childValues.section,
+                            date:childValues.date,
+                            time:childValues.time,
+                            exam: childValues.examType
+                        }        
+                        console.log(studentSched)
+                        schedule.push(studentSched);
+                    })
+                }
+
+            })
+            console.log("Student SCHEDULES");
+            console.log(schedule);
+            resolve(schedule);
+            reject(schedule);
+        })
+    })
+
+    return promise;
+
+}
+
 //in health-assessment-schedule --> loads the most recent schedule clinic has for health assessments
 exports.getAllPrevSched=function(req,res){
     //gets all the schedule created for the APE

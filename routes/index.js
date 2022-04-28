@@ -666,17 +666,20 @@ router.get('/profile', loggedIn, (req, res) => {
 // Get health assessment page
 router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  var prom1,prom2,prom3,prom4,user,records,sections,schedule;
+  var prom1,prom2,prom3,prom4,user,records,sections,schedule,students;
   prom1 = userController.getUser();
   prom2 = studentController.getSections();
   prom3 = studentController.getAllSched();
+  prom4 = studentController.getStudentSchedules();
   
-  Promise.all([prom1, prom2, prom3]).then(result => {
+  Promise.all([prom1, prom2, prom3,prom4]).then(result => {
     user = result[0];
     sections = result[1];
     scheduleData = result[2];
+    studentSchedules = result[3];
     
     var i,schedule=[];
+
     for(i=0;i<scheduleData.length;i++){
       console.log(scheduleData[i]);
       schedule.push({
@@ -697,7 +700,8 @@ router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put 
         user: user,
         isNurse: true,
         sections: sections,
-        schedule:schedule
+        schedule:schedule,
+        studentSchedules:studentSchedules
       });
     } else if(user.role == "Admin"){
       res.render('reports-clinic-visit', {
@@ -711,7 +715,8 @@ router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put 
         user: user, 
         isNurse: false,
         sections: sections,
-        schedule:schedule
+        schedule:schedule,
+        studentSchedules
       });
     }
   }).catch(error => {

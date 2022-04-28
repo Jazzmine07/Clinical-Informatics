@@ -689,34 +689,18 @@
                                             <th class="bg-primary" style="color: white;">Type of Exam</th>
                                         </tr>
                                     </thead>
-                                    <tbody>                                        
+                                    <tbody>     
+                                        {{#each studentSchedules}}
                                         <tr>
-                                            <td>2019108</td>  
-                                            <td>Nick Dylan Natividad</td>  
-                                            <td>Grade 3</td>  
-                                            <td>Prayerfulness</td>
-                                            <td>2022-02-03</td>
-                                            <td>09:00</td> 
-                                            <td>Physical</td>                                            
-                                        </tr>  
-                                        <tr>
-                                            <td>2018021</td>  
-                                            <td>John Smith Etrone</td>  
-                                            <td>Grade 4</td>  
-                                            <td>Purity</td>
-                                            <td>2022-02-05</td>
-                                            <td>11:00</td> 
-                                            <td>Physical</td>                                            
-                                        </tr>  
-                                        <tr>
-                                            <td>2021089</td>  
-                                            <td>Charlie Micah Lambert Togonon</td>  
-                                            <td>Grade 1</td>  
-                                            <td>Sincerity</td>
-                                            <td>2022-02-08</td>
-                                            <td>9:00</td> 
-                                            <td>Physical</td>                                            
-                                        </tr>                                        
+                                                <td>{{id}}</td>
+                                                <td>{{name}}</td>
+                                                <td>{{grade}}</td>
+                                                <td>{{section}}</td>                                               
+                                                <td>{{date}}</td>
+                                                <td>{{time}}</td> 
+                                                <td>{{exam}}</td>                                               
+                                        {{/each}}
+                                        </tr>                                 
                                     </tbody>                                    
                                 </table>
                             </div>

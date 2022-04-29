@@ -180,7 +180,7 @@ router.get('/dashboard', loggedIn, (req, res) => {
 // Get disease surveillance page
 router.get('/disease-surveillance', loggedIn, (req, res) => {
   console.log("Read disease surveillance successful!");
-  var prom1 ,prom2, prom3 ,user, topDiagnosis;
+  var prom1 ,prom2, prom3, prom4,user, topDiagnosis;
 
   prom1 =  userController.getUser();
   prom2= surveillanceController.getDiseaseSurveillanceData();
@@ -189,13 +189,27 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
     console.log("PROMISES ARE FULFILLED");
     prom3=surveillanceController.getTopDisease(result[1])
     user = result[0];
+    prom4 = surveillanceController.getAllCommunicableDiseaseNames(result[1]);
     
+    var communicableNames = [];
+
     prom3[0].sort((a, b) => b.count - a.count);
     prom3[1].sort((a, b) => b.count - a.count);
     prom3[2].sort((a, b) =>b.count - a.count);
     prom3[3].sort((a, b) => b.count - a.count);
     prom3[4].sort((a, b) => b.count - a.count);
     prom3[5].sort((a, b) =>b.count - a.count);
+   
+
+    for(i=0;i<prom4.length;i++){
+      communicableNames.push({
+        name:prom4[i]
+      })
+    }
+    console.log("COMMUNICABLE DISEASE NAMES");
+    console.log(communicableNames);
+
+    
 
     if(user.role == "Nurse"){
       res.render('clinic-visit', {
@@ -257,6 +271,8 @@ router.get('/disease-surveillance', loggedIn, (req, res) => {
         topCYearThree:prom3[5][2],
         topCYearFour:prom3[5][3],
         topCYearFive:prom3[5][4],
+
+        communicableNames:communicableNames
       });
     }
   }).catch(error => {

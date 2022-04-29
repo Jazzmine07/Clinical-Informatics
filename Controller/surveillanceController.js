@@ -966,5 +966,33 @@ exports.getDiseaseTrendCount= function(req,res){
 
 }
 
+exports.getAllCommunicableDiseaseNames = function(diagnosisList){
+    var tempList = [], communicableList =[];
+    var alreadyAdded = "false";
+    tempList = diagnosisList;
+
+    for(i=0;i<tempList.length;i++){
+        if(tempList[i].communicable == "true"){
+
+            if(communicableList.length==0){
+                communicableList.push(tempList[i].diagnosis);
+            }
+            else{
+                for(j=0;j<communicableList.length;j++){
+                    if(tempList[i].diagnosis.toLowerCase() == communicableList[j].toLowerCase()){ 
+                        alreadyAdded = "true";
+                    }
+                }
+                if(alreadyAdded == "false"){
+                    communicableList.push(tempList[i].diagnosis);
+                }
+                alreadyAdded = "false";
+            }
+        }
+    }
+
+    return communicableList;
+
+}
 
 

@@ -61,6 +61,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                                 medicineName: medications.medicineName,
                                 grade:innerChildSnapshot.child("grade").exportVal(),
                                 visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                section:innerChildSnapshot.child("section").exportVal(),
                             })
                         }
                         else{
@@ -69,6 +70,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                                     medicineName: medications.medicineName,
                                     grade:innerChildSnapshot.child("grade").exportVal(),
                                     visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                    section: innerChildSnapshot.child("section").exportVal(),
                                 })
                             }
                             else{
@@ -77,6 +79,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
                                         medicineName: medications.medicineName,
                                         grade:innerChildSnapshot.child("grade").exportVal(),
                                         visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                        section: innerChildSnapshot.child("section").exportVal(),
                                     })
                                 }
                             }

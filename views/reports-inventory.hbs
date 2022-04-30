@@ -773,13 +773,10 @@
         });
         
         $.get("/getTop5MedsUsedMonth",{start: start.format('YYYY-MM-DD'), end:end.format('YYYY-MM-DD')},function(data){
-            console.log("POKEMON");
-            console.log(data);
             var intakeData=data[0];
             var top5=data[1];
             var labels=[];
-            console.log(intakeData);
-            console.log(top5);
+            
 
             var dataCountG1=[0,0,0,0,0],dataCountG2=[0,0,0,0,0],dataCountG3=[0,0,0,0,0],dataCountG4=[0,0,0,0,0],dataCountG5=[0,0,0,0,0],dataCountG6=[0,0,0,0,0];
             var i,j;
@@ -806,7 +803,7 @@
                 }
             }
             
-            top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels);
+            top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData);
         });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
@@ -872,7 +869,14 @@
     });
 
     var stackedBarChart;
-    function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels) {
+    function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData) {
+            var sections =[], sectionsCount=[]
+            var curr =  new Date();
+            var currYear = curr.getFullYear();
+            var currentMonth = curr.toLocaleString('default', { month: 'long' });
+
+            console.log("INTAKE DATA INFO:");
+            console.log(intakeData)
             var gradeData={
                 labels: labels, // x-axis
                 datasets: [{
@@ -973,6 +977,130 @@
 
             var top5MedsGrade = document.getElementById("top5medsByGrade");
             stackedBarChart = new Chart(top5MedsGrade, config);
+
+            function clickHandler(click){
+                const barColorBackground = [];
+                var labelColor;
+                var medicineNameChosen = [];
+                const points= stackedBarChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+                if(points.length){
+                    if(stackedBarChart.config.data == gradeData){
+                        var firstPoint = points[0];
+                        console.log(points[0]);
+                        console.log(firstPoint.datasetIndex);
+                        console.log(firstPoint.index);
+                        var chosen= labels[firstPoint.index];
+                        medicineNameChosen.push(chosen);
+                        if(sections!=null){
+                            for(i=0;i<6;i++){
+                                sections.pop();
+                                barColorBackground.pop();
+                            }
+                        }
+                        sectionsCount=[0,0,0,0,0,0]
+                        if(sections==null || sections.length==0){
+                            console.log("HI");
+                            console.log(labels[firstPoint.index]);
+                            if(firstPoint.datasetIndex == 0){
+                                grade = "Grade 1";
+                                sections.push("Truthfulness");
+                                sections.push("Sincerity");
+                                sections.push("Honesty");
+                                sections.push("Faithfulness");
+                                sections.push("Humility");
+                                sections.push("Politeness");
+                                barColorBackground.push('#c67aff', '#bf6bff', '#b85cff', '#af47ff','#a938ff', '#a229ff');
+                                labelColor = '#FFFFFF';
+                            }
+                            else if(firstPoint.datasetIndex == 1){
+                                grade = "Grade 2";
+                                sections.push("Simplicity");
+                                sections.push("Charity");
+                                sections.push("Helpfulness");
+                                sections.push("Gratefulness");
+                                sections.push("Gratitude");
+                                sections.push("Meekness");
+                                barColorBackground.push('#ffc65c', '#ffbf47', '#ffb938', '#ffb429', '#ffad14', '#ffa805');
+                                labelColor = '#000000';
+                            }
+                            else if(firstPoint.datasetIndex == 2){
+                                grade = "Grade 3";
+                                sections.push("Respect");
+                                sections.push("Courtesy");
+                                sections.push("Trust");
+                                sections.push("Kindness");
+                                sections.push("Piety");
+                                sections.push("Prayerfulness");
+                                barColorBackground.push('#ffeb7a', '#ffe96b', '#ffe75c', '#ffe347', '#ffe138', '#ffdf29');
+                                labelColor = '#000000';
+                            }
+                            else if(firstPoint.datasetIndex == 3){
+                                grade = "Grade 4";
+                                sections.push("Unity");
+                                sections.push("Purity");
+                                sections.push("Fidelity");
+                                sections.push("Equality");
+                                sections.push("Harmony");
+                                sections.push("Solidarity");
+                                barColorBackground.push('#7aff7a', '#52ff52', '#00e600', '#00cc00', '#00b300', '#009400');
+                                labelColor = '#000000';
+                            }
+                            else if(firstPoint.datasetIndex == 4){
+                                grade = "Grade 5";
+                                sections.push("Trustworthiness");
+                                sections.push("Reliability");
+                                sections.push("Dependability");
+                                sections.push("Responsibility");
+                                sections.push("Serenity");
+                                sections.push("Flexibility");
+                                barColorBackground.push('#2929ff', '#0505ff', '#0000e6', '#0000cc', '#0000b3', '#000094');
+                                labelColor = '#FFFFFF';
+                            }
+                            else if(firstPoint.datasetIndex == 5){
+                                grade = "Grade 6";
+                                sections.push("Self-Discipline");
+                                sections.push("Abnegation");
+                                sections.push("Self-Giving");
+                                sections.push("Integrity");
+                                sections.push("Perseverance");
+                                sections.push("Patience");
+                                barColorBackground.push('#ff7a7a', '#ff4242', '#ff0505', '#e60000', '#cc0000', '#b30000', '#940000');
+                                labelColor = '#FFFFFF';
+                            }
+                            
+                            console.log("IntakeData Data:")
+                            console.log(intakeData[intakeData.length-1]);
+                            console.log("END");
+
+                            for(i=0;i<intakeData.length;i++){
+                                if(medicineNameChosen[0].toLowerCase() == intakeData[i].medicineName.toLowerCase()){
+                                    for(j=0;j<sections.length;j++){
+                                        if(sections[j]== intakeData[i].section){
+                                            sectionsCount[j]=sectionsCount[j]+1;
+                                        }
+                                    }
+                                }
+                            }
+
+                            var sectionData = {
+                                labels: sections, // x-axis
+                                datasets: [{        // border color of the line and legend border
+                                    backgroundColor: barColorBackground,
+                                    data: sectionsCount,   // values of the point
+                                }],
+                            }
+                            console.log(sectionsCount);
+                            stackedBarChart.config.data = sectionData;
+                            stackedBarChart.config.options.plugins.datalabels.color = labelColor;
+                            stackedBarChart.config.options.plugins.title.text = medicineNameChosen[0] + 'for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
+                            stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
+                        }
+                        stackedBarChart.update();
+                    }
+                }
+            }
+            top5MedsGrade.onclick=clickHandler;
+
 
         }
 

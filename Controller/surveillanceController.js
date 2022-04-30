@@ -60,28 +60,6 @@ exports.getTopDisease=function(vcArray){
         alreadyAdded = false;
         if(dbDate<=currDate && dbDate>=weekAgo){ // filters based on date
             if(temp[i].injury != "true"){
-                //NOT COMMUNICABLE DISEASES
-                if(vcWeek.length==0){ //if empty auto add
-                    vcWeek.push({
-                        concern: temp[i].diagnosis,
-                        count:1
-                    });
-                }
-                else{ //if not empty
-                    for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
-                        if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            vcWeek[j].count = vcWeek[j].count + 1;
-                            alreadyAdded = true;
-                        }
-                    }
-                    if(alreadyAdded != true){
-                        vcWeek.push({
-                            concern: temp[i].diagnosis,
-                            count:1
-                        });
-                    }
-                }
-
                 //COMMUNICABLE DISEASES
                 if(temp[i].communicable =="true"){
                     if(communicableWeek.length==0){ //if empty auto add
@@ -106,39 +84,39 @@ exports.getTopDisease=function(vcArray){
                     }
     
                 }
+                //NOT COMMUNICABLE
+                else{
+                    if(vcWeek.length==0){ //if empty auto add
+                        vcWeek.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<vcWeek.length;j++){ //this whole thing is used to check if it has a count
+                            if(vcWeek[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                vcWeek[j].count = vcWeek[j].count + 1;
+                                alreadyAdded = true;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            vcWeek.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+                }
             }
         }
     }
-    //getting only the clinic visits current month (not communicable)
+    //getting only the clinic visits current month 
     for(i=0;i<temp.length;i++){
         parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
         if(dbDate.getMonth() == currDate.getMonth() && dbDate.getFullYear() == currDate.getFullYear()){
             if(temp[i].injury != "true"){
-                //NOT COMMUNICABLE
-                if(vcMonth.length==0){ //if empty auto add
-                    vcMonth.push({
-                        concern: temp[i].diagnosis,
-                        count:1
-                    });
-                }
-                else{ //if not empty
-                    for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
-                        if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            vcMonth[j].count = vcMonth[j].count + 1;
-                            alreadyAdded = true;
-                            break;
-                        }
-                    }
-                    if(alreadyAdded != true){
-                        vcMonth.push({
-                            concern: temp[i].diagnosis,
-                            count:1
-                        });
-                    }
-                }
-
                 //COMMUNICABLE DISEASES
                 if(temp[i].communicable=="true"){
                     if(communicableMonth.length==0){ //if empty auto add
@@ -162,38 +140,40 @@ exports.getTopDisease=function(vcArray){
                         }
                     }
                 }
+                //NOT COMMUNICABLE
+                else{
+                    if(vcMonth.length==0){ //if empty auto add
+                        vcMonth.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<vcMonth.length;j++){ //this whole thing is used to check if it has a count
+                            if(vcMonth[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                vcMonth[j].count = vcMonth[j].count + 1;
+                                alreadyAdded = true;
+                                break;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            vcMonth.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+                }
             }
         }
     }
-    //getting only the clinic visits current year (not communicable)
+    //getting only the clinic visits current year 
     for(i=0;i<temp.length;i++){
         parts = temp[i].visitDate.split('-'); // January - 0, February - 1, etc.
         dbDate = new Date(parts[0], parts[1] - 1, parts[2]); //date gotten from Db
         alreadyAdded = false;
         if(dbDate.getFullYear() == currDate.getFullYear()){
             if(temp[i].injury != "true"){
-                if(vcYear.length==0){ //if empty auto add
-                    vcYear.push({
-                        concern: temp[i].diagnosis,
-                        count:1
-                    });
-                }
-                else{ //if not empty
-                    for(j=0;j<vcYear.length;j++){ //this whole thing is used to check if it has a count
-                        if(vcYear[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
-                            vcYear[j].count = vcYear[j].count + 1;
-                            alreadyAdded = true;
-                            break;
-                        }
-                    }
-                    if(alreadyAdded != true){
-                        vcYear.push({
-                            concern: temp[i].diagnosis,
-                            count:1
-                        });
-                    }
-                }
-
                 //COMMUNICABLE DISEASES
                 if(temp[i].communicable=="true"){
                     if(communicableYear.length==0){ //if empty auto add
@@ -211,6 +191,30 @@ exports.getTopDisease=function(vcArray){
                         }
                         if(alreadyAdded != true){
                             communicableYear.push({
+                                concern: temp[i].diagnosis,
+                                count:1
+                            });
+                        }
+                    }
+                }
+                //NOT COMMUNICABLE
+                else{
+                    if(vcYear.length==0){ //if empty auto add
+                        vcYear.push({
+                            concern: temp[i].diagnosis,
+                            count:1
+                        });
+                    }
+                    else{ //if not empty
+                        for(j=0;j<vcYear.length;j++){ //this whole thing is used to check if it has a count
+                            if(vcYear[j].concern.toLowerCase() == temp[i].diagnosis.toLowerCase()){ 
+                                vcYear[j].count = vcYear[j].count + 1;
+                                alreadyAdded = true;
+                                break;
+                            }
+                        }
+                        if(alreadyAdded != true){
+                            vcYear.push({
                                 concern: temp[i].diagnosis,
                                 count:1
                             });

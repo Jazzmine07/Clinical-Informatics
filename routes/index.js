@@ -1514,5 +1514,6 @@ router.post('/addProgram', programController.addProgram);
 
 //---------GET FOR PROMOTIVE CARE MODULE REPORTS---------------------
 router.get('/getProgramReport', programController.promotiveReport);
+router.post('/getApeAdeStudentsPercentageChart', studentController.getAPEADEStudentsPercentage);
 
 module.exports = router;

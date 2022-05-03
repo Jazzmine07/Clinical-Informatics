@@ -585,6 +585,190 @@ exports.getADEPercentage = function(req, res){
 
 
 }
+
+//This function is used to get the percentages of the section APE for school year 
+exports.getAPEADEStudentsPercentage = function(req, res){
+    console.log("ENTERED /getApeAdeStudentsPercentageChart");
+    var schoolYear= req.body.schoolYear;
+    var c1PE=0,c2PE=0,c3PE=0,c4PE=0,c5PE=0,c6PE=0;
+    var p1PE=0,p2PE=0,p3PE=0,p4PE=0,p5PE=0,p6PE=0;
+    var c1DE=0,c2DE=0,c3DE=0,c4DE=0,c5DE=0,c6DE=0;
+    var p1DE=0,p2DE=0,p3DE=0,p4DE=0,p5DE=0,p6DE=0;
+    
+    var t1=0,t2=0,t3=0,t4=0,t5=0,t6=0
+    //t# - total of grade #;
+    //c#- total of grade # that got APE
+    //p# - percentage of c#/t#
+
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+    var healthHistory = database.ref("studentHealthHistory");
+    var haSchedRef= database.ref("haSchedule");
+
+    //Commented area is used to find the number of students who got APE already
+    studentRef.on('value', (snapshot) =>{
+        snapshot.forEach(function(childSnapshot){
+            // lines 522,532,544,554,564,574 is used to check what grade the student belongs to
+            // lines 525,536,547,557,567.577 is used to look for the file of the ape of student
+            // lines 527-528,538-539,549-550,559-560,569-570.579-580 is used to look through all the ape of the student and check if they have for the specified year
+            if(childSnapshot.child("grade").val()=="1"){
+                t1=t1+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c1PE=c1PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c1DE=c1DE+1;
+                        }
+                    })
+                });
+            }
+            else if(childSnapshot.child("grade").val()=="2"){
+                console.log(childSnapshot.key);
+                t2=t2+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c2PE=c2PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c2DE=c2DE+1;
+                        }
+                    })
+                });
+            }
+            else if(childSnapshot.child("grade").val()=="3"){
+                t3=t3+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c3PE=c3PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c3DE=c3DE+1;
+                        }
+                    })
+                });
+            }
+            else if(childSnapshot.child("grade").val()=="4"){
+                t4=t4+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c4PE=c4PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c4DE=c4DE+1;
+                        }
+                    })
+                });
+            }
+            else if(childSnapshot.child("grade").val()=="5"){
+                t5=t5+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c5PE=c5PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c5DE=c5DE+1;
+                        }
+                    })
+                });
+            }
+            else if(childSnapshot.child("grade").val()=="6"){
+                t6=t6+1;
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c6PE=c6PE+1;
+                        }
+                    })
+                });
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        if(cs.key.toString() == schoolYear){
+                            c6DE=c6DE+1;
+                        }
+                    })
+                });
+            }
+        })
+        //computes for the percentage
+        p1PE=c1PE/t1;
+        p2PE=c2PE/t2;
+        p3PE=c3PE/t3;
+        p4PE=c4PE/t4;
+        p5PE=c5PE/t5;
+        p6PE=c6PE/t6;
+
+        p1DE=c1DE/t1;
+        p2DE=c2DE/t2;
+        p3DE=c3DE/t3;
+        p4DE=c4DE/t4;
+        p5DE=c5DE/t5;
+        p6DE=c6DE/t6;
+    
+        var data={
+            p1PE:p1PE,
+            p2PE:p2PE,
+            p3PE:p3PE,
+            p4PE:p4PE,
+            p5PE:p5PE,
+            p6PE:p6PE,
+            p1DE:p1DE,
+            p2DE:p2DE,
+            p3DE:p3DE,
+            p4DE:p4DE,
+            p5DE:p5DE,
+            p6DE:p6DE,
+            t1:t1,
+            t2:t2,
+            t3:t3,
+            t4:t4,
+            t5:t5,
+            t6:t6,
+            c1PE:c1PE,
+            c2PE:c2PE,
+            c3PE:c3PE,
+            c4PE:c4PE,
+            c5PE:c5PE,
+            c6PE:c6PE,
+            c1DE:c1DE,
+            c2DE:c2DE,
+            c3DE:c3DE,
+            c4DE:c4DE,
+            c5DE:c5DE,
+            c6DE:c6DE,
+        };
+        console.log("DATA:");
+        console.log(data);
+        res.send(data);
+    })     
+
+}
+
 //This function is used to get the list of sections in the database
 exports.getSections=function(req,res){
     var database = firebase.database();

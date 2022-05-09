@@ -1006,7 +1006,6 @@
             var link;
             array=JSON.parse(localStorage.myArray)
 
-            console.log("DEATH:");
             console.log(array);
             console.log(array.length);
             console.log(i);
@@ -1191,6 +1190,26 @@
                         document.getElementById("lpeDoctor").innerHTML=data.prevClinician;
                         document.getElementById("lpeBT").innerHTML=data.prevTemp;
                         document.getElementById("lpeBP").innerHTML=data.prevSys +"/"+ data.prevDia;
+
+                        var bDate = new Date(document.getElementById("dob").value);
+                        var vDate = new Date(document.getElementById("dope").value);
+                        var bYear=bDate.getFullYear();
+                        var vYear=vDate.getFullYear();
+                        var bMonth=bDate.getMonth();
+                        var vMonth=vDate.getMonth();
+                        var bDay=bDate.getDate();
+                        var vDay=vDate.getDate();
+
+                        var ageYear=vYear-bYear;
+                        if(vMonth<bMonth){
+                            ageYear=ageYear-1;
+                        }
+                        else if(vMonth==bMonth){
+                            if(vDay<bDay){
+                                ageYear=ageYear-1;
+                            }
+                        }
+                        document.getElementById("age").value=ageYear;
 
 
                     }  

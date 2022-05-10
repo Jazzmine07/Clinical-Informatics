@@ -1276,150 +1276,168 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
   var prom1, prom2, prom3, prom4;
   var user, sections;
   prom1 = userController.getUser();
-  // prom2 = studentController.getSections();
-  prom3 = studentController.getAllSched();
-  prom4 = reportsController.getStudentsNoCurrYearRecord();
-  
-  Promise.all([prom1, prom3, prom4]).then(result => {
+  prom2 = studentController.checkApeCount();
+  prom3 = studentController.checkAdeCount();
+  // prom3 = studentController.getAllSched();
+  // prom4 = reportsController.getStudentsNoCurrYearRecord();
+
+  Promise.all([prom1, prom2, prom3]).then(result => {
     console.log("prom1 in health assess report");
-  console.log(prom1);
+    console.log(prom1);
     user = result[0];
-    //sections = result[1];
-    scheduleData = result[1];
+    var justUpdate = studentController.updateApeAdeCountSection(result[1],result[2]);
     
-    var i;
-    //console.log(result[2][0][0].grade1); // [prom4=result][ape or ade or sy][by grade]
+    Promise.all([justUpdate]).then(result => {
+      var schedsProm = studentController.getAllSched();
+      var studentNoProm = reportsController.getStudentsNoCurrYearRecord();
+      var userProm = userController.getUser();
+      Promise.all([userProm, schedsProm, studentNoProm]).then(result => {
+        console.log("prom1 in health assess report");
+        console.log(prom1);
+        user = result[0];
+        //sections = result[1];
+        scheduleData = result[1];        
+        var i;
+        //console.log(result[2][0][0].grade1); // [prom4=result][ape or ade or sy][by grade]
+        
+        var noApeG1=[],noApeG2=[],noApeG3=[],noApeG4=[],noApeG5=[],noApeG6=[];
+        var noAdeG1=[],noAdeG2=[],noAdeG3=[],noAdeG4=[],noAdeG5=[],noAdeG6=[];
+        if(result[2][0][0].grade1.length>0){
+          for(i=0;i<result[2][0][0].grade1.length;i++){
+            noApeG1.push(result[2][0][0].grade1[i]);
+          }
+        }
+        if(result[2][0][1].grade2.length>0){
+          for(i=0;i<result[2][0][1].grade2.length;i++){
+            noApeG2.push(result[2][0][1].grade2[i]);
+          }
+        }
+        if(result[2][0][2].grade3.length>0){
+          for(i=0;i<result[2][0][2].grade3.length;i++){
+            noApeG3.push(result[2][0][2].grade3[i]);
+          }
+        }
+        if(result[2][0][3].grade4.length>0){
+          for(i=0;i<result[2][0][3].grade4.length;i++){
+            noApeG4.push(result[2][0][3].grade4[i]);
+          }
+        }
+        if(result[2][0][4].grade5.length>0){
+          for(i=0;i<result[2][0][4].grade5.length;i++){
+            noApeG5.push(result[2][0][4].grade5[i]);
+          }
+        }
+        if(result[2][0][5].grade6.length>0){
+          for(i=0;i<result[2][0][5].grade6.length;i++){
+            noApeG6.push(result[2][0][5].grade6[i]);
+          }
+        }
     
-    var noApeG1=[],noApeG2=[],noApeG3=[],noApeG4=[],noApeG5=[],noApeG6=[];
-    var noAdeG1=[],noAdeG2=[],noAdeG3=[],noAdeG4=[],noAdeG5=[],noAdeG6=[];
-    if(result[2][0][0].grade1.length>0){
-      for(i=0;i<result[2][0][0].grade1.length;i++){
-        noApeG1.push(result[2][0][0].grade1[i]);
-      }
-    }
-    if(result[2][0][1].grade2.length>0){
-      for(i=0;i<result[2][0][1].grade2.length;i++){
-        noApeG2.push(result[2][0][1].grade2[i]);
-      }
-    }
-    if(result[2][0][2].grade3.length>0){
-      for(i=0;i<result[2][0][2].grade3.length;i++){
-        noApeG3.push(result[2][0][2].grade3[i]);
-      }
-    }
-    if(result[2][0][3].grade4.length>0){
-      for(i=0;i<result[2][0][3].grade4.length;i++){
-        noApeG4.push(result[2][0][3].grade4[i]);
-      }
-    }
-    if(result[2][0][4].grade5.length>0){
-      for(i=0;i<result[2][0][4].grade5.length;i++){
-        noApeG5.push(result[2][0][4].grade5[i]);
-      }
-    }
-    if(result[2][0][5].grade6.length>0){
-      for(i=0;i<result[2][0][5].grade6.length;i++){
-        noApeG6.push(result[2][0][5].grade6[i]);
-      }
-    }
-
-    if(result[2][1][0].grade1.length>0){
-      for(i=0;i<result[2][1][0].grade1.length;i++){
-        noAdeG1.push(result[2][1][0].grade1[i]);
-      }
-    }
-    if(result[2][1][1].grade2.length>0){
-      for(i=0;i<result[2][1][1].grade2.length;i++){
-        noAdeG2.push(result[2][1][1].grade2[i]);
-      }
-    }
-    if(result[2][1][2].grade3.length>0){
-      for(i=0;i<result[2][1][2].grade3.length;i++){
-        noAdeG3.push(result[2][1][2].grade3[i]);
-      }
-    }
-    if(result[2][1][3].grade4.length>0){
-      for(i=0;i<result[2][1][3].grade4.length;i++){
-        noAdeG4.push(result[2][1][3].grade4[i]);
-      }
-    }
-    if(result[2][1][4].grade5.length>0){
-      for(i=0;i<result[2][1][4].grade5.length;i++){
-        noAdeG5.push(result[2][1][4].grade5[i]);
-      }
-    }
-    if(result[2][1][5].grade6.length>0){
-      for(i=0;i<result[2][1][5].grade6.length;i++){
-        noAdeG6.push(result[2][1][5].grade6[i]);
-      }
-    }
-    // data guide: id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section
+        if(result[2][1][0].grade1.length>0){
+          for(i=0;i<result[2][1][0].grade1.length;i++){
+            noAdeG1.push(result[2][1][0].grade1[i]);
+          }
+        }
+        if(result[2][1][1].grade2.length>0){
+          for(i=0;i<result[2][1][1].grade2.length;i++){
+            noAdeG2.push(result[2][1][1].grade2[i]);
+          }
+        }
+        if(result[2][1][2].grade3.length>0){
+          for(i=0;i<result[2][1][2].grade3.length;i++){
+            noAdeG3.push(result[2][1][2].grade3[i]);
+          }
+        }
+        if(result[2][1][3].grade4.length>0){
+          for(i=0;i<result[2][1][3].grade4.length;i++){
+            noAdeG4.push(result[2][1][3].grade4[i]);
+          }
+        }
+        if(result[2][1][4].grade5.length>0){
+          for(i=0;i<result[2][1][4].grade5.length;i++){
+            noAdeG5.push(result[2][1][4].grade5[i]);
+          }
+        }
+        if(result[2][1][5].grade6.length>0){
+          for(i=0;i<result[2][1][5].grade6.length;i++){
+            noAdeG6.push(result[2][1][5].grade6[i]);
+          }
+        }
+        // data guide: id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section
+        
     
-
-    var schedule=[];
-    for(i=0;i<scheduleData.length;i++){
-      //console.log(scheduleData[i]);
-      schedule.push({
-        grade:scheduleData[i].grade,
-        section:scheduleData[i].section,
-        totalNumStudents:scheduleData[i].numStudents,
-        apeDate:scheduleData[i].apeDate,
-        apeSeen:scheduleData[i].apeSeen,
-        adeDate:scheduleData[i].adeDate,
-        adeSeen:scheduleData[i].adeSeen
+        var schedule=[];
+        for(i=0;i<scheduleData.length;i++){
+          //console.log(scheduleData[i]);
+          schedule.push({
+            grade:scheduleData[i].grade,
+            section:scheduleData[i].section,
+            totalNumStudents:scheduleData[i].numStudents,
+            apeDate:scheduleData[i].apeDate,
+            apeSeen:scheduleData[i].apeSeen,
+            adeDate:scheduleData[i].adeDate,
+            adeSeen:scheduleData[i].adeSeen
+          });
+        }
+    
+        if(user.role == "Nurse"){
+          res.render('clinic-visit', {
+            isNurse: true,
+            user: user,
+            error: true,
+            error_msg: "You don't have access to this module!"
+          });
+        } else if(user.role == "Admin"){
+          res.render('reports-health-assessment', {
+            user: user,
+            isAdmin: true,
+            schedule:schedule,
+            noApeG1:noApeG1,
+            noApeG2:noApeG2,
+            noApeG3:noApeG3,
+            noApeG4:noApeG4,
+            noApeG5:noApeG5,
+            noApeG6:noApeG6,
+            noAdeG1:noAdeG1,
+            noAdeG2:noAdeG2,
+            noAdeG3:noAdeG3,
+            noAdeG4:noAdeG4,
+            noAdeG5:noAdeG5,
+            noAdeG6:noAdeG6,
+            schoolYearData:result[2][2],
+          });
+        } else {
+          res.render('reports-health-assessment', {
+            user: user, 
+            isNurse: false,
+            isAdmin: false,
+            schedule:schedule,
+            noApeG1:noApeG1,
+            noApeG2:noApeG2,
+            noApeG3:noApeG3,
+            noApeG4:noApeG4,
+            noApeG5:noApeG5,
+            noApeG6:noApeG6,
+            noAdeG1:noAdeG1,
+            noAdeG2:noAdeG2,
+            noAdeG3:noAdeG3,
+            noAdeG4:noAdeG4,
+            noAdeG5:noAdeG5,
+            noAdeG6:noAdeG6,
+            schoolYearData:result[2][2],
+            // sections: sections,
+          });
+        }
+      }).catch(error => {
+        console.log('Error in health assessment report');
+        console.log(error.message);
       });
-    }
-
-    if(user.role == "Nurse"){
-      res.render('clinic-visit', {
-        isNurse: true,
-        user: user,
-        error: true,
-        error_msg: "You don't have access to this module!"
-      });
-    } else if(user.role == "Admin"){
-      res.render('reports-health-assessment', {
-        user: user,
-        isAdmin: true,
-        schedule:schedule,
-        noApeG1:noApeG1,
-        noApeG2:noApeG2,
-        noApeG3:noApeG3,
-        noApeG4:noApeG4,
-        noApeG5:noApeG5,
-        noApeG6:noApeG6,
-        noAdeG1:noAdeG1,
-        noAdeG2:noAdeG2,
-        noAdeG3:noAdeG3,
-        noAdeG4:noAdeG4,
-        noAdeG5:noAdeG5,
-        noAdeG6:noAdeG6,
-        schoolYearData:result[2][2],
-      });
-    } else {
-      res.render('reports-health-assessment', {
-        user: user, 
-        isNurse: false,
-        isAdmin: false,
-        schedule:schedule,
-        noApeG1:noApeG1,
-        noApeG2:noApeG2,
-        noApeG3:noApeG3,
-        noApeG4:noApeG4,
-        noApeG5:noApeG5,
-        noApeG6:noApeG6,
-        noAdeG1:noAdeG1,
-        noAdeG2:noAdeG2,
-        noAdeG3:noAdeG3,
-        noAdeG4:noAdeG4,
-        noAdeG5:noAdeG5,
-        noAdeG6:noAdeG6,
-        schoolYearData:result[2][2],
-        // sections: sections,
-      });
-    }
+    }).catch(error => {
+      console.log('Error in health assessment report');
+      console.log(error.message);
+    });
   }).catch(error => {
-    console.log('Error in health assessment');
+    console.log('Error in health assessment report');
     console.log(error.message);
   });
 });

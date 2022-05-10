@@ -4521,12 +4521,17 @@ exports.updateApeAdeCountSection = function(ape,ade){
             snapshot.forEach(function(childSnapshot){
                 //snapshot.key --> school year
                 //childSnapshot.key --> section
-                var childValues = childSnapshot.exportVal();
-                for(i=0;i<apeCount.length;i++){
-                    if(apeCount[i].section == childValues.section){
-                        schedRef.child(sy).child(childValues.section).child("apeSeen").set(apeCount[i].hasApe);
-                        schedRef.child(sy).child(childValues.section).child("adeSeen").set(adeCount[i].hasAde);
-                        break;
+                if(childSnapshot.key !="students"){
+                    var childValues = childSnapshot.exportVal();
+                    console.log(childSnapshot.key);
+                    console.log(childValues.apeSeen);
+                    console.log(childValues.adeSeen);
+                    for(i=0;i<apeCount.length;i++){
+                        if(apeCount[i].section == childSnapshot.key){
+                            schedRef.child(sy).child(childValues.section).child("apeSeen").set(apeCount[i].hasApe);
+                            schedRef.child(sy).child(childValues.section).child("adeSeen").set(adeCount[i].hasAde);
+                            break;
+                        }
                     }
                 }
                 

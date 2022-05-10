@@ -4306,3 +4306,235 @@ exports.getBmiStatus=function(req,res){
     // console.log(bmiStatus);
     // res.send(bmiStatus);
 }
+
+//checks the count for ape of students in each section
+exports.checkApeCount = function(req,res){
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+    var healthHistory = database.ref("studentHealthHistory");
+    var haSchedRef= database.ref("haSchedule");
+
+    var sectionList = [
+        {section:"Truthfulness", hasApe:0},
+        {section:"Sincerity", hasApe:0},
+        {section:"Honesty", hasApe:0},
+        {section:"Faithfulness", hasApe:0},
+        {section:"Humility", hasApe:0},
+        {section:"Politeness", hasApe:0},
+
+        {section:"Simplicity", hasApe:0},
+        {section:"Charity", hasApe:0},
+        {section:"Helpfulness", hasApe:0},
+        {section:"Meekness", hasApe:0},
+        {section:"Gratitude", hasApe:0},
+        {section:"Gratefulness", hasApe:0},
+
+        {section:"Respect", hasApe:0},
+        {section:"Courtesy", hasApe:0},
+        {section:"Trust", hasApe:0},
+        {section:"Kindness", hasApe:0},
+        {section:"Piety", hasApe:0},
+        {section:"Prayerfulness", hasApe:0},
+
+        {section:"Fidelity", hasApe:0},
+        {section:"Equality", hasApe:0},
+        {section:"Unity", hasApe:0},
+        {section:"Solidarity", hasApe:0},
+        {section:"Harmony", hasApe:0},
+        {section:"Purity", hasApe:0},
+
+        {section:"Reliability", hasApe:0},
+        {section:"Responsibility", hasApe:0},
+        {section:"Trustworthiness", hasApe:0},
+        {section:"Dependability", hasApe:0},
+        {section:"Flexibility", hasApe:0},
+        {section:"Serenity", hasApe:0},
+
+        {section:"Self-Discipline", hasApe:0},
+        {section:"Self-Giving", hasApe:0},
+        {section:"Integrity", hasApe:0},
+        {section:"Abnegation", hasApe:0},
+        {section:"Patience", hasApe:0},
+        {section:"Perseverance", hasApe:0}
+        
+    ];
+
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    var sy,i;
+    if(month>=6){
+        sy= (currYear) +"-"+ (currYear+1) ;  //2022 -> 2022-2023
+    }
+    else{
+        sy= (currYear-1) +"-"+ (currYear) ; //2022 year --> 2021-2022
+    }
+    console.log("SY");
+    console.log(sy);
+
+    var promise = new Promise((resolve,reject)=>{
+        studentRef.on('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){
+                healthHistory.child(childSnapshot.key).child("ape").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        //childSnapshot.key = student id
+                        //cs.key = school year of ape
+                        if(cs.key.toString() == sy){
+                            for(i=0; i < sectionList.length;i++){
+                                if(sectionList[i].section == cs.exportVal().section){
+                                    sectionList[i].hasApe = sectionList[i].hasApe + 1;
+                                    break;
+                                }
+                            }
+                        }
+                    })
+                });
+            })
+            resolve(sectionList);
+            reject(sectionList);
+        })
+    });
+
+    console.log("PROMISE");
+    console.log(promise);
+    return promise;
+      
+}
+//checks the count for ade of students in each section
+exports.checkAdeCount = function(req,res){
+    var database = firebase.database();
+    var studentRef = database.ref("studentInfo");
+    var healthHistory = database.ref("studentHealthHistory");
+    var haSchedRef= database.ref("haSchedule");
+
+    var sectionList = [
+        {section:"Truthfulness", hasAde:0},
+        {section:"Sincerity", hasAde:0},
+        {section:"Honesty", hasAde:0},
+        {section:"Faithfulness", hasAde:0},
+        {section:"Humility", hasAde:0},
+        {section:"Politeness", hasAde:0},
+
+        {section:"Simplicity", hasAde:0},
+        {section:"Charity", hasAde:0},
+        {section:"Helpfulness", hasAde:0},
+        {section:"Meekness", hasAde:0},
+        {section:"Gratitude", hasAde:0},
+        {section:"Gratefulness", hasAde:0},
+
+        {section:"Respect", hasAde:0},
+        {section:"Courtesy", hasAde:0},
+        {section:"Trust", hasAde:0},
+        {section:"Kindness", hasAde:0},
+        {section:"Piety", hasAde:0},
+        {section:"Prayerfulness", hasAde:0},
+
+        {section:"Fidelity", hasAde:0},
+        {section:"Equality", hasAde:0},
+        {section:"Unity", hasAde:0},
+        {section:"Solidarity", hasAde:0},
+        {section:"Harmony", hasAde:0},
+        {section:"Purity", hasAde:0},
+
+        {section:"Reliability", hasAde:0},
+        {section:"Responsibility", hasAde:0},
+        {section:"Trustworthiness", hasAde:0},
+        {section:"Dependability", hasAde:0},
+        {section:"Flexibility", hasAde:0},
+        {section:"Serenity", hasAde:0},
+
+        {section:"Self-Discipline", hasAde:0},
+        {section:"Self-Giving", hasAde:0},
+        {section:"Integrity", hasAde:0},
+        {section:"Abnegation", hasAde:0},
+        {section:"Patience", hasAde:0},
+        {section:"Perseverance", hasAde:0}
+        
+    ];
+
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    var sy,i;
+    if(month>=6){
+        sy= (currYear) +"-"+ (currYear+1) ;  //2022 -> 2022-2023
+    }
+    else{
+        sy= (currYear-1) +"-"+ (currYear) ; //2022 year --> 2021-2022
+    }
+    console.log("SY");
+    console.log(sy);
+
+    var promise = new Promise((resolve,reject)=>{
+        studentRef.on('value', (snapshot) =>{
+            snapshot.forEach(function(childSnapshot){
+                healthHistory.child(childSnapshot.key).child("ade").on('value',(ss)=>{
+                    ss.forEach(function(cs){
+                        //childSnapshot.key = student id
+                        //cs.key = school year of ape
+                        if(cs.key.toString() == sy){
+                            for(i=0; i < sectionList.length;i++){
+                                if(sectionList[i].section == cs.exportVal().section){
+                                    sectionList[i].hasAde = sectionList[i].hasAde + 1;
+                                    break;
+                                }
+                            }
+                        }
+                    })
+                });
+            })
+            resolve(sectionList);
+            reject(sectionList);
+        })
+    });
+
+    console.log("PROMISE");
+    console.log(promise);
+    return promise;
+      
+}
+
+exports.updateApeAdeCountSection = function(ape,ade){
+    var apeCount = [], adeCount = [];
+    apeCount = ape;
+    adeCount = ade;
+    console.log("APE PLEASE")
+    console.log(apeCount);
+    console.log("ADE PLEASE");
+    console.log(adeCount);
+
+    var currentTime = new Date()
+    var month = currentTime.getMonth()+1; //(0-11 so +1 to make it the usual)
+    var currYear = currentTime.getFullYear();
+    var sy,i;
+    if(month>=6){
+        sy= (currYear) +"-"+ (currYear+1) ;  //2022 -> 2022-2023
+    }
+    else{
+        sy= (currYear-1) +"-"+ (currYear) ; //2022 year --> 2021-2022
+    }
+
+    var database = firebase.database();
+    var schedRef=database.ref("haSchedule");
+    var promise = new Promise((resolve,reject)=>{
+        schedRef.child(sy).once('value',(snapshot)=>{
+            snapshot.forEach(function(childSnapshot){
+                //snapshot.key --> school year
+                //childSnapshot.key --> section
+                var childValues = childSnapshot.exportVal();
+                for(i=0;i<apeCount.length;i++){
+                    if(apeCount[i].section == childValues.section){
+                        schedRef.child(sy).child(childValues.section).child("apeSeen").set(apeCount[i].hasApe);
+                        schedRef.child(sy).child(childValues.section).child("adeSeen").set(adeCount[i].hasAde);
+                        break;
+                    }
+                }
+                
+            })
+            resolve("Passed");
+            reject("None");
+        });
+    });
+    return promise;
+
+}

@@ -670,59 +670,77 @@ router.get('/profile', loggedIn, (req, res) => {
 // Get health assessment page
 router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put loggedIn
   console.log("Read health assessment successful!");
-  var prom1,prom2,prom3,prom4,user,records,sections,schedule,students;
+  var prom1,prom2,prom3,prom4,prom5,prom6, user,records,sections,schedule,students,apeCount,adeCount;
+
   prom1 = userController.getUser();
   prom2 = studentController.getSections();
-  prom3 = studentController.getAllSched();
   prom4 = studentController.getStudentSchedules();
+  prom5 = studentController.checkApeCount();
+  prom6 = studentController.checkAdeCount();
   
-  Promise.all([prom1, prom2, prom3,prom4]).then(result => {
+  Promise.all([prom1, prom2,prom4,prom5,prom6]).then(result => {
     user = result[0];
     sections = result[1];
-    scheduleData = result[2];
-    studentSchedules = result[3];
+    //scheduleData = result[2];
+    studentSchedules = result[2];
+    var justUpdate = studentController.updateApeAdeCountSection(result[3],result[4]);
     
-    var i,schedule=[];
-
-    for(i=0;i<scheduleData.length;i++){
-      console.log(scheduleData[i]);
-      schedule.push({
-        grade:scheduleData[i].grade,
-        section:scheduleData[i].section,
-        totalNumStudents:scheduleData[i].numStudents,
-        apeDate:scheduleData[i].apeDate,
-        apeTime:scheduleData[i].apeTime,
-        apeSeen:scheduleData[i].apeSeen,
-        adeDate:scheduleData[i].adeDate,
-        adeTime:scheduleData[i].adeTime,
-        adeSeen:scheduleData[i].adeSeen
-      });
-    }
+    Promise.all([justUpdate]).then(result => {
+      prom3 = studentController.getAllSched();
+      
+      
+      Promise.all([prom3]).then(result => {
+        scheduleData = result[0];
+        
+        var i,schedule=[];
     
-    if(user.role == "Nurse"){
-      res.render('health-assessment', {
-        user: user,
-        isNurse: true,
-        sections: sections,
-        schedule:schedule,
-        studentSchedules:studentSchedules
+        for(i=0;i<scheduleData.length;i++){
+          console.log(scheduleData[i]);
+          schedule.push({
+            grade:scheduleData[i].grade,
+            section:scheduleData[i].section,
+            totalNumStudents:scheduleData[i].numStudents,
+            apeDate:scheduleData[i].apeDate,
+            apeTime:scheduleData[i].apeTime,
+            apeSeen:scheduleData[i].apeSeen,
+            adeDate:scheduleData[i].adeDate,
+            adeTime:scheduleData[i].adeTime,
+            adeSeen:scheduleData[i].adeSeen
+          });
+        }
+        
+        if(user.role == "Nurse"){
+          res.render('health-assessment', {
+            user: user,
+            isNurse: true,
+            sections: sections,
+            schedule:schedule,
+            studentSchedules:studentSchedules
+          });
+        } else if(user.role == "Admin"){
+          res.render('reports-clinic-visit', {
+            user: user,
+            isAdmin: true,
+            error: true,
+            error_msg: "You don't have access to this module!"
+          });
+        } else {
+          res.render('health-assessment', {
+            user: user, 
+            isNurse: false,
+            sections: sections,
+            schedule:schedule,
+            studentSchedules
+          });
+        }
+      }).catch(error => {
+        console.log('Error in health assessment');
+        console.log(error.message);
       });
-    } else if(user.role == "Admin"){
-      res.render('reports-clinic-visit', {
-        user: user,
-        isAdmin: true,
-        error: true,
-        error_msg: "You don't have access to this module!"
-      });
-    } else {
-      res.render('health-assessment', {
-        user: user, 
-        isNurse: false,
-        sections: sections,
-        schedule:schedule,
-        studentSchedules
-      });
-    }
+    }).catch(error => {
+      console.log('Error in health assessment');
+      console.log(error.message);
+    });
   }).catch(error => {
     console.log('Error in health assessment');
     console.log(error.message);

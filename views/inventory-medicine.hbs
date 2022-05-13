@@ -974,6 +974,31 @@
                 //console.log("list of discrepancy in front end");
                 //console.log(details);
 
+                $('#medicineTable').DataTable({
+            destroy: true,
+            pageLength: 100,
+            order: [[1, 'asc']],
+            rowGroup: {
+                endRender: function (rows, group ) {
+                    var total = rows
+                        .data()
+                        .pluck(2)
+                        .reduce( function (a, b) {
+                            return a + b.replace(/[^\d]/g, '')*1;
+                        }, 0);
+
+                    total = $.fn.dataTable.render.number(',', '.', 0).display( total );
+
+                    return $('<tr/>')
+                        .append( '<td class="font-weight-bold">Total Quantity </td>' )
+                        .append( '<td class="font-weight-bold" colspan="3">'+total+'</td>' )
+                        .append( '<td class="font-weight-bold">Restock Point </td>' )
+                        .append( '<td class="font-weight-bold restock-value" colspan="2">No data</td>' );
+                },
+                dataSrc: 1
+            }
+        });
+
                 var medYear = [], medMonth = [], medDay = [];
                 var curDates = [];
                 var medicineUsed = [];
@@ -1019,20 +1044,20 @@
                         //console.log(year + " " + yearUpdated);
                         //console.log(month + " " + monthUpdated + 1);
                         if(lastYear == yearUpdated && month == monthUpdated + 1){
-                            //console.log("pasok if");
-                            //console.log(invetoryMedicine[i].med);
-                            //console.log(medicineUsed[j].medicineName);
+                            console.log("pasok if");
+                            console.log(invetoryMedicine[i].med);
+                            console.log(medicineUsed[j].medicineName);
                             if(invetoryMedicine[i].med == medicineUsed[j].medicineName){
-                                //console.log("pasok 2nd if");
+                                console.log("pasok 2nd if");
                                 console.log(medicineUsed[j].medicineName);
-                                //console.log(parseInt(curDates[j].usedInventory));
+                                console.log(parseInt(curDates[j].usedInventory));
                                 sum += parseInt(medicineUsed[j].usedInventory);
-                                //console.log("sum: " + sum);
+                                console.log("sum: " + sum);
 
                                 var total = sum;
                                 total = total/24;
                                 var ltd = total*7; //lead time or ave time inventory is delivered
-                                //console.log("ltd: " + ltd);
+                                console.log("ltd: " + ltd);
                                 
                                 var stringID = '#';
                                 stringID += invetoryMedicine[i].medicineID;
@@ -1041,21 +1066,20 @@
                                 var text = $(stringID).closest("tr").next(".dtrg-end").text();
                                 text = text.replace( /^\D+/g, '');
                                 //if low stock
+                                var restock = (Math.ceil(ltd));
+                                $(stringID).closest("tr").next(".dtrg-end").find(".restock-value").text(restock);
                                 if(Math.ceil(ltd) >= parseInt(text)){
                                     //console.log("pasok");
                                     $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
-                                    $(stringID).closest("tr").next(".dtrg-end").css("font-weight", "bold");
                                 }
                                 
-                                //console.log("this is my ltd");
-                                //console.log(Math.ceil(ltd));
+                                console.log("this is my ltd");
+                                console.log(Math.ceil(ltd));
 
                             }
                         }
                     }
                 }
-
-                
 
                 //for(var i = 0; i < details.length; i++){
                 //    console.log("inside 1st for loop");
@@ -1380,8 +1404,6 @@
             
         });
 
-        
-
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
             var batchNum = row.find('td').eq(0).text();
@@ -1432,8 +1454,13 @@
                                 return a + b.replace(/[^\d]/g, '')*1;
                             }, 0);
 
-                        return ' Total Quantity: '+
-                            $.fn.dataTable.render.number(',', '.', 0).display( total );
+                        total = $.fn.dataTable.render.number(',', '.', 0).display( total );
+
+                        return $('<tr/>')
+                            .append( '<td class="font-weight-bold">Total Quantity </td>' )
+                            .append( '<td class="font-weight-bold" colspan="3">'+total+'</td>' )
+                            .append( '<td class="font-weight-bold">Restock Point </td>' )
+                            .append( '<td class="font-weight-bold" colspan="2">'+total+'</td>' );
                     },
                     dataSrc: 1
                 }

@@ -329,75 +329,6 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Medication Form</h1></div>
-                    <div class="card shadow mb-2" id="lastVisit">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
-                        <div class="card-body">
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Attending Nurse</span></div>
-                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Visit Date</span></div>
-                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Time In</span></div>
-                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Time Out</span></div>
-                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Body Temperature</span></div>
-                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Blood Pressure</span></div>
-                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Pulse Rate</span></div>
-                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Respiration Rate</span></div>
-                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-3">
-                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Treatment</span></div>
-                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
-                                </div>
-                                <div class="col-3">
-                                    <div class="font-weight-bold">Status</span></div>
-                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>   
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Diagnosis</span></div>
-                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>                                            
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
-                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     {{!-- {{#if isNurse}} --}}
                     <!-- Basic Card Example -->
                     <div class="card shadow mb-2">
@@ -475,6 +406,75 @@
                         </div>
                     </div>
                 </div>
+                <div class="card shadow mb-2" id="lastVisit">
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
+                        <div class="card-body">
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Attending Nurse</span></div>
+                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Visit Date</span></div>
+                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time In</span></div>
+                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Time Out</span></div>
+                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Body Temperature</span></div>
+                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Blood Pressure</span></div>
+                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Pulse Rate</span></div>
+                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Respiration Rate</span></div>
+                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-bold">Treatment</span></div>
+                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-weight-bold">Status</span></div>
+                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>   
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Diagnosis</span></div>
+                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                </div>
+                            </div>
+                            <hr class="w-10 mb-2"></hr>                                            
+                            <div class="form-row mb-2">
+                                <div class="col">
+                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <div class="card shadow mb-2">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                     <div class="card-body">

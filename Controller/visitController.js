@@ -1028,7 +1028,7 @@ exports.getClinicVisits = function(){
                     }
 
                     for(var i = 0; i < visitDates.length; i++){
-                        if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){
+                        if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 5){   // april toh ha dont forget na ibalik
                             visits.push({
                                 formId: temp[i].formId,
                                 id: temp[i].id,

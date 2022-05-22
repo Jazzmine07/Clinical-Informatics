@@ -399,7 +399,7 @@
                 </li>
 
                 <!-- Nav Item - Promotive Care -->
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/promotive-care">
                         <i class="fas fa-fw fa-child"></i>
                         <span>Promotive Care</span></a>
@@ -417,6 +417,30 @@
                     <a class="nav-link" href="/communications">
                         <i class="fas fa-fw fa-comments"></i>
                         <span>Communications</span></a>
+                </li>
+
+                <!-- Nav Item - Reports -->
+                <li class="nav-item">
+                    <a href="#report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Reports</span></a>
+                    <ul class="collapse list-unstyled" id="report">
+                        <li>
+                            <a class="nav-link" href="/reports-clinic-visit">
+                                <i class="fas fa-fw fa-medkit"></i>
+                                <span>Clinic Visit</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/reports-health-assessment">
+                                <i class="fas fa-fw fa-stethoscope"></i>
+                                <span>Health Assessment</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/reports-inventory">
+                                <i class="fas fa-fw fa-archive"></i>
+                                <span>Inventory</span></a>
+                        </li>
+                    </ul>
                 </li>
             {{/if}}
 
@@ -529,7 +553,7 @@
                             <form class="user">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
-                                        <label class="col-form-label" for="progType">Type of Program</label>
+                                        <label class="col-form-label" for="progType">Type of Program<label style="color:red">*</label></label>
                                         <select class="form-control mb-2 select2" id="progType" name="progType">
                                             <option disabled="disabled" selected="true">Choose...</option>                   
                                                 <option value="sbfp">School-Based Feeding Program (SBFP)</option>
@@ -543,7 +567,7 @@
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label for="progName" class="col-form-label">Name of Program</label>
+                                        <label for="progName" class="col-form-label">Name of Program<label style="color:red">*</label></label>
                                         <input type="text" class="form-control mb-2" id="progName">
                                     </div>
                                 </div>
@@ -584,7 +608,7 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                      <label class="col-form-label" for="population">Population of Interest</label>
+                                      <label class="col-form-label" for="population">Population of Interest<label style="color:red">*</label></label>
                                         <select id="population" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
                                             <option value="All Grade Levels">All Grade Levels</option>
                                             <option value="Grade 1">Grade 1</option>
@@ -614,11 +638,11 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-3">
-                                        <label for="progStart" class="col-form-label">Start Date</label>
+                                        <label for="progStart" class="col-form-label">Start Date<label style="color:red">*</label></label>
                                         <input type="date" class="form-control mb-2" id="progStart">
                                     </div>
                                     <div class="col-3">
-                                        <label for="progEnd" class="col-form-label">End Date</label>
+                                        <label for="progEnd" class="col-form-label">End Date<label style="color:red">*</label></label>
                                         <input type="date" class="form-control mb-2" id="progEnd">
                                     </div>
                                 </div>

@@ -306,7 +306,7 @@ router.get('/clinic-visit', loggedIn, (req, res) => { // dont foget to put logge
           isNurse: true,
           user: user,
           dashboard: dashboard,
-          forms: formId,
+          //forms: formId,
           clinicVisits: record,
         });
       } else if(user.role == "Admin"){

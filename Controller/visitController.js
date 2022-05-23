@@ -696,26 +696,58 @@ exports.editClinicVisit = function(req, res){
 };
 
 //This function is used to get the clinic visit forms to the user
+//Front end getting of assigned forms to phyicians
 exports.getAssignedForms = (req, res) => {
     var user = req;
     var database = firebase.database();
     var formsRef = database.ref("assignedForms/"+user);
-    var forms =[];
-    var childSnapshotData;
+    var temp = [], forms =[], details = [];
+    var i, childSnapshotData;
     
     var promise = new Promise((resolve, reject) => {
         formsRef.orderByChild("timestamp").once('value', async (snapshot) => {
             if(snapshot.exists()){
                 snapshot.forEach(function(childSnapshot){
                     childSnapshotData = childSnapshot.exportVal();  // Exports the entire contents of the DataSnapshot as a JavaScript object.
-                    forms.push({
+                    temp.push({
                         task: childSnapshotData.task,
-                        description: childSnapshotData.description,
                         formId: childSnapshot.key,
                         assignedBy: childSnapshotData.assignedBy,
                         dateAssigned: childSnapshotData.dateAssigned
-                    });
+                    })
                 })
+
+                // console.log("temp2");
+                // console.log(temp);
+
+                for(i = 0; i < temp.length; i++){
+                    await database.ref("clinicVisit/"+temp[i].formId).once('value', (visitDetail) => {
+                        //console.log("pumasok ba dito");
+                        //console.log(visitDetail.exportVal());
+                        console.log(visitDetail.child("studentName").val())
+                        details.push({
+                            id: visitDetail.child("id").val(),
+                            studentName: visitDetail.child("studentName").val(),
+                        });
+                        // console.log("details1");
+                        // console.log(details);
+                    })  
+                }
+                // console.log("details2");
+                // console.log(details);
+
+                for(i = 0; i < temp.length; i++){
+                    forms.push({
+                        id: details[i].id,
+                        studentName: details[i].studentName,
+                        task: temp[i].task,
+                        formId: temp[i].formId,
+                        assignedBy: temp[i].assignedBy,
+                        dateAssigned: temp[i].dateAssigned
+                    })
+                }
+                console.log("forms");
+                console.log(forms);
                 resolve(forms);
             } else {
                 resolve(forms);

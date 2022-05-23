@@ -849,68 +849,70 @@ exports.addSchedule=function(req,res){
 
     sectionScheduleRef.child(schoolYear).once('value',(snapshot)=>{
         snapshot.forEach(function(childSnapshot){
-            var childValues = childSnapshot.exportVal();
-            studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
-                if(ss.exists()){
-                    ss.forEach(function(cs){
-                        var values= cs.exportVal();
-                        console.log(values.section);
-                        students.push({
-                            key: cs.key,
-                            section:values.section
-                        });
-                    })
-                }
-                sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
-                students=[];
-            });
-            sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set("0");
-            sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set("0");
-            
-            healthHistory.once('value',(students)=>{
-                students.forEach(function(student){
-                    student.child("ape").forEach(function(year){
-                        if(year.key==schoolYear){
-                            var apeData = year.exportVal();
-                            if(apeData.section == childValues.section){
-                                console.log("ENTERS SECTION");
-                                studentsAccomApe.push("1");
-                                done=true;
-                                console.log("made true");   
+            if(childSnapshot.key != "students"){
+                var childValues = childSnapshot.exportVal();
+                studentRef.orderByChild("section").equalTo(childValues.section).on('value', (ss) => {
+                    if(ss.exists()){
+                        ss.forEach(function(cs){
+                            var values= cs.exportVal();
+                            console.log(values.section);
+                            students.push({
+                                key: cs.key,
+                                section:values.section
+                            });
+                        })
+                    }
+                    sectionScheduleRef.child(schoolYear).child(childValues.section).child("numStudents").set(students.length);
+                    students=[];
+                });
+                sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set("0");
+                sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set("0");
+                
+                healthHistory.once('value',(students)=>{
+                    students.forEach(function(student){
+                        student.child("ape").forEach(function(year){
+                            if(year.key==schoolYear){
+                                var apeData = year.exportVal();
+                                if(apeData.section == childValues.section){
+                                    console.log("ENTERS SECTION");
+                                    studentsAccomApe.push("1");
+                                    done=true;
+                                    console.log("made true");   
+                                }
                             }
-                        }
+                        })
                     })
+                    if(done==true){
+                        console.log("TOTAL checked");
+                        console.log(studentsAccomApe.length);
+                        sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set(studentsAccomApe.length);
+                        done=false;
+                        studentsAccomApe=[];
+                    }
                 })
-                if(done==true){
-                    console.log("TOTAL checked");
-                    console.log(studentsAccomApe.length);
-                    sectionScheduleRef.child(schoolYear).child(childValues.section).child("apeSeen").set(studentsAccomApe.length);
-                    done=false;
-                    studentsAccomApe=[];
-                }
-            })
-            healthHistory.once('value',(students)=>{
-                students.forEach(function(student){
-                    student.child("ade").forEach(function(year){
-                        if(year.key==schoolYear){
-                            var adeData = year.exportVal();
-                            if(adeData.section == childValues.section){
-                                console.log("ENTERS SECTION");
-                                studentsAccomAde.push("1");
-                                done=true;
-                                console.log("made true");   
+                healthHistory.once('value',(students)=>{
+                    students.forEach(function(student){
+                        student.child("ade").forEach(function(year){
+                            if(year.key==schoolYear){
+                                var adeData = year.exportVal();
+                                if(adeData.section == childValues.section){
+                                    console.log("ENTERS SECTION");
+                                    studentsAccomAde.push("1");
+                                    done=true;
+                                    console.log("made true");   
+                                }
                             }
-                        }
+                        })
                     })
+                    if(done==true){
+                        console.log("TOTAL checked");
+                        console.log(studentsAccomAde.length);
+                        sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set(studentsAccomAde.length);
+                        done=false;
+                        studentsAccomAde=[];
+                    }
                 })
-                if(done==true){
-                    console.log("TOTAL checked");
-                    console.log(studentsAccomAde.length);
-                    sectionScheduleRef.child(schoolYear).child(childValues.section).child("adeSeen").set(studentsAccomAde.length);
-                    done=false;
-                    studentsAccomAde=[];
-                }
-            })
+            }
         })
 
     })

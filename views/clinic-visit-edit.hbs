@@ -1326,24 +1326,21 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-6 mb-4">
+                                <div class="col-4 mb-4 mr-4">
                                     <label class="col-form-label" for="diagnosis">Illness</label>
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
                                         {{/each}}
                                     </select>
-                                </div>       
-                                <div class="col-3" style="margin-right: -70px;">
-                                    <div class="form-check align-items-center" style="padding-top: 45px;">
-                                        <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
-                                        <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
-                                    </div>
-                                    <div class="form-check align-items-center" style="padding-top: 45px;">
-                                        <input class="form-check-input mb-2" type="checkbox" value="" id="injuryCheckBox" style="border: 1px solid #d1d3e2; !important">
-                                        <label class="form-check-label" for="flexCheckChecked">Injury</label>
-                                    </div>
-                                </div>                   
+                                </div> 
+                                <div class="col-4 pt-3">
+                                    <label class="form-check-label mr-5">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" value="" name="disease[1][]"/>Injury</label>
+                                    <label>
+                                </div>   
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
@@ -1356,15 +1353,7 @@
                     
                     <!-- Medication -->
                     <div class="card shadow mb-2">
-                        <div class="card-header py-3 d-sm-flex">
-                            <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assignMedication">Assign To</label>
-                            <select class="form-control mb-2 select2 populate placeholder" multiple="multiple" style="width: 300px; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="assignMedication" name="assignMedication">
-                                {{#each nurse}}
-                                    <option value="{{key}}">{{firstName}} {{lastName}}</option>
-                                {{/each}}
-                            </select> 
-                        </div>
+                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-8">
@@ -1636,6 +1625,17 @@
             }
             return age;
         }
+
+        $(".diseaseType").on('click', function() {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+        });
 
         var notAllowedMedicines = [];
         var weight, height, age, fullAge, sex;

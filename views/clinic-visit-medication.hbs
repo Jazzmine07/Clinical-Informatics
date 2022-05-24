@@ -1389,6 +1389,7 @@
        $('#addMedication').click(function(){
             var amount = document.getElementById("amountMed").value;
             var time =  $('#timeTaken').val();
+            console.log(time);
             
             addMedication(selectedMedication, medicationTxt, amount, timeTaken);
             

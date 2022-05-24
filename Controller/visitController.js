@@ -422,8 +422,7 @@ exports.editClinicVisit = function(req, res){
             })
 
             //if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
-                console.log("pumasok pag wlang medication assigned");
-
+            if(medicationsArray != undefined){  // if there is no input for medications by physician
                 for(i = 0; i < medicationsArray.length; i++){
                     prescription = {
                         medicine: medicationsArray[i].medication,
@@ -460,75 +459,76 @@ exports.editClinicVisit = function(req, res){
                         }
                     })
                 })
+            }
 
-                //if intake array is not empty!
-                if(intakeArray != undefined){
-                    var intakeHistory = {
-                        attendingClinician: userName,
-                        grade: studentGrade,
-                        id: studentId, 
-                        medications: "", // array of medications
-                        section: studentSection,
-                        studentName: studentName,
-                        timeIn: timeIn,
-                        timeOut: timeOut,
-                        timestamp: time,
-                        visitDate: visitDate,
+            //if intake array is not empty!
+            if(intakeArray != undefined){
+                var intakeHistory = {
+                    attendingClinician: userName,
+                    grade: studentGrade,
+                    id: studentId, 
+                    medications: "", // array of medications
+                    section: studentSection,
+                    studentName: studentName,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    timestamp: time,
+                    visitDate: visitDate,
+                }
+            
+                var intakeRef = database.ref("intakeHistory");
+                var historyKey = intakeRef.push(intakeHistory).key;
+                var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+
+                for(i = 0; i < intakeArray.length; i++){
+                    history = {
+                        medicineName: intakeArray[i].medication,
+                        specificMedicine: intakeArray[i].med,
+                        specificAmount: intakeArray[i].amount,
+                        amount: parseFloat(intakeArray[i].amount),
+                        time: intakeArray[i].time
+                    };
+
+                    healthHistoryIntake = {
+                        specificMedicine: intakeArray[i].med,
+                        specificAmount: intakeArray[i].amount,
+                        time: intakeArray[i].time,
+                        dateTaken: visitDate
                     }
-                
-                    var intakeRef = database.ref("intakeHistory");
-                    var historyKey = intakeRef.push(intakeHistory).key;
-                    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
-
-                    for(i = 0; i < intakeArray.length; i++){
-                        history = {
-                            medicineName: intakeArray[i].medication,
-                            specificMedicine: intakeArray[i].med,
-                            specificAmount: intakeArray[i].amount,
-                            amount: parseFloat(intakeArray[i].amount),
-                            time: intakeArray[i].time
-                        };
-
-                        healthHistoryIntake = {
-                            specificMedicine: intakeArray[i].med,
-                            specificAmount: intakeArray[i].amount,
-                            time: intakeArray[i].time,
-                            dateTaken: visitDate
-                        }
-                        database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-                        historyRef.push(healthHistoryIntake);
-                    }
-
-                    var parentRef = database.ref("parentInfo");
-                    parentRef.once('value', (snapshot) => {
-                        snapshot.forEach(function(parent){
-                            parent.child('children').forEach(function(children){
-                                if(children.val() == studentId){
-                                    var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
-                                    var intakeNotif = {
-                                        message: "Your child, " + studentName + ", was given a medication.",
-                                        id: studentId,
-                                        timeIn: timeIn,
-                                        date: visitDate, 
-                                    }
-                                    intakeNotification.push(intakeNotif);
-                                }
-                            })
-                        })
-                    })
+                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                    historyRef.push(healthHistoryIntake);
                 }
 
-                // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-                var formRef = database.ref("assignedForms/"+ userKey);
-                formRef.once('value', (snapshot) => { 
-                    snapshot.forEach(function(childSnapshot) {
-                        if(childSnapshot.key == formId){
-                            database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                            database.ref("notifications/"+ userKey + "/" + formId).remove();
-                        }
-                    });
+                var parentRef = database.ref("parentInfo");
+                parentRef.once('value', (snapshot) => {
+                    snapshot.forEach(function(parent){
+                        parent.child('children').forEach(function(children){
+                            if(children.val() == studentId){
+                                var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                                var intakeNotif = {
+                                    message: "Your child, " + studentName + ", was given a medication.",
+                                    id: studentId,
+                                    timeIn: timeIn,
+                                    date: visitDate, 
+                                }
+                                intakeNotification.push(intakeNotif);
+                            }
+                        })
+                    })
                 })
-                res.status(200).send();
+            }
+
+            // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
+            var formRef = database.ref("assignedForms/"+ userKey);
+            formRef.once('value', (snapshot) => { 
+                snapshot.forEach(function(childSnapshot) {
+                    if(childSnapshot.key == formId){
+                        database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                        database.ref("notifications/"+ userKey + "/" + formId).remove();
+                    }
+                });
+            })
+            res.status(200).send();
             // } else {
             //     var record = {
             //         timeOut: timeOut,
@@ -1128,6 +1128,7 @@ exports.addMedicationIntake = function(req, res){
 
     var database = firebase.database();
     var intakeRef = database.ref("intakeHistory");
+    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
     var record = {
         id: studentId, 
@@ -1147,11 +1148,20 @@ exports.addMedicationIntake = function(req, res){
     for(i = 0; i < medicationsArray.length; i++){
         medication = {
             medicineName: medicationsArray[i].medication,
-            medicine: medicationsArray[i].med,
-            amount: parseInt(medicationsArray[i].amount),
+            specificMedicine: medicationsArray[i].med,
+            specificAmount: medicationsArray[i].amount,
             time: medicationsArray[i].time
         };
+
+        healthHistoryIntake = {
+            specificMedicine: medicationsArray[i].med,
+            specificAmount: medicationsArray[i].amount,
+            time: medicationsArray[i].time,
+            dateTaken: visitDate
+        }
+
         database.ref('intakeHistory/' + key + '/medications').push(medication);
+        historyRef.push(healthHistoryIntake);
     }
     
     res.status(200).send();

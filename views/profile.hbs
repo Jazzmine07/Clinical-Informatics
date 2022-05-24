@@ -2907,18 +2907,19 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Immunization Record</h6>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive pt-3 pr-3 pl-3">
                                 <table class="table table-bordered" id="immunizationTable" width="100%" cellspacing="0">
-                                    {{!-- <thead>
-                                        <tr>
+                                    <thead>
+                                        <tr style="text-align: center;">
                                             <th>Vaccine</th>
-                                            <th>1st Dose</th>
-                                            <th>2nd Dose</th>
-                                            <th>3rd Dose</th>
-                                            <th>Booster 1</th>
-                                            <th>Booster 2</th>
+                                            <th>Date Given</th>
+                                            <th>Date Given</th>
+                                            <th>Date Given</th>
+                                            <th>Date Given</th>
+                                            <th>Date Given</th>
+                                            <th>Date Given</th>
                                         </tr>
-                                    </thead> --}}
+                                    </thead>
                                     <tbody>
                                         <tr>
                                             <td>Anti-Rabies</td>
@@ -3216,7 +3217,7 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">Allergies</h6>
                             </div>
-                            <div class="table-responsive">
+                            <div class="table-responsive pt-3 pr-3 pl-3">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -3245,7 +3246,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Intake History</h6>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="table-responsive">
+                                <div class="table-responsive pt-3 pr-3 pl-3">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -3278,7 +3279,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Prescription History</h6>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="table-responsive">
+                                <div class="table-responsive pt-3 pr-3 pl-3">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -3648,7 +3649,7 @@
                     document.getElementById("sex").innerHTML=data.sex;
                     document.getElementById("BMIText").innerHTML=data.bmi;
                     
-                    if(data.bmiStatus == "Normal"){
+                    if(data.bmiStatus == "Normal" || "Normal weight"){
                         document.getElementById("BMIStatusRed").style.display = "none";
                         document.getElementById("BMIStatus").style.display = "none";
                         document.getElementById("BMIStatus").innerHTML=data.bmiStatus;

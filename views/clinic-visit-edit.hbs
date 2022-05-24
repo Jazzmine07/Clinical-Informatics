@@ -1170,7 +1170,7 @@
                                     <input type="time" class="form-control mb-2" id="clinicIn" disabled="disabled" value="{{form.timeIn}}">
                                 </div>
                                 <div class="col-2">
-                                    <label for="clinicOut" class="col-form-label">Time Out</label>
+                                    <label for="clinicOut" class="col-form-label">Time Out<label style="color:red">*</label></label>
                                     <input type="time" class="form-control mb-2" id="clinicOut">
                                 </div>
                                 <div class="col-5">
@@ -1309,7 +1309,7 @@
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
+                                    <label class="col-form-label" for="treatmentVisit">Treatment<label style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3"></textarea>
                                 </div>
                             </div>
@@ -1326,8 +1326,8 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-6 mb-4">
-                                    <label class="col-form-label" for="diagnosis">Illness</label>
+                                <div class="col-4 mb-4 mr-4">
+                                    <label class="col-form-label" for="diagnosis">Illness<label style="color:red">*</label></label>
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
@@ -1347,7 +1347,7 @@
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis<label style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="4"></textarea> 
                                 </div>
                             </div>
@@ -1376,7 +1376,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <label class="col-form-label" for="medicationVisit">Medication</label>
+                                            <label class="col-form-label" for="medicationVisit">Medication<label style="color:red">*</label></label>
                                             <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled" selected="true">Choose...</option>
                                                 {{#each medicines}}
@@ -1385,7 +1385,7 @@
                                             </select>                                                                   
                                         </div>
                                         <div class="col-5">
-                                            <label class="col-form-label" for="amountMed">Dose</label>
+                                            <label class="col-form-label" for="amountMed">Dose<label style="color:red">*</label></label>
                                             <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
                                         </div>
                                     </div>
@@ -1401,21 +1401,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                            <label class="col-form-label" for="purposeVisit">Purpose<label style="color:red">*</label></label>
                                             <input type="text" class="form-control mb-2" id="purposeVisit" name="puproseVisit">
                                         </div>
                                         <div class="col-5">
-                                            <label class="col-form-label" for="intervalMed">Interval</label>
+                                            <label class="col-form-label" for="intervalMed">Interval<label style="color:red">*</label></label>
                                             <input type="text" class="form-control mb-2" id="intervalMed" name="intervalMed">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-3 align-items-center">
-                                            <label class="col-form-label" for="startMed">Start Date</label>
+                                            <label class="col-form-label" for="startMed">Start Date<label style="color:red">*</label></label>
                                             <input type="date" class="form-control mb-2" id="startMed" name="startMed">
                                         </div>
                                         <div class="col-3 align-items-center">
-                                            <label class="col-form-label" for="endMed">End Date</label>
+                                            <label class="col-form-label" for="endMed">End Date<label style="color:red">*</label></label>
                                             <input type="date" class="form-control mb-2" id="endMed" name="endMed">
                                         </div>
                                         <div class="col-3" style="margin-right: -115px;">
@@ -2679,6 +2679,8 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
+            var complaint = $('#complaintVisit').val();
+
             var diagnosis = $('#diagnosis').val(); 
 
             //function capitalizeFirstLetter(string) {
@@ -2739,6 +2741,7 @@
                     visitDate: visitDate,
                     timeIn: timeIn,
                     timeOut: timeOut,
+                    complaint: complaint,
                     diagnosis: diagnosis,
                     communicable:document.getElementById("communicableCheckBox").checked,
                     injury:document.getElementById("injuryCheckBox").checked,

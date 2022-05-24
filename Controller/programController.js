@@ -67,7 +67,7 @@ exports.getProgramsList = function(){
                     }
 
                     for(var i = 0; i < programDate.length; i++){
-                        if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 4){
+                        if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){
                             programs.push({
                                 startDate: temp[i].startDate,
                                 endDate: temp[i].endDate,

@@ -39,10 +39,6 @@
             display: none;
         }
 
-        #visitBody{
-            display: none;
-        }
-
         .content {
             margin: 15px 15px 0px 15px;
             max-height: 0;
@@ -3571,8 +3567,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div> 
-            <div id="visitBody">
-
                 <!-- Basic Card Example -->
                 <div class="card shadow mb-2" id="scrollVisit">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
@@ -3746,7 +3740,7 @@
                             <hr class="w-10 mb-2"></hr> 
                     
                             <div class="form-row align-items-center">
-                                <div class="col-4 mr-4">
+                                <div class="col-6">
                                     <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit<label style="color:red">*</label></label>
                                     {{!-- <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea> --}}
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="complaintVisit" name="complaintVisit">
@@ -3755,12 +3749,15 @@
                                         {{/each}}
                                     </select> 
                                 </div>
-                                <div class="col-4 pt-5">
-                                    <label class="form-check-label mr-5">
-                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" value="" name="disease[1][]"/>Injury</label>
-                                    <label>
+                                <div class="col-3" style="margin-right: -70px;">
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
+                                    </div>
+                                    <div class="form-check align-items-center" style="padding-top: 45px;">
+                                        <input class="form-check-input mb-2" type="checkbox" value="" id="injuryCheckBox" style="border: 1px solid #d1d3e2; !important">
+                                        <label class="form-check-label" for="flexCheckChecked">Injury</label>
+                                    </div>
                                 </div>
                             </div>
                        
@@ -3791,7 +3788,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-4 mb-4">
+                                <div class="col-6 mb-4">
                                     <label class="col-form-label" for="diagnosis">Illness</label>
                                     <input disabled="true" list="diagnosisList" class="form-control" id="diagnosis" name="diagnosis">                                       
                                     <datalist id="diagnosisList">
@@ -3947,7 +3944,6 @@
                             </div>
                         </div>
                     </div>
-            </div>   
 
                 </div>
             </div>
@@ -4110,17 +4106,6 @@
             return [year, month, day].join('-');
         }
 
-        $(".diseaseType").on('click', function() {
-        var $box = $(this);
-        if ($box.is(":checked")) {
-            var group = "input:checkbox[name='" + $box.attr("name") + "']";
-            $(group).prop("checked", false);
-            $box.prop("checked", true);
-        } else {
-            $box.prop("checked", false);
-        }
-        });
-
         var notAllowedMedicines = [];
         var weight, height, age, sex, birthday;
 
@@ -4259,8 +4244,7 @@
 
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
-                    document.getElementById('studentDiv').style.display = "none";
-                    document.getElementById('visitBody').style.display = "none"; 
+                    document.getElementById('studentDiv').style.display = "none"; 
                     document.getElementById('errorDiv').style.display = "block";  
                     document.getElementById('lastVisit').style.display = "none";
                     document.getElementById("clinicVisitForm").reset();
@@ -4269,7 +4253,6 @@
                 else if(studentInfo.firstName == null){ // if data is null so meaning no student with that id number
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
                     document.getElementById('studentDiv').style.display = "none";                     
-                    document.getElementById('visitBody').style.display = "none";
                     document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
@@ -4516,7 +4499,6 @@
                     document.getElementById("hospitalAddress").innerHTML=studentInfo.hospitalAddress;  
 
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
-                    document.getElementById('visitBody').style.display = "block";
                 }
             });
 
@@ -4578,7 +4560,7 @@
 
                 document.getElementById("noAPEAlert").style.display = "none";
 
-                if(data[0].length > 0){
+                if(data.length != 0){
                     for(i = 0; i < data[0].length; i++){
                         if(data[0][i].sy == "2021-2022"){
                             console.log("found = true");

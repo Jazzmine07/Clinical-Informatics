@@ -1128,6 +1128,7 @@ exports.addMedicationIntake = function(req, res){
 
     var database = firebase.database();
     var intakeRef = database.ref("intakeHistory");
+    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
     var record = {
         id: studentId, 
@@ -1147,11 +1148,20 @@ exports.addMedicationIntake = function(req, res){
     for(i = 0; i < medicationsArray.length; i++){
         medication = {
             medicineName: medicationsArray[i].medication,
-            medicine: medicationsArray[i].med,
-            amount: parseInt(medicationsArray[i].amount),
+            specificMedicine: medicationsArray[i].med,
+            specificAmount: medicationsArray[i].amount,
             time: medicationsArray[i].time
         };
+
+        healthHistoryIntake = {
+            specificMedicine: medicationsArray[i].med,
+            specificAmount: medicationsArray[i].amount,
+            time: medicationsArray[i].time,
+            dateTaken: visitDate
+        }
+
         database.ref('intakeHistory/' + key + '/medications').push(medication);
+        historyRef.push(healthHistoryIntake);
     }
     
     res.status(200).send();

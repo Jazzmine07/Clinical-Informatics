@@ -1358,7 +1358,7 @@
                     <div class="card shadow mb-2">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
-                            <label class="col-form-label p-2 mr-1" for="assignMedication">Assign To</label>
+                            <label class="col-form-label p-2 mr-1" for="assignMedication">Notify</label>
                             <select class="form-control mb-2 select2 populate placeholder" multiple="multiple" style="width: 300px; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="assignMedication" name="assignMedication">
                                 {{#each nurse}}
                                     <option value="{{key}}">{{firstName}} {{lastName}}</option>
@@ -2618,12 +2618,6 @@
         });  
 
         $("#assignMedication").change(function(){
-            document.getElementById("medicationVisit").disabled = false;
-            document.getElementById("amountMed").disabled = false;
-            document.getElementById("purposeVisit").disabled = false;
-            document.getElementById("intervalMed").disabled = false;
-            document.getElementById("startMed").disabled = false;
-            document.getElementById("endMed").disabled = false;
             document.getElementById("takenClinic").disabled = false;
             document.getElementById("addMedication").style.visibility = "visible";
 
@@ -2631,24 +2625,10 @@
             console.log(length);
 
             if(length != 0){
-                document.getElementById("medicationVisit").disabled = true;
-                document.getElementById("amountMed").disabled = true;
-                document.getElementById("purposeVisit").disabled = true;
-                document.getElementById("intervalMed").disabled = true;
-                document.getElementById("startMed").disabled = true;
-                document.getElementById("endMed").disabled = true;
                 document.getElementById("takenClinic").disabled = true;
-                document.getElementById("addMedication").style.visibility = "hidden";
             }
             else if(length == 0){
-                document.getElementById("medicationVisit").disabled = false;
-                document.getElementById("amountMed").disabled = false;
-                document.getElementById("purposeVisit").disabled = false;
-                document.getElementById("intervalMed").disabled = false;
-                document.getElementById("startMed").disabled = false;
-                document.getElementById("endMed").disabled = false;
                 document.getElementById("takenClinic").disabled = false;
-                document.getElementById("addMedication").style.visibility = "visible";
             }
         });
 

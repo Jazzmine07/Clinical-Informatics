@@ -421,8 +421,8 @@ exports.editClinicVisit = function(req, res){
                 }
             })
 
-            //if(medicationAssign == ""){ // meaning clinician is the one inputting the medication section
-            if(medicationsArray != undefined){  // if there is no input for medications by physician
+            
+            if(medicationsArray != undefined){  // if there is input for medications by physician
                 for(i = 0; i < medicationsArray.length; i++){
                     prescription = {
                         medicine: medicationsArray[i].medication,
@@ -459,6 +459,30 @@ exports.editClinicVisit = function(req, res){
                         }
                     })
                 })
+
+                if(medicationAssign != ""){ // meaning clinician is asking nurse to give prescribed medication to student
+                    //-----------ASSIGNED FORM FOR NURSE---------------
+                    var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
+                    var medicationForm = {
+                        task: "Clinic Visit",
+                        description: "Give medication to student",
+                        assignedBy: userName,
+                        dateAssigned: date,
+                        timestamp: time
+                    }
+                    assignMedication.set(medicationForm);
+
+                    //-----------NOTIFICATION FOR NURSE---------------
+                    var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
+                    var notif = {
+                        type: "form",
+                        message: "You have a new assigned task!",
+                        date: date,
+                        timestamp: time,
+                        seen: false
+                    }
+                    userMedicationNotification.set(notif);
+                }
             }
 
             //if intake array is not empty!
@@ -578,8 +602,8 @@ exports.editClinicVisit = function(req, res){
             //     res.status(200).send();
             // }
         } 
-        // else {    // nurse encoding medication section
-        //     console.log("pumasok sa nurse if");
+        else {    // nurse encoding intake history section
+            console.log("pumasok sa nurse if");
         //     var record = {
         //         timeOut: timeOut,
         //         status: status,
@@ -691,8 +715,8 @@ exports.editClinicVisit = function(req, res){
         //             }
         //         });
         //     })
-        //     res.status(200).send();
-        // }
+            res.status(200).send();
+        }
     })
 };
 
@@ -718,24 +742,15 @@ exports.getAssignedForms = (req, res) => {
                     })
                 })
 
-                // console.log("temp2");
-                // console.log(temp);
-
                 for(i = 0; i < temp.length; i++){
                     await database.ref("clinicVisit/"+temp[i].formId).once('value', (visitDetail) => {
-                        //console.log("pumasok ba dito");
-                        //console.log(visitDetail.exportVal());
                         console.log(visitDetail.child("studentName").val())
                         details.push({
                             id: visitDetail.child("id").val(),
                             studentName: visitDetail.child("studentName").val(),
                         });
-                        // console.log("details1");
-                        // console.log(details);
                     })  
                 }
-                // console.log("details2");
-                // console.log(details);
 
                 for(i = 0; i < temp.length; i++){
                     forms.push({
@@ -747,8 +762,6 @@ exports.getAssignedForms = (req, res) => {
                         dateAssigned: temp[i].dateAssigned
                     })
                 }
-                console.log("forms");
-                console.log(forms);
                 resolve(forms);
             } else {
                 resolve(forms);

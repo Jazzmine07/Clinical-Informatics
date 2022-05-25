@@ -3595,12 +3595,12 @@
                     <div class="card-body">
                         <div class="form-row align-items-center">
                             <div class="col-4">
-                                <label for="clinicDate" class="col-form-label">Visit Date</label>
+                                <label for="visitDate" class="col-form-label">Visit Date</label>
                                 <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" disabled="true">
                             </div>
                             <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse<label style="color:red">*</label></label>
-                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                <label class="col-form-label" for="attendingNurse">Attending Nurse</label>
+                                <select class="form-control mb-2" id="attendingNurse" name="attendingNurse" disabled="true">
                                     <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
@@ -3608,15 +3608,15 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In<label style="color:red">*</label></label>
-                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
+                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn" disabled="true">
                             </div>
                             <div class="col-2">
                                 <label for="clinicOut" class="col-form-label">Time Out</label>
                                 <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                             </div>  
                             <div class="col-3">
-                                <label for="clinicType" class="col-form-label">Clinic Visit Type<label style="color:red">*</label></label>
+                                <label for="clinicType" class="col-form-label">Clinic Visit Type<span style="color:red">*</span></label>
                                 <select class="custom-select mb-2" id="clinicType" name="clinicType">
                                     <option value="Consultation">Consultation</option>
                                     <option value="Emergency">Emergency</option>
@@ -3628,8 +3628,8 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-4">
-                                <label class="col-form-label" for="studentID">Student ID Number<label style="color:red">*</label></label>
-                                <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                                <label class="col-form-label" for="studentID">Student ID Number</label>
+                                <input type="text" class="form-control mb-2" id="studentID" name="studentId" disabled="true">
                             </div>
                             <div class="col-5">
                                 <label class="col-form-label" for="studentName">Student Name</label>
@@ -3640,7 +3640,7 @@
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="studentGrd" class="col-form-label">Grade</label>
-                                <select class="custom-select mb-2" id="studentGrade" disabled="true">
+                                <select class="form-control mb-2" id="studentGrade" disabled="true">
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
@@ -3763,7 +3763,7 @@
                     
                             <div class="form-row align-items-center">
                                 <div class="col-4 mr-4">
-                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit<label style="color:red">*</label></label>
+                                    <label class="col-form-label" for="complaintVisit">Complaint/Reason for Visit<span style="color:red">*</span></label>
                                     {{!-- <textarea type="text" class="form-control mb-2" id="complaintVisit" name ="complaintVisit" rows="6"></textarea> --}}
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="complaintVisit" name="complaintVisit">
                                         {{#each complaints}}
@@ -3771,7 +3771,7 @@
                                         {{/each}}
                                     </select> 
                                 </div>
-                                <div class="col-4 pt-5">
+                                <div class="col-4 pt-4">
                                     <label class="form-check-label mr-5">
                                         <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
                                     <label class="form-check-label">
@@ -3782,7 +3782,7 @@
                        
                             <div class="form-row align-items-center mt-2">
                                 <div class="col-6">
-                                    <label class="col-form-label" for="impression">Working Impression<label style="color:red">*</label></label>
+                                    <label class="col-form-label" for="impression">Working Impression<span style="color:red">*</span></label>
                                     <textarea type="text" class="form-control mb-2" id="impression" name ="impression" rows="6"></textarea>
                                 </div>
                                 <div class="col-6">
@@ -4109,6 +4109,11 @@
 
             return [year, month, day].join('-');
         }
+
+        var dateToday = new Date();
+        var currentTime = dateToday.getHours() + ':' + dateToday.getMinutes();
+
+        document.getElementById('clinicIn').value = currentTime;
 
         var notAllowedMedicines = [];
         var weight, height, age, sex, birthday;

@@ -671,9 +671,16 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-6 mb-4">
+                                <div class="col-4 mb-4 mr-4">
                                     <label class="col-form-label" for="diagnosis">Illness</label>
                                     <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >        
+                                </div>
+                                <div class="col-4 pt-4">
+                                    <label class="form-check-label mr-5">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" value="" name="disease[1][]"/>Injury</label>
+                                    <label>
                                 </div>
                             </div>
                         </div>
@@ -689,54 +696,53 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label class="col-form-label" for="prescribedBy">Prescribed by</label>
                                             <input type="text" class="form-control" id="prescribedBy" name="prescribedBy" disabled="disabled" value="{{form.prescribedBy}}">
                                         </div> 
                                     </div>
-
+                                    {{#each form.medications}}
                                     <div class="form-row align-items-center">
-                                        {{#each form.medications}}    
-                                            <div class="col-3 mb-2">
-                                                <label class="col-form-label" for="medicationVisit">Medication</label>
-                                                <input type="text" disabled="disabled" class="form-control" name="medicationVisit" value="{{medicine}}">                                                                  
+                                        <div class="col-4 mb-2">
+                                            <label class="col-form-label" for="medicationVisit">Medication</label>
+                                            <input type="text" disabled="disabled" class="form-control medNurse" name="medicationVisit" value="{{medicine}}">                                                                  
+                                        </div>
+                                        <div class="col-2 mb-2">
+                                            <label class="col-form-label" for="amountMed">Dose</label>
+                                            <input type="text" disabled="disabled" class="form-control amtNurse" value="{{amount}}" name="amountMed">
+                                        </div>
+                                        {{!-- <div class="col-2 mb-2">
+                                            <label class="col-form-label" for="purposeVisit">Purpose</label>
+                                            <input type="text" disabled="disabled" class="form-control" value="{{purpose}}" name="puproseVisit">
+                                        </div>
+                                        <div class="col-1 mb-2">
+                                            <label class="col-form-label" for="intervalMed">Interval</label>
+                                            <input type="text" disabled="disabled" class="form-control" value="{{interval}}" name="intervalMed">
+                                        </div>
+                                        <div class="col-2 mb-2">
+                                            <label class="col-form-label" for="startMed">Start Date</label>
+                                            <input type="text" disabled="disabled" class="form-control" value="{{formatDate startMed}}" name="startMed">
+                                        </div>
+                                        <div class="col-2 mb-2">
+                                            <label class="col-form-label" for="endMed">End Date</label>
+                                            <input type="text" disabled="disabled" class="form-control" value="{{formatDate endMed}}" name="endMed">
+                                        </div> --}}
+                                        {{!-- <div class="row"> --}}
+                                        {{!-- <div class="col-2" style="margin-right: -100px;">
+                                            <div class="form-check align-items-center" style="padding-top: 35px;">
+                                                <input class="form-check-input mb-2 takenNurse" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
+                                                <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
                                             </div>
-                                            <div class="col-1 mb-2">
-                                                <label class="col-form-label" for="amountMed">Dose</label>
-                                                <input type="text" disabled="disabled" class="form-control" value="{{amount}}" name="amountMed">
-                                            </div>
-                                            <div class="col-2 mb-2">
-                                                <label class="col-form-label" for="purposeVisit">Purpose</label>
-                                                <input type="text" disabled="disabled" class="form-control" value="{{purpose}}" name="puproseVisit">
-                                            </div>
-                                            <div class="col-2 mb-2">
-                                                <label class="col-form-label" for="intervalMed">Interval</label>
-                                                <input type="text" disabled="disabled" class="form-control" value="{{interval}}" name="intervalMed">
-                                            </div>
-                                            <div class="col-2 mb-2">
-                                                <label class="col-form-label" for="startMed">Start Date</label>
-                                                <input type="text" disabled="disabled" class="form-control" value="{{formatDate startMed}}" name="startMed">
-                                            </div>
-                                            <div class="col-2 mb-2">
-                                                <label class="col-form-label" for="endMed">End Date</label>
-                                                <input type="text" disabled="disabled" class="form-control" value="{{formatDate endMed}}" name="endMed">
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-3" style="margin-right: -115px;">
-                                                    <div class="form-check align-items-center" style="padding-top: 35px;">
-                                                        <input class="form-check-input mb-2" type="checkbox" value="" id="takenClinic" onclick="takenClicked()" style="border: 1px solid #d1d3e2; !important">
-                                                        <label class="form-check-label" for="flexCheckChecked">Taken by student</label>
-                                                    </div>
-                                                </div>
-                                                <div id="takenDiv" class="col-3 align-items-center" style="display:none">
-                                                    <label class="col-form-label" for="timeTaken">Time</label>
-                                                    <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
-                                                </div>
-                                            </div>
-                                        {{/each}}                                                           
+                                        </div> --}}
+                                        <div id="takenDiv" class="col-2 align-items-center">
+                                            <label class="col-form-label" for="timeTaken">Time Taken</label>
+                                            <input type="time" class="form-control mb-2 timeNurse" id="timeTaken" name="timeTaken">
+                                        </div>
+                                        {{!-- </div> --}}                                                                                                  
                                     </div>
+                                    {{/each}} 
                                 </div>
                             </div>
                         </div>
@@ -1107,7 +1113,7 @@
                     {{!-- END OF STUDENT PROFILE --}}
 
                     <!-- Basic Card Example -->
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollVisit">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -1131,7 +1137,7 @@
                                     <input type="time" class="form-control mb-2" id="clinicIn" disabled="disabled" value="{{form.timeIn}}">
                                 </div>
                                 <div class="col-2">
-                                    <label for="clinicOut" class="col-form-label">Time Out<label style="color:red">*</label></label>
+                                    <label for="clinicOut" class="col-form-label">Time Out<span style="color:red">*</span></label>
                                     <input type="time" class="form-control mb-2" id="clinicOut">
                                 </div>
                                 <div class="col-5">
@@ -1278,7 +1284,7 @@
                     </div>
 
                     {{!-- Diagnosis --}}
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollDiagnosis">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Diagnosis</h6>
                             <label class="col-form-label p-2 mr-1" for="assignDiagnosis">Assigned To</label>
@@ -1288,27 +1294,24 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4 mb-4 mr-4">
-                                    <label class="col-form-label" for="diagnosis">Illness<label style="color:red">*</label></label>
-                                    <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
+                                    <label class="col-form-label" for="diagnosis">Illness<span style="color:red">*</span></label>
+                                    <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="border: 1px solid #d1d3e2; width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
                                             <option value="{{diagnosis}}">{{diagnosis}}</option>
                                         {{/each}}
                                     </select>
                                 </div>       
-                                <div class="col-3" style="margin-right: -70px;">
-                                    <div class="form-check align-items-center" style="padding-top: 45px;">
-                                        <input class="form-check-input mb-2" type="checkbox" value="" id="communicableCheckBox" style="border: 1px solid #d1d3e2; !important">
-                                        <label class="form-check-label" for="flexCheckChecked">Communicable Disease</label>
-                                    </div>
-                                    <div class="form-check align-items-center" style="padding-top: 45px;">
-                                        <input class="form-check-input mb-2" type="checkbox" value="" id="injuryCheckBox" style="border: 1px solid #d1d3e2; !important">
-                                        <label class="form-check-label" for="flexCheckChecked">Injury</label>
-                                    </div>
-                                </div>                   
+                                <div class="col-4 pt-4">
+                                    <label class="form-check-label mr-5">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" value="" name="disease[1][]"/>Injury</label>
+                                    <label>
+                                </div>                  
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="diagnosisPar">Diagnosis<label style="color:red">*</label></label>
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis<span style="color:red">*</label></label>
                                     <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" rows="4"></textarea> 
                                 </div>
                             </div>
@@ -1316,7 +1319,7 @@
                     </div>
                     
                     <!-- Medication -->
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollMedication">
                         <div class="card-header py-3 d-sm-flex">
                             <h6 class="m-0 font-weight-bold text-primary mr-auto p-2">Medication</h6>                           
                             <label class="col-form-label p-2 mr-1" for="assignMedication">Notify</label>
@@ -1424,7 +1427,7 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="status">Disposition<label style="color:red">*</label></label>
+                                    <label class="col-form-label" for="status">Disposition<span style="color:red">*</span></label>
                                     <select class="custom-select mb-2" id="status" name="status">
                                         <option value="Under Observation">Under Observation</option> 
                                         <option value="Sent Home">Sent Home</option>
@@ -1538,6 +1541,16 @@
         $("#medicationVisit").select2();
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
 
+        $(".diseaseType").on('click', function() {
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+            }
+        });
     </script>
 
     <script>
@@ -2624,6 +2637,10 @@
 
             var diagnosis = $('#diagnosis').val(); 
 
+            //console.log("Communicable Disease Checkbox:");
+            console.log(document.getElementById("communicableCheckBox").checked);
+            console.log(document.getElementById("injuryCheckBox").checked);
+
             //function capitalizeFirstLetter(string) {
             //    return string.charAt(0).toUpperCase() + string.slice(1);
             //}
@@ -2633,10 +2650,10 @@
             //}         
 
             //diagnosis = diagnosis.join(', ');
-            console.log(diagnosis);
-            console.log(diagnosis[0]);
+            //console.log(diagnosis);
+            //console.log(diagnosis[0]);
 
-            diagnosis = diagnosis[0];
+            //diagnosis = diagnosis[0];
 
             var diagnosisSentence =  $('#diagnosisPar').val(); 
             console.log(diagnosisSentence);
@@ -2668,6 +2685,25 @@
                 console.log(selectedMedicationAssign); 
             }
 
+            var meds = document.getElementsByClassName("medNurse");
+            var amt = document.getElementsByClassName("amtNurse");
+            var time = document.getElementsByClassName("timeNurse");
+            var intakeNurse = [];
+
+
+            for(var i = 0; i < meds.length; i++){
+                if(time[i].value != ""){
+                    intakeNurse.push({
+                        medicine: meds[i].value,
+                        amount: amt[i].value,
+                        time: time[i].value
+                    });
+                }
+            }
+            
+            console.log("intakeArrayNurse");
+            console.log(intakeNurse);
+
             $.ajax({
                 url: '/editClinicVisit',
                 method: 'POST',
@@ -2693,6 +2729,7 @@
                     status: status,
                     notes: notes,
                     diagnosisSentence:diagnosisSentence,
+                    //intakeNurse: intakeNurse 
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";

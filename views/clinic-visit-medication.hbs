@@ -34,12 +34,35 @@
             border-top: none;
         }
 
-        #lastVisit{
+        #studentDiv{
+            display: none;
+        }
+
+        #scrollVisit{
+            display: none;
+        }
+        
+        #scrollDiagnosis{
+            display: none;
+        }
+
+        #scrollMedication{
+            display: none;
+        }
+
+        #scrollDisposition{
             display: none;
         }
 
         #studentDiv{
             display: none;
+        }
+
+        .content {
+            margin: 15px 15px 0px 15px;
+            height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
         }
 
         #lastVisit{
@@ -475,7 +498,7 @@
                             </div>
                         </div>
                     </div>
-                <div class="card shadow mb-2">
+                <div class="card shadow mb-2" id="scrollVisit">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                     <div class="card-body">
                         <div class="form-row align-items-center">
@@ -484,8 +507,8 @@
                                 <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" disabled="true">
                             </div>
                             <div class="col-5">
-                                <label class="col-form-label" for="clinicianVisit">Attending Nurse<label style="color:red">*</label></label>
-                                <select class="custom-select mb-2" id="attendingNurse" name="attendingNurse">
+                                <label class="col-form-label" for="clinicianVisit">Attending Nurse</label>
+                                <select class="form-control mb-2" id="attendingNurse" name="attendingNurse" disabled="true"> 
                                     <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
@@ -493,19 +516,19 @@
 
                         <div class="form-row align-items-center">
                             <div class="col-2">
-                                <label for="clinicIn" class="col-form-label">Time In<label style="color:red">*</label></label>
-                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
+                                <label for="clinicIn" class="col-form-label">Time In</label>
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn" disabled="true"> 
                             </div>
                             <div class="col-2">
-                                <label for="clinicOut" class="col-form-label">Time Out<label style="color:red">*</label></label>
+                                <label for="clinicOut" class="col-form-label">Time Out<span style="color:red">*</span></label>
                                 <input type="time" class="form-control mb-2" id="clinicOut" name="clinicOut">
                             </div>   
                         </div>
 
                         <div class="form-row align-items-center">
                             <div class="col-4">
-                                <label class="col-form-label" for="studentID">Student ID Number<label style="color:red">*</label></label>
-                                <input type="text" class="form-control mb-2" id="studentID" name="studentId">
+                                <label class="col-form-label" for="studentID">Student ID Number</label>
+                                <input type="text" class="form-control mb-2" id="studentID" name="studentId" disabled="true">
                             </div>
                             <div class="col-5">
                                 <label class="col-form-label" for="studentName">Student Name</label>
@@ -516,7 +539,7 @@
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="studentGrd" class="col-form-label">Grade</label>
-                                <select class="custom-select mb-2" id="studentGrade" disabled="true">
+                                <select class="form-control mb-2" id="studentGrade" disabled="true">
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
@@ -535,14 +558,14 @@
                 </div>
 
                 <!-- Medication -->
-                <div class="card shadow mb-2">
+                <div class="card shadow mb-2" id="scrollMedication">
                     <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication</h6></div>                     
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-8">                                
                                 <div class="row">
                                     <div class="col-6">
-                                        <label class="col-form-label" for="medicationVisit">Medication<label style="color:red">*</label></label>
+                                        <label class="col-form-label" for="medicationVisit">Medication<span style="color:red">*</span></label>
                                         <input list="medications" class="form-control mb-2" id="medicationVisit" onchange="selectChanged(this)">                                       
                                         <datalist id="medications">
                                             {{#each medicines}}
@@ -551,7 +574,7 @@
                                         </datalist>                                                                  
                                     </div>
                                     <div class="col-5">
-                                        <label class="col-form-label" for="amountMed">Dose<label style="color:red">*</label></label>
+                                        <label class="col-form-label" for="amountMed">Dose<span style="color:red">*</span></label>
                                         <input type="text" class="form-control mb-2" id="amountMed" name="amountMed">
                                     </div>
                                 </div>
@@ -567,7 +590,7 @@
                                 </div>
                                 <div class="row">
                                     <div id="takenDiv" class="col-3 align-items-center">
-                                        <label class="col-form-label" for="timeTaken">Time<label style="color:red">*</label></label>
+                                        <label class="col-form-label" for="timeTaken">Time<span style="color:red">*</span></label>
                                         <input type="time" class="form-control mb-2" id="timeTaken" name="timeTaken">
                                     </div>
                                 </div>

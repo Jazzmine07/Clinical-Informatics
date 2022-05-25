@@ -2045,6 +2045,12 @@
             });
         }
 
+        // --------------------------------- LIST OF MEDICINE NAMES (i.e Paracetamol, Ibuprofen, Mefenamic Acid, etc.) ------------------------------
+        $.get('/medicineNamesFront', function(medicationName){
+            console.log("list of medicine generic names");
+            console.log(medicationName);
+        })
+
         function takenClicked() {
             var checkBox = document.getElementById("takenClinic");
             var div = document.getElementById("takenDiv");
@@ -2729,7 +2735,7 @@
                     status: status,
                     notes: notes,
                     diagnosisSentence:diagnosisSentence,
-                    //intakeNurse: intakeNurse 
+                    intakeNurse: intakeNurse 
                 },
                 success: function(data) {
                     window.location.href = "/clinic-visit";

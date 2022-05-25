@@ -1555,4 +1555,7 @@ router.post('/addProgram', programController.addProgram);
 router.get('/getProgramReport', programController.promotiveReport);
 router.post('/getApeAdeStudentsPercentageChart', studentController.getAPEADEStudentsPercentage);
 
+//---------GET FOR CLINIC VISIT NURSE---------------------
+router.get('/medicineNamesFront', inventoryController.getMedicineNamesFront);
+
 module.exports = router;

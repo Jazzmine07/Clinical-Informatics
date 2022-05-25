@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const firebase = require('../firebase');
 
 // This function is used to add medicine inventories 
@@ -292,6 +293,46 @@ exports.getMedicineNames = function(){
         })
     });
     return promise;
+};
+
+// This function is used to get all the generic medicine name ie paracetamol for getting generic names in nurse intake history
+exports.getMedicineNamesFront = function(req, res){
+    var childSnapshotData, i, temp = [], filtered = [];
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("medicineInventory")){
+            inventoryRef.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    temp.push({
+                        medicine: childSnapshotData.medicine,
+                        name: childSnapshotData.name
+                    })
+                })
+
+                temp.forEach(med => {
+                    var found = false;
+                    for(i = 0; i < filtered.length; i++){
+                        if(med.name == filtered[i].name){   // filters if same medicine name
+                            found = true;
+                            break;
+                        } 
+                    }
+                    if(!found){
+                        filtered.push({
+                            name: med.name
+                        })
+                    }    
+                })
+                res.send(filtered);
+            })
+        } else {
+            res.send(filtered);
+        }
+    })
 };
 
 // exports.getMedicineDetails = function(req, res){

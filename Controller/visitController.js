@@ -357,7 +357,7 @@ exports.addClinicVisit = function(req, res){
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, complaint, diagnosis, diagnosisSentence, communicable, injury,
-        medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
+        medicationAssign, medicationsArray, intakeArray, intakeNurse, status, notes } = req.body;
     var i;
     
     var database = firebase.database();
@@ -557,7 +557,7 @@ exports.editClinicVisit = function(req, res){
             clinicVisitRef.update(record);
 
             //if intake array is not empty!
-            if(intakeArray != undefined){
+            if(intakeNurse != undefined){
                 var intakeHistory = {
                     attendingNurse: userName,
                     grade: studentGrade,
@@ -575,19 +575,19 @@ exports.editClinicVisit = function(req, res){
                 var historyKey = intakeRef.push(intakeHistory).key;
                 var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
-                for(i = 0; i < intakeArray.length; i++){
+                for(i = 0; i < intakeNurse.length; i++){
                     history = {
-                        medicineName: intakeArray[i].medication,
-                        specificMedicine: intakeArray[i].med,
-                        specificAmount: intakeArray[i].amount,
-                        amount: parseFloat(intakeArray[i].amount),
-                        time: intakeArray[i].time
+                        medicineName: intakeNurse[i].medication,
+                        specificMedicine: intakeNurse[i].med,
+                        specificAmount: intakeNurse[i].amount,
+                        amount: intakeNurse[i].amount,
+                        time: intakeNurse[i].time
                     };
 
                     healthHistoryIntake = {
-                        specificMedicine: intakeArray[i].med,
-                        specificAmount: intakeArray[i].amount,
-                        time: intakeArray[i].time,
+                        specificMedicine: intakeNurse[i].med,
+                        specificAmount: intakeNurse[i].amount,
+                        time: intakeNurse[i].time,
                         dateTaken: visitDate
                     }
                     database.ref('intakeHistory/' + historyKey + '/medications').push(history);

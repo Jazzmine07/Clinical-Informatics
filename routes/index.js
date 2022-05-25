@@ -306,7 +306,7 @@ router.get('/clinic-visit', loggedIn, (req, res) => { // dont foget to put logge
           isNurse: true,
           user: user,
           dashboard: dashboard,
-          //forms: formId,
+          forms: formId,
           clinicVisits: record,
         });
       } else if(user.role == "Admin"){
@@ -1544,6 +1544,9 @@ router.post('/addSupplyInventory', inventoryController.addSupplyInventory);
 router.post('/updateSupplyInventory', inventoryController.updateSupplyInventory);
 router.post('/addDentalInventory', inventoryController.addDentalInventory);
 router.post('/updateDentalInventory', inventoryController.updateDentalInventory);
+
+//---------POST NOTIFICATION FOR MEDICINE INVENTORY MODULE----------------
+router.post('/createMedicineInventoryNotification', notificationController.medicineInventoryNotification);
 
 //---------POST FORMS FOR PROMOTIVE CARE MODULE----------------
 router.post('/addProgram', programController.addProgram);

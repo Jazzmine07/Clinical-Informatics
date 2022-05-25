@@ -2623,6 +2623,7 @@
 
             var length = $(this).find('option:selected').length;
             console.log(length);
+            console.log()
 
             if(length != 0){
                 document.getElementById("takenClinic").disabled = true;
@@ -2723,8 +2724,8 @@
                     timeOut: timeOut,
                     complaint: complaint,
                     diagnosis: diagnosis,
-                    communicable:document.getElementById("communicableCheckBox").checked,
-                    injury:document.getElementById("injuryCheckBox").checked,
+                    communicable: document.getElementById("communicableCheckBox").checked,
+                    injury: document.getElementById("injuryCheckBox").checked,
                     medicationAssign: selectedMedicationAssign,
                     medicationAssigned: medicationAssigned,
                     medicationsArray: medicationsArray,

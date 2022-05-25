@@ -54,8 +54,6 @@ exports.getComplaints = function(){
                             complaint: childSnapshotData.complaint
                         })
                     })
-                    // console.log("complaints");
-                    // console.log(complaints);
                     resolve(complaints);
                 })
             } else {
@@ -83,8 +81,6 @@ exports.getDiagnosis = function(){
                             diagnosis: childSnapshotData.diagnosis
                         })
                     })
-                    // console.log("diagnosis");
-                    // console.log(diagnosis);
                     resolve(diagnosis);
                 })
             } else {
@@ -174,8 +170,6 @@ exports.addClinicVisit = function(req, res){
                 complaintList.forEach(function(complaintsDB){
                     complaintsTemp.push(complaintsDB.child('complaint').val());
                 })
-                // console.log("complaintsTemp");
-                // console.log(complaintsTemp);
                 var found = 1;
                 for(var i = 0; i < complaintsTemp.length; i++){ // [Headache]
                     for(var j = 0; j < complaintArray.length; j++){ // [Headche, Flu, Fever]
@@ -186,8 +180,6 @@ exports.addClinicVisit = function(req, res){
                         }
                         else {    
                             if(!complaintsTemp.includes(complaintArray[j]) && !complaintsPush.includes(complaintArray[j])){
-                                // console.log("pushing...");
-                                // console.log(complaintArray[j]);
                                 complaintsPush.push(complaintArray[j]);
                             }                          
                         }
@@ -367,9 +359,6 @@ exports.editClinicVisit = function(req, res){
         visitDate, timeIn, timeOut, complaint, diagnosis, diagnosisSentence, communicable, injury,
         medicationAssign, medicationsArray, intakeArray, status, notes } = req.body;
     var i;
-
-    console.log("medicationAssign");
-    console.log(medicationAssign);
     
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
@@ -402,14 +391,12 @@ exports.editClinicVisit = function(req, res){
             diagnosisRef.once('value', (diagnosisList) => {
                 if(diagnosisList.exists()){
                     diagnosisList.forEach(function(diagnosisDB){
-                        //console.log(diagnosisDB.exportVal());
                         diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
                     })
 
                     var found = 1;
                     for(var i = 0; i < diagnosisTemp.length; i++){
                         if(diagnosis.toLowerCase().localeCompare(diagnosisTemp[i].toLowerCase()) == 0){
-                            //console.log("existing illness");
                             found = 0;
                         } 
                     }
@@ -558,168 +545,84 @@ exports.editClinicVisit = function(req, res){
                 });
             })
             res.status(200).send();
-            // } else {
-            //     var record = {
-            //         timeOut: timeOut,
-            //         diagnosis: diagnosis,
-            //         diagnosisSentence:diagnosisSentence,
-            //         medicationAssigned: medicationAssign,
-            //         medications: "", // array of medications
-            //         status: status,
-            //         notes: notes,
-            //     };
-
-            //     clinicVisitRef.update(record);
-
-            //     //-----------NOTIFICATION FOR NURSE---------------
-            //     var assignMedication = database.ref("assignedForms/"+medicationAssign+"/"+formId);
-            //     var medicationForm = {
-            //         task: "Clinic Visit",
-            //         description: "Encode Prescription",
-            //         assignedBy: userName,
-            //         dateAssigned: date,
-            //         timestamp: time
-            //     }
-
-            //     var userMedicationNotification = database.ref("notifications/"+medicationAssign+"/"+formId);
-            //     var notif = {
-            //         type: "form",
-            //         message: "You have a new assigned task!",
-            //         date: date,
-            //         timestamp: time,
-            //         seen: false
-            //     }
-
-            //     assignMedication.set(medicationForm);
-            //     userMedicationNotification.set(notif);
-                
-            //     // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-            //     var formRef = database.ref("assignedForms/"+ userKey);
-            //     formRef.once('value', (snapshot) => { 
-            //         snapshot.forEach(function(childSnapshot) {
-            //             if(childSnapshot.key == formId){
-            //                 database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-            //                 database.ref("notifications/"+ userKey + "/" + formId).remove();
-            //             }
-            //         });
-            //     })
-
-            //     res.status(200).send();
-            // }
         } 
         else {    // nurse encoding intake history section
             console.log("pumasok sa nurse if");
-        //     var record = {
-        //         timeOut: timeOut,
-        //         status: status,
-        //     };
+            var record = {
+                timeOut: timeOut,
+                status: status,
+                notes: notes,
+            };
         
-        //     clinicVisitRef.update(record);
+            clinicVisitRef.update(record);
 
-        //     for(i = 0; i < medicationsArray.length; i++){
-        //         prescription = {
-        //             medicine: medicationsArray[i].medication,
-        //             purpose: medicationsArray[i].purpose,
-        //             amount: medicationsArray[i].amount,
-        //             interval: medicationsArray[i].interval,
-        //             startMed: medicationsArray[i].startMed,
-        //             endMed: medicationsArray[i].endMed,
-        //             status: "From clinic"
-        //         };
-        //         database.ref('clinicVisit/' + formId + '/prescription').push(prescription);
-        //         prescriptionRef.push(prescription);
-        //     }
-
-        //     var teacherRef = database.ref("teacherUsers");
-        //     teacherRef.once('value', (snapshot) => {
-        //         snapshot.forEach(function(childSnapshot){
-        //             if(childSnapshot.child("section").val() == studentSection && status == "Sent Home"){
-        //                 var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
-        //                 var teacherNotif = {
-        //                     message: studentName + ", with ID number " + studentId + " was sent home due to " + complaint,
-        //                     id: studentId,
-        //                     date: visitDate, 
-        //                 }
-        //                 teacherNotification.push(teacherNotif);
-        //             } else if(childSnapshot.child("section").val() == studentSection && status == "Hospitalized"){
-        //                 var teacherNotification = database.ref("notifications/"+childSnapshot.key+"/visits");
-        //                 var teacherNotif = {
-        //                     message: studentName + ", with ID number " + studentId + " was hospitalized due to " + complaint,
-        //                     id: studentId,
-        //                     date: visitDate, 
-        //                 }
-        //                 teacherNotification.push(teacherNotif);
-        //             }
-        //         })
-        //     })
-
-        //     //if intake array is not empty!
-        //     if(intakeArray != undefined){
-        //         var intakeHistory = {
-        //             attendingNurse: userName,
-        //             grade: studentGrade,
-        //             id: studentId, 
-        //             medications: "", // array of medications
-        //             section: studentSection,
-        //             studentName: studentName,
-        //             timeIn: timeIn,
-        //             timeOut: timeOut,
-        //             timestamp: time,
-        //             visitDate: visitDate,
-        //         }
+            //if intake array is not empty!
+            if(intakeArray != undefined){
+                var intakeHistory = {
+                    attendingNurse: userName,
+                    grade: studentGrade,
+                    id: studentId, 
+                    medications: "", // array of medications
+                    section: studentSection,
+                    studentName: studentName,
+                    timeIn: timeIn,
+                    timeOut: timeOut,
+                    timestamp: time,
+                    visitDate: visitDate,
+                }
             
-        //         var intakeRef = database.ref("intakeHistory");
-        //         var historyKey = intakeRef.push(intakeHistory).key;
-        //         var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
+                var intakeRef = database.ref("intakeHistory");
+                var historyKey = intakeRef.push(intakeHistory).key;
+                var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
-        //         for(i = 0; i < intakeArray.length; i++){
-        //             history = {
-        //                 medicineName: intakeArray[i].medication,
-        //                 specificMedicine: intakeArray[i].med,
-        //                 specificAmount: intakeArray[i].amount,
-        //                 amount: parseFloat(intakeArray[i].amount),
-        //                 time: intakeArray[i].time
-        //             };
+                for(i = 0; i < intakeArray.length; i++){
+                    history = {
+                        medicineName: intakeArray[i].medication,
+                        specificMedicine: intakeArray[i].med,
+                        specificAmount: intakeArray[i].amount,
+                        amount: parseFloat(intakeArray[i].amount),
+                        time: intakeArray[i].time
+                    };
 
-        //             healthHistoryIntake = {
-        //                 specificMedicine: intakeArray[i].med,
-        //                 specificAmount: intakeArray[i].amount,
-        //                 time: intakeArray[i].time,
-        //                 dateTaken: visitDate
-        //             }
-        //             database.ref('intakeHistory/' + historyKey + '/medications').push(history);
-        //             historyRef.push(healthHistoryIntake);
-        //         }
+                    healthHistoryIntake = {
+                        specificMedicine: intakeArray[i].med,
+                        specificAmount: intakeArray[i].amount,
+                        time: intakeArray[i].time,
+                        dateTaken: visitDate
+                    }
+                    database.ref('intakeHistory/' + historyKey + '/medications').push(history);
+                    historyRef.push(healthHistoryIntake);
+                }
 
-        //         var parentRef = database.ref("parentInfo");
-        //         parentRef.once('value', (snapshot) => {
-        //             snapshot.forEach(function(parent){
-        //                 parent.child('children').forEach(function(children){
-        //                     if(children.val() == studentId){
-        //                         var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
-        //                         var intakeNotif = {
-        //                             message: "Your child, " + studentName + ", was given a medication.",
-        //                             id: studentId,
-        //                             timeIn: timeIn,
-        //                             date: visitDate, 
-        //                         }
-        //                         intakeNotification.push(intakeNotif);
-        //                     }
-        //                 })
-        //             })
-        //         })
-        //     }
+                var parentRef = database.ref("parentInfo");
+                parentRef.once('value', (snapshot) => {
+                    snapshot.forEach(function(parent){
+                        parent.child('children').forEach(function(children){
+                            if(children.val() == studentId){
+                                var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                                var intakeNotif = {
+                                    message: "Your child, " + studentName + ", was given a medication.",
+                                    id: studentId,
+                                    timeIn: timeIn,
+                                    date: visitDate, 
+                                }
+                                intakeNotification.push(intakeNotif);
+                            }
+                        })
+                    })
+                })
+            }
 
-        //     // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
-        //     var formRef = database.ref("assignedForms/"+ userKey);
-        //     formRef.once('value', (snapshot) => { 
-        //         snapshot.forEach(function(childSnapshot) {
-        //             if(childSnapshot.key == formId){
-        //                 database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-        //                 database.ref("notifications/"+ userKey + "/" + formId).remove();
-        //             }
-        //         });
-        //     })
+            // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
+            // var formRef = database.ref("assignedForms/"+ userKey);
+            // formRef.once('value', (snapshot) => { 
+            //     snapshot.forEach(function(childSnapshot) {
+            //         if(childSnapshot.key == formId){
+            //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+            //             database.ref("notifications/"+ userKey + "/" + formId).remove();
+            //         }
+            //     });
+            // })
             res.status(200).send();
         }
     })
@@ -1403,16 +1306,6 @@ exports.addReferral = function(req, res){
     var { studentId, studentName , studentGrade, studentSection, birthday, gender, age,
         specialty, physician, reason, diagnosis, icd10, urgent, specialist, testing,
         provider, title, position, signature, signatureFileName, fileType } = req.body;
-        console.log("studentId in controller");
-        console.log(studentId);
-        console.log("position in controller");
-        console.log(position);
-        console.log("signature in controller");
-        console.log(signature);
-        console.log("signatureFileName in controller");
-        console.log(signatureFileName);
-        console.log("fileType in controller");
-        console.log(fileType);
     var storageRef = firebase.storage().ref();
     var metadata = {
         contentType: fileType,
@@ -1422,13 +1315,9 @@ exports.addReferral = function(req, res){
     var database = firebase.database();
     var referralRef = database.ref("referralForms");
 
-    console.log("pumasok sa controller");
-
     uploadTask.snapshot.ref.getDownloadURL().then(function(url){
         fileUrl = url;
     })
-    console.log("fileUrl in controller");
-    console.log(fileUrl);
     // uploadTask.then(snapshot => snapshot.ref.getDownloadURL())
     // .then(url => {
     //     console.log('File available at', url);

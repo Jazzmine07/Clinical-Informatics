@@ -301,17 +301,17 @@
                                 <table class="table table-bordered" id="nurseAssignedTask" width="100%" cellspacing="0">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th class="bg-primary" style="color: white;">Task</th>
-                                            <th class="bg-primary" style="color: white;">Description</th>
+                                            <th class="bg-primary" style="color: white;">Student Id</th>
+                                            <th class="bg-primary" style="color: white;">Student</th>
                                             <th class="bg-primary" style="color: white;">Assigned By</th>
                                             <th class="bg-primary" style="color: white;">Date Assigned</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each forms}}
-                                            <tr>
-                                                <td><a href="/clinic-visit/edit/{{formId}}">{{task}}</a></td>
-                                                <td id="clinicianDesc" value="{{description}}"><a href="/clinic-visit/edit/{{formId}}">{{description}}</a></td>
+                                            <tr>studentName
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{id}}</a></td>
+                                                <td><a href="/clinic-visit/edit/{{formId}}">{{studentName}}</a></td>
                                                 <td><a href="/clinic-visit/edit/{{formId}}">{{assignedBy}}</a></td>
                                                 <td><a href="/clinic-visit/edit/{{formId}}">{{formatDate dateAssigned}}</a></td>
                                             </tr>

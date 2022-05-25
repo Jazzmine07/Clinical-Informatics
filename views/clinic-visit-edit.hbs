@@ -2623,8 +2623,7 @@
 
             var length = $(this).find('option:selected').length;
             console.log(length);
-            console.log()
-
+            
             if(length != 0){
                 document.getElementById("takenClinic").disabled = true;
             }
@@ -2689,17 +2688,17 @@
 
             var medicationAssigned = $('#medicationAssigned').val();
 
-            var isDisabled = $('#amountMed').prop('disabled');
+            //var isDisabled = $('#amountMed').prop('disabled');
             var selectMedicationAssign = document.getElementById("assignMedication");
             var proceed = false;
 
-            if(!isDisabled && $('#assignMedication').find('option:selected').length == 0){               
+            if($('#assignMedication').find('option:selected').length == 0){               
                 var selectedMedicationAssign = "";
                 proceed = true;
                 console.log("2nd if");  
                 console.log(selectedMedicationAssign);             
             }
-            else if(isDisabled){
+            else{
                 $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
                 var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
                 proceed = true;

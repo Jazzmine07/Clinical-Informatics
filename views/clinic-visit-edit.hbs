@@ -2606,6 +2606,18 @@
             }
         });
 
+        var genericName;
+
+        $.get('/medicineNamesFront', function(medicationName){
+            console.log("list of medicine names");
+            console.log(medicationName);
+
+            genericName = medicationName;
+
+            console.log("list of generic names");
+            console.log(genericName);
+        });
+
         $("#saveBtn").click(function(){
             console.log("pindot");
             var userKey = $('#userKey').val();
@@ -2690,30 +2702,25 @@
             var time = document.getElementsByClassName("timeNurse");
             var intakeNurse = [];
             
-            // --------------------------------- LIST OF MEDICINE NAMES (i.e Paracetamol, Ibuprofen, Mefenamic Acid, etc.) ------------------------------
-            $.get('/medicineNamesFront', function(medicationName){
-                console.log("list of medicine generic names");
-                console.log(medicationName);
+           
                 
-                for(var i = 0; i < medicationName.length; i++){
-                    for(var j = 0; j < meds.length; j++){
-                        if(meds[j].value.includes(medicationName[i].name)){
-                            if(time[j].value != ""){
-                                intakeNurse.push({
-                                    medicine: meds[j].value,
-                                    generic: medicationName[i].name,
-                                    amount: amt[j].value,
-                                    time: time[j].value
-                                });
-                            }
+            for(var i = 0; i < genericName.length; i++){
+                for(var j = 0; j < meds.length; j++){
+                    if(meds[j].value.includes(genericName[i].name)){
+                        if(time[j].value != ""){
+                            intakeNurse.push({
+                                medicine: meds[j].value,
+                                generic: genericName[i].name,
+                                amount: amt[j].value,
+                                time: time[j].value
+                            });
                         }
                     }
                 }
-
-                console.log("intakeArrayNurse");
-                console.log(intakeNurse);            
-                
-            });
+            }
+            
+            console.log("intakeArrayNurse");
+            console.log(intakeNurse);  
 
             $.ajax({
                 url: '/editClinicVisit',

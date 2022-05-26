@@ -38,6 +38,13 @@
             border: 1px solid #d1d3e2;
             border-radius: 0.35rem;
         }
+
+        .smolPieChart {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            width: 400px;
+        }
     </style>
 
 </head>
@@ -804,9 +811,9 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Complaints Percentage</h6>
                                 </div>
-                                <div class="card-body" style="height: 360px">
-                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
-                                        <canvas id="complaintsPieChart" style="height: 100%;"></canvas>
+                                <div class="card-body">
+                                    <div class="smolPieChart">
+                                        <canvas id="complaintsPieChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -1325,6 +1332,11 @@
                             display: true,
                             position: 'right',
                         }
+                    },
+                    layout: {
+                        padding: {
+                            left: 85
+                        }
                     }              
                 }
             }
@@ -1550,7 +1562,7 @@
                                 stepSize: 5,
                             }
                         }
-                    }
+                    },
                 }
             }
             var configPie={
@@ -1559,11 +1571,11 @@
                 options: {
                     maintainAspectRatio: false,
                     layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 25,
-                        }
+                        //margin: {
+                        //    left: 15,
+                        //    right: 15,
+                        //    top: 15,
+                        //}
                     },
                     plugins: {
                         labels: {
@@ -1574,11 +1586,12 @@
                                 return percentage.toFixed(2)+"%";
                             },
                             fontColor: '#000000',
-                            position: 'outside'
+                            position: 'outside',
+                            
                         },
                         legend: {
                             display: true,
-                            position: 'right',
+                            //position: 'right',
                         }
                     }
                 }

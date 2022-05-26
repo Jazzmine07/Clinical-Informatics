@@ -395,7 +395,7 @@
                             <form class="user">
                                 <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <input type="number" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
@@ -3007,16 +3007,17 @@
                                                 </div>
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered" id="immunizationTable" width="100%" cellspacing="0">
-                                                        {{!-- <thead>
+                                                        <thead>
                                                             <tr>
                                                                 <th>Vaccine</th>
-                                                                <th>1st Dose</th>
-                                                                <th>2nd Dose</th>
-                                                                <th>3rd Dose</th>
-                                                                <th>Booster 1</th>
-                                                                <th>Booster 2</th>
+                                                                <th>Date Given</th>
+                                                                <th>Date Given</th>
+                                                                <th>Date Given</th>
+                                                                <th>Date Given</th>
+                                                                <th>Date Given</th>
+                                                                <th>Date Given</th>
                                                             </tr>
-                                                        </thead> --}}
+                                                        </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <td>Anti-Rabies</td>

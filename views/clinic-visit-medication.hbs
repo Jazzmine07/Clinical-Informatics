@@ -359,7 +359,7 @@
                             <form class="user">
                                 <div><label class="form-row align-items-center ml-2 font-weight-bold text-primary" for="studentVisit">Student</label></div>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
+                                    <input type="number" name="studentID" class="form-control" id="studentVisit" placeholder="Enter student ID number.." aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary shadow-sm" style="color: white; !important" onclick="searchProfile()">View Record</button>                                    
                                     </div>
@@ -430,72 +430,74 @@
                     </div>
                 </div>
                 <div class="card shadow mb-2" id="lastVisit">
-                        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
-                        <div class="card-body">
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Attending Nurse</span></div>
-                                    <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                        <div class="card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"><h6 class="m-0 font-weight-bold text-primary">Last Clinic Visit</h6></div>
+                        <div class="content">
+                            <div class="card-body">
+                                <div class="form-row mb-2">
+                                    <div class="col">
+                                        <div class="font-weight-bold">Attending Nurse</span></div>
+                                        <div class="font-weight-normal" id="lvNurse">Rose Pangilinan</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Visit Date</span></div>
+                                        <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Time In</span></div>
+                                        <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Time Out</span></div>
+                                        <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Visit Date</span></div>
-                                    <div class="font-weight-normal" id="lvDate">10/18/2021</span></div>                                        
+                                <div class="form-row mb-2">
+                                    <div class="col">
+                                        <div class="font-weight-bold">Body Temperature</span></div>
+                                        <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Blood Pressure</span></div>
+                                        <div class="font-weight-normal" id="lvBP">-</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Pulse Rate</span></div>
+                                        <div class="font-weight-normal" id="lvPR">-</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Respiration Rate</span></div>
+                                        <div class="font-weight-normal" id="lvRR">-</span></div>                                        
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Time In</span></div>
-                                    <div class="font-weight-normal" id="lvTI">12:03 pm</span></div>                                        
+                                <div class="form-row mb-2">
+                                    <div class="col-3">
+                                        <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
+                                        <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold">Treatment</span></div>
+                                        <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="font-weight-bold">Status</span></div>
+                                        <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Time Out</span></div>
-                                    <div class="font-weight-normal" id="lvTO">12:15 pm</span></div>                                        
+                                <hr class="w-10 mb-2"></hr>   
+                                <div class="form-row mb-2">
+                                    <div class="col">
+                                        <div class="font-weight-bold">Diagnosis</span></div>
+                                        <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Body Temperature</span></div>
-                                    <div class="font-weight-normal" id="lvBT">38 °C</span></div>                                        
+                                <hr class="w-10 mb-2"></hr>                                            
+                                <div class="form-row mb-2">
+                                    <div class="col">
+                                        <div class="font-weight-bold">Notes/Recommendations</span></div>
+                                        <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Blood Pressure</span></div>
-                                    <div class="font-weight-normal" id="lvBP">-</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Pulse Rate</span></div>
-                                    <div class="font-weight-normal" id="lvPR">-</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Respiration Rate</span></div>
-                                    <div class="font-weight-normal" id="lvRR">-</span></div>                                        
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                <div class="col-3">
-                                    <div class="font-weight-bold">Complaint/Reason for Visit</span></div>
-                                    <div class="font-weight-normal" id="lvReason">Headache</span></div>                                        
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-bold">Treatment</span></div>
-                                    <div class="font-weight-normal" id="lvTreatment">Give medication and observe in the clinic</span></div>                                        
-                                </div>
-                                <div class="col-3">
-                                    <div class="font-weight-bold">Status</span></div>
-                                    <div class="font-weight-normal" id="lvStatus">Treated</span></div> 
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>   
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Diagnosis</span></div>
-                                    <div class="font-weight-normal" id="lvDiagnosis">Fever</span></div>                                        
-                                </div>
-                            </div>
-                            <hr class="w-10 mb-2"></hr>                                            
-                            <div class="form-row mb-2">
-                                <div class="col">
-                                    <div class="font-weight-bold">Notes/Recommendations</span></div>
-                                    <div class="font-weight-normal" id="lvNotes">Don’t let your child go to school if fever continues. Let him rest.</span></div>                                        
-                                </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 <div class="card shadow mb-2" id="scrollVisit">
@@ -712,6 +714,28 @@
         $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
     </script>
     <script>
+        var collapsible = document.getElementsByClassName("collapsible");
+        console.log(collapsible);
+        var j;
+
+        for (j = 0; j < collapsible.length; j++) {
+            console.log("PASOK LOOP");
+            
+            collapsible[j].addEventListener("click", function() {
+                
+            this.classList.toggle("active");
+
+            var content = this.nextElementSibling;
+
+            if(content.style.height){
+                content.style.height = null;
+            } 
+            else {
+                content.style.height = "auto";
+            } 
+            });
+        }
+        
         function formatDate() {
             var d = new Date(),
                 month = '' + (d.getMonth() + 1),
@@ -860,6 +884,8 @@
                 if(!typedID && !typedID.value){
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>Please enter student ID number.');
                     document.getElementById('studentDiv').style.display = "none"; 
+                    document.getElementById('scrollVisit').style.display = "none"; 
+                    document.getElementById('scrollMedication').style.display = "none"; 
                     document.getElementById('errorDiv').style.display = "block";  
                     document.getElementById('lastVisit').style.display = "none";
                     document.getElementById("clinicVisitForm").reset();
@@ -867,7 +893,9 @@
                 }
                 else if(studentInfo.firstName == null){ // if data is null so meaning no student with that id number
                     $('#errorDiv').html('<i class="fa fa-exclamation-circle"></i><strong class="mx-1"> Error!</strong>No student with that ID number.' );
-                    document.getElementById('studentDiv').style.display = "none";                     
+                    document.getElementById('studentDiv').style.display = "none"; 
+                    document.getElementById('scrollVisit').style.display = "none"; 
+                    document.getElementById('scrollMedication').style.display = "none";                      
                     document.getElementById('errorDiv').style.display = "block";
                     document.getElementById('lastVisit').style.display = "none";                   
                     document.getElementById("clinicVisitForm").reset();
@@ -933,6 +961,9 @@
                     if(studentInfo.section)
                         $('#studentSection').val(studentInfo.section);        
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
+                    document.getElementById('studentDiv').style.display = "block"; 
+                    document.getElementById('scrollVisit').style.display = "block"; 
+                    document.getElementById('scrollMedication').style.display = "block"; 
                 }
             });
         }

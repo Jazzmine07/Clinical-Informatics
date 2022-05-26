@@ -570,22 +570,21 @@ exports.editClinicVisit = function(req, res){
                     timestamp: time,
                     visitDate: visitDate,
                 }
-            
                 var intakeRef = database.ref("intakeHistory");
                 var historyKey = intakeRef.push(intakeHistory).key;
                 var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
                 for(i = 0; i < intakeNurse.length; i++){
                     history = {
-                        medicineName: intakeNurse[i].medication,
-                        specificMedicine: intakeNurse[i].med,
+                        medicineName: intakeNurse[i].generic,
+                        specificMedicine: intakeNurse[i].medicine,
                         specificAmount: intakeNurse[i].amount,
-                        amount: intakeNurse[i].amount,
+                        amount: parseInt(intakeNurse[i].amount),
                         time: intakeNurse[i].time
                     };
 
                     healthHistoryIntake = {
-                        specificMedicine: intakeNurse[i].med,
+                        specificMedicine: intakeNurse[i].medicine,
                         specificAmount: intakeNurse[i].amount,
                         time: intakeNurse[i].time,
                         dateTaken: visitDate
@@ -614,15 +613,15 @@ exports.editClinicVisit = function(req, res){
             }
 
             // -----------REMOVING ASSIGNED FORM & NOTIF FOR NURSE--------------
-            // var formRef = database.ref("assignedForms/"+ userKey);
-            // formRef.once('value', (snapshot) => { 
-            //     snapshot.forEach(function(childSnapshot) {
-            //         if(childSnapshot.key == formId){
-            //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-            //             database.ref("notifications/"+ userKey + "/" + formId).remove();
-            //         }
-            //     });
-            // })
+            var formRef = database.ref("assignedForms/"+ userKey);
+            formRef.once('value', (snapshot) => { 
+                snapshot.forEach(function(childSnapshot) {
+                    if(childSnapshot.key == formId){
+                        database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+                        database.ref("notifications/"+ userKey + "/" + formId).remove();
+                    }
+                });
+            })
             res.status(200).send();
         }
     })

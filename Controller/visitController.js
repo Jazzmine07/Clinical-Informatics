@@ -651,7 +651,6 @@ exports.getAssignedForms = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     await database.ref("clinicVisit/"+temp[i].formId).once('value', (visitDetail) => {
-                        console.log(visitDetail.child("studentName").val())
                         details.push({
                             id: visitDetail.child("id").val(),
                             studentName: visitDetail.child("studentName").val(),
@@ -734,6 +733,7 @@ exports.getClinicVisitForm = function(req){
 
                 diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
+                diagnosisSentence: snapshotData.diagnosisSentence,
                 communicable: snapshotData.communicable,
                 injury: snapshotData.injury,
 
@@ -789,6 +789,7 @@ exports.getClinicVisitForm = function(req){
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
                 diagnosis: temp[0].diagnosis,
+                diagnosisSentence: temp[0].diagnosisSentence,
                 communicable: temp[0].communicable,
                 injury: temp[0].injury,
                 prescribedBy: temp[0].prescribedBy,
@@ -798,6 +799,8 @@ exports.getClinicVisitForm = function(req){
                 status: temp[0].status,
                 notes: temp[0].notes
             }
+            // console.log("details");
+            // console.log(details);
             resolve(details);
         })
     })
@@ -860,6 +863,7 @@ exports.viewClinicVisitForm = function(req){
 
                 diagnosisAssignedKey: snapshotData.diagnosisAssigned,
                 diagnosis: snapshotData.diagnosis,
+                diagnosisSentence: snapshotData.diagnosisSentence,
                 communicable: snapshotData.communicable,
                 injury: snapshotData.injury,
 
@@ -915,6 +919,7 @@ exports.viewClinicVisitForm = function(req){
                 diagnosisAssignedKey: temp[0].diagnosisAssignedKey,
                 diagnosisAssigned: dFname + " " + dLname,
                 diagnosis: temp[0].diagnosis,
+                diagnosisSentence: temp[0].diagnosisSentence,
                 communicable: temp[0].communicable,
                 injury: temp[0].injury,
                 prescribedBy: temp[0].prescribedBy,

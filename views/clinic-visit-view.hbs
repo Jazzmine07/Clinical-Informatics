@@ -465,9 +465,22 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-6 mb-4">
-                                    <label class="col-form-label" for="diagnosis">Diagnosis</label>
-                                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" value="{{form.diagnosis}}" disabled="disabled">                                       
+                                <div class="col-4 mb-4 mr-4">
+                                    <label class="col-form-label" for="diagnosis">Illness</label>
+                                    <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >        
+                                </div>
+                                <div class="col-4 pt-4">
+                                    <label class="form-check-label mr-5">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" disabled="disabled" {{ifChecked form.communicable}} name="disease[1][]"/>Communicable Disease</label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" disabled="disabled" {{ifChecked form.injury}} name="disease[1][]"/>Injury</label>
+                                    <label>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
+                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" disabled="disabled" rows="4">{{form.diagnosisSentence}}</textarea> 
                                 </div>
                             </div>
                         </div>

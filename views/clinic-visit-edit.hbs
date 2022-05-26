@@ -677,10 +677,16 @@
                                 </div>
                                 <div class="col-4 pt-4">
                                     <label class="form-check-label mr-5">
-                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" value="" name="disease[1][]"/>Communicable Disease</label>
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="communicableCheckBox" disabled="disabled" {{ifChecked form.communicable}} name="disease[1][]"/>Communicable Disease</label>
                                     <label class="form-check-label">
-                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" value="" name="disease[1][]"/>Injury</label>
+                                        <input type="checkbox" class="radio form-check-input mb-2 diseaseType" id="injuryCheckBox" disabled="disabled" {{ifChecked form.injury}} name="disease[1][]"/>Injury</label>
                                     <label>
+                                </div>
+                            </div>
+                            <div class="form-row align-items-center">
+                                <div class="col-12">
+                                    <label class="col-form-label" for="diagnosisPar">Diagnosis</label>
+                                    <textarea type="text" class="form-control mb-2" id="diagnosisPar" name="diagnosisPar" disabled="disabled" rows="4">{{form.diagnosisSentence}}</textarea> 
                                 </div>
                             </div>
                         </div>

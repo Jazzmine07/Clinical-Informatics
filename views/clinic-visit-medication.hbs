@@ -1445,7 +1445,7 @@
             var time =  $('#timeTaken').val();
             console.log(time);
             
-            addMedication(selectedMedication, medicationTxt, amount, timeTaken);
+            addMedication(selectedMedication, medicationTxt, amount, time);
             
             console.log(medicationsArray);
             
@@ -1454,7 +1454,7 @@
                 namesArray.push(medicationsArray[i].medication);
             }
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control namesInteraction" placeholder="' + medicationTxt +'" value="'+ selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ timeTaken +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');            
+            $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control namesInteraction" placeholder="' + medicationTxt +'" value="'+ selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ time +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');            
             i++;
             
             getMe = document.getElementsByClassName("namesInteraction");

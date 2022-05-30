@@ -999,33 +999,34 @@
                 //console.log(details);
 
                 $('#medicineTable').DataTable({
-            destroy: true,
-            pageLength: 100,
-            order: [[1, 'asc']],
-            rowGroup: {
-                endRender: function (rows, group ) {
-                    var total = rows
-                        .data()
-                        .pluck(2)
-                        .reduce( function (a, b) {
-                            return a + b.replace(/[^\d]/g, '')*1;
-                        }, 0);
+                    destroy: true,
+                    pageLength: 100,
+                    order: [[1, 'asc']],
+                    rowGroup: {
+                        endRender: function (rows, group ) {
+                            var total = rows
+                                .data()
+                                .pluck(2)
+                                .reduce( function (a, b) {
+                                    return a + b.replace(/[^\d]/g, '')*1;
+                                }, 0);
 
-                    total = $.fn.dataTable.render.number(',', '.', 0).display( total );
+                            total = $.fn.dataTable.render.number(',', '.', 0).display( total );
 
-                    return $('<tr/>')
-                        .append( '<td class="font-weight-bold">Total Quantity </td>' )
-                        .append( '<td class="font-weight-bold" colspan="3">'+total+'</td>' )
-                        .append( '<td class="font-weight-bold">Restock Point </td>' )
-                        .append( '<td class="font-weight-bold restock-value" colspan="2">No data</td>' );
-                },
-                dataSrc: 1
-            }
-        });
+                            return $('<tr/>')
+                                .append( '<td class="font-weight-bold">Total Quantity </td>' )
+                                .append( '<td class="font-weight-bold" colspan="3">'+total+'</td>' )
+                                .append( '<td class="font-weight-bold">Restock Point </td>' )
+                                .append( '<td class="font-weight-bold restock-value" colspan="2">No data</td>' );
+                        },
+                        dataSrc: 1
+                    }
+                });
 
                 var medYear = [], medMonth = [], medDay = [];
                 var curDates = [];
                 var medicineUsed = [];
+                var lowStock = [];
 
                 var temp = [];
                 for(i = 0; i < details.length; i++){
@@ -1095,6 +1096,9 @@
                                 if(Math.ceil(ltd) >= parseInt(text)){
                                     //console.log("pasok");
                                     $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
+                                    lowStock.push(medicineUsed[j].medicineName);
+                                    console.log("lowStock Array");
+                                    console.log(lowStock);
                                 }
                                 
                                 console.log("this is my ltd");
@@ -1105,30 +1109,6 @@
                     }
                 }
 
-                //for(var i = 0; i < details.length; i++){
-                //    console.log("inside 1st for loop");
-                //    var [yearUpdated, monthUpdated, dayUpdated] = details[i].dateUpdated.split('-');
-                //    if(month == monthUpdated){
-                //        console.log("check me");
-                //        for(var j = 0; j < invetoryMedicine.length; j++){
-                //            if(invetoryMedicine[j].med == details[i].medicineName){
-                //                console.log("inside 2nd for loop");
-                //                console.log(details[i].medicineName);
-                //                console.log(parseInt(details[i].usedInventory));
-
-                //                var stringID = '#';
-                //                stringID += invetoryMedicine[j].medicineID;
-
-                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
-                //                var row = $(stringID).closest("tr").next(".dtrg-end").css("color", "red");
-    
-                  //          }
-                            
-                   //     }
-                  //  }
-                //}
-
-                
             });
 
         });
@@ -1464,31 +1444,6 @@
                     unit: unit, 
                 });
             }
-
-            $('#medicineTable').DataTable({
-                destroy: true,
-                pageLength: 100,
-                order: [[1, 'asc']],
-                rowGroup: {
-                    endRender: function (rows, group ) {
-                        var total = rows
-                            .data()
-                            .pluck(2)
-                            .reduce( function (a, b) {
-                                return a + b.replace(/[^\d]/g, '')*1;
-                            }, 0);
-
-                        total = $.fn.dataTable.render.number(',', '.', 0).display( total );
-
-                        return $('<tr/>')
-                            .append( '<td class="font-weight-bold">Total Quantity </td>' )
-                            .append( '<td class="font-weight-bold" colspan="3">'+total+'</td>' )
-                            .append( '<td class="font-weight-bold">Restock Point </td>' )
-                            .append( '<td class="font-weight-bold" colspan="2">'+total+'</td>' );
-                    },
-                    dataSrc: 1
-                }
-            });
             
         });
     });

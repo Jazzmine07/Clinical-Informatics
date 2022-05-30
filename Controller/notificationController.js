@@ -43,16 +43,9 @@ exports.getNotifications = function(req, res){
 // This function is used to update the notification if the user has seen it or not
 exports.updateNotifications = function(req, res){
     var { userID, formIds } = req.body;
-    console.log("user id in notif contoller");
-    console.log(userID);
-    console.log("formIds in notif contoller");
-    console.log(formIds);
     var database = firebase.database();
 
     if(formIds.length != 0){
-        // var seen = {
-        //     seen: true
-        // }
         for(var i = 0; i < formIds.length; i++){
             database.ref("notifications/"+userID+"/"+formIds[i]+"/seen").set(true);
         }
@@ -64,28 +57,32 @@ exports.updateNotifications = function(req, res){
 exports.lowStockMedicineInventory = function(req, res){
     var medicineName = req.body.lowStock;
     var today = req.body.date;
+    var userKey = req.body.userKey;
     var time = Math.round(+new Date()/1000);
     var database = firebase.database();
     var cliniciansRef = database.ref("clinicUsers");
+    var userRef = database.ref("clinicUsers/"+userKey);
     var i;
     
-    cliniciansRef.once('value', (snapshot) => {
-        snapshot.forEach(function(childSnapshot){
-            for (i = 0; i < medicineName.length; i++){
-                var medicineNotification = database.ref("notifications/"+childSnapshot.key);
-                var notif = {
-                    type: "inventory",
-                    message: medicineName[i] + " is low on stock!",
-                    date: today,
-                    timestamp: time,
-                    seen: false
-                }
-                console.log("date in controller "+today);
-                console.log("notif in controller "+notif);
-                medicineNotification.push(notif);
-            }
-            
-            res.status(200).send();
-        })
+    userRef.once("value", (userSnapshot) => { 
+        if(userSnapshot.child("role").val() == "Nurse"){
+            cliniciansRef.once('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot){
+                    for (i = 0; i < medicineName.length; i++){
+                        var medicineNotification = database.ref("notifications/"+childSnapshot.key);
+                        var notif = {
+                            type: "inventory",
+                            message: medicineName[i] + " is low on stock!",
+                            date: today,
+                            timestamp: time,
+                            seen: false
+                        }
+                        medicineNotification.push(notif);
+                    }
+                    
+                    res.status(200).send();
+                })
+            })
+        }
     })
 }

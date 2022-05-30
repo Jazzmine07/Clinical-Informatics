@@ -458,6 +458,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#drop-menu" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <input id="userKey" type="hidden" value="{{user.key}}">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome, {{user.firstName}} {{user.lastName}}!</span>
                                 <img class="img-profile rounded-circle"
                                     src="public/img/undraw_profile.svg">
@@ -1115,7 +1116,8 @@
                         }
                     }
                 }
-                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: thisDay}, function(lowStockInventory){
+                var userKey = $('#userKey').val();
+                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: thisDay, userKey: userKey}, function(lowStockInventory){
                     // this function is to set a notification to the clinicians when there is an inventory low on stock.
                 })
             });

@@ -1066,23 +1066,22 @@ exports.addMedicationIntake = function(req, res){
     var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
-    var intakeRef = database.ref("intakeHistory");
-    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
-
     var record = {
-        id: studentId, 
-        studentName: studentName,
+        attendingNurse: nurse,
         grade: studentGrade,
+        id: studentId, 
+        medications: "", // array of medications
         section: studentSection,
-        visitDate: visitDate,
-        timestamp: time,
+        studentName: studentName,
         timeIn: timeIn,
         timeOut: timeOut,
-        attendingNurse: nurse,
-        medications: "", // array of medications
+        timestamp: time,
+        visitDate: visitDate,
     };
 
+    var intakeRef = database.ref("intakeHistory");
     key = intakeRef.push(record).key;
+    var historyRef = database.ref("studentHealthHistory/"+studentId+"/intakeHistory/");
 
     for(i = 0; i < medicationsArray.length; i++){
         medication = {
@@ -1102,6 +1101,24 @@ exports.addMedicationIntake = function(req, res){
         database.ref('intakeHistory/' + key + '/medications').push(medication);
         historyRef.push(healthHistoryIntake);
     }
+
+    var parentRef = database.ref("parentInfo");
+    parentRef.once('value', (snapshot) => {
+        snapshot.forEach(function(parent){
+            parent.child('children').forEach(function(children){
+                if(children.val() == studentId){
+                    var intakeNotification = database.ref("notifications/"+parent.key+"/intake");
+                    var intakeNotif = {
+                        message: "Your child, " + studentName + ", was given a medication.",
+                        id: studentId,
+                        timeIn: timeIn,
+                        date: visitDate, 
+                    }
+                    intakeNotification.push(intakeNotif);
+                }
+            })
+        })
+    })
     
     res.status(200).send();
 };
@@ -1121,6 +1138,23 @@ exports.addIncidenceReport = function(req, res){
         studentGrade = "";
     } else {
         // notifty parents
+        var parentRef = database.ref("parentInfo");
+        parentRef.once('value', (snapshot) => {
+            snapshot.forEach(function(parent){
+                parent.child('children').forEach(function(children){
+                    if(children.val() == studentId){
+                        var incidentNotification = database.ref("notifications/"+parent.key+"/incident");
+                        var incidentNotif = {
+                            message: "Your child, " + studentName + ", was involved in a medical incident.",
+                            id: studentId,
+                            time: incidentTime,
+                            date: incidentDate, 
+                        }
+                        incidentNotification.push(incidentNotif);
+                    }
+                })
+            })
+        })
     }
 
     var record = {
@@ -1148,6 +1182,7 @@ exports.addIncidenceReport = function(req, res){
     };
 
     incidenceRef.push(record);
+
     res.status(200).send();
 };
 

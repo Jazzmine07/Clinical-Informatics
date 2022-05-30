@@ -954,6 +954,11 @@
         var year = now.getFullYear();
         //var lastYear = now.getFullYear() - 1;
         var month = now.getMonth() + 1;
+        var thisMonth = now.getMonth() + 1;
+        if (thisMonth < 10) {
+            thisMonth = '0' + thisMonth;
+        }
+
         var date = now.getDate();
         //var date = 8;
 
@@ -986,8 +991,10 @@
         //monthDay += '-';
         //monthDay += date;
 
+        var thisDay = year.toString() + "-" + thisMonth.toString() + "-" + date.toString();
+        console.log(thisDay);
+
         var invetoryMedicine = [];
-        
 
         $.get("/getMedicineInventoryList", function(inventoryList){
             //console.log("inventoryList in front end");
@@ -1108,7 +1115,7 @@
                         }
                     }
                 }
-                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: }, function(lowStockInventory){
+                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: thisDay}, function(lowStockInventory){
                     // this function is to set a notification to the clinicians when there is an inventory low on stock.
                 })
             });

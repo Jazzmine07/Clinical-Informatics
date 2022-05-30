@@ -34,7 +34,6 @@ exports.getTop5MedsUsedMonth = function(req, res){
         var endDay=endDate[2];
     }
 
- 
     console.log("DEATH AWAITS");
 
     databaseRef.once('value', (snapshot) => {

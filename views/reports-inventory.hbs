@@ -424,7 +424,7 @@
                     <!-- Top medicines used chart -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Top 5 Medicines Used for the Month</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Top 5 Medicines Used</h6>
                         </div>
                         <div class="card-body">
                             <div style="height: 600px">
@@ -600,6 +600,9 @@
 
         var start = moment().subtract(29, 'days');
         var end = moment();
+
+        var startDate = new Date(start);
+        var endDate = new Date(end);
         
         cb(start, end);
 
@@ -612,8 +615,55 @@
             console.log("START " + start.format('YYYY-MM-DD'));
             console.log("END " + end.format('YYYY-MM-DD'));
 
-            var startDate = new Date(start);
-            var endDate = new Date(end);
+            $.get("/getTop5MedsUsedMonth",{start: start.format('YYYY-MM-DD'), end:end.format('YYYY-MM-DD')},function(data){
+                var intakeData=data[0];
+                var top5=data[1];
+                var labels=[];
+
+                var getStartMonth = startDate.toLocaleString('default', { month: 'long' })
+                var startRange = getStartMonth + ' ' + startDate.getDate() + ', ' + startDate.getFullYear();
+
+                var getEndMonth = endDate.toLocaleString('default', { month: 'long' })
+                var endRange = getEndMonth + ' ' + endDate.getDate() + ', ' + endDate.getFullYear();
+
+                var dataCountG1=[0,0,0,0,0],dataCountG2=[0,0,0,0,0],dataCountG3=[0,0,0,0,0],dataCountG4=[0,0,0,0,0],dataCountG5=[0,0,0,0,0],dataCountG6=[0,0,0,0,0];
+                var i, j;
+                var top5medsTemp;
+
+                if(top5.length>0){
+                    console.log("FIND ORDER OF WEEK TOP DISEASE");
+                    top5medsTemp = top5.sort(function (x, y) {
+                        return y.count- x.count;
+                    });
+                }
+                for(j=0;j<5;j++){
+                    labels.push(top5medsTemp[j].medicineName);
+                    console.log("labels "+labels);
+                }
+
+                for(i=0;i<intakeData.length;i++){
+                    for(j=0;j<top5.length;j++){
+                        if(intakeData[i].medicineName == top5[j].medicineName){
+                            if(intakeData[i].grade=="1")
+                                dataCountG1[j]=dataCountG1[j]+1;
+                            else if(intakeData[i].grade=="2")
+                                dataCountG2[j]=dataCountG2[j]+1;
+                            else if(intakeData[i].grade=="3")
+                                dataCountG3[j]=dataCountG3[j]+1;
+                            else if(intakeData[i].grade=="4")
+                                dataCountG4[j]=dataCountG4[j]+1;
+                            else if(intakeData[i].grade=="5")
+                                dataCountG5[j]=dataCountG5[j]+1;
+                            else if(intakeData[i].grade=="6")
+                                dataCountG6[j]=dataCountG6[j]+1;
+                        }
+                    }
+                }
+                
+                //console.log("labels "+labels);
+                //console.log("endRange "+endRange);
+                top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData, startRange, endRange);
+            });
 
             $.get('/getMedicineDiscrepancyReport', {start: startDate, end: endDate}, function(result){
                 console.log("medicine discrepancy result");
@@ -701,110 +751,6 @@
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
         }, cb);
-        
-        $.get("/getMedicineInventoryList", function(inventoryList){
-            console.log("inventoryList in front end");
-            console.log(inventoryList);
-            invetoryMedicine = inventoryList;
-
-            $.get("/getUsedMedicineDaily", function(details){
-            console.log(details);
-
-                //for(var i = 0; i < details.length; i++){
-                //    console.log("inside 1st for loop");
-                //    var [yearUpdated, monthUpdated, dayUpdated] = details[i].dateUpdated.split('-');
-                //    if(month == monthUpdated){
-                //        console.log("check me");
-                //        for(var j = 0; j < invetoryMedicine.length; j++){
-                //            if(invetoryMedicine[j].med == details[i].medicineName){
-                //                console.log("inside 2nd for loop");
-                //                console.log(details[i].medicineName);
-                //                console.log(parseInt(details[i].usedInventory));
-
-                //                var stringID = '#';
-                //                stringID += invetoryMedicine[j].medicineID;
-
-                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
-                //                var row = $(stringID).closest("tr").next(".dtrg-end").css("color", "red");
-    
-                  //          }
-                            
-                   //     }
-                  //  }
-                //}
-
-                for(var i = 0; i < invetoryMedicine.length; i++){
-                    var sum = 0; 
-                    for(var j = 0; j < details.length; j++){
-                        var [yearUpdated, monthUpdated, dayUpdated] = details[j].dateUpdated.split('-');
-                        if(lastYear == yearUpdated && month == monthUpdated){
-                            if(invetoryMedicine[i].med == details[j].medicineName){
-                                
-                                console.log(details[j].medicineName);
-                                console.log(parseInt(details[j].usedInventory));
-                                sum += parseInt(details[j].usedInventory);
-                                console.log("sum: " + sum);
-
-                                var total = sum;
-                                total = total/24;
-                                var ltd = 6.3*7;
-                                console.log("ltd: " + ltd);
-                                
-                                var stringID = '#';
-                                stringID += invetoryMedicine[i].medicineID;
-                                
-                                //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
-                                var text = $(stringID).closest("tr").next(".dtrg-end").text();
-                                text = text.replace( /^\D+/g, '');
-                                if(Math.ceil(ltd) >= parseInt(text)){
-                                    $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
-                                    $(stringID).closest("tr").next(".dtrg-end").css("font-weight", "bold");
-                                }
-                                
-                                console.log("this is my ltd");
-                                console.log(Math.ceil(ltd));
-
-                            }
-                        }
-                    }
-                }
-            });
-
-        });
-        
-        $.get("/getTop5MedsUsedMonth",{start: start.format('YYYY-MM-DD'), end:end.format('YYYY-MM-DD')},function(data){
-            var intakeData=data[0];
-            var top5=data[1];
-            var labels=[];
-            
-
-            var dataCountG1=[0,0,0,0,0],dataCountG2=[0,0,0,0,0],dataCountG3=[0,0,0,0,0],dataCountG4=[0,0,0,0,0],dataCountG5=[0,0,0,0,0],dataCountG6=[0,0,0,0,0];
-            var i,j;
-
-            for(j=0;j<top5.length;j++){
-                labels.push(top5[j].medicineName);
-            }
-            for(i=0;i<intakeData.length;i++){
-                for(j=0;j<top5.length;j++){
-                    if(intakeData[i].medicineName == top5[j].medicineName){
-                        if(intakeData[i].grade=="1")
-                            dataCountG1[j]=dataCountG1[j]+1;
-                        else if(intakeData[i].grade=="2")
-                            dataCountG2[j]=dataCountG2[j]+1;
-                        else if(intakeData[i].grade=="3")
-                            dataCountG3[j]=dataCountG3[j]+1;
-                        else if(intakeData[i].grade=="4")
-                            dataCountG4[j]=dataCountG4[j]+1;
-                        else if(intakeData[i].grade=="5")
-                            dataCountG5[j]=dataCountG5[j]+1;
-                        else if(intakeData[i].grade=="6")
-                            dataCountG6[j]=dataCountG6[j]+1;
-                    }
-                }
-            }
-            
-            top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData);
-        });
 
         $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
             var row = $(this).closest('tr');
@@ -868,255 +814,253 @@
         });
     });
 
+    var checker = false;
     var stackedBarChart;
-    function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData) {
-            var sections =[], sectionsCount=[]
-            var curr =  new Date();
-            var currYear = curr.getFullYear();
-            var currentMonth = curr.toLocaleString('default', { month: 'long' });
+    function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData, start, end) {
+        var sections =[], sectionsCount=[]
+        var curr =  new Date();
+        var currYear = curr.getFullYear();
+        var currentMonth = curr.toLocaleString('default', { month: 'long' });
 
-            console.log("INTAKE DATA INFO:");
-            console.log(intakeData)
-            var gradeData={
-                labels: labels, // x-axis
-                datasets: [{
-                    label: "Grade 1",                           
-                    backgroundColor: "rgba(153, 102, 255, 0.5)", // violet  
-                    data: dataCountG1,   // values of the point
-                }, {
-                    label: "Grade 2",
-                    backgroundColor: "rgb(255, 159, 64)",  // orange
-                    data: dataCountG2,
-                }, {
-                    label: "Grade 3",
-                    backgroundColor: "rgb(255, 205, 86)",  // yellow
-                    data: dataCountG3,
-                }, {
-                    label: "Grade 4",
-                    backgroundColor: "rgb(75, 192, 192)", // green
-                    data: dataCountG4,
-                }, {
-                    label: "Grade 5",
-                    backgroundColor: "rgb(54, 162, 235)", // blue
-                    data: dataCountG5,
-                }, {
-                    label: "Grade 6",
-                    backgroundColor: "rgb(255, 99, 132)", // red
-                    data: dataCountG6,
-                }],
-            }           
+        console.log("INTAKE DATA INFO:");
+        console.log(intakeData)
+        var gradeData={
+            labels: labels, // x-axis
+            datasets: [{
+                label: "Grade 1",                           
+                backgroundColor: "rgba(153, 102, 255, 0.5)", // violet  
+                data: dataCountG1,   // values of the point
+            }, {
+                label: "Grade 2",
+                backgroundColor: "rgb(255, 159, 64)",  // orange
+                data: dataCountG2,
+            }, {
+                label: "Grade 3",
+                backgroundColor: "rgb(255, 205, 86)",  // yellow
+                data: dataCountG3,
+            }, {
+                label: "Grade 4",
+                backgroundColor: "rgb(75, 192, 192)", // green
+                data: dataCountG4,
+            }, {
+                label: "Grade 5",
+                backgroundColor: "rgb(54, 162, 235)", // blue
+                data: dataCountG5,
+            }, {
+                label: "Grade 6",
+                backgroundColor: "rgb(255, 99, 132)", // red
+                data: dataCountG6,
+            }],
+        }           
 
-            var config={
-                type: 'bar',
-                data: gradeData,
-                plugins: [ChartDataLabels],
-                options: {
-                    maintainAspectRatio: false,
-                    layout: {   // layout ng entire chart
-                        padding: {
-                            left: 30,
-                            right: 25,
-                            top: 0,
-                            bottom: 25
-                        }
-                    },
-                    plugins: {
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'top',
-                            font: {
-                                weight: 'bold'
-                            },
-                            color: "#000000",
+        var config={
+            type: 'bar',
+            data: gradeData,
+            plugins: [ChartDataLabels],
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    datalabels: {
+                        anchor: 'middle',
+                        align: 'middle',
+                        font: {
+                            weight: 'bold',
+                            size: 15
                         },
+                        color: "#000000",
+                    },
+                    title: {
+                        display: true,
+                        text: 'Top 5 Medicines Used from ' + start + ' to ' + end,
+                        font: {
+                            size: 25   // font size of the labels
+                        },
+                    },
+                    legend: {
+                        display: true,
+                    }
+                },
+                scales: {
+                    x: {
                         title: {
                             display: true,
-                            text: 'Top 5 Medicines Used for the Month per Grade Level',
+                            text: 'Top 5 Medicines Used',
                             font: {
-                                size: 25   // font size of the labels
+                                size: 15,   // font size of the labels
+                                weight: 'bold'
                             },
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Top 5 Medicines Used',
-                                font: {
-                                    size: 15,   // font size of the labels
-                                    weight: 'bold'
-                                },
-                            },
-                            ticks: {
-                                font: {
-                                    size: 15   // font size of the labels
-                                },
-                                
-                            },
-                            stacked: true,
                         },
-                        y: {
-                            title: {
-                                font: {
-                                    size: 15,   // font size of the labels
-                                    weight: 'bold'
-                                },
-                                //color: "rgba(255, 99, 132, 1)",
+                        ticks: {
+                            font: {
+                                size: 15   // font size of the labels
                             },
-                            ticks: {
-                                font: {
-                                    size: 15,   // font size of the labels
-                                },
-                                //color: "rgba(255, 99, 132, 1)",
-                            },
-                            stacked: true,
-                        },
-                    },
-                }
-            }
-
-            var top5MedsGrade = document.getElementById("top5medsByGrade");
-            stackedBarChart = new Chart(top5MedsGrade, config);
-
-            function clickHandler(click){
-                const barColorBackground = [];
-                var labelColor;
-                var medicineNameChosen = [];
-                const points= stackedBarChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
-                if(points.length){
-                    if(stackedBarChart.config.data == gradeData){
-                        var firstPoint = points[0];
-                        console.log(points[0]);
-                        console.log(firstPoint.datasetIndex);
-                        console.log(firstPoint.index);
-                        var chosen= labels[firstPoint.index];
-                        medicineNameChosen.push(chosen);
-                        if(sections!=null){
-                            for(i=0;i<6;i++){
-                                sections.pop();
-                                barColorBackground.pop();
-                            }
-                        }
-                        sectionsCount=[0,0,0,0,0,0]
-                        if(sections==null || sections.length==0){
-                            console.log("HI");
-                            console.log(labels[firstPoint.index]);
-                            if(firstPoint.datasetIndex == 0){
-                                grade = "Grade 1";
-                                sections.push("Truthfulness");
-                                sections.push("Sincerity");
-                                sections.push("Honesty");
-                                sections.push("Faithfulness");
-                                sections.push("Humility");
-                                sections.push("Politeness");
-                                barColorBackground.push('#c67aff', '#bf6bff', '#b85cff', '#af47ff','#a938ff', '#a229ff');
-                                labelColor = '#FFFFFF';
-                            }
-                            else if(firstPoint.datasetIndex == 1){
-                                grade = "Grade 2";
-                                sections.push("Simplicity");
-                                sections.push("Charity");
-                                sections.push("Helpfulness");
-                                sections.push("Gratefulness");
-                                sections.push("Gratitude");
-                                sections.push("Meekness");
-                                barColorBackground.push('#ffc65c', '#ffbf47', '#ffb938', '#ffb429', '#ffad14', '#ffa805');
-                                labelColor = '#000000';
-                            }
-                            else if(firstPoint.datasetIndex == 2){
-                                grade = "Grade 3";
-                                sections.push("Respect");
-                                sections.push("Courtesy");
-                                sections.push("Trust");
-                                sections.push("Kindness");
-                                sections.push("Piety");
-                                sections.push("Prayerfulness");
-                                barColorBackground.push('#ffeb7a', '#ffe96b', '#ffe75c', '#ffe347', '#ffe138', '#ffdf29');
-                                labelColor = '#000000';
-                            }
-                            else if(firstPoint.datasetIndex == 3){
-                                grade = "Grade 4";
-                                sections.push("Unity");
-                                sections.push("Purity");
-                                sections.push("Fidelity");
-                                sections.push("Equality");
-                                sections.push("Harmony");
-                                sections.push("Solidarity");
-                                barColorBackground.push('#7aff7a', '#52ff52', '#00e600', '#00cc00', '#00b300', '#009400');
-                                labelColor = '#000000';
-                            }
-                            else if(firstPoint.datasetIndex == 4){
-                                grade = "Grade 5";
-                                sections.push("Trustworthiness");
-                                sections.push("Reliability");
-                                sections.push("Dependability");
-                                sections.push("Responsibility");
-                                sections.push("Serenity");
-                                sections.push("Flexibility");
-                                barColorBackground.push('#2929ff', '#0505ff', '#0000e6', '#0000cc', '#0000b3', '#000094');
-                                labelColor = '#FFFFFF';
-                            }
-                            else if(firstPoint.datasetIndex == 5){
-                                grade = "Grade 6";
-                                sections.push("Self-Discipline");
-                                sections.push("Abnegation");
-                                sections.push("Self-Giving");
-                                sections.push("Integrity");
-                                sections.push("Perseverance");
-                                sections.push("Patience");
-                                barColorBackground.push('#ff7a7a', '#ff4242', '#ff0505', '#e60000', '#cc0000', '#b30000', '#940000');
-                                labelColor = '#FFFFFF';
-                            }
                             
-                            console.log("IntakeData Data:")
-                            console.log(intakeData[intakeData.length-1]);
-                            console.log("END");
+                        },
+                        stacked: true,
+                    },
+                    y: {
+                        title: {
+                            font: {
+                                size: 15,   // font size of the labels
+                                weight: 'bold'
+                            },
+                            //color: "rgba(255, 99, 132, 1)",
+                        },
+                        ticks: {
+                            font: {
+                                size: 15,   // font size of the labels
+                            },
+                            //color: "rgba(255, 99, 132, 1)",
+                        },
+                        stacked: true,
+                    },
+                },
+            }
+        }
 
-                            for(i=0;i<intakeData.length;i++){
-                                if(medicineNameChosen[0].toLowerCase() == intakeData[i].medicineName.toLowerCase()){
-                                    for(j=0;j<sections.length;j++){
-                                        if(sections[j]== intakeData[i].section){
-                                            sectionsCount[j]=sectionsCount[j]+1;
-                                        }
+        var top5MedsGrade = document.getElementById("top5medsByGrade");
+        stackedBarChart = new Chart(top5MedsGrade, config);
+
+        function clickHandler(click){
+            const barColorBackground = [];
+            var labelColor;
+            var medicineNameChosen = [];
+            const points= stackedBarChart.getElementsAtEventForMode(click,'nearest',{ intersect:true},true);
+            if(points.length){
+                if(stackedBarChart.config.data == gradeData){
+                    var firstPoint = points[0];
+                    console.log(points[0]);
+                    console.log(firstPoint.datasetIndex);
+                    console.log(firstPoint.index);
+                    var chosen= labels[firstPoint.index];
+                    medicineNameChosen.push(chosen);
+                    if(sections!=null){
+                        for(i=0;i<6;i++){
+                            sections.pop();
+                            barColorBackground.pop();
+                        }
+                    }
+                    sectionsCount=[0,0,0,0,0,0]
+                    if(sections==null || sections.length==0){
+                        console.log("HI");
+                        console.log(labels[firstPoint.index]);
+                        if(firstPoint.datasetIndex == 0){
+                            grade = "Grade 1";
+                            sections.push("Truthfulness");
+                            sections.push("Sincerity");
+                            sections.push("Honesty");
+                            sections.push("Faithfulness");
+                            sections.push("Humility");
+                            sections.push("Politeness");
+                            barColorBackground.push('#c67aff', '#bf6bff', '#b85cff', '#af47ff','#a938ff', '#a229ff');
+                            labelColor = '#FFFFFF';
+                        }
+                        else if(firstPoint.datasetIndex == 1){
+                            grade = "Grade 2";
+                            sections.push("Simplicity");
+                            sections.push("Charity");
+                            sections.push("Helpfulness");
+                            sections.push("Gratefulness");
+                            sections.push("Gratitude");
+                            sections.push("Meekness");
+                            barColorBackground.push('#ffc65c', '#ffbf47', '#ffb938', '#ffb429', '#ffad14', '#ffa805');
+                            labelColor = '#000000';
+                        }
+                        else if(firstPoint.datasetIndex == 2){
+                            grade = "Grade 3";
+                            sections.push("Respect");
+                            sections.push("Courtesy");
+                            sections.push("Trust");
+                            sections.push("Kindness");
+                            sections.push("Piety");
+                            sections.push("Prayerfulness");
+                            barColorBackground.push('#ffeb7a', '#ffe96b', '#ffe75c', '#ffe347', '#ffe138', '#ffdf29');
+                            labelColor = '#000000';
+                        }
+                        else if(firstPoint.datasetIndex == 3){
+                            grade = "Grade 4";
+                            sections.push("Unity");
+                            sections.push("Purity");
+                            sections.push("Fidelity");
+                            sections.push("Equality");
+                            sections.push("Harmony");
+                            sections.push("Solidarity");
+                            barColorBackground.push('#7aff7a', '#52ff52', '#00e600', '#00cc00', '#00b300', '#009400');
+                            labelColor = '#000000';
+                        }
+                        else if(firstPoint.datasetIndex == 4){
+                            grade = "Grade 5";
+                            sections.push("Trustworthiness");
+                            sections.push("Reliability");
+                            sections.push("Dependability");
+                            sections.push("Responsibility");
+                            sections.push("Serenity");
+                            sections.push("Flexibility");
+                            barColorBackground.push('#2929ff', '#0505ff', '#0000e6', '#0000cc', '#0000b3', '#000094');
+                            labelColor = '#FFFFFF';
+                        }
+                        else if(firstPoint.datasetIndex == 5){
+                            grade = "Grade 6";
+                            sections.push("Self-Discipline");
+                            sections.push("Abnegation");
+                            sections.push("Self-Giving");
+                            sections.push("Integrity");
+                            sections.push("Perseverance");
+                            sections.push("Patience");
+                            barColorBackground.push('#ff7a7a', '#ff4242', '#ff0505', '#e60000', '#cc0000', '#b30000', '#940000');
+                            labelColor = '#FFFFFF';
+                        }
+                        
+                        console.log("IntakeData Data:")
+                        console.log(intakeData[intakeData.length-1]);
+                        console.log("END");
+
+                        for(i=0;i<intakeData.length;i++){
+                            if(medicineNameChosen[0].toLowerCase() == intakeData[i].medicineName.toLowerCase()){
+                                for(j=0;j<sections.length;j++){
+                                    if(sections[j]== intakeData[i].section){
+                                        sectionsCount[j]=sectionsCount[j]+1;
                                     }
                                 }
                             }
-
-                            var sectionData = {
-                                labels: sections, // x-axis
-                                datasets: [{        // border color of the line and legend border
-                                    backgroundColor: barColorBackground,
-                                    data: sectionsCount,   // values of the point
-                                }],
-                            }
-                            console.log(sectionsCount);
-                            stackedBarChart.config.data = sectionData;
-                            stackedBarChart.config.options.plugins.datalabels.color = labelColor;
-                            stackedBarChart.config.options.plugins.title.text = medicineNameChosen[0] + 'for ' + currentMonth + ' ' + currYear +' by ' + grade + ' Sections';
-                            stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                         }
-                        stackedBarChart.update();
+
+                        var sectionData = {
+                            labels: sections, // x-axis
+                            datasets: [{        // border color of the line and legend border
+                                backgroundColor: barColorBackground,
+                                data: sectionsCount,   // values of the point
+                            }],
+                        }
+                        console.log(sectionsCount);
+                        stackedBarChart.config.data = sectionData;
+                        stackedBarChart.config.options.plugins.datalabels.color = labelColor;
+                        stackedBarChart.config.options.plugins.title.text = 'Used ' + medicineNameChosen[0] + ' from ' + start + ' to ' + end +' by ' + grade + ' Sections';
+                        stackedBarChart.config.options.plugins.legend.display = false;
+                        stackedBarChart.config.options.scales.y.ticks.stepSize = 5;
                     }
+                    stackedBarChart.update();
                 }
             }
-            top5MedsGrade.onclick=clickHandler;
-
-
         }
+        top5MedsGrade.onclick=clickHandler;
+    }
 
-        $('#downloadBtn').click(function () {
-            var stackedBarChartImg = stackedBarChart.toBase64Image();
+    if(checker){
+        stackedBarChart.destroy();
+    } 
 
-            var a = document.createElement('a');
-            a.href = stackedBarChartImg;
+    $('#downloadBtn').click(function () {
+        var stackedBarChartImg = stackedBarChart.toBase64Image();
 
-            a.download = 'top-5-medicines-used-by-grade-level.png';
+        var a = document.createElement('a');
+        a.href = stackedBarChartImg;
 
-            // Trigger the download
-            a.click();
-        });
+        a.download = 'top-5-medicines-used-by-grade-level.png';
 
-
+        // Trigger the download
+        a.click();
+    });
     </script>
 
 </body>

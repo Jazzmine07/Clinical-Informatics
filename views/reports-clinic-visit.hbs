@@ -594,7 +594,6 @@
                     ineffectiveCount = result.ineffectiveCount;
                     interactionCount = result.interactionCount;
                     allergyCount = result.allergyCount;
-                    noStockCount = result.noStockCount;
                     expiredCount = result.expiredCount;
 
                     if(checker2){
@@ -602,8 +601,8 @@
                         incidenceCountPieChart.destroy();
                     }
 
-                    incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
-                    incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount);
+                    incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount);
+                    incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount);
                     checker2 = true;
 
                 });
@@ -770,12 +769,12 @@
             var i;
             var omissionCount, delayCount, ineffectiveCount, interactionCount, allerg
 
-            function incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount){
+            function incidenceBarChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount){
                 var incidenceBar = document.getElementById("incidenceBar");
                 incidenceCountBarChart = new Chart(incidenceBar, {  // line chart
                     type: 'bar',
                     data: {
-                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'], // x-axis
+                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Expired Stock'], // x-axis
                         datasets: [{
                             backgroundColor: [  // background color of the thing
                                 'rgba(255, 99, 132, 1)', // pink
@@ -784,10 +783,9 @@
                                 'rgba(75, 192, 192, 1)', // green
                                 'rgba(153, 102, 255, 1)', // purple
                                 'rgba(255, 159, 64, 1)', // orange
-                                'rgba(117, 0, 0, 1)'    // maroon
                             ],
                             borderWidth: 3,
-                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
+                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount]
                         }],
                     },
                     options: {
@@ -831,12 +829,12 @@
                 });
             }
 
-            function incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount){
+            function incidencePieChart(omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount){
                 var incidencePie = document.getElementById("incidencePie");
                 incidenceCountPieChart = new Chart(incidencePie, {  // pie chart
                     type: 'pie',
                     data: {
-                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Inadequate Stock', 'Expired Stock'],
+                        labels: ['Dose Omission', 'Dose Delay', 'Ineffective Dose', 'Drug Interaction', 'Drug Allergy', 'Expired Stock'],
                         datasets: [{
                             backgroundColor: [  // background color of the thing
                                 'rgba(255, 99, 132, 1)', // pink
@@ -845,31 +843,22 @@
                                 'rgba(75, 192, 192, 1)', // green
                                 'rgba(153, 102, 255, 1)', // purple
                                 'rgba(255, 159, 64, 1)', // orange
-                                'rgba(117, 0, 0, 1)'    // maroon
                             ],
-                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, noStockCount, expiredCount]
+                            data: [omissionCount, delayCount, ineffectiveCount, interactionCount, allergyCount, expiredCount]
                         }],
                     },
                     options: {
                         maintainAspectRatio: false,
-                        layout: {   // layout ng entire chart
-                            padding: {
-                                left: 30,
-                                right: 25,
-                                top: 0,
-                                bottom: 0,
-                            }
-                        },
                         plugins: {
                             labels: {
-                                fontSize: 15,
+                                fontSize: 12,
                                 fontStyle: 'bold',
                                 render: (context) => {
                                     const percentage = context.value / computeIncidencePercent(this) * 100;
                                     return percentage.toFixed(2)+"%";
                                 },
-                                fontColor: '#000000',
-                                position: 'outside'
+                                fontColor: '#FFFFFF',
+                                position: 'border'
                             },
                             legend: {
                                 display: true,

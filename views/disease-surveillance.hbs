@@ -811,8 +811,8 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Complaints Percentage</h6>
                                 </div>
-                                <div class="card-body">
-                                    <div class="smolPieChart">
+                                <div class="card-body"  style="height: 360px">
+                                    <div class="chart-pie pt-6 pb-2" style="width: 500px">
                                         <canvas id="complaintsPieChart"></canvas>
                                     </div>
                                 </div>
@@ -1311,33 +1311,22 @@
                 data: chartData,
                 options: {
                     maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                        }
-                    },  
                     plugins: {
                         labels: {
-                            fontSize: 15,
+                            fontSize: 12,
                             fontStyle: 'bold',
                             render: (context) => {
                                 const percentage = context.value / showData(this) * 100;
                                 return percentage.toFixed(2)+"%";
                             },
-                            fontColor: '#000000',
-                            position: 'outside'
+                            fontColor: '#FFFFFF',
+                            position: 'border'
                         },
                         legend: {
                             display: true,
                             position: 'right',
                         }
-                    },
-                    layout: {
-                        padding: {
-                            left: 85
-                        }
-                    }              
+                    },            
                 }
             }
             function showData(){
@@ -1409,7 +1398,7 @@
                             grade = "Grade 5";
                             gradeLevelChart.config.data=grade5Sections;
                             gradeLevelPieChart.config.data=grade5Sections;
-                            labelColor = '#000000';
+                            labelColor = '#FFFFFF';
                             gradeLevelChart.config.options.plugins.title.text = selectedDisease + ' Count from ' + startRange + ' to ' + endRange +' by ' + grade + ' Sections';
                             gradeLevelPieChart.config.options.plugins.labels.fontColor = labelColor;
                         }
@@ -1570,28 +1559,21 @@
                 data: symptomsCount,
                 options: {
                     maintainAspectRatio: false,
-                    layout: {
-                        //margin: {
-                        //    left: 15,
-                        //    right: 15,
-                        //    top: 15,
-                        //}
-                    },
                     plugins: {
                         labels: {
-                            fontSize: 15,
+                            fontSize: 12,
                             fontStyle: 'bold',
                             render: (context) => {
                                 const percentage = context.value / showDataComplaints(this) * 100;
                                 return percentage.toFixed(2)+"%";
                             },
-                            fontColor: '#000000',
-                            position: 'outside',
+                            fontColor: '#FFFFFF',
+                            position: 'border',
                             
                         },
                         legend: {
                             display: true,
-                            //position: 'right',
+                            position: 'right',
                         }
                     }
                 }

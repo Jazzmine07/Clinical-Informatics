@@ -60,3 +60,32 @@ exports.updateNotifications = function(req, res){
 
     res.status(200).send();
 }
+
+exports.lowStockMedicineInventory = function(req, res){
+    var medicineName = req.body.lowStock;
+    var today = req.body.date;
+    var time = Math.round(+new Date()/1000);
+    var database = firebase.database();
+    var cliniciansRef = database.ref("clinicUsers");
+    var i;
+    
+    cliniciansRef.once('value', (snapshot) => {
+        snapshot.forEach(function(childSnapshot){
+            for (i = 0; i < medicineName.length; i++){
+                var medicineNotification = database.ref("notifications/"+childSnapshot.key);
+                var notif = {
+                    type: "inventory",
+                    message: medicineName[i] + " is low on stock!",
+                    date: today,
+                    timestamp: time,
+                    seen: false
+                }
+                console.log("date in controller "+today);
+                console.log("notif in controller "+notif);
+                medicineNotification.push(notif);
+            }
+            
+            res.status(200).send();
+        })
+    })
+}

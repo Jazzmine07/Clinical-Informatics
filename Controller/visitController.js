@@ -1109,13 +1109,19 @@ exports.addMedicationIntake = function(req, res){
 //This function is used to add an incidence report
 exports.addIncidenceReport = function(req, res){
     var { incidentDate, incidentTime, reportedBy, studentId, studentName , studentGrade, studentSection, 
-        doseOmission, doseDelay, ineffectiveDose, drugInteraction, drugAllergy, noStock, expiredStock,
+        doseOmission, doseDelay, ineffectiveDose, drugInteraction, drugAllergy, expiredStock,
         description, consequences, action, care, notes } = req.body;
 
     var time = Math.round(+new Date()/1000);
 
     var database = firebase.database();
     var incidenceRef = database.ref("incidenceReport");
+
+    if(studentId == ""){
+        studentGrade = "";
+    } else {
+        // notifty parents
+    }
 
     var record = {
         incidentDate: incidentDate,
@@ -1132,7 +1138,6 @@ exports.addIncidenceReport = function(req, res){
         ineffectiveDose: ineffectiveDose,
         drugInteraction: drugInteraction,
         drugAllergy: drugAllergy,
-        noStock: noStock,
         expiredStock: expiredStock,
         
         description: description,
@@ -1204,7 +1209,6 @@ exports.viewIncidenceReport = function(req){
                 ineffectiveDose: snapshotData.ineffectiveDose,
                 drugInteraction: snapshotData.drugInteraction,
                 drugAllergy: snapshotData.drugAllergy,
-                noStock: snapshotData.noStock,
                 expiredStock: snapshotData.expiredStock,
                 
                 description: snapshotData.description,

@@ -1108,7 +1108,9 @@
                         }
                     }
                 }
-
+                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: }, function(lowStockInventory){
+                    // this function is to set a notification to the clinicians when there is an inventory low on stock.
+                })
             });
 
         });

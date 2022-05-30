@@ -1531,6 +1531,7 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 //---------FORMS FOR INVENTORY MODULE----------------
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
+router.post('/lowStockMedicineInventory', notificationController.lowStockMedicineInventory);
 router.get('/getMedicineDiscrepancyReport', inventoryController.getMedicineDiscrepancyReport);
 router.get('/getSupplyDiscrepancyReport', inventoryController.getSupplyDiscrepancyReport);
 router.get('/getDentalDiscrepancyReport', inventoryController.getDentalDiscrepancyReport);

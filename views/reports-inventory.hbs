@@ -603,6 +603,7 @@
 
         var startDate = new Date(start);
         var endDate = new Date(end);
+        var checker = false;
         
         cb(start, end);
 
@@ -616,6 +617,10 @@
             console.log("END " + end.format('YYYY-MM-DD'));
 
             $.get("/getTop5MedsUsedMonth",{start: start.format('YYYY-MM-DD'), end:end.format('YYYY-MM-DD')},function(data){
+                if(checker){
+                    stackedBarChart.destroy();
+                }
+
                 var intakeData=data[0];
                 var top5=data[1];
                 var labels=[];
@@ -663,6 +668,7 @@
                 //console.log("labels "+labels);
                 //console.log("endRange "+endRange);
                 top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData, startRange, endRange);
+                checker = true;
             });
 
             $.get('/getMedicineDiscrepancyReport', {start: startDate, end: endDate}, function(result){
@@ -751,70 +757,8 @@
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
         }, cb);
-
-        $('#medicineTable tbody button.btn.btn-primary.shadow-sm').on('click', function(e) {
-            var row = $(this).closest('tr');
-            var batchNum = row.find('td').eq(0).text();
-            var medicineName = row.find('td').eq(1).text();
-            var qtyCell = row.find('td').eq(2);
-            var qty = row.find('td').eq(2).text();
-            var unit = row.find('td').eq(3).text();
-            var purchDate = row.find('td').eq(4).text();
-            var expDate = row.find('td').eq(5).text();
-            console.log('TR qty cell: ' + row.find('td').eq(2).text());
-            
-            var val = $(this).closest('td');
-            var amount = val.find("input").val();
-            console.log('TR amt cell: ' + val.find("input").val());
-
-            var medicineID = $(this).closest('tr').attr('id');
-
-            console.log("id " + medicineID);
-                
-            if(amount < 0){
-                val.find("input").addClass('is-invalid');
-            } 
-            else if(amount >= parseInt(qty)){
-                val.find("input").addClass('is-invalid');
-            }
-            else if(amount >= 0 && amount < parseInt(qty)){
-                val.find("input").removeClass('is-invalid');
-                val.find("input").addClass('is-valid');
-                qtyCell.text(amount);
-                $.post("/updateMedicineInventory", {
-                    medicineID: medicineID, 
-                    batchNum: batchNum, 
-                    medicineName: medicineName, 
-                    qty: qty, 
-                    amount: amount, 
-                    unit: unit, 
-                });
-            }
-
-            $('#medicineTable').DataTable({
-                destroy: true,
-                pageLength: 100,
-                order: [[1, 'asc']],
-                rowGroup: {
-                    endRender: function (rows, group ) {
-                        var total = rows
-                            .data()
-                            .pluck(2)
-                            .reduce( function (a, b) {
-                                return a + b.replace(/[^\d]/g, '')*1;
-                            }, 0);
-
-                        return ' Total Quantity: '+
-                            $.fn.dataTable.render.number(',', '.', 0).display( total );
-                    },
-                    dataSrc: 1
-                }
-            });
-            
-        });
     });
 
-    var checker = false;
     var stackedBarChart;
     function top5UsedMedsGrade(dataCountG1,dataCountG2,dataCountG3,dataCountG4,dataCountG5,dataCountG6,labels, intakeData, start, end) {
         var sections =[], sectionsCount=[]
@@ -1045,10 +989,6 @@
         }
         top5MedsGrade.onclick=clickHandler;
     }
-
-    if(checker){
-        stackedBarChart.destroy();
-    } 
 
     $('#downloadBtn').click(function () {
         var stackedBarChartImg = stackedBarChart.toBase64Image();

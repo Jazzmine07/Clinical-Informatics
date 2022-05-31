@@ -513,10 +513,10 @@
                             
                             <div id="tracking">
                                 <div class="text-center tracking-status-intransit">
-                                    <p class="tracking-status text-tight">Schedule</p>
+                                    <p class="tracking-status text-tight">Ongoing</p>
                                 </div>
                                 <div class="tracking-list">
-                                    {{#each programs}}                  
+                                    {{#each ongoing}}                  
                                     <div class="tracking-item">
                                         {{#ifSBFP progType}}
                                         <div class="tracking-icon status-sbfp">
@@ -571,12 +571,147 @@
                                         <div class="tracking-content">{{progName}}<span>{{progType}}</span></div>
                                         <div class="tracking-content">{{population}}</div>
                                         <div class="tracking-content">{{location}}</div>
-                                        <div class="tracking-content">{{eventStatus}}</div>
+                                        
                                     </div>
                                     {{/each}}
                                 </div>
                             </div>
+
+                            <div class="text-center tracking-status-intransit">
+                                    <p class="tracking-status text-tight">Incoming</p>
+                                </div>
+                                <div class="tracking-list">
+                                    {{#each incoming}}                  
+                                    <div class="tracking-item">
+                                        {{#ifSBFP progType}}
+                                        <div class="tracking-icon status-sbfp">
+                                            <i class="fas fa-fw fa-carrot"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifSBFP}}
+
+                                        {{#ifWINS progType}}
+                                        <div class="tracking-icon status-wins">
+                                            <i class="fas fa-fw fa-tint"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWINS}}
+
+                                        {{#ifPACP progType}}
+                                        <div class="tracking-icon status-pacp">
+                                            <i class="fas fa-fw fa-bug"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifPACP}}
+
+                                        {{#ifERSF progType}}
+                                        <div class="tracking-icon status-ersf">
+                                            <i class="fas fa-fw fa-wrench"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifERSF}}
+
+                                        {{#ifEFSQ progType}}
+                                        <div class="tracking-icon status-efsq">
+                                            <i class="fas fa-fw fa-utensils"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifEFSQ}}
+
+                                        {{#ifSBP progType}}
+                                        <div class="tracking-icon status-sbp">
+                                            <i class="fas fa-fw fa-briefcase-medical"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifSBP}}
+
+                                        {{#ifWMP progType}}
+                                        <div class="tracking-icon status-wmp">
+                                            <i class="fas fa-fw fa-weight"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWMP}}
+
+                                        <div class="tracking-date">{{formatDate startDate}}<span>{{formatDate endDate}}</span></div>
+                                        <div class="tracking-content">{{progName}}<span>{{progType}}</span></div>
+                                        <div class="tracking-content">{{population}}</div>
+                                        <div class="tracking-content">{{location}}</div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+
+                                <div class="text-center tracking-status-intransit">
+                                    <p class="tracking-status text-tight">Accomplished</p>
+                                </div>
+                                <div class="tracking-list">
+                                    {{#each accomplished}}                  
+                                    <div class="tracking-item">
+                                        {{#ifSBFP progType}}
+                                        <div class="tracking-icon status-sbfp">
+                                            <i class="fas fa-fw fa-carrot"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifSBFP}}
+
+                                        {{#ifWINS progType}}
+                                        <div class="tracking-icon status-wins">
+                                            <i class="fas fa-fw fa-tint"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWINS}}
+
+                                        {{#ifPACP progType}}
+                                        <div class="tracking-icon status-pacp">
+                                            <i class="fas fa-fw fa-bug"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifPACP}}
+
+                                        {{#ifERSF progType}}
+                                        <div class="tracking-icon status-ersf">
+                                            <i class="fas fa-fw fa-wrench"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifERSF}}
+
+                                        {{#ifEFSQ progType}}
+                                        <div class="tracking-icon status-efsq">
+                                            <i class="fas fa-fw fa-utensils"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifEFSQ}}
+
+                                        {{#ifSBP progType}}
+                                        <div class="tracking-icon status-sbp">
+                                            <i class="fas fa-fw fa-briefcase-medical"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifSBP}}
+
+                                        {{#ifWMP progType}}
+                                        <div class="tracking-icon status-wmp">
+                                            <i class="fas fa-fw fa-weight"></i>
+                                            <!-- <i class="fas fa-shipping-fast"></i> -->
+                                        </div>
+                                        {{/ifWMP}}
+
+                                        <div class="tracking-date">{{formatDate startDate}}<span>{{formatDate endDate}}</span></div>
+                                        <div class="tracking-content">{{progName}}<span>{{progType}}</span></div>
+                                        <div class="tracking-content">{{population}}</div>
+                                        <div class="tracking-content">{{location}}</div>
+                                    </div>
+                                    {{/each}}
+                                </div>
+
+
                         </div>
+                                
+
+
+
+
+
+
                     </div>
                 </div>
                 <!-- /.container-fluid -->

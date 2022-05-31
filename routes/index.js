@@ -1099,7 +1099,9 @@ router.get('/promotive-care', loggedIn, (req, res) => {
       res.render('promotive-care', {
         user: user,
         isNurse: true,
-        programs: ongoing
+        ongoing: ongoing,
+        incoming: incoming,
+        accomplished:accomp
       });
     } else if(user.role == "Admin"){
       res.render('reports-clinic-visit', {
@@ -1112,7 +1114,9 @@ router.get('/promotive-care', loggedIn, (req, res) => {
       res.render('promotive-care', {
         user: user, 
         isNurse: false,
-        programs: ongoing
+        ongoing: ongoing,
+        incoming: incoming,
+        accomplished:accomp
       });
     }
   }) 

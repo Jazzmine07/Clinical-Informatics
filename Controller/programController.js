@@ -28,15 +28,18 @@ exports.getProgramsList = function(){
     var databaseRef = database.ref();
     var programRef = database.ref("programs");
     var query = programRef.orderByChild("startDate");
-    var childSnapshotData, temp = [], programDate = [], programYear = [], programMonth = [], programs =[];
+    var childSnapshotData, temp = [], programDate = [], programYear = [], programMonth = [], status, programs =[];
 
     var date = new Date();
+    var day = data.getDate();
     var month = date.getMonth()+1;
     var currYear = date.getFullYear();
     var schoolYearStart, schoolYearEnd;
+    var partsStart = [], dbStartDate;
+    var partsEnd = [], dbEndDate;
 
     if(month >= 6){
-        schoolYearStart = currYear; // 2021-2022
+        schoolYearStart = currYear;
         schoolYearEnd = currYear + 1;
     }
     else {
@@ -67,14 +70,34 @@ exports.getProgramsList = function(){
                     }
 
                     for(var i = 0; i < programDate.length; i++){
-                        if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){
+                        if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){   // if program is within the school year
+                            partsStart = temp[i].startDate.split('-'); // January - 0, February - 1, etc.
+                            dbStartDate = new Date(partsStart[0], partsStart[1] - 1, partsStart[2]); //date gotten from Db
+                            partsEnd = temp[i].endDate.split('-'); // January - 0, February - 1, etc.
+                            dbEndDate = new Date(partsEnd[0], partsEnd[1] - 1, partsEnd[2]); //date gotten from Db
+                            
+
+                            // day = current date, month= current month, currYear = current year
+                            //
+                            if(month<partsEnd[1] && month>partsStart[1]){ // curr month is within start and end
+                                
+                            }
+                            else if(month==partsEnd[1] && month>=partsStart[1]){ // month is in the same month of end
+
+                            }
+                            else if(month<=partsEnd[1] && month==partsStart[1]){ // month is the same as start but before end
+                                
+                            }
+
+
                             programs.push({
-                                startDate: temp[i].startDate,
+                                startDate: temp[i].startDate, // 2022-07-01
                                 endDate: temp[i].endDate,
                                 progName: temp[i].progName,
                                 progType: temp[i].progType,
                                 population: temp[i].population,
-                                location: temp[i].location
+                                location: temp[i].location,
+                                eventStatus: status
                             })
                         }
                     }

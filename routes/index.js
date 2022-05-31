@@ -1078,19 +1078,28 @@ router.get('/inventory-dental/add', loggedIn, (req, res) => {
 router.get('/promotive-care', loggedIn, (req, res) => {
   console.log("Read promotive care successful!");
   var prom1, prom2;
-  var user, programs;
+  var user, incoming,ongoing,accomp;
   prom1 =  userController.getUser();
   prom2 = programController.getProgramsList();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];
-    programs = result[1];
+    incoming = result[1][0];
+    ongoing = result[1][1];
+    accomp = result[1][2];
+
+    console.log("INCOMING");
+    console.log(incoming);
+    console.log("ONGOING");
+    console.log(ongoing);
+    console.log("ACCOMP");
+    console.log(accomp);
 
     if(user.role == "Nurse"){
       res.render('promotive-care', {
         user: user,
         isNurse: true,
-        programs: programs
+        programs: ongoing
       });
     } else if(user.role == "Admin"){
       res.render('reports-clinic-visit', {
@@ -1103,7 +1112,7 @@ router.get('/promotive-care', loggedIn, (req, res) => {
       res.render('promotive-care', {
         user: user, 
         isNurse: false,
-        programs: programs
+        programs: ongoing
       });
     }
   }) 
@@ -1531,7 +1540,6 @@ router.post('/getDataForTrend', surveillanceController.getDiseaseTrendCount);
 //---------FORMS FOR INVENTORY MODULE----------------
 router.post('/addMedicineInventory', inventoryController.addMedicineInventory);
 router.post('/updateMedicineInventory', inventoryController.updateMedicineInventory);
-router.post('/lowStockMedicineInventory', notificationController.lowStockMedicineInventory);
 router.get('/getMedicineDiscrepancyReport', inventoryController.getMedicineDiscrepancyReport);
 router.get('/getSupplyDiscrepancyReport', inventoryController.getSupplyDiscrepancyReport);
 router.get('/getDentalDiscrepancyReport', inventoryController.getDentalDiscrepancyReport);

@@ -462,8 +462,8 @@
 
                             <div class="form-row align-items-center">
                                 <div class="col-5">
-                                    <label class="col-form-label" for="reportBy">Report by<span style="color:red">*</span></label>
-                                    <select class="form-control mb-2" id="reportBy" name="reportBy" disabled="true">
+                                    <label class="col-form-label" for="reportBy">Report by</label>
+                                    <select class="custom-select form-control mb-2" id="reportBy" name="reportBy" disabled="true">
                                         <option value="{{user.firstName}} {{user.lastName}}"> {{user.firstName}} {{user.lastName}}</option>
                                     </select>  
                                 </div> 
@@ -476,7 +476,7 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="studentID">Student ID Number</label>
+                                    <label class="col-form-label" for="studentID">Student ID Number<span style="color:red">*</span></label>
                                     <input type="number" class="form-control mb-2" id="studentID" name="studentId">
                                 </div>
                                 <div class="col-5">
@@ -488,7 +488,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-4">
                                     <label for="studentGrd" class="col-form-label">Grade</label>
-                                    <select class="form-control mb-2" id="studentGrade" disabled="true"> 
+                                    <select class="custom-select form-control mb-2" id="studentGrade" disabled="true"> 
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>

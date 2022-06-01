@@ -55,10 +55,6 @@
             display: none;
         }
 
-        #studentDiv{
-            display: none;
-        }
-
         .content {
             margin: 15px 15px 0px 15px;
             height: 0;
@@ -442,7 +438,7 @@
                                                 <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'immunization')"> Immunization
                                                 </label>
                                                 <label class="btn btn-primary">
-                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Medical History
+                                                <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'medHistory')"> Illnesses
                                                 </label>
                                                 <label class="btn btn-primary">
                                                 <input class="categorybtn" type="radio" name="options" autocomplete="off" onclick="openDiv(event, 'allergies')"> Allergies
@@ -3008,7 +3004,7 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered" id="immunizationTable" width="100%" cellspacing="0">
                                                         <thead>
-                                                            <tr>
+                                                            <tr class="text-center">
                                                                 <th>Vaccine</th>
                                                                 <th>Date Given</th>
                                                                 <th>Date Given</th>
@@ -3179,112 +3175,27 @@
                                             <!-- /.container-fluid -->
 
                                             <!-- Basic Card Example -->
-                                            <div class="card shadow mb-2 divmenu" id="medHistory">
-                                                <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Past Medical History</h6></div>
-                                                <div class="card-body" id="illnessBody">
-                                                    <div class="font-weight-normal text-center">No data available</div>
-                                                        <!-- Card Header - Accordion -->
-                                                    {{!-- <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Dengue<span class="float-right">3/18/2021</span></h6>
-                                                    </a>
-                                                    <!-- Card Content - Collapse -->
-                                                    <div class="content" style="max-height: 100%;">
-                                                        <div class="card-body">
-                                                            <div class="form-row mb-2">
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Disease</span></div>
-                                                                    <div class="font-weight-normal">Dengue</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Start Date</span></div>
-                                                                    <div class="font-weight-normal">3/18/2021</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">End Date</span></div>
-                                                                    <div class="font-weight-normal">4/2/2021</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Status</span></div>
-                                                                    <div class="font-weight-normal">Recovered</span></div>                                        
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row mb-2">
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Cause of disease</span></div>
-                                                                    <div class="font-weight-normal">Mosquito Bite</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Treatment to disease</span></div>
-                                                                    <div class="font-weight-normal">Medication taken and admitted in the hospital</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Has maintenance medications?</span></div>
-                                                                    <div class="font-weight-normal">None</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Other important notes</span></div>
-                                                                    <div class="font-weight-normal">-</span></div>                                        
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row mb-2">
-                                                                <div class="col-6">
-                                                                    <div class="font-weight-bold">Management Plan</span></div>
-                                                                    <div class="font-weight-normal">-</span></div>                                        
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <div class="divmenu" id="medHistory">
+                                                <div class="card shadow mb-2">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Ongoing</h6>
                                                     </div>
-
-                                                    <a class="d-block card-header py-3 collapsible" role="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content">
-                                                        <h6 class="m-0 font-weight-bold text-primary">Asthma<span class="float-right">7/15/2020</span></h6>
-                                                    </a>
-                                                    <!-- Card Content - Collapse -->
-                                                    <div class="content" style="max-height: 100%;">
-                                                        <div class="card-body">
-                                                            <div class="form-row mb-2">
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Disease</span></div>
-                                                                    <div class="font-weight-normal">Asthma</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Start Date</span></div>
-                                                                    <div class="font-weight-normal">7/15/2020</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">End Date</span></div>
-                                                                    <div class="font-weight-normal">-</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Status</span></div>
-                                                                    <div class="font-weight-normal">On Going</span></div>                                        
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row mb-2">
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Cause of disease</span></div>
-                                                                    <div class="font-weight-normal">Allergies</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Treatment to disease</span></div>
-                                                                    <div class="font-weight-normal">Inhaler, Nebulizer</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Has maintenance medications?</span></div>
-                                                                    <div class="font-weight-normal">Yes</span></div>                                        
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="font-weight-bold">Other important notes</span></div>
-                                                                    <div class="font-weight-normal">Contact before inhaler supply runs out.</span></div>                                        
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row mb-2">
-                                                                <div class="col-12">
-                                                                    <div class="font-weight-bold">Management Plan</span></div>
-                                                                    <div class="font-weight-normal">file.pdf</div>                                        
-                                                                </div>
-                                                            </div>
+                                                    <div class="card-body" id="illnessBody">
+                                                    </div>
+                                                </div>
+                                                <div class="card shadow mb-2">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Chronic</h6>
                                                         </div>
-                                                    </div> --}}
+                                                    <div class="card-body" id="chronicBody">
+                                                    </div>
+                                                </div>
+                                                <div class="card shadow mb-2">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Recovered</h6>
+                                                        </div>
+                                                    <div class="card-body" id="recoveredBody">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -3601,7 +3512,7 @@
                             </div>
                             <div class="col-5">
                                 <label class="col-form-label" for="attendingNurse">Attending Nurse</label>
-                                <select class="form-control mb-2" id="attendingNurse" name="attendingNurse" disabled="true">
+                                <select class="custom-select form-control mb-2" id="attendingNurse" name="attendingNurse" disabled="true">
                                     <option value="{{user.key}}">{{user.firstName}} {{user.lastName}}</option>
                                 </select>  
                             </div>                                 
@@ -3618,7 +3529,7 @@
                             </div>  
                             <div class="col-3">
                                 <label for="clinicType" class="col-form-label">Clinic Visit Type<span style="color:red">*</span></label>
-                                <select class="custom-select mb-2" id="clinicType" name="clinicType">
+                                <select class="custom-select form-control mb-2" id="clinicType" name="clinicType">
                                     <option value="Consultation">Consultation</option>
                                     <option value="Emergency">Emergency</option>
                                     <option value="Intramurals">Intramurals</option>
@@ -3641,7 +3552,7 @@
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="studentGrd" class="col-form-label">Grade</label>
-                                <select class="form-control mb-2" id="studentGrade" disabled="true">
+                                <select class="custom-select form-control mb-2" id="studentGrade" disabled="true">
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
@@ -3849,13 +3760,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
-                                            <input type="text" class="form-control mb-2" id="prescribedBy" value="{{user.firstName}} {{user.lastName}}">
+                                            <input type="text" class="form-control mb-2" id="prescribedBy" value="{{user.firstName}} {{user.lastName}}" disabled="true">
                                         </div> 
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <label class="col-form-label" for="medicationVisit">Medication</label>
-                                            <select class="form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
+                                            <select class="custom-select form-control mb-2 select2" id="medicationVisit" name="medicationVisit">
                                                 <option disabled="disabled"  value="" selected="true">Choose...</option>
                                                 {{#each medicines}}
                                                     <option value="{{name}}">{{medicine}}</option>   
@@ -3943,8 +3854,8 @@
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4">
-                                    <label class="col-form-label" for="status">Disposition</label>
-                                    <select class="custom-select mb-2" id="status" name="status">
+                                    <label class="col-form-label" for="status">Disposition<span style="color:red">*</span></label>
+                                    <select class="custom-select form-control mb-2" id="status" name="status">
                                         <option value="Under Observation">Under Observation</option>    
                                         <option value="Sent Home">Sent Home</option>
                                         <option value="Hospitalized">Sent to Hospital</option>
@@ -4112,7 +4023,15 @@
         }
 
         var dateToday = new Date();
-        var currentTime = dateToday.getHours() + ':' + dateToday.getMinutes();
+        var hourToday = dateToday.getHours();
+        var minuteToday = dateToday.getMinutes();
+        if(hourToday < 10) {
+            hourToday = '0' + hourToday;
+        } 
+        if(minuteToday < 10) {
+            minuteToday = '0' + minuteToday;
+        } 
+        var currentTime = hourToday + ':' + minuteToday;
 
         document.getElementById('clinicIn').value = currentTime;
 
@@ -4122,119 +4041,6 @@
         var today = formatDate();
         console.log(today);
         $('#visitDate').val(today);
-
-        $("#studentID").change(function(){
-            var typedID = $('#studentID').val();
-            // --------------------------------- LAST VISIT DETAILS ------------------------------
-            $.get('/getLastVisit', {studentID: typedID}, function(lastVisit){
-                console.log("last visit details of the student");
-                console.log(lastVisit);
-                if(lastVisit != ""){
-                    $('#lvDate').html(lastVisit.visitDate);
-                    $('#lvTI').html(lastVisit.timeIn);
-                    $('#lvTO').html(lastVisit.timeOut);
-                    $('#lvNurse').html(lastVisit.attendingNurse);
-
-                    if(lastVisit.systolicBP == "" || !lastVisit.systolicBP || lastVisit.diastolicBP == "" || !lastVisit.diastolicBP)
-                        $('#lvBP').html("-");
-                    else
-                        $('#lvBP').html(lastVisit.systolicBP + "/" + lastVisit.diastolicBP);
-                    
-                    if(lastVisit.bodyTemp == "" || !lastVisit.bodyTemp)
-                        $('#lvBT').html("-");
-                    else
-                        $('#lvBT').html(lastVisit.bodyTemp + "°C");
-
-                    if(lastVisit.pulseRate == "" || !lastVisit.pulseRate)
-                        $('#lvPR').html("-");
-                    else
-                        $('#lvPR').html(lastVisit.pulseRate);
-                    
-                    if(lastVisit.respirationRate == "" || !lastVisit.respirationRate)
-                        $('#lvRR').html("-");
-                    else
-                        $('#lvRR').html(lastVisit.respirationRate);
-
-                    $('#lvReason').html(lastVisit.visitReason);
-
-                    if(lastVisit.treatment == "" || !lastVisit.treatment)
-                        $('#lvTreatment').html("-");
-                    else
-                        $('#lvTreatment').html(lastVisit.treatment);
-
-                    if(lastVisit.diagnosis == "" || !lastVisit.diagnosis)
-                        $('#lvDiagnosis').html("-");
-                    else
-                        $('#lvDiagnosis').html(lastVisit.diagnosis);
-
-                    if(lastVisit.notes == "" || !lastVisit.notes)
-                        $('#lvNotes').html("-");
-                    else
-                        $('#lvNotes').html(lastVisit.notes);
-
-                    $('#lvStatus').html(lastVisit.status);
-
-                    document.getElementById('lastVisit').style.display = "block";
-                }
-                else
-                    document.getElementById('lastVisit').style.display = "none";
-            });
-
-            // --------------------------------- STUDENT PROFILE ------------------------------
-            $.get("/getStudentRecord", {studentID: typedID}, function(studentInfo){
-                console.log("Student info");
-                console.log(studentInfo);
-                
-                weight = studentInfo.weight; 
-                height = studentInfo.height; 
-                birthday = studentInfo.birthday;
-                age = getAge(birthday);
-                sex = studentInfo.sex;
-
-                 //auto-fill form
-                $('#studentID').val(typedID);
-                $('#studentName').val(studentInfo.firstName + " " + studentInfo.middleName + " " + studentInfo.lastName);
-                if(studentInfo.grade)
-                    $('#studentGrade').val(studentInfo.grade);
-                if(studentInfo.section)
-                    $('#studentSection').val(studentInfo.section);  
-
-                if(studentInfo.weight){
-                    $('#weight').val(studentInfo.weight);  
-                    $('#weight').trigger("change");
-                }
-                else{
-                    $('#weight').val(""); 
-                }
-
-                if(studentInfo.height){
-                    $('#height').val(studentInfo.height);
-                    $('#height').trigger("change");
-                } 
-                else{
-                    $('#height').val(""); 
-                }
-            });
-
-            // --------------------------------- NOT ALLOWED MEDICATIONS ------------------------------
-            $.get("/getNotAllowedMedication", {studentID: typedID}, function(notAllowed){
-                var i;
-                notAllowedMedicines = [];   // will make sure to clear array before pushing again.
-                console.log("list of allowed medications ni student");
-                console.log(notAllowed);
-                for(i = 0; i < notAllowed.length; i++){
-                    if(notAllowed[i].isAllowed == false){
-                        notAllowedMedicines.push({
-                            medicine: notAllowed[i].medicine
-                        })
-                    }
-                }
-                console.log("Not allowed medications ni student");
-                console.log(notAllowedMedicines);
-            });
-
-        });
-
 
         function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
@@ -4918,7 +4724,13 @@
 
                 if(illness.length != 0){
                     var illnessBody = document.getElementById("illnessBody");
+                    var chronicBody = document.getElementById("chronicBody");
+                    var recoveredBody = document.getElementById("recoveredBody");
+
                     illnessBody.innerHTML = "";
+                    chronicBody.innerHTML = "";
+                    recoveredBody.innerHTML = "";
+                                        
                     for(i = 0; i < illness.length; i++){
                         if(illness[i].notes == ""){
                             illness[i].notes = "-";
@@ -4932,14 +4744,31 @@
                         let endMonth = end.toLocaleString('default', { month: 'long' })
                         let endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
 
-                        $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + startDate + '</span></h6></a><div class="collapse" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + illness[i].status + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                        if(illness[i].status == "Ongoing" || illness[i].status == "ongoing"){
+                            $('#illnessdelete').remove();
+                            $('#illnessBody').append('<a href="#drop-illness'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + startDate + '</span></h6></a><div class="collapse show" id="drop-illness'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + "Ongoing" + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                        }
+                        else if(illness[i].status == "Chronic" || illness[i].status == "chronic"){
+                            $('#chronicdelete').remove();
+                            $('#chronicBody').append('<a href="#drop-chronic'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + startDate + '</span></h6></a><div class="collapse show" id="drop-chronic'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + "Chronic" + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                        }
+                        else if(illness[i].status == "Recovered" || illness[i].status == "recovered"){
+                            $('#recovereddelete').remove();
+                            $('#recoveredBody').append('<a href="#drop-recovered'+i+'" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true"><h6 class="m-0 font-weight-bold text-primary">' + illness[i].disease + '<span class="float-right">' + startDate + '</span></h6></a><div class="collapse show" id="drop-recovered'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Disease" + '</div><div class="font-weight-normal">' + illness[i].disease + '</div></div><div class="col"><div class="font-weight-bold">' + "Start Date" + '</div><div class="font-weight-normal">' + startDate + '</div></div><div class="col"><div class="font-weight-bold">' + "End Date" + '</div><div class="font-weight-normal">' + endDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Status" + '</div><div class="font-weight-normal">' + "Recovered" + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-6"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + illness[i].treatment + '</div></div><div class="col-6"><div class="font-weight-bold">' + "Notes" + '</div><div class="font-weight-normal">' + illness[i].notes + '</div></div></div>' + '</div></div>');
+                        }
                     } 
                 }
                 else{
                     var illnessBody = document.getElementById("illnessBody");
+                    var chronicBody = document.getElementById("chronicBody");
+                    var recoveredBody = document.getElementById("recoveredBody");
                     illnessBody.innerHTML = "";
-                    $('#illnessBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
-                }        
+                    chronicBody.innerHTML = "";
+                    recoveredBody.innerHTML = "";
+                    $('#illnessBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');
+                    $('#chronicBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');
+                    $('#recoveredBody').append('<div class="font-weight-normal text-center">' + "No data available" + '</div>');   
+                }       
             });
 
             // --------------------------------- LIST OF ALLERGIES ---------------------------------
@@ -7329,14 +7158,17 @@
             document.getElementById("addMedication").style.visibility = "visible";
 
             var selectDiagnosisAssign = document.getElementById("assignDiagnosis");
-            var selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
-            var selectedTextDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].text;
-            console.log(selectedDiagnosisAssign);
-
+            
             var length = $(this).find('option:selected').length;
             console.log(length);
 
-            if(!selectedDiagnosisAssign == null || !selectedDiagnosisAssign == "" || !selectedDiagnosisAssign == undefined){
+            var selectedDiagnosisAssign;
+            var selectedTextDiagnosisAssign;
+
+            if(length > 0){
+                selectedDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].value;
+                selectedTextDiagnosisAssign = selectDiagnosisAssign.options[selectDiagnosisAssign.selectedIndex].text;
+                console.log(selectedDiagnosisAssign);
                 document.getElementById("prescribedBy").value=selectedTextDiagnosisAssign;
                 document.getElementById("treatmentVisit").disabled = true;
                 document.getElementById("prescribedBy").disabled = true;
@@ -7349,9 +7181,13 @@
                 document.getElementById("takenClinic").disabled = true;
                 document.getElementById("addMedication").style.visibility = "hidden";
             }
-            else if(length == 0){
+            else{
+                var thisNurse = $('#attendingNurse').find(':selected').text();
+                console.log("PASOOOOOOOOOOOOOOOOOOOK123");
+                console.log(thisNurse);
                 document.getElementById("treatmentVisit").disabled = false;
-                document.getElementById("prescribedBy").disabled = false;
+                document.getElementById("prescribedBy").value = thisNurse;
+                document.getElementById("prescribedBy").disabled = true;
                 document.getElementById("medicationVisit").disabled = false;
                 document.getElementById("amountMed").disabled = false;
                 document.getElementById("purposeVisit").disabled = false;

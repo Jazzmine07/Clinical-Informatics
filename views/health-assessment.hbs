@@ -368,16 +368,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <form  method="post" action="/addStudentSchedule">
-                                        <label for="schoolYear">School Year</label>                                        
+                                        <label for="schoolYearSched">School Year</label>                                        
                                         <div class="input-group mb-2">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">S.Y.</span>
                                         </div>
-                                        <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" id="schoolYearSched" name="schoolYearSched" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1" disabled="true">
                                         </div>
                                         <div class="form-row align-items-center mb-2">
                                             <div class="col-6">
-                                                <label for="examType" class="col-form-label">Type of Exam</label>
+                                                <label for="examType" class="col-form-label">Type of Exam<span style="color:red">*</span></label>
                                                 <select class="custom-select mb-2" id="examType">
                                                     <option value="Physical">Physical</option>
                                                     <option value="Dental">Dental</option>
@@ -387,18 +387,18 @@
                                         <div class="form-group">
                                             <div class="form-row align-items-center mb-2">
                                                 <div class="col-6">
-                                                    <label for="HADate" class="col-form-label">Date</label>
+                                                    <label for="HADate" class="col-form-label">Date<span style="color:red">*</span></label>
                                                     <input type="date" class="form-control mb-2" id="HADate" name="HADate">
                                                 </div>
                                                 <div class="col-6">
-                                                    <label for="HATime" class="col-form-label">Time</label>
+                                                    <label for="HATime" class="col-form-label">Time<span style="color:red">*</span></label>
                                                     <input type="time" class="form-control mb-2" id="HATime" name="HATime">
                                                 </div>                                
                                             </div>
                                             <div class="form-row align-items-center mb-2">
                                             <div class="col-4">
-                                                    <label class="col-form-label" for="studentID">Student ID Number</label>
-                                                    <input type="text" class="form-control mb-2" id="studentID" name="studentID">
+                                                    <label class="col-form-label" for="studentID">ID Number<span style="color:red">*</span></label>
+                                                    <input type="number" class="form-control mb-2" id="studentID" name="studentID">
                                                 </div>
                                                 <div class="col-8">
                                                     <label class="col-form-label" for="studentName">Student Name</label>
@@ -409,7 +409,7 @@
                                             <div class="form-row align-items-center mb-2">
                                                 <div class="col-4">
                                                     <label for="studentGrd" class="col-form-label">Grade</label>
-                                                    <select class="custom-select mb-2" id="studentGrade" disabled="true">
+                                                    <select class="form-control mb-2" id="studentGrade" disabled="true">
                                                         <option value="1">One</option>
                                                         <option value="2">Two</option>
                                                         <option value="3">Three</option>
@@ -452,7 +452,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">S.Y.</span>
                                         </div>
-                                        <input type="text" class="form-control" id="schoolYearDE" name="schoolYearDE" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" id="schoolYear" name="schoolYear" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1" disabled="true">
                                         </div>
                                         <div class="form-group">
                                             <label for="sectionPE">Conduct APE by a Section</label>
@@ -509,7 +509,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1">S.Y.</span>
                                         </div>
-                                        <input type="text" class="form-control" id="schoolYearDE" name="schoolYearDE" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" id="schoolYearDE" name="schoolYearDE" placeholder="YYYY-YYYY" aria-label="school-year" aria-describedby="basic-addon1" disabled="true">
                                         </div>
                                         <div class="form-group">
                                             <label for="sectionDE">Conduct ADE by a Section</label>
@@ -888,7 +888,7 @@
 
         $("#saveSchedBtn").click(function(){
             console.log("clicked");
-            var schoolYear = $('#schoolYear').val();
+            var schoolYear = $('#schoolYearSched').val();
             var id= $('#studentID').val();
             var name = $('#studentName').val();
             //var gradeString = "Grade";            
@@ -944,6 +944,7 @@
         console.log(sy);
         document.getElementById("schoolYear").value=sy;
         document.getElementById("schoolYearDE").value=sy;
+        document.getElementById("schoolYearSched").value=sy;
 
         $.post("/getApePercentageChart",{schoolYear:sy}, function(data){
             var p1PE=data.p1PE * 100 +"%";

@@ -145,16 +145,18 @@ exports.getProgramsList = function(){
                                 })
                             }
                             else if(status =="Accomplished"){
-                                accomplishedPrograms.push({
-                                    startDate: temp[i].startDate,
-                                    startDate: temp[i].startDate, // 2022-07-01
-                                    endDate: temp[i].endDate,
-                                    progName: temp[i].progName,
-                                    progType: temp[i].progType,
-                                    population: temp[i].population,
-                                    location: temp[i].location,
-                                    eventStatus: status
-                                })
+                                if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){
+                                    accomplishedPrograms.push({
+                                        startDate: temp[i].startDate,
+                                        startDate: temp[i].startDate, // 2022-07-01
+                                        endDate: temp[i].endDate,
+                                        progName: temp[i].progName,
+                                        progType: temp[i].progType,
+                                        population: temp[i].population,
+                                        location: temp[i].location,
+                                        eventStatus: status
+                                    })
+                                }
                             }
                         //}
 

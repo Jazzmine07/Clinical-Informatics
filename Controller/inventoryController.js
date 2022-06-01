@@ -54,7 +54,8 @@ exports.getMedicineInventory = function(){
                 inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        
+                        console.log("key");
+                        console.log(innerChildSnapshot.key);
                         details = {
                             medicineID: innerChildSnapshot.key,
                             batchNum: childSnapshotData.batchNum,
@@ -64,9 +65,15 @@ exports.getMedicineInventory = function(){
                             purchDate: childSnapshotData.purchDate,
                             expDate: childSnapshotData.expDate
                         };
-                        inventory.push({
-                            details: details
-                        });
+                        
+                        if(details.qty!="0"){
+                            inventory.push({
+                                details: details
+                            });
+                        }
+                        else{
+                            inventoryRef.child(innerChildSnapshot.key).remove();
+                        }
                     })
                     resolve(inventory);
                 })
@@ -390,7 +397,7 @@ exports.updateMedicineInventory = function(req, res){
 
     var database = firebase.database();
     var discrepancyRef = database.ref("discrepancyMedicine/");
-
+    
     var inventoryRef = firebase.database().ref("medicineInventory/" + medicineID + "/quantity");
     inventoryRef.set(amount);   // update inventory
 
@@ -403,9 +410,58 @@ exports.updateMedicineInventory = function(req, res){
         dateUpdated: date
     };
     discrepancyRef.push(discrepancy);
+    
+    if(amount == "0"){
+        firebase.database().ref("medicineInventory/" + medicineID).remove();
+    }
 
     res.status(200).send(amount);
 };
+
+//This function is used to delete expired medicines
+exports.deleteExpired =function(req,res){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var inventoryRef = database.ref("medicineInventory");
+    var expired = req.body.expired;
+    var j;
+    console.log("Delete:")
+    console.log(expired.length);
+
+    databaseRef.once('value', (snapshot) => {
+        if(snapshot.hasChild("medicineInventory")){
+            inventoryRef.once('value', (childSnapshot) => {
+                childSnapshot.forEach(function(innerChildSnapshot){
+                    childSnapshotData = innerChildSnapshot.exportVal();
+                    console.log("key");
+                    console.log(innerChildSnapshot.key);
+                    details = {
+                        medicineID: innerChildSnapshot.key,
+                        batchNum: childSnapshotData.batchNum,
+                        med: childSnapshotData.medicine,
+                        qty: parseInt(childSnapshotData.quantity),
+                        unit: childSnapshotData.unit,
+                        purchDate: childSnapshotData.purchDate,
+                        expDate: childSnapshotData.expDate
+                    };
+                    for(j=0; j<expired.length;j++){
+                        if(details.medicineID == expired[j].medicineID){
+                            inventoryRef.child(expired[j].medicineID).remove();
+                        }
+                    }
+                    
+                })
+                return("hi");
+            })
+        } else {
+            return("hi");
+        }
+    })
+
+    
+
+}
+
 
 // This function is used to get all the discrepancy in the medicine inventory for low stock detection
 exports.getMedicineDiscrepancy = function(req, res){

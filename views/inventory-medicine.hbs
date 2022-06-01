@@ -1045,7 +1045,21 @@
 
         $('#removeExpiredBtn').click(function(){
             //remove from db then refresh
-            
+            console.log("expired:")
+            console.log(expiredStockArray);
+         
+            $.ajax({
+                url: '/deleteExpired',
+                method: 'POST',
+                data: {
+                    expired: expiredStockArray
+                },
+                success: function(data) {
+                    console.log(data);
+                    window.location.href = "/inventory-medicine";
+                }
+            });  
+
         });
 
         $.get("/getMedicineInventoryList", function(inventoryList){

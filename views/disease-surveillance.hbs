@@ -699,7 +699,7 @@
                     <div class="row">
                         <div class="col-4 mb-4">
                             <select class="custom-select" id="disease" name="disease">
-                                <option disabled="disabled" selected="true">Disease</option>
+                                <option disabled="disabled" selected="true">Communicable Disease</option>
                                 {{#each communicableNames}}
                                     <option value="{{key}}">{{name}}</option>
                                 {{/each}}
@@ -745,7 +745,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Communicable Disease Count</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -882,7 +882,7 @@
 
     <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>    
     <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -996,7 +996,6 @@
                         data: [data[0].female, data[1].female, data[2].female, data[3].female, data[4].female, data[5].female],
                     }],
                 },
-                plugins: [ChartDataLabels],
                 options: {
                     maintainAspectRatio: false,
                     layout: {
@@ -1007,23 +1006,13 @@
                             bottom: 0
                         }
                     },
-                    //plugins: {
-                    //    datalabels: {
-                    //        anchor: 'center',
-                    //        align: 'center',
-                    //        font: {
-                    //            weight: 'bold'
-                    //        },
-                    //       color: "#000000",
-                    //    },
-                    //    title: {
-                    //        display: true,
-                    //        text: 'Symptoms of this Month',
-                    //        font: {
-                    //            size: 25   // font size of the labels
-                    //        },
-                    //    }
-                    //},
+                    plugins: {
+                        labels: {
+                            render: 'value',
+                            fontSize: 15,
+                            fontStyle: 'bold',
+                        },
+                    },
                     scales: {
                         x: {
                             title: {

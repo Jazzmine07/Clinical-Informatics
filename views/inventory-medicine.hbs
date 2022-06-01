@@ -491,8 +491,40 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Medicine Inventory</h1>
                         <div class="d-flex flex-row-reverse">
+                            <a data-toggle="modal" style="color: white;" data-target="#modalES" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-danger shadow-sm"><i
+                                class="fas fa-minus-circle mr-1 text-white-50"></i> Remove Expired Stock  </a>
                             <a href="/inventory-medicine/add" class="d-none d-sm-inline-block btn btn-sm mr-2 btn-primary shadow-sm"><i
                                 class="fas fa-plus-circle mr-1 text-white-50"></i> Add Medicine Inventory  </a>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalES" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog" style="max-width: 1200px; margin-top: 100px;" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Expired Stock</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered" id="removeExpire">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th class="bg-primary" style="color: white;">Batch Number</th>
+                                                <th class="bg-primary" style="color: white;">Medicine</th>
+                                                <th class="bg-primary" style="color: white;">Expiry Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="expiredTable">
+                                        </tbody>
+                                    </table>                                     
+                                    <div class="modal-footer">
+                                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                                        <button type="button" id="removeExpiredBtn" class="btn btn-danger">Remove All</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -945,6 +977,11 @@
         htmlToCSV(html, "forecast.csv");
     });
 
+    $('#removeExpiredBtn').click(function(){
+        //remove from db then refresh
+        
+    });
+
     //document.getElementById("download-button").addEventListener("click", function () {
     //    var html = document.querySelector("printForecast").outerHTML;
     //    htmlToCSV(html, "forecast.csv");
@@ -997,10 +1034,50 @@
 
         var invetoryMedicine = [];
 
+        function isInThePast(date) {
+            var currDate = new Date();
+            currDate.setHours(0, 0, 0, 0);
+
+            return date < currDate;
+        }
+
+        var expiredStockArray = [];
+
+        $('#removeExpiredBtn').click(function(){
+            //remove from db then refresh
+            
+        });
+
         $.get("/getMedicineInventoryList", function(inventoryList){
             //console.log("inventoryList in front end");
             //console.log(inventoryList);
             invetoryMedicine = inventoryList;
+            console.log("THIS invetoryMedicine");
+            console.log(invetoryMedicine);
+
+            for(var i = 0; i < invetoryMedicine.length; i++){
+                
+                if(isInThePast(new Date(invetoryMedicine[i].expDate))){
+                    console.log(isInThePast(new Date(invetoryMedicine[i].expDate)));
+                    console.log(invetoryMedicine[i].med);
+                    expiredStockArray.push({
+                        batchNum: invetoryMedicine[i].batchNum, 
+                        med: invetoryMedicine[i].med,
+                        expDate: invetoryMedicine[i].expDate,
+                        medicineID: invetoryMedicine[i].medicineID
+                    });
+                }               
+            }
+
+            if(expiredStockArray.length > 0){
+                $("#expiredTable tr").remove();
+                for(var i = 0; i < expiredStockArray.length; i++){
+                    $('#expiredTable').append('<tr><td class="text-center">' + expiredStockArray[i].batchNum + '</td><td>' + expiredStockArray[i].med + '</td><td class="text-center">' + expiredStockArray[i].expDate + '</td></tr>');
+                }
+            }
+            else{
+                $('#expiredTable').append('<tr><td colspan="3" class="text-center">No expired stock</td></tr>');
+            }
 
             $.get("/getMedicineDiscrepancy", function(details){
                 //console.log("list of discrepancy in front end");

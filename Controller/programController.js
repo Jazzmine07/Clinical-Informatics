@@ -80,6 +80,9 @@ exports.getProgramsList = function(){
                             
                             console.log(month);
                             console.log(partsStart[1]);
+
+                            //MAKE ANOTHER IF ELSE ON YEAR COMPARING
+
                             if(month>partsStart[1]){ //ongoing or done
                                 if(month < partsEnd[1]){ // ongoing
                                     status = "Ongoing";
@@ -96,7 +99,6 @@ exports.getProgramsList = function(){
                                     status = "Accomplished";
                                 }
                             }
-
                             else if(month == partsStart[1]){ // ongoing or done
                                 if(month < partsEnd[1]){ // ongoing or soon
                                     status = "Ongoing";
@@ -115,6 +117,8 @@ exports.getProgramsList = function(){
                                 status = "Incoming";
                             }
                             
+
+
 
                             if(status =="Ongoing"){
                                 ongoingPrograms.push({

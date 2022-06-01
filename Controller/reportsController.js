@@ -20,7 +20,7 @@ exports.getTop5MedsUsedMonth = function(req, res){
     console.log("DATES");
     console.log(startDate)
     console.log(endDate);
-    var dataDateSplit=[], dataDate;
+    var dataDateSplit=[];
     if(startDate[2][0]==0){
         var startDay=startDate[2][1];
     }
@@ -53,36 +53,153 @@ exports.getTop5MedsUsedMonth = function(req, res){
                         }
 
                         medications = medications.exportVal();
-                        
 
-                        if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0])){
-                            temp.push({ // getting all the medications regardless of grade level
-                                medicineName: medications.medicineName,
-                                grade:innerChildSnapshot.child("grade").exportVal(),
-                                visitDate:innerChildSnapshot.child("visitDate").exportVal(),
-                                section:innerChildSnapshot.child("section").exportVal(),
-                            })
-                        }
-                        else{
-                            if((dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1])){
+
+
+                        //year, month,day
+                        if(startDate[0] < dataDateSplit[0]){
+                            if(dataDateSplit[0] < endDate[0]){
                                 temp.push({ // getting all the medications regardless of grade level
                                     medicineName: medications.medicineName,
                                     grade:innerChildSnapshot.child("grade").exportVal(),
                                     visitDate:innerChildSnapshot.child("visitDate").exportVal(),
-                                    section: innerChildSnapshot.child("section").exportVal(),
+                                    section:innerChildSnapshot.child("section").exportVal(),
                                 })
                             }
-                            else{
-                                if((day>=startDay && day<=endDay) ){
+                            else if(dataDateSplit[0] == endDate[0]){
+                                if(dataDateSplit[1] < endDate[1]){
                                     temp.push({ // getting all the medications regardless of grade level
                                         medicineName: medications.medicineName,
                                         grade:innerChildSnapshot.child("grade").exportVal(),
                                         visitDate:innerChildSnapshot.child("visitDate").exportVal(),
-                                        section: innerChildSnapshot.child("section").exportVal(),
+                                        section:innerChildSnapshot.child("section").exportVal(),
                                     })
+                                }
+                                else if(dataDateSplit[1] == endDate[1]){
+                                    if(dataDateSplit[1] <= endDate[1]){
+                                        temp.push({ // getting all the medications regardless of grade level
+                                            medicineName: medications.medicineName,
+                                            grade:innerChildSnapshot.child("grade").exportVal(),
+                                            visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                            section:innerChildSnapshot.child("section").exportVal(),
+                                        })
+                                    }   
                                 }
                             }
                         }
+                        else if(startDate[0] == dataDateSplit[0]){
+                            if(dataDateSplit[0] < endDate[0]){
+                                if(startDate[1] < dataDateSplit[1]){
+                                    temp.push({ // getting all the medications regardless of grade level
+                                        medicineName: medications.medicineName,
+                                        grade:innerChildSnapshot.child("grade").exportVal(),
+                                        visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                        section:innerChildSnapshot.child("section").exportVal(),
+                                    })
+                                }
+                                else if(startDate[1] == dataDateSplit[1]){
+                                    if(startDate[1] <= dataDateSplit[1]){
+                                        temp.push({ // getting all the medications regardless of grade level
+                                            medicineName: medications.medicineName,
+                                            grade:innerChildSnapshot.child("grade").exportVal(),
+                                            visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                            section:innerChildSnapshot.child("section").exportVal(),
+                                        })
+                                    }
+                                }
+                            }
+                            else if(dataDateSplit[0] == endDate[0]){
+                                if(startDate[1] < dataDateSplit[1]){
+                                    if(dataDateSplit[1] < endDate[1]){
+                                        temp.push({ // getting all the medications regardless of grade level
+                                            medicineName: medications.medicineName,
+                                            grade:innerChildSnapshot.child("grade").exportVal(),
+                                            visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                            section:innerChildSnapshot.child("section").exportVal(),
+                                        })
+                                    }
+                                    else if(dataDateSplit[1] == endDate[1]){
+                                        if(dataDateSplit[2] <= endDate[2]){
+                                            temp.push({ // getting all the medications regardless of grade level
+                                                medicineName: medications.medicineName,
+                                                grade:innerChildSnapshot.child("grade").exportVal(),
+                                                visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                                section:innerChildSnapshot.child("section").exportVal(),
+                                            })
+                                        }
+                                    }
+                                }
+                                else if(startDate[1] == dataDateSplit[1]){
+                                    if(dataDateSplit[1] < endDate[1]){
+                                        if(startDate[2] <= dataDateSplit[2]){
+                                            temp.push({ // getting all the medications regardless of grade level
+                                                medicineName: medications.medicineName,
+                                                grade:innerChildSnapshot.child("grade").exportVal(),
+                                                visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                                section:innerChildSnapshot.child("section").exportVal(),
+                                            })
+                                        }
+                                    }
+                                    else if(dataDateSplit[1] == endDate[1]){
+                                        if(startDate[2] < dataDateSplit[2]){
+                                            if(dataDateSplit[2] <= endDate[2]){
+                                                temp.push({ // getting all the medications regardless of grade level
+                                                    medicineName: medications.medicineName,
+                                                    grade:innerChildSnapshot.child("grade").exportVal(),
+                                                    visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                                    section:innerChildSnapshot.child("section").exportVal(),
+                                                })
+                                            }
+                                        }
+                                        else if(startDate[2] == dataDateSplit[2]){
+                                            if(dataDateSplit[2] <= endDate[2]){
+                                                temp.push({ // getting all the medications regardless of grade level
+                                                    medicineName: medications.medicineName,
+                                                    grade:innerChildSnapshot.child("grade").exportVal(),
+                                                    visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                                                    section:innerChildSnapshot.child("section").exportVal(),
+                                                })
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+
+
+
+
+
+
+                        // if( (dataDateSplit[0]>=startDate[0] && dataDateSplit[0]<=endDate[0])){
+                        //     temp.push({ // getting all the medications regardless of grade level
+                        //         medicineName: medications.medicineName,
+                        //         grade:innerChildSnapshot.child("grade").exportVal(),
+                        //         visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                        //         section:innerChildSnapshot.child("section").exportVal(),
+                        //     })
+                        // }
+                        // else{
+                        //     if((dataDateSplit[1]>=startDate[1] && dataDateSplit[1]<=endDate[1])){
+                        //         temp.push({ // getting all the medications regardless of grade level
+                        //             medicineName: medications.medicineName,
+                        //             grade:innerChildSnapshot.child("grade").exportVal(),
+                        //             visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                        //             section: innerChildSnapshot.child("section").exportVal(),
+                        //         })
+                        //     }
+                        //     else{
+                        //         if((day>=startDay && day<=endDay) ){
+                        //             temp.push({ // getting all the medications regardless of grade level
+                        //                 medicineName: medications.medicineName,
+                        //                 grade:innerChildSnapshot.child("grade").exportVal(),
+                        //                 visitDate:innerChildSnapshot.child("visitDate").exportVal(),
+                        //                 section: innerChildSnapshot.child("section").exportVal(),
+                        //             })
+                        //         }
+                        //     }
+                        // }
 
                     })
                     

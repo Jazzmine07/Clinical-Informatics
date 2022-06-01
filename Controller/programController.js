@@ -82,39 +82,66 @@ exports.getProgramsList = function(){
                             console.log(partsStart[1]);
 
                             //MAKE ANOTHER IF ELSE ON YEAR COMPARING
-
-                            if(month>partsStart[1]){ //ongoing or done
-                                if(month < partsEnd[1]){ // ongoing
-                                    status = "Ongoing";
+                            if(currYear>partsStart[0]){
+                                if(currYear<partsEnd[0]){
+                                    status ="Incoming";
                                 }
-                                else if(month == partsEnd[1]){ //done or ongoing
-                                    if(day <= partsEnd[2]){
+                                else if(currYear == partsEnd[0]){
+                                    if(month < partsEnd[1]){ // ongoing
                                         status = "Ongoing";
                                     }
-                                    else if(day>partsEnd[2]){
-                                        status = "Accomplished";
+                                    else if(month == partsEnd[1]){ //done or ongoing
+                                        if(day <= partsEnd[2]){
+                                            status = "Ongoing";
+                                        }
+                                        else if(day>partsEnd[2]){
+                                            status = "Accomplished";
+                                        }
                                     }
-                                }
-                                else if(month > partsEnd[1]){ //done
-                                    status = "Accomplished";
-                                }
-                            }
-                            else if(month == partsStart[1]){ // ongoing or done
-                                if(month < partsEnd[1]){ // ongoing or soon
-                                    status = "Ongoing";
-                                }
-                                else if(month == partsEnd[1]){ // ongoing or sson
-                                    if(day <= partsEnd[2]){
-                                        status = "Ongoing";
-                                    }
-                                    else if(day>partsEnd[2]){
+                                    else if(month > partsEnd[1]){ //done
                                         status = "Accomplished";
                                     }
                                 }
                             }
-                            else if(month < partsStart[1]){ //soon
-                                console.log("ENTERS INCOMING");
-                                status = "Incoming";
+                            else if(currYear == partsStart[0]){
+                                if(month>partsStart[1]){ //ongoing or done
+                                    if(month < partsEnd[1]){ // ongoing
+                                        status = "Ongoing";
+                                    }
+                                    else if(month == partsEnd[1]){ //done or ongoing
+                                        if(day <= partsEnd[2]){
+                                            status = "Ongoing";
+                                        }
+                                        else if(day>partsEnd[2]){
+                                            status = "Accomplished";
+                                        }
+                                    }
+                                    else if(month > partsEnd[1]){ //done
+                                        status = "Accomplished";
+                                    }
+                                }
+                                else if(month == partsStart[1]){ // ongoing or done
+                                    if(month < partsEnd[1]){ // ongoing or soon
+                                        status = "Ongoing";
+                                    }
+                                    else if(month == partsEnd[1]){ // ongoing or soon
+                                        if(day < partsStart[2]){
+                                            status = "Incoming";
+                                        }
+                                        else if(day >= partsStart[2]){
+                                            if(day <= partsEnd[2]){
+                                                status = "Ongoing";
+                                            }
+                                            else if(day>partsEnd[2]){
+                                                status = "Accomplished";
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(month < partsStart[1]){ //soon
+                                    console.log("ENTERS INCOMING");
+                                    status = "Incoming";
+                                }
                             }
                             
 
@@ -145,16 +172,18 @@ exports.getProgramsList = function(){
                                 })
                             }
                             else if(status =="Accomplished"){
-                                accomplishedPrograms.push({
-                                    startDate: temp[i].startDate,
-                                    startDate: temp[i].startDate, // 2022-07-01
-                                    endDate: temp[i].endDate,
-                                    progName: temp[i].progName,
-                                    progType: temp[i].progType,
-                                    population: temp[i].population,
-                                    location: temp[i].location,
-                                    eventStatus: status
-                                })
+                                if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){
+                                    accomplishedPrograms.push({
+                                        startDate: temp[i].startDate,
+                                        startDate: temp[i].startDate, // 2022-07-01
+                                        endDate: temp[i].endDate,
+                                        progName: temp[i].progName,
+                                        progType: temp[i].progType,
+                                        population: temp[i].population,
+                                        location: temp[i].location,
+                                        eventStatus: status
+                                    })
+                                }
                             }
                         //}
 

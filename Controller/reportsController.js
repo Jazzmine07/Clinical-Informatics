@@ -275,6 +275,8 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
     else{
         var sy= (currYear-1) +"-"+ (currYear) ;
     }
+    console.log("SCHOOL YEAR:");
+    console.log(sy);
 
     studentInfoRef.once('value',(studentsList)=>{
         studentsList.forEach(function(studentInfo){
@@ -285,7 +287,7 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
     })
 
     var promise = new Promise((resolve,reject)=>{
-        console.log("STUDENTS WITHOUT APE");
+
         healthHistory.once('value',(students)=>{
             students.forEach(function(student){
                 student.child("ape").forEach(function(year){
@@ -306,32 +308,32 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
                         }
                     }
                 })                
-
             })
-            console.log(tempList.length);
-            for(i=0;i<tempList.length;i++){
 
+            console.log(tempList.length);
+            console.log(sy);
+            for(i=0;i<tempList.length;i++){
                 //APE
-                if(tempList[i].apeYears.length > 0){
-                    if(!tempList[i].apeYears[tempList[i].apeYears.length-1] == sy){
-                        if(tempList[i].grade=="1"){
+                if( tempList[i].apeYears.length > 0 ){
+                    if(tempList[i].apeYears[tempList[i].apeYears.length - 1] != sy){
+                        if(tempList[i].grade == "1"){
                             noApeList[0].grade1.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                         }
-                        else if(tempList[i].grade=="2"){
+                        else if(tempList[i].grade == "2"){
                             noApeList[1].grade2.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                         }
-                        else if(tempList[i].grade=="3"){
+                        else if(tempList[i].grade == "3"){
                             noApeList[2].grade3.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
-                        }else if(tempList[i].grade=="4"){
+                        }else if(tempList[i].grade == "4"){
                             noApeList[3].grade4.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
-                        }else if(tempList[i].grade=="5"){
+                        }else if(tempList[i].grade == "5"){
                             noApeList[4].grade5.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
-                        }else if(tempList[i].grade=="6"){
+                        }else if(tempList[i].grade == "6"){
                             noApeList[5].grade6.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                         }
                     }
                 }
-                else if(tempList[i].apeYears.length == 0){
+                else if( tempList[i].apeYears.length == 0){
                     if(tempList[i].grade=="1"){
                         noApeList[0].grade1.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                     }
@@ -348,9 +350,10 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
                         noApeList[5].grade6.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                     }
                 }
+
                 //ADE
                 if(tempList[i].adeYears.length > 0){
-                    if(!tempList[i].adeYears[tempList[i].adeYears.length-1] == sy){
+                    if(tempList[i].adeYears[tempList[i].adeYears.length-1] != sy){
                         if(tempList[i].grade=="1"){
                             noAdeList[0].grade1.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                         }
@@ -368,7 +371,7 @@ exports.getStudentsNoCurrYearRecord = function(req, res){
                         }
                     }
                 }
-                else if(tempList[i].adeYears.length==0){
+                else{
                     if(tempList[i].grade=="1"){
                         noAdeList[0].grade1.push({id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section});
                     }

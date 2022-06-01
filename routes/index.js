@@ -1376,6 +1376,22 @@ router.get('/reports-health-assessment', loggedIn, (req, res) => {
             noAdeG6.push(result[2][1][5].grade6[i]);
           }
         }
+
+        console.log("NO APE");
+        console.log(noApeG1.length);
+        console.log(noApeG2.length);
+        console.log(noApeG3.length);
+        console.log(noApeG4.length);
+        console.log(noApeG5.length);
+        console.log(noApeG6.length);
+        console.log("NO ADE");
+        console.log(noAdeG1.length);
+        console.log(noAdeG2.length);
+        console.log(noAdeG3.length);
+        console.log(noAdeG4.length);
+        console.log(noAdeG5.length);
+        console.log(noAdeG6.length);
+
         // data guide: id:tempList[i].student,name:tempList[i].studentName, grade:tempList[i].grade, section:tempList[i].section
         
     

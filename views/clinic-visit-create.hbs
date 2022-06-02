@@ -3508,7 +3508,7 @@
                         <div class="form-row align-items-center">
                             <div class="col-4">
                                 <label for="visitDate" class="col-form-label">Visit Date</label>
-                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate" disabled="true">
+                                <input type="date" class="form-control mb-2" id="visitDate" name="visitDate">
                             </div>
                             <div class="col-5">
                                 <label class="col-form-label" for="attendingNurse">Attending Nurse</label>
@@ -3521,7 +3521,7 @@
                         <div class="form-row align-items-center">
                             <div class="col-2">
                                 <label for="clinicIn" class="col-form-label">Time In</label>
-                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn" disabled="true">
+                                <input type="time" class="form-control mb-2" id="clinicIn" name="clinicIn">
                             </div>
                             <div class="col-2">
                                 <label for="clinicOut" class="col-form-label">Time Out</label>
@@ -4033,14 +4033,14 @@
         } 
         var currentTime = hourToday + ':' + minuteToday;
 
-        document.getElementById('clinicIn').value = currentTime;
+        //document.getElementById('clinicIn').value = currentTime;
 
         var notAllowedMedicines = [];
         var weight, height, age, sex, birthday;
 
         var today = formatDate();
         console.log(today);
-        $('#visitDate').val(today);
+        //$('#visitDate').val(today);
 
         function searchProfile() {
             var typedID = document.getElementById("studentVisit").value;
@@ -7491,7 +7491,7 @@
                     },
                     success: function(data) {
                         console.log("success in ajax!");
-                        window.location.href = "/clinic-visit";
+                        //window.location.href = "/clinic-visit";
                     }
                 }); 
             }             

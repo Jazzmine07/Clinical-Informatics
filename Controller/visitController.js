@@ -108,15 +108,18 @@ exports.addClinicVisit = function(req, res){
     var complaintsRef = database.ref("complaintsList");
     
     try {
-        var update = {
-            height: height,
-            heightStatus: heightStatus,
-            weight: weight,
-            weightStatus: weightStatus,
-            bmi: bmi,
-            bmiStatus: bmiStatus 
-        };
-        database.ref("studentInfo/"+studentId).update(update);
+
+        if(height != "" && weight != ""){
+            var update = {
+                height: height,
+                heightStatus: heightStatus,
+                weight: weight,
+                weightStatus: weightStatus,
+                bmi: bmi,
+                bmiStatus: bmiStatus 
+            };
+            database.ref("studentInfo/"+studentId).update(update);
+        }
 
         var record = {
             id: studentId, 

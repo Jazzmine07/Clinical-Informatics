@@ -691,15 +691,22 @@ exports.getSupplyInventory = function(){
                 inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        supply.push({
-                            supplyID: innerChildSnapshot.key,
-                            batchNum: childSnapshotData.batchNum,
-                            supply: childSnapshotData.supply,
-                            qty: parseInt(childSnapshotData.quantity),
-                            unit: childSnapshotData.unit,
-                            purchDate: childSnapshotData.purchDate,
-                            expDate: childSnapshotData.expDate
-                        })
+                        
+                        if(childSnapshotData.quantity!="0"){
+                            supply.push({
+                                supplyID: innerChildSnapshot.key,
+                                batchNum: childSnapshotData.batchNum,
+                                supply: childSnapshotData.supply,
+                                qty: parseInt(childSnapshotData.quantity),
+                                unit: childSnapshotData.unit,
+                                purchDate: childSnapshotData.purchDate,
+                                expDate: childSnapshotData.expDate
+                            })
+                        }
+                        else{
+                            inventoryRef.child(innerChildSnapshot.key).remove();
+                        }
+                        
                     })
                     resolve(supply);
                 })
@@ -958,15 +965,23 @@ exports.getDentalInventory = function(){
                 inventoryRef.once('value', (childSnapshot) => {
                     childSnapshot.forEach(function(innerChildSnapshot){
                         childSnapshotData = innerChildSnapshot.exportVal();
-                        inventory.push({
-                            dentalID: innerChildSnapshot.key,
-                            batchNum: childSnapshotData.batchNum,
-                            dental: childSnapshotData.dental,
-                            qty: parseInt(childSnapshotData.quantity),
-                            unit: childSnapshotData.unit,
-                            purchDate: childSnapshotData.purchDate,
-                            expDate: childSnapshotData.expDate
-                        })
+                        
+                        if(childSnapshotData.quantity!="0"){
+                            inventory.push({
+                                dentalID: innerChildSnapshot.key,
+                                batchNum: childSnapshotData.batchNum,
+                                dental: childSnapshotData.dental,
+                                qty: parseInt(childSnapshotData.quantity),
+                                unit: childSnapshotData.unit,
+                                purchDate: childSnapshotData.purchDate,
+                                expDate: childSnapshotData.expDate
+                            })
+                        }
+                        else{
+                            inventoryRef.child(innerChildSnapshot.key).remove();
+                        }
+
+                        
                     })
                     console.log("dental inventory in controller");
                     console.log(inventory);

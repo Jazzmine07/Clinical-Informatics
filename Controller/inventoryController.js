@@ -777,6 +777,9 @@ exports.updateSupplyInventory = function(req, res){
         dateUpdated: date
     };
     discrepancyRef.push(discrepancy);
+    if(amount == "0"){
+        firebase.database().ref("supplyInventory/" + supplyID).remove();
+    }
 
     res.status(200).send(amount);
 };
@@ -1043,6 +1046,9 @@ exports.updateDentalInventory = function(req, res){
         dateUpdated: date
     };
     discrepancyRef.push(discrepancy);
+    if(amount == "0"){
+        firebase.database().ref("dentalInventory/" + dentalID).remove();
+    }
 
     res.status(200).send(amount);
 };

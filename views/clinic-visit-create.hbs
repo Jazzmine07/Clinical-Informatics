@@ -3759,8 +3759,8 @@
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-6">
-                                            <label class="col-form-label" for="clinicianVisit">Prescribed by</label>
-                                            <input type="text" class="form-control mb-2" id="prescribedBy" value="{{user.firstName}} {{user.lastName}}" disabled="true">
+                                            <label class="col-form-label" for="prescribedBy">Prescribed by</label>
+                                            <input type="text" class="form-control mb-2" id="prescribedBy" value="{{user.firstName}} {{user.lastName}}">
                                         </div> 
                                     </div>
                                     <div class="row">
@@ -7183,11 +7183,9 @@
             }
             else{
                 var thisNurse = $('#attendingNurse').find(':selected').text();
-                console.log("PASOOOOOOOOOOOOOOOOOOOK123");
-                console.log(thisNurse);
                 document.getElementById("treatmentVisit").disabled = false;
                 document.getElementById("prescribedBy").value = thisNurse;
-                document.getElementById("prescribedBy").disabled = true;
+                //document.getElementById("prescribedBy").disabled = true;
                 document.getElementById("medicationVisit").disabled = false;
                 document.getElementById("amountMed").disabled = false;
                 document.getElementById("purposeVisit").disabled = false;

@@ -4108,9 +4108,17 @@
                     else if(studentInfo.sex == "Male")
                         document.getElementById("studentPic").src = "public/img/male.svg";
 
-                    $('#visitBirthday').html(studentInfo.birthday);
-                    //$('#visitNationality').html(studentInfo.nationality);
-                    //$('#visitReligion').html(studentInfo.religion);
+                    
+                    var bday;
+                    if(studentInfo.birthday == undefined){
+                        bday = "No information available.";
+                        studentInfo.age = "No information available.";
+                    } else {
+                        let date = new Date(studentInfo.birthday)
+                        var month = date.toLocaleString('default', { month: 'long' })
+                        bday = month + ' ' + date.getDate() + ', ' + date.getFullYear();
+                    }
+                    console.log(bday);
                     $('#visitAge').html(age + " years old");
                     $('#visitSex').html(studentInfo.sex);
                     $('#visitAddress').html(studentInfo.address);
@@ -4225,7 +4233,7 @@
                     document.getElementById("lastName").innerHTML=studentInfo.lastName;
                     document.getElementById("firstName").innerHTML=studentInfo.firstName;
                     document.getElementById("middleName").innerHTML=studentInfo.middleName;
-                    document.getElementById("birthday").innerHTML=birthday;
+                    document.getElementById("birthday").innerHTML=bday;
                     document.getElementById("nationality").innerHTML=studentInfo.nationailty;
                     document.getElementById("religion").innerHTML=studentInfo.religion;
                     document.getElementById("age").innerHTML=studentInfo.age;
@@ -4461,7 +4469,7 @@
                         let date = new Date(visits[i].visitDate);
                         let month = date.toLocaleString('default', { month: 'long' })
                         let visitDate = month + ' ' + date.getDate() + ', ' + date.getFullYear();
-                        $('#visitsBody').append('<a href="#drop-visit'+i+'"class="d-block card-header py-3" role="button" data-toggle="collapse" aria-expanded="false"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visits[i].visitDate + '</span></h6></a><div class="collapse" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div></div></div>');
+                        $('#visitsBody').append('<a href="#drop-visit'+i+'"class="d-block card-header py-3" role="button" data-toggle="collapse" aria-expanded="false"><h6 class="m-0 font-weight-bold text-primary">' + visits[i].diagnosis + '<span class="float-right">' + visitDate + '</span></h6></a><div class="collapse" id="drop-visit'+i+'"><div class="card-body"><div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Attending Nurse" + '</div><div class="font-weight-normal">' + visits[i].attendingNurse + '</div></div><div class="col"><div class="font-weight-bold">' + "Visit Date" + '</div><div class="font-weight-normal">' + visitDate + '</div></div><div class="col"><div class="font-weight-bold">' + "Time In" + '</div><div class="font-weight-normal">' + visits[i].timeIn + '</div></div><div class="col"><div class="font-weight-bold">' + "Time Out" + '</div><div class="font-weight-normal">' + visits[i].timeOut + '</div></div></div>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Body Temperature" + '</div><div class="font-weight-normal">' + visits[i].bodyTemp + '°C' + '</div></div><div class="col"><div class="font-weight-bold">' + "Blood Pressure" + '</div><div class="font-weight-normal">' + visits[i].systolicBP + "/" + visits[i].diastolicBP + '</div></div><div class="col"><div class="font-weight-bold">' + "Pulse Rate" + '</div><div class="font-weight-normal">' + visits[i].pulseRate + '</div></div><div class="col"><div class="font-weight-bold">' + "Respiration Rate" + '</div><div class="font-weight-normal">' + visits[i].respirationRate + '</div></div></div>' + '<div class="form-row mb-2"><div class="col-3"><div class="font-weight-bold">' + "Complaint/Reason for Visit" + '</div><div class="font-weight-normal">' + visits[i].visitReason + '</div></div><div class="col"><div class="font-weight-bold">' + "Treatment" + '</div><div class="font-weight-normal">' + visits[i].treatment + '</div></div><div class="col-3"><div class="font-weight-bold">' + "Disposition" + '</div><div class="font-weight-normal">' + visits[i].status + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Diagnosis" + '</div><div class="font-weight-normal">' + visits[i].diagnosis + '</div></div></div>' + '<hr class="w-10 mb-2"></hr>' + '<div class="form-row mb-2"><div class="col"><div class="font-weight-bold">' + "Notes/Recommendations" + '</div><div class="font-weight-normal">' + visits[i].notes + '</div></div></div>' + '</div></div></div></div>');
                     } 
                 }
                 else{
@@ -5099,6 +5107,7 @@
                                 },
                                 color: "rgba(78, 115, 223, 1)"
                             },
+                            min: 0,
                             ticks: {
                                 font: {
                                     size: 15   // font size of the labels

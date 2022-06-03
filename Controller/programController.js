@@ -586,6 +586,84 @@ exports.promotiveReport = function(req, res){
                                 })
                             })
                         }
+                        if(populationArray[i] == "Grade 3"){
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 3){
+                                        g3Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
+
+                                // console.log("g2Students");
+                                // console.log(g2Students);
+                                    
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g3Students.length; j++){
+                                            if(ape.key == g3Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Underweight"){
+                                                        apeG3LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < apeG3LastYearTemp.length; k++){
+                                            if(ape.key == apeG3LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
+                                                    apeG3CurrYearTemp.push({
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
+                                                    })
+                                                } else {
+                                                    console.log("wala");
+                                                    apeG3CurrYearTemp.push({
+                                                        id: apeG3LastYearTemp[k].id,
+                                                        name: apeG3LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "3",
+                                                        section: apeG3LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    res.status(200).send({
+                                        lastYearAPE: apeG3LastYearTemp, 
+                                        currentYearAPE: apeG3CurrYearTemp,
+                                        programType: "School-Based Feeding Program (SBFP)"
+                                    });
+                                })
+                            })
+                        }
                     }
                 } else if(temp.progType == "Water, Sanitation, and Hygiene (WASH) in Schools (WinS)"){
                     for(i = 0; i < populationArray.length; i++){
@@ -658,292 +736,293 @@ exports.promotiveReport = function(req, res){
                             })
                         }
                     }
-                } else if(temp.progType == "Pest and Animal Control Program (PACP)"){
-                    for(i = 0; i < populationArray.length; i++){
-                        if(populationArray[i] == "Grade 1"){
-                            databaseRef.once('value', (snapshot) => {
-                                if(snapshot.hasChild("clinicVisit")){
-                                    clinicVisitRef.once('value', (childSnapshot) => {
-                                        childSnapshot.forEach(function(innerChildSnapshot){
-                                            var visitData = innerChildSnapshot.exportVal();
-                                            if(visitData.grade == "1"){
-                                                pacpVisitDatesG1.push(new Date(visitData.visitDate));
-                                                pacpVisitsTempG1.push({
-                                                    diagnosis: visitData.diagnosis,
-                                                    impression: visitData.impression
-                                                })
-                                            }
-                                        })
+                } 
+                // else if(temp.progType == "Pest and Animal Control Program (PACP)"){
+                //     for(i = 0; i < populationArray.length; i++){
+                //         if(populationArray[i] == "Grade 1"){
+                //             databaseRef.once('value', (snapshot) => {
+                //                 if(snapshot.hasChild("clinicVisit")){
+                //                     clinicVisitRef.once('value', (childSnapshot) => {
+                //                         childSnapshot.forEach(function(innerChildSnapshot){
+                //                             var visitData = innerChildSnapshot.exportVal();
+                //                             if(visitData.grade == "1"){
+                //                                 pacpVisitDatesG1.push(new Date(visitData.visitDate));
+                //                                 pacpVisitsTempG1.push({
+                //                                     diagnosis: visitData.diagnosis,
+                //                                     impression: visitData.impression
+                //                                 })
+                //                             }
+                //                         })
 
-                                        var visitYear = [], visitMonth = [], visitDay = [];
-                                        var curVisitDates = [];
-                                        var impressionDiagnosis = [];
+                //                         var visitYear = [], visitMonth = [], visitDay = [];
+                //                         var curVisitDates = [];
+                //                         var impressionDiagnosis = [];
             
-                                        for(i = 0; i < pacpVisitDatesG1.length; i++){
-                                            visitYear.push(pacpVisitDatesG1[i].getFullYear());
-                                            visitMonth.push(pacpVisitDatesG1[i].getMonth());
-                                            visitDay.push(pacpVisitDatesG1[i].getDate());
-                                        }
+                //                         for(i = 0; i < pacpVisitDatesG1.length; i++){
+                //                             visitYear.push(pacpVisitDatesG1[i].getFullYear());
+                //                             visitMonth.push(pacpVisitDatesG1[i].getMonth());
+                //                             visitDay.push(pacpVisitDatesG1[i].getDate());
+                //                         }
                                         
-                                        for(i = 0; i < pacpVisitDatesG1.length; i++){
-                                            if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){ // filter all clinic visits from start of the school year
-                                                curVisitDates.push(new Date(visitYear[i], visitMonth[i], visitDay[i]+1));
-                                                impressionDiagnosis.push({
-                                                    diagnosis: pacpVisitsTempG1[i].diagnosis,
-                                                    impression: pacpVisitsTempG1[i].impression
-                                                });
-                                            }
-                                        }
+                //                         for(i = 0; i < pacpVisitDatesG1.length; i++){
+                //                             if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){ // filter all clinic visits from start of the school year
+                //                                 curVisitDates.push(new Date(visitYear[i], visitMonth[i], visitDay[i]+1));
+                //                                 impressionDiagnosis.push({
+                //                                     diagnosis: pacpVisitsTempG1[i].diagnosis,
+                //                                     impression: pacpVisitsTempG1[i].impression
+                //                                 });
+                //                             }
+                //                         }
 
-                                        for(i = 0; i < curVisitDates.length; i++){
-                                            if(curVisitDates[i] < programStartDate){ 
-                                                console.log("ilang beses pumasok sa before pacp?");
-                                                if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" || 
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
-                                                    pacpBeforeCountG1++;
-                                                }
-                                            }
-                                            else if(curVisitDates[i] > programEndDate){
-                                                console.log("ilang beses pumasok sa after pacp?");
-                                                if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" ||
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
-                                                    pacpAfterCountG1++;
-                                                }
-                                            }
-                                        }
-                                        console.log("pacpBeforeCountG1");
-                                        console.log(pacpBeforeCountG1);
-                                        console.log("pacpAfterCountG1");
-                                        console.log(pacpAfterCountG1);
-                                        res.status(200).send({
-                                            pacpBeforeCountG1: pacpBeforeCountG1, 
-                                            pacpAfterCountG1: pacpAfterCountG1,
-                                            programType: "Pest and Animal Control Program (PACP)"
-                                        });
-                                    })
-                                }
-                            })
-                        }
-                    }
-                } else if(temp.progType == "Evaluation of Food Safety and Quality"){
-                    for(i = 0; i < populationArray.length; i++){
-                        if(populationArray[i] == "Grade 1"){
-                            databaseRef.once('value', (snapshot) => {
-                                if(snapshot.hasChild("clinicVisit")){
-                                    clinicVisitRef.once('value', (childSnapshot) => {
-                                        childSnapshot.forEach(function(innerChildSnapshot){
-                                            var visitData = innerChildSnapshot.exportVal();
-                                            if(visitData.grade == "1"){
-                                                efsqVisitDatesG1.push(new Date(visitData.visitDate));
-                                                efsqVisitsTempG1.push({
-                                                    diagnosis: visitData.diagnosis,
-                                                    impression: visitData.impression
-                                                })
-                                            }
-                                        })
+                //                         for(i = 0; i < curVisitDates.length; i++){
+                //                             if(curVisitDates[i] < programStartDate){ 
+                //                                 console.log("ilang beses pumasok sa before pacp?");
+                //                                 if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" || 
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
+                //                                     pacpBeforeCountG1++;
+                //                                 }
+                //                             }
+                //                             else if(curVisitDates[i] > programEndDate){
+                //                                 console.log("ilang beses pumasok sa after pacp?");
+                //                                 if(impressionDiagnosis[i].impression.toLowerCase() == "dengue" || impressionDiagnosis[i].diagnosis.toLowerCase() == "dengue" || 
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "malaria" || impressionDiagnosis[i].diagnosis.toLowerCase() == "malaria" ||
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "japanese encephalitis" || impressionDiagnosis[i].diagnosis.toLowerCase() == "japanese encephalitis"){
+                //                                     pacpAfterCountG1++;
+                //                                 }
+                //                             }
+                //                         }
+                //                         console.log("pacpBeforeCountG1");
+                //                         console.log(pacpBeforeCountG1);
+                //                         console.log("pacpAfterCountG1");
+                //                         console.log(pacpAfterCountG1);
+                //                         res.status(200).send({
+                //                             pacpBeforeCountG1: pacpBeforeCountG1, 
+                //                             pacpAfterCountG1: pacpAfterCountG1,
+                //                             programType: "Pest and Animal Control Program (PACP)"
+                //                         });
+                //                     })
+                //                 }
+                //             })
+                //         }
+                //     }
+                // } else if(temp.progType == "Evaluation of Food Safety and Quality"){
+                //     for(i = 0; i < populationArray.length; i++){
+                //         if(populationArray[i] == "Grade 1"){
+                //             databaseRef.once('value', (snapshot) => {
+                //                 if(snapshot.hasChild("clinicVisit")){
+                //                     clinicVisitRef.once('value', (childSnapshot) => {
+                //                         childSnapshot.forEach(function(innerChildSnapshot){
+                //                             var visitData = innerChildSnapshot.exportVal();
+                //                             if(visitData.grade == "1"){
+                //                                 efsqVisitDatesG1.push(new Date(visitData.visitDate));
+                //                                 efsqVisitsTempG1.push({
+                //                                     diagnosis: visitData.diagnosis,
+                //                                     impression: visitData.impression
+                //                                 })
+                //                             }
+                //                         })
 
-                                        var visitYear = [], visitMonth = [], visitDay = [];
-                                        var curVisitDates = [];
-                                        var impressionDiagnosis = [];
+                //                         var visitYear = [], visitMonth = [], visitDay = [];
+                //                         var curVisitDates = [];
+                //                         var impressionDiagnosis = [];
             
-                                        for(i = 0; i < efsqVisitDatesG1.length; i++){
-                                            visitYear.push(efsqVisitDatesG1[i].getFullYear());
-                                            visitMonth.push(efsqVisitDatesG1[i].getMonth());
-                                            visitDay.push(efsqVisitDatesG1[i].getDate());
-                                        }
+                //                         for(i = 0; i < efsqVisitDatesG1.length; i++){
+                //                             visitYear.push(efsqVisitDatesG1[i].getFullYear());
+                //                             visitMonth.push(efsqVisitDatesG1[i].getMonth());
+                //                             visitDay.push(efsqVisitDatesG1[i].getDate());
+                //                         }
                                         
-                                        for(i = 0; i < efsqVisitDatesG1.length; i++){
-                                            if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){ // filter all clinic visits from start of the school year
-                                                curVisitDates.push(new Date(visitYear[i], visitMonth[i], visitDay[i]+1));
-                                                impressionDiagnosis.push({
-                                                    diagnosis: efsqVisitsTempG1[i].diagnosis,
-                                                    impression: efsqVisitsTempG1[i].impression
-                                                });
-                                            }
-                                        }
+                //                         for(i = 0; i < efsqVisitDatesG1.length; i++){
+                //                             if(visitYear[i] == schoolYearStart && visitMonth[i] >= 6 || visitYear[i] == schoolYearEnd && visitMonth[i] <= 4){ // filter all clinic visits from start of the school year
+                //                                 curVisitDates.push(new Date(visitYear[i], visitMonth[i], visitDay[i]+1));
+                //                                 impressionDiagnosis.push({
+                //                                     diagnosis: efsqVisitsTempG1[i].diagnosis,
+                //                                     impression: efsqVisitsTempG1[i].impression
+                //                                 });
+                //                             }
+                //                         }
 
-                                        for(i = 0; i < curVisitDates.length; i++){
-                                            if(curVisitDates[i] < programStartDate){ 
-                                                //count mga diarrhea before progStart
-                                                console.log("ilang beses pumasok sa before efsq?");
-                                                if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
-                                                    efsqBeforeCountG1++;
-                                                }
-                                            }
-                                            else if(curVisitDates[i] > programEndDate){
-                                                console.log("ilang beses pumasok sa after efsq?");
-                                                //count mga diarrhea before progEnd
-                                                if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
-                                                    impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
-                                                    efsqAfterCountG1++;
-                                                }
-                                            }
-                                        }
-                                        console.log("efsqBeforeCountG1");
-                                        console.log(efsqBeforeCountG1);
-                                        console.log("efsqAfterCountG1");
-                                        console.log(efsqAfterCountG1);
-                                        res.status(200).send({
-                                            efsqBeforeCountG1: efsqBeforeCountG1, 
-                                            efsqAfterCountG1: efsqAfterCountG1,
-                                            programType: "Evaluation of Food Safety and Quality"
-                                        });
-                                    })
-                                }
-                            })
-                        }
-                    }
-                } else if(temp.progType == "Education/Awareness/Skill-based Program"){
+                //                         for(i = 0; i < curVisitDates.length; i++){
+                //                             if(curVisitDates[i] < programStartDate){ 
+                //                                 //count mga diarrhea before progStart
+                //                                 console.log("ilang beses pumasok sa before efsq?");
+                //                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
+                //                                     efsqBeforeCountG1++;
+                //                                 }
+                //                             }
+                //                             else if(curVisitDates[i] > programEndDate){
+                //                                 console.log("ilang beses pumasok sa after efsq?");
+                //                                 //count mga diarrhea before progEnd
+                //                                 if(impressionDiagnosis[i].impression.toLowerCase() == "diarrhea" || impressionDiagnosis[i].diagnosis.toLowerCase() == "diarrhea" || 
+                //                                     impressionDiagnosis[i].impression.toLowerCase() == "food poisioning" || impressionDiagnosis[i].diagnosis.toLowerCase() == "food poisioning"){
+                //                                     efsqAfterCountG1++;
+                //                                 }
+                //                             }
+                //                         }
+                //                         console.log("efsqBeforeCountG1");
+                //                         console.log(efsqBeforeCountG1);
+                //                         console.log("efsqAfterCountG1");
+                //                         console.log(efsqAfterCountG1);
+                //                         res.status(200).send({
+                //                             efsqBeforeCountG1: efsqBeforeCountG1, 
+                //                             efsqAfterCountG1: efsqAfterCountG1,
+                //                             programType: "Evaluation of Food Safety and Quality"
+                //                         });
+                //                     })
+                //                 }
+                //             })
+                //         }
+                //     }
+                // } else if(temp.progType == "Education/Awareness/Skill-based Program"){
 
-                } else if(temp.progType == "Weight Management Program"){
-                    for(i = 0; i < populationArray.length; i++){
-                        if(populationArray[i] == "Grade 1"){
-                            apeRef.once('value', (snapshot) => {
-                                snapshot.forEach(function(ape){ // skipping id number
-                                    ape.child('ape').forEach(function(apeList){
-                                        var apeData = apeList.exportVal();
-                                        if(apeData.grade == "1"){   // dont forget if weightStatus is overweight or obese
-                                            wpeApeGrade1Temp.push({
-                                                id: ape.key,
-                                                name: apeData.name,
-                                                schoolYear: apeList.key,
-                                                grade: apeData.grade,
-                                                weight: apeData.weight,
-                                            })
-                                        } 
-                                    })
-                                })
+                // } else if(temp.progType == "Weight Management Program"){
+                //     for(i = 0; i < populationArray.length; i++){
+                //         if(populationArray[i] == "Grade 1"){
+                //             apeRef.once('value', (snapshot) => {
+                //                 snapshot.forEach(function(ape){ // skipping id number
+                //                     ape.child('ape').forEach(function(apeList){
+                //                         var apeData = apeList.exportVal();
+                //                         if(apeData.grade == "1"){   // dont forget if weightStatus is overweight or obese
+                //                             wpeApeGrade1Temp.push({
+                //                                 id: ape.key,
+                //                                 name: apeData.name,
+                //                                 schoolYear: apeList.key,
+                //                                 grade: apeData.grade,
+                //                                 weight: apeData.weight,
+                //                             })
+                //                         } 
+                //                     })
+                //                 })
 
-                                var g1currID = wpeApeGrade1Temp[0].id;
-                                for(i = 0; i < wpeApeGrade1Temp.length; i++){
-                                    if(g1currID == wpeApeGrade1Temp[i].id){    // if same id number
-                                        if(wpeApeGrade1Temp[i].schoolYear == prevSchoolYear){    // APE last year
-                                            wpeApeG1LastYearTemp.push({
-                                                id: wpeApeGrade1Temp[i].id,
-                                                name: wpeApeGrade1Temp[i].name,
-                                                schoolYear: wpeApeGrade1Temp[i].schoolYear,
-                                                grade: wpeApeGrade1Temp[i].grade,
-                                                weight: wpeApeGrade1Temp[i].weight,
-                                            })
-                                            if(checker == 0 && wpeApeGrade1Temp[i].schoolYear == prevSchoolYear){
-                                                wpeApeG1CurrYearTemp.push({
-                                                    id: wpeApeGrade1Temp[i].id,
-                                                    name: wpeApeGrade1Temp[i].name,
-                                                    schoolYear: schoolYear,
-                                                    grade: wpeApeGrade1Temp[i].grade,
-                                                    weight: 'No APE record.',
-                                                })
-                                            }
-                                        } else {
-                                            var checker = 0;
-                                            for(j = 0; j < wpeApeGrade1Temp.length; j++){
-                                                if(wpeApeGrade1Temp[j].schoolYear == schoolYear){
-                                                    wpeApeG1CurrYearTemp.push({
-                                                        id: wpeApeGrade1Temp[i].id,
-                                                        name: wpeApeGrade1Temp[i].name,
-                                                        schoolYear: wpeApeGrade1Temp[i].schoolYear,
-                                                        grade: wpeApeGrade1Temp[i].grade,
-                                                        weight: wpeApeGrade1Temp[i].weight,
-                                                    })
-                                                    checker = 1;
-                                                }
-                                            }
+                //                 var g1currID = wpeApeGrade1Temp[0].id;
+                //                 for(i = 0; i < wpeApeGrade1Temp.length; i++){
+                //                     if(g1currID == wpeApeGrade1Temp[i].id){    // if same id number
+                //                         if(wpeApeGrade1Temp[i].schoolYear == prevSchoolYear){    // APE last year
+                //                             wpeApeG1LastYearTemp.push({
+                //                                 id: wpeApeGrade1Temp[i].id,
+                //                                 name: wpeApeGrade1Temp[i].name,
+                //                                 schoolYear: wpeApeGrade1Temp[i].schoolYear,
+                //                                 grade: wpeApeGrade1Temp[i].grade,
+                //                                 weight: wpeApeGrade1Temp[i].weight,
+                //                             })
+                //                             if(checker == 0 && wpeApeGrade1Temp[i].schoolYear == prevSchoolYear){
+                //                                 wpeApeG1CurrYearTemp.push({
+                //                                     id: wpeApeGrade1Temp[i].id,
+                //                                     name: wpeApeGrade1Temp[i].name,
+                //                                     schoolYear: schoolYear,
+                //                                     grade: wpeApeGrade1Temp[i].grade,
+                //                                     weight: 'No APE record.',
+                //                                 })
+                //                             }
+                //                         } else {
+                //                             var checker = 0;
+                //                             for(j = 0; j < wpeApeGrade1Temp.length; j++){
+                //                                 if(wpeApeGrade1Temp[j].schoolYear == schoolYear){
+                //                                     wpeApeG1CurrYearTemp.push({
+                //                                         id: wpeApeGrade1Temp[i].id,
+                //                                         name: wpeApeGrade1Temp[i].name,
+                //                                         schoolYear: wpeApeGrade1Temp[i].schoolYear,
+                //                                         grade: wpeApeGrade1Temp[i].grade,
+                //                                         weight: wpeApeGrade1Temp[i].weight,
+                //                                     })
+                //                                     checker = 1;
+                //                                 }
+                //                             }
                                             
-                                        }
-                                        console.log("wpeApeG1LastYearTemp");
-                                        console.log(wpeApeG1LastYearTemp);
-                                        console.log("wpeApeG1CurrYearTemp");
-                                        console.log(wpeApeG1CurrYearTemp);
-                                    } else {
-                                        g1currID = wpeApeGrade1Temp[i].id;
-                                        i--;
-                                    }
-                                }
-                            })
-                        }
-                        if(populationArray[i] == "Grade 2"){
-                            studentInfoRef.once('value', (studentsList) => {
-                                studentsList.forEach(function(studentInfo){
-                                    var sInfo = studentInfo.exportVal();
-                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                //                         }
+                //                         console.log("wpeApeG1LastYearTemp");
+                //                         console.log(wpeApeG1LastYearTemp);
+                //                         console.log("wpeApeG1CurrYearTemp");
+                //                         console.log(wpeApeG1CurrYearTemp);
+                //                     } else {
+                //                         g1currID = wpeApeGrade1Temp[i].id;
+                //                         i--;
+                //                     }
+                //                 }
+                //             })
+                //         }
+                //         if(populationArray[i] == "Grade 2"){
+                //             studentInfoRef.once('value', (studentsList) => {
+                //                 studentsList.forEach(function(studentInfo){
+                //                     var sInfo = studentInfo.exportVal();
+                //                     var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
                                     
-                                    if(sInfo.grade == 2){
-                                        g2Students.push({
-                                            id: studentInfo.key,
-                                            studentName: sFullName,
-                                            grade: sInfo.grade,
-                                            section: sInfo.section
-                                        })
-                                    }        
-                                });
+                //                     if(sInfo.grade == 2){
+                //                         g2Students.push({
+                //                             id: studentInfo.key,
+                //                             studentName: sFullName,
+                //                             grade: sInfo.grade,
+                //                             section: sInfo.section
+                //                         })
+                //                     }        
+                //                 });
 
-                                apeRef.once('value', (apeSnapshot) => {
-                                    apeSnapshot.forEach(function(ape){ // skipping id number
-                                        for(var j = 0; j < g2Students.length; j++){
-                                            if(ape.key == g2Students[j].id){
-                                                ape.child('ape').forEach(function(apeList){
-                                                    apeData = apeList.exportVal();
-                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Overweight"){
-                                                        wpeApeG2LastYearTemp.push({
-                                                            id: ape.key,
-                                                            name: apeData.name,
-                                                            schoolYear: apeList.key,
-                                                            grade: apeData.grade,
-                                                            section: apeData.section,
-                                                            bmi: apeData.bmi,
-                                                            bmiStatus: apeData.bmiStatus
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    });
+                //                 apeRef.once('value', (apeSnapshot) => {
+                //                     apeSnapshot.forEach(function(ape){ // skipping id number
+                //                         for(var j = 0; j < g2Students.length; j++){
+                //                             if(ape.key == g2Students[j].id){
+                //                                 ape.child('ape').forEach(function(apeList){
+                //                                     apeData = apeList.exportVal();
+                //                                     if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Overweight"){
+                //                                         wpeApeG2LastYearTemp.push({
+                //                                             id: ape.key,
+                //                                             name: apeData.name,
+                //                                             schoolYear: apeList.key,
+                //                                             grade: apeData.grade,
+                //                                             section: apeData.section,
+                //                                             bmi: apeData.bmi,
+                //                                             bmiStatus: apeData.bmiStatus
+                //                                         })
+                //                                     }
+                //                                 })
+                //                             }
+                //                         }
+                //                     });
 
-                                    // console.log("apeGrade2Temp");
-                                    // console.log(apeGrade2Temp);
+                //                     // console.log("apeGrade2Temp");
+                //                     // console.log(apeGrade2Temp);
 
-                                    apeSnapshot.forEach(function(ape){ // skipping id number
-                                        for(var k = 0; k < wpeApeG2LastYearTemp.length; k++){
-                                            if(ape.key == wpeApeG2LastYearTemp[k].id){
-                                                if(ape.child('ape').child(schoolYear).exists()){
-                                                    wpeApeG2CurrYearTemp.push({
-                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
-                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
-                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
-                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
-                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
-                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
-                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
-                                                    })
-                                                } else {
-                                                    console.log("wala");
-                                                    wpeApeG2CurrYearTemp.push({
-                                                        id: wpeApeG2LastYearTemp[k].id,
-                                                        name: wpeApeG2LastYearTemp[k].name,
-                                                        schoolYear: schoolYear,
-                                                        grade: "2",
-                                                        section: wpeApeG2LastYearTemp[k].section,
-                                                        bmi: 'No APE record.',
-                                                        bmiStatus: 'No APE record.'
-                                                    })
-                                                }
-                                            }
-                                        }
-                                    });
+                //                     apeSnapshot.forEach(function(ape){ // skipping id number
+                //                         for(var k = 0; k < wpeApeG2LastYearTemp.length; k++){
+                //                             if(ape.key == wpeApeG2LastYearTemp[k].id){
+                //                                 if(ape.child('ape').child(schoolYear).exists()){
+                //                                     wpeApeG2CurrYearTemp.push({
+                //                                         id: ape.child('ape').child(schoolYear).child("id").val(),
+                //                                         name: ape.child('ape').child(schoolYear).child("name").val(),
+                //                                         schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                //                                         grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                //                                         section: ape.child('ape').child(schoolYear).child("section").val(),
+                //                                         bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                //                                         bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
+                //                                     })
+                //                                 } else {
+                //                                     console.log("wala");
+                //                                     wpeApeG2CurrYearTemp.push({
+                //                                         id: wpeApeG2LastYearTemp[k].id,
+                //                                         name: wpeApeG2LastYearTemp[k].name,
+                //                                         schoolYear: schoolYear,
+                //                                         grade: "2",
+                //                                         section: wpeApeG2LastYearTemp[k].section,
+                //                                         bmi: 'No APE record.',
+                //                                         bmiStatus: 'No APE record.'
+                //                                     })
+                //                                 }
+                //                             }
+                //                         }
+                //                     });
 
-                                    res.status(200).send({
-                                        wpeApeG2LastYearTemp: wpeApeG2LastYearTemp, 
-                                        wpeApeG2CurrYearTemp: wpeApeG2CurrYearTemp,
-                                        programType: "Weight Management Program"
-                                    });
-                                })
-                            });
-                        }
-                    }
-                }
+                //                     res.status(200).send({
+                //                         wpeApeG2LastYearTemp: wpeApeG2LastYearTemp, 
+                //                         wpeApeG2CurrYearTemp: wpeApeG2CurrYearTemp,
+                //                         programType: "Weight Management Program"
+                //                     });
+                //                 })
+                //             });
+                //         }
+                //     }
+                // }
             })
         }
     })

@@ -1190,8 +1190,7 @@ router.get('/performance-assessment', loggedIn, (req, res) => {
   var prom1, prom2, prom3;
   var user, programs;
   prom1 =  userController.getUser();
-  prom2 = programController.getProgramsList();
-  ///prom3 = programController.promotiveReport();
+  prom2 = programController.getProgramsFrontEnd();
 
   Promise.all([prom1, prom2]).then(result => {
     user = result[0];

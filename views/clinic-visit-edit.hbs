@@ -6938,7 +6938,7 @@
                             </div>
                             <div class="form-row align-items-center">
                                 <div class="col-12">
-                                    <label class="col-form-label" for="treatmentVisit">Treatment<span style="color:red">*</span></label>
+                                    <label class="col-form-label" for="treatmentVisit">Treatment</label>
                                     <textarea type="text" class="form-control mb-2" id="treatmentVisit" rows="3"></textarea>
                                 </div>
                             </div>
@@ -9062,6 +9062,9 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
+            var treatment =  $('#treatmentVisit').val(); 
+            console.log(treatment);
+
             var complaint = $('#complaintVisit').val();
 
             var diagnosis = $('#diagnosis').val(); 
@@ -9154,6 +9157,7 @@
                     timeIn: timeIn,
                     timeOut: timeOut,
                     complaint: complaint,
+                    treatment: treatment,
                     diagnosis: diagnosis,
                     communicable: document.getElementById("communicableCheckBox").checked,
                     injury: document.getElementById("injuryCheckBox").checked,

@@ -460,7 +460,7 @@
                                                                 
                             </div>
 
-                            <div class="form-row align-items-center">
+                            <div class="form-row align-items-center" id="scrollIncident">
                                 <div class="col-5">
                                     <label class="col-form-label" for="reportBy">Report by</label>
                                     <select class="custom-select form-control mb-2" id="reportBy" name="reportBy" disabled="true">
@@ -505,7 +505,7 @@
                         </div>
                     </div>
 
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollDetails">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Medication Error Details</h6></div>                     
                         <div class="card-body">
                             <div class="form-row">
@@ -727,17 +727,36 @@
         });
 
         $('#saveBtn').click(function(){
+            var proceed = true;
             var incidentDate = $('#incidentDate').val(); 
             console.log(incidentDate);
 
             var incidentTime = $('#incidentTime').val(); 
             console.log(incidentTime);
+
+            if($('#incidentTime').val() == null || $('#incidentTime').val() == undefined || $('#incidentTime').val() == ""){
+                $("#incidentTime").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollIncident").offset().top}, 1000);
+            }
+            else{
+                $("#incidentTime").removeClass("is-invalid");
+            }
             
             var nurse =  $('#reportBy').find(":selected").val();   
             console.log(nurse);
 
             var studentID = $('#studentID').val();
             console.log(studentID);
+
+            if($('#studentID').val() == null || $('#studentID').val() == undefined || $('#studentID').val() == ""){
+                $("#studentID").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollIncident").offset().top}, 1000);
+            }
+            else{
+                $("#studentID").removeClass("is-invalid");
+            }
             
             var studentName = $('#studentName').val(); 
             console.log(studentName);
@@ -768,12 +787,30 @@
 
             var description = $('#description').val();
             console.log(description);
+
+            if($('#description').val() == null || $('#description').val() == undefined || $('#description').val() == ""){
+                $("#description").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollDetails").offset().top}, 1000);
+            }
+            else{
+                $("#description").removeClass("is-invalid");
+            }
             
             var consequences = $('#consequences').val(); 
             console.log(consequences);
 
             var action = $('#action').val(); 
             console.log(action);
+
+            if($('#action').val() == null || $('#action').val() == undefined || $('#action').val() == ""){
+                $("#action").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollDetails").offset().top}, 1000);
+            }
+            else{
+                $("#action").removeClass("is-invalid");
+            }
                 
             var care = $('#care').val(); 
             console.log(care);
@@ -781,37 +818,38 @@
             var notes = $('#notes').val(); 
             console.log(notes);
 
-            //AJAX HERE
-            $.ajax({
-                url: '/addIncidenceReport',
-                method: 'POST',
-                data: {
-                    incidentDate: incidentDate,
-                    incidentTime: incidentTime,
-                    reportedBy: nurse,
-                    studentId: studentID,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
+            if(proceed){
+                $.ajax({
+                    url: '/addIncidenceReport',
+                    method: 'POST',
+                    data: {
+                        incidentDate: incidentDate,
+                        incidentTime: incidentTime,
+                        reportedBy: nurse,
+                        studentId: studentID,
+                        studentName: studentName,
+                        studentGrade: studentGrade,
+                        studentSection: studentSection,
 
-                    doseOmission: doseOmission,
-                    doseDelay: doseDelay,
-                    ineffectiveDose: ineffectiveDose,
-                    drugInteraction: drugInteraction,
-                    drugAllergy: drugAllergy,
-                    expiredStock: expiredStock,
-                    
-                    description: description,
-                    consequences: consequences,
-                    action: action,
-                    care: care,
-                    notes: notes
-                },
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/clinic-visit";
-                }
-            }); 
+                        doseOmission: doseOmission,
+                        doseDelay: doseDelay,
+                        ineffectiveDose: ineffectiveDose,
+                        drugInteraction: drugInteraction,
+                        drugAllergy: drugAllergy,
+                        expiredStock: expiredStock,
+                        
+                        description: description,
+                        consequences: consequences,
+                        action: action,
+                        care: care,
+                        notes: notes
+                    },
+                    success: function(data) {
+                        console.log("success in ajax!");
+                        window.location.href = "/clinic-visit";
+                    }
+                }); 
+            }
         });
     });
     </script>

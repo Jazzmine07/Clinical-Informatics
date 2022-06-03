@@ -4006,17 +4006,24 @@
                     recoveredBody.innerHTML = "";
                                         
                     for(i = 0; i < illness.length; i++){
+                        var endDate = "-";
+                        
                         if(illness[i].notes == ""){
                             illness[i].notes = "-";
+                        }
+
+                        if(illness[i].endDate == ""){
+                            endDate = "-";
+                        }
+                        else{
+                            let end = new Date(illness[i].endDate)
+                            let endMonth = end.toLocaleString('default', { month: 'long' })
+                            endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
                         }
 
                         let start = new Date(illness[i].startDate)
                         let startMonth = start.toLocaleString('default', { month: 'long' })
                         let startDate = startMonth + ' ' + start.getDate() + ', ' + start.getFullYear();
-
-                        let end = new Date(illness[i].endDate)
-                        let endMonth = end.toLocaleString('default', { month: 'long' })
-                        let endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
 
                         if(illness[i].status == "Ongoing" || illness[i].status == "ongoing"){
                             $('#illnessdelete').remove();

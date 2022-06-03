@@ -451,7 +451,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4"><h1 class="h3 mb-0 text-gray-800">Referral Form</h1></div>
 
                     {{!-- {{#if isNurse}} --}}
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollPatient">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Patient Information</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -501,7 +501,7 @@
                         </div>
                     </div>
 
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollReferral">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Referral To</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -536,7 +536,7 @@
                                 </div>    
                             </div>
                             <div class="form-row align-items-center">
-                                <label class="col-form-label">Is this referral urgent?<span style="color:red">*</span></label>
+                                <label class="col-form-label" id="redUrgent">Is this referral urgent?<span style="color:red">*</span></label>
                                 <div class="form-check ml-1">
                                     <input class="form-check-input" type="radio" name="urgent" id="urgentYes" value="yes">
                                     <label class="form-check-label" for="urgentYes">Yes</label>
@@ -547,7 +547,7 @@
                                 </div>
                             </div>
                             <div class="form-row align-items-center mb-3">
-                                <label class="col-form-label">Is this referral for:<span style="color:red">*</span></label>
+                                <label class="col-form-label" id="redReferral">Is this referral for:<span style="color:red">*</span></label>
                                 <div class="form-check ml-1">
                                     <input class="form-check-input" type="checkbox" name="kind" id="specialist">
                                     <label class="form-check-label" for="specialist">Specialist/Consultation</label>
@@ -560,7 +560,7 @@
                         </div>
                     </div>
 
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollReferring">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Referring From</h6></div>                     
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -728,8 +728,18 @@
         });
 
         $('#saveBtn').click(function(){
+            var proceed = true;
             var studentID = $('#studentID').val();
             //console.log(studentID);
+
+            if($('#studentID').val() == null || $('#studentID').val() == undefined || $('#studentID').val() == ""){
+                $("#studentID").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollPatient").offset().top}, 1000);
+            }
+            else{
+                $("#studentID").removeClass("is-invalid");
+            }
             
             var studentName = $('#studentName').val(); 
             //console.log(studentName);
@@ -752,20 +762,66 @@
             var specialty = $('#specialty').val(); 
             //console.log(specialty);
 
+            if($('#specialty').val() == null || $('#specialty').val() == undefined || $('#specialty').val() == ""){
+                $("#specialty").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                $("#specialty").removeClass("is-invalid");
+            }
+
             var physician = $('#physician').val(); 
             //console.log(physician);
 
             var reason = $('#reason').val(); 
             //console.log(reason);
 
+            if($('#reason').val() == null || $('#reason').val() == undefined || $('#reason').val() == ""){
+                $("#reason").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                $("#reason").removeClass("is-invalid");
+            }
+
             var diagnosis = $('#diagnosis').val(); 
             //console.log(diagnosis);
+
+            if($('#diagnosis').val() == null || $('#diagnosis').val() == undefined || $('#diagnosis').val() == ""){
+                $("#diagnosis").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                $("#diagnosis").removeClass("is-invalid");
+            }
 
             var icd10 = $('#icd10').val(); 
             //console.log(icd10);
 
+            if($('#icd10').val() == null || $('#icd10').val() == undefined || $('#icd10').val() == ""){
+                $("#icd10").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                $("#icd10").removeClass("is-invalid");
+            }
+
             var urgent = document.querySelector('input[name="urgent"]:checked').value;
             //console.log(urgent);
+
+            if(urgent == null || urgent == undefined || urgent == ""){
+                document.getElementById("redUrgent").style.border = "1px solid #e74a3b";
+                document.getElementById("redUrgent").style.borderRadius = "0.35rem";
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                document.getElementById("redUrgent").style.border = "1px solid #ffffff";
+            }
 
             var kind1 = document.getElementById("specialist");
             var specialist = kind1.checked; 
@@ -775,14 +831,50 @@
             var testing = kind2.checked; 
             //console.log(testing); 
 
+            if((specialist == null || specialist == undefined || specialist == "") && (testing == null || testing == undefined || testing == "")){
+                document.getElementById("redReferral").style.border = "1px solid #e74a3b";
+                document.getElementById("redReferral").style.borderRadius = "0.35rem";
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferral").offset().top}, 1000);
+            }
+            else{
+                document.getElementById("redReferral").style.border = "1px solid #ffffff";
+            }
+
             var provider = $('#provider').val(); 
             //console.log(provider);
+
+            if($('#provider').val() == null || $('#provider').val() == undefined || $('#provider').val() == ""){
+                $("#provider").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferring").offset().top}, 1000);
+            }
+            else{
+                $("#provider").removeClass("is-invalid");
+            }
 
             var title = $('#title').val(); 
             //console.log(title);
 
-            var position = $('#position').val(); 
+            if($('#title').val() == null || $('#title').val() == undefined || $('#title').val() == ""){
+                $("#title").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferring").offset().top}, 1000);
+            }
+            else{
+                $("#title").removeClass("is-invalid");
+            }
+
+            var position = $('#position').val();
             //console.log(position);
+            if($('#position').val() == null || $('#position').val() == undefined || $('#position').val() == ""){
+                $("#position").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferring").offset().top}, 1000);
+            }
+            else{
+                $("#position").removeClass("is-invalid");
+            }
 
             //var formdata = new FormData();
             //formdata.append("image", file);
@@ -796,40 +888,51 @@
             fileType = signature.type;
             console.log(fileType);
 
-            //AJAX HERE
-            $.ajax({
-                url: '/addReferral',
-                method: 'POST',
-                data: {
-                    studentId: studentID,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
-                    birthday: dob,
-                    gender: gender,
-                    age: age,
-                    specialty: specialty,
-                    physician: physician,
-                    reason: reason,
-                    diagnosis: diagnosis,
-                    icd10: icd10,
-                    urgent: urgent,
-                    specialist: specialist,
-                    testing: testing,
-                    provider: provider,
-                    title: title,
-                    position: position,
-                    signature: signature,
-                    signatureFileName: signatureFileName,
-                    fileType: fileType,
-                },
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/clinic-visit";
-                }
-            }); 
+            if(signatureFileName == null || signatureFileName == undefined || signatureFileName == ""){
+                $("#signature").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollReferring").offset().top}, 1000);
+            }
+            else{
+                $("#signature").removeClass("is-invalid");
+            }
+            
+            //proceed = false;
+            if(proceed){
+                $.ajax({
+                    url: '/addReferral',
+                    method: 'POST',
+                    data: {
+                        studentId: studentID,
+                        studentName: studentName,
+                        studentGrade: studentGrade,
+                        studentSection: studentSection,
+                        birthday: dob,
+                        gender: gender,
+                        age: age,
+                        specialty: specialty,
+                        physician: physician,
+                        reason: reason,
+                        diagnosis: diagnosis,
+                        icd10: icd10,
+                        urgent: urgent,
+                        specialist: specialist,
+                        testing: testing,
+                        provider: provider,
+                        title: title,
+                        position: position,
+                        signature: signature,
+                        signatureFileName: signatureFileName,
+                        fileType: fileType,
+                    },
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        console.log("success in ajax!");
+                        window.location.href = "/clinic-visit";
+                    }
+                });
+            } 
         });
     });
     </script>

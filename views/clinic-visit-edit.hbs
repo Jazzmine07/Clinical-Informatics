@@ -9036,7 +9036,7 @@
         });
 
         $("#saveBtn").click(function(){
-            console.log("pindot");
+            var proceed = false;
             var userKey = $('#userKey').val();
             var userName = $('#userName').val();
             var formId = $('#formID').val();
@@ -9073,19 +9073,19 @@
             console.log(document.getElementById("communicableCheckBox").checked);
             console.log(document.getElementById("injuryCheckBox").checked);
 
-            //function capitalizeFirstLetter(string) {
-            //    return string.charAt(0).toUpperCase() + string.slice(1);
-            //}
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
 
-            //for(var index = 0; index < diagnosis.length; index++){
-            //    diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
-            //}         
+            for(var index = 0; index < diagnosis.length; index++){
+                diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
+            }         
 
             //diagnosis = diagnosis.join(', ');
-            //console.log(diagnosis);
-            //console.log(diagnosis[0]);
+            console.log(diagnosis);
+            console.log(diagnosis[0]);
 
-            //diagnosis = diagnosis[0];
+            diagnosis = diagnosis[0];
 
             var diagnosisSentence =  $('#diagnosisPar').val(); 
             console.log(diagnosisSentence);
@@ -9141,6 +9141,7 @@
             
             console.log("intakeArrayNurse");
             console.log(intakeNurse);  
+
 
             $.ajax({
                 url: '/editClinicVisit',

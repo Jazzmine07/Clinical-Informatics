@@ -383,7 +383,7 @@ exports.editClinicVisit = function(req, res){
             var record = {
                 timeOut: timeOut,
                 treatment: treatment,
-                diagnosis: illness,
+                diagnosis: diagnosis,
                 communicable: communicable,
                 injury: injury,
                 diagnosisSentence: diagnosisSentence,
@@ -402,35 +402,26 @@ exports.editClinicVisit = function(req, res){
                 if(diagnosisList.exists()){
                     diagnosisList.forEach(function(diagnosisDB){
                         diagnosisTemp.push(diagnosisDB.child('diagnosis').val());
-                    })
+                    });
 
                     var found = 1;
                     for(var i = 0; i < diagnosisTemp.length; i++){
-                        //for(j = 0; j < diagnosis.length; j++){
-                        if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosis[0].toLowerCase()) == 0){
+                        if(diagnosis.toLowerCase().localeCompare(diagnosisTemp[i].toLowerCase()) == 0){
                             found = 0;
                         } 
-                        else {    
-                            if(!diagnosisTemp.includes(diagnosis[0]) && !diagnosisPush.includes(diagnosis[0])){
-                                diagnosisPush.push(diagnosis[0]);
-                            }                          
-                        }
-                        //}
                     }
-                    for(k = 1; k < diagnosisPush.length; k++){
-                        diagnosisPush.push({
-                            diagnosis: diagnosisPush[k]
+                    if(found == 1){
+                        diagnosisRef.push({
+                            diagnosis: diagnosis
                         });
                     }
                 } 
                 else{
-                    for(j = 0; j < diagnosis.length; j++){
-                        diagnosisRef.push({
-                            diagnosis: diagnosis[j]
-                        });
-                    }
+                    diagnosisRef.push({
+                        diagnosis: diagnosis
+                    });
                 }
-            })
+            });
 
             
             if(medicationsArray != undefined){  // if there is input for medications by physician

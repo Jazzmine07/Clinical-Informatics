@@ -393,7 +393,7 @@ exports.editClinicVisit = function(req, res){
 
             clinicVisitRef.update(record);
 
-            var diagnosisArray = diagnosis[0];
+            //var diagnosisArray = diagnosis[0];
             var diagnosisPush = [];
             diagnosisPush.push("sample");
 
@@ -405,13 +405,13 @@ exports.editClinicVisit = function(req, res){
 
                     var found = 1;
                     for(var i = 0; i < diagnosisTemp.length; i++){
-                        for(j = 0; j < diagnosisArray.length; j++){
-                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosisArray[j].toLowerCase()) == 0){
+                        for(j = 0; j < diagnosis.length; j++){
+                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosis[j].toLowerCase()) == 0){
                                 found = 0;
                             } 
                             else {    
-                                if(!diagnosisTemp.includes(diagnosisArray[j]) && !diagnosisPush.includes(diagnosisArray[j])){
-                                    diagnosisPush.push(diagnosisArray[j]);
+                                if(!diagnosisTemp.includes(diagnosis[j]) && !diagnosisPush.includes(diagnosis[j])){
+                                    diagnosisPush.push(diagnosis[j]);
                                 }                          
                             }
                         }
@@ -422,9 +422,9 @@ exports.editClinicVisit = function(req, res){
                         });
                     }
                 } else{
-                    for(j = 0; j < diagnosisArray.length; j++){
+                    for(j = 0; j < diagnosis.length; j++){
                         diagnosisRef.push({
-                            diagnosis: diagnosisArray[j]
+                            diagnosis: diagnosis[j]
                         });
                     }
                 }

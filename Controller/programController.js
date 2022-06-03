@@ -22,7 +22,153 @@ exports.addProgram = function(req, res){
     res.status(200).send();
 }
 
-// This function is used to get all the programs 
+
+exports.getProgramsFrontEnd = function(){
+    var database = firebase.database();
+    var databaseRef = database.ref();
+    var programRef = database.ref("programs");
+    var query = programRef.orderByChild("startDate");
+    var childSnapshotData, temp = [], programDate = [], programYear = [], programMonth = [], status, programs=[];
+
+    var incomingPrograms =[], ongoingPrograms =[], accomplishedPrograms =[];
+
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var currYear = date.getFullYear();
+    var schoolYearStart, schoolYearEnd;
+    var partsStart = [], dbStartDate;
+    var partsEnd = [], dbEndDate;
+
+    if(month >= 6){
+        schoolYearStart = currYear;
+        schoolYearEnd = currYear + 1;
+    }
+    else {
+        schoolYearStart = currYear - 1;
+        schoolYearEnd = currYear;
+    }
+
+    var promise = new Promise((resolve, reject) => {
+        databaseRef.once('value', (snapshot) => {
+            if(snapshot.hasChild("programs")){
+                query.once('value', (childSnapshot) => {
+                    childSnapshot.forEach(function(innerChildSnapshot){
+                        childSnapshotData = innerChildSnapshot.exportVal();
+                        programDate.push(new Date(childSnapshotData.startDate));
+                        temp.push({
+                            startDate: childSnapshotData.startDate,
+                            endDate: childSnapshotData.endDate,
+                            progName: childSnapshotData.progName,
+                            progType: childSnapshotData.progType,
+                            population: childSnapshotData.population,
+                            location: childSnapshotData.location
+                        })
+                    })  
+
+                    for(var i = 0; i < programDate.length; i++){
+                        programYear.push(programDate[i].getFullYear());
+                        programMonth.push(programDate[i].getMonth()+1);
+                    }
+
+                    for(var i = 0; i < programDate.length; i++){
+                        //if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){   // if program is within the school year
+                            partsStart = temp[i].startDate.split('-'); // January - 0, February - 1, etc.
+                            dbStartDate = new Date(partsStart[0], partsStart[1] - 1, partsStart[2]); //date gotten from Db
+                            partsEnd = temp[i].endDate.split('-'); // January - 0, February - 1, etc.
+                            dbEndDate = new Date(partsEnd[0], partsEnd[1] - 1, partsEnd[2]); //date gotten from Db
+                            
+                            console.log(month);
+                            console.log(partsStart[1]);
+
+                            //MAKE ANOTHER IF ELSE ON YEAR COMPARING
+                            if(currYear>partsStart[0]){
+                                if(currYear<partsEnd[0]){
+                                    status ="Incoming";
+                                }
+                                else if(currYear == partsEnd[0]){
+                                    if(month < partsEnd[1]){ // ongoing
+                                        status = "Ongoing";
+                                    }
+                                    else if(month == partsEnd[1]){ //done or ongoing
+                                        if(day <= partsEnd[2]){
+                                            status = "Ongoing";
+                                        }
+                                        else if(day>partsEnd[2]){
+                                            status = "Accomplished";
+                                        }
+                                    }
+                                    else if(month > partsEnd[1]){ //done
+                                        status = "Accomplished";
+                                    }
+                                }
+                            }
+                            else if(currYear == partsStart[0]){
+                                if(month>partsStart[1]){ //ongoing or done
+                                    if(month < partsEnd[1]){ // ongoing
+                                        status = "Ongoing";
+                                    }
+                                    else if(month == partsEnd[1]){ //done or ongoing
+                                        if(day <= partsEnd[2]){
+                                            status = "Ongoing";
+                                        }
+                                        else if(day>partsEnd[2]){
+                                            status = "Accomplished";
+                                        }
+                                    }
+                                    else if(month > partsEnd[1]){ //done
+                                        status = "Accomplished";
+                                    }
+                                }
+                                else if(month == partsStart[1]){ // ongoing or done
+                                    if(month < partsEnd[1]){ // ongoing or soon
+                                        status = "Ongoing";
+                                    }
+                                    else if(month == partsEnd[1]){ // ongoing or soon
+                                        if(day < partsStart[2]){
+                                            status = "Incoming";
+                                        }
+                                        else if(day >= partsStart[2]){
+                                            if(day <= partsEnd[2]){
+                                                status = "Ongoing";
+                                            }
+                                            else if(day>partsEnd[2]){
+                                                status = "Accomplished";
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(month < partsStart[1]){ //soon
+                                    console.log("ENTERS INCOMING");
+                                    status = "Incoming";
+                                }
+                            }
+
+                            if(status =="Accomplished"){
+                                if(programYear[i] == schoolYearStart && programMonth[i] >= 6 || programYear[i] == schoolYearEnd && programMonth[i] <= 5){
+                                    if(temp[i].progType == "School-Based Feeding Program (SBFP)" || temp[i].progType == "Water, Sanitation, and Hygiene (WASH) in Schools (WinS)"){
+                                        accomplishedPrograms.push({
+                                            progName: temp[i].progName,
+                                            progType: temp[i].progType
+                                        })
+                                    }
+                                }
+                            }
+                        //}
+                    }
+                    
+                    resolve(accomplishedPrograms);
+                })
+            }
+            else {
+                resolve(accomplishedPrograms);
+            }
+        })
+    })
+    return promise;
+}
+
+// This function is used to get all the programs for promotive care
 exports.getProgramsList = function(){
     var database = firebase.database();
     var databaseRef = database.ref();
@@ -143,9 +289,6 @@ exports.getProgramsList = function(){
                                     status = "Incoming";
                                 }
                             }
-                            
-
-
 
                             if(status =="Ongoing"){
                                 ongoingPrograms.push({

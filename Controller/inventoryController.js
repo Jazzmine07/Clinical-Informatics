@@ -451,10 +451,10 @@ exports.deleteExpired =function(req,res){
                     }
                     
                 })
-                return("hi");
+                res.status(200).send();
             })
         } else {
-            return("hi");
+            res.status(200).send();
         }
     })
 

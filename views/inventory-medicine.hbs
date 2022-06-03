@@ -988,11 +988,6 @@
         htmlToCSV(html, "forecast.csv");
     });
 
-    $('#removeExpiredBtn').click(function(){
-        //remove from db then refresh
-        
-    });
-
     $(document).ready(function(){
         const now = new Date();
         var year = now.getFullYear();
@@ -1036,9 +1031,13 @@
 
         function isInThePast(date) {
             var currDate = new Date();
-            currDate.setHours(0, 0, 0, 0);
 
-            return date < currDate;
+            if(date <= currDate){
+                return true;
+            }
+            else if(date > currDate){
+                return false;
+            }            
         }
 
         var expiredStockArray = [];
@@ -1055,9 +1054,9 @@
                     expired: expiredStockArray
                 },
                 success: function(data) {
-                    console.log(data);
-                    location.reload(true);
-                    //window.location.href = "/inventory-medicine";
+                    console.log("roooor");
+                    //location.reload(true);
+                    window.location.href = "/inventory-medicine";
                 }
             });  
 
@@ -1098,8 +1097,12 @@
 
             for(var i = 0; i < invetoryMedicine.length; i++){
                 
+                console.log(isInThePast(new Date(invetoryMedicine[i].expDate)));
+                console.log(new Date(invetoryMedicine[i].expDate));
+
                 if(isInThePast(new Date(invetoryMedicine[i].expDate))){
-                    //console.log(isInThePast(new Date(invetoryMedicine[i].expDate)));
+                    console.log(isInThePast(new Date(invetoryMedicine[i].expDate)));
+                    console.log(new Date(invetoryMedicine[i].expDate));
                     //console.log(invetoryMedicine[i].med);
                     expiredStockArray.push({
                         batchNum: invetoryMedicine[i].batchNum, 
@@ -1167,16 +1170,16 @@
                         });
                     }
                 }
-                console.log("medicineUsedArray");
-                console.log(medicineUsed);
+                //console.log("medicineUsedArray");
+                //console.log(medicineUsed);
 
-                console.log("curDates");
-                console.log(curDates);
+                //console.log("curDates");
+                //console.log(curDates);
 
                 for(var i = 0; i < invetoryMedicine.length; i++){
                     var sum = 0; 
                     for(var j = 0; j < curDates.length; j++){
-                        console.log("before split");
+                        //console.log("before split");
                         var yearUpdated = curDates[j].medYear;
                         var monthUpdated = curDates[j].medMonth;
                         var dayUpdated = curDates[j].medDay;
@@ -1199,16 +1202,16 @@
                                 //console.log(medicineUsed[j].medicineName);
                                 //console.log(parseInt(curDates[j].usedInventory));
                                 sum += parseInt(medicineUsed[j].usedInventory);
-                                console.log("sum: " + sum);
+                                //console.log("sum: " + sum);
 
                                 var total = sum;
                                 total = total/24;
                                 var ltd = total*7; //lead time or ave time inventory is delivered
-                                console.log("ltd: " + ltd);
+                                //console.log("ltd: " + ltd);
                                 
                                 var stringID = '#';
                                 stringID += invetoryMedicine[i].medicineID;
-                                console.log("stringID: " + stringID);
+                                //console.log("stringID: " + stringID);
                                 //var row = $(stringID).siblings(".dtrg-end").css("color", "red");
                                 var text = $(stringID).closest("tr").next(".dtrg-end").text();
                                 text = text.replace( /^\D+/g, '');
@@ -1219,12 +1222,12 @@
                                     //console.log("pasok dapat");
                                     $(stringID).closest("tr").next(".dtrg-end").css("color", "#e74a3b");
                                     lowStock.push(medicineUsed[j].medicineName);
-                                    console.log("lowStock Array");
-                                    console.log(lowStock);
+                                    //console.log("lowStock Array");
+                                    //console.log(lowStock);
                                 }
                                 
-                                console.log("this is my ltd");
-                                console.log(Math.ceil(ltd));
+                                //console.log("this is my ltd");
+                                //console.log(Math.ceil(ltd));
 
                             }
                         }

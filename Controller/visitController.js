@@ -359,7 +359,7 @@ exports.addClinicVisit = function(req, res){
 //This function is used to save the clinic visit form edited
 exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
-        visitDate, timeIn, timeOut, complaint, treatment, diagnosis, diagnosisSentence, communicable, injury,
+        visitDate, timeIn, timeOut, complaint, diagnosis, diagnosisSentence, communicable, injury,
         medicationAssign, medicationsArray, intakeArray, intakeNurse, status, notes } = req.body;
     var i, j, k;
     
@@ -382,7 +382,6 @@ exports.editClinicVisit = function(req, res){
             console.log("pumasok sa clinician if");
             var record = {
                 timeOut: timeOut,
-                treatment: treatment,
                 diagnosis: illness,
                 communicable: communicable,
                 injury: injury,
@@ -406,24 +405,23 @@ exports.editClinicVisit = function(req, res){
 
                     var found = 1;
                     for(var i = 0; i < diagnosisTemp.length; i++){
-                        //for(j = 0; j < diagnosis.length; j++){
-                        if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosis[0].toLowerCase()) == 0){
-                            found = 0;
-                        } 
-                        else {    
-                            if(!diagnosisTemp.includes(diagnosis[0]) && !diagnosisPush.includes(diagnosis[0])){
-                                diagnosisPush.push(diagnosis[0]);
-                            }                          
+                        for(j = 0; j < diagnosis.length; j++){
+                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosis[j].toLowerCase()) == 0){
+                                found = 0;
+                            } 
+                            else {    
+                                if(!diagnosisTemp.includes(diagnosis[j]) && !diagnosisPush.includes(diagnosis[j])){
+                                    diagnosisPush.push(diagnosis[j]);
+                                }                          
+                            }
                         }
-                        //}
                     }
                     for(k = 1; k < diagnosisPush.length; k++){
                         diagnosisPush.push({
                             diagnosis: diagnosisPush[k]
                         });
                     }
-                } 
-                else{
+                } else{
                     for(j = 0; j < diagnosis.length; j++){
                         diagnosisRef.push({
                             diagnosis: diagnosis[j]

@@ -361,7 +361,7 @@ exports.editClinicVisit = function(req, res){
     var { userKey, userName, formId, studentId, studentName, studentGrade, studentSection, 
         visitDate, timeIn, timeOut, complaint, diagnosis, diagnosisSentence, communicable, injury,
         medicationAssign, medicationsArray, intakeArray, intakeNurse, status, notes } = req.body;
-    var i;
+    var i, j, k;
     
     var database = firebase.database();
     var clinicVisitRef = database.ref("clinicVisit/"+formId);
@@ -373,14 +373,16 @@ exports.editClinicVisit = function(req, res){
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = Math.round(+new Date()/1000);
-
+    var illness = diagnosis[0];
+    console.log("illness in visit controller");
+    console.log(illness);
 
     userRef.once("value", (userSnapshot) => { 
         if(userSnapshot.child("role").val() == "Clinician"){
             console.log("pumasok sa clinician if");
             var record = {
                 timeOut: timeOut,
-                diagnosis: diagnosis,
+                diagnosis: illness,
                 communicable: communicable,
                 injury: injury,
                 diagnosisSentence: diagnosisSentence,
@@ -391,6 +393,10 @@ exports.editClinicVisit = function(req, res){
 
             clinicVisitRef.update(record);
 
+            var diagnosisArray = diagnosis[0];
+            var diagnosisPush = [];
+            diagnosisPush.push("sample");
+
             diagnosisRef.once('value', (diagnosisList) => {
                 if(diagnosisList.exists()){
                     diagnosisList.forEach(function(diagnosisDB){
@@ -399,20 +405,28 @@ exports.editClinicVisit = function(req, res){
 
                     var found = 1;
                     for(var i = 0; i < diagnosisTemp.length; i++){
-                        if(diagnosis.toLowerCase().localeCompare(diagnosisTemp[i].toLowerCase()) == 0){
-                            found = 0;
-                        } 
+                        for(j = 0; j < diagnosisArray.length; j++){
+                            if(diagnosisTemp[i].toLowerCase().localeCompare(diagnosisArray[j].toLowerCase()) == 0){
+                                found = 0;
+                            } 
+                            else {    
+                                if(!diagnosisTemp.includes(diagnosisArray[j]) && !diagnosisPush.includes(diagnosisArray[j])){
+                                    diagnosisPush.push(diagnosisArray[j]);
+                                }                          
+                            }
+                        }
                     }
-
-                    if(found == 1){
-                        diagnosisRef.push({
-                            diagnosis: diagnosis
-                        })
+                    for(k = 1; k < diagnosisPush.length; k++){
+                        diagnosisPush.push({
+                            diagnosis: diagnosisPush[k]
+                        });
                     }
                 } else{
-                    diagnosisRef.push({
-                        diagnosis: diagnosis
-                    });
+                    for(j = 0; j < diagnosisArray.length; j++){
+                        diagnosisRef.push({
+                            diagnosis: diagnosisArray[j]
+                        });
+                    }
                 }
             })
 
@@ -538,15 +552,15 @@ exports.editClinicVisit = function(req, res){
             }
 
             // -----------REMOVING ASSIGNED FORM & NOTIF FOR CLINICIAN--------------
-            var formRef = database.ref("assignedForms/"+ userKey);
-            formRef.once('value', (snapshot) => { 
-                snapshot.forEach(function(childSnapshot) {
-                    if(childSnapshot.key == formId){
-                        database.ref("assignedForms/"+ userKey + "/" + formId).remove();
-                        database.ref("notifications/"+ userKey + "/" + formId).remove();
-                    }
-                });
-            })
+            // var formRef = database.ref("assignedForms/"+ userKey);
+            // formRef.once('value', (snapshot) => { 
+            //     snapshot.forEach(function(childSnapshot) {
+            //         if(childSnapshot.key == formId){
+            //             database.ref("assignedForms/"+ userKey + "/" + formId).remove();
+            //             database.ref("notifications/"+ userKey + "/" + formId).remove();
+            //         }
+            //     });
+            // })
             res.status(200).send();
         } 
         else {    // nurse encoding intake history section

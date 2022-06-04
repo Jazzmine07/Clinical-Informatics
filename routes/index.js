@@ -730,7 +730,7 @@ router.get('/health-assessment', loggedIn, (req, res) => { // dont foget to put 
             isNurse: false,
             sections: sections,
             schedule:schedule,
-            studentSchedules
+            studentSchedules:studentSchedules
           });
         }
       }).catch(error => {

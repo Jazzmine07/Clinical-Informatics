@@ -834,7 +834,15 @@
                 options: {
                     maintainAspectRatio: false,
                     plugins: {
-                        
+                        datalabels: {
+                            anchor: 'middle',
+                            align: 'middle',
+                            font: {
+                                weight: 'bold',
+                                size: 15
+                            },
+                            color: "#000000",
+                        },
                         title: {
                             display: true,
                             text: 'Top 5 Medicines Used from ' + startRange + ' to ' + endRange,

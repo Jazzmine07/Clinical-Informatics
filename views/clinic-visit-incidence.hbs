@@ -748,15 +748,6 @@
 
             var studentID = $('#studentID').val();
             console.log(studentID);
-
-            if($('#studentID').val() == null || $('#studentID').val() == undefined || $('#studentID').val() == ""){
-                $("#studentID").addClass("is-invalid");
-                proceed = false;
-                $('html, body').animate({scrollTop: $("#scrollIncident").offset().top}, 1000);
-            }
-            else{
-                $("#studentID").removeClass("is-invalid");
-            }
             
             var studentName = $('#studentName').val(); 
             console.log(studentName);

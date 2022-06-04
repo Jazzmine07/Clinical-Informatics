@@ -598,8 +598,29 @@
 
         var invetoryMedicine = [];
 
-        var start = moment().subtract(29, 'days');
-        var end = moment();
+        //var start = moment().subtract(29, 'days');
+        //var end = moment();
+
+        if(month <= 3){
+            console.log("month: " + month);
+            getMonthDateRange(year-1);  
+        }
+        else if(month > 3){
+            console.log("month: " + month);
+            getMonthDateRange(year);  
+        }
+
+        function getMonthDateRange(year) {
+            console.log("pumapasok ba dito");
+
+            start = moment([year, 5]);
+            end = moment([year + 1, 2]).endOf('month');
+
+            console.log(start.toDate());
+            console.log(end.toDate());
+
+            cb(start, end);
+        }
 
         var startDate, endDate;
         var checker = false;
@@ -813,15 +834,7 @@
                 options: {
                     maintainAspectRatio: false,
                     plugins: {
-                        datalabels: {
-                            anchor: 'middle',
-                            align: 'middle',
-                            font: {
-                                weight: 'bold',
-                                size: 15
-                            },
-                            color: "#000000",
-                        },
+                        
                         title: {
                             display: true,
                             text: 'Top 5 Medicines Used from ' + startRange + ' to ' + endRange,
@@ -1013,7 +1026,7 @@
         }
     }, cb);
 
-    cb(start, end);
+    //cb(start, end);
 
     $('#downloadBtn').click(function () {
         var stackedBarChartImg = stackedBarChart.toBase64Image();

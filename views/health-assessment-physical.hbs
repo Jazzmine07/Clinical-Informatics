@@ -3550,7 +3550,6 @@
                                     <div class="col-5">
                                       <label class="col-form-label" for="clinicianAPE">Examining Physician</label><label style="color:red">*</label>
                                         <select class="custom-select mb-2" id="clinicianAPE" name="clinicianAPE">
-                                            <option selected>Choose...</option>
                                             {{#each clinician}}
                                                 <option clinician="{{firstName}} {{lastName}}" value="{{key}}">{{firstName}} {{lastName}}</option>
                                             {{/each}}
@@ -7217,37 +7216,70 @@
                 }
                 console.log(clinician);
 
-                    //vital signs
+                //vital signs
                 var bodyTemp =  $('#bodyTemp').val(); 
-                if(bodyTemp==null){
-                    bodyTemp="";
-                }console.log(bodyTemp);
+                if(bodyTemp == null || bodyTemp == undefined || bodyTemp == ""){
+                    $("#bodyTemp").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#bodyTemp").removeClass("is-invalid");
+                }                
+                console.log(bodyTemp);
 
                 var systolic =  $('#systolic').val(); 
-                if(systolic==null){
-                    systolic="";
-                }console.log(systolic);
+                if(systolic == null || systolic == undefined || systolic == ""){
+                    $("#systolic").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#systolic").removeClass("is-invalid");
+                }
+                console.log(systolic);
 
                 var diastolic =  $('#diastolic').val(); 
-                if(diastolic==null){
-                    diastolic="";
-                }console.log(diastolic);
+                if(diastolic == null || diastolic == undefined || diastolic == ""){
+                    $("#diastolic").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#diastolic").removeClass("is-invalid");
+                }
+                console.log(diastolic);
 
                 var pr =  $('#pulseRate').val(); 
-                if(pr==null){
-                    pr="";
+                if(pr == null || pr == undefined || pr == ""){
+                    $("#pulseRate").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#pulseRate").removeClass("is-invalid");
                 }
                 console.log(pr);
 
                 var rr =  $('#respRate').val(); 
-                if(rr==null){
-                    rr="";
+                if(rr == null || rr == undefined || rr == ""){
+                    $("#respRate").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#respRate").removeClass("is-invalid");
                 }
                 console.log(rr);
 
                 var sf =  $('#skinFind').val(); 
-                if(sf==null){
-                    sf="";
+                if(sf == null || sf == undefined || sf == ""){
+                    $("#skinFind").addClass("is-invalid");
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                }
+                else{
+                    $("#skinFind").removeClass("is-invalid");
                 }
                 console.log(sf);
 
@@ -7320,25 +7352,25 @@
                 console.log(osGlasses);
 
                 var medProb =  $('#medProb').val(); 
-                if($('#medProb').val() == null || $('#medProb').val() == undefined || $('#medProb').val() == ""){
-                    $("#medProb").addClass("is-invalid");
-                    proceed = false;
-                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
-                }
-                else{
-                    $("#medProb").removeClass("is-invalid");
-                }
+                //if($('#medProb').val() == null || $('#medProb').val() == undefined || $('#medProb').val() == ""){
+                //    $("#medProb").addClass("is-invalid");
+                //    proceed = false;
+                //    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                //}
+                //else{
+                //    $("#medProb").removeClass("is-invalid");
+                //}
                 console.log(medProb);
 
                 var allergies =  $('#allergies').val(); 
-                if($('#allergies').val() == null || $('#allergies').val() == undefined || $('#allergies').val() == ""){
-                    $("#allergies").addClass("is-invalid");
-                    proceed = false;
-                    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
-                }
-                else{
-                    $("#allergies").removeClass("is-invalid");
-                }
+                //if($('#allergies').val() == null || $('#allergies').val() == undefined || $('#allergies').val() == ""){
+                //    $("#allergies").addClass("is-invalid");
+                //    proceed = false;
+                //    $('html, body').animate({scrollTop: $("#scrollHere").offset().top}, 1000);
+                //}
+                //else{
+                //    $("#allergies").removeClass("is-invalid");
+                //}
                 console.log(allergies);
 
                 var complaintAPE =  $('#complaintAPE').val(); 

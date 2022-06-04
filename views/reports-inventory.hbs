@@ -842,6 +842,9 @@
                                 size: 15
                             },
                             color: "#000000",
+                            formatter: (value) => {
+                                return value > 0 ? value : '';
+                            }
                         },
                         title: {
                             display: true,

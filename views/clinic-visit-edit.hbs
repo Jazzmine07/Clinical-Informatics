@@ -6955,7 +6955,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
-                                <div class="col-4 mb-4 mr-4">
+                                <div class="col-4 mb-4 mr-4 pb-4" id="redMe">
                                     <label class="col-form-label" for="diagnosis">Illness<span style="color:red">*</span></label>
                                     <select class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" style="border: 1px solid #d1d3e2; width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1" id="diagnosis" name="diagnosis">
                                         {{#each diagnosis}}
@@ -7085,7 +7085,7 @@
                     </div>
 
                     <!-- More -->
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollDisposition">
                         <div class="card-body">
                             <div class="form-row align-items-center">
                                 <div class="col-4">
@@ -8005,10 +8005,21 @@
                 recoveredBody.innerHTML = "";
                                     
                 for(i = 0; i < illness.length; i++){
+                    var endDate = "-";
+                        
                     if(illness[i].notes == ""){
                         illness[i].notes = "-";
                     }
 
+                    if(illness[i].endDate == ""){
+                        endDate = "-";
+                    }
+                    else{
+                        let end = new Date(illness[i].endDate)
+                        let endMonth = end.toLocaleString('default', { month: 'long' })
+                        endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
+                    }
+                    
                     let start = new Date(illness[i].startDate)
                     let startMonth = start.toLocaleString('default', { month: 'long' })
                     let startDate = startMonth + ' ' + start.getDate() + ', ' + start.getFullYear();
@@ -9036,7 +9047,7 @@
         });
 
         $("#saveBtn").click(function(){
-            var proceed = false;
+            var proceed = true;
             var userKey = $('#userKey').val();
             var userName = $('#userName').val();
             var formId = $('#formID').val();
@@ -9061,6 +9072,15 @@
 
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
+
+            if($('#clinicOut').val() == null || $('#clinicOut').val() == undefined || $('#clinicOut').val() == ""){
+                $("#clinicOut").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#clinicOut").removeClass("is-invalid");
+            }
 
             var treatment =  $('#treatmentVisit').val(); 
             console.log(treatment);
@@ -9087,11 +9107,39 @@
 
             diagnosis = diagnosis[0];
 
+            if($('#diagnosis').val() == null || $('#diagnosis').val() == undefined || $('#diagnosis').val() == ""){
+                document.getElementById("redMe").style.border = "1px solid #e74a3b";
+                document.getElementById("redMe").style.borderRadius = "0.35rem";
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollDiagnosis").offset().top}, 1000);
+            }
+            else{
+                document.getElementById("redMe").style.border = "1px solid #ffffff";
+            }
+
             var diagnosisSentence =  $('#diagnosisPar').val(); 
             console.log(diagnosisSentence);
 
+            if($('#diagnosisPar').val() == null || $('#diagnosisPar').val() == undefined || $('#diagnosisPar').val() == ""){
+                $("#diagnosisPar").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollDiagnosis").offset().top}, 1000);
+            }
+            else{
+                $("#diagnosisPar").removeClass("is-invalid");
+            }
+
             var status =  $('#status').val();
             console.log(status);
+
+            if($('#status').find(":selected").val() == null || $('#status').find(":selected").val() == undefined || $('#status').find(":selected").val() == ""){
+                $("#status").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollDisposition").offset().top}, 1000);
+            }
+            else{
+                $("#status").removeClass("is-invalid");
+            }
 
             var notes =  $('#notes').val(); 
             console.log(notes);
@@ -9100,18 +9148,15 @@
 
             //var isDisabled = $('#amountMed').prop('disabled');
             var selectMedicationAssign = document.getElementById("assignMedication");
-            var proceed = false;
 
             if($('#assignMedication').find('option:selected').length == 0){               
                 var selectedMedicationAssign = "";
-                proceed = true;
                 console.log("2nd if");  
                 console.log(selectedMedicationAssign);             
             }
             else{
                 $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
                 var selectedMedicationAssign = selectMedicationAssign.options[selectMedicationAssign.selectedIndex].value;
-                proceed = true;
                
                 console.log("3rd if");
                 console.log(selectedMedicationAssign); 
@@ -9142,39 +9187,40 @@
             console.log("intakeArrayNurse");
             console.log(intakeNurse);  
 
-
-            $.ajax({
-                url: '/editClinicVisit',
-                method: 'POST',
-                data: {
-                    userKey: userKey,
-                    userName, userName,
-                    formId: formId,
-                    studentId: id,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
-                    visitDate: visitDate,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    complaint: complaint,
-                    treatment: treatment,
-                    diagnosis: diagnosis,
-                    communicable: document.getElementById("communicableCheckBox").checked,
-                    injury: document.getElementById("injuryCheckBox").checked,
-                    medicationAssign: selectedMedicationAssign,
-                    medicationAssigned: medicationAssigned,
-                    medicationsArray: medicationsArray,
-                    intakeArray: intakeArray,
-                    status: status,
-                    notes: notes,
-                    diagnosisSentence:diagnosisSentence,
-                    intakeNurse: intakeNurse 
-                },
-                success: function(data) {
-                    window.location.href = "/clinic-visit";
-                }
-            });
+            if(proceed){
+                $.ajax({
+                    url: '/editClinicVisit',
+                    method: 'POST',
+                    data: {
+                        userKey: userKey,
+                        userName, userName,
+                        formId: formId,
+                        studentId: id,
+                        studentName: studentName,
+                        studentGrade: studentGrade,
+                        studentSection: studentSection,
+                        visitDate: visitDate,
+                        timeIn: timeIn,
+                        timeOut: timeOut,
+                        complaint: complaint,
+                        treatment: treatment,
+                        diagnosis: diagnosis,
+                        communicable: document.getElementById("communicableCheckBox").checked,
+                        injury: document.getElementById("injuryCheckBox").checked,
+                        medicationAssign: selectedMedicationAssign,
+                        medicationAssigned: medicationAssigned,
+                        medicationsArray: medicationsArray,
+                        intakeArray: intakeArray,
+                        status: status,
+                        notes: notes,
+                        diagnosisSentence:diagnosisSentence,
+                        intakeNurse: intakeNurse 
+                    },
+                    success: function(data) {
+                        window.location.href = "/clinic-visit";
+                    }
+                });
+            }
         });
     </script>
 </body>

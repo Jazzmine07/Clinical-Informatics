@@ -4342,7 +4342,7 @@
                     document.getElementById('studentDiv').style.display = "block";  // will only appear if there's record
                     document.getElementById('scrollVisit').style.display = "block"; 
                     document.getElementById('scrollMedication').style.display = "block"; 
-                    $("#medicationVisit").select2();
+                    //$("#medicationVisit").select2();
                     $(".select2-selection .select2-selection--single").css("border-color", "#1cc88a");
                     $('span.select2-selection.select2-selection--multiple').css('border', '1px solid #d1d3e2');
 
@@ -5020,31 +5020,34 @@
 
         $("#medicationVisit").change(function(){
             console.log("clicked med visit!!");
-            //var selectedMedication = $('#medicationVisit').val();
+            var selectedMedication = $('#medicationVisit').val();
+            var smol = selectedMedication.toLowerCase();
             //var selectedMedication = $('#medicationVisit').find('option:selected').val();
             var typedID = document.getElementById("studentID").value;
             console.log(selectedMedication);
-            console.log(typedID);
+            console.log(smol);
 
             $.get("/getNotAllowedMedication", {studentID: typedID}, function(notAllowedMedicines){
                 /* TO DO: checker for the allowed medication */
                 console.log("not allowed medications of student");
                 console.log(notAllowedMedicines);
                 var i;
-                for(i = 0; i < notAllowedMedicines.length; i++){                    
-                    if(selectedMedication == notAllowedMedicines[i].medicine){
-                        $("#medicationVisit").removeClass("is-invalid");
-                        $("#medicationVisit").addClass("is-valid"); 
+                for(i = 0; i < notAllowedMedicines.length; i++){            
+                    console.log(smol.includes(notAllowedMedicines[i].medicine));
+                    if(smol.includes(notAllowedMedicines[i].medicine) == true && notAllowedMedicines[i].isAllowed == false){
+                        $("#medicationVisit").removeClass("is-valid");
+                        $("#medicationVisit").addClass("is-invalid"); 
                         document.getElementById('validMedicaton').style.display = "none";
                         document.getElementById('invalidMedicaton').style.display = "block";
                         $('#invalidMedicaton').html('Medication not allowed');            
                     }
-                    else{
-                        $("#medicationVisit").removeClass("is-valid");
-                        $("#medicationVisit").addClass("is-invalid"); 
+                    else if(smol.includes(notAllowedMedicines[i].medicine) == true && notAllowedMedicines[i].isAllowed == true){
+                        $("#medicationVisit").removeClass("is-invalid");
+                        $("#medicationVisit").addClass("is-valid"); 
                         document.getElementById('invalidMedicaton').style.display = "none";
                         document.getElementById('validMedicaton').style.display = "block";
-                        $('#validMedicaton').html('Medication allowed');    
+                        $('#validMedicaton').html('Medication allowed');
+                        break;    
                     }
                 }
             });
@@ -5469,42 +5472,62 @@
         }
 
        $('#addMedication').click(function(){
+            var proceed = true;
             var amount = document.getElementById("amountMed").value;
             var time =  $('#timeTaken').val();
-            console.log(time);
-            
-            addMedication(selectedMedication, medicationTxt, amount, time);
-            
-            console.log(medicationsArray);
-            
-            namesArray = [];
-            for(i = 0; i < medicationsArray.length; i++){
-                namesArray.push(medicationsArray[i].medication);
+
+            if(selectedMedication == null || selectedMedication == undefined || selectedMedication == ""){
+                $("#medicationVisit").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollMedication").offset().top}, 1000);
+            }
+            else{
+                $("#medicationVisit").removeClass("is-invalid");
             }
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control namesInteraction" placeholder="' + medicationTxt +'" value="'+ selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ time +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');            
-            i++;
+            if(amount == null || amount == undefined || amount == ""){
+                $("#amountMed").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollMedication").offset().top}, 1000);
+            }
+            else{
+                $("#amountMed").removeClass("is-invalid");
+            } 
+
+            if(time == null || time == undefined || time == ""){
+                $("#timeTaken").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollMedication").offset().top}, 1000);
+            }
+            else{
+                $("#timeTaken").removeClass("is-invalid");
+            }
+
+            if(proceed){
+                addMedication(selectedMedication, medicationTxt, amount, time);
             
-            getMe = document.getElementsByClassName("namesInteraction");
-            console.log("get me........");
-            console.log(getMe);
-            console.log("length ni get me");
-            console.log(getMe.length);
-            
-            if(getMe.length >= 2) {
-                console.log("inside get me if");
-                for(i = 0; i < getMe.length; i++){
-                    console.log("inside get me for loop");
-                    getID(getMe[i].value);
-                    console.log(getMe[i].value);    
+                console.log(medicationsArray);
+                
+                namesArray = [];
+                for(i = 0; i < medicationsArray.length; i++){
+                    namesArray.push(medicationsArray[i].medication);
                 }
-            }
 
-            //if(namesArray.length >= 2){
-            //    for(i = 0; i < medicationsArray.length; i++){
-            //        getID(medicationsArray[i].medication);    
-            //    }
-            //}
+                $('#dynamic_field').append('<tr id="row'+i+'"><td colSpan="4"><input disabled="disabled" class="form-control namesInteraction" placeholder="' + medicationTxt +'" value="'+ selectedMedication +'"></input></td><td colSpan="3"><input class="form-control" disabled="disabled" placeholder="' + amount + '"</input></td><td colSpan="2"><input disabled="disabled" class="form-control" placeholder="'+ time +'"</input></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x</button></td></tr>');            
+                i++;
+                
+                getMe = document.getElementsByClassName("namesInteraction");
+                
+                if(getMe.length >= 2) {
+                    //console.log("inside get me if");
+                    for(i = 0; i < getMe.length; i++){
+                        //console.log("inside get me for loop");
+                        getID(getMe[i].value);
+                        //console.log(getMe[i].value);    
+                    }
+                }
+
+            }
         });
 
         var removeIDs = [];
@@ -5532,6 +5555,7 @@
 
 
         $('#saveBtn').click(function(){
+            var proceed = true;
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
             //console.log(newArray);       
@@ -5563,31 +5587,55 @@
             var timeOut =  $('#clinicOut').val(); 
             console.log(timeOut);
 
+            if($('#clinicOut').val() == null || $('#clinicOut').val() == undefined || $('#clinicOut').val() == ""){
+                $("#clinicOut").addClass("is-invalid");
+                proceed = false;
+                $('html, body').animate({scrollTop: $("#scrollVisit").offset().top}, 1000);
+            }
+            else{
+                $("#clinicOut").removeClass("is-invalid");
+            }
+
             var nurse =  $('#attendingNurse').find(":selected").val();   
             console.log(nurse);
 
             /* TO DO: Add checkers for fields if empty */
             console.log(medicationsArray);
-            
-            $.ajax({
-                url: '/addMedicationIntake',
-                method: 'POST',
-                data: {
-                    studentId: id,
-                    studentName: studentName,
-                    studentGrade: studentGrade,
-                    studentSection: studentSection,
-                    visitDate: visitDate,
-                    timeIn: timeIn,
-                    timeOut: timeOut,
-                    nurse: nurse, // attending nurse                    
-                    medicationsArray: medicationsArray,
-                },
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/clinic-visit";
-                }
-            });       
+
+            if(medicationsArray.length == 0){
+                proceed = false;
+                $("#medicationVisit").addClass("is-invalid");
+                $("#amountMed").addClass("is-invalid");
+                $("#timeTaken").addClass("is-invalid");
+                $('html, body').animate({scrollTop: $("#scrollMedication").offset().top}, 1000);
+            }
+            else{
+                $("#medicationVisit").removeClass("is-invalid");
+                $("#amountMed").removeClass("is-invalid");
+                $("#timeTaken").removeClass("is-invalid");
+            }
+
+            if(proceed){
+                $.ajax({
+                    url: '/addMedicationIntake',
+                    method: 'POST',
+                    data: {
+                        studentId: id,
+                        studentName: studentName,
+                        studentGrade: studentGrade,
+                        studentSection: studentSection,
+                        visitDate: visitDate,
+                        timeIn: timeIn,
+                        timeOut: timeOut,
+                        nurse: nurse, // attending nurse                    
+                        medicationsArray: medicationsArray,
+                    },
+                    success: function(data) {
+                        console.log("success in ajax!");
+                        window.location.href = "/clinic-visit";
+                    }
+                });
+            }                 
         });
     });
     </script>

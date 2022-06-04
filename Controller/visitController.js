@@ -848,6 +848,7 @@ exports.viewClinicVisitForm = function(req){
                 section: snapshotData.section,
                 visitDate: snapshotData.visitDate,
                 timeIn: snapshotData.timeIn,
+                timeOut: snapshotData.timeOut,
                 visitType: snapshotData.visitType,
                 nurseKey: snapshotData.attendingNurse,
                 attendingNurse: snapshotData.nurseName,

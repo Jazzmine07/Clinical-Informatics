@@ -2022,6 +2022,9 @@
             }
             console.log("dDataSet");
             console.log(dDataSet);
+
+            var dataDSeparator, labelDSeparator;
+
             //counting of data Disease
             for(i=0;i<data.length;i++){
                 if(data[i].diagnosis!="" && data[i].diagnosis!=undefined && data[i].diagnosis!=null){
@@ -2029,11 +2032,43 @@
                     separationCount=checkSeparation.length;
                     for(s=0;s<separationCount;s++){
                         for(k=0;k<dateLabels.length;k++){
+                            dataDSeparator = data[i].visitDate.split("-");
+                            labelDSeparator = dateLabels[k].split("-");
                             if(data[i].visitDate==dateLabels[k]){
                                 for(dCounter=0;dCounter<dDataSet.length;dCounter++){
                                     if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
                                         dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
                                         dTotalDataCount[dCounter].count=dTotalDataCount[dCounter].count+1;
+                                    }
+                                }
+                            }
+                            else{
+                                if(dataDSeparator[0] < labelDSeparator[0]){
+                                    for(dCounter=0;dCounter<dDataSet.length;dCounter++){
+                                    if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
+                                        dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
+                                        dTotalDataCount[dCounter].count=dTotalDataCount[dCounter].count+1;
+                                    }
+                                }
+                                }
+                                else if(dataDSeparator[0] == labelDSeparator[0]){
+                                    if(dataDSeparator[1] < labelDSeparator[1]){
+                                        for(dCounter=0;dCounter<dDataSet.length;dCounter++){
+                                            if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
+                                                dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
+                                                dTotalDataCount[dCounter].count=dTotalDataCount[dCounter].count+1;
+                                            }
+                                        }
+                                    }
+                                    else if(dataDSeparator[1] == labelDSeparator[1]){
+                                        if(dataDSeparator[2] <= labelDSeparator[2]){
+                                            for(dCounter=0;dCounter<dDataSet.length;dCounter++){
+                                                if(dDataSet[dCounter].diagnosis == checkSeparation[s]){
+                                                    dDataSet[dCounter].count[k]=dDataSet[dCounter].count[k]+1;
+                                                    dTotalDataCount[dCounter].count=dTotalDataCount[dCounter].count+1;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -2143,6 +2178,7 @@
                 }
             }
             
+            var dataDSeparator2, labelDSeparator2;
             console.log(data);
             console.log(cDataSet);
             for(i=0;i<data.length;i++){
@@ -2151,12 +2187,46 @@
                     separationCount=checkSeparation.length;
                     for(s=0;s<separationCount;s++){
                         for(k=0;k<dateLabels.length;k++){
+                            dataDSeparator2 = data[i].visitDate.split("-");
+                            labelDSeparator2 = dateLabels[k].split("-");
+
                             if(data[i].visitDate==dateLabels[k]){
                                 for(cCounter=0;cCounter<cDataSet.length;cCounter++){
                                     if(cDataSet[cCounter].visitReason == checkSeparation[s]){
                                         cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
                                         cTotalDataCount[cCounter].count=cTotalDataCount[cCounter].count+1;
                                     }
+                                }
+                            }
+                            else{
+                                if(dataDSeparator2[0] < labelDSeparator2[0]){
+                                    for(cCounter=0;cCounter<cDataSet.length;cCounter++){
+                                        if(cDataSet[cCounter].visitReason == checkSeparation[s]){
+                                            cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
+                                            cTotalDataCount[cCounter].count=cTotalDataCount[cCounter].count+1;
+                                        }
+                                    }    
+                                }
+                                else if(dataDSeparator2[0] == labelDSeparator2[0]){
+                                    if(dataDSeparator2[1] < labelDSeparator2[1]){
+                                        for(cCounter=0;cCounter<cDataSet.length;cCounter++){
+                                            if(cDataSet[cCounter].visitReason == checkSeparation[s]){
+                                                cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
+                                                cTotalDataCount[cCounter].count=cTotalDataCount[cCounter].count+1;
+                                            }
+                                        }    
+                                    }
+                                    else if(dataDSeparator2[1] == labelDSeparator2[1]){
+                                        if(dataDSeparator2[2] <= labelDSeparator2[2]){
+                                            for(cCounter=0;cCounter<cDataSet.length;cCounter++){
+                                                if(cDataSet[cCounter].visitReason == checkSeparation[s]){
+                                                    cDataSet[cCounter].count[k]=cDataSet[cCounter].count[k]+1;
+                                                    cTotalDataCount[cCounter].count=cTotalDataCount[cCounter].count+1;
+                                                }
+                                            }    
+                                        }
+                                        
+                                    }    
                                 }
                             }
                         

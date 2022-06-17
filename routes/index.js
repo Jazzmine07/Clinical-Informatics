@@ -1577,6 +1577,7 @@ router.post('/updateDentalInventory', inventoryController.updateDentalInventory)
 
 //---------POST NOTIFICATION FOR MEDICINE INVENTORY MODULE----------------
 // router.post('/createMedicineInventoryNotification', notificationController.medicineInventoryNotification);
+router.post('/lowStockMedicineInventory', notificationController.lowStockMedicineInventory);
 
 //---------POST FORMS FOR PROMOTIVE CARE MODULE----------------
 router.post('/addProgram', programController.addProgram);

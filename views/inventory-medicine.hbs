@@ -1233,10 +1233,10 @@
                         }
                     }
                 }
-                //var userKey = $('#userKey').val();
-                //$.post("/lowStockMedicineInventory", {lowStock: lowStock, date: thisDay, userKey: userKey}, function(lowStockInventory){
+                var userKey = $('#userKey').val();
+                $.post("/lowStockMedicineInventory", {lowStock: lowStock, date: thisDay, userKey: userKey}, function(lowStockInventory){
                     // this function is to set a notification to the clinicians when there is an inventory low on stock.
-                //});
+                });
 
                 if(expiredStockArray.length > 0 || lowStock.length > 0){
                     if(expiredStockArray.length > 0){

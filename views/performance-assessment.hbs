@@ -456,14 +456,7 @@
 
     <script type="text/javascript">
         var program = $('#program').find(":selected").text();
-        var count = 0;
-        var table = $('#progTable').DataTable({
-            "rowCallback": function(row, data, index){
-                if (data[2] < data[4] && data[4] !== "No APE record.") {
-                    count++;
-                }
-            }
-        });
+        var table = $('#progTable').DataTable();
 
         var id = document.getElementById("id");
         var name = document.getElementById("name");
@@ -473,6 +466,9 @@
         var currBMIS = document.getElementById("currBMIS");
 
         $("#program").change(function(){
+            table.clear();
+            var count = 0;
+            
             program = $('#program').find(":selected").text();
             console.log(program);
 
@@ -490,6 +486,16 @@
                     //$('#reportBody').append('<tr><td>' + report.lastYearAPE[i].id + '</td><td>' + report.lastYearAPE[i].name + '</td><td>' + report.lastYearAPE[i].bmi + '</td><td>' + report.lastYearAPE[i].bmiStatus + '</td><td>' + report.currentYearAPE[i].bmi + '</td><td>' + report.currentYearAPE[i].bmiStatus + '</td></tr>');
                     }                    
                     table.draw();
+                    table = $('#progTable').DataTable({
+                        destroy: true,
+                        pageLength: 100,
+                        "rowCallback": function(row, data, index){
+                            if (data[2] < data[4] && data[4] !== "No APE record.") {
+                                count++;
+                            }
+                        }
+                    });
+
                     $('#reportFooter').text(count);
                     console.log(count);
                 }             

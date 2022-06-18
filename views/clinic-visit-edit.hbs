@@ -3360,7 +3360,7 @@
                     {{!-- END OF STUDENT PROFILE --}}
 
                     <!-- Basic Card Example -->
-                    <div class="card shadow mb-2">
+                    <div class="card shadow mb-2" id="scrollVisit">
                         <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Visit Details</h6></div>
                         <div class="card-body">
                             <div class="form-row align-items-center">
@@ -3544,7 +3544,11 @@
                             <div class="form-row align-items-center">
                                 <div class="col-4 mb-4 mr-4">
                                     <label class="col-form-label" for="diagnosis">Illness</label>
-                                    <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >        
+                                    <select disabled="disabled" class="form-control mb-2 select2 populate placeholder tagLight" multiple="multiple" id="diagnosis" name="diagnosis">
+                                        <option selected="selected" value="{{form.diagnosis}}">{{form.diagnosis}}</option>
+                                    </select>
+                                    {{!-- <label class="col-form-label" for="diagnosis">Illness</label>
+                                    <input type="text" class="form-control" value="{{form.diagnosis}}" disabled="disabled" >         --}}
                                 </div>
                                 <div class="col-4 pt-4">
                                     <label class="form-check-label mr-5">
@@ -7342,7 +7346,6 @@
 
                 $('#lvStatus').html(lastVisit.status);
 
-                document.getElementById('lastVisit').style.display = "block";
             }
             else{
                 document.getElementById('lastVisit1').style.display = "none";
@@ -7673,7 +7676,6 @@
             var i;
             var found = false;
 
-            document.getElementById("noAPEAlert").style.display = "none";
 
             if(data[0].length > 0){
                 for(i = 0; i < data[0].length; i++){
@@ -8023,10 +8025,6 @@
                     let start = new Date(illness[i].startDate)
                     let startMonth = start.toLocaleString('default', { month: 'long' })
                     let startDate = startMonth + ' ' + start.getDate() + ', ' + start.getFullYear();
-
-                    //let end = new Date(illness[i].endDate)
-                    //let endMonth = end.toLocaleString('default', { month: 'long' })
-                    //let endDate = endMonth + ' ' + end.getDate() + ', ' + end.getFullYear();
 
                     if(illness[i].status == "Ongoing" || illness[i].status == "ongoing"){
                         $('#illnessdelete').remove();
@@ -9088,6 +9086,9 @@
             var complaint = $('#complaintVisit').val();
 
             var diagnosis = $('#diagnosis').val(); 
+            console.log("diagnosis: " + diagnosis);
+            var diagnosisChecker = $('#diagnosis').prop('disabled');
+            console.log("diagnosis: " + diagnosisChecker);
 
             //console.log("Communicable Disease Checkbox:");
             console.log(document.getElementById("communicableCheckBox").checked);
@@ -9097,24 +9098,27 @@
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
 
-            for(var index = 0; index < diagnosis.length; index++){
-                diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
-            }         
+            if(!diagnosisChecker){
+                for(var index = 0; index < diagnosis.length; index++){
+                    diagnosis[index] = diagnosis[index].charAt(0).toUpperCase() + diagnosis[index].slice(1);
+                }         
 
-            //diagnosis = diagnosis.join(', ');
-            console.log(diagnosis);
-            console.log(diagnosis[0]);
+                //diagnosis = diagnosis.join(', ');
+                console.log(diagnosis);
+                console.log(diagnosis[0]);
 
-            diagnosis = diagnosis[0];
+                diagnosis = diagnosis[0];
 
-            if($('#diagnosis').val() == null || $('#diagnosis').val() == undefined || $('#diagnosis').val() == ""){
-                document.getElementById("redMe").style.border = "1px solid #e74a3b";
-                document.getElementById("redMe").style.borderRadius = "0.35rem";
-                proceed = false;
-                $('html, body').animate({scrollTop: $("#scrollDiagnosis").offset().top}, 1000);
-            }
-            else{
-                document.getElementById("redMe").style.border = "1px solid #ffffff";
+                if($('#diagnosis').val() == null || $('#diagnosis').val() == undefined || $('#diagnosis').val() == ""){
+                    document.getElementById("redMe").style.border = "1px solid #e74a3b";
+                    document.getElementById("redMe").style.borderRadius = "0.35rem";
+                    proceed = false;
+                    $('html, body').animate({scrollTop: $("#scrollDiagnosis").offset().top}, 1000);
+                }
+                else{
+                    document.getElementById("redMe").style.border = "1px solid #ffffff";
+                }
+
             }
 
             var diagnosisSentence =  $('#diagnosisPar').val(); 

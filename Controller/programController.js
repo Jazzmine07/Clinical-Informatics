@@ -664,6 +664,240 @@ exports.promotiveReport = function(req, res){
                                 })
                             })
                         }
+                        if(populationArray[i] == "Grade 4"){
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 4){
+                                        g4Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
+
+                                // console.log("g4Students");
+                                // console.log(g4Students);
+                                    
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g4Students.length; j++){
+                                            if(ape.key == g4Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Underweight"){
+                                                        apeG4LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < apeG4LastYearTemp.length; k++){
+                                            if(ape.key == apeG4LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
+                                                    apeG4CurrYearTemp.push({
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
+                                                    })
+                                                } else {
+                                                    console.log("wala");
+                                                    apeG4CurrYearTemp.push({
+                                                        id: apeG4LastYearTemp[k].id,
+                                                        name: apeG4LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "3",
+                                                        section: apeG4LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    res.status(200).send({
+                                        lastYearAPE: apeG4LastYearTemp, 
+                                        currentYearAPE: apeG4CurrYearTemp,
+                                        programType: "School-Based Feeding Program (SBFP)"
+                                    });
+                                })
+                            })
+                        }
+                        if(populationArray[i] == "Grade 5"){
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 5){
+                                        g5Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
+
+                                // console.log("g5Students");
+                                // console.log(g5Students);
+                                    
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g5Students.length; j++){
+                                            if(ape.key == g5Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Underweight"){
+                                                        apeG5LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < apeG5LastYearTemp.length; k++){
+                                            if(ape.key == apeG5LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
+                                                    apeG5CurrYearTemp.push({
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
+                                                    })
+                                                } else {
+                                                    console.log("wala");
+                                                    apeG5CurrYearTemp.push({
+                                                        id: apeG5LastYearTemp[k].id,
+                                                        name: apeG5LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "3",
+                                                        section: apeG5LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    res.status(200).send({
+                                        lastYearAPE: apeG5LastYearTemp, 
+                                        currentYearAPE: apeG5CurrYearTemp,
+                                        programType: "School-Based Feeding Program (SBFP)"
+                                    });
+                                })
+                            })
+                        }
+                        if(populationArray[i] == "Grade 6"){
+                            studentInfoRef.once('value', (studentsList) => {
+                                studentsList.forEach(function(studentInfo){
+                                    var sInfo = studentInfo.exportVal();
+                                    var sFullName = sInfo.firstName + " " + sInfo.middleName.substring(0) + " " + sInfo.lastName;
+                                    
+                                    if(sInfo.grade == 6){
+                                        g6Students.push({
+                                            id: studentInfo.key,
+                                            studentName: sFullName,
+                                            grade: sInfo.grade,
+                                            section: sInfo.section
+                                        })
+                                    }        
+                                });
+
+                                // console.log("g5Students");
+                                // console.log(g5Students);
+                                    
+                                apeRef.once('value', (apeSnapshot) => {
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var j = 0; j < g6Students.length; j++){
+                                            if(ape.key == g6Students[j].id){
+                                                ape.child('ape').forEach(function(apeList){
+                                                    apeData = apeList.exportVal();
+                                                    if(apeList.key == prevSchoolYear && apeData.bmiStatus == "Underweight"){
+                                                        apeG6LastYearTemp.push({
+                                                            id: ape.key,
+                                                            name: apeData.name,
+                                                            schoolYear: apeList.key,
+                                                            grade: apeData.grade,
+                                                            section: apeData.section,
+                                                            bmi: apeData.bmi,
+                                                            bmiStatus: apeData.bmiStatus
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    });
+
+                                    apeSnapshot.forEach(function(ape){ // skipping id number
+                                        for(var k = 0; k < apeG6LastYearTemp.length; k++){
+                                            if(ape.key == apeG6LastYearTemp[k].id){
+                                                if(ape.child('ape').child(schoolYear).exists()){
+                                                    apeG6CurrYearTemp.push({
+                                                        id: ape.child('ape').child(schoolYear).child("id").val(),
+                                                        name: ape.child('ape').child(schoolYear).child("name").val(),
+                                                        schoolYear: ape.child('ape').child(schoolYear).child("schoolYear").val(),
+                                                        grade: ape.child('ape').child(schoolYear).child("grade").val(),
+                                                        section: ape.child('ape').child(schoolYear).child("section").val(),
+                                                        bmi: ape.child('ape').child(schoolYear).child("bmi").val(),
+                                                        bmiStatus: ape.child('ape').child(schoolYear).child("bmiStatus").val()
+                                                    })
+                                                } else {
+                                                    console.log("wala");
+                                                    apeG6CurrYearTemp.push({
+                                                        id: apeG6LastYearTemp[k].id,
+                                                        name: apeG6LastYearTemp[k].name,
+                                                        schoolYear: schoolYear,
+                                                        grade: "3",
+                                                        section: apeG6LastYearTemp[k].section,
+                                                        bmi: 'No APE record.',
+                                                        bmiStatus: 'No APE record.'
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                    res.status(200).send({
+                                        lastYearAPE: apeG6LastYearTemp, 
+                                        currentYearAPE: apeG6CurrYearTemp,
+                                        programType: "School-Based Feeding Program (SBFP)"
+                                    });
+                                })
+                            })
+                        }
                     }
                 } else if(temp.progType == "Water, Sanitation, and Hygiene (WASH) in Schools (WinS)"){
                     for(i = 0; i < populationArray.length; i++){

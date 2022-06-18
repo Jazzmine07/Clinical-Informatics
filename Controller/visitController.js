@@ -1154,7 +1154,7 @@ exports.addIncidenceReport = function(req, res){
             snapshot.forEach(function(parent){
                 parent.child('children').forEach(function(children){
                     if(children.val() == studentId){
-                        var incidentNotification = database.ref("notifications/"+parent.key+"/incident");
+                        var incidentNotification = database.ref("notifications/"+parent.key+"/visits");
                         var incidentNotif = {
                             message: "Your child, " + studentName + ", was involved in a medical incident.",
                             id: studentId,

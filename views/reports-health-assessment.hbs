@@ -882,6 +882,10 @@
             thisDay = '0' + thisDay;
         }
 
+        let today = new Date()
+        var todayMonth = today.toLocaleString('default', { month: 'long' });
+        var time = today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+
         var schoolYear;
 
         if(month >= 6){
@@ -901,7 +905,7 @@
                 },
                 {
                     extend: 'csvHtml5',
-                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -916,7 +920,7 @@
                 },
                 {
                     extend: 'excelHtml5',
-                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -931,7 +935,7 @@
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Annual Physical and Dental Exam Count by Section' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -956,11 +960,11 @@
             buttons: [
                 {
                     extend: 'copy',
-                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                 },
                 {
                     extend: 'csvHtml5',
-                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -971,7 +975,7 @@
                 },
                 {
                     extend: 'excelHtml5',
-                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -982,7 +986,7 @@
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Physical Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -1003,11 +1007,11 @@
             buttons: [
                 {
                     extend: 'copy',
-                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                 },
                 {
                     extend: 'csvHtml5',
-                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -1018,7 +1022,7 @@
                 },
                 {
                     extend: 'excelHtml5',
-                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);
@@ -1029,7 +1033,7 @@
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay,
+                    title: 'Students without Annual Dental Exam' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time,
                     customize: function (doc) {
                         var rowCount = doc.content[1].table.body.length;
                         console.log("rowCount: " + rowCount);

@@ -340,7 +340,6 @@
                                 <strong class="mx-1">Error!</strong> {{error_msg}}
                             </div>
                         {{/if}}
-                        <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                     </div>
                     <div class="row">
                         <div class="col-4 mb-4 d-flex justify-content-center">
@@ -711,20 +710,9 @@
                                 <span></span> <i class="fa fa-caret-down"></i>
                             </div>
                         </div> 
+                        <button type="button" id="downloadBtn" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50 mr-1"></i>Download</button>
                     </div>
                     <div class="row">
-                        {{!-- <div class="col-9">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Disease Count by Grade Level</h6>
-                                </div>
-                                <div class="card-body" >
-                                    <div class="chart-bar">
-                                        <canvas id="gradeLevelChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="col-xl-12 col-lg-12">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -884,7 +872,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>    
     <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js" integrity="sha512-dw+7hmxlGiOvY3mCnzrPT5yoUwN/MRjVgYV7HGXqsiXnZeqsw1H9n9lsnnPu4kL2nx2bnrjFcuWK+P3lshekwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> 
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -2296,7 +2286,7 @@
             var config={
                 type: 'line',
                 data: dTrend,
-                plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels], 
                 options: {
                     maintainAspectRatio: false,
                     plugins: {
@@ -2317,7 +2307,7 @@
                         },
                         legend: {
                             display: true,
-                        }
+                        },
                     },
                     scales: {
                         x: {
@@ -2421,41 +2411,66 @@
         }, cb);
 
         $('#downloadBtn').click(function () {
+            var diseaseTrendChartImg = diseaseTrendChart.toBase64Image();
             var gradeLevelChartImg = gradeLevelChart.toBase64Image();
             var gradeLevelPieChartImg = gradeLevelPieChart.toBase64Image();
+            var concernTrendChartImg = concernTrendChart.toBase64Image();
             var symptomChartImg = symptomChart.toBase64Image();
             var symptomPieChartImg = symptomPieChart.toBase64Image();
-            var diseaseTrendChartImg = diseaseTrendChart.toBase64Image();
-            var concernTrendChartImg = concernTrendChart.toBase64Image();
 
-            var a = document.createElement('a');
-            var b = document.createElement('a');
-            var c = document.createElement('a');
-            var d = document.createElement('a');
-            var e = document.createElement('a');
-            var f = document.createElement('a');
+           // var a = document.createElement('a');
+            //var b = document.createElement('a');
+            //var c = document.createElement('a');
+            ///var d = document.createElement('a');
+            //var e = document.createElement('a');
+            //var f = document.createElement('a');
 
-            a.href = gradeLevelChartImg;
-            b.href = gradeLevelPieChartImg;
-            c.href = symptomChartImg;
-            d.href = symptomPieChartImg;
-            e.href = diseaseTrendChartImg;
-            f.href = concernTrendChartImg;
+            //a.href = gradeLevelChartImg;
+            //b.href = gradeLevelPieChartImg;
+            //c.href = symptomChartImg;
+            //d.href = symptomPieChartImg;
+            //e.href = diseaseTrendChartImg;
+            //f.href = concernTrendChartImg;
 
-            a.download = 'disease-count-by-grade-level.png';
-            b.download = 'disease-count-pie-chart.png';
-            c.download = 'complaints-count-by-grade-level.png';
-            d.download = 'complaints-count-pie-chart.png';
-            e.download = 'disease-trend.png';
-            f.download = 'complaints-trend.png';
+            //a.download = 'disease-count-by-grade-level.png';
+            //b.download = 'disease-count-pie-chart.png';
+            //c.download = 'complaints-count-by-grade-level.png';
+            //d.download = 'complaints-count-pie-chart.png';
+            //e.download = 'disease-trend.png';
+            //f.download = 'complaints-trend.png';
 
             // Trigger the download
-            a.click();
-            b.click();
-            c.click();
-            d.click();
-            e.click();
-            f.click();
+            //a.click();
+            //b.click();
+            //c.click();
+            //d.click();
+            //e.click();
+            //f.click();
+
+            let today = new Date()
+            var todayMonth = today.toLocaleString('default', { month: 'long' });
+            var time = today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            var schoolYear;
+            var month = today.getMonth() + 1;
+            var thisYear = today.getFullYear();
+            if(month >= 6){
+                schoolYear = thisYear + "-" + (thisYear + 1);
+
+            }
+            else{
+                schoolYear = (thisYear - 1) + "-" + (thisYear);
+            }
+
+            var pdf = new jsPDF();
+            pdf.text('            Disease Surveillance Report' + '\n' + '                   S.Y. ' + schoolYear + '\n' + '   Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time, 100, 15, 'center');
+            pdf.setFontSize(14);
+            pdf.addImage(diseaseTrendChartImg, 'JPEG', 10, 40, 190, 40);    //left margin, top margin, width, height
+            pdf.addImage(gradeLevelChartImg, 'JPEG', 10, 100, 120, 40);      
+            pdf.addImage(gradeLevelPieChartImg, 'JPEG', 125, 100, 75, 40);
+            pdf.addImage(concernTrendChartImg, 'JPEG', 10, 155, 190, 40);
+            pdf.addImage(symptomChartImg, 'JPEG', 10, 215, 120, 40);
+            pdf.addImage(symptomPieChartImg, 'JPEG', 125, 215, 75, 40);
+            pdf.save("Disease Surveillance Report (" + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ").pdf");
         });  
 
 

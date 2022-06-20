@@ -1041,20 +1041,17 @@
 
     //cb(start, end);
 
-    function generate() {
+    $('#downloadBtn').click(function () {
+        var stackedBarChartImg = stackedBarChart.toBase64Image();
+
         const now = new Date();
         var thisYear = now.getFullYear();
         var month = now.getMonth() + 1;
         var thisMonth = now.getMonth() + 1;
-        if (thisMonth < 10) {
-            thisMonth = '0' + thisMonth;
-        }
 
-        var thisDay = now.getDate();
-        if (thisDay < 10) {
-            thisDay = '0' + thisDay;
-        }
-
+        let today = new Date()
+        var todayMonth = today.toLocaleString('default', { month: 'long' });
+        var time = today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         var schoolYear;
 
         if(month >= 6){
@@ -1066,7 +1063,7 @@
         }
 
         var title = document.getElementById("medTitle").innerHTML;
-        var fullTitle = title + ' (S.Y. ' + schoolYear + ')' + '\n' + 'Date Generated: ' + thisYear + '/' + thisMonth + '/' + thisDay;
+        var fullTitle = 'Inventory Report' + '\n' + '(S.Y. ' + schoolYear + ')' + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time;
         var doc = new jsPDF('p', 'pt', 'letter');
         var htmlstring = '';
         var tempVarToCheckPageHeight = 0;
@@ -1091,7 +1088,7 @@
         doc.text(30, y = y + 30, fullTitle);
         doc.autoTable({
             html: '#medTable',
-            startY: 70,
+            startY: 350,
             columnStyles: {
                 0: {halign: "center"},
                 2: {halign: "right"},
@@ -1099,20 +1096,8 @@
                 5: {halign: "right"}
             }
         })
-        doc.save(title +'.pdf');
-    }
-
-    $('#downloadBtn').click(function () {
-        var stackedBarChartImg = stackedBarChart.toBase64Image();
-
-        var a = document.createElement('a');
-        a.href = stackedBarChartImg;
-
-        a.download = 'top-5-medicines-used-by-grade-level.png';
-
-        // Trigger the download
-        a.click();
-        generate();
+        doc.addImage(stackedBarChartImg, 'JPEG', 40, 110, 540, 200);
+        doc.save("Inventory Report (" + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ").pdf");
     });
     </script>
 

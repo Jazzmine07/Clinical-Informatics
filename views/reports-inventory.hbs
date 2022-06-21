@@ -1065,6 +1065,7 @@
         var title = document.getElementById("medTitle").innerHTML;
         var fullTitle = 'Inventory Report' + '\n' + '(S.Y. ' + schoolYear + ')' + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time;
         var doc = new jsPDF('p', 'pt', 'letter');
+        doc.setFontSize(14);
         var htmlstring = '';
         var tempVarToCheckPageHeight = 0;
         var pageHeight = 0;

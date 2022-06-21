@@ -1063,9 +1063,8 @@
         }
 
         var title = document.getElementById("medTitle").innerHTML;
-        var fullTitle = 'Inventory Report' + '\n' + '(S.Y. ' + schoolYear + ')' + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time;
+        var fullTitle = 'Inventory Report' + '\n' + 'S.Y. ' + schoolYear + '\n' + 'Date Generated: ' + todayMonth + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + time;
         var doc = new jsPDF('p', 'pt', 'letter');
-        doc.setFontSize(14);
         var htmlstring = '';
         var tempVarToCheckPageHeight = 0;
         var pageHeight = 0;
@@ -1085,8 +1084,9 @@
             width: 600
         };
         var y = 20;
-        doc.setLineWidth(2);
-        doc.text(30, y = y + 30, fullTitle);
+        //doc.setLineWidth(2);
+        doc.text(fullTitle, 320, 45, 'center');
+        doc.setFontSize(14);
         doc.autoTable({
             html: '#medTable',
             startY: 350,

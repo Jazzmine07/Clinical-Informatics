@@ -861,10 +861,7 @@
             if(amount < 0){
                 val.find("input").addClass('is-invalid');
             } 
-            else if(amount >= parseInt(qty)){
-                val.find("input").addClass('is-invalid');
-            }
-            else if(amount >= 0 && amount < parseInt(qty)){
+            else if(amount >= 0){
                 val.find("input").removeClass('is-invalid');
                 val.find("input").addClass('is-valid');
                 qtyCell.text(amount);

@@ -553,21 +553,20 @@
                             <form class="user">
                                 <div class="form-row align-items-center">
                                     <div class="col-4">
-                                        <label class="col-form-label" for="progType">Type of Program<label style="color:red">*</label></label>
+                                        <label class="col-form-label" for="progType">Type of Program<span style="color:red">*</span></label>
                                         <select class="form-control mb-2 select2" id="progType" name="progType">
-                                            <option disabled="disabled" selected="true">Choose...</option>                   
-                                                <option value="sbfp">School-Based Feeding Program (SBFP)</option>
-                                                <option value="wins">Water, Sanitation, and Hygiene (WASH) in Schools (WinS)</option>
-                                                <option value="pacp">Pest and Animal Control Program (PACP)</option> 
-                                                <option value="efsq">Evaluation of Food Safety and Quality</option>
-                                                <option value="sbp">Education/Awareness/Skill-based Program</option>
-                                                <option value="wmp">Weight Management Program</option>   
+                                            <option value="sbfp">School-Based Feeding Program (SBFP)</option>
+                                            <option value="wins">Water, Sanitation, and Hygiene (WASH) in Schools (WinS)</option>
+                                            {{!-- <option value="pacp">Pest and Animal Control Program (PACP)</option> 
+                                            <option value="efsq">Evaluation of Food Safety and Quality</option>
+                                            <option value="sbp">Education/Awareness/Skill-based Program</option>
+                                            <option value="wmp">Weight Management Program</option>    --}}
                                         </select>                                                                   
                                     </div>
                                 </div>
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                        <label for="progName" class="col-form-label">Name of Program<label style="color:red">*</label></label>
+                                        <label for="progName" class="col-form-label">Name of Program<span style="color:red">*</span></label>
                                         <input type="text" class="form-control mb-2" id="progName">
                                     </div>
                                 </div>
@@ -608,7 +607,7 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-6">
-                                      <label class="col-form-label" for="population">Population of Interest<label style="color:red">*</label></label>
+                                      <label class="col-form-label" for="population" id="interestLabel">Population of Interest<span style="color:red">*</span></label>
                                         <select id="population" class="form-control mb-2 select2 populate placeholder" name="population" multiple="multiple" style="width: 100%; display: none; height: calc(1.5em + 0.75rem + 2px); background-clip: padding-box; border: 1px solid #d1d3e2; !important border-radius: 0.35rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;" tabindex="-1">
                                             <option value="All Grade Levels">All Grade Levels</option>
                                             <option value="Grade 1">Grade 1</option>
@@ -621,7 +620,7 @@
                                             <option value="Overweight">Overweight</option>
                                             <option value="Obese">Obese</option>
                                             <option value="Students With Special Needs">Students w/ Special Needs</option>
-                                            <option  value="Students with Particular Kind of Disease">Students w/ Particular Kind of Disease</option>
+                                            <option value="Students with Particular Kind of Disease">Students w/ Particular Kind of Disease</option>
                                         </select>
                                     </div>
                                 </div>
@@ -638,11 +637,11 @@
 
                                 <div class="form-row align-items-center">
                                     <div class="col-3">
-                                        <label for="progStart" class="col-form-label">Start Date<label style="color:red">*</label></label>
+                                        <label for="progStart" class="col-form-label">Start Date<span style="color:red">*</span></label>
                                         <input type="date" class="form-control mb-2" id="progStart">
                                     </div>
                                     <div class="col-3">
-                                        <label for="progEnd" class="col-form-label">End Date<label style="color:red">*</label></label>
+                                        <label for="progEnd" class="col-form-label">End Date<span style="color:red">*</span></label>
                                         <input type="date" class="form-control mb-2" id="progEnd">
                                     </div>
                                 </div>
@@ -806,17 +805,65 @@
         });
 
         $('#saveBtn').click(function(){
+            var proceed = true; 
             var progType = $('#progType').find('option:selected').text();
+            
             var progName = document.getElementById("progName").value;
+            if(progName == "" || progName == null || progName == undefined){
+                $("#progName").addClass("is-invalid");
+                proceed = false;
+            }
+            else{
+                $("#progName").removeClass("is-invalid");
+            } 
+            
             var description = document.getElementById("description").value
             var objectives = document.getElementById("objectives").value; 
+            
             var progStart = document.getElementById("progStart").value;
-            var progEnd = document.getElementById("progEnd").value
+            if(progStart == "" || progStart == null || progStart == undefined){
+                $("#progStart").addClass("is-invalid");
+                proceed = false;
+            }
+            else{
+                $("#progStart").removeClass("is-invalid");
+            } 
+
+            var progEnd = document.getElementById("progEnd").value;
+            if(progEnd == "" || progEnd == null || progEnd == undefined){
+                $("#progEnd").addClass("is-invalid");
+                proceed = false;
+            }
+            else{
+                $("#progEnd").removeClass("is-invalid");
+            } 
+
+            console.log(progStart + " to " + progEnd);
+
             var location = document.getElementById("location").value;
+            
             var population = $("#population").val();
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            for(var i = 0; i < population.length; i++){
+                population[i] = population[i].charAt(0).toUpperCase() + population[i].slice(1);
+            }         
 
             population = population.join(', ');
             console.log(population);
+
+            if($('#population').val() == null || $('#population').val() == undefined || $('#population').val() == ""){
+                $("#population").addClass("is-invalid");
+                document.getElementById('interestLabel').style.color = 'red';
+                proceed = false;
+            }
+            else{
+                $("#population").removeClass("is-invalid");
+                document.getElementById('interestLabel').style.color = '#858796';
+            }
  
             const toNumbers = arr => arr.map(Number);
             var newArray = toNumbers(removeIDs);
@@ -840,24 +887,27 @@
             console.log(population);
             console.log(disease);
 
-            $.ajax({
-                url: '/addProgram',
-                method: 'POST',
-                data: {
-                    progType: progType,
-                    progName: progName,
-                    description: description,
-                    objectives: objectives,
-                    population: population,
-                    startDate: progStart,
-                    endDate: progEnd,
-                    location: location
-                },
-                success: function(data) {
-                    console.log("success in ajax!");
-                    window.location.href = "/promotive-care";
-                }
-            }); 
+            if(proceed){
+                $.ajax({
+                    url: '/addProgram',
+                    method: 'POST',
+                    data: {
+                        progType: progType,
+                        progName: progName,
+                        description: description,
+                        objectives: objectives,
+                        population: population,
+                        startDate: progStart,
+                        endDate: progEnd,
+                        location: location
+                    },
+                    success: function(data) {
+                        console.log("success in ajax!");
+                        window.location.href = "/promotive-care";
+                    }
+                }); 
+            }
+            
         });
 
         

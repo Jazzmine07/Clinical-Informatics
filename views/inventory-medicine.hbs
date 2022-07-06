@@ -1577,7 +1577,7 @@
 
             console.log("id " + medicineID);
                 
-            if(amount < 0){
+            if(amount < 0 || amount == "" || amount == null || amount == undefined){
                 val.find("input").addClass('is-invalid');
             }
             else if(amount >= 0){
